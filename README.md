@@ -7,6 +7,13 @@
 
 ---
 
+## 商务汇报 PPT
+
+- [docs/deck/GS-iDrive-Hub-招商方案.pptx](docs/deck/GS-iDrive-Hub-招商方案.pptx) — 22 页 16:9 商务汇报版（封面 / 议程 / 一页摘要 / 5 阶段 8 任务 / 投决建议 / 致谢）
+- 生成脚本：[scripts/build_pptx.py](scripts/build_pptx.py)（依赖 `python-pptx`）
+- 中文字体：WenQuanYi Micro Hei（系统默认）；如需替换为 PingFang/Source Han，编辑脚本顶部 `CN_FONT` 即可
+- 重新生成：`pip install python-pptx && python3 scripts/build_pptx.py`
+
 ## 目录索引
 
 ### Phase 1 · 策略与定位（奠基）
