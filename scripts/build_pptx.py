@@ -281,15 +281,15 @@ def build():
     add_text(s, Inches(0.8), Inches(0.6), Inches(6), Inches(0.5),
              "GS · iDrive Hub", size=18, bold=True, color=GOLD)
     add_text(s, Inches(0.8), Inches(1.6), Inches(11), Inches(1.6),
-             "冠松静安智能驾驶研发中心\n招商方案", size=44, bold=True, color=WHITE)
+             "01# 新建研发楼\n智能驾驶研发与总部楼", size=44, bold=True, color=WHITE)
     add_text(s, Inches(0.8), Inches(3.8), Inches(11), Inches(0.6),
              "让中心城区跑通智能驾驶最后一公里",
              size=22, color=CLOUD, italic=True)
     add_text(s, Inches(0.8), Inches(4.6), Inches(11), Inches(0.5),
-             "5 个 Phase · 8 个任务 · 35 页商务汇报版",
-             size=14, color=CLOUD)
+             "永和社区 075b-07 地块 · 1.5 万㎡ · 9F · 高 44.95 m · C6 教育科研用地 · 绿建二星",
+             size=13, color=CLOUD)
     add_round(s, Inches(0.8), Inches(6.2), Inches(2.4), Inches(0.45),
-              "v1.0 · 招商策划阶段", fill=GOLD, color=NAVY, size=12, bold=True)
+              "v1.1 · 基于设计 PDF 实测", fill=GOLD, color=NAVY, size=12, bold=True)
     add_text(s, Inches(3.4), Inches(6.2), Inches(8), Inches(0.45),
              "汇报对象：集团董事会 / 静安区政府 / 链主企业",
              size=11, color=CLOUD, anchor=MSO_ANCHOR.MIDDLE)
@@ -299,8 +299,8 @@ def build():
     add_chrome(s, prs, page_no=0, phase_label="议程",
                page_title="汇报议程", subtitle="约 35 分钟形成完整认知")
     items = [
-        ("01", "执行摘要 · 区位 · SWOT", "Executive Summary"),
-        ("02", "Phase 1 · 策略与定位", "产业研究 + 楼栋方案"),
+        ("01", "执行摘要 · 项目实测 · SWOT", "01# 研发楼 · 1.5 万方真实口径"),
+        ("02", "Phase 1 · 策略与定位", "产业研究 + 9F 垂直拆分 + 绿色 ESG"),
         ("03", "Phase 2 · 招商执行", "链主 5 张一页纸 + 漏斗 + 政府"),
         ("04", "Phase 3 · 品牌与活动", "9 月发布会 + 年度活动 + 媒体"),
         ("05", "Phase 4 · 商业条款", "四档 + 服务包 + 报价 + 财务"),
@@ -325,10 +325,10 @@ def build():
                subtitle="GS · iDrive Hub · 中心城区智能驾驶研发与总部首选地")
     card_w = Inches(2.95); card_h = Inches(1.55); gap = Inches(0.15)
     cards = [
-        ("8 万㎡", "总建面 · A~E 五栋\n可出租 5.6 万㎡", BLUE),
-        ("1.2 万㎡", "户外封闭\n智驾测试区", GOLD),
-        ("¥4.5–8.5", "起始租金\n元/㎡·天 (四档)", NAVY),
-        ("92%", "Y3 入驻率目标\n链主≥3 / 生态≥60", GREEN),
+        ("15,153 ㎡", "地上 9F · 高 44.95 m\n+ 地下 6,993 ㎡", BLUE),
+        ("5.4–5.7 m", "3–4F 净层高\n中心城区硬科技稀缺", GOLD),
+        ("绿建二星", "装配式 100% · 540 ㎡ 光伏\n碳排放 −48.93%", GREEN),
+        ("92%", "Y3 入驻率 · 链主≥1\n入驻企业 12–18 家", NAVY),
     ]
     x = Inches(0.5)
     for i, (big, sub, color) in enumerate(cards):
@@ -350,15 +350,15 @@ def build():
              "L4 城市 NOA + 车路云一体化 + 智驾后市场\n\n研发总部 + 测试验证 + 产业服务\n三位一体园区\n\n品牌主张：让中心城区跑通\n智能驾驶最后一公里", size=11, color=INK)
     add_rect(s, Inches(4.65), block_y, Inches(4.0), block_h, fill=CLOUD)
     add_text(s, Inches(4.80), block_y + Inches(0.1), Inches(3.7), Inches(0.4),
-             "三圈层客群", size=14, bold=True, color=NAVY)
+             "垂直三层客群", size=14, bold=True, color=NAVY)
     add_text(s, Inches(4.80), block_y + Inches(0.55), Inches(3.7), Inches(2.0),
-             "内圈 · A 栋\n链主独栋 · 1–3 家总部\n\n中圈 · B/C 栋\n算法/域控/传感器/仿真\n30–50 家生态\n\n外圈 · D/E 栋 + 测试区\n服务/投资/政府/后市场",
+             "8–9F · 链主总部\n4.2–4.3 m · 1–2 家\n\n3–4F · 核心研发\n5.4–5.7 m 高层高 · 4–6 家\n\n6–7F · 算法软件\n4.2 m · 6–10 家",
              size=11, color=INK)
     add_rect(s, Inches(8.80), block_y, Inches(4.0), block_h, fill=NAVY)
     add_text(s, Inches(8.95), block_y + Inches(0.1), Inches(3.7), Inches(0.4),
-             "四大差异化壁垒", size=14, bold=True, color=GOLD)
+             "五大差异化壁垒", size=14, bold=True, color=GOLD)
     add_text(s, Inches(8.95), block_y + Inches(0.55), Inches(3.7), Inches(2.0),
-             "① 中心城区罕见的「独栋+测试区」组合\n\n② 静安「一企一策」政策包\n\n③ 冠松后市场资源闭环\n   (4S/保险/二手车)\n\n④ 地铁直达 · 30min 通达虹桥/浦东",
+             "① 3–4F 5.4–5.7 m 硬科技层高\n\n② 绿建二星 + 装配式 + 光伏\n\n③ 静安一企一策政策包\n\n④ 冠松汽车后市场资源闭环\n\n⑤ 三段式测试方案 (轻资产)",
              size=11, color=WHITE)
     add_text(s, Inches(0.5), Inches(6.30), Inches(12.3), Inches(0.4),
              "关键举措：5 链主 · 300 生态 · 5 中介 · 1 场 9 月发布会 · 4 档商业模式",
@@ -442,16 +442,16 @@ def build():
     quad_w = Inches(6.15); quad_h = Inches(2.85)
     quads = [
         ("优势 S", "Strengths", BLUE,
-         ["中心城区罕见的独栋 + 户外测试区组合",
-          "冠松集团 4S/保险/二手车后市场资源",
-          "静安区财政与政策腾挪空间",
-          "地铁直达 · 30 min 触达虹桥与浦东",
-          "总建面 8 万㎡ + 1.2 万㎡ 户外测试区"]),
+         ["3–4F 净高 5.4–5.7 m 中心城区硬科技稀缺",
+          "绿建二星 + 装配式 100% + 540 ㎡ 光伏",
+          "冠松 4S / 保险 / 二手车后市场资源",
+          "C6 教育科研用地 · 政策定位明确",
+          "地铁直达 · 30 min 触达虹桥/浦东"]),
         ("劣势 W", "Weaknesses", GOLD,
-         ["路测牌照需逐级申请，非自动获得",
-          "单体规模 8 万㎡（在大型园区中属中等）",
-          "智驾产业基础需从零搭建",
-          "户外测试区 1.2 万㎡ 较嘉定/临港偏小",
+         ["单体 1.5 万方（地上）· 出租净 ~8,300㎡",
+          "无地块内大型户外封闭测试场",
+          "C6 用地限制纯商务 / 制造 / 仓储",
+          "路测牌照需逐级申请",
           "中心城区运营成本高于郊区"]),
         ("机会 O", "Opportunities", NAVY,
          ["城市 NOA + L3 法规 进入量产爆发期",
@@ -550,107 +550,120 @@ def build():
              "基础租金（6.5–8.5）+ 政策返还（区级留成 80% 三年返）+ 服务积分（测试/算力/招聘） — 等效净价低于南西核心 25%",
              size=11, color=WHITE)
 
-    # ============ 9. 楼栋平面 + 面积表 ============
+    # ============ 9. 单楼垂直功能拆分 ============
     s = new_slide(prs)
     add_chrome(s, prs, page_no=0, phase_label="Phase 1 · 任务 2",
-               page_title="A~E 栋功能拆分 + 户外测试区",
-               subtitle="独栋链主 / 生态联办 / 共享研发 / 产业服务 / 冠松总部 + 1.2 万㎡ 测试区")
+               page_title="01# 研发楼 · 9F 垂直功能拆分",
+               subtitle="链主总部(8–9F) · 算法软件(6–7F) · 公共配套(5F) · 核心研发(3–4F) · 大堂展厅(1–2F)")
     base_x = Inches(0.5); base_y = Inches(1.2)
-    plot_w = Inches(7.0); plot_h = Inches(5.4)
+    plot_w = Inches(6.5); plot_h = Inches(5.4)
     add_rect(s, base_x, base_y, plot_w, plot_h, fill=CLOUD, line=LINE)
     add_text(s, base_x, base_y + Inches(0.05), plot_w, Inches(0.3),
-             "园区平面示意（北 ↑）", size=11, bold=True, color=NAVY, align=PP_ALIGN.CENTER)
-    bx, by = base_x + Inches(0.4), base_y + Inches(0.5)
-    bw, bh = Inches(1.5), Inches(1.4)
-    add_rect(s, bx, by, bw, bh, fill=NAVY)
-    add_text(s, bx, by, bw, bh, "D 栋\n产业服务\n10,000 ㎡",
-             size=11, bold=True, color=WHITE, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-    ax = base_x + plot_w - bw - Inches(0.4)
-    add_rect(s, ax, by, bw, bh, fill=GOLD)
-    add_text(s, ax, by, bw, bh, "A 栋\n链主独栋\n18,000 ㎡",
-             size=11, bold=True, color=NAVY, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-    cx2 = bx + bw + Inches(0.3); cw2 = ax - cx2 - Inches(0.3)
-    add_rect(s, cx2, by, cw2, bh, fill=WHITE, line=LINE)
-    add_text(s, cx2, by, cw2, bh, "中央广场 / 路演灯柱\n林荫水景",
-             size=10, color=GREY, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-    cy2 = by + bh + Inches(0.2)
-    add_rect(s, bx, cy2, bw, bh, fill=BLUE)
-    add_text(s, bx, cy2, bw, bh, "C 栋\n共享研发\n12,000 ㎡",
-             size=11, bold=True, color=WHITE, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-    add_rect(s, ax, cy2, bw, bh, fill=BLUE)
-    add_text(s, ax, cy2, bw, bh, "B 栋\n生态联办\n16,000 ㎡",
-             size=11, bold=True, color=WHITE, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-    add_rect(s, cx2, cy2 + Inches(0.5), cw2, Inches(0.4), fill=CLOUD, line=LINE)
-    add_text(s, cx2, cy2 + Inches(0.5), cw2, Inches(0.4), "连廊 / 食堂",
-             size=10, color=GREY, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-    ty = cy2 + bh + Inches(0.25)
-    test_w = bw + cw2 + Inches(0.3)
-    add_rect(s, bx, ty, test_w, Inches(1.6), fill=GREEN)
-    add_text(s, bx, ty, test_w, Inches(1.6),
-             "户外封闭测试区  12,000 ㎡\n城市道 / 极限场景 / 泊车 / 雨雾夜 / V2X / 监控塔",
-             size=11, bold=True, color=WHITE, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-    add_rect(s, ax, ty, bw, Inches(1.6), fill=NAVY)
-    add_text(s, ax, ty, bw, Inches(1.6), "E 栋\n冠松总部\n14,000 ㎡",
-             size=11, bold=True, color=GOLD, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+             "01# 研发楼 · 垂直叠加（北侧立面示意）", size=11, bold=True, color=NAVY, align=PP_ALIGN.CENTER)
 
-    header = ["区域", "面积 (㎡)", "性质"]
-    rows = [
-        ["A 栋 链主独栋", "18,000", "出租 (可竖切 2 家)"],
-        ["B 栋 生态联办", "16,000", "出租"],
-        ["C 栋 共享研发", "12,000", "出租 + 工位"],
-        ["D 栋 产业服务", "10,000", "出租 + 公共"],
-        ["E 栋 冠松总部", "14,000", "自留"],
-        ["户外测试区", "12,000", "公共/会员"],
-        ["公共/连廊/绿化", "4,500", "公共"],
-        ["地下停车/库房", "12,000", "部分商业"],
-        ["合计建筑面积", "约 80,000", "—"],
-        ["可出租净面积", "约 56,000", "—"],
+    # 楼层数据：净层高 (m), 标签, 描述, 颜色
+    floors_v = [
+        ("RF", "—",   "屋顶花园 + 540 ㎡ 光伏", GREEN),
+        ("9F", "4.3", "总部 · CEO/战略/投资 (链主)", GOLD),
+        ("8F", "4.2", "总部 · 产品/商务/GR (链主)", GOLD),
+        ("7F", "4.2", "标准研发 · 算法/软件", BLUE),
+        ("6F", "4.2", "标准研发 · 算法/数据", BLUE),
+        ("5F", "4.2", "公共配套 · 餐厅 + 健身 (不出租)", GREY),
+        ("4F", "5.4", "核心研发 · 高层高硬件/座舱", PURPLE),
+        ("3F", "5.7", "核心研发 · 联合实验室", PURPLE),
+        ("2F", "6.3", "展厅 + 食堂 (1F+2F 可冠名)", NAVY),
+        ("1F", "5.7", "大堂 + 展厅 + 接待 (品牌门面)", NAVY),
+        ("B1", "—",   "物业 + 设备", LINE),
+        ("B2", "—",   "停车 108 位 (智驾专车 30–50)", LINE),
     ]
-    add_table(s, Inches(7.8), Inches(1.2), Inches(5.0), Inches(5.4),
-              header, rows,
-              col_widths=[Inches(2.0), Inches(1.4), Inches(1.6)])
+    fly = base_y + Inches(0.45); flh = Inches(0.39); flx = base_x + Inches(0.15)
+    flw = plot_w - Inches(0.3)
+    for i, (lvl, h, desc, c) in enumerate(floors_v):
+        y = fly + (flh + Inches(0.02)) * i
+        add_rect(s, flx, y, Inches(0.55), flh, fill=c)
+        add_text(s, flx, y, Inches(0.55), flh, lvl,
+                 size=10, bold=True, color=NAVY if c in (GOLD, LINE) else WHITE,
+                 align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        add_rect(s, flx + Inches(0.6), y, Inches(0.65), flh, fill=CLOUD, line=LINE)
+        add_text(s, flx + Inches(0.6), y, Inches(0.65), flh, h,
+                 size=10, bold=True, color=GREY if h == "—" else NAVY,
+                 align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        add_rect(s, flx + Inches(1.30), y, flw - Inches(1.30), flh,
+                 fill=WHITE, line=LINE)
+        add_text(s, flx + Inches(1.4), y, flw - Inches(1.45), flh, desc,
+                 size=10, color=INK, anchor=MSO_ANCHOR.MIDDLE)
+    add_text(s, base_x, base_y + plot_h - Inches(0.30), plot_w, Inches(0.25),
+             "层 / 净层高 (m) / 功能",
+             size=9, color=GREY, align=PP_ALIGN.CENTER, italic=True)
 
-    # ============ 10. A 栋链主独栋深度 ============
+    # 右侧 · 真实指标表
+    header = ["关键指标", "数值"]
+    rows = [
+        ["地上建筑面积", "15,152.75 ㎡（无生产）"],
+        ["地下建筑面积", "6,992.87 ㎡"],
+        ["建筑高度", "44.95 m"],
+        ["楼层", "地上 9F · 地下 2F"],
+        ["可出租净面积（地上）", "约 8,300 ㎡"],
+        ["1F+2F 冠名空间", "约 1,100 ㎡"],
+        ["地下停车", "108 个（3 普 + 105 机械）"],
+        ["智驾专车规划车位", "30–50 个（含充电）"],
+        ["用地性质", "C6 教育科研设计用地"],
+        ["建筑高度内荷载", "标准 ≥ 4.0 kN/㎡"],
+        ["建议加固（3–4F）", "≥ 7.5 kN/㎡"],
+        ["供电预留", "标准 ≥ 200 W/㎡，3–4F ≥ 350"],
+    ]
+    add_table(s, Inches(7.3), Inches(1.2), Inches(5.5), Inches(5.4),
+              header, rows,
+              col_widths=[Inches(2.6), Inches(2.9)],
+              header_size=11, body_size=10)
+
+    # ============ 10. 8–9F 链主总部深度 ============
     s = new_slide(prs)
     add_chrome(s, prs, page_no=0, phase_label="Phase 1 · 任务 2",
-               page_title="A 栋 · 链主独栋（『链主灯塔』）",
-               subtitle="可整栋 1 家 / 竖切 2 家 · 起始租金 4.5–5.5 元/㎡·天 · 8–10 年长租")
-    # 左：建筑剖面（10 层）
-    add_text(s, Inches(0.5), Inches(1.15), Inches(5), Inches(0.4),
-             "纵剖示意（10F · 18,000 ㎡）", size=14, bold=True, color=NAVY)
-    fl_x = Inches(0.5); fl_y = Inches(1.55); fl_w = Inches(5.5); fl_h = Inches(0.45)
-    floors = [
-        ("10F", "CEO 楼层 + 露台 / 客户接待", GOLD),
-        ("9F", "战略与投资部门", NAVY),
-        ("8F", "全球研发管理", BLUE),
-        ("7F", "智驾研发 (软件)", BLUE),
-        ("6F", "智驾研发 (硬件)", BLUE),
-        ("5F", "智驾研发 (数据/仿真) — 可选竖切分隔", GREY),
-        ("4F", "前装 / 量产", NAVY),
-        ("3F", "测试与认证联调", BLUE),
-        ("2F", "客户体验中心 / 演示", GOLD),
-        ("1F", "礼宾大堂 / 接待 / 高管会议", NAVY),
-        ("B1–B2", "专属车队入口 / 充电 / 库房", GREY),
+               page_title="8–9F · 链主总部楼层（『顶部冠名』）",
+               subtitle="2 整层共 ~3,366 ㎡ · 净高 4.2–4.3 m · 起始 5.5–6.5 元/㎡·天 · 6 年长租")
+    # 左：8/9F 平面分区
+    add_text(s, Inches(0.5), Inches(1.15), Inches(5.5), Inches(0.4),
+             "9F · CEO 与战略层（约 1,683 ㎡）", size=13, bold=True, color=NAVY)
+    add_rect(s, Inches(0.5), Inches(1.55), Inches(5.5), Inches(2.0), fill=CLOUD, line=LINE)
+    parts9 = [
+        ("CEO 室+露台",  Inches(0.6),  Inches(1.65), Inches(1.6), Inches(1.0), GOLD, "16%"),
+        ("战略 + 投资", Inches(2.3),  Inches(1.65), Inches(1.6), Inches(1.0), BLUE, "25%"),
+        ("高管接待", Inches(4.0),   Inches(1.65), Inches(1.9), Inches(1.0), NAVY, "18%"),
+        ("多功能厅", Inches(0.6),   Inches(2.70), Inches(2.5), Inches(0.85), PURPLE, "22%"),
+        ("开放办公 + 会议", Inches(3.2), Inches(2.70), Inches(2.7), Inches(0.85), BLUE, "19%"),
     ]
-    for i, (lvl, desc, c) in enumerate(floors):
-        y = fl_y + (fl_h + Inches(0.04)) * i
-        add_rect(s, fl_x, y, Inches(0.85), fl_h, fill=c)
-        add_text(s, fl_x, y, Inches(0.85), fl_h, lvl,
-                 size=11, bold=True, color=WHITE, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-        add_rect(s, fl_x + Inches(0.9), y, fl_w - Inches(0.9), fl_h, fill=CLOUD, line=LINE)
-        add_text(s, fl_x + Inches(1.0), y, fl_w - Inches(1.0), fl_h, desc,
-                 size=10, color=INK, anchor=MSO_ANCHOR.MIDDLE)
+    for txt, x, y, w, h, c, p in parts9:
+        add_rect(s, x, y, w, h, fill=c)
+        add_text(s, x, y, w, h, txt + "\n" + p,
+                 size=9, bold=True, color=WHITE if c != GOLD else NAVY,
+                 align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+
+    add_text(s, Inches(0.5), Inches(3.7), Inches(5.5), Inches(0.4),
+             "8F · 产品 / 商务 / GR 层（约 1,683 ㎡）", size=13, bold=True, color=NAVY)
+    add_rect(s, Inches(0.5), Inches(4.10), Inches(5.5), Inches(2.0), fill=CLOUD, line=LINE)
+    parts8 = [
+        ("开放办公区 (产品+研发管理)", Inches(0.6), Inches(4.20), Inches(3.4), Inches(1.0), BLUE, "45%"),
+        ("会议室集群", Inches(4.1), Inches(4.20), Inches(1.8), Inches(1.0), NAVY, "20%"),
+        ("商务 + GR 独立办公",  Inches(0.6), Inches(5.25), Inches(2.5), Inches(0.80), GOLD, "22%"),
+        ("茶水/休闲/打印",  Inches(3.2), Inches(5.25), Inches(2.7), Inches(0.80), GREEN, "13%"),
+    ]
+    for txt, x, y, w, h, c, p in parts8:
+        add_rect(s, x, y, w, h, fill=c)
+        add_text(s, x, y, w, h, txt + "\n" + p,
+                 size=9, bold=True, color=WHITE if c != GOLD else NAVY,
+                 align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
     # 右：核心卖点 + 签约组合
     add_text(s, Inches(7.0), Inches(1.15), Inches(6), Inches(0.4),
              "核心卖点", size=14, bold=True, color=NAVY)
     sells = [
-        ("整栋冠名权", "「[链主] · iDrive Tower」 5 年", GOLD),
-        ("独立礼宾大堂", "1F 6 m 挑空 + 客户专属电梯", BLUE),
-        ("CEO 楼层", "10F 含露台 + 屋顶停机/光伏", NAVY),
-        ("地下专属入口", "测试车队不与办公人流交叉", BLUE),
-        ("竖切方案", "5F 防火分隔，可分 2 家独立运营", GREY),
-        ("机电预留", "≥ 200 W/㎡ · 4 m 净高 · 4.5 kN/㎡ 荷载", GREEN),
+        ("楼宇冠名权",   "「[链主] · iDrive Tower 01」 5 年", GOLD),
+        ("1F 大堂背景墙", "5.7 m 挑空 + 主形象墙 + LED",   BLUE),
+        ("9F 屋顶花园", "ESG/媒体大片专属取景日 ≥ 2/年",  NAVY),
+        ("地下专属车位", "8–12 个 · 智驾测试车连通 1F",   BLUE),
+        ("装配式 100%",  "整层无柱大空间 · 净高 4.2–4.3 m", GREEN),
+        ("供电/弱电",    "≥ 200 W/㎡ · POL + 5G-A + Wi-Fi 6E", PURPLE),
     ]
     for i, (t, d, c) in enumerate(sells):
         y = Inches(1.55) + Inches(0.55) * i
@@ -664,36 +677,39 @@ def build():
     add_rect(s, Inches(7.0), Inches(4.95), Inches(5.9), Inches(1.95), fill=NAVY)
     add_text(s, Inches(7.15), Inches(5.0), Inches(5.6), Inches(0.4),
              "签约组合（草案）", size=13, bold=True, color=GOLD)
-    deal = ("起始租金 4.5–5.5 元/㎡·天 · 8–10 年长租\n"
-            "免租 18–24 个月 · 装补 1,000–1,500 元/㎡ (封顶 2,700 万)\n"
+    deal = ("起始租金 5.5–6.5 元/㎡·天 · 6 年（含免租）\n"
+            "免租 12–18 个月 · 装补 800–1,200 元/㎡ (封顶 400 万)\n"
             "区级税收留成 80% 三年返 / 50% 后两年返\n"
-            "户外测试区终身免费 + 1.5 km 路测延伸段联合申请\n"
-            "人才公寓 200 套 + 落户绿通 30 个/年\n"
-            "9 月发布会主旨演讲 + 媒体首发权")
+            "嘉定/临港封闭测试场会员代办 · 1.5 km 路测延伸段联合申请\n"
+            "人才公寓 80–120 套 + 高级研发落户 20 个/年\n"
+            "9 月发布会主旨演讲 + 媒体首发 + 楼宇冠名 5 年")
     add_text(s, Inches(7.15), Inches(5.35), Inches(5.6), Inches(1.55),
              deal, size=10, color=WHITE)
 
-    # ============ 11. B/C/D 栋详细 ============
+    # ============ 11. 3–4F 核心研发 + 6–7F 算法软件 + 1–2F 大堂展厅 ============
     s = new_slide(prs)
     add_chrome(s, prs, page_no=0, phase_label="Phase 1 · 任务 2",
-               page_title="B / C / D 栋 · 生态 + 共享 + 服务",
-               subtitle="算法/域控/传感器堆栈层 · 早期算法加速器 · 一站式产业服务大楼")
+               page_title="3–7F · 核心研发 + 算法软件 / 1–2F · 大堂展厅",
+               subtitle="3–4F 高层高 5.4–5.7 m 硬科技稀缺空间 · 6–7F 算法标准研发 · 1–2F 品牌门面")
     cards = [
-        ("B 栋 · 生态联办", "16,000 ㎡ · 7.0–8.0 元/㎡·天",
-         ["户型 500/800/1500/2500 ㎡ 多层组合",
-          "每层中部「共享路演 + 茶水 + 接待」模块",
-          "适配 L3 域控 / L2 传感器 / Tier1",
-          "签约 3+3+1 年 · 免租 6–12 月 · 装补 300–800/㎡"], BLUE),
-        ("C 栋 · 共享研发", "12,000 ㎡ · 8.0–8.5 元/㎡·天 + 工位",
-         ["工位 1,800–2,800/工位/月（10–30 工位起）",
-          "数据闭环实验室 / 仿真验证实验室 / 端到端联训间",
-          "共享 GPU 算力 + 仿真平台会员",
-          "适配早期算法 / 高校转化 / 飞地"], GOLD),
-        ("D 栋 · 产业服务", "10,000 ㎡ · 7.0–8.5 元/㎡·天",
-         ["1F 600 ㎡ 路演中心 + 媒体直播间",
-          "区投促办 + 市经信委 + 交警支队驻点",
-          "中汽研 / TüV / CATARC / 君合 / 方达 / 毕马威",
-          "海关 / 税务 / 知识产权快速通道"], NAVY),
+        ("3–4F · 核心研发\n（高层高）", "约 3,366 ㎡ · 5.4–5.7 m · 7.0–8.0 元/㎡·天",
+         ["净层高 5.4–5.7 m，中心城区罕见",
+          "适配域控 / 座舱 / 传感器集成调试台架",
+          "建议加固楼面荷载 ≥ 7.5 kN/㎡",
+          "3F 联合实验室共建（链主或 Tier1 命名权）",
+          "签约 3+3 年 · 免租 6–10 月 · 装补 500–800/㎡"], PURPLE),
+        ("6–7F · 算法软件", "约 3,366 ㎡ · 4.2 m · 7.5–8.5 元/㎡·天",
+         ["软件 / 算法 / 数据团队标准研发",
+          "适配 L4 算法 / 仿真 / 数据闭环企业",
+          "全光网到桌面 (POL) + 5G-A + Wi-Fi 6E",
+          "可分割 300–800 ㎡ 单元，6–10 家共存",
+          "签约 3+3+1 · 免租 4–8 月 · 装补 300–500/㎡"], BLUE),
+        ("1–2F · 大堂 + 展厅", "约 3,371 ㎡ · 5.7 m / 6.3 m · 自留+冠名",
+         ["1F 5.7 m 挑空大堂 + 展厅 + 接待 + 咖啡",
+          "2F 6.3 m 展厅 + 食堂（兼路演 200 人）",
+          "可分拆冠名：大堂主背景墙 / 展厅 / LED 屏",
+          "用作智驾产业展厅 + 9 月发布会主场",
+          "丁档冠名 5 年 + 政府/媒体路演阵地"], NAVY),
     ]
     cw = Inches(4.10); cy = Inches(1.20); ch = Inches(5.5); gx = Inches(0.10)
     for i, (t, sub, bullets, c) in enumerate(cards):
@@ -713,53 +729,68 @@ def build():
             add_text(s, x + Inches(0.55), yy, cw - Inches(0.7), Inches(0.85),
                      b, size=11, color=INK)
 
-    # ============ 12. E 栋 + 户外测试区场景 ============
+    # ============ 12. 绿色低碳成绩单 + 三段式测试方案 ============
     s = new_slide(prs)
     add_chrome(s, prs, page_no=0, phase_label="Phase 1 · 任务 2",
-               page_title="E 栋 · 冠松总部 + 户外测试区 7 大场景",
-               subtitle="独家壁垒：让真实后市场流量与园区企业测试数据形成闭环")
-    # 左：E 栋楼层
+               page_title="绿色低碳成绩单 + 三段式测试方案",
+               subtitle="ESG 卖点 + 政府双碳考核 / 取代自建测试场，『轻资产』高效率")
+    # 左：绿色低碳成绩单
     add_text(s, Inches(0.5), Inches(1.15), Inches(6), Inches(0.4),
-             "E 栋 · 冠松总部 / 后市场超级体验店", size=14, bold=True, color=NAVY)
-    e_floors = [
-        ("9–10F", "冠松产业基金 + 战略投资 + 高管接待", GOLD),
-        ("4–8F", "冠松集团总部办公", NAVY),
-        ("2–3F", "冠松车队 + 4S 联动指挥中心 (接入园区测试车)", BLUE),
-        ("B1–1F", "智驾后市场体验店\n(保险定损 / 改装 / 数据上链 / 二手智驾车)", GREEN),
+             "绿色低碳与 ESG 成绩单（PDF 实测）", size=14, bold=True, color=NAVY)
+    esg = [
+        ("绿建二星",      "上海中心城区智驾园区中等级最高之一", GREEN),
+        ("装配式 100%",   "预制率 ≥ 40% · 装配整体式框架核心筒", BLUE),
+        ("屋面光伏",     "540 ㎡ · 自发自用 + 预留扩展", GOLD),
+        ("透水铺装",     "400 ㎡（海绵城市）", BLUE),
+        ("下凹式绿地",   "50 ㎡（海绵城市）", GREEN),
+        ("雨水蓄水池",   "75 m³ · 雨水回用", BLUE),
+        ("年径流控制率", "66.8% · 高于上海市基础要求", PURPLE),
+        ("碳排放强度",   "较 2016 节能基准 −48.93%", RED),
+        ("单位降碳",     "−7.06 kgCO₂/(㎡·a)", RED),
     ]
-    for i, (lvl, d, c) in enumerate(e_floors):
-        y = Inches(1.55) + Inches(1.05) * i
-        add_rect(s, Inches(0.5), y, Inches(1.0), Inches(0.95), fill=c)
-        add_text(s, Inches(0.5), y, Inches(1.0), Inches(0.95), lvl,
-                 size=12, bold=True, color=WHITE, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-        add_rect(s, Inches(1.55), y, Inches(4.95), Inches(0.95), fill=CLOUD, line=LINE)
-        add_text(s, Inches(1.70), y + Inches(0.05), Inches(4.7), Inches(0.85),
-                 d, size=11, color=INK, anchor=MSO_ANCHOR.MIDDLE)
-
-    # 右：7 大测试场景
-    add_text(s, Inches(6.85), Inches(1.15), Inches(6.2), Inches(0.4),
-             "户外封闭测试区 · 7 大场景模块（共 12,000 ㎡）", size=14, bold=True, color=NAVY)
-    scenes = [
-        ("城市道路缩比环线", "4,500 ㎡ · 双车道 + 信号灯 × 2", BLUE),
-        ("极限场景区", "1,800 ㎡ · Cut-in / 鬼探头 / 加塞", NAVY),
-        ("泊车与召唤区", "1,500 ㎡ · 立体/机械/室外混合", BLUE),
-        ("雨/雾/夜模拟区", "1,200 ㎡ · 喷淋 + 雾发生器 + 可调照明", GREEN),
-        ("路侧 V2X 试验段", "600 ㎡ · RSU×4 / 5G-A×2 / MEC", PURPLE),
-        ("充/换电与维保区", "800 ㎡ · 超充 8 + 换电站 1 + 维修 4", GOLD),
-        ("监控指挥塔 + 数据机房", "600 ㎡ · 4D 监控 + 100 TB 本地", NAVY),
-    ]
-    for i, (t, d, c) in enumerate(scenes):
-        y = Inches(1.55) + Inches(0.65) * i
-        add_rect(s, Inches(6.85), y, Inches(0.18), Inches(0.55), fill=c)
-        add_rect(s, Inches(7.05), y, Inches(6.0), Inches(0.55), fill=CLOUD, line=LINE)
-        add_text(s, Inches(7.20), y + Inches(0.05), Inches(2.6), Inches(0.45),
+    for i, (t, d, c) in enumerate(esg):
+        y = Inches(1.55) + Inches(0.50) * i
+        add_rect(s, Inches(0.5), y, Inches(0.18), Inches(0.42), fill=c)
+        add_rect(s, Inches(0.7), y, Inches(5.6), Inches(0.42), fill=CLOUD, line=LINE)
+        add_text(s, Inches(0.85), y + Inches(0.02), Inches(2.0), Inches(0.38),
                  t, size=11, bold=True, color=NAVY, anchor=MSO_ANCHOR.MIDDLE)
-        add_text(s, Inches(9.85), y + Inches(0.05), Inches(3.1), Inches(0.45),
+        add_text(s, Inches(2.85), y + Inches(0.02), Inches(3.4), Inches(0.38),
                  d, size=10, color=INK, anchor=MSO_ANCHOR.MIDDLE)
+    add_rect(s, Inches(0.5), Inches(6.10), Inches(5.8), Inches(0.65), fill=NAVY)
+    add_text(s, Inches(0.65), Inches(6.13), Inches(5.6), Inches(0.6),
+             "→ 整套指标可直接用于「双碳考核 / 链主 ESG 报告 / 政府高质量发展」三类汇报口径",
+             size=10, bold=True, color=GOLD, anchor=MSO_ANCHOR.MIDDLE)
 
-    add_rect(s, Inches(6.85), Inches(6.20), Inches(6.2), Inches(0.55), fill=NAVY)
-    add_text(s, Inches(7.0), Inches(6.25), Inches(6.0), Inches(0.45),
-             "商业模式：会员 (链主免费) · 按场次 (生态 6k–20k/场) · 工程包月",
+    # 右：三段式测试方案
+    add_text(s, Inches(6.65), Inches(1.15), Inches(6.5), Inches(0.4),
+             "三段式测试方案（替代自建 1.2 万方测试场）", size=14, bold=True, color=NAVY)
+    seg = [
+        ("段 1 · 园区内 (静态 + 数据)",
+         "3–4F 高层高研发 / 联合实验室\nB2 智驾测试车专用车位 30–50 个\n仿真平台 + 共享算力券 + 数据合规沙盒",
+         BLUE, "1F"),
+        ("段 2 · 静安区 (1.5 km 路测延伸)",
+         "区交警支队 + 市公安 + 区经委协同\n申请「iDrive 静安路测专项」夜间/低峰段\n首批 1.5 km，验证后逐步扩展",
+         GOLD, "2F"),
+        ("段 3 · 嘉定 / 临港 (会员通道)",
+         "与上海智能网联汽车创新中心(嘉定)\n临港 AI 创新港 签战略合作\n链主免费会员 / 生态会员 8–9 折",
+         GREEN, "3F"),
+    ]
+    sy = Inches(1.55); sh2 = Inches(1.55)
+    for i, (t, d, c, _) in enumerate(seg):
+        y = sy + (sh2 + Inches(0.10)) * i
+        add_rect(s, Inches(6.65), y, Inches(6.5), sh2, fill=CLOUD, line=LINE)
+        add_rect(s, Inches(6.65), y, Inches(0.18), sh2, fill=c)
+        add_round(s, Inches(6.85), y + Inches(0.20), Inches(0.7), Inches(0.40),
+                  f"段{i+1}", fill=c, color=WHITE if c != GOLD else NAVY,
+                  size=12, bold=True)
+        add_text(s, Inches(7.65), y + Inches(0.10), Inches(5.4), Inches(0.45),
+                 t, size=12, bold=True, color=NAVY, anchor=MSO_ANCHOR.MIDDLE)
+        add_text(s, Inches(7.65), y + Inches(0.55), Inches(5.4), Inches(0.95),
+                 d, size=10, color=INK)
+
+    add_rect(s, Inches(6.65), Inches(6.20), Inches(6.5), Inches(0.55), fill=NAVY)
+    add_text(s, Inches(6.80), Inches(6.25), Inches(6.3), Inches(0.45),
+             "→ 轻资产 · 不重投自建测试场 · 政府关系撬动 + 战略合作组合",
              size=11, bold=True, color=GOLD, anchor=MSO_ANCHOR.MIDDLE)
 
     # ============ 13. Phase 2 扉页 ============
@@ -774,13 +805,13 @@ def build():
     add_chrome(s, prs, page_no=0, phase_label="Phase 2 · 任务 3",
                page_title="链主 TOP5 攻坚作战图",
                subtitle="项目总监 + GR 总监 双人出动 · 周一例会 / 季度董事会复盘")
-    header = ["#", "链主", "面积 (㎡)", "决策人 / 关键人", "当前阶段", "下一动作", "截止", "状态"]
+    header = ["#", "链主", "落位", "决策人 / 关键人", "当前阶段", "下一动作", "截止", "状态"]
     rows = [
-        ["1", "华为车 BU", "8,000–12,000", "上海中心负责人 / GTS 上海", "T0 名片建联", "区委书记+市经信委约见", "T+30d", "推进中"],
-        ["2", "百度 Apollo", "4,000–6,000", "IDG 总裁 / 华东负责人", "已发邀约函", "联合投促办赴京拜访", "T+45d", "顺利"],
-        ["3", "小鹏汽车", "3,000–5,000", "李力耘 / 上海负责人", "公司层初接触", "邀请出席 9 月发布会", "T+60d", "推进中"],
-        ["4", "地平线", "4,000–8,000", "余凯 / 黄畅 / 政企", "高层已建联", "邀请参观测试区 + V2X", "T+30d", "顺利"],
-        ["5", "Momenta", "5,000–8,000", "曹旭东 / GR VP", "已建联，等会面", "曹 CEO + 静安区长会面", "T+45d", "推进中"],
+        ["1", "华为车 BU", "8F+9F 整层 ~3,366㎡", "上海中心负责人 / GTS 上海", "T0 名片建联", "区委书记+市经信委约见", "T+30d", "推进中"],
+        ["2", "百度 Apollo", "9F 整层 ~1,683㎡", "IDG 总裁 / 华东负责人", "已发邀约函", "联合投促办赴京拜访", "T+45d", "顺利"],
+        ["3", "小鹏汽车", "6F+7F 算法 ~3,366㎡", "李力耘 / 上海负责人", "公司层初接触", "邀请出席 9 月发布会", "T+60d", "推进中"],
+        ["4", "地平线", "3F 核心研发 ~1,683㎡", "余凯 / 黄畅 / 政企", "高层已建联", "邀请参观高层高研发层", "T+30d", "顺利"],
+        ["5", "Momenta", "8F 整层 ~1,683㎡", "曹旭东 / GR VP", "已建联，等会面", "曹 CEO + 静安区长会面", "T+45d", "推进中"],
     ]
     add_table(s, Inches(0.5), Inches(1.2), Inches(12.3), Inches(2.6),
               header, rows,
@@ -818,11 +849,11 @@ def build():
             ("静安一企一策", "区委书记直接对接 · 一窗通办"),
         ],
         deal_terms=[
-            "整栋 18,000 ㎡ · 签约 10 年",
-            "起始租金 4.8 元/㎡·天 · 3 年一调（CPI+0.5%）",
-            "免租 24 个月 · 装补 1,500 元/㎡（封顶 2,700 万）",
-            "区级税收留成 80% 三年返",
-            "户外测试区终身免费会员 · 人才公寓 200 套",
+            "8F + 9F 整层 ~3,366 ㎡ · 签约 6 年",
+            "起始租金 5.8 元/㎡·天 · 3 年一调（CPI+0.5%）",
+            "免租 15 个月 · 装补 1,000 元/㎡（封顶 336 万）",
+            "区级税收留成 80% 三年返 · 1F 大堂冠名 5 年",
+            "嘉定/临港测试场免费会员 · 人才公寓 100 套",
         ],
         next_steps=[
             ("T+15d", "见余承东、王军，约上海中心负责人"),
@@ -841,10 +872,10 @@ def build():
             ("A 栋路演中心", "1F 600 ㎡ + 冠名首发权"),
         ],
         deal_terms=[
-            "A 栋下半区 9,000 ㎡（5–10F）· 签约 8 年",
-            "起始租金 5.2 元/㎡·天",
-            "免租 18 个月 · 装补 1,200 元/㎡",
-            "与冠松共建「Apollo · GS 出行实验室」（双方各 50%）",
+            "9F 整层 ~1,683 ㎡ · 签约 5 年（可叠 8F 至 ~3,366 ㎡）",
+            "起始租金 5.5 元/㎡·天",
+            "免租 12 个月 · 装补 1,000 元/㎡",
+            "1F 大堂冠名 + 与冠松共建「Apollo · GS 出行实验室」",
             "牌照绿色通道：区交警 + 市经信委协作",
         ],
         next_steps=[
@@ -864,11 +895,11 @@ def build():
             ("C 栋共享数据/仿真", "节省自建成本 30%"),
         ],
         deal_terms=[
-            "B 栋 4,500 ㎡ · 签约 5+5 年",
-            "起始租金 6.5 元/㎡·天（生态价）",
-            "免租 12 个月 · 装补 800 元/㎡",
+            "6F + 7F 算法层共 ~3,366 ㎡ · 签约 5 年",
+            "起始租金 7.5 元/㎡·天（算法软件价）",
+            "免租 8 个月 · 装补 500 元/㎡",
             "9 月发布会主旨演讲位 + 媒体首发权",
-            "E 栋 1F 联合体验店免租 36 个月",
+            "1F 大堂咖啡角联合体验区（可冠名）",
         ],
         next_steps=[
             ("T+15d", "项目总监赴广州拜访李力耘"),
@@ -887,11 +918,11 @@ def build():
             ("产业基金协同", "区基金 + 冠松基金合计 5 亿优先 LP"),
         ],
         deal_terms=[
-            "C 栋 + B 栋合计 6,000 ㎡",
-            "起始租金 6.8 元/㎡·天",
-            "免租 15 个月 · 装补 1,000 元/㎡",
+            "3F 核心研发整层 ~1,683 ㎡ · 净高 5.7 m",
+            "起始租金 7.2 元/㎡·天",
+            "免租 10 个月 · 装补 700 元/㎡",
             "「征程开放实验室」共建 + 优先调度",
-            "上海科技新人才落户配额 30 个",
+            "上海科技新人才落户配额 20 个",
         ],
         next_steps=[
             ("T+10d", "邀请上海办参观户外测试区"),
@@ -910,11 +941,11 @@ def build():
             ("静安区一企一策", "区领导班子直接对接"),
         ],
         deal_terms=[
-            "A 栋下半区 8,000 ㎡ · 签约 8 年",
-            "起始租金 5.5 元/㎡·天",
-            "免租 20 个月 · 装补 1,200 元/㎡",
+            "8F 整层 ~1,683 ㎡ · 签约 6 年（含可叠加 9F）",
+            "起始租金 5.8 元/㎡·天",
+            "免租 14 个月 · 装补 1,000 元/㎡",
             "「Momenta 飞轮 · GS 数据沙盒」联合立项",
-            "区级人才公寓 100 套 + 落户绿通",
+            "区级人才公寓 60 套 + 落户绿通",
         ],
         next_steps=[
             ("T+10d", "曹 CEO + 集团董事长 + 静安区长会面"),
@@ -1129,19 +1160,26 @@ def build():
                page_title="四档收费方案矩阵",
                subtitle="链主月费+政策返还 / 生态月费 / 共享月费+服务佣金 / 对赌")
     cards4 = [
-        ("甲档", "链主独栋", "月费 + 政策返还", NAVY,
-         ["起始租金 4.5–5.5 元/㎡·天", "免租 18–24 个月", "装补 1,000–1,500/㎡",
-          "区级税收 80% 三年返", "整栋冠名 + 测试区终身免费"]),
-        ("乙档", "生态联办", "月费", BLUE,
-         ["起始租金 6.5–8.0 元/㎡·天", "免租 6–12 个月", "装补 300–800/㎡",
-          "合同 3+3+1 年", "测试区会员价 / 路演免费"]),
-        ("丙档", "共享研发", "月费 + 服务佣金", GOLD,
-         ["工位 1,800–2,800/月", "小独间 8.0–9.0 元/㎡·天", "月付制 / 免租 0–2 月",
-          "服务 GMV 5%–10% 抽成", "算力券 7 折 / 共享实验室"]),
-        ("丁档", "对赌", "低租 + 收益分成", GREEN,
-         ["折扣租金 60%–70%", "营收 / 利润 / 估值对赌",
-          "超额营收 5%–10% 返现", "园区基金 1%–3% 跟投权",
-          "未达标差额补偿（双向上限）"]),
+        ("甲档", "链主总部 (8–9F)", "月费 + 政策返还", NAVY,
+         ["起始租金 5.5–6.5 元/㎡·天", "整层 1,683 ㎡ / 双层 ~3,366 ㎡",
+          "免租 12–18 个月 · 装补 800–1,200/㎡",
+          "区级税收 80% 三年返",
+          "楼宇冠名 + 1F 大堂 + 嘉定/临港免费会员"]),
+        ("乙档", "核心研发 (3–4F)", "月费 + 实验室共建", PURPLE,
+         ["起始租金 7.0–8.0 元/㎡·天", "净层高 5.4–5.7 m （硬科技）",
+          "免租 6–10 个月 · 装补 500–800/㎡",
+          "3F 联合实验室命名权",
+          "楼面荷载加固至 ≥ 7.5 kN/㎡"]),
+        ("丙档", "算法软件 (6–7F)", "月费", BLUE,
+         ["起始租金 7.5–8.5 元/㎡·天", "≥ 300 ㎡ 单元 (6–10 家)",
+          "免租 4–8 个月 · 装补 300–500/㎡",
+          "合同 3+3+1 年",
+          "算力券 7 折 / 数据合规沙盒"]),
+        ("丁档", "冠名 + 对赌", "低租 + 收益分成", GREEN,
+         ["折扣租金 60%–70%", "1F+2F 冠名权 / 楼宇外立面",
+          "营收/利润/估值对赌",
+          "超额营收 5%–10% 返现",
+          "园区基金 1%–3% 跟投权"]),
     ]
     cw = Inches(2.95); gx = Inches(0.15); cy = Inches(1.20); ch = Inches(5.4)
     for i, (lvl, name, sub, c, bullets) in enumerate(cards4):
@@ -1167,20 +1205,20 @@ def build():
     add_chrome(s, prs, page_no=0, phase_label="Phase 4 · 任务 7",
                page_title="服务包矩阵 · 把租金以外的价值显性化",
                subtitle="6 大类 · 12 项服务 · 按四档差异化配置 · 是租金等效折扣的核心抓手")
-    sv_header = ["服务", "甲档 链主", "乙档 生态", "丙档 共享", "丁档 对赌"]
+    sv_header = ["服务", "甲 链主总部", "乙 核心研发", "丙 算法软件", "丁 冠名+对赌"]
     sv_rows = [
-        ["户外测试区", "免费会员（终身）", "会员价（6k–20k/场）", "会员价 / 抽签免费", "免费会员（合作期）"],
-        ["共享路演中心", "免费 24 小时", "免费 8 小时/月", "免费 4 小时/月", "免费 12 小时/月"],
-        ["算力券（与算力中心合作）", "配额 100 万", "配额 30 万", "7 折", "配额 50 万"],
-        ["数据合规沙盒（数交所）", "白名单 + 优先", "标准会员", "联合申请", "白名单 + 优先"],
-        ["招聘联运（招聘 + 落户）", "50 个落户/年", "10 个落户/年", "集体面试", "30 个落户/年"],
+        ["1F 大堂冠名", "默认 5 年", "—", "—", "默认（叠加 2F 展厅）"],
+        ["楼宇外立面冠名", "可选", "—", "—", "默认"],
+        ["屋顶花园专属", "默认", "—", "—", "默认"],
+        ["联合实验室共建", "—", "命名权", "—", "命名权"],
+        ["嘉定/临港测试场会员代办", "免费", "8 折", "9 折", "免费"],
+        ["路测延伸路段协调", "优先", "平等", "平等", "优先"],
+        ["共享算力券", "50 万", "30 万", "7 折", "80 万"],
+        ["数据合规沙盒", "白名单 + 优先", "标准", "联合申请", "白名单 + 优先"],
+        ["招聘联运 / 落户绿通", "50 个/年", "15 个/年", "集体面试", "30 个/年"],
         ["政策代办（一窗通办）", "一企一策专人", "标准代办", "自助 + 模板", "一企一策专人"],
-        ["公关与媒体", "主旨发布 + 首发", "主题分享位", "Demo 抽签", "主旨发布 + 首发"],
-        ["产业基金对接", "优先 LP/GP 5 亿", "标准对接", "Demo Day 路演", "强制跟投权"],
-        ["律所 / 财税 / IP", "顶尖年框", "优惠折扣", "标准目录", "顶尖年框"],
-        ["租户俱乐部 / 高管社群", "VIP 席位", "标准席位", "受邀席位", "VIP 席位"],
-        ["园区 IT / Wi-Fi6E / 5G-A", "全栋专属", "标准包", "标准包", "全栋专属"],
-        ["国际化 / 跨国对接", "海外峰会优先位", "海外峰会标准", "线上参会", "海外峰会优先位"],
+        ["公关与媒体", "主旨发布 + 首发", "主题分享", "Demo 抽签", "主旨发布 + 首发"],
+        ["后市场协同 (冠松)", "数据接口", "应用试点", "—", "数据接口"],
     ]
     add_table(s, Inches(0.5), Inches(1.2), Inches(12.3), Inches(5.5),
               sv_header, sv_rows,
@@ -1193,8 +1231,8 @@ def build():
     # ============ 28. 链主报价单样张 ============
     s = new_slide(prs)
     add_chrome(s, prs, page_no=0, phase_label="Phase 4 · 任务 7",
-               page_title="链主报价单样张（甲档 · 保密）",
-               subtitle="致 [链主]：18,000 ㎡ · 10 年 · 4.8 元/㎡·天 · 一企一策政策包")
+               page_title="链主总部报价单样张（甲档 · 保密）",
+               subtitle="致 [链主]：8F + 9F 整层 ~3,366 ㎡ · 6 年 · 5.8 元/㎡·天 · 一企一策政策包")
     # 标题与抬头
     add_rect(s, Inches(0.5), Inches(1.20), Inches(12.3), Inches(0.55), fill=NAVY)
     add_text(s, Inches(0.7), Inches(1.20), Inches(8), Inches(0.55),
@@ -1208,12 +1246,12 @@ def build():
     add_text(s, Inches(0.5), Inches(1.95), Inches(6), Inches(0.4),
              "一、商业条款", size=13, bold=True, color=NAVY)
     biz = [
-        ("标的", "A 栋 整栋 18,000 ㎡（地上 1–10F + 地下专属车位 50）"),
-        ("租赁期", "10 年（含免租期）"),
-        ("起始租金", "4.8 元/㎡·天 · 物业 28 元/㎡·月"),
-        ("免租期", "24 个月"),
+        ("标的", "01# 8F + 9F 整层 ~3,366 ㎡（4.2 / 4.3 m 净高）"),
+        ("租赁期", "6 年（含免租期）"),
+        ("起始租金", "5.8 元/㎡·天 · 物业 28 元/㎡·月"),
+        ("免租期", "15 个月"),
         ("调价机制", "3 年一调 · 调幅 = max(CPI, 5%)"),
-        ("装补", "1,200 元/㎡ · 封顶 2,160 万元 · 里程碑分期"),
+        ("装补", "1,000 元/㎡ · 封顶 336 万元 · 里程碑分期"),
         ("履约保证", "6 个月租金"),
         ("续约", "到期前 12 个月可优先续约 5 年"),
     ]
@@ -1230,12 +1268,12 @@ def build():
     pol2 = [
         ("税收返还", "区级留成 80% 三年返 / 50% 后两年返"),
         ("一次性奖励", "[一事一议]"),
-        ("人才公寓", "200 套"),
-        ("落户绿通", "高级研发 30 个 / 年"),
-        ("户外测试区", "终身免费会员 + 1.5 km 路测延伸"),
-        ("智驾试点", "L3/L4 试点联合体推荐"),
-        ("数据合规", "上海数交所沙盒席位"),
-        ("品牌权益", "整栋冠名 5 年 + 9 月主旨发布位"),
+        ("人才公寓", "80–120 套"),
+        ("落户绿通", "高级研发 20 个 / 年"),
+        ("测试场会员", "嘉定/临港封闭场代办（终身免费）"),
+        ("路测延伸", "1.5 km 静安区路测专项联合申请"),
+        ("数据合规", "上海数交所沙盒白名单"),
+        ("品牌权益", "1F 大堂 + 楼宇外立面冠名 5 年 + 9 月主旨发布"),
     ]
     for i, (k, v) in enumerate(pol2):
         y = Inches(2.40) + Inches(0.36) * i
@@ -1261,28 +1299,28 @@ def build():
     s = new_slide(prs)
     add_chrome(s, prs, page_no=0, phase_label="Phase 4 · 任务 7",
                page_title="三年财务测算 · 关键 KPI",
-               subtitle="Y3 入驻率 92% / 收入 2.5 亿 / EBITDA 由负转正 ≈ 1.25 亿")
+               subtitle="基于 1.5 万方 实测口径 · 出租净 8,300 ㎡ · Y3 EBITDA 转正约 1,400 万元")
     header = ["科目（万元）", "Y1 2026", "Y2 2027", "Y3 2028"]
     rows = [
-        ["租金收入", "3,433", "7,438", "11,663"],
-        ["物业费收入", "658", "1,222", "1,730"],
-        ["测试区/服务/后市场", "900", "2,700", "5,600"],
-        ["政策返还（净计入）", "200", "1,500", "4,500"],
-        ["基金管理费", "0", "1,000", "1,500"],
-        ["总收入", "5,191", "13,860", "24,993"],
-        ["总成本", "9,300", "11,200", "12,500"],
-        ["EBITDA", "−4,109", "+2,660", "+12,493"],
-        ["EBIT", "−7,109", "−340", "+9,493"],
-        ["税前利润", "−8,609", "−1,740", "+8,293"],
+        ["租金收入", "615", "1,442", "2,091"],
+        ["物业费收入", "97", "195", "257"],
+        ["冠名 / 服务 / 后市场", "230", "700", "1,400"],
+        ["政策返还（净计入）", "80", "600", "1,500"],
+        ["基金管理费", "0", "300", "500"],
+        ["总收入", "1,022", "3,237", "5,748"],
+        ["总成本", "3,130", "3,790", "4,380"],
+        ["EBITDA", "−2,108", "−553", "+1,368"],
+        ["EBIT", "−3,308", "−1,753", "+168"],
+        ["税前利润", "−3,908", "−2,333", "−352"],
     ]
     add_table(s, Inches(0.5), Inches(1.2), Inches(7.0), Inches(4.5),
               header, rows,
               col_widths=[Inches(2.4), Inches(1.5), Inches(1.5), Inches(1.6)])
     kpis = [
-        ("入驻率", ["35%", "65%", "92%"], BLUE),
-        ("链主签约（累计）", ["1", "2", "3"], NAVY),
-        ("生态签约（累计）", ["18", "45", "78"], GOLD),
-        ("EBITDA 利润率", ["−79%", "+19%", "+50%"], GREEN),
+        ("入驻率", ["35%", "70%", "92%"], BLUE),
+        ("链主签约（累计）", ["0", "1", "1"], NAVY),
+        ("入驻企业（累计）", ["4", "9", "14"], GOLD),
+        ("EBITDA 利润率", ["−206%", "−17%", "+24%"], GREEN),
     ]
     add_text(s, Inches(7.8), Inches(1.2), Inches(5.5), Inches(0.4),
              "三年关键 KPI", size=14, bold=True, color=NAVY)
@@ -1297,7 +1335,7 @@ def build():
             add_text(s, x, y + Inches(0.6), Inches(0.85), Inches(0.25),
                      f"Y{j+1}", size=8, color=GREY, align=PP_ALIGN.CENTER)
     add_text(s, Inches(0.5), Inches(5.85), Inches(13), Inches(0.4),
-             "敏感性（Y3 EBITDA 万元变化）：入驻 ±10% → ∓3,200/+1,400 · 租金 ±10% → ±2,100 · 政策兑现 −30% → −1,350",
+             "敏感性（Y3 EBITDA 万元变化）：入驻 ±10% → −480/+220 · 租金 ±10% → ±210 · 政策兑现 −30% → −450 · 冠名/服务 −30% → −420",
              size=11, color=INK)
 
     # ============ 30. Phase 5 扉页 ============
