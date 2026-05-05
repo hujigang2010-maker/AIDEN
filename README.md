@@ -9,8 +9,8 @@
 
 ## 商务汇报 PPT
 
-- [docs/deck/GS-iDrive-Hub-招商方案.pptx](docs/deck/GS-iDrive-Hub-招商方案.pptx) — 22 页 16:9 商务汇报版（封面 / 议程 / 一页摘要 / 5 阶段 8 任务 / 投决建议 / 致谢）
-- 生成脚本：[scripts/build_pptx.py](scripts/build_pptx.py)（依赖 `python-pptx`）
+- [docs/deck/GS-iDrive-Hub-招商方案.pptx](docs/deck/GS-iDrive-Hub-招商方案.pptx) — **35 页 16:9 商务汇报版**（封面 / 议程 / 摘要 / 区位 / SWOT / 5 阶段 8 任务 + 5 张链主一页纸 + 服务包 + 报价单 + 风险矩阵 / 投决建议 / 致谢）
+- 生成脚本：[scripts/build_pptx.py](scripts/build_pptx.py)（依赖 `python-pptx`，模块化函数 `anchor_one_pager()` / `section_cover()` 便于二次扩页）
 - 中文字体：WenQuanYi Micro Hei（系统默认）；如需替换为 PingFang/Source Han，编辑脚本顶部 `CN_FONT` 即可
 - 重新生成：`pip install python-pptx && python3 scripts/build_pptx.py`
 
