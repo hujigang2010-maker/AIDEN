@@ -9,10 +9,33 @@
 
 ## 商务汇报 PPT
 
-- [docs/deck/GS-iDrive-Hub-招商方案.pptx](docs/deck/GS-iDrive-Hub-招商方案.pptx) — **35 页 16:9 商务汇报版**（封面 / 议程 / 摘要 / 区位 / SWOT / 5 阶段 8 任务 + 5 张链主一页纸 + 服务包 + 报价单 + 风险矩阵 / 投决建议 / 致谢）
+- [docs/deck/GS-iDrive-Hub-招商方案.pptx](docs/deck/GS-iDrive-Hub-招商方案.pptx) — **45 页 16:9 商务汇报版**（封面 / 议程 / 摘要 / 区位 / SWOT / 5 阶段 8 任务 + 5 张链主一页纸 + 服务包 + 报价单 + 风险矩阵 + **谈判策略 4 页** + **冠松资源协同** + **22 人组织架构** + **薪酬带宽** + **KPI 仪表盘** + **FAQ** + **文档索引** / 投决建议 / 致谢）
 - 生成脚本：[scripts/build_pptx.py](scripts/build_pptx.py)（依赖 `python-pptx`，模块化函数 `anchor_one_pager()` / `section_cover()` 便于二次扩页）
 - 中文字体：WenQuanYi Micro Hei（系统默认）；如需替换为 PingFang/Source Han，编辑脚本顶部 `CN_FONT` 即可
 - 重新生成：`pip install python-pptx && python3 scripts/build_pptx.py`
+
+## 法务文档（Word · 草案口径）
+
+> 由 [`scripts/build_legal_docs.py`](scripts/build_legal_docs.py) 一键生成；签约前由法务最终定稿。
+
+- [docs/legal/01-合作协议-链主总部租赁合同.docx](docs/legal/01-合作协议-链主总部租赁合同.docx) — 链主总部租赁合同（甲档样张，17 章 + 5 附件）
+- [docs/legal/02-合作协议-中介居间服务协议.docx](docs/legal/02-合作协议-中介居间服务协议.docx) — 5 家中介通用居间协议
+- [docs/legal/03-合作协议-联合实验室共建协议.docx](docs/legal/03-合作协议-联合实验室共建协议.docx) — 3F 联合研发实验室共建（链主 + 我方）
+- [docs/legal/04-合作协议-政府专班合作备忘录.docx](docs/legal/04-合作协议-政府专班合作备忘录.docx) — 静安区政府 × 冠松集团 战略 MOU
+
+## 财务测算 Excel
+
+> 由 [`scripts/build_finance_xlsx.py`](scripts/build_finance_xlsx.py) 一键生成；含 8 个 Sheet。
+
+- [docs/finance/财务测算与商务模型.xlsx](docs/finance/财务测算与商务模型.xlsx)
+  - Sheet 1：摘要 Dashboard
+  - Sheet 2：假设与参数（黄色单元格可调）
+  - Sheet 3：三年损益（含柱状图）
+  - Sheet 4：36 个月滚动现金流（含折线图）
+  - Sheet 5：入驻爬坡进度（链主 + 生态）
+  - Sheet 6：单/双变量敏感性矩阵
+  - Sheet 7：22 人薪酬带宽
+  - Sheet 8：链主谈判让步阶梯计算器
 
 ## 目录索引
 
@@ -28,6 +51,7 @@
 | 任务 | 文档 | 主要交付 |
 | --- | --- | --- |
 | 任务 3 · 链主企业攻坚 | [docs/phase2-execution/03-anchor-tenant-tracker.md](docs/phase2-execution/03-anchor-tenant-tracker.md) | TOP5 进度表 + 每家一页纸定制提案（华为 / 百度 / 小鹏 / 地平线 / Momenta） |
+| 任务 3 附录 · 谈判策略 | [docs/phase2-execution/03b-negotiation-playbook.md](docs/phase2-execution/03b-negotiation-playbook.md) | 链主/政府/中介/生态 四类谈判 Playbook + 让步阶梯 + 24 条话术 + 红线 |
 | 任务 4 · 生态企业招商漏斗 | [docs/phase2-execution/04-ecosystem-funnel.md](docs/phase2-execution/04-ecosystem-funnel.md) | 300 家库结构 + 漏斗 + 中介策略 |
 |  | [docs/phase2-execution/04-ecosystem-target-db.csv](docs/phase2-execution/04-ecosystem-target-db.csv) | 300 家目标企业数据库样表 |
 |  | [docs/phase2-execution/04-broker-agreement-template.md](docs/phase2-execution/04-broker-agreement-template.md) | 中介合作协议模板（要点版） |
@@ -51,6 +75,7 @@
 | 任务 | 文档 | 主要交付 |
 | --- | --- | --- |
 | 任务 8 · 12 个月执行计划 | [docs/phase5-rollout/08-execution-plan.md](docs/phase5-rollout/08-execution-plan.md) | 里程碑甘特图 + 4 人核心团队 + 22 人扩编 + RACI 分工 + 运营 SOP |
+| 任务 8 附录 · 22 人 JD | [docs/phase5-rollout/08b-team-and-jd.md](docs/phase5-rollout/08b-team-and-jd.md) | 22 个岗位详细 JD + 薪酬带宽 + KPI + 招聘节奏 + 期权激励机制 |
 
 ---
 

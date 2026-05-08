@@ -1458,6 +1458,407 @@ def build():
              "风险委员会按月评审；任何风险升至「红」状态，72 小时内升级至集团董事长 + 项目总监 + 法务三方专项会",
              size=10, italic=True, color=GREY)
 
+    # ====================================================================
+    # ============ v1.2 新增：谈判 / 团队 / 资源 / KPI / FAQ / 索引 =======
+    # ====================================================================
+
+    # ============ 新 1. 谈判策略总览 · 四类对手 ============
+    s = new_slide(prs)
+    add_chrome(s, prs, page_no=0, phase_label="附 · 谈判策略",
+               page_title="谈判策略总览 · 四类对手画像",
+               subtitle="链主 / 政府 / 中介 / 生态客户 · 不同节奏 · 不同主谈 · 统一原则")
+    quads_n = [
+        ("I · 链主", "CEO / 总裁 / CTO + 政府事务 + 法务\n\n主谈：项目总监 + 集团董事长\n备谈：GR + 法务\n\n节奏：30–90 天 5 轮\n（建联 → 踏勘 → TS → 合同 → 落定）",
+         NAVY),
+        ("II · 政府", "区委书记 / 区长 / 副区长 / 区投促办 / 市经信委\n\n主谈：GR 总监 + 集团董事长\n备谈：项目总监\n\n节奏：7–30 天 3 轮\n（投促办 → 副区长 → 四套班子）",
+         BLUE),
+        ("III · 中介", "经纪团队 GM / Sr. Director\n\n主谈：招商总监\n备谈：销售经理 + 法务\n\n节奏：7–14 天 2 轮\n（议价 → 签约 + 启动会）",
+         GOLD),
+        ("IV · 生态客户", "创始人 / CEO / HR / 行政\n\n主谈：招商经理\n备谈：销售经理 + 客户成功\n\n节奏：14–30 天 3 轮\n（电话 → 踏勘 → 合同）",
+         GREEN),
+    ]
+    qw = Inches(6.15); qh = Inches(2.85)
+    positions = [(Inches(0.5), Inches(1.20)), (Inches(6.85), Inches(1.20)),
+                 (Inches(0.5), Inches(4.20)), (Inches(6.85), Inches(4.20))]
+    for (px, py), (t, d, c) in zip(positions, quads_n):
+        add_rect(s, px, py, qw, qh, fill=CLOUD, line=LINE)
+        add_rect(s, px, py, qw, Inches(0.55), fill=c)
+        add_text(s, px + Inches(0.15), py + Inches(0.05), qw - Inches(0.3), Inches(0.45),
+                 t, size=18, bold=True, color=GOLD if c == NAVY else WHITE, anchor=MSO_ANCHOR.MIDDLE)
+        add_text(s, px + Inches(0.20), py + Inches(0.65), qw - Inches(0.4), qh - Inches(0.75),
+                 d, size=11, color=INK)
+
+    # ============ 新 2. 链主谈判 · 5 轮节奏 + 三层底线 ============
+    s = new_slide(prs)
+    add_chrome(s, prs, page_no=0, phase_label="附 · 谈判策略",
+               page_title="链主谈判 · 5 轮节奏 + 三层底线",
+               subtitle="谈判前必须内部明确底线（绿/黄/红）· 超线立即休会请示")
+    # 左：5 轮节奏
+    add_text(s, Inches(0.5), Inches(1.15), Inches(6), Inches(0.4),
+             "5 轮谈判节奏（30–90 天）", size=14, bold=True, color=NAVY)
+    rounds = [
+        ("R1 建联", "T+0", "项目总监送一页纸提案", BLUE),
+        ("R2 踏勘", "T+15d", "现场踏勘 + 报价单", BLUE),
+        ("R3 议定", "T+45d", "Term Sheet + 财务对比", GOLD),
+        ("R4 合同", "T+75d", "合同条款逐条 + 法务", PURPLE),
+        ("R5 落定", "T+90d", "签约 + 区领导见证", GREEN),
+    ]
+    for i, (r, t, d, c) in enumerate(rounds):
+        y = Inches(1.55) + Inches(1.0) * i
+        add_rect(s, Inches(0.5), y, Inches(0.85), Inches(0.85), fill=c)
+        add_text(s, Inches(0.5), y, Inches(0.85), Inches(0.4), r,
+                 size=11, bold=True, color=NAVY if c == GOLD else WHITE,
+                 align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        add_text(s, Inches(0.5), y + Inches(0.42), Inches(0.85), Inches(0.4), t,
+                 size=10, bold=True, color=NAVY if c == GOLD else WHITE,
+                 align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        add_rect(s, Inches(1.40), y, Inches(5.1), Inches(0.85), fill=CLOUD, line=LINE)
+        add_text(s, Inches(1.55), y, Inches(4.95), Inches(0.85),
+                 d, size=12, color=INK, anchor=MSO_ANCHOR.MIDDLE)
+
+    # 右：三层底线
+    add_text(s, Inches(7.0), Inches(1.15), Inches(6), Inches(0.4),
+             "三层底线（红/黄/绿）", size=14, bold=True, color=NAVY)
+    bottom_header = ["条款", "🟢 理想", "🟡 目标", "🔴 底线"]
+    bottom_rows = [
+        ["起始租金 元/㎡·天", "6.5", "5.8", "5.0"],
+        ["免租期 (月)", "9", "15", "24"],
+        ["装补 元/㎡", "600", "1,000", "1,500"],
+        ["合同期 (年)", "8", "6", "5"],
+        ["履约保证 (月)", "6", "6", "3"],
+        ["调价机制", "每3y max(CPI,5%)", "每3y max(CPI,4%)", "每5y max(CPI,3%)"],
+        ["政策返还", "80% 三年", "80% 三年+50%两年", "80% 三年+30%两年"],
+        ["楼宇冠名 (年)", "5", "5", "3"],
+    ]
+    add_table(s, Inches(7.0), Inches(1.55), Inches(6.0), Inches(4.8),
+              bottom_header, bottom_rows,
+              col_widths=[Inches(2.0), Inches(1.3), Inches(1.4), Inches(1.3)],
+              header_size=10, body_size=9, body_align=PP_ALIGN.CENTER)
+    add_rect(s, Inches(7.0), Inches(6.50), Inches(6.0), Inches(0.40), fill=NAVY)
+    add_text(s, Inches(7.15), Inches(6.50), Inches(5.7), Inches(0.40),
+             "超过授权区间立即休会请示集团董事长 · 不在书面承诺政府未确认事项",
+             size=10, bold=True, color=GOLD, anchor=MSO_ANCHOR.MIDDLE)
+
+    # ============ 新 3. 链主让步阶梯（Concession Ladder） ============
+    s = new_slide(prs)
+    add_chrome(s, prs, page_no=0, phase_label="附 · 谈判策略",
+               page_title="链主让步阶梯 · 每让一步必有「换」",
+               subtitle="5 步让步 · 对应 NPV 影响 · 严禁无条件让步")
+    add_text(s, Inches(0.5), Inches(1.15), Inches(12), Inches(0.4),
+             "让步阶梯（Concession Ladder）", size=14, bold=True, color=NAVY)
+    add_rect(s, Inches(0.5), Inches(1.55), Inches(12.3), Emu(20000), fill=GOLD)
+
+    ladder_header = ["步", "我方让步", "幅度", "NPV 影响 (万元)", "对方对等承诺", "授权层"]
+    ladder_rows = [
+        ["1", "起始租金 6.5 → 6.0 元/㎡·天", "−7.7%", "−550", "8 年长租 + 6 个月履约", "项目总监"],
+        ["2", "免租期 12 → 15 个月", "+25%", "−240", "装补封顶 1,000/㎡（不浮动）", "项目总监"],
+        ["3", "装补 800 → 1,000 元/㎡", "+25%", "−67", "楼宇冠名 5 年 + 9 月主旨", "项目总监"],
+        ["4", "政策返还 70% → 80%", "+14%", "−340", "以政府专班书面文件兑现", "GR + 集团董事长"],
+        ["5", "续约权（涨幅封顶 5%）", "—", "−90", "退租赔偿 ≥ 60% 政策返还", "项目总监"],
+        ["🔴", "底线：5.0 / 24 / 1,500 / 5 年", "—", "−1,500+", "超线请示集团董事长", "集团董事长"],
+    ]
+    add_table(s, Inches(0.5), Inches(1.75), Inches(12.3), Inches(4.5),
+              ladder_header, ladder_rows,
+              col_widths=[Inches(0.6), Inches(3.8), Inches(1.0), Inches(1.8),
+                          Inches(3.4), Inches(1.7)],
+              header_size=11, body_size=10)
+
+    add_rect(s, Inches(0.5), Inches(6.4), Inches(12.3), Inches(0.55), fill=NAVY)
+    add_text(s, Inches(0.7), Inches(6.42), Inches(12.0), Inches(0.50),
+             "★ 让步原则：每让一步必带条件 · 小步多次 · 让 5 次小步胜过让 1 次大步 · 24h 内出书面纪要",
+             size=11, bold=True, color=GOLD, anchor=MSO_ANCHOR.MIDDLE)
+
+    # ============ 新 4. 政府 / 中介 / 生态 谈判要点 ============
+    s = new_slide(prs)
+    add_chrome(s, prs, page_no=0, phase_label="附 · 谈判策略",
+               page_title="政府 / 中介 / 生态 三类谈判要点",
+               subtitle="不同对手不同打法 · 但都共享统一谈判工具箱")
+    cards = [
+        ("II · 政府谈判", "7–30 天 3 轮", NAVY,
+         ["从「汇报」到「专班」",
+          "从「政策包」到「一企一策」",
+          "从「承诺」到「书面」",
+          "从「返还」到「确认函」",
+          "从「口袋书」到「政绩素材」"]),
+        ("III · 中介谈判", "7–14 天 2 轮", BLUE,
+         ["佣金 80% → 100% ⇄ 任务量 60 家",
+          "链主 → 120% ⇄ 30 天首报独家",
+          "续约 → 30% ⇄ 12 个月退租扣回",
+          "链主一事一议最高 150% ⇄ 季度评比",
+          "末位淘汰 → 下季度佣金档下调 20%"]),
+        ("IV · 生态客户", "14–30 天 3 轮", GOLD,
+         ["免租 4 → 6 个月 ⇄ 3+3 年合同",
+          "装补 300 → 500 ⇄ 不可单方退租",
+          "物业费 28 → 26 ⇄ 年涨 3% 不可调",
+          "客户类型差异化报价（算法/硬件/早期）",
+          "踏勘后 3–5 天内主动让一步"]),
+    ]
+    cw = Inches(4.10); cy = Inches(1.20); ch = Inches(5.5); gx = Inches(0.10)
+    for i, (t, sub, c, bullets) in enumerate(cards):
+        x = Inches(0.5) + (cw + gx) * i
+        add_rect(s, x, cy, cw, ch, fill=CLOUD, line=LINE)
+        add_rect(s, x, cy, cw, Inches(1.05), fill=c)
+        add_text(s, x, cy + Inches(0.10), cw, Inches(0.5), t,
+                 size=18, bold=True, color=GOLD if c == NAVY else WHITE,
+                 align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        add_text(s, x, cy + Inches(0.55), cw, Inches(0.4), sub,
+                 size=12, color=GOLD if c == NAVY else WHITE, align=PP_ALIGN.CENTER)
+        for j, b in enumerate(bullets):
+            yy = cy + Inches(1.30) + Inches(0.85) * j
+            add_round(s, x + Inches(0.20), yy + Inches(0.18), Inches(0.30), Inches(0.30),
+                      str(j + 1), fill=c, color=WHITE if c != GOLD else NAVY,
+                      size=12, bold=True)
+            add_text(s, x + Inches(0.55), yy, cw - Inches(0.7), Inches(0.85),
+                     b, size=11, color=INK)
+
+    # ============ 新 5. 冠松集团资源协同地图 ============
+    s = new_slide(prs)
+    add_chrome(s, prs, page_no=0, phase_label="附 · 资源",
+               page_title="冠松集团资源协同地图",
+               subtitle="把集团 4S 网络 / 保险 / 二手车 / 融资租赁 转化为园区独家壁垒")
+    # 中心：冠松
+    cx = Inches(6.0); cy = Inches(3.6)
+    add_rect(s, cx, cy, Inches(2.4), Inches(0.8), fill=NAVY)
+    add_text(s, cx, cy, Inches(2.4), Inches(0.8), "冠松集团",
+             size=20, bold=True, color=GOLD, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+
+    # 6 个外围资源
+    resources = [
+        ("4S 经销网络", "华东 60+ 网点 · 鸿蒙智行 / 主流品牌\n→ 链主售后渠道协同", BLUE,
+         Inches(0.5), Inches(1.2)),
+        ("保险事业部", "智驾保险 / 定损 / 理赔大数据\n→ Apollo / Momenta 数据闭环",  PURPLE,
+         Inches(9.5), Inches(1.2)),
+        ("二手智驾车", "二手车检测 / 翻新 / 流通\n→ 智驾车残值数据 + 数据采集",  GOLD,
+         Inches(0.5), Inches(3.3)),
+        ("融资租赁子公司", "测试车队融资租赁 / 设备分期\n→ 链主测试车队成本压缩",  GREEN,
+         Inches(9.5), Inches(3.3)),
+        ("冠松车队（试运营）", "现役车队 100+ · 数据采集与标注\n→ 城市 NOA 数据池",  BLUE,
+         Inches(0.5), Inches(5.4)),
+        ("冠松产业基金", "战投部 + 5 亿规模\n→ 园区 LP/GP 双模式 + 跟投权", NAVY,
+         Inches(9.5), Inches(5.4)),
+    ]
+    for name, desc, c, x, y in resources:
+        add_rect(s, x, y, Inches(3.3), Inches(1.4), fill=CLOUD, line=LINE)
+        add_rect(s, x, y, Inches(3.3), Inches(0.45), fill=c)
+        add_text(s, x, y, Inches(3.3), Inches(0.45), name,
+                 size=12, bold=True, color=NAVY if c == GOLD else WHITE,
+                 align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        add_text(s, x + Inches(0.1), y + Inches(0.50), Inches(3.1), Inches(0.85),
+                 desc, size=10, color=INK)
+        # 连线到中心
+        line_shp = s.shapes.add_connector(1, x + Inches(1.65), y + Inches(0.7),
+                                          cx + Inches(1.2), cy + Inches(0.4))
+        line_shp.line.color.rgb = GOLD
+        line_shp.line.width = Pt(1.5)
+
+    # ============ 新 6. 22 人组织架构图 ============
+    s = new_slide(prs)
+    add_chrome(s, prs, page_no=0, phase_label="附 · 团队",
+               page_title="22 人稳态组织架构图",
+               subtitle="启动 4 人 → 扩张 14 人 → 稳态 22 人 · 8 个部门")
+    # 集团董事长
+    cx = Inches(5.5); cw = Inches(2.5)
+    add_round(s, cx, Inches(1.05), cw, Inches(0.45),
+              "集团董事长", fill=NAVY, color=GOLD, size=14, bold=True)
+    # 项目总监
+    add_round(s, cx, Inches(1.75), cw, Inches(0.45),
+              "项目总监 GM (1)", fill=GOLD, color=NAVY, size=14, bold=True)
+    # 连线
+    line_shp = s.shapes.add_connector(1, cx + Inches(1.25), Inches(1.5),
+                                      cx + Inches(1.25), Inches(1.75))
+    line_shp.line.color.rgb = NAVY
+    line_shp.line.width = Pt(1.5)
+
+    # 8 个部门
+    depts = [
+        ("GR / 政府事务", "GR 总监\n+ 政府事务经理", "2 人", BLUE,    Inches(0.5),  Inches(2.6)),
+        ("招商部", "招商总监\n+ 高招(链主)\n+ 招商×4 + 销售助理\n+ 客户成功", "8 人", GOLD,    Inches(2.05), Inches(2.6)),
+        ("运营部", "运营总监\n+ 物业 / IT / 测试场\n+ 行政主任", "5 人", PURPLE,  Inches(3.6),  Inches(2.6)),
+        ("市场 / 品牌", "市场总监\n+ 品牌 / 活动经理", "3 人", GREEN,  Inches(5.15), Inches(2.6)),
+        ("法务 / 合规", "法务经理", "1 人", RED,    Inches(6.7),  Inches(2.6)),
+        ("财务", "财务经理", "1 人", BLUE,   Inches(8.25), Inches(2.6)),
+        ("HR / 行政", "HR 经理", "1 人", NAVY,   Inches(9.8),  Inches(2.6)),
+        ("项目办公室", "项目总监", "1 人", GOLD,   Inches(11.35),Inches(2.6)),
+    ]
+    for name, roles, headcount, c, x, y in depts:
+        # 部门名
+        add_rect(s, x, y, Inches(1.5), Inches(0.45), fill=c)
+        add_text(s, x, y, Inches(1.5), Inches(0.45), name,
+                 size=11, bold=True, color=NAVY if c == GOLD else WHITE,
+                 align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        # 人数
+        add_round(s, x + Inches(0.4), y + Inches(0.50), Inches(0.7), Inches(0.30),
+                  headcount, fill=NAVY, color=GOLD, size=10, bold=True)
+        # 角色
+        add_rect(s, x, y + Inches(0.85), Inches(1.5), Inches(2.5), fill=CLOUD, line=LINE)
+        add_text(s, x + Inches(0.05), y + Inches(0.92), Inches(1.4), Inches(2.4),
+                 roles, size=9, color=INK)
+        # 连线到项目总监
+        line_shp = s.shapes.add_connector(1, x + Inches(0.75), y,
+                                          cx + Inches(1.25), Inches(2.20))
+        line_shp.line.color.rgb = LINE
+        line_shp.line.width = Pt(0.75)
+
+    # 底部统计
+    add_rect(s, Inches(0.5), Inches(6.40), Inches(12.3), Inches(0.55), fill=NAVY)
+    add_text(s, Inches(0.7), Inches(6.42), Inches(12.0), Inches(0.50),
+             "扩编节奏：M1–3 启动 4 人 → M4–6 扩 14 人 → M7–12 稳态 22 人 · 年度人力预算 ¥400→¥1,500→¥2,200 万",
+             size=11, bold=True, color=GOLD, anchor=MSO_ANCHOR.MIDDLE)
+
+    # ============ 新 7. 22 人薪酬带宽 ============
+    s = new_slide(prs)
+    add_chrome(s, prs, page_no=0, phase_label="附 · 团队",
+               page_title="22 人岗位薪酬带宽（年度税前 · 万元）",
+               subtitle="按等级分组 · D 总监级 / S 资深 / M 经理 / E 普通")
+    sal_header = ["#", "岗位", "等级", "年包带宽", "Y3 中位包", "入职时点"]
+    sal_rows = [
+        ["1", "项目总监 GM", "D", "120–180", "150", "M1"],
+        ["2", "GR 总监", "D", "80–130", "105", "M1"],
+        ["3", "招商总监", "D", "80–120", "100", "M1"],
+        ["4", "运营总监", "D", "60–90", "75", "M1"],
+        ["5", "市场总监", "D", "60–85", "72", "M4"],
+        ["6", "高级招商经理（链主）", "S", "50–80", "65", "M4"],
+        ["7", "法务经理", "S", "45–70", "57", "M4"],
+        ["8", "IT / 数据经理", "S", "40–60", "50", "M4"],
+        ["9", "测试场协同主任", "S", "40–55", "47", "M4"],
+        ["10", "财务经理", "S", "40–60", "50", "M4"],
+        ["11", "物业主管", "S", "25–35", "30", "M4"],
+        ["12", "招商经理 ×4 (算法/硬件/中介/自拓)", "M", "30–45", "38", "M4"],
+        ["13", "政府事务经理", "M", "40–60", "50", "M4"],
+        ["14", "客户成功经理", "M", "35–50", "42", "M7"],
+        ["15", "品牌 / 活动经理 ×2", "M", "25–40", "32", "M4/M7"],
+        ["16", "行政主任 / HR 经理", "M", "20–45", "32", "M7"],
+        ["17", "销售助理 / CRM", "E", "15–22", "19", "M4"],
+    ]
+    add_table(s, Inches(0.5), Inches(1.2), Inches(12.3), Inches(5.0),
+              sal_header, sal_rows,
+              col_widths=[Inches(0.5), Inches(4.5), Inches(0.8), Inches(2.0),
+                          Inches(1.5), Inches(3.0)],
+              header_size=11, body_size=10)
+    # 等级图例
+    add_rect(s, Inches(0.5), Inches(6.30), Inches(12.3), Inches(0.55), fill=NAVY)
+    add_text(s, Inches(0.7), Inches(6.32), Inches(12.0), Inches(0.50),
+             "★ 链主签约项目奖：项目总监 0.5–0.8% · 招商总监 0.3–0.5% · GR 总监 0.2–0.3% · 期权池核心 8 人 5–8% / 4 年 vesting",
+             size=11, bold=True, color=GOLD, anchor=MSO_ANCHOR.MIDDLE)
+
+    # ============ 新 8. KPI 仪表盘 ============
+    s = new_slide(prs)
+    add_chrome(s, prs, page_no=0, phase_label="附 · KPI",
+               page_title="12 个月 KPI 仪表盘",
+               subtitle="周度更新 · 月度复盘 · 季度董事会校准")
+    kpis_dash = [
+        ("团队人数", "M3 4 / M6 14 / M9 18 / M12 22", BLUE),
+        ("链主 Term Sheet", "M3 1 / M6 2 / M9 3 / M12 4", GOLD),
+        ("链主签约", "M3 0 / M6 1 / M9 2 / M12 3", NAVY),
+        ("生态签约 (累计)", "M3 0 / M6 12 / M9 30 / M12 60", PURPLE),
+        ("入驻率", "M6 18% / M9 45% / M12 65%", GREEN),
+        ("漏斗线索 (累计)", "M3 100 / M6 250 / M9 350 / M12 500", BLUE),
+        ("政府汇报次数", "M3 4 / M6 8 / M9 12 / M12 16", GOLD),
+        ("媒体曝光指数", "M3 1x / M6 3x / M9 8x / M12 12x", PURPLE),
+        ("客户 NPS", "M6 60 / M9 65 / M12 70", GREEN),
+        ("现金安全垫 (月)", "M3 12 / M6 9 / M9 7 / M12 8", NAVY),
+        ("收入 (累计 · 万)", "M6 250 / M9 600 / M12 1,022", BLUE),
+        ("EBITDA 率", "M6 −80% / M9 −60% / M12 −206%", RED),
+    ]
+    cols = 4; rows = 3
+    cw = Inches(3.10); ch = Inches(1.55); gx = Inches(0.05); gy = Inches(0.10)
+    for idx, (lbl, val, c) in enumerate(kpis_dash):
+        col = idx % cols; row = idx // cols
+        x = Inches(0.5) + (cw + gx) * col
+        y = Inches(1.20) + (ch + gy) * row
+        add_rect(s, x, y, cw, ch, fill=CLOUD, line=LINE)
+        add_rect(s, x, y, cw, Inches(0.40), fill=c)
+        add_text(s, x, y, cw, Inches(0.40), lbl,
+                 size=12, bold=True, color=NAVY if c == GOLD else WHITE,
+                 align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        add_text(s, x + Inches(0.15), y + Inches(0.50), cw - Inches(0.3), Inches(1.0),
+                 val, size=11, color=INK)
+
+    add_rect(s, Inches(0.5), Inches(6.50), Inches(12.3), Inches(0.45), fill=NAVY)
+    add_text(s, Inches(0.7), Inches(6.50), Inches(12.0), Inches(0.45),
+             "周一招商例会 · 周三 GR 例会 · 周五项目复盘 · 月度运营会 · 季度董事会",
+             size=11, bold=True, color=GOLD, anchor=MSO_ANCHOR.MIDDLE)
+
+    # ============ 新 9. Q&A · 高频问答 FAQ ============
+    s = new_slide(prs)
+    add_chrome(s, prs, page_no=0, phase_label="附 · FAQ",
+               page_title="高频问答 FAQ · 投决会 / 政府汇报常见 10 问",
+               subtitle="提前备答 · 有数据 / 有口径 / 有书面材料兜底")
+    faq_header = ["#", "常见问题", "应对口径"]
+    faq_rows = [
+        ["1", "C6 用地下能注册链主总部吗？", "已与区规划/经委预先沟通\"用途相符性\"，链主主体名单经备案"],
+        ["2", "Y3 入驻率 92% 会做不到吗？", "敏感性：入驻 -10% 仍能 Y3 EBITDA 转正；最坏情形不会黑洞"],
+        ["3", "链主 TOP5 跑了怎么办？", "备选名单（蔚来/理想/大众问问/Smart）+ 8/9F 分租方案"],
+        ["4", "户外测试场没有，能算智驾园吗？", "三段式方案：园区静态 + 1.5km 路测延伸 + 嘉定/临港会员"],
+        ["5", "政策返还万一兑现不了？", "区财政书面确认函；改分期口径；不构成项目方独立担保"],
+        ["6", "9 月发布会能拉多少政府嘉宾？", "目标 25 位（市级 1 + 区级 5 + 委办 19），区委书记/区长背书"],
+        ["7", "Y0 启动现金需求多少？", "约 3 亿；Y1 期初安全垫 ≥ 12 个月；Y3 期末现金 + 1.28 亿"],
+        ["8", "如果价格被压到 5.0 元/㎡·天？", "已超底线红线；立即休会请示集团董事长"],
+        ["9", "公关与媒体年度预算多少？", "1,500–2,000 万/年；目标全媒体阅读 ≥ 1 亿，央/新华 ≥ 6 篇"],
+        ["10", "退出机制有吗？", "Y3 后视入驻率推 REITs 化；集团信用借款托底；A 栋分租预案"],
+    ]
+    add_table(s, Inches(0.5), Inches(1.2), Inches(12.3), Inches(5.5),
+              faq_header, faq_rows,
+              col_widths=[Inches(0.5), Inches(4.5), Inches(7.3)],
+              header_size=11, body_size=10)
+    add_rect(s, Inches(0.5), Inches(6.85), Inches(12.3), Inches(0.10), fill=GOLD)
+
+    # ============ 新 10. 文档索引 · 决策包 ============
+    s = new_slide(prs)
+    add_chrome(s, prs, page_no=0, phase_label="附 · 索引",
+               page_title="决策文档包 · 一键直达",
+               subtitle="本汇报后续支撑材料清单 · 法务 / 财务 / 商务 / 团队 全覆盖")
+
+    add_text(s, Inches(0.5), Inches(1.10), Inches(6), Inches(0.4),
+             "📑 商务汇报 PPT 与策略", size=14, bold=True, color=NAVY)
+    pkgs = [
+        ("项目总览", "README.md", BLUE),
+        ("产业定位报告", "docs/phase1-strategy/01-industry-positioning-report.md", BLUE),
+        ("空间规划（9F 楼层）", "docs/phase1-strategy/02-space-planning.md", BLUE),
+        ("链主攻坚 + 5 张一页纸", "docs/phase2-execution/03-anchor-tenant-tracker.md", GOLD),
+        ("谈判策略 Playbook", "docs/phase2-execution/03b-negotiation-playbook.md", GOLD),
+        ("生态漏斗 + 中介策略", "docs/phase2-execution/04-ecosystem-funnel.md", GOLD),
+        ("政府关系 + 政策包", "docs/phase2-execution/05-government-relations.md", GOLD),
+        ("品牌活动 + 9 月发布会", "docs/phase3-brand/06-launch-and-events.md", PURPLE),
+        ("商业条款 + 报价单", "docs/phase4-commercial/07-pricing-and-contract.md", GREEN),
+        ("12 个月执行计划", "docs/phase5-rollout/08-execution-plan.md", NAVY),
+        ("22 人 JD + 薪酬 + KPI", "docs/phase5-rollout/08b-team-and-jd.md", NAVY),
+    ]
+    for i, (name, path, c) in enumerate(pkgs):
+        y = Inches(1.55) + Inches(0.42) * i
+        add_rect(s, Inches(0.5), y, Inches(0.18), Inches(0.34), fill=c)
+        add_rect(s, Inches(0.7), y, Inches(6.0), Inches(0.34), fill=CLOUD, line=LINE)
+        add_text(s, Inches(0.85), y, Inches(2.5), Inches(0.34), name,
+                 size=10, bold=True, color=NAVY, anchor=MSO_ANCHOR.MIDDLE)
+        add_text(s, Inches(3.30), y, Inches(3.30), Inches(0.34), path,
+                 size=8, color=GREY, anchor=MSO_ANCHOR.MIDDLE, italic=True)
+
+    add_text(s, Inches(7.0), Inches(1.10), Inches(6), Inches(0.4),
+             "📋 法务 Word + 财务 Excel", size=14, bold=True, color=NAVY)
+    legal_pkgs = [
+        ("链主总部租赁合同 (草案)", "docs/legal/01-合作协议-链主总部租赁合同.docx", RED),
+        ("中介居间服务协议 (草案)", "docs/legal/02-合作协议-中介居间服务协议.docx", RED),
+        ("联合实验室共建协议 (草案)", "docs/legal/03-合作协议-联合实验室共建协议.docx", RED),
+        ("政府专班合作备忘录 (草案)", "docs/legal/04-合作协议-政府专班合作备忘录.docx", RED),
+        ("财务测算与商务模型 (8 Sheet)", "docs/finance/财务测算与商务模型.xlsx", GOLD),
+        ("─ Sheet 1：摘要 Dashboard", "—", GREY),
+        ("─ Sheet 2：假设与参数", "—", GREY),
+        ("─ Sheet 3：三年损益", "—", GREY),
+        ("─ Sheet 4：月度滚动现金流（36m）", "—", GREY),
+        ("─ Sheet 5：入驻进度爬坡（36m）", "—", GREY),
+        ("─ Sheet 6：双变量敏感性", "—", GREY),
+        ("─ Sheet 7：22 人薪酬带宽", "—", GREY),
+        ("─ Sheet 8：让步阶梯计算器", "—", GREY),
+    ]
+    for i, (name, path, c) in enumerate(legal_pkgs):
+        y = Inches(1.55) + Inches(0.36) * i
+        add_rect(s, Inches(7.0), y, Inches(0.18), Inches(0.30), fill=c)
+        add_rect(s, Inches(7.2), y, Inches(5.7), Inches(0.30), fill=CLOUD, line=LINE)
+        add_text(s, Inches(7.35), y, Inches(2.6), Inches(0.30), name,
+                 size=9, bold=(c != GREY), color=NAVY, anchor=MSO_ANCHOR.MIDDLE)
+        add_text(s, Inches(9.95), y, Inches(2.95), Inches(0.30), path,
+                 size=8, color=GREY, anchor=MSO_ANCHOR.MIDDLE, italic=True)
+
     # ============ 34. 投决建议 ============
     s = new_slide(prs)
     add_chrome(s, prs, page_no=0, phase_label="07 · 投决建议",
