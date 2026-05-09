@@ -2,10 +2,22 @@
 
 本目录包含本次峰会对外招商使用的全部文档：
 
-| 文件 | 用途 |
-| --- | --- |
-| `2026峰会赞助方案.md` | 完整版招商赞助方案（Sponsorship Prospectus），用于对企业、机构、潜在赞助方的正式提报 |
-| `招募推文-朋友圈版.md` | 微信群/朋友圈/公众号短文版本，用于二次转发与最后召集 |
+| 文件 | 类型 | 用途 |
+| --- | --- | --- |
+| `2026峰会赞助方案.md` | Markdown | 完整版招商赞助方案（Sponsorship Prospectus），用于对企业、机构、潜在赞助方的正式提报 |
+| `招募推文-朋友圈版.md` | Markdown | 微信群/朋友圈/公众号短文版本，用于二次转发与最后召集 |
+| `赞助协议-2026峰会.docx` | Word | 标准赞助合作协议（含签署页与《附件一·赞助权益清单》），可直接修改后打印用印 |
+| `2026峰会赞助介绍.pptx` | PowerPoint | 12 页 16:9 招商提报演示稿（封面 → 概览 → 价值 → 受众 → 嘉宾 → 议程 → 方案 → 总冠名 → 权益矩阵 → 置换 → 时间线 → CTA） |
+| `赞助归集表-2026峰会.xlsx` | Excel | 多 Sheet 招商归集工作簿（仪表盘 / 赞助登记 / 权益对照 / 资源置换 / 物料交付 / 收款明细 / 嘉宾对接 / 字段说明），含公式与下拉选项 |
+
+> 三个 Office 文件由 `scripts/` 下的 Python 脚本生成，可随时按需修改并重新构建：
+>
+> ```bash
+> pip install python-docx python-pptx openpyxl
+> python3 scripts/build_word.py
+> python3 scripts/build_ppt.py
+> python3 scripts/build_excel.py
+> ```
 
 ## 关键信息速览
 
