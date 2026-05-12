@@ -36,13 +36,33 @@ This site is a static, self-contained reimagining of the project's 28-slide inve
 
 ```
 .
-├── index.html              # Single-page layout (all four chapters)
+├── index.html                # Single-page layout (all four chapters)
 ├── assets/
-│   ├── css/
-│   │   └── styles.css      # Theme, layout, components, responsive rules
-│   └── js/
-│       └── main.js         # Nav scroll state, chapter rail, reveals, counters, parallax
+│   ├── css/styles.css        # Theme, layout, components, responsive rules
+│   └── js/main.js            # Nav scroll, chapter rail, reveals, counters, parallax
+├── scripts/
+│   ├── build_ppt.py          # Generator: 创意 24 页 PPT
+│   └── build_docx.py         # Generator: 项目介绍与解读 Word
+├── docs/
+│   ├── README.md             # Document folder index
+│   ├── 森马国际运营中心-项目介绍.pptx           # Creative presentation deck
+│   └── 森马国际运营中心-项目介绍与解读.docx     # Interpretation Word doc
 └── README.md
+```
+
+## Documents (PPT + Word)
+
+In addition to the web showcase, the `docs/` folder ships two distributable assets generated from `scripts/`:
+
+- **`森马国际运营中心-项目介绍.pptx`** — 24-slide 16:9 deck in a dark "潮玩元宇宙" style (cover, contents, 4 chapter dividers, content slides, core-value summary, vision quote, THANKS).
+- **`森马国际运营中心-项目介绍与解读.docx`** — long-form Word document with 8 chapters: Background, Overview, Industry, Commercial, Operations, Value Assessment, Risks & Recommendations, Closing — each major section accompanied by a colored "解读 / Interpretation" callout.
+
+Both files are regenerated with:
+
+```bash
+pip install python-pptx python-docx
+python3 scripts/build_ppt.py
+python3 scripts/build_docx.py
 ```
 
 ## Run Locally
