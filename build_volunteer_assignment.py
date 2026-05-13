@@ -271,6 +271,78 @@ CONTINGENCIES = [
 # =============================================================================
 # 物资清单
 # =============================================================================
+# =============================================================================
+# 实际志愿者分配（基于 5/13 志愿者讨论会报名意向）
+# 字段：组别, 岗位, 姓名, 报名意向, 背景关键词, 分配理由
+# =============================================================================
+ASSIGNMENT = [
+    # A 统筹协调组
+    ("A", "总策划/总指挥",      "Aiden（您）",        "—",         "会长/总策划",
+     "全场最高决策，对接主办方"),
+    ("A", "执行总监/副指挥",    "李振春（春子）",      "未明示",     "科创背景、会务经验、主动承担",
+     "经验+主动性最适合做总策划副手"),
+    ("A", "文件秘书/经院联络", "蔡萍",              "B/G",       "复旦经院培训负责人(退休)，时间充裕",
+     "经院校友资源+培训组织经验金牌秘书；G机动可随时调"),
+
+    # B 嘉宾接待组（9）
+    ("B", "组长 / 副总指挥（B）","蒋珊",              "B",         "AI赛道、跨校研究院、俱乐部运营",
+     "AI圈层资源+运营履历，最适合带 B 组主导嘉宾对接"),
+    ("B", "VIP 1V1（港澳/海外）","朱铭喆",            "B/C → B",   "友邦保险、香港城市大学上海联络人",
+     "港校联络人，专业形象，适合涉外/港澳嘉宾陪同"),
+    ("B", "VIP 1V1（主旨嘉宾）","JasonCAI 蔡杰",      "B/G → B",   "复旦MBA、设计咨询",
+     "MBA形象+设计审美，适合白硕、夏春等主旨嘉宾1V1"),
+    ("B", "VIP 1V1（金融/投融资嘉宾）","Winny",        "B/C/F均可 → B","职业空窗期，时间最充裕",
+     "时间最充裕，可全程紧贴一位VIP"),
+    ("B", "机构嘉宾对接",      "吕志翔",            "B",         "12级、投融资",
+     "投融资人脉，对接 招行/长江证券/金浦 等机构嘉宾"),
+    ("B", "签到台主管",        "彭常丽",            "B/F+签到会务 → B","金融、二次参与、自报签到会务",
+     "已熟悉流程，自荐签到，直接做签到台总控"),
+    ("B", "签到/动线引导",     "Angi 郭杰",          "B",         "国际贸易、首次参与",
+     "新人友好岗位，标准化动作易上手"),
+    ("B", "动线引导",          "LV",                "B",         "—",
+     "标准引导岗"),
+    ("B", "动线引导（备机动）","高辰辰",            "B（听安排）","同浦汇、首次参与",
+     "明确说听安排，安排在B并打机动标，缺人时支援其他组"),
+
+    # C 会务执行组（5）
+    ("C", "组长 / 流程总控+计时","王珏",              "C",         "中信证券，自报会务+倒计时",
+     "自己主动认领倒计时，金融人严谨,适合做C组长"),
+    ("C", "副组长 / 舞台引导+物料","陈潇 Kelly",      "C",         "广告活动一条龙、有自有设备",
+     "策划+广告专业，可主导舞台呈现+应急设备"),
+    ("C", "主持对接/串场",     "冯墨 律师",          "C/B → C",   "刚从私募转律师，时间灵活，沟通强",
+     "律师沟通力+时间灵活，最适合协调主持脚本"),
+    ("C", "PPT/资料对接",      "黄璐 Lucius",        "B/C → C",   "养老研究、首次参与",
+     "新人友好的细致岗，提前24h收齐讲者PPT"),
+    ("C", "颁奖执行/嘉宾对接", "徐胜博",            "未明示",     "一二级创投、K12教育",
+     "创投背景对接颁奖机构得体，主动报名安排合适岗位"),
+
+    # D 媒体宣传组（3）
+    ("D", "组长 / 摄影摄像+自媒体","张蒙 AEGISTAR",  "D",         "大宗行/房地产/AI数据中心、本身做自媒体",
+     "唯一自报D且本身做自媒体，天然D组长"),
+    ("D", "直播+新媒体",       "皮尔德小号",         "未明示",     "互联网→城市更新、资源对接强",
+     "互联网经验+资源对接力，主管直播与新媒体即时发布"),
+    ("D", "媒体接待+会后传播", "马磊",              "未明示",     "跨界生态融入",
+     "跨界资源+对外沟通，负责财经/科技媒体接待"),
+
+    # E 技术支持组（1+外包）
+    ("E", "技术总监(志愿端)",  "随圣博 Joshua-Sui",  "B/E/G → E", "—（自荐E）",
+     "唯一勾选E的志愿者，对接场馆AV外包团队即可"),
+
+    # F 后勤保障组（3）
+    ("F", "组长 / 场地+物料",  "朱俊峰",            "F",         "19级、建筑+市场开发、复旦网球协会运营",
+     "建筑专业+协会长期运营，最熟物料/场地落地"),
+    ("F", "副组长 / 茶歇+晚宴", "王胜（20级）",      "B/F → F",   "第三次参加，资深",
+     "三次参加经验最足，副组长稳盘"),
+    ("F", "物料+茶歇执行",     "刘严",              "F",         "自报到F",
+     "明确自报F，标准执行岗"),
+
+    # G 应急安全/机动组（2）
+    ("G", "组长 / 安保+机动调配","康诺斯 Conns",     "B/G → G",   "设计改造+碳资产",
+     "B/G均可的人里背景最综合，做机动组长可跨组顶人"),
+    ("G", "法务/舆情口径+机动","张卓 盈科",         "B/G → G",   "财税律师",
+     "律师身份处理舆情口径与突发法务最稳"),
+]
+
 MATERIALS = [
     ("会务", "议程手册",          "600 份",  "F", "T-3 印刷完成"),
     ("会务", "桌牌/嘉宾胸卡",     "全员",    "F", "T-1 完成"),
@@ -513,29 +585,70 @@ def build_excel(path):
     for i, w in enumerate(widths, 1):
         ws.column_dimensions[get_column_letter(i)].width = w
 
-    # ----- Sheet7 志愿者花名册（空模板） -----
-    ws = wb.create_sheet("07-志愿者花名册")
-    ws["A1"] = "志愿者花名册（请填）"
+    # ----- Sheet7 实际志愿者分配（基于 5/13 讨论会） -----
+    ws = wb.create_sheet("07-志愿者实际分配")
+    ws["A1"] = "志愿者实际分配（基于 2026-05-13 志愿者讨论会报名意向）"
     ws["A1"].font = title_font
-    ws.merge_cells("A1:H1")
+    ws.merge_cells("A1:F1")
+    ws["A2"] = "共 25 人；偏好→实分 表示该志愿者勾选了多组、最终分配的组别"
+    ws["A2"].font = Font(name="微软雅黑", size=10, color="808080")
+    ws.merge_cells("A2:F2")
 
-    headers = ["组别","岗位","姓名","手机","微信","到场时间","应急联系人","备注"]
+    headers = ["组别","岗位","姓名","报名意向","背景关键词","分配理由"]
+    row = 4
+    for i, h in enumerate(headers, 1):
+        ws.cell(row=row, column=i, value=h)
+    style_header(ws, row, len(headers))
+
+    group_colors = {g["code"]: g["color"] for g in GROUPS}
+
+    row += 1
+    start = row
+    for code, post, name, pref, bg, reason in ASSIGNMENT:
+        ws.cell(row=row, column=1, value=code)
+        ws.cell(row=row, column=2, value=post)
+        ws.cell(row=row, column=3, value=name)
+        ws.cell(row=row, column=4, value=pref)
+        ws.cell(row=row, column=5, value=bg)
+        ws.cell(row=row, column=6, value=reason)
+        # group code cell colored
+        c = ws.cell(row=row, column=1)
+        c.fill = PatternFill("solid", fgColor=group_colors.get(code, "808080"))
+        c.font = Font(name="微软雅黑", size=11, bold=True, color="FFFFFF")
+        c.alignment = center
+        row += 1
+    end = row - 1
+    style_body(ws, start, end, len(headers))
+    # restyle group code column
+    for r in range(start, end+1):
+        c = ws.cell(row=r, column=1)
+        c.alignment = center
+        ws.row_dimensions[r].height = 34
+    widths = [8, 26, 20, 16, 38, 50]
+    for i, w in enumerate(widths, 1):
+        ws.column_dimensions[get_column_letter(i)].width = w
+
+    # ----- Sheet8 联络方式空模板（请填） -----
+    ws = wb.create_sheet("08-志愿者联络表")
+    ws["A1"] = "志愿者联络方式（请补全）"
+    ws["A1"].font = title_font
+    ws.merge_cells("A1:G1")
+
+    headers = ["组别","姓名","手机","微信","到场时间","应急联系人","备注"]
     row = 3
     for i, h in enumerate(headers, 1):
         ws.cell(row=row, column=i, value=h)
     style_header(ws, row, len(headers))
 
-    # 预填空行
     row += 1
     start = row
-    for g in GROUPS:
-        for sub_name, _ in g["sub_duties"]:
-            ws.cell(row=row, column=1, value=f"{g['code']} {g['name']}")
-            ws.cell(row=row, column=2, value=sub_name)
-            row += 1
+    for code, post, name, *_ in ASSIGNMENT:
+        ws.cell(row=row, column=1, value=f"{code} - {post}")
+        ws.cell(row=row, column=2, value=name)
+        row += 1
     end = row - 1
     style_body(ws, start, end, len(headers))
-    widths = [18, 18, 12, 16, 16, 16, 16, 24]
+    widths = [22, 18, 16, 16, 18, 18, 24]
     for i, w in enumerate(widths, 1):
         ws.column_dimensions[get_column_letter(i)].width = w
 
@@ -761,6 +874,90 @@ def build_ppt(path):
         add_textbox(s, Inches(0.6), Inches(7.0), Inches(12), Inches(0.4),
                     f"对接：A 统筹协调组   |   对讲机频道：见物资页",
                     size=10, color="808080")
+
+    # ============ 实际人员分配总表 ============
+    s = prs.slides.add_slide(blank)
+    slide_title_bar(s, "03+  实际人员分配（基于 5/13 志愿者讨论会）",
+                    "共 25 人；优先尊重个人偏好，再按背景做岗位细分")
+
+    # 按组分块布局
+    blocks = {}
+    for code, post, name, pref, bg, reason in ASSIGNMENT:
+        blocks.setdefault(code, []).append((post, name, pref))
+
+    # 7 组 -> 4列x2行 (E只有1人，可与A并列)
+    layout = [
+        ("A", 0.55, 1.45, 4.0, 2.3),
+        ("B", 4.75, 1.45, 4.0, 5.8),
+        ("C", 8.95, 1.45, 4.0, 3.5),
+        ("D", 0.55, 3.95, 4.0, 1.9),
+        ("E", 0.55, 5.95, 1.9, 1.3),
+        ("F", 2.65, 5.95, 1.9, 1.3),
+        ("G", 8.95, 5.15, 4.0, 2.1),
+    ]
+    color_map = {g["code"]: g["color"] for g in GROUPS}
+    name_map  = {g["code"]: g["name"] for g in GROUPS}
+
+    for code, x, y, w, h in layout:
+        # header
+        add_rect(s, Inches(x), Inches(y), Inches(w), Inches(0.42),
+                 color_map[code],
+                 text=f"{code} {name_map[code]}（{len(blocks[code])}人）",
+                 text_size=11, text_bold=True)
+        # body
+        add_rect(s, Inches(x), Inches(y+0.42), Inches(w), Inches(h-0.42),
+                 "FFFFFF", line_hex=color_map[code])
+        # list members
+        line_h = (h - 0.5) / max(len(blocks[code]), 1)
+        for i, (post, name, pref) in enumerate(blocks[code]):
+            top = Inches(y + 0.45 + i*line_h)
+            add_textbox(s, Inches(x+0.1), top, Inches(w-0.2),
+                        Inches(line_h),
+                        f"• {name}  ［{post}］  意向:{pref}",
+                        size=8, color="262626", anchor=MSO_ANCHOR.MIDDLE)
+
+    # ============ 5/13 会议结论 & 待办 ============
+    s = prs.slides.add_slide(blank)
+    slide_title_bar(s, "5/13 志愿者讨论会  会议结论 & 待办")
+
+    # 左：会议结论
+    add_rect(s, Inches(0.55), Inches(1.4), Inches(6.0), Inches(0.5),
+             "1F4E79", text="会议结论（4 条优化共识）",
+             text_size=14, text_bold=True)
+    conclusions = [
+        ("分工与协作", "各组按任务量配人，组长负责内部协调；设机动应急G组跨组顶人；各组建独立沟通群"),
+        ("流程效率",   "任务量与 Milestone 提前细化；所有节点提前 1-2 天预留缓冲"),
+        ("交响乐环节", "扩大宣传，发往届视频预热，与嘉宾/观众多互动"),
+        ("协作机制",   "活动前组织一次组长见面会，互相熟悉、快速找到对接人"),
+    ]
+    for i, (k, v) in enumerate(conclusions):
+        top = Inches(2.0 + i*1.25)
+        add_rect(s, Inches(0.55), top, Inches(1.5), Inches(1.15),
+                 "2E75B6", text=k, text_size=11, text_bold=True)
+        add_rect(s, Inches(2.1), top, Inches(4.45), Inches(1.15),
+                 "F2F8FD", line_hex="2E75B6", text=v,
+                 text_size=10, text_color="262626",
+                 align=PP_ALIGN.LEFT)
+
+    # 右：待办
+    add_rect(s, Inches(6.85), Inches(1.4), Inches(6.0), Inches(0.5),
+             "C00000", text="待办（Aiden + 各组组长）",
+             text_size=14, text_bold=True)
+    todos = [
+        ("Aiden",  "形成详细分工表（本表）；私信招募 ①近期有时间者 ②有会务经验者 ③有赞助经验/资源者"),
+        ("各组长","内部完成细化分工；建立独立沟通群；T-7 前提交本组 Milestone"),
+        ("会议",   "另开 2 次会：① 各组任务进一步细化  ② 线上彩排"),
+        ("特别行动","组长见面会（A+B/C/D/E/F/G 组长 共 8 人）建议 T-10 前完成"),
+        ("交响乐", "F 组对接陆家嘴乐团 + D 组准备往届视频预热"),
+    ]
+    for i, (k, v) in enumerate(todos):
+        top = Inches(2.0 + i*1.0)
+        add_rect(s, Inches(6.85), top, Inches(1.5), Inches(0.9),
+                 "ED7D31", text=k, text_size=11, text_bold=True)
+        add_rect(s, Inches(8.4), top, Inches(4.45), Inches(0.9),
+                 "FFF7EC", line_hex="ED7D31", text=v,
+                 text_size=10, text_color="262626",
+                 align=PP_ALIGN.LEFT)
 
     # ============ Slide 阶段任务矩阵（拆分两张） ============
     # 第一张：T-7 / T-1 / 当日布置
