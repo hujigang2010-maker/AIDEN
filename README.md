@@ -21,18 +21,38 @@
 
 ## 🚀 快速开始
 
+### 本地开发
+
 ```bash
 npm install
-npm run dev
+npm run dev          # 打开 http://localhost:5173
 ```
 
-打开 `http://localhost:5173`。
-
-构建生产版本：
+### 本地构建并预览
 
 ```bash
-npm run build
-npm run preview
+npm run build        # 产物输出到 dist/
+npm run preview      # 预览 dist/ 在 http://localhost:4173
+```
+
+### 部署到 GitHub Pages（自动）
+
+项目已自带 `.github/workflows/deploy.yml`。把代码推到 `main` 分支后：
+
+1. 打开 GitHub 仓库 → **Settings → Pages**
+2. 「Build and deployment」选择 **GitHub Actions**
+3. 等待 Actions 跑完，会得到一个 `https://<your-name>.github.io/<repo>/` 的访问地址
+
+部署到子路径时，Vite 的 `base` 已在构建时通过环境变量 `BASE_PATH` 注入，workflow 会自动设置为 `/<repo>/`。
+
+### 部署到根路径（如 Netlify / Vercel / 自有 nginx）
+
+直接 `npm run build`，把 `dist/` 上传或托管即可。
+
+### 部署到任意子路径
+
+```bash
+BASE_PATH=/my-sub-path/ npm run build
 ```
 
 ## 📖 使用说明
