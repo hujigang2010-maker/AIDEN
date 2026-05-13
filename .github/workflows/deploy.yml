@@ -36,6 +36,12 @@ jobs:
           BASE_PATH: /${{ github.event.repository.name }}/
         run: npm run build
 
+      - name: Build single-file standalone bundle
+        run: |
+          mkdir -p dist-singlefile
+          SINGLE_FILE=1 npx vite build --outDir dist-singlefile
+          cp dist-singlefile/index.html dist/standalone.html
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 

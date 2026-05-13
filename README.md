@@ -55,6 +55,14 @@ npm run preview      # 预览 dist/ 在 http://localhost:4173
 BASE_PATH=/my-sub-path/ npm run build
 ```
 
+### 单文件离线版（无需服务器，直接双击打开即可使用）
+
+```bash
+SINGLE_FILE=1 npm run build      # 产物为 dist/index.html (~395 KB)
+```
+
+把生成的 `dist/index.html` 复制到任意地方，**双击在浏览器里打开**即可使用 —— 所有 JS / CSS / 字体都已经内联，无需后端、无需联网。
+
 ## 📖 使用说明
 
 1. 在左侧编辑器写 Markdown，右侧实时看到公众号样式预览
