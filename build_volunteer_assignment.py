@@ -54,7 +54,7 @@ GROUPS = [
         "sub_duties": [
             ("总指挥（胡继刚）",       "全场最高决策；与主办/协办方对接；流程总控"),
             ("执行总监+文件总管（韦佳玉）","对接 B/C/D/E/F/G 六组；议程脚本/会议记录/复盘主持；对讲机调度中枢"),
-            ("科创资源对接专员（春子）","聚焦科创赞助谈判+科技展位推进（自己提的科技展示建议自己主推）"),
+            ("嘉宾邀约+赞助落位（春子）","①嘉宾邀约确认与全程跟进（外地交通/住宿）  ②赞助资源对接落位（腾讯/华为/科技展位）"),
         ],
     },
     {
@@ -281,8 +281,8 @@ ASSIGNMENT = [
      "全场最高决策；对接主办方与赞助方（腾讯/华为）；与春子私下推进科技展位"),
     ("A", "执行总监/副总策划+文件总管","韦佳玉",        "—（总策划点名协助统筹）","23级校友、股权一级市场投融资、参与多届",
      "扩职：原李振春的文件秘书并入；统筹议程脚本/会议记录/各组协调/复盘主持"),
-    ("A", "科创资源对接专员",     "李振春（春子）",     "未明示",     "经院校友、科创业务、有会务/签到经验",
-     "★职责再细分：聚焦科创赞助谈判+科技展位推进（自己提出的科技展示建议由他与总策划主推）"),
+    ("A", "嘉宾邀约+赞助资源落位","李振春（春子）",     "未明示",     "经院校友、科创业务、有会务/签到经验",
+     "★职责聚焦：①嘉宾邀约确认与全程跟进（含外地嘉宾交通/住宿）②赞助资源对接落位（腾讯/华为/科技展位）"),
 
     # B 嘉宾接待组（5）—— Winny 调出至 F
     ("B", "组长",                 "王胜（20级）",      "B/F → B",   "第三次参加最资深",
@@ -357,7 +357,7 @@ CORE_CIRCLE = [
     ("王胜",         "B 组组长",     "三次参加，老带新"),
     ("葛九明",       "D 组组长",     "总策划指定，统筹媒体宣传"),
     ("刘严",         "G 组组长",     "应急安保+机动跨组调配"),
-    ("李振春 春子", "A 组科创对接", "科创赞助/科技展位推进"),
+    ("李振春 春子", "A 组嘉宾+赞助落位","嘉宾邀约确认/跟进 + 赞助资源对接落位"),
 ]
 
 # =============================================================================
@@ -376,8 +376,8 @@ OPT_SUGGESTIONS = [
     ("张卓",   "嘉宾发言时间提前打招呼+主持人收口",
      "采纳", "C",   "C 组 T-3 致电每位讲者+主持人对脚本（见 10-嘉宾时间SOP）"),
     ("春子",   "增加科技类展示（AI/机器人/芯片小海报）",
-     "暂缓→单列待办", "A",
-     "需赞助谈判，春子+胡继刚 私下推进，不进 5/22 必交付"),
+     "采纳", "A",
+     "★春子已任 A 组嘉宾邀约+赞助资源落位专员；该建议作为其 KPI 之一推进"),
     ("蒋珊",   "扩大交响乐宣传，视频号发去年录像预告",
      "采纳", "D",   "D 组皮尔德小号负责，T-7 起每日 1 条；T-3 集中投流"),
     ("蒋珊",   "演奏者走位与观众互动",
@@ -478,7 +478,8 @@ LIAISON_LIST = [
     ("入场安检/可疑人员",         "G 组 康诺斯",       "G 组 刘严"),
     ("交响乐团对接",             "F 组 朱俊峰",      "韦佳玉（去年负责）"),
     ("晚宴席位/敬酒/现场对接",   "F 组 Winny",       "B 组 王胜"),
-    ("科创展位/赞助谈判",        "A 组 春子",         "胡继刚"),
+    ("嘉宾邀约确认/全程跟进",   "A 组 春子",          "韦佳玉 → 胡继刚"),
+    ("赞助资源/物料落位",        "A 组 春子",          "F 组 朱俊峰 → 胡继刚"),
     ("议程脚本/会议记录/复盘",   "A 组 韦佳玉",       "胡继刚"),
     ("无法解决/重大决策",        "韦佳玉 → 胡继刚",  "—"),
 ]
@@ -488,7 +489,7 @@ LIAISON_LIST = [
 # =============================================================================
 BACKUP_ROLES = [
     # (组, A 角组长, B 角备份, 备注)
-    ("A 统筹",   "胡继刚（总策划）", "韦佳玉",        "总策划缺席由韦佳玉全权代行；春子专注科创赞助"),
+    ("A 统筹",   "胡继刚（总策划）", "韦佳玉",        "总策划缺席由韦佳玉全权代行；春子专注嘉宾邀约+赞助资源落位"),
     ("B 接待",   "王胜",          "朱铭喆",        "A 角第三次参加最资深；B 角港校联络人"),
     ("C 会务",   "陈潇 Kelly",    "王珏",          "A 角 20 年策划经验+自有设备；B 角中信证券计时主控"),
     ("D 媒体",   "葛九明",        "张蒙 AEGISTAR", "A 角总策划指定；B 角自媒体+摄影核心岗"),
@@ -1065,15 +1066,18 @@ def add_rect(slide, left, top, width, height, fill_hex,
     return shp
 
 def slide_title_bar(slide, title, subtitle=None, primary="1F4E79"):
-    # Top color bar
+    # 标题主条
     add_rect(slide, Inches(0), Inches(0), Inches(13.333), Inches(0.85),
              primary)
-    add_textbox(slide, Inches(0.4), Inches(0.1), Inches(12.5), Inches(0.65),
-                title, size=22, bold=True, color="FFFFFF",
+    # 装饰副条（橙色细条增强视觉层次）
+    add_rect(slide, Inches(0), Inches(0.85), Inches(13.333), Inches(0.05),
+             "ED7D31")
+    add_textbox(slide, Inches(0.5), Inches(0.08), Inches(12.5), Inches(0.7),
+                title, size=24, bold=True, color="FFFFFF",
                 anchor=MSO_ANCHOR.MIDDLE)
     if subtitle:
-        add_textbox(slide, Inches(0.4), Inches(0.92), Inches(12.5),
-                    Inches(0.35), subtitle, size=12, color="595959")
+        add_textbox(slide, Inches(0.5), Inches(0.93), Inches(12.5),
+                    Inches(0.4), subtitle, size=13, color="595959")
 
 def build_ppt(path):
     prs = Presentation()
@@ -1083,24 +1087,23 @@ def build_ppt(path):
 
     # ============ Slide 1 封面 ============
     s = prs.slides.add_slide(blank)
-    # 背景
     add_rect(s, 0, 0, prs.slide_width, prs.slide_height, "0B2545")
     # 装饰条
-    add_rect(s, Inches(0), Inches(2.7), Inches(13.333), Inches(0.08), "ED7D31")
-    add_rect(s, Inches(0), Inches(5.0), Inches(13.333), Inches(0.04), "ED7D31")
-    add_textbox(s, Inches(0.6), Inches(1.2), Inches(12), Inches(1.0),
-                EVENT_TITLE, size=34, bold=True, color="FFFFFF")
-    add_textbox(s, Inches(0.6), Inches(2.05), Inches(12), Inches(0.6),
-                EVENT_SUB, size=18, color="F2F2F2")
-    add_textbox(s, Inches(0.6), Inches(3.0), Inches(12), Inches(0.6),
-                "志愿者职能分工方案 · 总策划工作底稿", size=22, bold=True, color="FFC000")
-    add_textbox(s, Inches(0.6), Inches(3.7), Inches(12), Inches(0.5),
-                f"时间：{EVENT_DATE}", size=14, color="D9D9D9")
-    add_textbox(s, Inches(0.6), Inches(4.1), Inches(12), Inches(0.5),
-                f"地点：{EVENT_VENUE}", size=14, color="D9D9D9")
+    add_rect(s, Inches(0), Inches(2.85), Inches(13.333), Inches(0.10), "ED7D31")
+    add_rect(s, Inches(0), Inches(5.1), Inches(13.333), Inches(0.05), "ED7D31")
+    add_textbox(s, Inches(0.6), Inches(1.0), Inches(12), Inches(1.2),
+                EVENT_TITLE, size=40, bold=True, color="FFFFFF")
+    add_textbox(s, Inches(0.6), Inches(2.05), Inches(12), Inches(0.7),
+                EVENT_SUB, size=22, color="F2F2F2")
+    add_textbox(s, Inches(0.6), Inches(3.15), Inches(12), Inches(0.7),
+                "志愿者职能分工方案 · 总策划工作底稿", size=26, bold=True, color="FFC000")
+    add_textbox(s, Inches(0.6), Inches(3.95), Inches(12), Inches(0.5),
+                f"时间：{EVENT_DATE}", size=16, color="D9D9D9")
+    add_textbox(s, Inches(0.6), Inches(4.5), Inches(12), Inches(0.5),
+                f"地点：{EVENT_VENUE}", size=16, color="D9D9D9")
     add_textbox(s, Inches(0.6), Inches(6.5), Inches(12), Inches(0.5),
                 "主办：北大经院上海校友会 · 复旦大学住房政策研究中心",
-                size=12, color="BFBFBF")
+                size=14, color="BFBFBF")
 
     # ============ Slide 2 目录 ============
     s = prs.slides.add_slide(blank)
@@ -1120,12 +1123,12 @@ def build_ppt(path):
         c = i % 2
         left = Inches(0.7 + c*6.2)
         top  = Inches(1.6 + r*1.1)
-        add_rect(s, left, top, Inches(0.9), Inches(0.9), "1F4E79",
-                 text=it.split()[0], text_size=20, text_bold=True,
+        add_rect(s, left, top, Inches(1.0), Inches(0.95), "1F4E79",
+                 text=it.split()[0], text_size=22, text_bold=True,
                  corner_radius=True)
-        add_textbox(s, left+Inches(1.1), top+Inches(0.15), Inches(5),
-                    Inches(0.6), it[4:], size=16, color="262626",
-                    anchor=MSO_ANCHOR.MIDDLE)
+        add_textbox(s, left+Inches(1.2), top+Inches(0.15), Inches(5),
+                    Inches(0.65), it[4:], size=18, color="262626",
+                    anchor=MSO_ANCHOR.MIDDLE, bold=True)
 
     # ============ Slide 3 目标与原则 ============
     s = prs.slides.add_slide(blank)
@@ -1139,10 +1142,10 @@ def build_ppt(path):
     ]
     for i, (k, v) in enumerate(goals):
         top = Inches(1.5 + i*1.3)
-        add_rect(s, Inches(0.6), top, Inches(2.6), Inches(1.0),
-                 "C00000", text=k, text_size=18, text_bold=True)
-        add_rect(s, Inches(3.3), top, Inches(9.4), Inches(1.0),
-                 "F8F8F8", line_hex="D9D9D9", text=v, text_size=14,
+        add_rect(s, Inches(0.6), top, Inches(2.6), Inches(1.05),
+                 "C00000", text=k, text_size=20, text_bold=True)
+        add_rect(s, Inches(3.3), top, Inches(9.4), Inches(1.05),
+                 "F8F8F8", line_hex="D9D9D9", text=v, text_size=16,
                  text_color="262626", align=PP_ALIGN.LEFT)
 
     # ============ Slide 4 组织架构图 ============
@@ -1150,17 +1153,17 @@ def build_ppt(path):
     slide_title_bar(s, "02  志愿者组织架构", "总策划 → 执行总监(韦佳玉) → 7 大职能组")
 
     # 总策划
-    add_rect(s, Inches(5.5), Inches(1.4), Inches(2.3), Inches(0.8),
-             "0B2545", text="总策划 胡继刚（您）", text_size=16, text_bold=True,
+    add_rect(s, Inches(5.0), Inches(1.4), Inches(3.3), Inches(0.85),
+             "0B2545", text="总策划  胡继刚（您）", text_size=18, text_bold=True,
              corner_radius=True)
     # 执行总监
-    add_rect(s, Inches(5.5), Inches(2.5), Inches(2.3), Inches(0.7),
-             "1F4E79", text="A 统筹协调组（韦佳玉 执行总监）", text_size=11,
+    add_rect(s, Inches(5.0), Inches(2.55), Inches(3.3), Inches(0.75),
+             "1F4E79", text="A 统筹协调组（韦佳玉 执行总监）", text_size=13,
              text_bold=True, corner_radius=True)
     # 连接线（用细矩形模拟）
-    add_rect(s, Inches(6.6), Inches(2.2), Inches(0.05), Inches(0.3), "BFBFBF")
-    add_rect(s, Inches(6.6), Inches(3.2), Inches(0.05), Inches(0.3), "BFBFBF")
-    add_rect(s, Inches(0.7), Inches(3.5), Inches(11.95), Inches(0.04), "BFBFBF")
+    add_rect(s, Inches(6.6), Inches(2.25), Inches(0.05), Inches(0.3), "BFBFBF")
+    add_rect(s, Inches(6.6), Inches(3.3), Inches(0.05), Inches(0.3), "BFBFBF")
+    add_rect(s, Inches(0.7), Inches(3.6), Inches(11.95), Inches(0.04), "BFBFBF")
 
     # 6 个子组
     sub_groups = GROUPS[1:]  # B-G
@@ -1171,25 +1174,25 @@ def build_ppt(path):
     for i, g in enumerate(sub_groups):
         left = Inches(0.7 + i*(box_w+gap))
         # 引线
-        add_rect(s, left + Inches(box_w/2 - 0.025), Inches(3.5),
+        add_rect(s, left + Inches(box_w/2 - 0.025), Inches(3.6),
                  Inches(0.05), Inches(0.4), "BFBFBF")
-        add_rect(s, left, Inches(3.9), Inches(box_w), Inches(0.6),
+        add_rect(s, left, Inches(4.0), Inches(box_w), Inches(0.65),
                  g["color"], text=f"{g['code']} {g['name']}",
-                 text_size=13, text_bold=True, corner_radius=True)
-        # 人数 + 负责人
-        add_rect(s, left, Inches(4.55), Inches(box_w), Inches(1.6),
+                 text_size=14, text_bold=True, corner_radius=True)
+        # 负责人 + 人数 + 职责
+        add_rect(s, left, Inches(4.7), Inches(box_w), Inches(1.7),
                  "F8F8F8", line_hex=g["color"])
-        add_textbox(s, left+Inches(0.1), Inches(4.6), Inches(box_w-0.2),
+        add_textbox(s, left+Inches(0.1), Inches(4.75), Inches(box_w-0.2),
                     Inches(0.4), f"负责人：{g['leader']}",
-                    size=10, color="262626", bold=True)
-        add_textbox(s, left+Inches(0.1), Inches(4.95), Inches(box_w-0.2),
-                    Inches(0.3), f"人数：{g['size']}", size=10, color="595959")
-        add_textbox(s, left+Inches(0.1), Inches(5.25), Inches(box_w-0.2),
-                    Inches(0.9), g["duty_summary"], size=9, color="404040")
+                    size=11, color="262626", bold=True)
+        add_textbox(s, left+Inches(0.1), Inches(5.15), Inches(box_w-0.2),
+                    Inches(0.32), f"人数：{g['size']}", size=11, color="595959")
+        add_textbox(s, left+Inches(0.1), Inches(5.5), Inches(box_w-0.2),
+                    Inches(0.85), g["duty_summary"], size=10, color="404040")
 
-    add_textbox(s, Inches(0.7), Inches(6.5), Inches(12), Inches(0.5),
+    add_textbox(s, Inches(0.7), Inches(6.55), Inches(12), Inches(0.5),
                 "原则：每组设组长 1 人 → 直接对接执行总监 A 组 → A 组对您负责；对讲机分 3 频道（指挥/会务/后勤）",
-                size=12, color="C00000", bold=True)
+                size=13, color="C00000", bold=True)
 
     # ============ Slide 5-11 每组职责详情 ============
     for g in GROUPS:
@@ -1198,26 +1201,26 @@ def build_ppt(path):
                         f"负责人：{g['leader']}  |  建议人数：{g['size']}",
                         primary=g["color"])
 
-        add_rect(s, Inches(0.6), Inches(1.5), Inches(12.2), Inches(0.7),
+        add_rect(s, Inches(0.6), Inches(1.55), Inches(12.2), Inches(0.75),
                  "F2F2F2", line_hex=g["color"],
                  text=f"主要职责：{g['duty_summary']}",
-                 text_size=14, text_color="262626", align=PP_ALIGN.LEFT,
-                 anchor=MSO_ANCHOR.MIDDLE)
+                 text_size=15, text_bold=True, text_color="262626",
+                 align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.MIDDLE)
 
         n = len(g["sub_duties"])
-        row_h = (6.4 - 2.3) / max(n, 1)
+        row_h = (6.4 - 2.45) / max(n, 1)
         for i, (sub_name, sub_desc) in enumerate(g["sub_duties"]):
-            top = Inches(2.4 + i*row_h)
-            add_rect(s, Inches(0.6), top, Inches(2.6), Inches(row_h - 0.1),
+            top = Inches(2.5 + i*row_h)
+            add_rect(s, Inches(0.6), top, Inches(2.9), Inches(row_h - 0.1),
                      g["color"], text=f"{i+1}. {sub_name}",
-                     text_size=13, text_bold=True)
-            add_rect(s, Inches(3.3), top, Inches(9.5), Inches(row_h - 0.1),
+                     text_size=14, text_bold=True)
+            add_rect(s, Inches(3.6), top, Inches(9.2), Inches(row_h - 0.1),
                      "FFFFFF", line_hex="D9D9D9", text=sub_desc,
-                     text_size=12, text_color="262626", align=PP_ALIGN.LEFT)
+                     text_size=13, text_color="262626", align=PP_ALIGN.LEFT)
 
         add_textbox(s, Inches(0.6), Inches(7.0), Inches(12), Inches(0.4),
                     f"对接：A 统筹协调组   |   对讲机频道：见物资页",
-                    size=10, color="808080")
+                    size=11, color="808080")
 
     # ============ 本轮人员调整说明（v4） ============
     s = prs.slides.add_slide(blank)
@@ -1234,18 +1237,18 @@ def build_ppt(path):
         ("人员", "Winny：B → F 副组长（茶歇/晚宴主管 ★最适合）"),
         ("人员", "吕志翔：E → C（投融资非技术，回归会务）"),
         ("人员", "马磊：D → G（机动+媒体应急口径）"),
-        ("职责", "李振春：文件秘书 → 科创赞助专项（聚焦）"),
-        ("职责", "韦佳玉：执行总监 + 文件总管（接管李振春原职责）"),
+        ("职责", "李振春：① 嘉宾邀约+跟进  ② 赞助资源对接落位"),
+        ("职责", "韦佳玉：执行总监 + 文件总管"),
     ]
     row_h = 0.6
     for i, (k, v) in enumerate(moves):
         y = Inches(2.0 + i*row_h)
         color = {"组长": "C00000", "人员": "ED7D31", "职责": "1F4E79"}[k]
-        add_rect(s, Inches(0.55), y, Inches(0.9), Inches(row_h-0.08),
-                 color, text=k, text_size=10, text_bold=True)
-        add_rect(s, Inches(1.5), y, Inches(5.05), Inches(row_h-0.08),
+        add_rect(s, Inches(0.55), y, Inches(1.0), Inches(row_h-0.08),
+                 color, text=k, text_size=12, text_bold=True)
+        add_rect(s, Inches(1.6), y, Inches(4.95), Inches(row_h-0.08),
                  "FFFFFF", line_hex="D9D9D9", text=v,
-                 text_size=10, text_color="262626", align=PP_ALIGN.LEFT)
+                 text_size=12, text_color="262626", align=PP_ALIGN.LEFT)
 
     # 右侧：人数变化
     add_rect(s, Inches(6.85), Inches(1.4), Inches(6.0), Inches(0.5),
@@ -1254,11 +1257,11 @@ def build_ppt(path):
     headers = ["组", "v3", "v4", "变化", "组长 / 副组长"]
     widths  = [1.2, 0.7, 0.7, 0.9, 2.5]
     top = Inches(2.0)
-    head_h = 0.42
+    head_h = 0.48
     x = 6.85
     for h, w in zip(headers, widths):
         add_rect(s, Inches(x), top, Inches(w), Inches(head_h),
-                 "2E75B6", text=h, text_size=10, text_bold=True)
+                 "2E75B6", text=h, text_size=12, text_bold=True)
         x += w
     delta_data = [
         ("A 统筹",  "3", "3", "—",   "胡继刚 / 韦佳玉"),
@@ -1269,7 +1272,7 @@ def build_ppt(path):
         ("F 后勤",  "3", "3", "—",   "朱俊峰 / ★ Winny"),
         ("G 应急",  "3", "4", "↑ 1", "★ 刘严 / ★ 蔡萍"),
     ]
-    row_h = 0.55
+    row_h = 0.6
     for ri, row in enumerate(delta_data):
         y = Inches(2.0 + head_h + ri*row_h)
         x = 6.85
@@ -1282,9 +1285,11 @@ def build_ppt(path):
                 fill = "FFE4E4"; tcolor = "C00000"; tbold = True
             elif idx == 3 and "↑" in v:
                 fill = "E4FFE4"; tcolor = "548235"; tbold = True
+            elif idx == 0:
+                tbold = True
             add_rect(s, Inches(x), y, Inches(w), Inches(row_h),
                      fill, line_hex="D9D9D9", text=v,
-                     text_size=10, text_color=tcolor, text_bold=tbold,
+                     text_size=12, text_color=tcolor, text_bold=tbold,
                      align=PP_ALIGN.CENTER if idx<4 else PP_ALIGN.LEFT,
                      anchor=MSO_ANCHOR.MIDDLE)
             x += w
@@ -1316,16 +1321,16 @@ def build_ppt(path):
     col_w_bot = (avail_w - (n_bot-1)*0.15) / n_bot
 
     def draw_block(x, y, w, h, code):
-        add_rect(s, Inches(x), Inches(y), Inches(w), Inches(0.42),
+        add_rect(s, Inches(x), Inches(y), Inches(w), Inches(0.5),
                  color_map[code],
                  text=f"{code} {name_map[code]}（{len(blocks[code])}人）",
-                 text_size=12, text_bold=True)
-        add_rect(s, Inches(x), Inches(y+0.42), Inches(w), Inches(h-0.42),
+                 text_size=14, text_bold=True)
+        add_rect(s, Inches(x), Inches(y+0.5), Inches(w), Inches(h-0.5),
                  "FFFFFF", line_hex=color_map[code])
         members = blocks[code]
-        line_h = (h - 0.55) / max(len(members), 1)
+        line_h = (h - 0.6) / max(len(members), 1)
         for i, (post, name, pref) in enumerate(members):
-            top = Inches(y + 0.5 + i*line_h)
+            top = Inches(y + 0.55 + i*line_h)
             # 标记组长/副组长
             mark = ""
             if "组长" in post and "副" not in post:
@@ -1334,10 +1339,13 @@ def build_ppt(path):
                 mark = "☆"
             elif "总策划" in post or "执行总监" in post:
                 mark = "★"
+            is_lead = mark in ("★", "☆")
             add_textbox(s, Inches(x+0.1), top, Inches(w-0.2),
                         Inches(line_h),
                         f"{mark}  {name}  -  {post.split('/')[0].strip()}",
-                        size=9, color="262626", anchor=MSO_ANCHOR.MIDDLE)
+                        size=11, color="262626",
+                        bold=is_lead,
+                        anchor=MSO_ANCHOR.MIDDLE)
 
     for i, code in enumerate(cols_top):
         x = margin + i*(col_w_top + 0.15)
@@ -1353,14 +1361,14 @@ def build_ppt(path):
                     primary="C00000")
 
     # 表头
-    headers_w = [(1.4, "建议人"), (5.0, "建议内容"), (1.3, "处置"),
+    headers_w = [(1.5, "建议人"), (4.8, "建议内容"), (1.4, "处置"),
                  (1.0, "组"), (4.4, "落地动作")]
     top = Inches(1.5)
-    head_h = 0.42
+    head_h = 0.5
     x = 0.55
     for w, h in headers_w:
         add_rect(s, Inches(x), top, Inches(w), Inches(head_h),
-                 "1F4E79", text=h, text_size=10, text_bold=True)
+                 "1F4E79", text=h, text_size=13, text_bold=True)
         x += w
 
     status_color = {
@@ -1370,7 +1378,7 @@ def build_ppt(path):
         "暂缓→单列待办": "808080",
     }
     rows_per_slide = len(OPT_SUGGESTIONS)
-    row_h = (7.2 - 1.5 - 0.42) / rows_per_slide
+    row_h = (7.2 - 1.5 - 0.5) / rows_per_slide
     for ri, (sug, content, status, resp, act) in enumerate(OPT_SUGGESTIONS):
         y = Inches(1.5 + head_h + ri*row_h)
         x = 0.55
@@ -1379,12 +1387,12 @@ def build_ppt(path):
                  (headers_w[2][0], status, "FFFFFF", status_color.get(status, "808080")),
                  (headers_w[3][0], resp, "262626", "FFFFFF" if ri%2==0 else "F8F8F8"),
                  (headers_w[4][0], act, "262626", "FFFFFF" if ri%2==0 else "F8F8F8")]
-        for w, val, tcolor, fill in cells:
-            bold = (val == status and val in status_color)
+        for col_idx, (w, val, tcolor, fill) in enumerate(cells):
+            bold = (val == status and val in status_color) or col_idx in (0, 3)
             align = PP_ALIGN.CENTER if val == status else PP_ALIGN.LEFT
             add_rect(s, Inches(x), y, Inches(w), Inches(row_h),
                      fill, line_hex="D9D9D9", text=val,
-                     text_size=8, text_bold=bold, text_color=tcolor,
+                     text_size=10, text_bold=bold, text_color=tcolor,
                      align=align, anchor=MSO_ANCHOR.MIDDLE)
             x += w
 
@@ -1394,46 +1402,48 @@ def build_ppt(path):
                     "采纳王胜建议：组长备份；总策划 5/13 点名核心搭子")
 
     # 左：核心策划圈
-    add_rect(s, Inches(0.55), Inches(1.4), Inches(6.0), Inches(0.5),
+    add_rect(s, Inches(0.55), Inches(1.4), Inches(6.0), Inches(0.55),
              "0B2545", text="核心策划圈（7 人 · 总策划直管高频沟通）",
-             text_size=13, text_bold=True)
+             text_size=15, text_bold=True)
     for i, (name, role, fn) in enumerate(CORE_CIRCLE):
-        top = Inches(2.0 + i*0.75)
-        add_rect(s, Inches(0.55), top, Inches(1.7), Inches(0.65),
-                 "2E75B6", text=name, text_size=11, text_bold=True)
-        add_rect(s, Inches(2.3), top, Inches(1.6), Inches(0.65),
+        top = Inches(2.05 + i*0.74)
+        add_rect(s, Inches(0.55), top, Inches(1.7), Inches(0.66),
+                 "2E75B6", text=name, text_size=12, text_bold=True)
+        add_rect(s, Inches(2.3), top, Inches(1.7), Inches(0.66),
                  "F2F2F2", line_hex="2E75B6", text=role,
-                 text_size=10, text_color="262626")
-        add_rect(s, Inches(3.95), top, Inches(2.6), Inches(0.65),
+                 text_size=11, text_bold=True, text_color="262626")
+        add_rect(s, Inches(4.05), top, Inches(2.5), Inches(0.66),
                  "FFFFFF", line_hex="2E75B6", text=fn,
-                 text_size=9, text_color="404040", align=PP_ALIGN.LEFT)
+                 text_size=10, text_color="404040", align=PP_ALIGN.LEFT)
 
     # 右：组长 A/B 角
-    add_rect(s, Inches(6.85), Inches(1.4), Inches(6.0), Inches(0.5),
+    add_rect(s, Inches(6.85), Inches(1.4), Inches(6.0), Inches(0.55),
              "C00000", text="组长 A/B 角备份（采纳王胜建议）",
-             text_size=13, text_bold=True)
+             text_size=15, text_bold=True)
     headers = ["组", "A 角组长", "B 角备份"]
     widths  = [1.2, 1.8, 1.8]
-    top = Inches(2.0)
-    head_h = 0.42
+    top = Inches(2.05)
+    head_h = 0.5
     x = 6.85
     for h, w in zip(headers, widths):
         add_rect(s, Inches(x), top, Inches(w), Inches(head_h),
-                 "ED7D31", text=h, text_size=11, text_bold=True)
+                 "ED7D31", text=h, text_size=13, text_bold=True)
         x += w
-    # remaining width for note
     add_rect(s, Inches(x), top, Inches(6.0-sum(widths)), Inches(head_h),
-             "ED7D31", text="备注", text_size=11, text_bold=True)
+             "ED7D31", text="备注", text_size=13, text_bold=True)
 
-    row_h = 0.55
+    row_h = 0.62
     for ri, (grp, a, b, note) in enumerate(BACKUP_ROLES):
-        y = Inches(2.0 + head_h + ri*row_h)
+        y = Inches(2.05 + head_h + ri*row_h)
         x = 6.85
-        for w, v in zip(widths + [6.0-sum(widths)], [grp, a, b, note]):
+        for col_idx, (w, v) in enumerate(zip(widths + [6.0-sum(widths)],
+                                              [grp, a, b, note])):
             fill = "FFFFFF" if ri % 2 == 0 else "FFF7EC"
+            tbold = col_idx in (0, 1, 2)
             add_rect(s, Inches(x), y, Inches(w), Inches(row_h),
                      fill, line_hex="D9D9D9", text=v,
-                     text_size=9, text_color="262626",
+                     text_size=10, text_bold=tbold,
+                     text_color="262626",
                      align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.MIDDLE)
             x += w
 
@@ -1443,20 +1453,19 @@ def build_ppt(path):
                     f"共 {len(MILESTONES)} 个里程碑 / T-9 ~ T+1")
 
     headers = ["时间节点", "关键里程碑", "责任组"]
-    widths  = [1.7, 9.4, 1.6]
+    widths  = [1.8, 9.3, 1.6]
     top = Inches(1.5)
-    head_h = 0.42
+    head_h = 0.5
     x = 0.55
     for h, w in zip(headers, widths):
         add_rect(s, Inches(x), top, Inches(w), Inches(head_h),
-                 "1F4E79", text=h, text_size=11, text_bold=True)
+                 "1F4E79", text=h, text_size=13, text_bold=True)
         x += w
 
-    row_h = (7.2 - 1.5 - 0.42) / len(MILESTONES)
+    row_h = (7.2 - 1.5 - 0.5) / len(MILESTONES)
     for ri, (t, ms, resp) in enumerate(MILESTONES):
         y = Inches(1.5 + head_h + ri*row_h)
         x = 0.55
-        # T-0/T-1/T-7 用不同色突出
         if t.startswith("T-0"):
             fill = "FFE4E4"
         elif t.startswith("T-1"):
@@ -1465,10 +1474,12 @@ def build_ppt(path):
             fill = "E4F0FF"
         else:
             fill = "FFFFFF" if ri % 2 == 0 else "F8F8F8"
-        for w, v in zip(widths, [t, ms, resp]):
+        for col_idx, (w, v) in enumerate(zip(widths, [t, ms, resp])):
+            tbold = col_idx in (0, 2)
             add_rect(s, Inches(x), y, Inches(w), Inches(row_h),
                      fill, line_hex="D9D9D9", text=v,
-                     text_size=8, text_color="262626",
+                     text_size=10, text_bold=tbold,
+                     text_color="262626",
                      align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.MIDDLE)
             x += w
 
@@ -1481,25 +1492,25 @@ def build_ppt(path):
     headers = ["时间点", "动作", "责任组"]
     widths  = [2.4, 8.7, 1.6]
     top = Inches(1.5)
-    head_h = 0.5
+    head_h = 0.55
     x = 0.55
     for h, w in zip(headers, widths):
         add_rect(s, Inches(x), top, Inches(w), Inches(head_h),
-                 "C00000", text=h, text_size=12, text_bold=True)
+                 "C00000", text=h, text_size=14, text_bold=True)
         x += w
 
-    row_h = (7.2 - 1.5 - 0.5) / len(TIME_SOP)
+    row_h = (7.2 - 1.5 - 0.55) / len(TIME_SOP)
     for ri, (t, act, resp) in enumerate(TIME_SOP):
         y = Inches(1.5 + head_h + ri*row_h)
         x = 0.55
-        # 现场动作高亮
         is_live = t.startswith("T-0")
         fill = "FFF7F7" if is_live else ("FFFFFF" if ri%2==0 else "F8F8F8")
-        for w, v in zip(widths, [t, act, resp]):
+        for col_idx, (w, v) in enumerate(zip(widths, [t, act, resp])):
+            tbold = is_live or col_idx in (0, 2)
             add_rect(s, Inches(x), y, Inches(w), Inches(row_h),
                      fill, line_hex="D9D9D9", text=v,
-                     text_size=10, text_color="262626",
-                     text_bold=is_live,
+                     text_size=12, text_color="262626",
+                     text_bold=tbold,
                      align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.MIDDLE)
             x += w
 
@@ -1511,25 +1522,25 @@ def build_ppt(path):
     headers = ["问题类别 / 你遇到的事情", "A 角（先找）", "B 角（找不到时）"]
     widths  = [5.4, 3.5, 3.8]
     top = Inches(1.5)
-    head_h = 0.45
+    head_h = 0.5
     x = 0.55
     for h, w in zip(headers, widths):
         add_rect(s, Inches(x), top, Inches(w), Inches(head_h),
-                 "548235", text=h, text_size=11, text_bold=True)
+                 "548235", text=h, text_size=13, text_bold=True)
         x += w
 
-    row_h = (7.2 - 1.5 - 0.45) / len(LIAISON_LIST)
+    row_h = (7.2 - 1.5 - 0.5) / len(LIAISON_LIST)
     for ri, (cat, who, backup) in enumerate(LIAISON_LIST):
         y = Inches(1.5 + head_h + ri*row_h)
         x = 0.55
-        # 重要分类高亮
         is_critical = ("医疗" in cat or "重大" in cat or "舆情" in cat)
         fill = "FFE4E4" if is_critical else ("FFFFFF" if ri%2==0 else "F4F8EE")
-        for w, v in zip(widths, [cat, who, backup]):
+        for col_idx, (w, v) in enumerate(zip(widths, [cat, who, backup])):
+            tbold = is_critical or col_idx == 0
             add_rect(s, Inches(x), y, Inches(w), Inches(row_h),
                      fill, line_hex="D9D9D9", text=v,
-                     text_size=9, text_color="262626",
-                     text_bold=is_critical,
+                     text_size=11, text_color="262626",
+                     text_bold=tbold,
                      align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.MIDDLE)
             x += w
 
@@ -1538,9 +1549,9 @@ def build_ppt(path):
     slide_title_bar(s, "5/13 志愿者讨论会  会议结论 & 待办")
 
     # 左：会议结论
-    add_rect(s, Inches(0.55), Inches(1.4), Inches(6.0), Inches(0.5),
+    add_rect(s, Inches(0.55), Inches(1.4), Inches(6.0), Inches(0.55),
              "1F4E79", text="会议结论（4 条优化共识）",
-             text_size=14, text_bold=True)
+             text_size=16, text_bold=True)
     conclusions = [
         ("分工与协作", "各组按任务量配人，组长负责内部协调；设机动应急G组跨组顶人；各组建独立沟通群"),
         ("流程效率",   "任务量与 Milestone 提前细化；所有节点提前 1-2 天预留缓冲"),
@@ -1548,18 +1559,18 @@ def build_ppt(path):
         ("协作机制",   "活动前组织一次组长见面会，互相熟悉、快速找到对接人"),
     ]
     for i, (k, v) in enumerate(conclusions):
-        top = Inches(2.0 + i*1.25)
-        add_rect(s, Inches(0.55), top, Inches(1.5), Inches(1.15),
-                 "2E75B6", text=k, text_size=11, text_bold=True)
-        add_rect(s, Inches(2.1), top, Inches(4.45), Inches(1.15),
+        top = Inches(2.05 + i*1.25)
+        add_rect(s, Inches(0.55), top, Inches(1.6), Inches(1.18),
+                 "2E75B6", text=k, text_size=13, text_bold=True)
+        add_rect(s, Inches(2.2), top, Inches(4.35), Inches(1.18),
                  "F2F8FD", line_hex="2E75B6", text=v,
-                 text_size=10, text_color="262626",
+                 text_size=12, text_color="262626",
                  align=PP_ALIGN.LEFT)
 
     # 右：待办
-    add_rect(s, Inches(6.85), Inches(1.4), Inches(6.0), Inches(0.5),
+    add_rect(s, Inches(6.85), Inches(1.4), Inches(6.0), Inches(0.55),
              "C00000", text="待办（总策划 + 各组组长）",
-             text_size=14, text_bold=True)
+             text_size=16, text_bold=True)
     todos = [
         ("胡继刚",  "形成详细分工表（本表）；私信招募 ①近期有时间者 ②有会务经验者 ③有赞助经验/资源者"),
         ("各组长","内部完成细化分工；建立独立沟通群；T-7 前提交本组 Milestone"),
@@ -1568,12 +1579,12 @@ def build_ppt(path):
         ("交响乐", "F 组对接陆家嘴乐团 + D 组准备往届视频预热"),
     ]
     for i, (k, v) in enumerate(todos):
-        top = Inches(2.0 + i*1.0)
-        add_rect(s, Inches(6.85), top, Inches(1.5), Inches(0.9),
-                 "ED7D31", text=k, text_size=11, text_bold=True)
-        add_rect(s, Inches(8.4), top, Inches(4.45), Inches(0.9),
+        top = Inches(2.05 + i*1.0)
+        add_rect(s, Inches(6.85), top, Inches(1.6), Inches(0.92),
+                 "ED7D31", text=k, text_size=13, text_bold=True)
+        add_rect(s, Inches(8.5), top, Inches(4.35), Inches(0.92),
                  "FFF7EC", line_hex="ED7D31", text=v,
-                 text_size=10, text_color="262626",
+                 text_size=12, text_color="262626",
                  align=PP_ALIGN.LEFT)
 
     # ============ Slide 阶段任务矩阵（拆分两张） ============
@@ -1595,27 +1606,27 @@ def build_ppt(path):
         # 空角
         add_rect(slide, Inches(total_left), Inches(total_top),
                  Inches(first_col_w), Inches(head_h),
-                 "1F4E79", text="阶段 \\ 组别", text_size=11, text_bold=True)
+                 "1F4E79", text="阶段 \\ 组别", text_size=12, text_bold=True)
         # 组别表头
         for gi, g in enumerate(GROUPS):
             add_rect(slide, Inches(total_left + first_col_w + gi*col_w),
                      Inches(total_top), Inches(col_w), Inches(head_h),
                      g["color"], text=f"{g['code']} {g['name']}",
-                     text_size=10, text_bold=True)
+                     text_size=11, text_bold=True)
         # 行
         for ri, pi in enumerate(phase_indices):
             when, name = PHASES[pi]
             top = Inches(total_top + head_h + ri*row_h)
             add_rect(slide, Inches(total_left), top, Inches(first_col_w),
                      Inches(row_h), "F2F2F2", line_hex="BFBFBF",
-                     text=f"{name}\n{when}", text_size=10, text_bold=True,
+                     text=f"{name}\n{when}", text_size=11, text_bold=True,
                      text_color="1F4E79")
             for gi, g in enumerate(GROUPS):
                 task = PHASE_MATRIX.get((pi, g["code"]), "")
                 add_rect(slide, Inches(total_left + first_col_w + gi*col_w),
                          top, Inches(col_w), Inches(row_h),
                          "FFFFFF", line_hex="D9D9D9", text=task,
-                         text_size=8, text_color="262626",
+                         text_size=10, text_color="262626",
                          align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP)
 
     s = prs.slides.add_slide(blank)
@@ -1629,26 +1640,28 @@ def build_ppt(path):
     slide_title_bar(s, "05  议程时间轴 × 责任组 × 关键动作")
 
     headers = ["时间", "议程节点", "主责组", "关键动作 / 物料"]
-    widths = [1.4, 4.4, 1.4, 5.5]
+    widths = [1.5, 4.3, 1.4, 5.5]
     top = Inches(1.5)
-    head_h = 0.5
+    head_h = 0.55
     left_start = 0.55
     # header
     x = left_start
     for h, w in zip(headers, widths):
         add_rect(s, Inches(x), top, Inches(w), Inches(head_h),
-                 "1F4E79", text=h, text_size=12, text_bold=True)
+                 "1F4E79", text=h, text_size=14, text_bold=True)
         x += w
     # rows
-    row_h = (7.3 - 1.5 - 0.5) / len(AGENDA)
+    row_h = (7.3 - 1.5 - 0.55) / len(AGENDA)
     for ri, (t, name, gr, action) in enumerate(AGENDA):
         y = Inches(1.5 + head_h + ri*row_h)
         x = left_start
         values = [t, name, gr, action]
-        for v, w in zip(values, widths):
+        for col_idx, (v, w) in enumerate(zip(values, widths)):
             fill = "FFFFFF" if ri % 2 == 0 else "F8F8F8"
+            tbold = (col_idx in (0, 2))
             add_rect(s, Inches(x), y, Inches(w), Inches(row_h),
-                     fill, line_hex="D9D9D9", text=v, text_size=9,
+                     fill, line_hex="D9D9D9", text=v, text_size=11,
+                     text_bold=tbold,
                      text_color="262626", align=PP_ALIGN.LEFT,
                      anchor=MSO_ANCHOR.MIDDLE)
             x += w
@@ -1657,22 +1670,24 @@ def build_ppt(path):
     def add_contingency_slide(slide, items, title):
         slide_title_bar(slide, title)
         headers = ["类别","风险","概率","影响","责任组","处置预案"]
-        widths  = [1.2, 2.6, 0.7, 0.7, 1.3, 6.2]
+        widths  = [1.3, 2.6, 0.7, 0.7, 1.3, 6.1]
         top = Inches(1.5)
-        head_h = 0.5
+        head_h = 0.55
         x = 0.55
         for h, w in zip(headers, widths):
             add_rect(slide, Inches(x), top, Inches(w), Inches(head_h),
-                     "C00000", text=h, text_size=11, text_bold=True)
+                     "C00000", text=h, text_size=13, text_bold=True)
             x += w
-        row_h = (7.2 - 1.5 - 0.5) / max(len(items), 1)
+        row_h = (7.2 - 1.5 - 0.55) / max(len(items), 1)
         for ri, item in enumerate(items):
             y = Inches(1.5 + head_h + ri*row_h)
             x = 0.55
-            for v, w in zip(item, widths):
+            for col_idx, (v, w) in enumerate(zip(item, widths)):
                 fill = "FFFFFF" if ri % 2 == 0 else "FFF7F7"
+                tbold = col_idx in (0, 2, 3, 4)
                 add_rect(slide, Inches(x), y, Inches(w), Inches(row_h),
-                         fill, line_hex="D9D9D9", text=v, text_size=8,
+                         fill, line_hex="D9D9D9", text=v, text_size=10,
+                         text_bold=tbold,
                          text_color="262626", align=PP_ALIGN.LEFT,
                          anchor=MSO_ANCHOR.MIDDLE)
                 x += w
@@ -1689,31 +1704,33 @@ def build_ppt(path):
     s = prs.slides.add_slide(blank)
     slide_title_bar(s, "07  物资清单 与 对讲机频道")
 
-    # 物资表
+    # 物资表 (左 8.8 in 宽，右侧留对讲机)
     headers = ["类别","物品","数量","负责组","到位时间"]
-    widths  = [0.9, 2.5, 2.2, 1.1, 1.6]
+    widths  = [0.9, 2.6, 2.1, 1.1, 1.6]
     top = Inches(1.4)
     head_h = 0.45
     x = 0.55
     for h, w in zip(headers, widths):
         add_rect(s, Inches(x), top, Inches(w), Inches(head_h),
-                 "548235", text=h, text_size=11, text_bold=True)
+                 "548235", text=h, text_size=13, text_bold=True)
         x += w
-    row_h = 0.35
+    row_h = 0.32
     for ri, item in enumerate(MATERIALS):
         y = Inches(1.4 + head_h + ri*row_h)
         x = 0.55
-        for v, w in zip(item, widths):
+        for col_idx, (v, w) in enumerate(zip(item, widths)):
             fill = "FFFFFF" if ri % 2 == 0 else "F4F8EE"
+            tbold = col_idx in (0, 3)
             add_rect(s, Inches(x), y, Inches(w), Inches(row_h),
-                     fill, line_hex="D9D9D9", text=v, text_size=9,
+                     fill, line_hex="D9D9D9", text=v, text_size=10,
+                     text_bold=tbold,
                      text_color="262626", align=PP_ALIGN.LEFT,
                      anchor=MSO_ANCHOR.MIDDLE)
             x += w
 
     # 对讲机频道
-    add_rect(s, Inches(9.5), Inches(1.4), Inches(3.4), Inches(0.45),
-             "1F4E79", text="对讲机频道", text_size=12, text_bold=True)
+    add_rect(s, Inches(9.5), Inches(1.4), Inches(3.4), Inches(0.5),
+             "1F4E79", text="对讲机频道", text_size=14, text_bold=True)
     channels = [
         ("CH1 指挥频道",  "总策划 / A 组 / 各组组长"),
         ("CH2 会务频道",  "C 会务 + E 技术（流程切换）"),
@@ -1721,11 +1738,11 @@ def build_ppt(path):
         ("公共哨语",      "'1分钟到点'、'换场'、'医疗'、'静默'"),
     ]
     for i, (k, v) in enumerate(channels):
-        y = Inches(1.85 + i*0.7)
-        add_rect(s, Inches(9.5), y, Inches(1.3), Inches(0.65),
-                 "2E75B6", text=k, text_size=10, text_bold=True)
-        add_rect(s, Inches(10.8), y, Inches(2.1), Inches(0.65),
-                 "FFFFFF", line_hex="2E75B6", text=v, text_size=10,
+        y = Inches(1.95 + i*0.75)
+        add_rect(s, Inches(9.5), y, Inches(1.4), Inches(0.7),
+                 "2E75B6", text=k, text_size=12, text_bold=True)
+        add_rect(s, Inches(10.9), y, Inches(2.0), Inches(0.7),
+                 "FFFFFF", line_hex="2E75B6", text=v, text_size=11,
                  text_color="262626", align=PP_ALIGN.LEFT)
 
     # ============ 关键检查节点 ============
@@ -1746,26 +1763,26 @@ def build_ppt(path):
     for i, (t, v) in enumerate(checkpoints):
         r, c = i // 3, i % 3
         left = Inches(0.55 + c*4.3)
-        top  = Inches(1.6 + r*1.9)
-        add_rect(s, left, top, Inches(4.05), Inches(0.55),
-                 "ED7D31", text=t, text_size=12, text_bold=True,
+        top  = Inches(1.55 + r*1.95)
+        add_rect(s, left, top, Inches(4.05), Inches(0.6),
+                 "ED7D31", text=t, text_size=14, text_bold=True,
                  corner_radius=True)
-        add_rect(s, left, top + Inches(0.55), Inches(4.05), Inches(1.2),
-                 "FFF7EC", line_hex="ED7D31", text=v, text_size=11,
+        add_rect(s, left, top + Inches(0.6), Inches(4.05), Inches(1.25),
+                 "FFF7EC", line_hex="ED7D31", text=v, text_size=12,
                  text_color="262626", align=PP_ALIGN.LEFT)
 
     # ============ 结尾 ============
     s = prs.slides.add_slide(blank)
     add_rect(s, 0, 0, prs.slide_width, prs.slide_height, "0B2545")
-    add_textbox(s, Inches(0.6), Inches(2.4), Inches(12), Inches(1.2),
-                "万事俱备，只待 5·22。", size=44, bold=True,
+    add_textbox(s, Inches(0.6), Inches(2.2), Inches(12), Inches(1.4),
+                "万事俱备，只待 5·22。", size=54, bold=True,
                 color="FFFFFF", align=PP_ALIGN.CENTER)
-    add_textbox(s, Inches(0.6), Inches(3.8), Inches(12), Inches(0.6),
+    add_textbox(s, Inches(0.6), Inches(3.85), Inches(12), Inches(0.7),
                 "所有志愿者的努力，都是为了让 500 位嘉宾在一滴水里看见 AI 的未来。",
-                size=18, color="FFC000", align=PP_ALIGN.CENTER)
-    add_textbox(s, Inches(0.6), Inches(5.0), Inches(12), Inches(0.5),
-                "—— 总策划",
-                size=14, color="D9D9D9", align=PP_ALIGN.CENTER)
+                size=22, color="FFC000", align=PP_ALIGN.CENTER)
+    add_textbox(s, Inches(0.6), Inches(5.2), Inches(12), Inches(0.5),
+                "—— 总策划 胡继刚",
+                size=18, color="D9D9D9", align=PP_ALIGN.CENTER)
 
     prs.save(path)
     print(f"[OK] PPT -> {path}")
