@@ -276,90 +276,240 @@ CONTINGENCIES = [
 # 字段：组别, 岗位, 姓名, 报名意向, 背景关键词, 分配理由
 # =============================================================================
 ASSIGNMENT = [
-    # A 统筹协调组
-    ("A", "总策划/总指挥",      "Aiden（您）",        "—",         "会长/总策划",
-     "全场最高决策，对接主办方"),
-    ("A", "执行总监/副指挥",    "李振春（春子）",      "未明示",     "科创背景、会务经验、主动承担",
-     "经验+主动性最适合做总策划副手"),
-    ("A", "文件秘书/经院联络", "蔡萍",              "B/G",       "复旦经院培训负责人(退休)，时间充裕",
-     "经院校友资源+培训组织经验金牌秘书；G机动可随时调"),
+    # A 统筹协调组（3，含总策划） + 核心策划圈跨组联动
+    ("A", "总策划/总指挥",        "Aiden（您）",       "—",         "会长/总策划",
+     "全场最高决策，对接主办方与赞助方（腾讯/华为）"),
+    ("A", "执行总监/副总策划",    "韦佳玉",            "—（Aiden 直接点名协助统筹）","23级校友、股权一级市场投融资、参与多届",
+     "Aiden会上直接点名协助总策划；多届经验+资源整合，最适合做总策划副手"),
+    ("A", "文件秘书/科创联络",    "李振春（春子）",     "未明示",     "经院校友、科创业务、有会务/签到经验",
+     "主动承担+科创资源（可对接科技展示赞助）"),
 
     # B 嘉宾接待组（9）
-    ("B", "组长 / 副总指挥（B）","蒋珊",              "B",         "AI赛道、跨校研究院、俱乐部运营",
-     "AI圈层资源+运营履历，最适合带 B 组主导嘉宾对接"),
-    ("B", "VIP 1V1（港澳/海外）","朱铭喆",            "B/C → B",   "友邦保险、香港城市大学上海联络人",
-     "港校联络人，专业形象，适合涉外/港澳嘉宾陪同"),
-    ("B", "VIP 1V1（主旨嘉宾）","JasonCAI 蔡杰",      "B/G → B",   "复旦MBA、设计咨询",
-     "MBA形象+设计审美，适合白硕、夏春等主旨嘉宾1V1"),
-    ("B", "VIP 1V1（金融/投融资嘉宾）","Winny",        "B/C/F均可 → B","职业空窗期，时间最充裕",
-     "时间最充裕，可全程紧贴一位VIP"),
-    ("B", "机构嘉宾对接",      "吕志翔",            "B",         "12级、投融资",
-     "投融资人脉，对接 招行/长江证券/金浦 等机构嘉宾"),
-    ("B", "签到台主管",        "彭常丽",            "B/F+签到会务 → B","金融、二次参与、自报签到会务",
-     "已熟悉流程，自荐签到，直接做签到台总控"),
-    ("B", "签到/动线引导",     "Angi 郭杰",          "B",         "国际贸易、首次参与",
-     "新人友好岗位，标准化动作易上手"),
-    ("B", "动线引导",          "LV",                "B",         "—",
+    ("B", "组长",                 "蒋珊",              "B",         "AI赛道、跨校研究院、俱乐部运营",
+     "AI圈层资源+运营履历最适合带 B 组主导嘉宾对接"),
+    ("B", "VIP 1V1（港澳/海外嘉宾）","朱铭喆",          "B/C → B",   "友邦保险、香港城市大学上海联络人",
+     "港校联络人，专业形象+沟通能力，适合涉外/港澳嘉宾"),
+    ("B", "VIP 1V1（主旨嘉宾）",   "JasonCAI 蔡杰",     "B/G → B",   "复旦MBA、设计咨询",
+     "形象气质+审美佳，适合白硕、夏春等主旨嘉宾"),
+    ("B", "VIP 1V1（核心搭子）",   "Winny",            "B/C/F均可 → B","空窗期时间最充裕、IP授权运营",
+     "时间最充裕可全程紧贴VIP；Aiden 核心搭子之一"),
+    ("B", "机构嘉宾对接",         "吕志翔",            "B",         "12级、投融资、教育/医疗/AI",
+     "投融资人脉，对接 招行/长江证券/金浦 等机构"),
+    ("B", "签到台主管",           "彭常丽",            "B/F+签到会务 → B","金融、二次参与、自报签到",
+     "二次参与已熟悉流程，签到台总控"),
+    ("B", "观众席引导（新增岗）", "Angi 郭杰",         "B",         "国际贸易、首次",
+     "采纳冯墨建议补观众席引导盲区，新人友好岗"),
+    ("B", "动线引导",             "LV",               "B",         "—",
      "标准引导岗"),
-    ("B", "动线引导（备机动）","高辰辰",            "B（听安排）","同浦汇、首次参与",
-     "明确说听安排，安排在B并打机动标，缺人时支援其他组"),
+    ("B", "动线引导/机动",        "高辰辰",            "B（听安排）","同浦汇、首次",
+     "明确说听安排，B岗+机动标，缺人时支援"),
 
     # C 会务执行组（5）
-    ("C", "组长 / 流程总控+计时","王珏",              "C",         "中信证券，自报会务+倒计时",
-     "自己主动认领倒计时，金融人严谨,适合做C组长"),
-    ("C", "副组长 / 舞台引导+物料","陈潇 Kelly",      "C",         "广告活动一条龙、有自有设备",
-     "策划+广告专业，可主导舞台呈现+应急设备"),
-    ("C", "主持对接/串场",     "冯墨 律师",          "C/B → C",   "刚从私募转律师，时间灵活，沟通强",
+    ("C", "组长 / 流程总控+计时", "王珏",              "C",         "中信证券，自报会务+倒计时",
+     "自荐倒计时，金融严谨适合 C 组长"),
+    ("C", "副组长 / 舞台+设备总管","陈潇 Kelly",       "C",         "广告活动一条龙、张江有自有灯光/舞台/音响工厂、Aiden 核心搭子",
+     "重大资源：可提供专业灯光/舞台/音响设备，副组长兼设备总管"),
+    ("C", "主持对接/串场",        "冯墨 律师",         "C/B → C",   "私募→律师、时间灵活、沟通强",
      "律师沟通力+时间灵活，最适合协调主持脚本"),
-    ("C", "PPT/资料对接",      "黄璐 Lucius",        "B/C → C",   "养老研究、首次参与",
-     "新人友好的细致岗，提前24h收齐讲者PPT"),
-    ("C", "颁奖执行/嘉宾对接", "徐胜博",            "未明示",     "一二级创投、K12教育",
-     "创投背景对接颁奖机构得体，主动报名安排合适岗位"),
+    ("C", "PPT/资料对接",         "黄璐 Lucius",       "B/C → C",   "建筑设计+地产+养老研究、首次",
+     "细致岗，提前 24h 收齐讲者 PPT"),
+    ("C", "颁奖执行/机构对接",    "徐胜博",            "未明示",     "一二级创投、K12教育",
+     "创投背景对接颁奖机构得体"),
 
     # D 媒体宣传组（3）
-    ("D", "组长 / 摄影摄像+自媒体","张蒙 AEGISTAR",  "D",         "大宗行/房地产/AI数据中心、本身做自媒体",
-     "唯一自报D且本身做自媒体，天然D组长"),
-    ("D", "直播+新媒体",       "皮尔德小号",         "未明示",     "互联网→城市更新、资源对接强",
-     "互联网经验+资源对接力，主管直播与新媒体即时发布"),
-    ("D", "媒体接待+会后传播", "马磊",              "未明示",     "跨界生态融入",
-     "跨界资源+对外沟通，负责财经/科技媒体接待"),
+    ("D", "组长 / 摄影摄像+自媒体","张蒙 AEGISTAR",    "D",         "大宗行/AI数据中心、本身做自媒体",
+     "唯一自报 D 且本身做自媒体，天然 D 组长"),
+    ("D", "直播+新媒体（含交响乐预热）","皮尔德小号", "未明示",     "互联网 10 年→城市更新、资源对接强",
+     "互联网经验+资源对接力，主管直播与新媒体；负责交响乐往届视频在视频号 T-7 起每日预热"),
+    ("D", "媒体接待+会后传播",    "马磊",             "未明示",     "AI Club 生态、跨界资源",
+     "跨界资源+AI 圈层人脉，对接财经/科技媒体"),
 
-    # E 技术支持组（1+外包）
-    ("E", "技术总监(志愿端)",  "随圣博 Joshua-Sui",  "B/E/G → E", "—（自荐E）",
-     "唯一勾选E的志愿者，对接场馆AV外包团队即可"),
+    # E 技术支持组（1+外包；与陈潇张江工厂联动）
+    ("E", "技术对接（志愿端）",   "随圣博 Joshua-Sui","B/E/G → E", "复旦管院年会后勤经验",
+     "唯一勾选 E 的志愿者，对接场馆 AV 外包+陈潇张江工厂设备"),
 
     # F 后勤保障组（3）
-    ("F", "组长 / 场地+物料",  "朱俊峰",            "F",         "19级、建筑+市场开发、复旦网球协会运营",
+    ("F", "组长 / 场地+物料",     "朱俊峰",            "F",         "19级、建筑+市场开发、复旦网球协会运营",
      "建筑专业+协会长期运营，最熟物料/场地落地"),
-    ("F", "副组长 / 茶歇+晚宴", "王胜（20级）",      "B/F → F",   "第三次参加，资深",
-     "三次参加经验最足，副组长稳盘"),
-    ("F", "物料+茶歇执行",     "刘严",              "F",         "自报到F",
-     "明确自报F，标准执行岗"),
+    ("F", "副组长 / 茶歇+晚宴+核心搭子","王胜（20级）","B/F → F",   "第三次参加，资深；Aiden 核心搭子",
+     "三次参加经验最足；Aiden 核心搭子，副组长稳盘"),
+    ("F", "物料+伴手礼+赞助物料对接","刘严",          "F",         "自报到F、平日接活多",
+     "自报 F；负责对接腾讯/华为赞助物料入场（去年痛点）"),
 
-    # G 应急安全/机动组（2）
-    ("G", "组长 / 安保+机动调配","康诺斯 Conns",     "B/G → G",   "设计改造+碳资产",
-     "B/G均可的人里背景最综合，做机动组长可跨组顶人"),
-    ("G", "法务/舆情口径+机动","张卓 盈科",         "B/G → G",   "财税律师",
-     "律师身份处理舆情口径与突发法务最稳"),
+    # G 应急/机动组（3）
+    ("G", "组长 / 安保+机动调配", "康诺斯 Conns",     "B/G → G",   "设计改造+碳资产、首次",
+     "做机动组长可跨组顶人"),
+    ("G", "法务/舆情口径",        "张卓 盈科",        "B/G → G",   "财税律师、二次参加",
+     "律师处理舆情口径与突发法务最稳"),
+    ("G", "急救/医疗主岗 ★",      "蔡萍",             "B/G → G",   "复旦经院培训负责人(退休)、★持有急救证",
+     "★稀缺技能：自报有急救证；G 组急救/医疗专项岗，会议突发医疗60秒响应"),
+]
+
+# =============================================================================
+# 核心策划圈（Aiden 直接联动的小圈子，跨组高频沟通）
+# =============================================================================
+CORE_CIRCLE = [
+    ("Aiden（您）",  "总策划",        "全场指挥"),
+    ("韦佳玉",       "执行总监",      "副总策划，统筹各组"),
+    ("Winny 温妮",   "B 组VIP",      "空窗期可承担时间敏感任务"),
+    ("陈潇 Kelly",   "C 组副组长",   "提供灯光/舞台/音响设备资源"),
+    ("王胜",         "F 组副组长",   "三次参加，老带新"),
+    ("李振春 春子", "A 组秘书",      "科创资源对接（赞助/展位）"),
+]
+
+# =============================================================================
+# 5/13 优化建议筛选清单（采纳/调整/暂缓）
+# =============================================================================
+OPT_SUGGESTIONS = [
+    # (建议人, 建议内容, 处置, 责任组, 落地动作)
+    ("韦佳玉", "量化各组任务量+设置 Milestone（按时间精力选岗位）",
+     "采纳", "A",   "新增 Milestone 表（见 09 sheet），各组组长 T-7 前提交"),
+    ("韦佳玉", "所有 Milestone 节点提前 1-2 天，留 buffer",
+     "采纳", "A",   "阶段任务矩阵已整体前移，T-3 改为 T-5"),
+    ("张卓",   "提前半天/线上彩排，明确工作范围边界",
+     "采纳", "A+全员","T-1 18:00 全员线上彩排 1.5h；T-7 现场踏勘 1 次"),
+    ("张卓",   "协助人员对接清单（酒店/屏幕谁联系，避免事事请示总策划）",
+     "采纳", "A",   "新增 11-对接联系人清单（见 sheet），人手一份"),
+    ("张卓",   "嘉宾发言时间提前打招呼+主持人收口",
+     "采纳", "C",   "C 组 T-3 致电每位讲者+主持人对脚本（见 10-嘉宾时间SOP）"),
+    ("春子",   "增加科技类展示（AI/机器人/芯片小海报）",
+     "暂缓→单列待办", "A",
+     "需赞助谈判，春子+Aiden 私下推进，不进 5/22 必交付"),
+    ("蒋珊",   "扩大交响乐宣传，视频号发去年录像预告",
+     "采纳", "D",   "D 组皮尔德小号负责，T-7 起每日 1 条；T-3 集中投流"),
+    ("蒋珊",   "演奏者走位与观众互动",
+     "暂缓",  "—", "Aiden 已明确专业度不足；现场仅做灯光烘托"),
+    ("隋胜博/徐胜博","地铁→场地快进短视频群发",
+     "采纳", "D+F","T-5 拍摄、T-3 发群（去年已做，今年延续）"),
+    ("JasonCAI","T-2 微信+短信点对点提醒嘉宾交通/停车",
+     "采纳", "B",   "B 组 VIP 1V1 责任人 T-2 18:00 前完成全部联络"),
+    ("王胜",   "组长 A/B 角备份制度",
+     "采纳", "A",   "新增 12-组长备份表（见 sheet）每组指定 B 角"),
+    ("康诺斯", "B 组按身高/年龄筛选",
+     "调整后采纳", "B",
+     "改为按英语/沟通/形象气质匹配 VIP 1V1，避免歧视"),
+    ("张蒙",   "志愿者专用颜色胸牌快速识别",
+     "采纳", "F",   "F 组制作橙色胸牌（与嘉宾胸卡明显区分），见物资清单"),
+    ("冯墨",   "现场观众管理（盲区）",
+     "采纳", "B+G","B 组 Angi 改为观众席引导岗；G 组机动支援"),
+    ("蔡萍",   "自报有急救证",
+     "采纳", "G",   "蔡萍调到 G 组任急救/医疗主岗（稀缺技能）"),
+    ("陈潇",   "张江工厂提供灯光/舞台/音响设备",
+     "采纳", "C+E","作为重大物料资源并入；C 组陈潇为设备总管，E 组对接"),
+    ("彭常丽", "去年赞助物料环节混乱，要提前深化",
+     "采纳", "F",   "F 组刘严专项负责赞助物料入场+点位"),
+    ("Aiden确认","工作装+合影+证书+午餐+纪念品",
+     "采纳", "A+F","已写入物资清单；T-1 全员告知"),
+    ("Aiden确认","核心搭子：韦佳玉/Winnie/陈潇/王胜",
+     "采纳", "A",   "建立核心策划圈高频沟通群（6 人）"),
+]
+
+# =============================================================================
+# Milestone（节点提前 1-2 天）
+# =============================================================================
+MILESTONES = [
+    # (时间节点, 关键里程碑, 责任组)
+    ("T-9 (5/13)",  "志愿者讨论会完成→分工表发布（已完成）",        "A"),
+    ("T-8 (5/14)",  "各组建独立沟通群+组长 A/B 角确定+核心策划圈群","A+各组长"),
+    ("T-8 (5/14)",  "组长见面会（线上 1h）",                         "A+组长"),
+    ("T-7 (5/15)",  "晚宴名单锁定 V1（去年痛点：太晚锁定）",          "B+F"),
+    ("T-7 (5/15)",  "交响乐往届视频开始日更预热（视频号）",          "D"),
+    ("T-7 (5/15)",  "现场踏勘 1（场地/动线/AV）",                    "A+C+E+F"),
+    ("T-5 (5/17)",  "所有讲者 PPT 截稿（去年是 T-3，今年提前）",      "C"),
+    ("T-5 (5/17)",  "地铁→场地快进短视频拍摄完成",                   "D+F"),
+    ("T-5 (5/17)",  "物料/胸牌印刷下单（去年痛点：名牌制作晚）",      "F"),
+    ("T-4 (5/18)",  "腾讯/华为赞助物料对接清单确认",                 "F+A"),
+    ("T-3 (5/19)",  "C 组致电每位讲者+主持人对发言时间（防超时）",    "C"),
+    ("T-3 (5/19)",  "对接联系人清单（酒店/AV/餐饮/安保）发到全员",    "A"),
+    ("T-3 (5/19)",  "短视频发主群+嘉宾群预热",                       "D"),
+    ("T-2 (5/20)",  "B 组 VIP 1V1 点对点短信/微信提醒嘉宾",          "B"),
+    ("T-2 (5/20)",  "现场踏勘 2（含彩排站位）",                       "A+C+E"),
+    ("T-1 (5/21)",  "全员线上彩排 18:00-19:30（1.5h）",              "A+全员"),
+    ("T-1 (5/21)",  "全设备压力测试+陈潇工厂设备进场",                "C+E"),
+    ("T-0 09:00",   "现场指挥部成立、对讲机分发、AED/急救包就位",     "A+G"),
+    ("T-0 12:00",   "签到台开台、VIP 车队首班、直播试推流",           "B+D"),
+    ("T-0 13:25",   "全员就位静默 5 分钟、广播开场倒计时",            "A"),
+    ("T+1",         "通稿次日 10:00 前发布、复盘会、问题归档",        "A+D"),
+]
+
+# =============================================================================
+# 嘉宾发言时间控制 SOP（去年最大事故）
+# =============================================================================
+TIME_SOP = [
+    ("T-7", "整理每位讲者的演讲时长合同/邀约函（25/20/40min）", "C"),
+    ("T-3", "C 组致电每位讲者：再次确认时长 + 提示我们会举牌",   "C"),
+    ("T-3", "C 组与 4 位主持人对脚本：嘉宾超时由你直接打断的话术",  "C"),
+    ("T-1", "彩排时给主持人发『收口话术卡』：'感谢XXX，最后一分钟'", "C"),
+    ("T-0 演讲前 2min", "计时员就位，倒计时牌(5/3/1 min)摆放台口",   "C"),
+    ("T-0 演讲中 5/3/1min", "在嘉宾视线方向举牌（先黄后红）",         "C"),
+    ("T-0 超时 30s",   "主持人通过耳麦提示'最后一句话'",                  "C"),
+    ("T-0 超时 90s",   "主持人直接收口：'感谢XXX的精彩分享'走流程",      "C"),
+    ("T-0 圆桌嘉宾",   "每人剩 1min 时主持人示意；超时立即转下一位",       "C"),
+]
+
+# =============================================================================
+# 协助人员对接清单（解决"事事请示总策划"瓶颈）
+# =============================================================================
+LIAISON_LIST = [
+    # (问题类别, 找谁, 备用)
+    ("场地/桌椅/灯光",         "F 组 朱俊峰",       "C 组 陈潇 Kelly（自有设备）"),
+    ("音响/麦克风/PPT/直播",    "E 组 随圣博",       "C 组 陈潇 Kelly"),
+    ("酒店/嘉宾接送/休息室",    "B 组 蒋珊",         "韦佳玉（A 组）"),
+    ("VIP 嘉宾临时需求",        "B 组对应 1V1 责任人","蒋珊（B 组长）"),
+    ("茶歇/餐饮/伴手礼",        "F 组 王胜",         "刘严"),
+    ("赞助物料（腾讯/华为）",   "F 组 刘严",         "Aiden"),
+    ("摄影/摄像/直播信号",      "D 组 张蒙",         "皮尔德小号"),
+    ("媒体/记者接待",           "D 组 马磊",         "张蒙"),
+    ("讲者 PPT/资料/换片",      "C 组 黄璐",         "陈潇 Kelly"),
+    ("流程超时/嘉宾迟到",       "C 组 王珏",         "韦佳玉"),
+    ("颁奖物料/获奖嘉宾",       "C 组 徐胜博",       "王珏"),
+    ("法务/舆情/突发声明",       "G 组 张卓",        "Aiden"),
+    ("医疗/急救",               "G 组 蔡萍 ★",       "G 组 康诺斯"),
+    ("跨组人手不足",             "G 组 康诺斯",      "韦佳玉"),
+    ("交响乐团对接",             "F 组 朱俊峰",      "韦佳玉（去年负责）"),
+    ("晚宴席位/敬酒/现场对接",   "F 组 王胜",        "B 组 蒋珊"),
+    ("无法解决/重大决策",        "韦佳玉 → Aiden",   "—"),
+]
+
+# =============================================================================
+# 组长 A/B 角备份制度（应对组长当天缺席）
+# =============================================================================
+BACKUP_ROLES = [
+    # (组, A 角组长, B 角备份, 备注)
+    ("A 统筹",   "Aiden",         "韦佳玉",        "Aiden 缺席由韦佳玉全权代行"),
+    ("B 接待",   "蒋珊",          "朱铭喆",        "B 角熟悉 VIP 接待流程"),
+    ("C 会务",   "王珏",          "陈潇 Kelly",    "B 角有活动策划 20 年经验"),
+    ("D 媒体",   "张蒙 AEGISTAR", "皮尔德小号",    "B 角有互联网+直播经验"),
+    ("E 技术",   "随圣博",        "陈潇 Kelly",    "B 角持有自有设备，可顶上"),
+    ("F 后勤",   "朱俊峰",        "王胜",          "B 角第三次参加最熟流程"),
+    ("G 应急",   "康诺斯",        "张卓",          "B 角律师可应对突发"),
 ]
 
 MATERIALS = [
-    ("会务", "议程手册",          "600 份",  "F", "T-3 印刷完成"),
-    ("会务", "桌牌/嘉宾胸卡",     "全员",    "F", "T-1 完成"),
-    ("会务", "签到表/电子签到",   "分级 4 类","F+B","当日 12:00 上线"),
-    ("会务", "横幅/KT板/引导牌",   "全场",    "F", "当日 10:00 前"),
-    ("技术", "手持麦×4 / 领夹麦×4","各 2 备用","E","当日 10:00 测试"),
-    ("技术", "翻页器×4 / 备用电脑×1","——",   "E","T-1 检查"),
-    ("技术", "转接头/线材",       "HDMI/Type-C/Lightning 各 3","E","T-1"),
-    ("技术", "对讲机",            "20 台（分 3 频道）","A+E","当日 09:00 分发"),
-    ("媒体", "摄影/摄像机",       "主机×2 游机×2","D","当日 11:00 调试"),
-    ("媒体", "直播推流设备",      "1 套（含备用 4G）","D+E","T-1 试推"),
-    ("后勤", "茶歇（500人）",     "高端冷餐/茶饮","F","15:30 上桌"),
-    ("后勤", "伴手礼",            "VVIP/嘉宾/机构 3 档","F","T-1 分装"),
-    ("后勤", "晚宴桌花/席位卡",   "500 人 50 桌","F","18:00 前完成"),
-    ("应急", "急救包/AED 标识",   "2 套 / 全场 3 处","G","当日 09:00 就位"),
-    ("应急", "应急联络卡",        "全员人手 1 张","A+G","T-1 发放"),
-    ("应急", "备用雨伞",          "100 把","F","视天气"),
+    ("会务", "议程手册",                      "600 份",                "F",   "T-5 印刷完成（前移）"),
+    ("会务", "桌牌/嘉宾胸卡",                 "全员",                  "F",   "T-2 完成（去年痛点：太晚）"),
+    ("会务", "★志愿者专用橙色胸牌",           "26 张（含韦佳玉）",     "F",   "T-2 完成（采纳张蒙建议）"),
+    ("会务", "签到表/电子签到",               "分级 4 类",             "F+B", "当日 12:00 上线"),
+    ("会务", "横幅/KT板/引导牌",              "全场",                  "F",   "当日 10:00 前"),
+    ("技术", "手持麦×4 / 领夹麦×4",            "各 2 备用",             "E",   "当日 10:00 测试"),
+    ("技术", "翻页器×4 / 备用电脑×1",          "——",                    "E",   "T-1 检查"),
+    ("技术", "转接头/线材",                   "HDMI/Type-C/Lightning 各 3","E","T-1"),
+    ("技术", "对讲机",                        "26 台（分 3 频道）",    "A+E", "当日 09:00 分发"),
+    ("技术", "★陈潇张江工厂灯光/舞台/音响",   "1 套（自有资源）",      "C+E", "T-1 进场（陈潇主导，节省赞助）"),
+    ("媒体", "摄影/摄像机",                   "主机×2 游机×2",         "D",   "当日 11:00 调试"),
+    ("媒体", "直播推流设备",                  "1 套（含备用 4G）",     "D+E", "T-1 试推（直播确认开启）"),
+    ("媒体", "★地铁→场地快进短视频",          "1 段 60 秒",           "D+F", "T-5 拍摄完成、T-3 群发"),
+    ("媒体", "★交响乐往届预热视频",           "5-7 段 短视频",         "D",   "T-7 起视频号每日 1 条"),
+    ("后勤", "茶歇（500人）",                 "高端冷餐/茶饮",         "F",   "15:30 上桌"),
+    ("后勤", "伴手礼",                        "VVIP/嘉宾/机构 3 档",   "F",   "T-2 分装（前移）"),
+    ("后勤", "晚宴桌花/席位卡",               "500 人 50 桌",          "F",   "18:00 前完成（晚宴名单 T-7 锁定）"),
+    ("后勤", "★赞助物料（腾讯/华为）",        "按合同清单",            "F",   "T-4 与品牌方对接确认（去年痛点）"),
+    ("后勤", "志愿者午餐+证书+纪念品",        "26 套",                "A+F", "T-1 分装、当日 12:00 发"),
+    ("应急", "急救包/AED 标识",               "2 套 / 全场 3 处",      "G",   "当日 09:00 就位"),
+    ("应急", "★急救主岗（蔡萍持证）",         "1 名",                 "G",   "全程在 G 组指挥点待命"),
+    ("应急", "应急联络卡（含对接清单）",      "全员人手 1 张",         "A+G", "T-3 发放（采纳张卓建议）"),
+    ("应急", "备用雨伞",                      "100 把",               "F",   "视天气"),
+    ("通知", "★T-2 嘉宾点对点提醒短信/微信",  "全部嘉宾",             "B",   "T-2 18:00 前完成（采纳JasonCAI建议）"),
 ]
 
 # =============================================================================
@@ -652,6 +802,188 @@ def build_excel(path):
     for i, w in enumerate(widths, 1):
         ws.column_dimensions[get_column_letter(i)].width = w
 
+    # ----- Sheet9 5/13 优化建议筛选清单 -----
+    ws = wb.create_sheet("09-优化建议筛选")
+    ws["A1"] = "5/13 志愿者讨论会  19 条建议筛选与处置"
+    ws["A1"].font = title_font
+    ws.merge_cells("A1:E1")
+    ws["A2"] = "处置：采纳 / 调整后采纳 / 暂缓（暂缓 = 经判断不进 5/22 必交付，但不否定其价值）"
+    ws["A2"].font = Font(name="微软雅黑", size=10, color="808080")
+    ws.merge_cells("A2:E2")
+
+    headers = ["建议人", "建议内容", "处置", "责任组", "落地动作"]
+    row = 4
+    for i, h in enumerate(headers, 1):
+        ws.cell(row=row, column=i, value=h)
+    style_header(ws, row, len(headers))
+
+    row += 1
+    start = row
+    status_color = {
+        "采纳": "548235",
+        "调整后采纳": "ED7D31",
+        "暂缓": "808080",
+        "暂缓→单列待办": "808080",
+    }
+    for sug, content, status, resp, act in OPT_SUGGESTIONS:
+        ws.cell(row=row, column=1, value=sug)
+        ws.cell(row=row, column=2, value=content)
+        ws.cell(row=row, column=3, value=status)
+        ws.cell(row=row, column=4, value=resp)
+        ws.cell(row=row, column=5, value=act)
+        c = ws.cell(row=row, column=3)
+        c.fill = PatternFill("solid", fgColor=status_color.get(status, "808080"))
+        c.font = Font(name="微软雅黑", size=10, bold=True, color="FFFFFF")
+        c.alignment = center
+        row += 1
+    end = row - 1
+    style_body(ws, start, end, len(headers))
+    for r in range(start, end+1):
+        ws.cell(row=r, column=3).alignment = center
+        ws.row_dimensions[r].height = 36
+    widths = [12, 50, 16, 14, 50]
+    for i, w in enumerate(widths, 1):
+        ws.column_dimensions[get_column_letter(i)].width = w
+
+    # ----- Sheet10 Milestone 时间表 -----
+    ws = wb.create_sheet("10-Milestone时间表")
+    ws["A1"] = "Milestone 时间表（采纳韦佳玉建议：所有节点提前 1-2 天）"
+    ws["A1"].font = title_font
+    ws.merge_cells("A1:C1")
+
+    headers = ["时间节点", "关键里程碑", "责任组"]
+    row = 3
+    for i, h in enumerate(headers, 1):
+        ws.cell(row=row, column=i, value=h)
+    style_header(ws, row, len(headers))
+
+    row += 1
+    start = row
+    for t, ms, resp in MILESTONES:
+        ws.cell(row=row, column=1, value=t)
+        ws.cell(row=row, column=2, value=ms)
+        ws.cell(row=row, column=3, value=resp)
+        row += 1
+    end = row - 1
+    style_body(ws, start, end, len(headers))
+    for r in range(start, end+1):
+        ws.row_dimensions[r].height = 28
+    widths = [16, 60, 16]
+    for i, w in enumerate(widths, 1):
+        ws.column_dimensions[get_column_letter(i)].width = w
+
+    # ----- Sheet11 嘉宾发言时间控制 SOP -----
+    ws = wb.create_sheet("11-嘉宾时间控制SOP")
+    ws["A1"] = "嘉宾发言时间控制 SOP（去年最大事故：从第 1 位讲者就开始超时）"
+    ws["A1"].font = title_font
+    ws.merge_cells("A1:C1")
+
+    headers = ["时间点", "动作", "责任组"]
+    row = 3
+    for i, h in enumerate(headers, 1):
+        ws.cell(row=row, column=i, value=h)
+    style_header(ws, row, len(headers))
+
+    row += 1
+    start = row
+    for t, act, resp in TIME_SOP:
+        ws.cell(row=row, column=1, value=t)
+        ws.cell(row=row, column=2, value=act)
+        ws.cell(row=row, column=3, value=resp)
+        row += 1
+    end = row - 1
+    style_body(ws, start, end, len(headers))
+    for r in range(start, end+1):
+        ws.row_dimensions[r].height = 28
+    widths = [22, 60, 14]
+    for i, w in enumerate(widths, 1):
+        ws.column_dimensions[get_column_letter(i)].width = w
+
+    # ----- Sheet12 协助人员对接清单 -----
+    ws = wb.create_sheet("12-对接联系人清单")
+    ws["A1"] = "协助人员对接清单（解决『事事请示总策划』瓶颈，全员人手一份）"
+    ws["A1"].font = title_font
+    ws.merge_cells("A1:C1")
+    ws["A2"] = "采纳张卓建议：现场遇到问题先找对应志愿者，找不到再找 B 角，最后才找韦佳玉/Aiden"
+    ws["A2"].font = Font(name="微软雅黑", size=10, color="808080")
+    ws.merge_cells("A2:C2")
+
+    headers = ["问题类别 / 你遇到的事情", "找谁（A 角）", "找不到时（B 角）"]
+    row = 4
+    for i, h in enumerate(headers, 1):
+        ws.cell(row=row, column=i, value=h)
+    style_header(ws, row, len(headers))
+
+    row += 1
+    start = row
+    for cat, who, backup in LIAISON_LIST:
+        ws.cell(row=row, column=1, value=cat)
+        ws.cell(row=row, column=2, value=who)
+        ws.cell(row=row, column=3, value=backup)
+        row += 1
+    end = row - 1
+    style_body(ws, start, end, len(headers))
+    for r in range(start, end+1):
+        ws.row_dimensions[r].height = 26
+    widths = [42, 28, 28]
+    for i, w in enumerate(widths, 1):
+        ws.column_dimensions[get_column_letter(i)].width = w
+
+    # ----- Sheet13 组长 A/B 角备份制度 -----
+    ws = wb.create_sheet("13-组长AB角备份")
+    ws["A1"] = "组长 A/B 角备份制度（采纳王胜建议：应对组长当天缺席）"
+    ws["A1"].font = title_font
+    ws.merge_cells("A1:D1")
+
+    headers = ["组", "A 角组长", "B 角备份", "备注"]
+    row = 3
+    for i, h in enumerate(headers, 1):
+        ws.cell(row=row, column=i, value=h)
+    style_header(ws, row, len(headers))
+
+    row += 1
+    start = row
+    for grp, a, b, note in BACKUP_ROLES:
+        ws.cell(row=row, column=1, value=grp)
+        ws.cell(row=row, column=2, value=a)
+        ws.cell(row=row, column=3, value=b)
+        ws.cell(row=row, column=4, value=note)
+        row += 1
+    end = row - 1
+    style_body(ws, start, end, len(headers))
+    for r in range(start, end+1):
+        ws.row_dimensions[r].height = 28
+    widths = [16, 20, 20, 50]
+    for i, w in enumerate(widths, 1):
+        ws.column_dimensions[get_column_letter(i)].width = w
+
+    # ----- Sheet14 核心策划圈 -----
+    ws = wb.create_sheet("14-核心策划圈")
+    ws["A1"] = "核心策划圈（Aiden 5/13 会上点名的高频沟通小圈子，6 人）"
+    ws["A1"].font = title_font
+    ws.merge_cells("A1:C1")
+
+    headers = ["姓名", "在分工表中的角色", "在核心圈的作用"]
+    row = 3
+    for i, h in enumerate(headers, 1):
+        ws.cell(row=row, column=i, value=h)
+    style_header(ws, row, len(headers))
+
+    row += 1
+    start = row
+    for name, role, fn in CORE_CIRCLE:
+        ws.cell(row=row, column=1, value=name)
+        ws.cell(row=row, column=2, value=role)
+        ws.cell(row=row, column=3, value=fn)
+        row += 1
+    end = row - 1
+    style_body(ws, start, end, len(headers))
+    for r in range(start, end+1):
+        ws.row_dimensions[r].height = 30
+    widths = [18, 22, 50]
+    for i, w in enumerate(widths, 1):
+        ws.column_dimensions[get_column_letter(i)].width = w
+
     wb.save(path)
     print(f"[OK] Excel -> {path}")
 
@@ -803,15 +1135,15 @@ def build_ppt(path):
 
     # ============ Slide 4 组织架构图 ============
     s = prs.slides.add_slide(blank)
-    slide_title_bar(s, "02  志愿者组织架构", "总策划 → 执行总监 → 7 大职能组")
+    slide_title_bar(s, "02  志愿者组织架构", "总策划 → 执行总监(韦佳玉) → 7 大职能组")
 
     # 总策划
     add_rect(s, Inches(5.5), Inches(1.4), Inches(2.3), Inches(0.8),
-             "0B2545", text="总策划（您）", text_size=18, text_bold=True,
+             "0B2545", text="总策划 Aiden（您）", text_size=16, text_bold=True,
              corner_radius=True)
     # 执行总监
     add_rect(s, Inches(5.5), Inches(2.5), Inches(2.3), Inches(0.7),
-             "1F4E79", text="A 统筹协调组（执行总监）", text_size=13,
+             "1F4E79", text="A 统筹协调组（韦佳玉 执行总监）", text_size=11,
              text_bold=True, corner_radius=True)
     # 连接线（用细矩形模拟）
     add_rect(s, Inches(6.6), Inches(2.2), Inches(0.05), Inches(0.3), "BFBFBF")
@@ -915,6 +1247,193 @@ def build_ppt(path):
                         Inches(line_h),
                         f"• {name}  ［{post}］  意向:{pref}",
                         size=8, color="262626", anchor=MSO_ANCHOR.MIDDLE)
+
+    # ============ 5/13 优化建议筛选（采纳/调整/暂缓） ============
+    s = prs.slides.add_slide(blank)
+    slide_title_bar(s, "5/13 优化建议筛选（共 19 条 → 采纳 16 / 调整 1 / 暂缓 2）",
+                    "处置原则：直击去年痛点的全部采纳；专业度不足或越界的暂缓",
+                    primary="C00000")
+
+    # 表头
+    headers_w = [(1.4, "建议人"), (5.0, "建议内容"), (1.3, "处置"),
+                 (1.0, "组"), (4.4, "落地动作")]
+    top = Inches(1.5)
+    head_h = 0.42
+    x = 0.55
+    for w, h in headers_w:
+        add_rect(s, Inches(x), top, Inches(w), Inches(head_h),
+                 "1F4E79", text=h, text_size=10, text_bold=True)
+        x += w
+
+    status_color = {
+        "采纳": "548235",
+        "调整后采纳": "ED7D31",
+        "暂缓": "808080",
+        "暂缓→单列待办": "808080",
+    }
+    rows_per_slide = len(OPT_SUGGESTIONS)
+    row_h = (7.2 - 1.5 - 0.42) / rows_per_slide
+    for ri, (sug, content, status, resp, act) in enumerate(OPT_SUGGESTIONS):
+        y = Inches(1.5 + head_h + ri*row_h)
+        x = 0.55
+        cells = [(headers_w[0][0], sug, "262626", "FFFFFF" if ri%2==0 else "F8F8F8"),
+                 (headers_w[1][0], content, "262626", "FFFFFF" if ri%2==0 else "F8F8F8"),
+                 (headers_w[2][0], status, "FFFFFF", status_color.get(status, "808080")),
+                 (headers_w[3][0], resp, "262626", "FFFFFF" if ri%2==0 else "F8F8F8"),
+                 (headers_w[4][0], act, "262626", "FFFFFF" if ri%2==0 else "F8F8F8")]
+        for w, val, tcolor, fill in cells:
+            bold = (val == status and val in status_color)
+            align = PP_ALIGN.CENTER if val == status else PP_ALIGN.LEFT
+            add_rect(s, Inches(x), y, Inches(w), Inches(row_h),
+                     fill, line_hex="D9D9D9", text=val,
+                     text_size=8, text_bold=bold, text_color=tcolor,
+                     align=align, anchor=MSO_ANCHOR.MIDDLE)
+            x += w
+
+    # ============ 核心策划圈 + 组长 A/B 角 ============
+    s = prs.slides.add_slide(blank)
+    slide_title_bar(s, "核心策划圈 + 组长 A/B 角备份制度",
+                    "采纳王胜建议：组长备份；Aiden 5/13 点名核心搭子")
+
+    # 左：核心策划圈
+    add_rect(s, Inches(0.55), Inches(1.4), Inches(6.0), Inches(0.5),
+             "0B2545", text="核心策划圈（6 人 · Aiden 直管高频沟通）",
+             text_size=13, text_bold=True)
+    for i, (name, role, fn) in enumerate(CORE_CIRCLE):
+        top = Inches(2.0 + i*0.75)
+        add_rect(s, Inches(0.55), top, Inches(1.7), Inches(0.65),
+                 "2E75B6", text=name, text_size=11, text_bold=True)
+        add_rect(s, Inches(2.3), top, Inches(1.6), Inches(0.65),
+                 "F2F2F2", line_hex="2E75B6", text=role,
+                 text_size=10, text_color="262626")
+        add_rect(s, Inches(3.95), top, Inches(2.6), Inches(0.65),
+                 "FFFFFF", line_hex="2E75B6", text=fn,
+                 text_size=9, text_color="404040", align=PP_ALIGN.LEFT)
+
+    # 右：组长 A/B 角
+    add_rect(s, Inches(6.85), Inches(1.4), Inches(6.0), Inches(0.5),
+             "C00000", text="组长 A/B 角备份（采纳王胜建议）",
+             text_size=13, text_bold=True)
+    headers = ["组", "A 角组长", "B 角备份"]
+    widths  = [1.2, 1.8, 1.8]
+    top = Inches(2.0)
+    head_h = 0.42
+    x = 6.85
+    for h, w in zip(headers, widths):
+        add_rect(s, Inches(x), top, Inches(w), Inches(head_h),
+                 "ED7D31", text=h, text_size=11, text_bold=True)
+        x += w
+    # remaining width for note
+    add_rect(s, Inches(x), top, Inches(6.0-sum(widths)), Inches(head_h),
+             "ED7D31", text="备注", text_size=11, text_bold=True)
+
+    row_h = 0.55
+    for ri, (grp, a, b, note) in enumerate(BACKUP_ROLES):
+        y = Inches(2.0 + head_h + ri*row_h)
+        x = 6.85
+        for w, v in zip(widths + [6.0-sum(widths)], [grp, a, b, note]):
+            fill = "FFFFFF" if ri % 2 == 0 else "FFF7EC"
+            add_rect(s, Inches(x), y, Inches(w), Inches(row_h),
+                     fill, line_hex="D9D9D9", text=v,
+                     text_size=9, text_color="262626",
+                     align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.MIDDLE)
+            x += w
+
+    # ============ Milestone 时间表 ============
+    s = prs.slides.add_slide(blank)
+    slide_title_bar(s, "Milestone 时间表（节点提前 1-2 天 / 韦佳玉建议）",
+                    f"共 {len(MILESTONES)} 个里程碑 / T-9 ~ T+1")
+
+    headers = ["时间节点", "关键里程碑", "责任组"]
+    widths  = [1.7, 9.4, 1.6]
+    top = Inches(1.5)
+    head_h = 0.42
+    x = 0.55
+    for h, w in zip(headers, widths):
+        add_rect(s, Inches(x), top, Inches(w), Inches(head_h),
+                 "1F4E79", text=h, text_size=11, text_bold=True)
+        x += w
+
+    row_h = (7.2 - 1.5 - 0.42) / len(MILESTONES)
+    for ri, (t, ms, resp) in enumerate(MILESTONES):
+        y = Inches(1.5 + head_h + ri*row_h)
+        x = 0.55
+        # T-0/T-1/T-7 用不同色突出
+        if t.startswith("T-0"):
+            fill = "FFE4E4"
+        elif t.startswith("T-1"):
+            fill = "FFF0E4"
+        elif t.startswith("T+1"):
+            fill = "E4F0FF"
+        else:
+            fill = "FFFFFF" if ri % 2 == 0 else "F8F8F8"
+        for w, v in zip(widths, [t, ms, resp]):
+            add_rect(s, Inches(x), y, Inches(w), Inches(row_h),
+                     fill, line_hex="D9D9D9", text=v,
+                     text_size=8, text_color="262626",
+                     align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.MIDDLE)
+            x += w
+
+    # ============ 嘉宾发言时间控制 SOP ============
+    s = prs.slides.add_slide(blank)
+    slide_title_bar(s, "嘉宾发言时间控制 SOP（去年最大事故）",
+                    "采纳张卓建议：从第 1 位讲者就开始的超时绝不能重演",
+                    primary="C00000")
+
+    headers = ["时间点", "动作", "责任组"]
+    widths  = [2.4, 8.7, 1.6]
+    top = Inches(1.5)
+    head_h = 0.5
+    x = 0.55
+    for h, w in zip(headers, widths):
+        add_rect(s, Inches(x), top, Inches(w), Inches(head_h),
+                 "C00000", text=h, text_size=12, text_bold=True)
+        x += w
+
+    row_h = (7.2 - 1.5 - 0.5) / len(TIME_SOP)
+    for ri, (t, act, resp) in enumerate(TIME_SOP):
+        y = Inches(1.5 + head_h + ri*row_h)
+        x = 0.55
+        # 现场动作高亮
+        is_live = t.startswith("T-0")
+        fill = "FFF7F7" if is_live else ("FFFFFF" if ri%2==0 else "F8F8F8")
+        for w, v in zip(widths, [t, act, resp]):
+            add_rect(s, Inches(x), y, Inches(w), Inches(row_h),
+                     fill, line_hex="D9D9D9", text=v,
+                     text_size=10, text_color="262626",
+                     text_bold=is_live,
+                     align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.MIDDLE)
+            x += w
+
+    # ============ 协助人员对接清单 ============
+    s = prs.slides.add_slide(blank)
+    slide_title_bar(s, "协助人员对接清单（全员人手一份）",
+                    "采纳张卓建议：现场遇问题先找A角→找B角→才找韦佳玉/Aiden")
+
+    headers = ["问题类别 / 你遇到的事情", "A 角（先找）", "B 角（找不到时）"]
+    widths  = [5.4, 3.5, 3.8]
+    top = Inches(1.5)
+    head_h = 0.45
+    x = 0.55
+    for h, w in zip(headers, widths):
+        add_rect(s, Inches(x), top, Inches(w), Inches(head_h),
+                 "548235", text=h, text_size=11, text_bold=True)
+        x += w
+
+    row_h = (7.2 - 1.5 - 0.45) / len(LIAISON_LIST)
+    for ri, (cat, who, backup) in enumerate(LIAISON_LIST):
+        y = Inches(1.5 + head_h + ri*row_h)
+        x = 0.55
+        # 重要分类高亮
+        is_critical = ("医疗" in cat or "重大" in cat or "舆情" in cat)
+        fill = "FFE4E4" if is_critical else ("FFFFFF" if ri%2==0 else "F4F8EE")
+        for w, v in zip(widths, [cat, who, backup]):
+            add_rect(s, Inches(x), y, Inches(w), Inches(row_h),
+                     fill, line_hex="D9D9D9", text=v,
+                     text_size=9, text_color="262626",
+                     text_bold=is_critical,
+                     align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.MIDDLE)
+            x += w
 
     # ============ 5/13 会议结论 & 待办 ============
     s = prs.slides.add_slide(blank)
