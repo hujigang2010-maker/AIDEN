@@ -1,1 +1,114 @@
-# AIDEN
+# 冠松静安智能驾驶研发中心 · 招商方案（GS · iDrive Hub）
+
+> 项目代号：**GS · iDrive Hub**
+> 战略定位：**让中心城区跑通智能驾驶最后一公里**
+> 文档库：本仓库 `docs/` 目录，按 5 个 Phase / 8 个任务交付
+> 当前版本：v1.0（招商策划阶段；签约前由各业务部门按实际数据复核）
+
+---
+
+## 商务汇报 PPT
+
+- [docs/deck/GS-iDrive-Hub-招商方案.pptx](docs/deck/GS-iDrive-Hub-招商方案.pptx) — **47 页 16:9 商务汇报版**（v1.2.1 新增"服务平台佣金构成"与"后市场协同分成构成"2 页可视化解读）（封面 / 议程 / 摘要 / 区位 / SWOT / 5 阶段 8 任务 + 5 张链主一页纸 + 服务包 + 报价单 + 风险矩阵 + **谈判策略 4 页** + **冠松资源协同** + **22 人组织架构** + **薪酬带宽** + **KPI 仪表盘** + **FAQ** + **文档索引** / 投决建议 / 致谢）
+- 生成脚本：[scripts/build_pptx.py](scripts/build_pptx.py)（依赖 `python-pptx`，模块化函数 `anchor_one_pager()` / `section_cover()` 便于二次扩页）
+- 中文字体：WenQuanYi Micro Hei（系统默认）；如需替换为 PingFang/Source Han，编辑脚本顶部 `CN_FONT` 即可
+- 重新生成：`pip install python-pptx && python3 scripts/build_pptx.py`
+
+## 法务文档（Word · 草案口径）
+
+> 由 [`scripts/build_legal_docs.py`](scripts/build_legal_docs.py) 一键生成；签约前由法务最终定稿。
+
+- [docs/legal/01-合作协议-链主总部租赁合同.docx](docs/legal/01-合作协议-链主总部租赁合同.docx) — 链主总部租赁合同（甲档样张，17 章 + 5 附件）
+- [docs/legal/02-合作协议-中介居间服务协议.docx](docs/legal/02-合作协议-中介居间服务协议.docx) — 5 家中介通用居间协议
+- [docs/legal/03-合作协议-联合实验室共建协议.docx](docs/legal/03-合作协议-联合实验室共建协议.docx) — 3F 联合研发实验室共建（链主 + 我方）
+- [docs/legal/04-合作协议-政府专班合作备忘录.docx](docs/legal/04-合作协议-政府专班合作备忘录.docx) — 静安区政府 × 冠松集团 战略 MOU
+
+## 财务测算 Excel
+
+> 由 [`scripts/build_finance_xlsx.py`](scripts/build_finance_xlsx.py) 一键生成；含 8 个 Sheet。
+
+- [docs/finance/财务测算与商务模型.xlsx](docs/finance/财务测算与商务模型.xlsx)
+  - Sheet 1：摘要 Dashboard
+  - Sheet 2：假设与参数（黄色单元格可调）
+  - Sheet 3：三年损益（含柱状图）
+  - Sheet 4：36 个月滚动现金流（含折线图）
+  - Sheet 5：入驻爬坡进度（链主 + 生态）
+  - Sheet 6：单/双变量敏感性矩阵
+  - Sheet 7：22 人薪酬带宽
+  - Sheet 8：链主谈判让步阶梯计算器
+
+## 目录索引
+
+### Phase 1 · 策略与定位（奠基）
+
+| 任务 | 文档 | 主要交付 |
+| --- | --- | --- |
+| 任务 1 · 产业定位研究与竞品对标 | [docs/phase1-strategy/01-industry-positioning-report.md](docs/phase1-strategy/01-industry-positioning-report.md) | 1 页摘要 + 产业链图谱 + 静安/跨区竞品对标 + SWOT |
+| 任务 2 · 空间功能规划 | [docs/phase1-strategy/02-space-planning.md](docs/phase1-strategy/02-space-planning.md) | A~E 栋功能 + 户外测试区方案 + 平面示意 + 面积表 |
+
+### Phase 2 · 招商执行（核心）
+
+| 任务 | 文档 | 主要交付 |
+| --- | --- | --- |
+| 任务 3 · 链主企业攻坚 | [docs/phase2-execution/03-anchor-tenant-tracker.md](docs/phase2-execution/03-anchor-tenant-tracker.md) | TOP5 进度表 + 每家一页纸定制提案（华为 / 百度 / 小鹏 / 地平线 / Momenta） |
+| 任务 3 附录 · 谈判策略 | [docs/phase2-execution/03b-negotiation-playbook.md](docs/phase2-execution/03b-negotiation-playbook.md) | 链主/政府/中介/生态 四类谈判 Playbook + 让步阶梯 + 24 条话术 + 红线 |
+| 任务 4 · 生态企业招商漏斗 | [docs/phase2-execution/04-ecosystem-funnel.md](docs/phase2-execution/04-ecosystem-funnel.md) | 300 家库结构 + 漏斗 + 中介策略 |
+|  | [docs/phase2-execution/04-ecosystem-target-db.csv](docs/phase2-execution/04-ecosystem-target-db.csv) | 300 家目标企业数据库样表 |
+|  | [docs/phase2-execution/04-broker-agreement-template.md](docs/phase2-execution/04-broker-agreement-template.md) | 中介合作协议模板（要点版） |
+| 任务 5 · 政府关系对接 | [docs/phase2-execution/05-government-relations.md](docs/phase2-execution/05-government-relations.md) | 对接路径 + 纪要模板 + 政策适配清单（牌照/补贴/人才/财税/数据/用地） |
+
+### Phase 3 · 品牌与活动
+
+| 任务 | 文档 | 主要交付 |
+| --- | --- | --- |
+| 任务 6 · 品牌活动策划与执行 | [docs/phase3-brand/06-launch-and-events.md](docs/phase3-brand/06-launch-and-events.md) | 9 月发布会 + 年度 10 场活动日历 + 媒体策略 + 80 家媒体清单 |
+
+### Phase 4 · 商业条款
+
+| 任务 | 文档 | 主要交付 |
+| --- | --- | --- |
+| 任务 7 · 商业模式与合同 | [docs/phase4-commercial/07-pricing-and-contract.md](docs/phase4-commercial/07-pricing-and-contract.md) | 四档报价 + 合同框架 + 三年财务测算 + 链主报价单样张 |
+|  | [docs/phase4-commercial/07-financial-model.csv](docs/phase4-commercial/07-financial-model.csv) | 三年财务测算明细 (CSV) |
+| 任务 7 补充 · 非租金收入解读 | [docs/phase4-commercial/07c-non-rental-revenue-explained.md](docs/phase4-commercial/07c-non-rental-revenue-explained.md) | **服务平台佣金 + 后市场协同分成** 产业逻辑、6+6 子项构成、合规边界、投决会备答（Markdown 版） |
+|  | [docs/phase4-commercial/07c-非租金收入解读-投决会备答版.docx](docs/phase4-commercial/07c-非租金收入解读-投决会备答版.docx) | 同上内容 · Word 投决会备答版（含表格 + 应答口径） |
+|  | PPT 第 30–31 页 | 服务平台佣金 600 万 + 后市场协同 300 万 · 可视化构成图（含三年爬坡 + 4 道护城河） |
+
+### Phase 5 · 落地推进
+
+| 任务 | 文档 | 主要交付 |
+| --- | --- | --- |
+| 任务 8 · 12 个月执行计划 | [docs/phase5-rollout/08-execution-plan.md](docs/phase5-rollout/08-execution-plan.md) | 里程碑甘特图 + 4 人核心团队 + 22 人扩编 + RACI 分工 + 运营 SOP |
+| 任务 8 附录 · 22 人 JD | [docs/phase5-rollout/08b-team-and-jd.md](docs/phase5-rollout/08b-team-and-jd.md) | 22 个岗位详细 JD + 薪酬带宽 + KPI + 招聘节奏 + 期权激励机制 |
+
+---
+
+## 顶层逻辑（One-Pager · 给决策人）
+
+- **项目载体**：**01# 新建研发楼**（永和社区 075b-07 地块）· 地上 9F **15,152.75 ㎡** + 地下 6,992.87 ㎡ · 高 44.95 m · **C6 教育科研用地** · 装配式 100% / 绿建二星
+- **客群垂直分层**：链主总部（8–9F）→ 核心研发（3–4F · 5.4–5.7 m 高层高）→ 算法软件（6–7F）
+- **差异化壁垒**：① 中心城区罕见 5.4–5.7 m 高层高硬科技研发空间；② 绿建二星 + 装配式 + 540 ㎡ 光伏 + 海绵城市 全套绿色低碳成绩单；③ 静安"一企一策"政策包；④ "三段式"测试解决方案（园区静态 + 区内 1.5 km 路测延伸 + 嘉定/临港会员通道，**轻资产**）；⑤ 冠松汽车后市场反哺
+- **TOP5 链主**：华为车 BU / 百度 Apollo / 小鹏 / 地平线 / Momenta（落位 8–9F）
+- **300 家生态库**：5 家中介 + 9 类来源；线索→签约 17% 转化模型
+- **9 月发布会**：200 人 · 5+ 家签约 · "iDrive · 静安 10 条"政策包发布
+- **四档商业**：甲(链主总部+政策返还) / 乙(核心研发高层高) / 丙(算法软件) / 丁(冠名+对赌)
+- **三年目标**：入驻率 92% · 链主 ≥ 1 · 入驻企业 12–18 家 · Y3 EBITDA 转正约 1,400 万元
+
+---
+
+## 使用建议
+
+- 决策汇报：建议从 README → Phase1 任务1 摘要 → Phase4 报价单 → Phase5 甘特图，约 30 分钟可形成完整认知
+- 销售工具：Phase2 链主一页纸 + 报价单 + 客户报备表
+- 政府汇报：Phase2 任务5 政策适配清单 + Phase4 一企一策模板
+- 内部管理：Phase5 RACI + KPI 看板 + 漏斗例会节奏
+
+## 审阅与签字（建议）
+
+| 角色 | 审阅范围 |
+| --- | --- |
+| 集团董事长 | 全部，重点 Phase4 + Phase5 |
+| 项目总监 | Phase2 + Phase3 + Phase5 |
+| GR 总监 | Phase2 任务5 + Phase4 政策返还 |
+| 招商总监 | Phase2 任务3、4 |
+| 法务总监 | Phase4 合同 / 对赌 / 数据合规 |
+| CFO | Phase4 财务模型 |
