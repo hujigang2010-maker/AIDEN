@@ -69,6 +69,7 @@
 | --- | --- | --- |
 | 任务 7 · 商业模式与合同 | [docs/phase4-commercial/07-pricing-and-contract.md](docs/phase4-commercial/07-pricing-and-contract.md) | 四档报价 + 合同框架 + 三年财务测算 + 链主报价单样张 |
 |  | [docs/phase4-commercial/07-financial-model.csv](docs/phase4-commercial/07-financial-model.csv) | 三年财务测算明细 (CSV) |
+| 任务 7 补充 · 非租金收入解读 | [docs/phase4-commercial/07c-non-rental-revenue-explained.md](docs/phase4-commercial/07c-non-rental-revenue-explained.md) | **服务平台佣金 + 后市场协同分成** 产业逻辑、6+6 子项构成、合规边界、投决会备答 |
 
 ### Phase 5 · 落地推进
 
