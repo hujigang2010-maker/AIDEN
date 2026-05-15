@@ -1338,6 +1338,150 @@ def build():
              "敏感性（Y3 EBITDA 万元变化）：入驻 ±10% → −480/+220 · 租金 ±10% → ±210 · 政策兑现 −30% → −450 · 冠名/服务 −30% → −420",
              size=11, color=INK)
 
+    # ============ NEW 29b. 服务平台佣金构成 ============
+    s = new_slide(prs)
+    add_chrome(s, prs, page_no=0, phase_label="Phase 4 · 任务 7 补充",
+               page_title="服务平台佣金 600 万 = 议价权变现",
+               subtitle="把入驻企业聚合后的议价权变现 · 6 个子项构成 · 增量人力成本 ≤ 100 万")
+
+    # 左：6 个子项卡片（金字塔结构）
+    add_text(s, Inches(0.5), Inches(1.15), Inches(6), Inches(0.4),
+             "Y3 600 万构成（6 大子项）", size=14, bold=True, color=NAVY)
+    items_svc = [
+        ("A. 算力服务转售", "250 万",
+         "阿里云 / 华为云 / 上海超算 · 价差 8–15%", BLUE),
+        ("B. 政府事务服务费", "150 万",
+         "一企一策 / 牌照代办 / 落户 · 单项 5–20 万", GOLD),
+        ("C. 联合实验室分成", "80 万",
+         "3F 实验室对外承接 Tier1 · 出资比例分成", PURPLE),
+        ("D. 招聘联运", "60 万",
+         "高级研发岗位渠道分成 · 单笔 8–15%", GREEN),
+        ("E. 法务/IP/咨询", "60 万",
+         "君合/方达/毕马威 驻点 · 单笔 5–10%", NAVY),
+    ]
+    for i, (t, amount, d, c) in enumerate(items_svc):
+        y = Inches(1.55) + Inches(0.92) * i
+        add_rect(s, Inches(0.5), y, Inches(0.18), Inches(0.82), fill=c)
+        add_rect(s, Inches(0.7), y, Inches(6.0), Inches(0.82), fill=CLOUD, line=LINE)
+        add_text(s, Inches(0.85), y + Inches(0.05), Inches(2.2), Inches(0.35),
+                 t, size=12, bold=True, color=NAVY, anchor=MSO_ANCHOR.MIDDLE)
+        add_round(s, Inches(3.10), y + Inches(0.20), Inches(0.95), Inches(0.40),
+                  amount, fill=c, color=WHITE if c != GOLD else NAVY,
+                  size=12, bold=True)
+        add_text(s, Inches(4.20), y + Inches(0.05), Inches(2.4), Inches(0.73),
+                 d, size=9, color=INK, anchor=MSO_ANCHOR.MIDDLE)
+
+    # 右上：三年爬坡柱状
+    add_text(s, Inches(7.0), Inches(1.15), Inches(6), Inches(0.4),
+             "三年爬坡（与入驻率挂钩 70%）", size=14, bold=True, color=NAVY)
+    bar_max = 600
+    bar_w_max = Inches(5.5)
+    bar_data = [("Y1 (35%)", 80, BLUE), ("Y2 (70%)", 250, GOLD), ("Y3 (92%)", 600, GREEN)]
+    for i, (lbl, n, c) in enumerate(bar_data):
+        y = Inches(1.55) + Inches(0.7) * i
+        add_text(s, Inches(7.0), y, Inches(1.4), Inches(0.50),
+                 lbl, size=12, bold=True, color=NAVY, anchor=MSO_ANCHOR.MIDDLE)
+        bw = Inches(n / bar_max * 5.5)
+        add_rect(s, Inches(8.4), y + Inches(0.10), bw, Inches(0.30), fill=c)
+        add_text(s, Inches(8.4) + bw + Inches(0.05), y + Inches(0.05),
+                 Inches(1.5), Inches(0.40),
+                 f"{n} 万", size=12, bold=True, color=NAVY, anchor=MSO_ANCHOR.MIDDLE)
+
+    # 右下：核心特点
+    add_rect(s, Inches(7.0), Inches(4.0), Inches(6.0), Inches(2.3), fill=NAVY)
+    add_text(s, Inches(7.15), Inches(4.05), Inches(5.7), Inches(0.4),
+             "★ 商业模式特点", size=13, bold=True, color=GOLD)
+    bullets_svc = [
+        "议价权变现：1 链主 + 14 家生态体量议价",
+        "边际成本低：增量人力成本 ≤ 100 万/年",
+        "强生态依附：70% 与入驻量挂钩，弹性大",
+        "政策合规：不承诺审批结果 / 不收回扣",
+    ]
+    for i, b in enumerate(bullets_svc):
+        y = Inches(4.50) + Inches(0.42) * i
+        add_round(s, Inches(7.15), y + Inches(0.10), Inches(0.20), Inches(0.20),
+                  "●", fill=GOLD, color=NAVY, size=8, bold=True)
+        add_text(s, Inches(7.45), y, Inches(5.4), Inches(0.4),
+                 b, size=11, color=WHITE, anchor=MSO_ANCHOR.MIDDLE)
+
+    # 底部里程碑
+    add_text(s, Inches(0.5), Inches(6.45), Inches(12.5), Inches(0.40),
+             "实操里程碑：M3 算力供应商签约 · M5 法务/会计师驻点 · M8 联合实验室开放 · M12 月度 GMV ≥ 100 万",
+             size=11, bold=True, color=NAVY, anchor=MSO_ANCHOR.MIDDLE)
+
+    # ============ NEW 29c. 后市场协同分成构成 ============
+    s = new_slide(prs)
+    add_chrome(s, prs, page_no=0, phase_label="Phase 4 · 任务 7 补充",
+               page_title="后市场协同分成 300 万 = 冠松独家壁垒变现",
+               subtitle="冠松 6 大资源 × 园区智驾产品 · 4 道不可复制护城河")
+
+    # 左：6 个子项
+    add_text(s, Inches(0.5), Inches(1.15), Inches(6), Inches(0.4),
+             "Y3 300 万构成（6 大子项）", size=14, bold=True, color=NAVY)
+    items_amk = [
+        ("A. 数据闭环分成", "120 万",
+         "4S 真实数据→数交所沙盒→链主订阅 · 抽 10–15%", NAVY),
+        ("B. 保险定损协同", "80 万",
+         "智驾保险产品 × 冠松定损 · 与平安/人保/太保分成", BLUE),
+        ("C. 二手智驾车认证", "30 万",
+         "残值评估 + 智驾包激活流转", GOLD),
+        ("D. 测试车队融资", "30 万",
+         "冠松融资租赁子公司利率低 1.5–2%", PURPLE),
+        ("E. 冠松车队数据采集", "30 万",
+         "100+ 营运车 · 真实上海典型场景", GREEN),
+        ("F. 体验店流量分成", "10 万",
+         "1F 大堂体验店 · 园区企业产品分销", BLUE),
+    ]
+    for i, (t, amount, d, c) in enumerate(items_amk):
+        y = Inches(1.55) + Inches(0.78) * i
+        add_rect(s, Inches(0.5), y, Inches(0.18), Inches(0.70), fill=c)
+        add_rect(s, Inches(0.7), y, Inches(6.0), Inches(0.70), fill=CLOUD, line=LINE)
+        add_text(s, Inches(0.85), y + Inches(0.03), Inches(2.2), Inches(0.30),
+                 t, size=11, bold=True, color=NAVY, anchor=MSO_ANCHOR.MIDDLE)
+        add_round(s, Inches(3.10), y + Inches(0.15), Inches(0.95), Inches(0.40),
+                  amount, fill=c, color=WHITE if c != GOLD else NAVY,
+                  size=11, bold=True)
+        add_text(s, Inches(4.20), y + Inches(0.03), Inches(2.4), Inches(0.63),
+                 d, size=9, color=INK, anchor=MSO_ANCHOR.MIDDLE)
+
+    # 右上：三年爬坡
+    add_text(s, Inches(7.0), Inches(1.15), Inches(6), Inches(0.4),
+             "三年爬坡（依赖链主入驻）", size=14, bold=True, color=NAVY)
+    bar_data2 = [("Y1", 50, BLUE), ("Y2 (链主 1)", 150, GOLD), ("Y3 (链主 1+生态 13)", 300, GREEN)]
+    for i, (lbl, n, c) in enumerate(bar_data2):
+        y = Inches(1.55) + Inches(0.55) * i
+        add_text(s, Inches(7.0), y, Inches(1.8), Inches(0.40),
+                 lbl, size=11, bold=True, color=NAVY, anchor=MSO_ANCHOR.MIDDLE)
+        bw = Inches(n / 300.0 * 3.0)
+        add_rect(s, Inches(8.8), y + Inches(0.08), bw, Inches(0.25), fill=c)
+        add_text(s, Inches(8.8) + bw + Inches(0.05), y + Inches(0.05),
+                 Inches(1.2), Inches(0.30),
+                 f"{n} 万", size=11, bold=True, color=NAVY, anchor=MSO_ANCHOR.MIDDLE)
+
+    # 右下：4 道护城河
+    add_text(s, Inches(7.0), Inches(3.4), Inches(6), Inches(0.4),
+             "4 道护城河（不可复制）", size=14, bold=True, color=NAVY)
+    moats = [
+        ("① 数据真实性", "4S 真实数据自然产生", NAVY),
+        ("② 保险牌照", "持牌保险经纪/公估机构合作", BLUE),
+        ("③ 资金成本", "融资租赁利率低市场 1.5–2%", GOLD),
+        ("④ 数据合规", "数交所沙盒处理 · 链主可合规使用", GREEN),
+    ]
+    for i, (t, d, c) in enumerate(moats):
+        y = Inches(3.85) + Inches(0.62) * i
+        add_rect(s, Inches(7.0), y, Inches(0.18), Inches(0.55), fill=c)
+        add_rect(s, Inches(7.2), y, Inches(5.8), Inches(0.55), fill=CLOUD, line=LINE)
+        add_text(s, Inches(7.35), y + Inches(0.05), Inches(1.8), Inches(0.45),
+                 t, size=11, bold=True, color=NAVY, anchor=MSO_ANCHOR.MIDDLE)
+        add_text(s, Inches(9.15), y + Inches(0.05), Inches(3.8), Inches(0.45),
+                 d, size=10, color=INK, anchor=MSO_ANCHOR.MIDDLE)
+
+    # 底部里程碑
+    add_rect(s, Inches(0.5), Inches(6.40), Inches(12.3), Inches(0.45), fill=NAVY)
+    add_text(s, Inches(0.7), Inches(6.40), Inches(12.0), Inches(0.45),
+             "实操里程碑：M2 子公司框架协议 · M4 数交所沙盒 · M6 首笔数据订阅 · M9 智驾保险合作 · M12 测试车队融资",
+             size=10, bold=True, color=GOLD, anchor=MSO_ANCHOR.MIDDLE)
+
     # ============ 30. Phase 5 扉页 ============
     section_cover(prs, "PHASE 5", "落地推进",
                   "Rollout · 12 Months · 4 → 22 Team",

@@ -9,7 +9,7 @@
 
 ## 商务汇报 PPT
 
-- [docs/deck/GS-iDrive-Hub-招商方案.pptx](docs/deck/GS-iDrive-Hub-招商方案.pptx) — **45 页 16:9 商务汇报版**（封面 / 议程 / 摘要 / 区位 / SWOT / 5 阶段 8 任务 + 5 张链主一页纸 + 服务包 + 报价单 + 风险矩阵 + **谈判策略 4 页** + **冠松资源协同** + **22 人组织架构** + **薪酬带宽** + **KPI 仪表盘** + **FAQ** + **文档索引** / 投决建议 / 致谢）
+- [docs/deck/GS-iDrive-Hub-招商方案.pptx](docs/deck/GS-iDrive-Hub-招商方案.pptx) — **47 页 16:9 商务汇报版**（v1.2.1 新增"服务平台佣金构成"与"后市场协同分成构成"2 页可视化解读）（封面 / 议程 / 摘要 / 区位 / SWOT / 5 阶段 8 任务 + 5 张链主一页纸 + 服务包 + 报价单 + 风险矩阵 + **谈判策略 4 页** + **冠松资源协同** + **22 人组织架构** + **薪酬带宽** + **KPI 仪表盘** + **FAQ** + **文档索引** / 投决建议 / 致谢）
 - 生成脚本：[scripts/build_pptx.py](scripts/build_pptx.py)（依赖 `python-pptx`，模块化函数 `anchor_one_pager()` / `section_cover()` 便于二次扩页）
 - 中文字体：WenQuanYi Micro Hei（系统默认）；如需替换为 PingFang/Source Han，编辑脚本顶部 `CN_FONT` 即可
 - 重新生成：`pip install python-pptx && python3 scripts/build_pptx.py`
@@ -69,7 +69,9 @@
 | --- | --- | --- |
 | 任务 7 · 商业模式与合同 | [docs/phase4-commercial/07-pricing-and-contract.md](docs/phase4-commercial/07-pricing-and-contract.md) | 四档报价 + 合同框架 + 三年财务测算 + 链主报价单样张 |
 |  | [docs/phase4-commercial/07-financial-model.csv](docs/phase4-commercial/07-financial-model.csv) | 三年财务测算明细 (CSV) |
-| 任务 7 补充 · 非租金收入解读 | [docs/phase4-commercial/07c-non-rental-revenue-explained.md](docs/phase4-commercial/07c-non-rental-revenue-explained.md) | **服务平台佣金 + 后市场协同分成** 产业逻辑、6+6 子项构成、合规边界、投决会备答 |
+| 任务 7 补充 · 非租金收入解读 | [docs/phase4-commercial/07c-non-rental-revenue-explained.md](docs/phase4-commercial/07c-non-rental-revenue-explained.md) | **服务平台佣金 + 后市场协同分成** 产业逻辑、6+6 子项构成、合规边界、投决会备答（Markdown 版） |
+|  | [docs/phase4-commercial/07c-非租金收入解读-投决会备答版.docx](docs/phase4-commercial/07c-非租金收入解读-投决会备答版.docx) | 同上内容 · Word 投决会备答版（含表格 + 应答口径） |
+|  | PPT 第 30–31 页 | 服务平台佣金 600 万 + 后市场协同 300 万 · 可视化构成图（含三年爬坡 + 4 道护城河） |
 
 ### Phase 5 · 落地推进
 
