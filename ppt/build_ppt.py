@@ -156,54 +156,156 @@ SW, SH = prs.slide_width, prs.slide_height
 # ============================================================
 def build_cover():
     slide = slide_blank(prs, bg=NAVY_DARK)
-    add_rect(slide, 0, 0, Inches(8.2), SH, NAVY)
-    add_rect(slide, Inches(8.2), 0, SW - Inches(8.2), SH, PAPER)
+    add_rect(slide, 0, 0, SW, SH, NAVY)
 
-    add_rect(slide, Inches(0.7), Inches(0.7), Inches(1.2), Emu(28575), GOLD)
-    add_textbox(slide, Inches(0.7), Inches(0.85), Inches(6), Inches(0.35),
-                'REAL  ESTATE  ·  HIGH-QUALITY  DEVELOPMENT',
-                size=10, color=GOLD, bold=True)
+    add_rect(slide, Inches(0.6), Inches(0.6), Inches(1.5), Emu(28575), GOLD)
+    add_rect(slide, SW - Inches(2.1), SH - Inches(0.62),
+             Inches(1.5), Emu(28575), GOLD)
 
-    add_textbox(slide, Inches(0.7), Inches(1.7), Inches(7.4), Inches(1.6),
-                '面向^^十五五^^的不动产转型\n与高质量发展',
-                size=40, bold=True, color=WHITE, line_spacing=1.15)
+    add_textbox(slide, 0, Inches(0.62), SW, Inches(0.35),
+                'REAL  ESTATE  ·  HIGH-QUALITY  DEVELOPMENT  ·  2026',
+                size=11, color=GOLD, bold=True, align=PP_ALIGN.CENTER)
 
-    add_rect(slide, Inches(0.7), Inches(4.05), Inches(0.6), Emu(28575), GOLD)
-    add_textbox(slide, Inches(0.7), Inches(4.18), Inches(7.4), Inches(0.7),
-                '从空间开发  ·  迈向科技赋能平台',
-                size=20, color=GOLD)
+    add_textbox(slide, 0, Inches(1.55), SW, Inches(0.45),
+                '面 向 ^^十五五^^ 的 不 动 产 转 型 与 高 质 量 发 展',
+                size=18, color=WHITE, align=PP_ALIGN.CENTER, line_spacing=1.2)
 
-    add_textbox(slide, Inches(0.7), Inches(5.0), Inches(7.4), Inches(1.5),
-                '存量时代的精细化运营 × 大模型驱动的管理革命\n×  科创生态的产城融合',
-                size=14, color=WHITE, line_spacing=1.6)
+    add_rect(slide, SW / 2 - Inches(0.4), Inches(2.25),
+             Inches(0.8), Emu(28575), GOLD)
 
-    add_rect(slide, Inches(8.7), Inches(1.7), Inches(0.06), Inches(2.0), GOLD)
-    add_textbox(slide, Inches(8.95), Inches(1.7), Inches(4.0), Inches(0.4),
-                '汇报主题', size=10, color=TEXT_MUTE, bold=True)
-    add_textbox(slide, Inches(8.95), Inches(2.05), Inches(4.0), Inches(1.6),
-                '新模式 · 新动能 · 新格局\n房地产高质量发展的实践路径',
-                size=14, bold=True, color=NAVY, line_spacing=1.4)
+    add_textbox(slide, 0, Inches(2.55), SW, Inches(1.6),
+                '从  空 间 开 发\n迈 向  科 技 赋 能 平 台',
+                size=54, bold=True, color=WHITE,
+                align=PP_ALIGN.CENTER, line_spacing=1.15)
 
-    add_textbox(slide, Inches(8.95), Inches(4.0), Inches(4.0), Inches(0.4),
-                '汇 报 提 纲', size=10, color=TEXT_MUTE, bold=True)
-    items = [
-        '01  时代定调 · 周期新旧转换',
-        '02  破局寻路 · 新模式内涵',
-        '03  核心动能 · 科技驱动',
-        '04  总结展望 · 知与行',
-    ]
-    add_textbox(slide, Inches(8.95), Inches(4.35), Inches(4.0), Inches(2.0),
-                '\n'.join(items),
-                size=12, color=TEXT_BODY, line_spacing=1.7)
+    add_textbox(slide, 0, Inches(4.55), SW, Inches(0.5),
+                '存量时代的精细化运营  ×  大模型驱动的管理革命  ×  科创生态的产城融合',
+                size=14, color=GOLD, align=PP_ALIGN.CENTER)
 
-    add_rect(slide, Inches(0.7), SH - Inches(0.95), Inches(7.4), Emu(9525), GOLD)
-    add_textbox(slide, Inches(0.7), SH - Inches(0.78), Inches(7.4), Inches(0.4),
-                '汇报人： ___________     |     2026 · ^^十五五^^开局之年',
-                size=11, color=WHITE)
+    add_rect(slide, SW / 2 - Inches(4.8), Inches(5.55),
+             Inches(9.6), Inches(1.25), NAVY_LIGHT)
+    add_rect(slide, SW / 2 - Inches(4.8), Inches(5.55),
+             Inches(0.12), Inches(1.25), GOLD)
+
+    add_textbox(slide, SW / 2 - Inches(4.6), Inches(5.7),
+                Inches(2.4), Inches(0.45),
+                '汇 报 人', size=11, bold=True, color=GOLD)
+    add_textbox(slide, SW / 2 - Inches(4.6), Inches(6.05),
+                Inches(2.4), Inches(0.5),
+                '胡 继 刚', size=24, bold=True, color=WHITE)
+
+    add_rect(slide, SW / 2 - Inches(2.0), Inches(5.85),
+             Emu(9525), Inches(0.7), GOLD)
+
+    add_textbox(slide, SW / 2 - Inches(1.8), Inches(5.7),
+                Inches(6.6), Inches(0.4),
+                '复旦大学住房政策研究中心 · 秘书长',
+                size=13, bold=True, color=WHITE)
+    add_textbox(slide, SW / 2 - Inches(1.8), Inches(6.05),
+                Inches(6.6), Inches(0.4),
+                '副教授级高级工程师  ·  上海杨浦区科技企业联合会 · 执行会长',
+                size=11, color=GOLD)
+    add_textbox(slide, SW / 2 - Inches(1.8), Inches(6.4),
+                Inches(6.6), Inches(0.4),
+                '住房政策  ·  城市更新  ·  产城融合  ·  不动产轻资产运营',
+                size=10.5, color=WHITE)
+
+    add_textbox(slide, 0, SH - Inches(0.5), SW, Inches(0.35),
+                '2026  ·  ^^十五五^^开局之年  ·  汇报材料',
+                size=10, color=GOLD, align=PP_ALIGN.CENTER)
 
 
 # ============================================================
-# 2. 目录
+# 2. 汇报人简介
+# ============================================================
+def build_speaker():
+    slide = slide_blank(prs, bg=WHITE)
+
+    add_rect(slide, 0, 0, Inches(4.6), SH, NAVY)
+    add_rect(slide, Inches(4.6), 0, Emu(28575), SH, GOLD)
+
+    add_textbox(slide, Inches(0.6), Inches(0.65),
+                Inches(3.5), Inches(0.4),
+                'SPEAKER  ·  汇 报 人',
+                size=11, bold=True, color=GOLD)
+
+    add_rect(slide, Inches(0.85), Inches(1.4),
+             Inches(2.9), Inches(2.9), NAVY_LIGHT, shape=MSO_SHAPE.OVAL)
+    add_textbox(slide, Inches(0.85), Inches(2.5),
+                Inches(2.9), Inches(0.7),
+                '胡  继  刚',
+                size=30, bold=True, color=GOLD,
+                align=PP_ALIGN.CENTER)
+    add_textbox(slide, Inches(0.85), Inches(3.2),
+                Inches(2.9), Inches(0.4),
+                'HU  JI-GANG',
+                size=11, color=WHITE, align=PP_ALIGN.CENTER)
+
+    add_rect(slide, Inches(0.6), Inches(4.55),
+             Inches(0.6), Emu(28575), GOLD)
+    add_textbox(slide, Inches(0.6), Inches(4.7),
+                Inches(3.5), Inches(0.4),
+                '现  任  职  务',
+                size=11, bold=True, color=GOLD)
+
+    titles = [
+        '复旦大学住房政策研究中心  秘书长',
+        '上海市杨浦区科技企业联合会  执行会长',
+        '九三学社上海市委经贸委员会  委员',
+        '副教授级 高级工程师',
+    ]
+    cur = Inches(5.1)
+    for t in titles:
+        add_textbox(slide, Inches(0.6), cur, Inches(3.7), Inches(0.32),
+                    '·  ' + t, size=10.5, color=WHITE, line_spacing=1.4)
+        cur += Inches(0.4)
+
+    add_textbox(slide, Inches(5.0), Inches(0.65),
+                Inches(8.0), Inches(0.4),
+                '汇  报  人  简  介',
+                size=12, bold=True, color=TEXT_MUTE)
+
+    add_textbox(slide, Inches(5.0), Inches(1.15),
+                Inches(8.0), Inches(0.7),
+                '深耕不动产 15+ 年的复合型专家',
+                size=24, bold=True, color=NAVY, line_spacing=1.15)
+
+    add_rect(slide, Inches(5.0), Inches(2.0),
+             Inches(0.5), Emu(28575), GOLD)
+
+    add_textbox(slide, Inches(5.0), Inches(2.2),
+                Inches(8.0), Inches(0.4),
+                '住房政策研究  ·  城市更新  ·  产城融合  ·  不动产轻资产运营',
+                size=12, bold=True, color=GOLD)
+
+    bio_paras = [
+        '▎ 行业经历：拥有逾 15 年不动产投资及经营管理经验，先后任职于万科、新城等头部房企；',
+        '       横跨投资、开发、资管与运营，熟悉住宅、商业、产业园等多业态全周期管理。',
+        '▎ 学术与职称：复旦大学  管理学硕士；中国海洋大学  土木工程学士；',
+        '       获评副教授级高级工程师职称（教授级研究方向）。',
+        '▎ 社会职务：复旦大学住房政策研究中心秘书长、上海市杨浦区科技企业联合会执行会长、',
+        '       九三学社上海市委经贸委员会委员等。',
+        '▎ 研究与实践：聚焦住房政策研究、城市更新、产城融合及不动产轻资产运营；',
+        '       长期致力于推动上海科技企业发展与城市空间布局的深度融合。',
+    ]
+    cur = Inches(2.85)
+    for p in bio_paras:
+        add_textbox(slide, Inches(5.0), cur, Inches(8.0), Inches(0.42),
+                    p, size=11.5, color=TEXT_BODY, line_spacing=1.5)
+        cur += Inches(0.42)
+
+    add_rect(slide, Inches(5.0), Inches(6.4),
+             Inches(8.0), Inches(0.7), BG_LIGHT, line=GRAY_LINE)
+    add_rect(slide, Inches(5.0), Inches(6.4),
+             Inches(0.1), Inches(0.7), NAVY)
+    add_textbox(slide, Inches(5.2), Inches(6.5),
+                Inches(7.7), Inches(0.5),
+                '本次汇报视角：以学术 (复旦) × 实业 (头部房企) × 产业生态 (科技企业联合会) 三重身份观察^^十五五^^',
+                size=11, bold=True, color=NAVY)
+
+
+# ============================================================
+# 3. 目录
 # ============================================================
 def build_toc():
     slide = slide_blank(prs, bg=BG_LIGHT)
@@ -221,9 +323,9 @@ def build_toc():
         ('01', '时代定调', '—— ^^十五五^^开局与房地产周期的新旧转换',
          '宏观政策切入  ·  告别旧模式  ·  提出核心论点'),
         ('02', '破局寻路', '—— 房地产^^新模式^^的核心内涵与高质量标准',
-         '空间载体演变  ·  轻重分离  ·  产城融合'),
+         '空间载体  ·  轻重分离  ·  产城融合  ·  日 / 新 / 美 国际经验'),
         ('03', '核心动能', '—— 科技创新如何驱动不动产高质量发展',
-         'AI 与大模型  ·  科创生态赋能  ·  跨界协同'),
+         'AI 与大模型  ·  科创生态  ·  OPC 超级个体  ·  跨界协同'),
         ('04', '总结展望', '—— ^^十五五^^时期从业者的知与行',
          '发展共识  ·  行业阵痛  ·  新质生产力土壤'),
     ]
@@ -296,7 +398,7 @@ def new_content_slide(section_no, section_title, page_no, total_pages, title, su
     return slide
 
 
-TOTAL_PAGES = 17
+TOTAL_PAGES = 19
 
 
 # ----- PART 1 -----
@@ -639,11 +741,120 @@ def p2_quality_std():
                 size=11, bold=True, color=NAVY, align=PP_ALIGN.CENTER)
 
 
+def p2_intl():
+    slide = new_content_slide(*SEC2, 8, TOTAL_PAGES,
+        '国际经验借鉴：日本 / 新加坡 / 美国的^^新模式^^答卷',
+        '三种成熟市场已经走过的路 —— 给^^十五五^^高质量发展的镜鉴')
+
+    countries = [
+        {
+            'flag': '日 本',
+            'en': 'JAPAN  ·  长期持有 + 城市运营商',
+            'rep': '三菱地所 (大丸有) · 森 Hills (六本木 / 虎之门)',
+            'model': [
+                '超长期持有 + 资产代代相承；',
+                '"街区运营 (Town Management)"',
+                '硬件 + 软件 + 内容三位一体；',
+                '泡沫破灭后转向 "Quality Real Estate"；',
+            ],
+            'lesson': [
+                '从开发商 → 城市运营商；',
+                '强调街区品牌 / 文化 / 在地内容；',
+                '低利率长资金匹配重资产；',
+            ],
+            'color': NAVY_LIGHT,
+        },
+        {
+            'flag': '新 加 坡',
+            'en': 'SINGAPORE  ·  轻重分离 + REITs 闭环',
+            'rep': '凯德 (CapitaLand) · 裕廊集团 JTC',
+            'model': [
+                '"开发 → 运营 → REITs / 私募基金" 闭环；',
+                '资管规模驱动估值，重资产逐步出表；',
+                'JTC 国家级产业地产平台 + 主题园区；',
+                '组屋 (HDB) 制度长期稳定供给；',
+            ],
+            'lesson': [
+                '公募 REITs 是新模式的^^结算货币^^；',
+                '产业地产可以国家平台化；',
+                '住房保障与商品房双轨制启示；',
+            ],
+            'color': TEAL,
+        },
+        {
+            'flag': '美 国',
+            'en': 'U S A  ·  资本市场化 + 灵活办公 + 超级综合体',
+            'rep': 'Boston Properties / Brookfield / Tishman Speyer / Related',
+            'model': [
+                'REITs 高度成熟 (办公 / 物流 / 数据中心)；',
+                'WeWork / Industrious 灵活办公为入口；',
+                'Hudson Yards · Mission Rock 等科创综合体；',
+                '机构资本 (养老金 / 主权基金) 主导持有；',
+            ],
+            'lesson': [
+                '细分赛道 REITs 全覆盖 (含数据中心)；',
+                '灵活办公作为客户入口与流量池；',
+                '"科创 + 体育 + 文化" 综合体范式；',
+            ],
+            'color': ORANGE,
+        },
+    ]
+
+    top = Inches(2.4)
+    cw = Inches(3.92); ch = Inches(4.4); gap = Inches(0.07)
+    for i, cn in enumerate(countries):
+        x = Inches(0.78) + (cw + gap) * i
+        add_rect(slide, x, top, cw, ch, WHITE, line=GRAY_LINE)
+        add_rect(slide, x, top, cw, Inches(0.7), cn['color'])
+        add_textbox(slide, x + Inches(0.25), top + Inches(0.12),
+                    cw - Inches(0.4), Inches(0.4),
+                    cn['flag'], size=18, bold=True, color=WHITE)
+        add_textbox(slide, x + Inches(0.25), top + Inches(0.45),
+                    cw - Inches(0.4), Inches(0.3),
+                    cn['en'], size=9.5, color=GOLD, bold=True)
+
+        add_textbox(slide, x + Inches(0.25), top + Inches(0.85),
+                    cw - Inches(0.4), Inches(0.3),
+                    '代  表', size=9, color=TEXT_MUTE, bold=True)
+        add_textbox(slide, x + Inches(0.25), top + Inches(1.1),
+                    cw - Inches(0.4), Inches(0.6),
+                    cn['rep'], size=10.5, bold=True, color=NAVY,
+                    line_spacing=1.35)
+
+        add_rect(slide, x + Inches(0.25), top + Inches(1.78),
+                 Inches(0.4), Emu(19050), GOLD)
+        add_textbox(slide, x + Inches(0.25), top + Inches(1.92),
+                    cw - Inches(0.4), Inches(0.3),
+                    '模  式  特  征', size=9, color=TEXT_MUTE, bold=True)
+        add_textbox(slide, x + Inches(0.25), top + Inches(2.18),
+                    cw - Inches(0.4), Inches(1.2),
+                    '\n'.join('·  ' + s for s in cn['model']),
+                    size=10, color=TEXT_BODY, line_spacing=1.4)
+
+        add_rect(slide, x + Inches(0.25), top + Inches(3.4),
+                 cw - Inches(0.5), Emu(9525), GRAY_LINE)
+        add_textbox(slide, x + Inches(0.25), top + Inches(3.5),
+                    cw - Inches(0.4), Inches(0.3),
+                    '对^^十五五^^的镜鉴',
+                    size=9, color=GOLD, bold=True)
+        add_textbox(slide, x + Inches(0.25), top + Inches(3.78),
+                    cw - Inches(0.4), Inches(0.95),
+                    '\n'.join('▸  ' + s for s in cn['lesson']),
+                    size=10, color=NAVY, bold=True, line_spacing=1.4)
+
+    add_rect(slide, Inches(0.78), Inches(6.92),
+             Inches(11.77), Emu(28575), GOLD)
+    add_textbox(slide, Inches(0.78), Inches(6.97),
+                Inches(11.77), Inches(0.3),
+                '共同结论：当行业告别土地红利，^^长期资本 + 资管能力 + 内容运营^^构成新护城河',
+                size=11, bold=True, color=NAVY, align=PP_ALIGN.CENTER)
+
+
 # ----- PART 3 -----
 SEC3 = (3, '核心动能 · 科技驱动')
 
 def p3_overview():
-    slide = new_content_slide(*SEC3, 8, TOTAL_PAGES,
+    slide = new_content_slide(*SEC3, 9, TOTAL_PAGES,
         '科技驱动的三层飞轮：管理 · 空间 · 生态',
         'AI、大模型、数据中台与生态运营，正在重塑不动产价值链')
 
@@ -685,7 +896,7 @@ def p3_overview():
 
 
 def p3_ai_invest():
-    slide = new_content_slide(*SEC3, 9, TOTAL_PAGES,
+    slide = new_content_slide(*SEC3, 10, TOTAL_PAGES,
         '管理提效 ① 大模型 × 投资测算：从^^经验拍脑袋^^到^^模型推演^^',
         '把投决会前的 80% 体力活，交给 LLM + 量化模型')
 
@@ -752,7 +963,7 @@ def p3_ai_invest():
 
 
 def p3_ai_assetmgmt():
-    slide = new_content_slide(*SEC3, 10, TOTAL_PAGES,
+    slide = new_content_slide(*SEC3, 11, TOTAL_PAGES,
         '管理提效 ② AI × 资产管理：让^^楼^^自己说话',
         '数字化中台 + 大模型 Agent，把^^资产管家^^从被动维护推向主动经营')
 
@@ -808,7 +1019,7 @@ def p3_ai_assetmgmt():
 
 
 def p3_ai_zhaoshang():
-    slide = new_content_slide(*SEC3, 11, TOTAL_PAGES,
+    slide = new_content_slide(*SEC3, 12, TOTAL_PAGES,
         '管理提效 ③ 自动化招商引资：从^^扫楼陌拜^^到^^AI 雷达^^',
         '把企业搜寻、画像、触达、跟进的全链路装进数字化中台')
 
@@ -843,7 +1054,7 @@ def p3_ai_zhaoshang():
 
 
 def p3_space_ecosystem():
-    slide = new_content_slide(*SEC3, 12, TOTAL_PAGES,
+    slide = new_content_slide(*SEC3, 13, TOTAL_PAGES,
         '空间增值 · 科创生态赋能：把^^楼宇^^运营成^^创新场^^',
         '通过持续的内容运营，使物理空间成为产业要素的^^高频聚合点^^')
 
@@ -897,7 +1108,7 @@ def p3_space_ecosystem():
 
 
 def p3_zjtx_opc():
-    slide = new_content_slide(*SEC3, 13, TOTAL_PAGES,
+    slide = new_content_slide(*SEC3, 14, TOTAL_PAGES,
         '精准服务两类新兴主体：「专精特新」与「一人公司 OPC」',
         '供给侧匹配新主体——空间、服务、资本、合规一体化')
 
@@ -956,8 +1167,109 @@ def p3_zjtx_opc():
                     v, size=10.5, color=TEXT_BODY, line_spacing=1.45)
 
 
+def p3_opc_deepdive():
+    slide = new_content_slide(*SEC3, 15, TOTAL_PAGES,
+        'OPC 超级个体  ×  ^^十五五^^  ×  不动产：被低估的增量市场',
+        '当 AI 把组织最小单元从^^公司^^降到^^一个人^^—— 不动产正面临一次客户结构重写')
+
+    add_rect(slide, Inches(0.78), Inches(2.4),
+             Inches(11.77), Inches(1.05), NAVY)
+    add_rect(slide, Inches(0.78), Inches(2.4),
+             Inches(0.15), Inches(1.05), GOLD)
+    add_textbox(slide, Inches(1.05), Inches(2.5),
+                Inches(11.4), Inches(0.4),
+                '▎ ^^十五五^^政策语境：四股力量正在做大 OPC 这个池子',
+                size=12, bold=True, color=GOLD)
+    forces = [
+        '灵活就业  纳入社保',
+        '个体经济登记 + 减税',
+        '科研人员 / 工程师 创业',
+        'AI 普及  1 人 = 原 5-10 人',
+    ]
+    for i, f in enumerate(forces):
+        x = Inches(1.05) + Inches(2.85) * i
+        add_textbox(slide, x, Inches(3.0), Inches(2.8), Inches(0.4),
+                    '✦  ' + f, size=11, color=WHITE, line_spacing=1.4, bold=True)
+
+    top = Inches(3.7)
+    cards = [
+        {
+            'title': '① 谁是 OPC',
+            'sub': 'WHO  ·  人群画像',
+            'lines': [
+                '独立顾问 / 律师 / 会计 / 设计',
+                'AI 工程师 / 独立开发者 / 数据科学家',
+                '内容创作者 / 主播 / 短视频 MCN 主理人',
+                '跨境电商主理人 / 出海 SaaS 创始人',
+                '独立 GP / Solo VC / Family Office 顾问',
+            ],
+            'tag': '一线城市规模  数百万 → 千万级',
+            'color': NAVY_LIGHT,
+        },
+        {
+            'title': '② 不动产产品如何承接',
+            'sub': 'WHAT  ·  空间 + 服务 + 社群',
+            'lines': [
+                '工位 + 私密会议 + 直播间 + 内容工坊',
+                '按月 / 按日 / 按小时 灵活计费 + 会员制',
+                '工商代办 / 财税 / 法律 / 出海 / 支付 一键开通',
+                '行业 Mastermind 圈层与跨界沙龙',
+                '"可拍可发" 的内容友好型空间美学',
+            ],
+            'tag': '楼宇即俱乐部  ARPU > 传统联合办公 30-50%',
+            'color': TEAL,
+        },
+        {
+            'title': '③ 与^^十五五^^的化学反应',
+            'sub': 'WHY  ·  战略契合度',
+            'lines': [
+                '激活闲置存量 (老商办 / 老厂房 / 街区) ',
+                '承接灵活就业，地方政府就业 / 税源指标受益',
+                '降低创新创业门槛，服务"专精特新"前置阶段',
+                '匹配新质生产力的"个体科研 / 个体智造"形态',
+                '推动数字 / 绿色 / 普惠金融下沉到个体',
+            ],
+            'tag': '从^^城市更新^^到^^城市运营^^的关键载体',
+            'color': ORANGE,
+        },
+    ]
+    cw = Inches(3.85); ch = Inches(3.0); gap = Inches(0.13)
+    for i, c in enumerate(cards):
+        x = Inches(0.78) + (cw + gap) * i
+        add_rect(slide, x, top, cw, ch, WHITE, line=GRAY_LINE)
+        add_rect(slide, x, top, cw, Inches(0.55), c['color'])
+        add_textbox(slide, x + Inches(0.22), top + Inches(0.07),
+                    cw - Inches(0.4), Inches(0.35),
+                    c['title'], size=13, bold=True, color=WHITE)
+        add_textbox(slide, x + Inches(0.22), top + Inches(0.35),
+                    cw - Inches(0.4), Inches(0.25),
+                    c['sub'], size=9, color=GOLD, bold=True)
+
+        cur = top + Inches(0.7)
+        for ln in c['lines']:
+            add_textbox(slide, x + Inches(0.25), cur,
+                        cw - Inches(0.4), Inches(0.3),
+                        '·  ' + ln, size=10, color=TEXT_BODY,
+                        line_spacing=1.35)
+            cur += Inches(0.34)
+
+        add_rect(slide, x + Inches(0.22), top + ch - Inches(0.55),
+                 cw - Inches(0.44), Inches(0.4), BG_LIGHT, line=GRAY_LINE)
+        add_textbox(slide, x + Inches(0.22), top + ch - Inches(0.5),
+                    cw - Inches(0.44), Inches(0.3),
+                    c['tag'], size=10, bold=True, color=c['color'],
+                    align=PP_ALIGN.CENTER)
+
+    add_rect(slide, Inches(0.78), Inches(6.85),
+             Inches(11.77), Emu(28575), GOLD)
+    add_textbox(slide, Inches(0.78), Inches(6.9),
+                Inches(11.77), Inches(0.3),
+                '一句话：OPC 不是^^更小的客户^^，而是^^更高频、更黏性、更愿意为内容付费^^的新型租户',
+                size=11, bold=True, color=NAVY, align=PP_ALIGN.CENTER)
+
+
 def p3_crossover():
-    slide = new_content_slide(*SEC3, 14, TOTAL_PAGES,
+    slide = new_content_slide(*SEC3, 16, TOTAL_PAGES,
         '跨界协同：打通「学术圈 ⇄ 产业圈 ⇄ 投资圈」',
         '三圈打通，不动产从^^租赁中介^^升维为^^产业服务平台^^')
 
@@ -1016,7 +1328,7 @@ def p3_crossover():
 
 
 def p3_case_matrix():
-    slide = new_content_slide(*SEC3, 15, TOTAL_PAGES,
+    slide = new_content_slide(*SEC3, 17, TOTAL_PAGES,
         '实战案例矩阵：科技 × 不动产的六种可复制范式',
         '每个范式都对应^^问题—工具—成效^^三段式落地')
 
@@ -1060,7 +1372,7 @@ def p3_case_matrix():
 SEC4 = (4, '总结展望')
 
 def p4_consensus():
-    slide = new_content_slide(*SEC4, 16, TOTAL_PAGES,
+    slide = new_content_slide(*SEC4, 18, TOTAL_PAGES,
         '发展共识：理论与实践，缺一不可',
         '学术界提供^^为什么^^，实业界回答^^怎么做^^')
 
@@ -1112,7 +1424,7 @@ def p4_consensus():
 
 
 def p4_action():
-    slide = new_content_slide(*SEC4, 17, TOTAL_PAGES,
+    slide = new_content_slide(*SEC4, 19, TOTAL_PAGES,
         '^^十五五^^从业者行动清单：知 与 行',
         '对从业者的 6 条建议 —— ^^今晚就能开始做的事^^')
 
@@ -1186,6 +1498,7 @@ def p4_closing():
 
 def build_all():
     build_cover()
+    build_speaker()
     build_toc()
 
     build_section_divider(
@@ -1204,24 +1517,25 @@ def build_all():
     build_section_divider(
         2, '破局寻路：房地产「新模式」的核心内涵与高质量标准',
         'PART 02  ·  Break  Through',
-        '空间载体演变  ·  轻重分离  ·  产城融合  ·  四把尺子',
+        '空间载体  ·  轻重分离  ·  产城融合  ·  四把尺子  ·  日 / 新 / 美 经验',
         [
-            ('01', '空间载体进化\n从居住到生态'),
-            ('02', '轻重分离 + 产城融合\n双特征解构'),
-            ('03', '高质量评价四维\n财务 / 客户 / 产业 / 生态'),
+            ('01', '新模式特征\n轻重分离 + 产城融合'),
+            ('02', '高质量评价四维\n财务 / 客户 / 产业 / 生态'),
+            ('03', '国际经验镜鉴\n日本 · 新加坡 · 美国'),
         ])
     p2_carrier()
     p2_light_heavy()
     p2_chancheng()
     p2_quality_std()
+    p2_intl()
 
     build_section_divider(
         3, '核心动能：科技创新如何驱动不动产高质量发展',
         'PART 03  ·  Tech-Powered  Engine',
-        'AI 与大模型  ·  科创生态赋能  ·  跨界协同  ·  实战范式',
+        'AI 与大模型  ·  科创生态  ·  OPC 超级个体  ·  跨界协同  ·  实战范式',
         [
             ('01', '管理提效\nAI × 投资 / 资管 / 招商'),
-            ('02', '空间增值\n科创生态运营 + 新主体服务'),
+            ('02', '空间增值\n科创生态  +  OPC 超级个体'),
             ('03', '跨界协同\n学术 ⇄ 产业 ⇄ 投资'),
         ])
     p3_overview()
@@ -1230,6 +1544,7 @@ def build_all():
     p3_ai_zhaoshang()
     p3_space_ecosystem()
     p3_zjtx_opc()
+    p3_opc_deepdive()
     p3_crossover()
     p3_case_matrix()
 
