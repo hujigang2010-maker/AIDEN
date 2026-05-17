@@ -345,6 +345,51 @@ for i, (name, tag, logic) in enumerate(buys):
 footer(s, 8)
 
 
+# === Slide 8.5: 三安光电 三重打击 deep-dive ===
+s = prs.slides.add_slide(BLANK)
+header(s, '04 · 重点股票 · 案例深读', '三安光电(600703):为什么在「三重打击」下还要买?')
+
+add_rect(s, Inches(0.6), Inches(1.4), Inches(12.1), Inches(0.7), NAVY)
+add_text(s, Inches(0.8), Inches(1.4), Inches(11.7), Inches(0.7),
+         '近期股价低迷的根源 = 治理 + 股权 + 业绩 三重打击集中爆发',
+         size=18, bold=True, color=GOLD, anchor=MSO_ANCHOR.MIDDLE)
+
+# Three columns
+hits = [
+    ('🌪️ 第一重\n管理层动荡',
+     ACCENT,
+     '2026年3–4月\n实控人林秀成、副董事长林科闯\n相继被监委留置\n林科闯主导重庆碳化硅项目'),
+    ('🔗 第二重\n股权危机·被动减持',
+     ACCENT,
+     '控股股东及一致行动人\n100%股份司法冻结\n4月中起15天内\n5972万股司法强卖\n套现约8.45亿元'),
+    ('📉 第三重\n业绩首亏',
+     ACCENT,
+     '2025归母净利润 -3.53亿元\n(2006上市18年来首亏)\n2026 Q1 营收-32.59%\n归母净利润-68.15%\nLumileds收购被CFIUS否决'),
+]
+for i, (t, col, body) in enumerate(hits):
+    x = Inches(0.6 + i * 4.05); y = Inches(2.25)
+    add_rect(s, x, y, Inches(3.95), Inches(2.7), LIGHT)
+    add_rect(s, x, y, Inches(3.95), Inches(0.7), col)
+    add_text(s, x + Inches(0.2), y + Inches(0.05), Inches(3.7),
+             Inches(0.7), t, size=14, bold=True, color=WHITE,
+             anchor=MSO_ANCHOR.MIDDLE)
+    add_text(s, x + Inches(0.25), y + Inches(0.85), Inches(3.6),
+             Inches(1.85), body, size=11, color=DARK)
+
+# Why still buy
+add_rect(s, Inches(0.6), Inches(5.1), Inches(12.1), Inches(1.75), NAVY)
+add_text(s, Inches(0.8), Inches(5.2), Inches(11.7), Inches(0.45),
+         '为什么老师在「三重打击」下还要买?',
+         size=15, bold=True, color=GOLD)
+add_bullets(s, Inches(0.85), Inches(5.65), Inches(11.8), Inches(1.15), [
+    '① 利空已充分定价 + 刚回撤,正是上车机会',
+    '② 磷化铟卡光通信「咽喉材料」;后面8个万亿赛道(SiC/InP/Mini-Micro LED/滤波器…)都是领袖',
+    '③ 治理崩塌 ≠ 资产基本面崩塌:福建国资委想抢这块「肥肉」→ 国资接盘预期',
+    '④ 被动减持 = 出清信号;15天卖完后筹码集中度反而上升',
+], size=12, color=WHITE)
+footer(s, 9)
+
+
 # === Slide 9: AVOID list ===
 s = prs.slides.add_slide(BLANK)
 header(s, '04 · 重点股票', '回避清单 · 看空逻辑')
