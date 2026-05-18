@@ -1950,6 +1950,97 @@ def build_ppt(path):
                      anchor=MSO_ANCHOR.MIDDLE)
             x += w
 
+    # ============ 5/18 二次会议关键决议总览 ============
+    s = prs.slides.add_slide(blank)
+    slide_title_bar(s, "5/18 二次会议 · 总策划落地决议",
+                    "20 条建议筛选后系统性落地 · 优胜劣汰 · 重点供组长参考")
+
+    # 左侧：人员/职责变更
+    add_rect(s, Inches(0.55), Inches(1.4), Inches(6.0), Inches(0.55),
+             "C00000", text="人员/职责变更（6 项）",
+             text_size=15, text_bold=True)
+    moves_518 = [
+        ("★ 吕志翔", "颁奖主导（升任，总策划指令）"),
+        ("★ 马磊", "G → C 圆桌二对接（总策划指令）"),
+        ("徐胜博", "颁奖 → 圆桌一对接（AI硬核）"),
+        ("高晨", "D → E 主岗（重心放技术）"),
+        ("张蒙", "D → F（F 缺人，葛九明能搞定 D）"),
+        ("黄璐", "PPT 收集主责（明确）"),
+    ]
+    for i, (who, what) in enumerate(moves_518):
+        top = Inches(2.05 + i*0.78)
+        add_rect(s, Inches(0.55), top, Inches(1.7), Inches(0.7),
+                 "C00000", text=who, text_size=12, text_bold=True)
+        add_rect(s, Inches(2.3), top, Inches(4.25), Inches(0.7),
+                 "FFFFFF", line_hex="C00000", text=what,
+                 text_size=12, text_color="262626",
+                 align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.MIDDLE)
+
+    # 右侧：关键决议
+    add_rect(s, Inches(6.85), Inches(1.4), Inches(6.0), Inches(0.55),
+             "1F4E79", text="关键决议（7 条）",
+             text_size=15, text_bold=True)
+    decisions_518 = [
+        ("流程", "节点提前到周三晚 → 留 24h 缓冲"),
+        ("彩排", "周四下午（主持人+技术+设备）"),
+        ("PPT", "C 组做空模板带尺寸（不是给数字）"),
+        ("PPT", "仅 5-6 位主旨嘉宾需 PPT；圆桌无 PPT"),
+        ("物资", "对讲机 10 台（会务公司提供）"),
+        ("场地", "三厅打通 / B 厅×2 主屏 + A 厅 L 型曲面屏"),
+        ("晚宴", "7 桌 + 3 节目 + 抽奖；米兰达暂定主持"),
+    ]
+    for i, (cat, what) in enumerate(decisions_518):
+        top = Inches(2.05 + i*0.66)
+        add_rect(s, Inches(6.85), top, Inches(1.3), Inches(0.6),
+                 "1F4E79", text=cat, text_size=11, text_bold=True)
+        add_rect(s, Inches(8.2), top, Inches(4.65), Inches(0.6),
+                 "F2F8FD", line_hex="1F4E79", text=what,
+                 text_size=11, text_color="262626",
+                 align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.MIDDLE)
+
+    # ============ C 组对接矩阵（v8 重点） ============
+    s = prs.slides.add_slide(blank)
+    slide_title_bar(s, "C 组对接矩阵（v8 重点）",
+                    "8 人各自专属对接：圆桌/颁奖/PPT/主持/计时/动线",
+                    primary="C00000")
+
+    # 表头
+    headers = ["环节 / 职责", "主持人 / 关联", "C 组对接人", "上下游对接"]
+    widths  = [3.0, 3.0, 2.5, 4.3]
+    top = Inches(1.5)
+    head_h = 0.6
+    x = 0.55
+    for h, w in zip(headers, widths):
+        add_rect(s, Inches(x), top, Inches(w), Inches(head_h),
+                 "C00000", text=h, text_size=14, text_bold=True)
+        x += w
+
+    matrix = [
+        ("圆桌一（AI硬核）",       "王珏 主持",          "徐胜博",       "嘉宾席卡+上下场动线"),
+        ("巅峰对话（云端生态）",   "胡继刚 主持",        "总策划直接处理","韦佳玉协助"),
+        ("★ 圆桌二（投资）",       "黄欣 主持",          "★ 马磊（G→C）","AI圈层人脉对接嘉宾"),
+        ("★ 颁奖（5 机构）",       "晚场主持",           "★ 吕志翔",     "徐胜博辅助+前两排发奖人通知"),
+        ("PPT 收集",              "5-6 位主旨嘉宾",     "黄璐（主责）",  "转交 E 张卓播放"),
+        ("PPT 模板（空模板带尺寸）","B/A 厅尺寸已群发", "陈潇 + 黄璐",   "T-3 发给嘉宾"),
+        ("主持人对接",             "米兰达",            "冯墨",         "嘉宾介绍+出场顺序+主持稿"),
+        ("流程计时",               "举牌 5/3/1min",      "王珏（副组长）","按主时间纵线"),
+        ("动线引导+前 4 排带位",   "签到+引导",          "LV",           "B 组协同"),
+    ]
+    row_h = (7.2 - 1.5 - 0.6) / len(matrix)
+    for ri, row in enumerate(matrix):
+        y = Inches(1.5 + head_h + ri*row_h)
+        x = 0.55
+        is_key = "★" in row[0] or "★" in row[2]
+        fill = "FFE4E4" if is_key else ("FFFFFF" if ri % 2 == 0 else "FFF7F7")
+        for col_idx, (w, v) in enumerate(zip(widths, row)):
+            tbold = is_key or col_idx in (0, 2)
+            add_rect(s, Inches(x), y, Inches(w), Inches(row_h),
+                     fill, line_hex="D9D9D9", text=v,
+                     text_size=11, text_color="262626",
+                     text_bold=tbold,
+                     align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.MIDDLE)
+            x += w
+
     # ============ 5/16 晚宴流程（韦佳玉任 PM） ============
     s = prs.slides.add_slide(blank)
     slide_title_bar(s, "5/16 落地：晚宴流程（韦佳玉任 PM）",
