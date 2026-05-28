@@ -24,6 +24,7 @@
         <p class="subtitle">
           基准点：<strong id="basePointName">上海市五角场创新创业学院</strong>
           <span class="dot">·</span> 调研半径：<strong>5 km</strong>
+          <span class="dot">·</span> 项目 / 企业：<strong id="topSummary">— / —</strong>
           <span class="dot">·</span> 数据更新：<strong id="updateTime">—</strong>
         </p>
       </div>
@@ -88,19 +89,32 @@
 
     <!-- 右侧：数据表 -->
     <section class="list-panel">
+      <!-- Tab 切换：项目概览 / 企业明细 -->
+      <div class="tab-bar">
+        <button class="tab active" data-tab="projects">
+          <span class="tab-icon">🏢</span>项目概览
+          <span class="tab-count" id="tabCntProjects">0</span>
+        </button>
+        <button class="tab" data-tab="tenants">
+          <span class="tab-icon">🏷️</span>企业明细
+          <span class="tab-count" id="tabCntTenants">0</span>
+        </button>
+      </div>
+
       <div class="list-toolbar">
         <div class="search">
-          <input id="searchInput" type="text" placeholder="🔎 搜索项目名称 / 地址 / 标签…" />
+          <input id="searchInput" type="text" placeholder="🔎 搜索项目 / 企业 / 行业 / 地址 / 标签…" />
         </div>
         <div class="list-actions">
-          <span id="listCount" class="list-count">共 0 个项目</span>
-          <button id="btnExport" class="btn-ghost" title="导出为 CSV">⤓ 导出</button>
+          <span id="listCount" class="list-count">共 0 条</span>
+          <button id="btnExport" class="btn-ghost" title="导出当前 Tab 为 CSV">⤓ 导出</button>
           <button id="btnReset" class="btn-ghost" title="重置筛选">↺ 重置</button>
         </div>
       </div>
 
-      <div class="table-wrap">
-        <table class="comp-table" id="compTable">
+      <!-- 项目概览表 -->
+      <div class="table-wrap" id="paneProjects">
+        <table class="comp-table" id="projectsTable">
           <thead>
             <tr>
               <th style="width:46px">#</th>
@@ -111,7 +125,28 @@
               <th style="width:200px">🚇 公交/地铁</th>
             </tr>
           </thead>
-          <tbody id="compTbody"><!-- rendered by JS --></tbody>
+          <tbody id="projectsTbody"></tbody>
+        </table>
+      </div>
+
+      <!-- 企业明细表 -->
+      <div class="table-wrap" id="paneTenants" hidden>
+        <table class="comp-table tenants-table" id="tenantsTable">
+          <thead>
+            <tr>
+              <th style="width:44px">#</th>
+              <th style="min-width:200px">项目名称 / 企业</th>
+              <th style="min-width:200px">地址</th>
+              <th style="width:118px">距离 / 距离段</th>
+              <th style="width:88px">办公体量<br/>(㎡)</th>
+              <th style="width:104px">成交租金<br/>(元/㎡/天)</th>
+              <th style="width:64px">免租期</th>
+              <th style="width:148px">主力客户行业</th>
+              <th style="width:84px">物业费<br/>(元/㎡/月)</th>
+              <th style="min-width:148px">性质说明</th>
+            </tr>
+          </thead>
+          <tbody id="tenantsTbody"></tbody>
         </table>
       </div>
     </section>
@@ -131,7 +166,7 @@
 
   <!-- 数据 -->
   <script src="data/competitors.js"></script>
-  <!-- 高德 JS API -->
+  <!-- 高德 JS API（其余插件按需通过 AMap.plugin 懒加载） -->
   <script src="https://webapi.amap.com/maps?v=2.0&key=b96fe5c5cdb328eceb9a6bf1a6d1af7f"></script>
   <!-- 业务脚本 -->
   <script src="js/app.js"></script>
