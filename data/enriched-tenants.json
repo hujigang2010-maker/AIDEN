@@ -1,0 +1,9 @@
+{
+  "_meta": {
+    "source": "天眼查 open.api",
+    "enrichedAt": "",
+    "count": 0,
+    "note": "本文件由 server/enrich-all.js 生成。在本地笔记本/办公网络运行 'node server/enrich-all.js' 即可填充。key 格式为 'parkId|tenantName'。"
+  },
+  "tenants": {}
+}

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>杨浦五角场 5km 商办竞品地图｜精简版</title>
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- 高德地图安全密钥（必须放在 JS API 加载之前） -->
+  <script type="text/javascript">
+    window._AMapSecurityConfig = {
+      securityJsCode: '84da8ce45182a0281c095a358456ab4e'
+    };
+  </script>
+</head>
+<body>
+
+  <!-- ============ 顶部总览看板 ============ -->
+  <header class="dashboard">
+    <div class="dashboard__title">
+      <div class="logo">🏢</div>
+      <div>
+        <h1>杨浦五角场 5km 商办竞品地图<span class="badge">精简版</span></h1>
+        <p class="subtitle">
+          基准点：<strong id="basePointName">上海市五角场创新创业学院</strong>
+          <span class="dot">·</span> 调研半径：<strong>5 km</strong>
+          <span class="dot">·</span> 项目 / 企业：<strong id="topSummary">— / —</strong>
+          <span class="dot">·</span> 数据更新：<strong id="updateTime">—</strong>
+          <span class="dot">·</span> <span id="enrichedBadge" class="enriched-badge">⚪ 工商数据未补全</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="dashboard__right">
+      <div class="dashboard__stats">
+        <div class="stat" data-tier="all">
+          <div class="stat__num" id="cnt-all">0</div>
+          <div class="stat__label">项目总数</div>
+        </div>
+        <div class="stat tier-1" data-tier="1km">
+          <div class="stat__num" id="cnt-1km">0</div>
+          <div class="stat__label">1 km 内</div>
+        </div>
+        <div class="stat tier-2" data-tier="1-2km">
+          <div class="stat__num" id="cnt-12">0</div>
+          <div class="stat__label">1~2 km</div>
+        </div>
+        <div class="stat tier-3" data-tier="2-3km">
+          <div class="stat__num" id="cnt-23">0</div>
+          <div class="stat__label">2~3 km</div>
+        </div>
+        <div class="stat tier-4" data-tier="3-5km">
+          <div class="stat__num" id="cnt-35">0</div>
+          <div class="stat__label">3~5 km</div>
+        </div>
+      </div>
+
+      <button class="btn-api-config" id="btnApiConfig" title="配置企查查 / 天眼查代理">⚙ API 配置</button>
+    </div>
+  </header>
+
+  <!-- ============ 主体：地图 + 列表 ============ -->
+  <main class="layout">
+
+    <!-- 左侧：地图 -->
+    <section class="map-panel">
+      <div class="map-toolbar">
+        <div class="filter-group">
+          <span class="filter-label">业态：</span>
+          <button class="chip active" data-filter-cat="all">全部</button>
+          <button class="chip" data-filter-cat="商办写字楼">🏢 商办写字楼</button>
+          <button class="chip" data-filter-cat="产业园区">🏭 产业园区</button>
+          <button class="chip" data-filter-cat="众创空间">💡 众创空间</button>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">距离：</span>
+          <button class="chip active" data-filter-tier="all">全部</button>
+          <button class="chip tier-1" data-filter-tier="1km">1 km</button>
+          <button class="chip tier-2" data-filter-tier="1-2km">1-2 km</button>
+          <button class="chip tier-3" data-filter-tier="2-3km">2-3 km</button>
+          <button class="chip tier-4" data-filter-tier="3-5km">3-5 km</button>
+        </div>
+        <div class="filter-group map-mode-group">
+          <span class="filter-label">视图：</span>
+          <div class="segmented" role="tablist">
+            <button class="seg active" data-map-mode="standard" title="标准地图">🗺️ 标准</button>
+            <button class="seg" data-map-mode="satellite" title="卫星 + 路网">🛰️ 卫星</button>
+          </div>
+        </div>
+      </div>
+      <div id="map" class="map"></div>
+      <div class="map-legend">
+        <span class="legend-item"><i class="dot-base"></i> 基准点</span>
+        <span class="legend-item"><i class="dot tier-1"></i> 1 km 内</span>
+        <span class="legend-item"><i class="dot tier-2"></i> 1-2 km</span>
+        <span class="legend-item"><i class="dot tier-3"></i> 2-3 km</span>
+        <span class="legend-item"><i class="dot tier-4"></i> 3-5 km</span>
+        <span class="legend-item legend-tip">💡 点击地图标记 / 列表行可联动定位</span>
+      </div>
+    </section>
+
+    <!-- 右侧：数据表 -->
+    <section class="list-panel">
+      <!-- Tab 切换：项目概览 / 企业明细 -->
+      <div class="tab-bar">
+        <button class="tab active" data-tab="projects">
+          <span class="tab-icon">🏢</span>项目概览
+          <span class="tab-count" id="tabCntProjects">0</span>
+        </button>
+        <button class="tab" data-tab="tenants">
+          <span class="tab-icon">🏷️</span>企业明细
+          <span class="tab-count" id="tabCntTenants">0</span>
+        </button>
+      </div>
+
+      <div class="list-toolbar">
+        <div class="search">
+          <input id="searchInput" type="text" placeholder="🔎 搜索项目 / 企业 / 行业 / 地址 / 标签…" />
+        </div>
+        <div class="list-actions">
+          <span id="listCount" class="list-count">共 0 条</span>
+          <button id="btnSync"   class="btn-ghost btn-sync"  title="批量补充电话/工商信息（需在右上角配置 API 代理）" hidden>🔄 同步电话</button>
+          <button id="btnExport" class="btn-ghost" title="导出当前 Tab 为 CSV">⤓ 导出</button>
+          <button id="btnReset"  class="btn-ghost" title="重置筛选">↺ 重置</button>
+        </div>
+      </div>
+
+      <!-- 项目概览表 -->
+      <div class="table-wrap" id="paneProjects">
+        <table class="comp-table" id="projectsTable">
+          <thead>
+            <tr>
+              <th style="width:46px">#</th>
+              <th>项目</th>
+              <th style="width:96px">业态</th>
+              <th style="width:100px">距离</th>
+              <th style="width:148px">🚗 驾车</th>
+              <th style="width:200px">🚇 公交/地铁</th>
+            </tr>
+          </thead>
+          <tbody id="projectsTbody"></tbody>
+        </table>
+      </div>
+
+      <!-- 企业明细表 -->
+      <div class="table-wrap" id="paneTenants" hidden>
+        <table class="comp-table tenants-table" id="tenantsTable">
+          <thead>
+            <tr>
+              <th style="width:44px">#</th>
+              <th style="min-width:200px">项目名称 / 企业</th>
+              <th style="min-width:200px">地址</th>
+              <th style="width:108px">距离 / 距离段</th>
+              <th style="width:84px">体量<br/>(㎡)</th>
+              <th style="width:96px">租金<br/>(元/㎡/天)</th>
+              <th style="width:64px">免租期</th>
+              <th style="width:96px">剩余租期</th>
+              <th style="width:138px">主力客户行业</th>
+              <th style="width:138px">📞 电话</th>
+              <th style="width:80px">物业费<br/>(元/㎡/月)</th>
+              <th style="min-width:140px">性质说明</th>
+            </tr>
+          </thead>
+          <tbody id="tenantsTbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ 详情面板 ============ -->
+  <aside id="detailPanel" class="detail-panel" hidden>
+    <button class="detail-close" id="detailClose" aria-label="关闭">✕</button>
+    <div id="detailBody"></div>
+  </aside>
+
+  <!-- ============ API 配置弹窗 ============ -->
+  <div id="apiModal" class="modal" hidden>
+    <div class="modal__backdrop" data-modal-close="1"></div>
+    <div class="modal__panel">
+      <button class="modal__close" data-modal-close="1" aria-label="关闭">✕</button>
+      <h3 class="modal__title">⚙ 企查查 / 天眼查 代理配置</h3>
+      <p class="modal__intro">
+        浏览器不能直接调天眼查/企查查（CORS + Key 泄漏）,需要先启动 <code>server/qcc-proxy.js</code> 本地代理,
+        然后把代理地址填到下方即可。详情见 <code>server/README.md</code>。
+      </p>
+
+      <label class="modal__field">
+        <span class="modal__label">代理地址</span>
+        <input type="text" id="apiProxyUrl" placeholder="例如：http://localhost:3001" />
+      </label>
+
+      <details class="modal__details">
+        <summary>📖 启动代理的步骤</summary>
+        <ol>
+          <li>在 <a href="https://open.tianyancha.com" target="_blank">天眼查开放平台</a> 申请 API Token。</li>
+          <li>设置环境变量并启动代理：
+            <pre>export TYC_TOKEN="你的 Bearer Token"
+node server/qcc-proxy.js</pre>
+          </li>
+          <li>把上面的输入框填成 <code>http://localhost:3001</code> 并保存。</li>
+          <li>到【企业明细】Tab,点 <strong>🔄 同步电话</strong>,会逐条补充可见行的电话/法人/统一信用代码等。</li>
+        </ol>
+      </details>
+
+      <details class="modal__details">
+        <summary>✏️ 不想用 API？可以手动录入</summary>
+        <p>
+          在【企业明细】表格中,点击任意电话单元格即可手动录入,
+          数据会保存到浏览器本地（localStorage）,刷新页面后仍在,也会一并被 CSV 导出。
+        </p>
+      </details>
+
+      <div class="modal__actions">
+        <button class="btn-secondary" data-modal-close="1">取消</button>
+        <button class="btn-primary"   id="apiSave">保存</button>
+      </div>
+
+      <div id="apiStatus" class="modal__status"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <span>© 杨浦五角场竞品地图 · 数据仅供调研参考</span>
+    <span class="footer-dot">·</span>
+    <span>地图：高德开放平台</span>
+    <span class="footer-dot">·</span>
+    <span>工商：天眼查 / 企查查（需自配 API）</span>
+  </footer>
+
+  <!-- 数据 -->
+  <script src="data/competitors.js"></script>
+  <script src="data/extra-tenants.js"></script>
+  <!-- 高德 JS API -->
+  <script src="https://webapi.amap.com/maps?v=2.0&key=b96fe5c5cdb328eceb9a6bf1a6d1af7f"></script>
+  <!-- 业务脚本 -->
+  <script src="js/app.js"></script>
+</body>
+</html>
