@@ -176,6 +176,40 @@
     });
   }
 
+  // 异步加载 data/enriched-tenants.json（由 server/enrich-all.js 生成）
+  // 命中后把 phone / regCapital / legalPerson 等字段合并到 tenant
+  let enrichedData = null;
+  fetch('data/enriched-tenants.json', { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : null)
+    .then(j => {
+      if (!j || !j.tenants) return;
+      enrichedData = j;
+      let hit = 0;
+      rawData.forEach(park => {
+        (park.tenants || []).forEach(t => {
+          const ent = j.tenants[park.id + '|' + t.name];
+          if (!ent || ent.error) return;
+          if (ent.phone && !t.phone)       t.phone       = ent.phone;
+          if (ent.legalPerson)              t.legalPerson  = ent.legalPerson;
+          if (ent.regCapital)               t.regCapital   = ent.regCapital;
+          if (ent.regNumber)                t.regNumber    = ent.regNumber;
+          if (ent.regTime)                  t.regTime      = ent.regTime;
+          if (ent.regStatus)                t.regStatus    = ent.regStatus;
+          if (ent.tycName)                  t.tycName      = ent.tycName;
+          if (ent.businessScope)            t.businessScope = ent.businessScope;
+          hit++;
+        });
+      });
+      if (hit > 0) {
+        const ts = j._meta && j._meta.enrichedAt ? new Date(j._meta.enrichedAt).toLocaleString('zh-CN') : '';
+        const tag = document.getElementById('enrichedBadge');
+        if (tag) tag.textContent = `✅ 工商已补全 ${hit} 家${ts ? ' · ' + ts : ''}`;
+        // 已显示的表格立刻重渲
+        try { refresh(); } catch (e) {}
+      }
+    })
+    .catch(() => {});
+
   // 计算距离 + 圈层
   rawData.forEach((d) => {
     d.distance = haversine(base.lng, base.lat, d.lng, d.lat);
@@ -389,11 +423,16 @@
       <div class="info-tenants">
         <div class="info-tenants-title">代表企业（共 ${ts.length} 家,展示前 10）</div>
         <table class="info-tenants-table">
-          <thead><tr><th>企业</th><th>行业</th><th>体量</th><th>租金</th><th>剩余</th><th>📞</th></tr></thead>
+          <thead><tr><th>企业</th><th>行业</th><th>体量</th><th>租金</th><th>剩余</th><th>📞 / 工商</th></tr></thead>
           <tbody>
             ${ts.slice(0, 10).map(t => {
               const rem = fmtRemaining(t).html;
               const phone = getPhone(d, t);
+              const ic = [
+                phone ? escapeHtml(phone) : null,
+                t.legalPerson ? '法人 ' + escapeHtml(t.legalPerson) : null,
+                t.regCapital  ? '注册 ' + escapeHtml(t.regCapital)  : null
+              ].filter(Boolean).join('<br/>');
               return `
                 <tr>
                   <td>${escapeHtml(t.name)}</td>
@@ -401,7 +440,7 @@
                   <td>${fmtArea(t.area)} ㎡</td>
                   <td>${fmtRent(t.rent)}</td>
                   <td>${rem}</td>
-                  <td>${phone ? escapeHtml(phone) : '—'}</td>
+                  <td>${ic || '—'}</td>
                 </tr>`;
             }).join('')}
           </tbody>
@@ -774,19 +813,22 @@
                `杨浦五角场5km竞品-项目概览_${day}.csv`);
     } else {
       const list = getFilteredTenants();
-      const headers = ['序号','项目名称','企业名称','地址','距离(米)','距离圈层',
+      const headers = ['序号','项目名称','企业名称','工商登记名','地址','距离(米)','距离圈层',
                        '办公体量(㎡)','成交租金(元/㎡/天)','免租期(月)',
                        '租约开始','租约期(年)','到期日期','剩余(月)',
-                       '主力客户行业','电话','物业费(元/㎡/月)','性质说明','成交年份','备注'];
+                       '主力客户行业','电话','法人代表','注册资本','统一信用代码','注册时间','登记状态',
+                       '物业费(元/㎡/月)','性质说明','成交年份','备注'];
       const rows = list.map((r, i) => {
         const p = r.park, t = r.tenant;
         const lease = computeLease(t);
         return [
-          i + 1, p.name, t.name, p.address, Math.round(p.distance), TIER_CONFIG[p.tier].label,
+          i + 1, p.name, t.name, t.tycName || '',
+          p.address, Math.round(p.distance), TIER_CONFIG[p.tier].label,
           t.area || '', t.rent != null ? t.rent : '', t.rentFreeMonths != null ? t.rentFreeMonths : '',
           lease.startStr || '', t.leaseTerm || '', lease.endStr || '',
           lease.status === 'expired' ? 0 : (lease.remainingMonths != null ? lease.remainingMonths : ''),
           t.industry || '', getPhone(p, t) || '',
+          t.legalPerson || '', t.regCapital || '', t.regNumber || '', t.regTime || '', t.regStatus || '',
           p.propertyFee != null ? p.propertyFee : '', p.nature || '',
           t.dealYear || '', t.note || ''
         ];

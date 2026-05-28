@@ -6,14 +6,19 @@
  *  本服务带着你的 API Key/Token 去查 天眼查（优先）或 企查查,
  *  返回标准化的 { phone, regCapital, legalPerson, ... } JSON。
  *
+ *  ⚠️ 重要：天眼查 WAF 会封大多数云服务器 IP（包括阿里云海外/AWS/腾讯云海外
+ *     /Cursor Cloud Agent 等）。在这些环境下会返回 418 + HTML 页面而非 JSON。
+ *     建议在你自己的笔记本 / 公司办公网络 IP 下运行本代理。
+ *
  *  启动：
  *    1) 申请 API:
  *       - 天眼查开放平台 https://open.tianyancha.com（推荐,接口最简洁）
  *       - 企查查开放平台 https://openapi.qcc.com
  *    2) 设置环境变量后启动:
- *       export TYC_TOKEN="你的天眼查 Bearer Token"          # 天眼查
- *       export QCC_KEY="你的企查查 AppKey"                  # 企查查（备选）
- *       export QCC_SECRET="你的企查查 SecretKey"            # 企查查
+ *       cp .env.example .env             # 然后把 token 填进去
+ *       node --env-file=.env server/qcc-proxy.js
+ *       # 或:
+ *       export TYC_TOKEN="你的天眼查 Token"
  *       node server/qcc-proxy.js
  *
  *    默认监听 http://localhost:3001,可用 PORT=xxxx 改端口。
@@ -28,6 +33,18 @@ const https = require('https');
 const crypto = require('crypto');
 const { URL } = require('url');
 
+// 简易 .env 加载(无依赖)
+try {
+  const fs = require('fs'); const path = require('path');
+  const envPath = path.join(__dirname, '..', '.env');
+  if (fs.existsSync(envPath)) {
+    fs.readFileSync(envPath, 'utf-8').split(/\r?\n/).forEach(line => {
+      const m = line.match(/^\s*([A-Z_][A-Z0-9_]*)\s*=\s*(.*?)\s*$/);
+      if (m && !process.env[m[1]]) process.env[m[1]] = m[2].replace(/^["']|["']$/g, '');
+    });
+  }
+} catch (e) {}
+
 const PORT       = Number(process.env.PORT || 3001);
 const TYC_TOKEN  = process.env.TYC_TOKEN  || '';
 const QCC_KEY    = process.env.QCC_KEY    || '';
@@ -35,18 +52,32 @@ const QCC_SECRET = process.env.QCC_SECRET || '';
 
 /* -------- 小工具 -------- */
 
-function fetchJson(url, headers = {}) {
+function fetchRaw(url, headers = {}) {
   return new Promise((resolve, reject) => {
-    const req = https.get(url, { headers, timeout: 8000 }, (resp) => {
+    const req = https.get(url, { headers, timeout: 10000 }, (resp) => {
       let buf = '';
       resp.on('data', (d) => (buf += d));
-      resp.on('end', () => {
-        try { resolve(JSON.parse(buf)); }
-        catch (e) { reject(new Error('JSON parse failed: ' + e.message + ' | body=' + buf.slice(0, 300))); }
-      });
+      resp.on('end', () => resolve({ status: resp.statusCode, body: buf, headers: resp.headers }));
     });
     req.on('timeout', () => { req.destroy(new Error('timeout')); });
     req.on('error', reject);
+  });
+}
+
+function fetchJson(url, headers = {}) {
+  return fetchRaw(url, headers).then((r) => {
+    const trimmed = (r.body || '').trim();
+    if (!trimmed.startsWith('{') && !trimmed.startsWith('[')) {
+      // WAF 拦截或异常响应
+      const isWaf = /HWWAF|Block-Event-Id|<title>天眼查<\/title>/i.test(r.body) || r.headers.server === 'CW';
+      const err = new Error(isWaf
+        ? `WAF blocked (HTTP ${r.status}) — 当前服务器 IP 可能被天眼查防火墙拦截。请改在本地笔记本/办公网络 IP 下运行。`
+        : `Non-JSON response (HTTP ${r.status}): ${r.body.slice(0, 200)}`);
+      err.code = isWaf ? 'WAF_BLOCKED' : 'BAD_RESPONSE';
+      err.httpStatus = r.status;
+      throw err;
+    }
+    return JSON.parse(trimmed);
   });
 }
 
@@ -65,7 +96,10 @@ function sendJson(res, status, body) {
 async function tycLookup(keyword) {
   if (!TYC_TOKEN) return null;
   const url = `https://open.api.tianyancha.com/services/open/search/2.0?word=${encodeURIComponent(keyword)}&pageNum=1&pageSize=5`;
-  const data = await fetchJson(url, { Authorization: TYC_TOKEN });
+  const data = await fetchJson(url, {
+    'Authorization': TYC_TOKEN,
+    'User-Agent': 'Mozilla/5.0 wujiaochang-map/1.0'
+  });
   if (data && data.error_code === 0) {
     const item = ((data.result && data.result.items) || [])[0];
     if (item) {
@@ -80,16 +114,16 @@ async function tycLookup(keyword) {
         city: item.city || null,
         regNumber: item.regNumber || item.creditCode || null,
         businessScope: item.businessScope || null,
-        url: item.companyUrl || null
+        url: item.companyUrl || null,
+        regStatus: item.regStatus || null
       };
     }
+    return { source: 'tianyancha', error: 'no match' };
   }
-  return { source: 'tianyancha', error: (data && (data.reason || data.message)) || 'no result' };
+  return { source: 'tianyancha', error: (data && (data.reason || data.message)) || 'unknown' };
 }
 
 /* -------- 企查查（备选） -------- */
-// 文档: https://openapi.qcc.com/dataApi
-// 鉴权: header.Token = MD5(AppKey + Timestamp + SecretKey)
 async function qccLookup(keyword) {
   if (!QCC_KEY || !QCC_SECRET) return null;
   const ts  = Math.floor(Date.now() / 1000);
@@ -116,7 +150,6 @@ async function qccLookup(keyword) {
 /* -------- 主路由 -------- */
 
 const server = http.createServer(async (req, res) => {
-  // CORS preflight
   if (req.method === 'OPTIONS') {
     res.writeHead(204, {
       'Access-Control-Allow-Origin':  '*',
@@ -128,7 +161,6 @@ const server = http.createServer(async (req, res) => {
 
   const u = new URL(req.url, 'http://localhost');
 
-  // 健康检查
   if (u.pathname === '/' || u.pathname === '/health') {
     return sendJson(res, 200, {
       ok: true,
@@ -141,7 +173,6 @@ const server = http.createServer(async (req, res) => {
     });
   }
 
-  // 单条企业补充
   if (u.pathname === '/api/enrich' || u.pathname === '/api/search') {
     const company = u.searchParams.get('company') || u.searchParams.get('name') || '';
     if (!company.trim()) return sendJson(res, 400, { error: 'company 参数必填' });
@@ -157,7 +188,13 @@ const server = http.createServer(async (req, res) => {
       }
       return sendJson(res, 200, result);
     } catch (e) {
-      return sendJson(res, 500, { error: e.message });
+      return sendJson(res, e.code === 'WAF_BLOCKED' ? 451 : 500, {
+        error: e.message,
+        code: e.code || 'ERR',
+        hint: e.code === 'WAF_BLOCKED'
+          ? '天眼查 WAF 拦截了当前服务器 IP。请改在本地笔记本/办公网络 IP 下运行 (常见于 AWS/阿里云海外/Cursor Cloud Agent 等环境)。'
+          : undefined
+      });
     }
   }
 
@@ -168,11 +205,14 @@ server.listen(PORT, () => {
   console.log(`╭─────────────────────────────────────────────────────────╮`);
   console.log(`│  企业信息代理已启动 → http://localhost:${PORT}              `);
   console.log(`├─────────────────────────────────────────────────────────┤`);
-  console.log(`│  天眼查 (TYC_TOKEN):   ${TYC_TOKEN  ? '✅ 已配置' : '❌ 未设置'}`);
+  console.log(`│  天眼查 (TYC_TOKEN):   ${TYC_TOKEN  ? '✅ 已配置 (' + TYC_TOKEN.slice(0, 8) + '...)' : '❌ 未设置'}`);
   console.log(`│  企查查 (QCC_KEY):     ${(QCC_KEY && QCC_SECRET) ? '✅ 已配置' : '❌ 未设置'}`);
   console.log(`╰─────────────────────────────────────────────────────────╯`);
   console.log(`  健康检查:  curl http://localhost:${PORT}/health`);
   console.log(`  查询企业:  curl 'http://localhost:${PORT}/api/enrich?company=合生创展'`);
   console.log(``);
-  console.log(`  在网页右上角点击【⚙ API 配置】,代理地址填:  http://localhost:${PORT}`);
+  console.log(`  ⚠️  若返回 451 / WAF_BLOCKED, 说明当前 IP 被天眼查 WAF 拦截,`);
+  console.log(`     请改在本地笔记本 / 办公网络 IP 下运行（不要用云服务器）。`);
+  console.log(``);
+  console.log(`  网页右上角【⚙ API 配置】, 代理地址填:  http://localhost:${PORT}`);
 });
