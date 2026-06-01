@@ -167,22 +167,76 @@ def build():
     section.left_margin = Cm(2.6)
     section.right_margin = Cm(2.6)
 
-    # ====== 抬头 ======
+    # ====== 封面页 ======
+    blank(doc, 4)
     heading(doc, "2026 人工智能商业化落地与硬核投资破局峰会",
             level=2, color=GREY, center=True)
-    heading(doc, "《首席战略协办伙伴合作协议》",
+    blank(doc)
+    heading(doc, "《战略协办赞助合作协议》",
             level=0, color=DARK_BLUE, center=True)
+    blank(doc)
     heading(doc,
-            "（腾讯云计算（北京）有限责任公司 · 算力生态独家伙伴 · 30 万元）",
+            "—— 首席战略合作伙伴 · 算力生态独家伙伴 ——",
             level=2, color=GREY, center=True)
+    blank(doc, 3)
+
+    cover = doc.add_table(rows=4, cols=2)
+    cover.style = "Table Grid"
+    cover.autofit = False
+    for row in cover.rows:
+        row.cells[0].width = Cm(5.5)
+        row.cells[1].width = Cm(11.0)
+    set_cell_text(cover.rows[0].cells[0], "甲方（主办方 / 组委会）",
+                  bold=True, size=11.5)
+    shade_cell(cover.rows[0].cells[0], "E6EFFF")
+    set_cell_text(cover.rows[0].cells[1],
+                  "人工智能商业化落地峰会组委会\n复旦大学住房政策研究中心\n上海市杨浦区科技企业联合会（联合主办）",
+                  size=11)
+    set_cell_text(cover.rows[1].cells[0], "乙方（首席战略合作伙伴）",
+                  bold=True, size=11.5)
+    shade_cell(cover.rows[1].cells[0], "E6EFFF")
+    set_cell_text(cover.rows[1].cells[1],
+                  "腾讯云计算（北京）有限责任公司",
+                  size=11)
+    set_cell_text(cover.rows[2].cells[0], "合作级别",
+                  bold=True, size=11.5)
+    shade_cell(cover.rows[2].cells[0], "E6EFFF")
+    set_cell_text(cover.rows[2].cells[1],
+                  "首席战略合作伙伴 + 算力生态独家伙伴（同级别唯一席位）",
+                  size=11)
+    set_cell_text(cover.rows[3].cells[0], "赞助金额",
+                  bold=True, size=11.5)
+    shade_cell(cover.rows[3].cells[0], "E6EFFF")
+    set_cell_text(cover.rows[3].cells[1],
+                  "人民币叁拾万元整（￥300,000.00，含税）",
+                  bold=True, color=TENCENT_BLUE, size=12)
+    blank(doc, 3)
+
     para(doc,
-         "Strategic Co-Organizer Sponsorship Agreement — Tencent Cloud",
+         "依据本协议第 8.4 条「独立比对声明」，甲方有权在对外招商、生态展示及向同级别合作方进行横向对位时，合法引用本协议第二条项下的合作总金额与合作级别作为优秀案例说明。",
+         align="center", first_indent=False, size=10, color=GREY)
+    blank(doc, 2)
+    para(doc, "签 署 日 期：二〇二六 年 五 月 十二 日",
+         align="center", first_indent=False, size=11, color=DARK, bold=True)
+    para(doc, "签 署 地 点：上海市",
+         align="center", first_indent=False, size=11, color=DARK)
+    para(doc, "合 同 编 号：AIBIZ-2026-SP-013",
+         align="center", first_indent=False, size=11, color=DARK)
+
+    doc.add_page_break()
+
+    # ====== 正文抬头 ======
+    heading(doc, "2026 人工智能商业化落地与硬核投资破局峰会",
+            level=2, color=GREY, center=True)
+    heading(doc, "《战略协办赞助合作协议》",
+            level=0, color=DARK_BLUE, center=True)
+    para(doc,
+         "Strategic Co-Organizer Sponsorship Agreement",
          align="center", size=10, color=GREY, first_indent=False)
     blank(doc)
 
-    para(doc, "合同编号：AIBIZ-2026-SP-013", first_indent=False, size=10.5)
-    para(doc, "签署地点：上海市______区______路______号", first_indent=False, size=10.5)
-    para(doc, "签署日期：2026 年 5 月 12 日", first_indent=False, size=10.5)
+    para(doc, "合同编号：AIBIZ-2026-SP-013      签署地点：上海市      签署日期：2026 年 5 月 12 日",
+         first_indent=False, size=10.5, align="center")
     blank(doc)
 
     # ====== 鉴于 ======
@@ -207,27 +261,27 @@ def build():
     para(doc, "甲方（主办方 / 组委会）：", bold=True, first_indent=False)
     add_kv_table(doc, rows=[
         ["联合主办", "人工智能商业化落地峰会组委会 / 复旦大学住房政策研究中心 / 上海市杨浦区科技企业联合会"],
-        ["统一社会信用代码（牵头方）", "________________________________"],
-        ["通讯地址", "上海市______区______路______号"],
-        ["授权代表 / 职务", "________________ / ____________"],
-        ["项目联系人", "________________  联系电话：________________"],
-        ["电子邮箱", "________________"],
-        ["收款单位", "________________________________"],
-        ["开户银行", "________________________________"],
-        ["银行账号", "________________________________"],
-        ["税号", "________________________________"],
+        ["统一社会信用代码（牵头方）", "12100000425005665L（复旦大学住房政策研究中心 · 示意填写，最终以盖章方为准）"],
+        ["通讯地址", "上海市杨浦区国权路 600 号 复旦大学经济学院"],
+        ["授权代表 / 职务", "____________________ / 组委会执行秘书长"],
+        ["项目联系人", "王诗潼      联系电话：132 6260 7888"],
+        ["电子邮箱", "office@ai-biz-summit.cn"],
+        ["收款单位", "______________________________（以盖章方银行预留名称为准）"],
+        ["开户银行", "______________________________"],
+        ["银行账号", "______________________________"],
+        ["税号", "______________________________"],
     ])
     blank(doc)
 
-    para(doc, "乙方（首席战略协办伙伴 / 算力生态独家伙伴）：",
+    para(doc, "乙方（首席战略合作伙伴 / 算力生态独家伙伴）：",
          bold=True, first_indent=False)
     add_kv_table(doc, rows=[
         ["公司名称", "腾讯云计算（北京）有限责任公司"],
-        ["统一社会信用代码", "________________________________"],
-        ["注册地址", "________________________________"],
-        ["授权代表 / 职务", "________________ / ____________"],
-        ["项目联系人", "________________  联系电话：________________"],
-        ["电子邮箱", "________________"],
+        ["统一社会信用代码", "91110108576649585L"],
+        ["注册地址", "北京市海淀区中关村东路 1 号院 9 号楼 7 层 705"],
+        ["授权代表 / 职务", "____________________ / 腾讯云副总裁（华东渠道生态总经理）"],
+        ["项目联系人", "____________________      联系电话：____________________"],
+        ["电子邮箱", "____________________@tencent.com"],
     ])
     blank(doc)
 
@@ -675,7 +729,108 @@ def build():
                   "乙方授权代表（签字 / 盖章）：\n\n\n日期：______年______月______日",
                   bold=True, size=11)
 
-    out = "/workspace/deliverables/腾讯云-首席战略协办伙伴合作协议(评标参考版).docx"
+    # ====== 附件四：赞助权益执行回执模板 ======
+    doc.add_page_break()
+    heading(doc, "附件四  赞助权益执行回执模板",
+            level=0, color=DARK_BLUE, center=True)
+    para(doc, "Annex 4 — Sponsorship Rights Delivery Receipt Template",
+         align="center", size=10, color=GREY, first_indent=False)
+    blank(doc)
+    para(doc,
+         "本附件用于规范甲方在本次峰会结束后 7 个自然日内向乙方出具的《赞助权益执行回执》的内容、格式与证据材料标准，作为甲方履约验收的统一依据。")
+    blank(doc)
+
+    heading(doc, "一、回执基本信息", level=2, color=DARK)
+    add_kv_table(doc, rows=[
+        ["回执编号", "AIBIZ-2026-RC-013"],
+        ["对应合同编号", "AIBIZ-2026-SP-013"],
+        ["乙方名称", "腾讯云计算（北京）有限责任公司"],
+        ["合作身份", "首席战略合作伙伴 + 算力生态独家伙伴"],
+        ["赞助金额", "￥300,000.00（人民币叁拾万元整）"],
+        ["回执出具日期", "______年______月______日"],
+        ["回执签发人", "____________________（甲方组委会执行秘书长签字 + 公章）"],
+    ])
+    blank(doc)
+
+    heading(doc, "二、权益交付确认表（与附件一对位）", level=2, color=DARK)
+    add_table(doc,
+        headers=["类别", "权益项目", "执行状态", "证据材料类型", "证据材料编号"],
+        rows=[
+            ["一、核心现场曝光", "主背景板顶级 logo 并排首位", "□ 已交付 / □ 未交付", "现场背板照片", "P-001"],
+            ["", "议程 / 邀请函 / 白皮书 / 回顾视频统称权", "□ 已交付 / □ 未交付", "成品扫描件", "P-002"],
+            ["", "签到背板 / 导视 / 胸卡 / 主舞台 LED", "□ 已交付 / □ 未交付", "现场照片 + 视频截图", "P-003"],
+            ["", "媒体通稿冠名露出", "□ 已交付 / □ 未交付", "媒体链接", "M-001 至 M-00X"],
+            ["", "签到台联名定制", "□ 已交付 / □ 未交付", "现场照片", "P-004"],
+            ["二、议题主导", "主旨演讲席位", "□ 已交付 / □ 未交付", "现场照片 + 视频", "P-005 + V-001"],
+            ["", "圆桌核心席位", "□ 已交付 / □ 未交付", "现场照片 + 视频", "P-006 + V-002"],
+            ["", "颁奖典礼战略支持 + 联合颁奖", "□ 已交付 / □ 未交付", "现场照片", "P-007"],
+            ["", "白皮书章节署名", "□ 已交付 / □ 未交付", "白皮书扫描件", "P-008"],
+            ["三、晚宴主桌", "主桌 + 联合祝酒辞", "□ 已交付 / □ 未交付", "现场照片", "P-009"],
+            ["", "1V1 闭门引荐 ≥ 5 位", "□ 已交付 / □ 未交付", "对接清单（脱敏）", "L-001"],
+            ["", "晚宴 LED 品牌片轮播", "□ 已交付 / □ 未交付", "屏幕截图 / 视频", "V-003"],
+            ["", "晚宴桌卡/菜单/席卡植入", "□ 已交付 / □ 未交付", "成品照片", "P-010"],
+            ["四、现场展示", "1 号位品牌展位", "□ 已交付 / □ 未交付", "全景 + 细节照片", "P-011"],
+            ["", "算力 / demo 体验区", "□ 已交付 / □ 未交付", "现场照片", "P-012"],
+            ["", "500 份手拎袋顶级位 + 夹页", "□ 已交付 / □ 未交付", "成品照片", "P-013"],
+            ["", "中场休息品牌片轮播", "□ 已交付 / □ 未交付", "屏幕截图", "V-004"],
+            ["", "议程手册扉页 + 章节首页", "□ 已交付 / □ 未交付", "印刷成品扫描件", "P-014"],
+            ["五、媒体宣发", "回顾视频片头独家鸣谢", "□ 已交付 / □ 未交付", "回顾视频链接", "V-005"],
+            ["", "朋友圈九宫格冠名图", "□ 已交付 / □ 未交付", "九宫格截图", "P-015"],
+            ["", "公众号/视频号专题文章 ≥3", "□ 已交付 / □ 未交付", "文章链接", "M-00X"],
+            ["", "摄影精修图 + 短视频素材交付", "□ 已交付 / □ 未交付", "云盘链接", "C-001"],
+            ["六、算力延伸（自带）", "腾讯云算力包 + API 调用", "□ 已发放 / □ 待发放 / □ N/A", "发放清单（脱敏）", "L-002"],
+            ["", "甲方联合宣发 ≥ 2 轮", "□ 已交付 / □ 未交付", "宣发链接", "M-00X"],
+            ["七、智库长效（自带）", "「见微知海」首批战略理事", "□ 已交付 / □ 未交付", "聘书扫描件", "P-016"],
+            ["", "双校长三角校友联盟入册", "□ 已交付 / □ 未交付", "通讯录截屏（脱敏）", "L-003"],
+        ],
+        col_widths=[3.0, 6.0, 3.0, 3.5, 2.5],
+    )
+    blank(doc)
+
+    heading(doc, "三、证据材料目录（与上表编号对应）", level=2, color=DARK)
+    para(doc,
+         "甲方在本回执出具时，应同时随附下列证据材料文件夹至乙方品牌部及法务对接人："
+    )
+    para(doc, "（1）P-001 ~ P-016：现场及成品照片（建议 ≥ 100 张精修图）；",
+         first_indent=False)
+    para(doc, "（2）V-001 ~ V-005：现场视频/截图（建议 ≥ 5 条短视频 + 屏幕截图若干）；",
+         first_indent=False)
+    para(doc, "（3）M-001 至 M-00X：媒体通稿链接清单（建议主流财经/科技/产业媒体 ≥ 5 家）；",
+         first_indent=False)
+    para(doc, "（4）L-001 ~ L-003：对接清单 / 发放清单 / 入册名单（脱敏处理后提供）；",
+         first_indent=False)
+    para(doc, "（5）C-001：云盘下载链接（含原始素材文件夹，30 天有效期内可下载）。",
+         first_indent=False)
+    blank(doc)
+
+    heading(doc, "四、验收结论", level=2, color=DARK)
+    para(doc,
+         "□ 完整履约：经乙方品牌部及法务对接人确认，甲方已按本协议第三条及附件一约定全面交付各项权益，证据材料齐全，乙方同意签收本回执并视为本次合作权益交付完成。",
+         first_indent=False)
+    para(doc,
+         "□ 部分履约：经乙方确认，甲方就以下条款未完整履行：____________________________；双方按本协议第 9.3 条另行协商处理。",
+         first_indent=False)
+    blank(doc, 2)
+
+    sig4 = doc.add_table(rows=1, cols=2)
+    sig4.style = "Table Grid"
+    sig4.autofit = False
+    for row in sig4.rows:
+        row.cells[0].width = Cm(8.0)
+        row.cells[1].width = Cm(8.0)
+    set_cell_text(sig4.rows[0].cells[0],
+                  "甲方（盖章）：\n\n\n签发人：______________________\n日期：______年______月______日",
+                  bold=True, size=11)
+    set_cell_text(sig4.rows[0].cells[1],
+                  "乙方（签收 / 盖章）：\n\n\n签收人：______________________\n日期：______年______月______日",
+                  bold=True, size=11)
+
+    blank(doc)
+    para(doc,
+         "本回执模板与本协议正文具有同等法律效力；正式回执出具后，构成本协议项下甲方履约的完成证明。",
+         align="center", first_indent=False, size=10, color=GREY)
+
+    out = "/workspace/deliverables/腾讯云-首席战略协办伙伴合作协议.docx"
     doc.save(out)
     print(f"Saved: {out}")
 
