@@ -133,20 +133,30 @@ def build():
     section.left_margin = Cm(2.2)
     section.right_margin = Cm(2.2)
 
-    # ===== 抬头 =====
+    # ===== 封面页（前三行单独一页） =====
+    blank(doc, 8)
+    heading(doc, "2026 人工智能商业化落地与硬核投资破局峰会",
+            level=2, color=GREY, center=True)
+    blank(doc, 2)
+    heading(doc, "《战略协办赞助合作协议》",
+            level=0, color=DARK_BLUE, center=True)
+    blank(doc, 2)
+    para(doc,
+         "合同编号：AIBIZ-2026-SP-013      签署地点：上海市      签署日期：2026 年 5 月 12 日",
+         first_indent=False, size=11, align="center", color=GREY)
+
+    doc.add_page_break()
+
+    # ===== 正文抬头（简化版头部） =====
     heading(doc, "2026 人工智能商业化落地与硬核投资破局峰会",
             level=2, color=GREY, center=True)
     heading(doc, "《战略协办赞助合作协议》",
-            level=0, color=DARK_BLUE, center=True)
-    blank(doc)
-    para(doc,
-         "合同编号：AIBIZ-2026-SP-013      签署地点：上海市      签署日期：2026 年 5 月 12 日",
-         first_indent=False, size=10, align="center", color=GREY)
+            level=1, color=DARK_BLUE, center=True)
     blank(doc)
 
     # ===== 协议主体 =====
     para(doc,
-         "甲方（主办方 / 组委会）：人工智能商业化落地峰会组委会 / 复旦大学住房政策研究中心 / 上海市杨浦区科技企业联合会（联合主办）",
+         "甲方（主办方 / 组委会）：人工智能商业化落地峰会组委会 / 上海市杨浦区科技企业联合会（联合主办）",
          bold=True, first_indent=False, size=10.5)
     para(doc,
          "乙方（战略协办方）：腾讯云计算（北京）有限责任公司",
@@ -170,9 +180,28 @@ def build():
     clause(doc, "1.2",
            "赞助标的额：乙方为本次峰会提供专项赞助资金，总计金额为人民币（大写）叁拾万元整（小写：￥300,000.00 元），含税。")
     clause(doc, "1.3",
-           "支付方式：乙方应于本协议签署并经双方盖章生效后 15 个工作日内，将上述款项一次性汇入甲方指定的对公账户。甲方在收款后向乙方开具相应金额的合规发票（发票内容：会议服务费 / 赞助费）。")
+           "支付方式：乙方应于本协议签署并经双方盖章生效后 15 个工作日内，将上述款项一次性汇入甲方指定的对公账户（账户信息详见本条第 1.5 款）。甲方在收款后向乙方开具相应金额的合规发票（发票内容：会议服务费 / 会务咨询费 / 赞助费 三选一，以乙方实际需求为准）。")
     clause(doc, "1.4",
            "资金用途：上述款项专款专用于本次峰会当期的场地租赁、舞美搭建、嘉宾接待、物料制作及现场运营等直接费用。")
+    clause(doc, "1.5",
+           "甲方收款账户信息：")
+
+    acct = doc.add_table(rows=4, cols=2)
+    acct.style = "Table Grid"
+    acct.autofit = False
+    for row in acct.rows:
+        row.cells[0].width = Cm(3.8)
+        row.cells[1].width = Cm(12.5)
+    acct_rows = [
+        ["收款单位", "______________________________"],
+        ["开户银行", "______________________________"],
+        ["银行账号", "______________________________"],
+        ["税号", "______________________________"],
+    ]
+    for i, (k, v) in enumerate(acct_rows):
+        cell_text(acct.rows[i].cells[0], k, bold=True, size=10.5)
+        shade_cell(acct.rows[i].cells[0], "E6EFFF")
+        cell_text(acct.rows[i].cells[1], v, size=10.5)
     blank(doc)
 
     # ===== 第二条 =====
@@ -188,7 +217,7 @@ def build():
     clause(doc, "2.4",
            "算力生态延伸权益（自带，不计入第 1.2 条赞助标的额）：乙方有权在峰会后向甲方生态内符合资质的科创企业与「超级个体」定向发放腾讯云专属算力包及大模型 API 调用支持，甲方通过自有渠道配合宣发。")
     clause(doc, "2.5",
-           "智库长效背书（自带，不计入第 1.2 条赞助标的额）：乙方自动成为「见微知海新质商业生态」首批年度战略理事单位，享有后续长三角系列闭门局、专题沙龙及行业研究发布会的优先参与权。")
+           "智库长效背书（自带，不计入第 1.2 条赞助标的额）：乙方自动成为【人工智能商业化落地峰会组委会】举办的后续【见微知海新质商业生态】首批年度战略理事单位，享有后续长三角系列闭门局、专题沙龙及行业研究发布会的优先参与权。")
     blank(doc)
 
     # ===== 第三条 =====
@@ -251,7 +280,7 @@ def build():
     cell_text(sig.rows[0].cells[0], "甲方（盖章）：", bold=True, size=11)
     cell_text(sig.rows[0].cells[1], "乙方（盖章）：", bold=True, size=11)
     cell_text(sig.rows[1].cells[0],
-              "人工智能商业化落地峰会组委会 /\n复旦大学住房政策研究中心 /\n上海市杨浦区科技企业联合会",
+              "人工智能商业化落地峰会组委会 /\n上海市杨浦区科技企业联合会",
               size=10.5)
     cell_text(sig.rows[1].cells[1],
               "腾讯云计算（北京）有限责任公司",
