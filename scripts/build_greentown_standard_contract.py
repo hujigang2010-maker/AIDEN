@@ -248,7 +248,7 @@ def build():
               ("上海市杨浦区国泰路 11 号 复旦科技园副楼一楼 1008 室", True)])
     add_para(doc,
              [("法定代表人：", False),
-              ("____________________（请上海市杨浦区科技企业联合会提供）", True)])
+              ("朱震", True)])
     blank(doc)
 
     add_para(doc,
@@ -589,7 +589,7 @@ def build():
               ("；", False)])
     add_para(doc,
              [("联系电话：", False),
-              ("____________________（请乙方提供）", True),
+              ("13262607888", True),
               ("；", False)])
     add_para(doc,
              [("联系地址：", False),
@@ -649,7 +649,7 @@ def build():
     blank(doc, 4)
     add_para(doc,
              [("法定代表人或授权代表（签名或盖章）：", False),
-              ("____________________（请上海市杨浦区科技企业联合会提供）", True)],
+              ("朱震（秘书长）", True)],
              line_spacing=2.0)
 
     out = "/workspace/deliverables/绿城活动赞助合同(GTH-zzc-ppch-016-2022a)-补充填写版.docx"
