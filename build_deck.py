@@ -175,17 +175,18 @@ deco2.fill.fore_color.rgb = RGBColor(0x0F, 0x2A, 0x4D)
 
 textbox(s, Inches(0.7), Inches(1.0), Inches(11), Inches(0.5),
         [[("战略合作方案 · 内部沟通版", 14, CYAN, True)]])
-textbox(s, Inches(0.7), Inches(1.7), Inches(11.6), Inches(2.4),
-        [[("四方联动", 50, WHITE, True)],
-         [("共建 “AI + 云计算” 产业生态共同体", 40, WHITE, True)]],
-        space_after=Pt(8), line_spacing=1.05)
-rect(s, Inches(0.75), Inches(4.0), Inches(3.6), Inches(0.05), GOLD)
-textbox(s, Inches(0.7), Inches(4.2), Inches(11.8), Inches(1.2),
-        [[("面向 · 上海市云计算创新基地（大学路 · 五角场创新创业学院）", 16, LIGHT, False)],
-         [("聚焦两大诉求：轻资产拓展  ×  招商对接", 16, GOLD, True)]],
-        space_after=Pt(6))
-textbox(s, Inches(0.7), Inches(6.5), Inches(12), Inches(0.6),
-        [[("复旦大学住房政策研究中心  ·  人工智能商业化落地组委会  ·  上海市杨浦区科技企业联合会", 12, GREY, False)]])
+textbox(s, Inches(0.7), Inches(1.55), Inches(11.6), Inches(2.4),
+        [[("五方共建", 48, WHITE, True)],
+         [("“AI + 云计算” 产业生态共同体", 38, WHITE, True)]],
+        space_after=Pt(8), line_spacing=1.02)
+rect(s, Inches(0.75), Inches(3.8), Inches(3.6), Inches(0.05), GOLD)
+textbox(s, Inches(0.7), Inches(3.98), Inches(11.9), Inches(1.5),
+        [[("面向 · 上海市云计算创新基地（大学路 · 五角场创新创业学院）", 15, LIGHT, False)],
+         [("两大诉求：轻资产拓展 × 招商对接", 15, GOLD, True)],
+         [("新引擎：腾讯云算力底座 + OPC 超级孵化闭环 → 产业闭环", 15, CYAN, True)]],
+        space_after=Pt(5))
+textbox(s, Inches(0.7), Inches(6.45), Inches(12.2), Inches(0.8),
+        [[("复旦大学住房政策研究中心 · 人工智能商业化落地组委会 · 上海市杨浦区科技企业联合会 · 腾讯云", 12, GREY, False)]])
 
 
 # ============================================================================
@@ -202,39 +203,46 @@ textbox(s, Inches(1.0), Inches(2.7), Inches(11.3), Inches(2.4),
         [[("而是用 “资源整合 + 资产运营 + 产业导入”", 32, GOLD, True)],
          [("共建一个可复制的 AI 产业空间运营新模式。", 32, WHITE, True)]],
         space_after=Pt(10), line_spacing=1.15)
-textbox(s, Inches(1.0), Inches(5.5), Inches(11.3), Inches(1.2),
-        [[("对方本质是“资源平台”（空间 + 政府背书 + 双创资源）；", 17, LIGHT, False)],
-         [("我们要补上的是“内容 + 运营 + 产业导入 + 商业化变现”的闭环能力。", 17, LIGHT, False)]],
-        space_after=Pt(8))
+textbox(s, Inches(1.0), Inches(5.35), Inches(11.5), Inches(1.6),
+        [[("对方提供“资源平台”（空间 + 政府背书 + 双创资源），腾讯云提供“算力 + 技术底座”；", 16, LIGHT, False)],
+         [("我们补上“内容 + 运营 + 产业导入 + 商业化变现”，并用「超级孵化器」批量孵化 OPC，", 16, LIGHT, False)],
+         [("（AI 一人公司 / 超级个体）—— 让所有 OPC 在生态链里完成闭环。", 16, GOLD, True)]],
+        space_after=Pt(6))
 
 
 # ============================================================================
 # 幻灯片 3 — 资源禀赋（双方）
 # ============================================================================
 s = add_slide()
-section_header(s, "RESOURCES · 资源禀赋", "双方资源盘点：壳 × 内容，天然互补", "01")
+section_header(s, "RESOURCES · 资源禀赋", "五方资源盘点：空间 × 内容 × 算力，三位一体", "01")
 # 左：对方
-rect(s, Inches(0.55), Inches(1.6), Inches(5.9), Inches(5.3), LIGHT)
-rect(s, Inches(0.55), Inches(1.6), Inches(5.9), Inches(0.6), BLUE)
-textbox(s, Inches(0.75), Inches(1.6), Inches(5.6), Inches(0.6),
-        [[("对方 · 资源平台（壳）", 16, WHITE, True)]], anchor=MSO_ANCHOR.MIDDLE)
-bullet(s, Inches(0.75), Inches(2.4), Inches(5.5), Inches(4.4), [
+rect(s, Inches(0.55), Inches(1.5), Inches(5.9), Inches(4.35), LIGHT)
+rect(s, Inches(0.55), Inches(1.5), Inches(5.9), Inches(0.55), BLUE)
+textbox(s, Inches(0.75), Inches(1.5), Inches(5.6), Inches(0.55),
+        [[("对方 · 资源平台（壳）", 15, WHITE, True)]], anchor=MSO_ANCHOR.MIDDLE)
+bullet(s, Inches(0.75), Inches(2.2), Inches(5.5), Inches(3.6), [
     ("云计算创新基地：", "产业承载空间 + 企业集聚载体，孵化器/加速器/总部基地/人才实训“四位一体”。"),
-    ("五角场创新创业学院：", "双创资源连接器 + 加速器，“募课”模式、长三角科创板预备营等全周期服务。"),
-    ("政府背书：", "杨浦区政策明确支持盘活低效物业、发展孵化器、引入 AI 企业。"),
+    ("五角场创新创业学院：", "双创资源连接器，“募课”模式、长三角科创板预备营等全周期服务。"),
     ("缺口：", "产业内容不足 + 运营能力缺失，物业易空置。"),
-], size=14, lead_color=BLUE)
+], size=13, lead_color=BLUE)
 # 右：我方
-rect(s, Inches(6.85), Inches(1.6), Inches(5.9), Inches(5.3), RGBColor(0xEA, 0xF6, 0xF8))
-rect(s, Inches(6.85), Inches(1.6), Inches(5.9), Inches(0.6), CYAN)
-textbox(s, Inches(7.05), Inches(1.6), Inches(5.6), Inches(0.6),
-        [[("我方 · 内容运营方（芯）", 16, WHITE, True)]], anchor=MSO_ANCHOR.MIDDLE)
-bullet(s, Inches(7.05), Inches(2.4), Inches(5.5), Inches(4.4), [
-    ("复旦住房政策研究中心：", "城市更新、存量盘活、产业社区规划与政策研判背书。"),
+rect(s, Inches(6.85), Inches(1.5), Inches(5.9), Inches(4.35), RGBColor(0xEA, 0xF6, 0xF8))
+rect(s, Inches(6.85), Inches(1.5), Inches(5.9), Inches(0.55), CYAN)
+textbox(s, Inches(7.05), Inches(1.5), Inches(5.6), Inches(0.55),
+        [[("我方 · 内容运营方（芯）", 15, WHITE, True)]], anchor=MSO_ANCHOR.MIDDLE)
+bullet(s, Inches(7.05), Inches(2.2), Inches(5.5), Inches(3.6), [
+    ("复旦住房政策研究中心：", "城市更新、存量盘活、产业社区规划与政策背书。"),
     ("AI 商业化落地组委会：", "5·22 峰会汇聚 AI 全产业链企业与投融资资源。"),
-    ("杨浦区科技企业联合会：", "覆盖七大战新产业的会员企业网络，直接招商渠道。"),
+    ("杨浦区科技企业联合会：", "覆盖七大战新产业会员企业网络，直接招商渠道。"),
     ("您本人：", "跨组织协同纽带 + 轻资产拓展操盘能力（关键）。"),
-], size=14, lead_color=CYAN)
+], size=13, lead_color=CYAN)
+# 底部：腾讯云
+rect(s, Inches(0.55), Inches(6.0), Inches(12.2), Inches(0.95), NAVY)
+rect(s, Inches(0.55), Inches(6.0), Inches(0.16), Inches(0.95), GOLD)
+textbox(s, Inches(0.95), Inches(6.05), Inches(11.6), Inches(0.85),
+        [[("新伙伴 · 腾讯云（算力与技术底座）：", 14, GOLD, True),
+          ("算力补贴 + 混元大模型/API + 云开发技术中台 + 初创扶持计划 —— 补齐“算力+技术”底座，支撑 OPC 规模化孵化。", 14, WHITE, False)]],
+        anchor=MSO_ANCHOR.MIDDLE, line_spacing=1.05)
 
 
 # ============================================================================
@@ -354,31 +362,97 @@ for i, (t, d) in enumerate([
 
 
 # ============================================================================
+# 幻灯片 7.5 — 腾讯云加入：算力与技术底座
+# ============================================================================
+s = add_slide()
+section_header(s, "新伙伴 · 腾讯云", "引入腾讯云：补齐“算力 + 技术”全栈底座", "+")
+textbox(s, Inches(0.55), Inches(1.45), Inches(12), Inches(0.55),
+        [[("生态从“空间 + 产业”升级为“空间 + 产业 + 算力 + 技术”全栈闭环。", 16, BLUE, True)]])
+tx_cards = [
+    ("① 算力补贴", ["为入驻 OPC / 企业发放", "云资源代金券与算力补贴，", "直接降本，跑通 AI 应用。"], BLUE),
+    ("② 大模型与 API", ["混元大模型、API、", "Agent 开发工具，", "加速 AI 应用快速落地。"], CYAN),
+    ("③ 技术中台", ["云开发、数据库、音视频", "等中台能力，", "支撑 AI 工作流规模化。"], BLUE),
+    ("④ 创业扶持", ["腾讯云初创扶持计划 +", "生态资源对接，", "技术背书提升招商力。"], GOLD),
+]
+for i, (t, lines, c) in enumerate(tx_cards):
+    x = Inches(0.55 + i * 3.08)
+    card(s, x, Inches(2.1), Inches(2.85), Inches(2.55), t, lines, accent=c,
+         title_color=(NAVY if c == GOLD else WHITE))
+rect(s, Inches(0.55), Inches(4.95), Inches(12.2), Inches(1.85), NAVY)
+rect(s, Inches(0.55), Inches(4.95), Inches(0.16), Inches(1.85), CYAN)
+textbox(s, Inches(1.0), Inches(5.15), Inches(11.5), Inches(1.5),
+        [[("战略意义：", 16, CYAN, True),
+          ("算力是 OPC（AI 一人公司）的“水电煤”。", 16, WHITE, False)],
+         [("腾讯云作底座，让“超级孵化器”能以极低成本批量孵化 OPC，把算力补贴转化为入驻黏性与招商利器，", 15, LIGHT, False)],
+         [("最终形成“算力 → 孵化 → 落地 → 集聚”的产业闭环。", 15, GOLD, True)]],
+        space_after=Pt(6), line_spacing=1.08)
+
+
+# ============================================================================
+# 幻灯片 7.6 — 超级孵化器 · OPC 孵化生态闭环（核心）
+# ============================================================================
+s = add_slide()
+section_header(s, "CORE · 产业闭环", "超级孵化器 · OPC 孵化生态闭环", "★")
+textbox(s, Inches(0.55), Inches(1.42), Inches(12.2), Inches(0.95),
+        [[("OPC = AI 一人公司 / 超级个体：", 15, BLUE, True),
+          ("借助 AI 工作流，以极小团队完成过去整家公司的业务。五方联合「超级孵化器」批量孵化 OPC —— 这是生态的最小细胞，也是闭环的主角。", 14, GREY, False)]],
+        line_spacing=1.08)
+steps = [
+    ("1 · 选育", "AI 切磋者大会", ["海选 / 比武发现优质 OPC 与项目", "组委会 + 联合会输送种子"], BLUE),
+    ("2 · 赋能", "超级孵化器", ["腾讯云算力补贴 + AI 工作流导入", "复旦课程 / 导师 / 政策"], CYAN),
+    ("3 · 落地", "推动 AI 落地", ["Demo City 真实场景验证", "联合会企业订单 + 投融资对接"], GOLD),
+    ("4 · 集聚", "入驻成链", ["OPC 入驻盘活空间，形成生态链", "反哺招商、品牌与资产增值"], BLUE),
+]
+for i, (no, t, lines, c) in enumerate(steps):
+    x = Inches(0.55 + i * 3.02)
+    rect(s, x, Inches(2.55), Inches(2.75), Inches(2.55), LIGHT)
+    rect(s, x, Inches(2.55), Inches(2.75), Inches(0.95), c)
+    textbox(s, x, Inches(2.55), Inches(2.75), Inches(0.5),
+            [[(no, 14, (NAVY if c == GOLD else WHITE), True)]], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+    textbox(s, x, Inches(3.0), Inches(2.75), Inches(0.5),
+            [[(t, 16, (NAVY if c == GOLD else WHITE), True)]], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+    textbox(s, x + Inches(0.16), Inches(3.65), Inches(2.45), Inches(1.4),
+            [[(l, 11.5, DARKTX, False)] for l in lines], space_after=Pt(4), line_spacing=1.05)
+    if i < 3:
+        ar = rect(s, Inches(0.55 + i * 3.02 + 2.78), Inches(3.45), Inches(0.22), Inches(0.7),
+                  CYAN, shape=MSO_SHAPE.CHEVRON)
+# 闭环底栏
+rect(s, Inches(0.55), Inches(5.4), Inches(12.2), Inches(1.4), NAVY)
+rect(s, Inches(0.55), Inches(5.4), Inches(0.16), Inches(1.4), GOLD)
+textbox(s, Inches(1.0), Inches(5.55), Inches(11.5), Inches(1.15),
+        [[("↺  形成生态链 · 服务目前所有 OPC · 闭环自循环：", 16, GOLD, True),
+          ("入驻 OPC 成长后产生新需求与新订单，又反哺孵化与招商，", 15, WHITE, False)],
+         [("使空间持续满租、产业持续集聚，最终沉淀为可复制到全国的“AI 产业闭环”产品。", 15, LIGHT, False)]],
+        space_after=Pt(6), line_spacing=1.08)
+
+
+# ============================================================================
 # 幻灯片 8 — 内容运营 / 活动 IP
 # ============================================================================
 s = add_slide()
 section_header(s, "运营引流 · 治本之策", "内容 + 活动引流：空间是容器，没有内容必然空置", "06")
 items = [
+    ("AI 切磋者大会", "选育 · 招商", GOLD),
     ("AI 产业私董会", "高端 · 圈层", BLUE),
-    ("AI Demo Day", "招商 · 路演", CYAN),
-    ("AI 应用展", "To G / To B", GOLD),
-    ("复旦 + 产业课程", "收费 · 人才", BLUE),
+    ("AI Demo Day", "路演 · 转化", CYAN),
+    ("AI 应用展", "To G / To B", BLUE),
+    ("复旦+产业课程", "收费 · 人才", CYAN),
 ]
 for i, (t, d, c) in enumerate(items):
-    x = Inches(0.55 + i * 3.1)
-    rect(s, x, Inches(1.9), Inches(2.85), Inches(2.3), LIGHT)
-    rect(s, x, Inches(1.9), Inches(2.85), Inches(0.7), c)
-    textbox(s, x, Inches(1.9), Inches(2.85), Inches(0.7),
+    x = Inches(0.45 + i * 2.52)
+    rect(s, x, Inches(1.9), Inches(2.3), Inches(2.3), LIGHT)
+    rect(s, x, Inches(1.9), Inches(2.3), Inches(0.7), c)
+    textbox(s, x, Inches(1.9), Inches(2.3), Inches(0.7),
             [[("IP %d" % (i + 1), 13, (NAVY if c == GOLD else WHITE), True)]],
             align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-    textbox(s, x + Inches(0.15), Inches(2.75), Inches(2.55), Inches(1.3),
-            [[(t, 17, DARKTX, True)], [(d, 13, GREY, False)]], align=PP_ALIGN.CENTER,
+    textbox(s, x + Inches(0.1), Inches(2.7), Inches(2.1), Inches(1.4),
+            [[(t, 15, DARKTX, True)], [(d, 12.5, GREY, False)]], align=PP_ALIGN.CENTER,
             space_after=Pt(6))
 rect(s, Inches(0.55), Inches(4.6), Inches(12.2), Inches(2.1), NAVY)
 rect(s, Inches(0.55), Inches(4.6), Inches(0.16), Inches(2.1), CYAN)
 textbox(s, Inches(1.0), Inches(4.85), Inches(11.5), Inches(1.6),
-        [[("核心逻辑：空间 = 内容容器。固定 IP 活动持续制造流量、人气与签约线索，", 16, WHITE, False)],
-         [("从根本上解决空置问题，并反哺招商与品牌溢价。", 16, GOLD, True)]],
+        [[("核心逻辑：空间 = 内容容器。其中「AI 切磋者大会」是 OPC 的选育入口，", 16, WHITE, False)],
+         [("固定 IP 持续制造流量、选育 OPC、产出签约线索，从根本上解决空置并反哺招商与品牌溢价。", 16, GOLD, True)]],
         space_after=Pt(10))
 
 
@@ -386,23 +460,24 @@ textbox(s, Inches(1.0), Inches(4.85), Inches(11.5), Inches(1.6),
 # 幻灯片 9 — 四方分工与协同机制 表
 # ============================================================================
 s = add_slide()
-section_header(s, "GOVERNANCE · 合作阵型", "四方分工与协同机制", "07")
-rows, cols = 5, 3
-tshape = s.shapes.add_table(rows, cols, Inches(0.55), Inches(1.55), Inches(12.2), Inches(4.0))
+section_header(s, "GOVERNANCE · 合作阵型", "五方分工与协同机制", "07")
+rows, cols = 6, 3
+tshape = s.shapes.add_table(rows, cols, Inches(0.55), Inches(1.5), Inches(12.2), Inches(4.45))
 table = tshape.table
 table.columns[0].width = Inches(3.4)
 table.columns[1].width = Inches(3.6)
 table.columns[2].width = Inches(5.2)
 fill_table(table, [
     ["组织方", "定位 / 核心职责", "落地抓手"],
-    ["云计算创新基地 / 五角场创新创业学院", "产业原点 · 提供孵化体系与空间品牌", "产业准入标准、开放活动平台、输出运营管理模式"],
+    ["云计算创新基地 / 五角场创新创业学院", "产业原点 · 孵化体系与空间品牌", "产业准入标准、开放活动平台、输出运营模式"],
+    ["腾讯云", "算力与技术底座 · 全栈支撑", "算力补贴、大模型/API、技术中台、初创扶持"],
     ["复旦大学住房政策研究中心", "智库大脑 · 资产评估与政策支持", "物业改造可行性报告、城市更新补贴、人才公寓配套"],
-    ["人工智能商业化落地组委会", "流量漏斗(技术) · AI 内容与投融资", "AI 场景对接会、优质企业筛选、商业化落地辅导"],
+    ["人工智能商业化落地组委会", "流量漏斗(技术) · AI 内容与投融资", "AI 切磋者大会、OPC 选育、商业化落地辅导"],
     ["杨浦区科技企业联合会", "流量漏斗(企业) · 招商渠道与跨区联动", "企业需求数据库、组织会员考察、对接各地商会"],
 ])
-style_table(table, header_fill=NAVY, body_size=12.5)
-textbox(s, Inches(0.55), Inches(5.8), Inches(12.2), Inches(1.2),
-        [[("协同机制：", 14, BLUE, True), ("四方联席工作组（每月对齐）· 资源共享清单 · 战略合作备忘录（明确佣金与运营分成比例）。", 14, GREY, False)]])
+style_table(table, header_fill=NAVY, body_size=11.5)
+textbox(s, Inches(0.55), Inches(6.15), Inches(12.2), Inches(1.0),
+        [[("协同机制：", 13, BLUE, True), ("五方联席工作组（每月对齐）· 资源共享清单 · 战略合作备忘录（明确佣金、运营分成与算力补贴口径）。", 13, GREY, False)]])
 
 
 # ============================================================================
@@ -412,27 +487,29 @@ s = add_slide()
 section_header(s, "BUSINESS MODEL · 收益结构", "合作分工 × 收益模式：拿到“运营权 + 导入权”", "08")
 # 左：分工表
 textbox(s, Inches(0.55), Inches(1.5), Inches(6), Inches(0.4), [[("合作分工", 14, BLUE, True)]])
-t1 = s.shapes.add_table(5, 3, Inches(0.55), Inches(1.95), Inches(6.0), Inches(3.2)).table
+t1 = s.shapes.add_table(6, 3, Inches(0.55), Inches(1.9), Inches(6.0), Inches(3.5)).table
 t1.columns[0].width = Inches(1.3); t1.columns[1].width = Inches(2.35); t1.columns[2].width = Inches(2.35)
 fill_table(t1, [
-    ["模块", "对方（云基地）", "我们"],
+    ["模块", "平台方（云基地/腾讯云）", "我们"],
     ["空间", "提供物业", "选址 + 定位"],
+    ["算力技术", "腾讯云补贴 + 中台", "OPC 孵化 + 工作流"],
     ["招商", "政策资源", "企业导入"],
     ["运营", "基础管理", "内容 + 活动 + 社群"],
-    ["品牌", "政府背书", "AI 产业 IP"],
+    ["品牌", "政府/腾讯云背书", "AI 产业 IP"],
 ])
-style_table(t1, header_fill=BLUE, body_size=12.5)
+style_table(t1, header_fill=BLUE, body_size=11.5, header_size=11.5)
 # 右：收益
 textbox(s, Inches(7.0), Inches(1.5), Inches(6), Inches(0.4), [[("收入模式（我方主动提）", 14, CYAN, True)]])
-bullet(s, Inches(7.0), Inches(1.95), Inches(5.8), Inches(3.4), [
+bullet(s, Inches(7.0), Inches(1.9), Inches(5.8), Inches(3.5), [
     ("① 租金分成", "—— 核心收益来源。"),
     ("② 企业服务费", "—— 培训 / 咨询 / AI 赋能包。"),
-    ("③ 活动收入", "—— 私董会 / Demo Day / 展会。"),
-    ("④ 政策补贴联合申报", "—— 城市更新、保租房等。"),
-], size=14, lead_color=CYAN)
-rect(s, Inches(0.55), Inches(5.55), Inches(12.2), Inches(1.4), RGBColor(0xEA, 0xF6, 0xF8))
-rect(s, Inches(0.55), Inches(5.55), Inches(0.16), Inches(1.4), GOLD)
-textbox(s, Inches(0.95), Inches(5.7), Inches(11.6), Inches(1.1),
+    ("③ 活动收入", "—— 切磋者大会 / Demo Day / 展会。"),
+    ("④ 算力 / 技术服务分成", "—— 腾讯云算力分销 + OPC 孵化服务。"),
+    ("⑤ 政策补贴联合申报", "—— 城市更新、保租房、算力补贴。"),
+], size=13, lead_color=CYAN)
+rect(s, Inches(0.55), Inches(5.7), Inches(12.2), Inches(1.3), RGBColor(0xEA, 0xF6, 0xF8))
+rect(s, Inches(0.55), Inches(5.7), Inches(0.16), Inches(1.3), GOLD)
+textbox(s, Inches(0.95), Inches(5.82), Inches(11.6), Inches(1.05),
         [[("关键原则：", 15, BLUE, True),
           ("我方必须拿到“运营权 + 产业导入权”，否则只是给资源平台打工，无法形成可复制的产品与护城河。", 15, DARKTX, False)]],
         anchor=MSO_ANCHOR.MIDDLE)
@@ -442,26 +519,28 @@ textbox(s, Inches(0.95), Inches(5.7), Inches(11.6), Inches(1.1),
 # 幻灯片 11 — 三个立即启动项目
 # ============================================================================
 s = add_slide()
-section_header(s, "ACTION · 即刻启动", "三个“立即启动”项目（承接 5·22 峰会余热）", "09")
+section_header(s, "ACTION · 即刻启动", "四个“立即启动”项目（承接 5·22 峰会余热）", "09")
 projects = [
     ("01", "AI 产业社区试点", "联合考察对方推荐的 1–2 个空置物业（大学路 / 杨浦滨江）。",
      "交付：2 周内出具《产业社区改造初步方案》", BLUE),
-    ("02", "企业需求数据库共建", "本周启动联合会会员企业扩租 / 迁址需求调研。",
-     "交付：1 个月内形成首批 50 家目标企业清单", CYAN),
-    ("03", "首场 AI 场景对接会", "7 月办首场“AI 企业走进云计算创新基地”活动。",
-     "交付：活动方案 + 拟邀企业名单（本周完成）", GOLD),
+    ("02", "首场 AI 切磋者大会 + OPC 超级孵化营", "承接峰会余热，7 月办首站，选育首批种子 OPC。",
+     "交付：活动方案 + 拟邀 OPC/企业名单（本周完成）", GOLD),
+    ("03", "腾讯云算力补贴包落地", "联合腾讯云敲定面向入驻 OPC 的算力补贴与扶持政策。",
+     "交付：2 周内确定补贴口径、额度与申领流程", CYAN),
+    ("04", "企业需求数据库共建", "本周启动联合会会员企业扩租 / 迁址需求调研。",
+     "交付：1 个月内形成首批 50 家目标企业清单", BLUE),
 ]
 for i, (no, t, d, deliver, c) in enumerate(projects):
-    y = Inches(1.65 + i * 1.75)
-    rect(s, Inches(0.55), y, Inches(12.2), Inches(1.55), LIGHT)
-    rect(s, Inches(0.55), y, Inches(1.3), Inches(1.55), c)
-    textbox(s, Inches(0.55), y, Inches(1.3), Inches(1.55),
-            [[(no, 34, (NAVY if c == GOLD else WHITE), True)]],
+    y = Inches(1.55 + i * 1.38)
+    rect(s, Inches(0.55), y, Inches(12.2), Inches(1.22), LIGHT)
+    rect(s, Inches(0.55), y, Inches(1.3), Inches(1.22), c)
+    textbox(s, Inches(0.55), y, Inches(1.3), Inches(1.22),
+            [[(no, 30, (NAVY if c == GOLD else WHITE), True)]],
             align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-    textbox(s, Inches(2.05), y + Inches(0.12), Inches(10.4), Inches(1.3),
-            [[(t, 18, DARKTX, True)],
-             [(d, 13.5, GREY, False)],
-             [(deliver, 13, BLUE, True)]], space_after=Pt(3), line_spacing=1.05)
+    textbox(s, Inches(2.05), y + Inches(0.08), Inches(10.4), Inches(1.1),
+            [[(t, 16, DARKTX, True)],
+             [(d, 12.5, GREY, False)],
+             [(deliver, 12.5, BLUE, True)]], space_after=Pt(2), line_spacing=1.03)
 
 
 # ============================================================================
