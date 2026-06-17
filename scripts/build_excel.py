@@ -8,6 +8,11 @@ from openpyxl.styles import (Font, PatternFill, Alignment, Border, Side,
                              NamedStyle)
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.table import Table, TableStyleInfo
+from openpyxl.formatting.rule import (ColorScaleRule, CellIsRule,
+                                       DataBarRule, FormulaRule)
+from openpyxl.chart import BarChart, BarChart3D, PieChart, Reference, LineChart
+from openpyxl.chart.label import DataLabelList
+from openpyxl.worksheet.datavalidation import DataValidation
 import os
 
 OUTPUT_DIR = "/workspace/上海商办楼宇与产业园区市场深度报告"
@@ -93,10 +98,215 @@ def freeze_at(ws, row, col):
 
 
 # ============================================================
-# 0. 封面/说明
+# 0. 仪表盘 Dashboard
 # ============================================================
 ws = wb.active
-ws.title = "0_封面与说明"
+ws.title = "0_仪表盘"
+ws.sheet_view.showGridLines = False
+ws.sheet_view.zoomScale = 100
+set_widths(ws, [3, 18, 18, 18, 18, 18, 18, 18, 3])
+
+# 顶部 banner
+for r in range(1, 5):
+    for c in range(1, 10):
+        ws.cell(row=r, column=c).fill = fill_navy
+ws.merge_cells("B2:H2")
+ws["B2"] = "上海商办楼宇与产业园区市场深度报告  ·  研发仪表盘"
+ws["B2"].font = Font(name="微软雅黑", size=22, bold=True, color="FFFFFF")
+ws["B2"].alignment = align_center
+ws.row_dimensions[2].height = 36
+
+ws.merge_cells("B3:H3")
+ws["B3"] = ("DASHBOARD  ·  Joint Research between "
+            "E-House  ×  Fudan Housing Policy Research Center")
+ws["B3"].font = Font(name="微软雅黑", size=11, color="C8862D",
+                    italic=True)
+ws["B3"].alignment = align_center
+
+ws.merge_cells("B4:H4")
+ws["B4"] = "讨论稿 · 仅供联合课题组内部研讨"
+ws["B4"].font = Font(name="微软雅黑", size=10, color="E9F0FA")
+ws["B4"].alignment = align_center
+
+# 关键 KPI 卡片
+ws.row_dimensions[5].height = 6  # spacer
+ws.row_dimensions[6].height = 30
+ws.merge_cells("B6:H6")
+ws["B6"] = "项目研发关键指标"
+ws["B6"].font = Font(name="微软雅黑", size=14, bold=True, color="1F3A68")
+ws["B6"].alignment = Alignment(horizontal="left", vertical="center")
+
+kpis = [
+    ("16", "上海行政区", "全域覆盖", "2E5CA3"),
+    ("20", "重点板块", "深度专项", "1F3A68"),
+    ("6", "基础数据库", "底层支撑", "1E778E"),
+    ("5", "核心指数", "指标模型", "2F7D5C"),
+    ("4", "采集阶段", "分期推进", "E06A2C"),
+    ("17", "重点行业", "需求侧识别", "C8862D"),
+    ("9", "企业清单类型", "招商应用", "6B4EA1"),
+]
+# render KPI tiles across columns
+ws.row_dimensions[7].height = 8
+ws.row_dimensions[8].height = 50
+ws.row_dimensions[9].height = 24
+ws.row_dimensions[10].height = 22
+
+for i, (v, t, sub, c) in enumerate(kpis):
+    col = i + 2  # start B
+    # value cell
+    cv = ws.cell(row=8, column=col, value=v)
+    cv.font = Font(name="微软雅黑", size=32, bold=True, color="FFFFFF")
+    cv.fill = PatternFill("solid", fgColor=c)
+    cv.alignment = Alignment(horizontal="center", vertical="center")
+    cv.border = border_all
+    # title
+    ct = ws.cell(row=9, column=col, value=t)
+    ct.font = Font(name="微软雅黑", size=11, bold=True, color="FFFFFF")
+    ct.fill = PatternFill("solid", fgColor=c)
+    ct.alignment = align_center
+    ct.border = border_all
+    # sub
+    cs = ws.cell(row=10, column=col, value=sub)
+    cs.font = Font(name="微软雅黑", size=10, color="6E737C")
+    cs.fill = PatternFill("solid", fgColor="F3F5F8")
+    cs.alignment = align_center
+    cs.border = border_all
+
+# 第二段：研究框架（横向流程）
+ws.row_dimensions[12].height = 30
+ws.merge_cells("B12:H12")
+ws["B12"] = "研究框架  ·  从背景到应用的完整链路"
+ws["B12"].font = Font(name="微软雅黑", size=14, bold=True, color="1F3A68")
+
+frame = [("背景", "1F3A68"), ("供给", "2E5CA3"), ("租金/空置", "1E778E"),
+         ("企业画像", "2F7D5C"), ("企业迁徙", "E06A2C"),
+         ("匹配机会", "C8862D"), ("趋势/政策", "6B4EA1")]
+ws.row_dimensions[14].height = 36
+for i, (n, c) in enumerate(frame):
+    col = i + 2
+    cell = ws.cell(row=14, column=col, value=n)
+    cell.fill = PatternFill("solid", fgColor=c)
+    cell.font = Font(name="微软雅黑", size=12, bold=True, color="FFFFFF")
+    cell.alignment = align_center
+    cell.border = border_all
+
+# 第三段：区域市场样本（演示性数据 + 条件格式 + 图表）
+ws.row_dimensions[16].height = 30
+ws.merge_cells("B16:H16")
+ws["B16"] = ("区域市场样本指标（演示性数据 · 实际取值以采集为准）")
+ws["B16"].font = Font(name="微软雅黑", size=14, bold=True, color="1F3A68")
+
+ws.row_dimensions[17].height = 24
+samp_headers = ["行政区", "载体数量", "总面积(万㎡)", "可租赁(万㎡)",
+                "平均租金(元/㎡/天)", "空置率(%)", "净流入企业(家)"]
+for i, h in enumerate(samp_headers):
+    cell = ws.cell(row=17, column=i + 2, value=h)
+    cell.fill = fill_navy
+    cell.font = Font(name="微软雅黑", size=10, bold=True, color="FFFFFF")
+    cell.alignment = align_center
+    cell.border = border_all
+
+sample_data = [
+    ("黄浦", 180, 920, 760, 8.6, 12.5, 220),
+    ("静安", 165, 880, 720, 10.2, 9.8, 280),
+    ("徐汇", 220, 1100, 950, 7.8, 11.2, 360),
+    ("长宁", 140, 780, 660, 7.2, 13.6, 180),
+    ("普陀", 195, 860, 740, 4.5, 17.4, 150),
+    ("虹口", 130, 720, 620, 6.5, 10.5, 195),
+    ("杨浦", 235, 1180, 1050, 5.6, 14.2, 420),
+    ("浦东新区", 820, 5800, 5100, 8.4, 13.5, 1280),
+    ("闵行", 310, 2200, 1980, 4.2, 18.2, 320),
+    ("宝山", 215, 1450, 1290, 3.6, 22.5, 145),
+    ("嘉定", 280, 1820, 1620, 3.9, 19.8, 380),
+    ("松江", 245, 1600, 1430, 3.5, 20.4, 280),
+    ("青浦", 210, 1340, 1180, 3.8, 21.6, 175),
+    ("奉贤", 175, 1250, 1100, 3.4, 23.2, 130),
+    ("金山", 95, 780, 680, 3.2, 25.5, 65),
+    ("崇明", 60, 520, 460, 2.9, 26.8, 35),
+]
+for i, row in enumerate(sample_data):
+    r = 18 + i
+    ws.row_dimensions[r].height = 18
+    for j, v in enumerate(row):
+        c = ws.cell(row=r, column=j + 2, value=v)
+        c.font = font_body
+        c.alignment = align_center
+        c.border = border_all
+        if j == 0:
+            c.font = font_body_bold
+            c.alignment = align_center
+        if r % 2 == 0:
+            c.fill = fill_light
+
+# 条件格式：空置率 - 颜色阶梯（绿-黄-红）
+end_row = 17 + len(sample_data)
+ws.conditional_formatting.add(
+    f"G18:G{end_row}",
+    ColorScaleRule(
+        start_type="min", start_color="63BE7B",
+        mid_type="percentile", mid_value=50, mid_color="FFEB84",
+        end_type="max", end_color="F8696B",
+    )
+)
+# 条件格式：平均租金 - 颜色阶梯（蓝越深越高）
+ws.conditional_formatting.add(
+    f"F18:F{end_row}",
+    ColorScaleRule(
+        start_type="min", start_color="DAEEF3",
+        mid_type="percentile", mid_value=50, mid_color="74B5DB",
+        end_type="max", end_color="1F4E79",
+    )
+)
+# 条件格式：净流入企业数 - 数据条
+ws.conditional_formatting.add(
+    f"H18:H{end_row}",
+    DataBarRule(start_type="min", end_type="max", color="2E5CA3")
+)
+
+# 添加图表 - 各区平均租金柱状图
+chart = BarChart()
+chart.type = "bar"
+chart.style = 11
+chart.title = "上海各区平均报价租金（演示性数据）"
+chart.y_axis.title = "行政区"
+chart.x_axis.title = "元/㎡/天"
+data = Reference(ws, min_col=6, min_row=17, max_col=6, max_row=end_row)
+cats = Reference(ws, min_col=2, min_row=18, max_row=end_row)
+chart.add_data(data, titles_from_data=True)
+chart.set_categories(cats)
+chart.height = 10
+chart.width = 16
+chart.legend = None
+ws.add_chart(chart, "J6")
+
+# 空置率柱状图
+chart2 = BarChart()
+chart2.type = "col"
+chart2.style = 12
+chart2.title = "上海各区空置率（演示性数据）"
+chart2.x_axis.title = "行政区"
+chart2.y_axis.title = "空置率(%)"
+data2 = Reference(ws, min_col=7, min_row=17, max_col=7, max_row=end_row)
+chart2.add_data(data2, titles_from_data=True)
+chart2.set_categories(cats)
+chart2.height = 9
+chart2.width = 16
+chart2.legend = None
+ws.add_chart(chart2, "J27")
+
+# 注脚
+note_row = end_row + 2
+ws.merge_cells(start_row=note_row, start_column=2, end_row=note_row,
+               end_column=8)
+ws.cell(row=note_row, column=2,
+        value="注：以上为演示性示意数据，仅用于展示报告输出结构与可视化效果；"
+              "实际取值以采集与校验为准。").font = font_note
+
+
+# ============================================================
+# 1. 封面/说明
+# ============================================================
+ws = wb.create_sheet("0_封面与说明")
 ws.sheet_view.showGridLines = False
 set_widths(ws, [3, 30, 30, 30, 30, 30, 3])
 
@@ -132,6 +342,7 @@ ws["B11"] = "工作表索引"
 ws["B11"].font = Font(name="微软雅黑", size=14, bold=True, color="1F3A68")
 
 sheet_index = [
+    ("0_仪表盘", "项目研发关键指标 · 区域市场样本 · 图表可视化"),
     ("1_报告大纲", "九章 + 附篇结构与章节要点"),
     ("2_六大数据库字段", "楼宇/租金/企业/迁徙/产业/政策 — 六大库字段清单"),
     ("3_数据来源清单", "公开数据 / 地图 / 工商 / 商办市场 / 产业 / 招聘 / 新闻 / 调研"),
@@ -618,6 +829,13 @@ for i, r in enumerate(indices_rows):
             ws.cell(row=4 + i, column=c).fill = fill_light
     prev = r[0]
 
+# 权重列条件格式（数据条）
+ws.conditional_formatting.add(
+    f"C4:C{3 + len(indices_rows)}",
+    DataBarRule(start_type="num", start_value=0,
+                end_type="num", end_value=25, color="C8862D")
+)
+
 
 # ============================================================
 # 5. 采集分期计划
@@ -945,6 +1163,23 @@ score = [
 for i, row in enumerate(score):
     write_row(ws, 4 + i, list(row), height=22)
 
+# 数据条 - 评分列
+ws.conditional_formatting.add(
+    f"D4:D{3 + len(score)}",
+    DataBarRule(start_type="num", start_value=0,
+                end_type="num", end_value=5, color="2E5CA3")
+)
+# 数据验证 - 评分列 0-5
+dv = DataValidation(type="decimal", operator="between",
+                    formula1=0, formula2=5,
+                    allow_blank=True)
+dv.error = "请填入 0-5 之间的评分"
+dv.errorTitle = "评分超范围"
+dv.prompt = "评分范围：0-5 分"
+dv.promptTitle = "评分指引"
+ws.add_data_validation(dv)
+dv.add(f"D4:D{3 + len(score)}")
+
 # 合计行
 total_row = 4 + len(score)
 ws.cell(row=total_row, column=1, value="合计").font = font_body_bold
@@ -993,12 +1228,56 @@ samples = [
 for i, row in enumerate(samples):
     write_row(ws, 4 + i, list(row), height=22)
 
+# 数据验证：行政区下拉
+districts_list = ('"黄浦区,静安区,徐汇区,长宁区,普陀区,虹口区,杨浦区,'
+                  '浦东新区,闵行区,宝山区,嘉定区,松江区,青浦区,奉贤区,'
+                  '金山区,崇明区"')
+dv_dist = DataValidation(type="list", formula1=districts_list,
+                          allow_blank=True)
+dv_dist.prompt = "请从下拉列表选择"
+dv_dist.promptTitle = "16区下拉"
+ws.add_data_validation(dv_dist)
+dv_dist.add(f"B4:B100")
+
+# 物业类型下拉
+ptype = ('"超甲级写字楼,甲级写字楼,乙级写字楼,普通商务楼宇,总部办公园区,'
+         '科创园区,产业园区,孵化器/众创空间,城市更新改造载体,'
+         '国企平台持有载体"')
+dv_p = DataValidation(type="list", formula1=ptype, allow_blank=True)
+dv_p.prompt = "10 类物业标准"
+dv_p.promptTitle = "物业类型"
+ws.add_data_validation(dv_p)
+dv_p.add(f"E4:E100")
+
+# 空置率 0-100
+dv_v = DataValidation(type="decimal", operator="between",
+                     formula1=0, formula2=100, allow_blank=True)
+dv_v.error = "空置率应为 0-100"
+dv_v.errorTitle = "空置率超范围"
+ws.add_data_validation(dv_v)
+dv_v.add(f"J4:J100")
+
+# 空置率条件格式
+ws.conditional_formatting.add(
+    f"J4:J{3 + len(samples)}",
+    ColorScaleRule(start_type="min", start_color="63BE7B",
+                   mid_type="percentile", mid_value=50, mid_color="FFEB84",
+                   end_type="max", end_color="F8696B")
+)
+# 租金数据条
+ws.conditional_formatting.add(
+    f"I4:I{3 + len(samples)}",
+    DataBarRule(start_type="min", end_type="max", color="2E5CA3")
+)
+
 # 填空说明
 note_row = 4 + len(samples) + 2
 ws.cell(row=note_row, column=1,
-        value="填写说明：1) 行政区/街道/镇 严格使用民政区划标准名；2) 物业类型按10类标准；"
-              "3) 面积单位统一为平方米；4) 租金统一为元/㎡/天；"
-              "5) 空置率 = 招商可租面积 / 可租赁面积；6) 数据填写后请在工作表'12_合规与质量管理'登记来源与时间。").font = font_note
+        value="填写说明：1) 行政区/街道/镇 严格使用民政区划标准名（B列已设下拉）；"
+              "2) 物业类型按10类标准（E列已设下拉）；3) 面积单位统一为平方米；"
+              "4) 租金统一为元/㎡/天；5) 空置率 = 招商可租面积 / 可租赁面积；"
+              "6) 数据填写后请在工作表'12_合规与质量管理'登记来源与时间。"
+              ).font = font_note
 ws.merge_cells(start_row=note_row, start_column=1, end_row=note_row, end_column=12)
 
 

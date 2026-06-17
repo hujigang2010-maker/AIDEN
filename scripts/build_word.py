@@ -1,39 +1,58 @@
 """
-生成《上海商办楼宇与产业园区市场深度报告》Word 文档
+生成《上海商办楼宇与产业园区市场深度报告》Word 文档（精装版）
 易居研究院 × 复旦大学住房政策研究中心 联合课题组
 """
 
 from docx import Document
-from docx.shared import Pt, Cm, RGBColor
-from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.enum.table import WD_TABLE_ALIGNMENT
-from docx.oxml.ns import qn
+from docx.shared import Pt, Cm, RGBColor, Inches
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT, WD_TAB_LEADER
+from docx.enum.table import WD_TABLE_ALIGNMENT, WD_ALIGN_VERTICAL
+from docx.enum.section import WD_SECTION
+from docx.oxml.ns import qn, nsmap
 from docx.oxml import OxmlElement
+from lxml import etree
 import os
 
 OUTPUT_DIR = "/workspace/上海商办楼宇与产业园区市场深度报告"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
+
+# ======================== Styling helpers ========================
+
+NAVY = (16, 42, 91)
+BLUE = (42, 91, 168)
+TEAL = (30, 119, 142)
+GOLD = (200, 145, 58)
+ORANGE = (224, 106, 44)
+GRAY = (110, 115, 124)
+DARK = (26, 34, 46)
+LIGHT_BLUE = (233, 240, 251)
+
+
 doc = Document()
 
-# 中文字体设置
+# 页面设置（横向更宽留白以杂志感）
+for section in doc.sections:
+    section.page_height = Cm(29.7)
+    section.page_width = Cm(21.0)
+    section.top_margin = Cm(2.4)
+    section.bottom_margin = Cm(2.2)
+    section.left_margin = Cm(2.6)
+    section.right_margin = Cm(2.4)
+
+# 默认正文字体
 style = doc.styles["Normal"]
 style.font.name = "宋体"
 style.font.size = Pt(11)
 style.element.rPr.rFonts.set(qn("w:eastAsia"), "宋体")
 
-# 页面设置
-for section in doc.sections:
-    section.top_margin = Cm(2.4)
-    section.bottom_margin = Cm(2.4)
-    section.left_margin = Cm(2.6)
-    section.right_margin = Cm(2.6)
 
-
-def set_run_font(run, name="宋体", size=11, bold=False, color=None):
+def set_run_font(run, name="宋体", size=11, bold=False, color=None,
+                 italic=False):
     run.font.name = name
     run.font.size = Pt(size)
     run.bold = bold
+    run.italic = italic
     if color:
         run.font.color.rgb = RGBColor(*color)
     rpr = run._element.get_or_add_rPr()
@@ -46,154 +65,348 @@ def set_run_font(run, name="宋体", size=11, bold=False, color=None):
     rfonts.set(qn("w:hAnsi"), name)
 
 
-def add_cover_title(text, size=28, color=(31, 73, 125)):
+def shade_cell(cell, fill_hex):
+    tc_pr = cell._tc.get_or_add_tcPr()
+    shd = OxmlElement("w:shd")
+    shd.set(qn("w:val"), "clear")
+    shd.set(qn("w:color"), "auto")
+    shd.set(qn("w:fill"), fill_hex)
+    tc_pr.append(shd)
+
+
+def shade_paragraph(paragraph, fill_hex):
+    pPr = paragraph._p.get_or_add_pPr()
+    shd = OxmlElement("w:shd")
+    shd.set(qn("w:val"), "clear")
+    shd.set(qn("w:color"), "auto")
+    shd.set(qn("w:fill"), fill_hex)
+    pPr.append(shd)
+
+
+def set_paragraph_border(paragraph, position="bottom", color="C8913A",
+                         size=8):
+    pPr = paragraph._p.get_or_add_pPr()
+    pBdr = pPr.find(qn("w:pBdr"))
+    if pBdr is None:
+        pBdr = OxmlElement("w:pBdr")
+        pPr.append(pBdr)
+    bd = OxmlElement(f"w:{position}")
+    bd.set(qn("w:val"), "single")
+    bd.set(qn("w:sz"), str(size))
+    bd.set(qn("w:space"), "1")
+    bd.set(qn("w:color"), color)
+    pBdr.append(bd)
+
+
+def add_p(text, size=11, indent_first=True, color=DARK, bold=False,
+          space_after=4, line_spacing=1.55, align=None):
+    p = doc.add_paragraph()
+    r = p.add_run(text)
+    set_run_font(r, size=size, bold=bold, color=color)
+    p.paragraph_format.space_after = Pt(space_after)
+    p.paragraph_format.line_spacing = line_spacing
+    if indent_first:
+        p.paragraph_format.first_line_indent = Pt(22)
+    if align is not None:
+        p.alignment = align
+    return p
+
+
+def add_centered(text, size=14, bold=False, color=GRAY, font="黑体",
+                 space_after=6):
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    r = p.add_run(text)
+    set_run_font(r, name=font, size=size, bold=bold, color=color)
+    p.paragraph_format.space_after = Pt(space_after)
+
+
+def add_cover_title(text, size=34, color=NAVY, space_after=8):
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     r = p.add_run(text)
     set_run_font(r, name="黑体", size=size, bold=True, color=color)
-    p.paragraph_format.space_before = Pt(10)
-    p.paragraph_format.space_after = Pt(10)
-
-
-def add_centered(text, size=14, bold=False, color=(64, 64, 64)):
-    p = doc.add_paragraph()
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = p.add_run(text)
-    set_run_font(r, name="黑体", size=size, bold=bold, color=color)
+    p.paragraph_format.space_after = Pt(space_after)
+    p.paragraph_format.space_before = Pt(4)
 
 
 def add_h1(text):
     p = doc.add_paragraph()
+    # 段前色块感
+    r0 = p.add_run("  ")
+    set_run_font(r0, name="黑体", size=18)
     r = p.add_run(text)
-    set_run_font(r, name="黑体", size=18, bold=True, color=(31, 73, 125))
-    p.paragraph_format.space_before = Pt(18)
+    set_run_font(r, name="黑体", size=20, bold=True, color=NAVY)
+    p.paragraph_format.space_before = Pt(20)
     p.paragraph_format.space_after = Pt(10)
+    set_paragraph_border(p, "bottom", color="C8913A", size=12)
+    return p
 
 
 def add_h2(text):
     p = doc.add_paragraph()
-    r = p.add_run(text)
-    set_run_font(r, name="黑体", size=14, bold=True, color=(47, 85, 151))
-    p.paragraph_format.space_before = Pt(12)
+    r = p.add_run("▎ ")
+    set_run_font(r, name="黑体", size=14, bold=True, color=GOLD)
+    r2 = p.add_run(text)
+    set_run_font(r2, name="黑体", size=14, bold=True, color=NAVY)
+    p.paragraph_format.space_before = Pt(14)
     p.paragraph_format.space_after = Pt(6)
 
 
 def add_h3(text):
     p = doc.add_paragraph()
     r = p.add_run(text)
-    set_run_font(r, name="黑体", size=12, bold=True, color=(68, 114, 196))
-    p.paragraph_format.space_before = Pt(8)
+    set_run_font(r, name="黑体", size=12, bold=True, color=BLUE)
+    p.paragraph_format.space_before = Pt(10)
     p.paragraph_format.space_after = Pt(4)
 
 
-def add_p(text, size=11, indent_first=True):
+def add_bullet(text, level=0, color=DARK, size=11):
     p = doc.add_paragraph()
+    p.paragraph_format.left_indent = Cm(0.6 + level * 0.6)
+    p.paragraph_format.first_line_indent = Cm(-0.4)
+    p.paragraph_format.space_after = Pt(2)
+    p.paragraph_format.line_spacing = 1.45
+    r1 = p.add_run("●  ")
+    set_run_font(r1, name="黑体", size=9, color=BLUE, bold=True)
     r = p.add_run(text)
-    set_run_font(r, name="宋体", size=size)
-    p.paragraph_format.space_after = Pt(4)
-    p.paragraph_format.line_spacing = 1.5
-    if indent_first:
-        p.paragraph_format.first_line_indent = Pt(22)
-    return p
+    set_run_font(r, size=size, color=color)
 
 
-def add_bullet(text, level=0):
-    p = doc.add_paragraph(style="List Bullet")
-    p.paragraph_format.left_indent = Cm(0.8 + level * 0.8)
-    p.paragraph_format.line_spacing = 1.35
-    r = p.runs[0] if p.runs else p.add_run("")
-    r.text = ""
-    r = p.add_run(text)
-    set_run_font(r, name="宋体", size=11)
-
-
-def add_table(headers, rows, col_widths=None):
+def add_table(headers, rows, col_widths=None, header_fill="102A5B",
+              alt_fill="E9F0FB"):
     table = doc.add_table(rows=1 + len(rows), cols=len(headers))
-    table.style = "Light Grid Accent 1"
     table.alignment = WD_TABLE_ALIGNMENT.CENTER
-    hdr_cells = table.rows[0].cells
+    table.autofit = False
+    # header
     for i, h in enumerate(headers):
-        hdr_cells[i].text = ""
-        p = hdr_cells[i].paragraphs[0]
+        cell = table.rows[0].cells[i]
+        cell.text = ""
+        p = cell.paragraphs[0]
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
         r = p.add_run(h)
         set_run_font(r, name="黑体", size=10, bold=True, color=(255, 255, 255))
-        tc_pr = hdr_cells[i]._tc.get_or_add_tcPr()
-        shd = OxmlElement("w:shd")
-        shd.set(qn("w:fill"), "1F4E79")
-        tc_pr.append(shd)
+        shade_cell(cell, header_fill)
+        cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
     for ri, row in enumerate(rows):
-        cells = table.rows[ri + 1].cells
         for ci, val in enumerate(row):
-            cells[ci].text = ""
-            p = cells[ci].paragraphs[0]
+            cell = table.rows[ri + 1].cells[ci]
+            cell.text = ""
+            p = cell.paragraphs[0]
+            p.alignment = (WD_ALIGN_PARAGRAPH.CENTER if ci == 0
+                           else WD_ALIGN_PARAGRAPH.LEFT)
             r = p.add_run(str(val))
-            set_run_font(r, name="宋体", size=10)
+            set_run_font(r, size=10, color=DARK)
+            if ri % 2 == 1:
+                shade_cell(cell, alt_fill)
+            cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
     if col_widths:
         for row in table.rows:
             for i, w in enumerate(col_widths):
                 row.cells[i].width = Cm(w)
-    p = doc.add_paragraph()
-    p.paragraph_format.space_after = Pt(6)
+    doc.add_paragraph().paragraph_format.space_after = Pt(4)
+
+
+def add_callout(text, fill="E9F0FB", color=NAVY, bold=True, size=11):
+    """ 高亮提示框 """
+    table = doc.add_table(rows=1, cols=1)
+    table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    cell = table.rows[0].cells[0]
+    cell.width = Cm(16)
+    cell.text = ""
+    p = cell.paragraphs[0]
+    r = p.add_run(text)
+    set_run_font(r, size=size, bold=bold, color=color)
+    p.paragraph_format.line_spacing = 1.4
+    p.paragraph_format.space_before = Pt(4)
+    p.paragraph_format.space_after = Pt(4)
+    shade_cell(cell, fill)
+    # set left border accent
+    tc_pr = cell._tc.get_or_add_tcPr()
+    tc_borders = OxmlElement("w:tcBorders")
+    for side in ("left",):
+        b = OxmlElement(f"w:{side}")
+        b.set(qn("w:val"), "single")
+        b.set(qn("w:sz"), "24")
+        b.set(qn("w:color"), "C8913A")
+        tc_borders.append(b)
+    tc_pr.append(tc_borders)
+    doc.add_paragraph().paragraph_format.space_after = Pt(2)
 
 
 def page_break():
     doc.add_page_break()
 
 
-# ====================== 封面 ======================
-for _ in range(4):
-    doc.add_paragraph()
-add_cover_title("上海商办楼宇与产业园区", size=30)
-add_cover_title("市场深度报告", size=30)
-doc.add_paragraph()
-add_centered("——全域空间供给、企业需求迁徙与产业载体运营研究——", size=13, color=(89, 89, 89))
-for _ in range(8):
-    doc.add_paragraph()
-add_centered("联合发布主体", size=12, color=(89, 89, 89))
-add_centered("易居房地产研究院", size=15, bold=True, color=(31, 73, 125))
-add_centered("×", size=14, color=(89, 89, 89))
-add_centered("复旦大学住房政策研究中心", size=15, bold=True, color=(31, 73, 125))
-doc.add_paragraph()
-add_centered("联合课题组：上海商办楼宇与产业园区市场研究课题组", size=11, color=(89, 89, 89))
-for _ in range(4):
-    doc.add_paragraph()
-add_centered("研发方案 · 报告大纲 · 数据调用建议 · 执行指引", size=12, color=(89, 89, 89))
-add_centered("（讨论稿）", size=11, color=(127, 127, 127))
-page_break()
-
-# ====================== 目录提示 ======================
-add_h1("目录")
-toc_items = [
-    "前言：联合发布与项目背景",
-    "第一章  上海商办楼宇与产业园区市场发展背景",
-    "第二章  上海全域商办楼宇与产业园区供给格局",
-    "第三章  上海商办与产业园区租金、空置和价格体系",
-    "第四章  入驻企业画像与产业需求结构",
-    "第五章  企业迁徙与产业流动趋势",
-    "第六章  供需匹配与招商机会分析",
-    "第七章  市场趋势预测",
-    "第八章  政策建议与市场应用",
-    "第九章  成果体系与商业化延展",
-    "附篇一  数据体系与字段设计",
-    "附篇二  核心指标体系（五大指数）",
-    "附篇三  数据调用、采集与合规建议",
-    "附篇四  分工协同机制与工作流程",
-    "附篇五  首期试点报告落地建议",
-    "附篇六  关键难点与解决方案",
-    "附篇七  最终成果包与商业化产品矩阵",
-    "结语   研究价值与长期愿景",
-]
-for t in toc_items:
+def add_section_divider(part_num, en, cn, accent_color=BLUE):
+    """ 章节大隔页 """
+    page_break()
+    # 留白
+    for _ in range(3):
+        doc.add_paragraph()
     p = doc.add_paragraph()
-    r = p.add_run(t)
-    set_run_font(r, name="宋体", size=12)
-    p.paragraph_format.line_spacing = 1.6
-page_break()
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    r = p.add_run(f"PART  {part_num}")
+    set_run_font(r, name="黑体", size=22, bold=True, color=GOLD)
+    p.paragraph_format.space_after = Pt(6)
 
-# ====================== 前言 ======================
+    p = doc.add_paragraph()
+    r = p.add_run(en)
+    set_run_font(r, name="黑体", size=12, color=GRAY)
+    p.paragraph_format.space_after = Pt(20)
+
+    p = doc.add_paragraph()
+    r = p.add_run(cn)
+    set_run_font(r, name="黑体", size=32, bold=True, color=NAVY)
+    p.paragraph_format.space_after = Pt(10)
+    set_paragraph_border(p, "bottom", color="C8913A", size=18)
+
+
+def add_header_footer():
+    section = doc.sections[0]
+    section.different_first_page_header_footer = True
+
+    header = section.header
+    p = header.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    r = p.add_run("上海商办楼宇与产业园区市场深度报告")
+    set_run_font(r, size=9, color=NAVY)
+    tab = p.add_run("\t\t")
+    set_run_font(tab, size=9)
+    r2 = p.add_run("易居研究院 × 复旦大学住房政策研究中心")
+    set_run_font(r2, size=9, color=GRAY)
+    set_paragraph_border(p, "bottom", color="D8DEEA", size=4)
+
+    footer = section.footer
+    fp = footer.paragraphs[0]
+    fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    r = fp.add_run("— ")
+    set_run_font(r, size=9, color=GRAY)
+    # page number field
+    fld_begin = OxmlElement("w:fldChar")
+    fld_begin.set(qn("w:fldCharType"), "begin")
+    instr = OxmlElement("w:instrText")
+    instr.text = "PAGE"
+    fld_sep = OxmlElement("w:fldChar")
+    fld_sep.set(qn("w:fldCharType"), "separate")
+    fld_end = OxmlElement("w:fldChar")
+    fld_end.set(qn("w:fldCharType"), "end")
+    run = fp.add_run()
+    set_run_font(run, size=10, bold=True, color=NAVY)
+    run._r.append(fld_begin); run._r.append(instr)
+    run._r.append(fld_sep); run._r.append(fld_end)
+    r2 = fp.add_run(" —")
+    set_run_font(r2, size=9, color=GRAY)
+
+
+add_header_footer()
+
+
+# ============================== 封面 ==============================
+
+# 顶部金色装饰
+top_p = doc.add_paragraph()
+top_p.paragraph_format.space_after = Pt(0)
+set_paragraph_border(top_p, "bottom", color="C8913A", size=36)
+
+for _ in range(3):
+    doc.add_paragraph()
+
+# JOINT REPORT 小标识
+add_centered("JOINT  REPORT  ·  2026", size=12, color=GOLD,
+             font="黑体", space_after=2)
+add_centered("易居研究院  ×  复旦大学住房政策研究中心", size=14,
+             color=GRAY, space_after=20)
+
+# 主标题
+add_cover_title("上海商办楼宇与产业园区", size=36, color=NAVY,
+                space_after=0)
+add_cover_title("市  场  深  度  报  告", size=40, color=NAVY,
+                space_after=20)
+
+# 装饰横线
+mid = doc.add_paragraph()
+mid.alignment = WD_ALIGN_PARAGRAPH.CENTER
+set_paragraph_border(mid, "bottom", color="C8913A", size=18)
+r = mid.add_run("                ")
+set_run_font(r, size=12)
+
+add_centered("——  全域空间供给 · 企业需求迁徙 · 产业载体运营研究  ——",
+             size=15, color=BLUE, font="黑体", space_after=4)
+add_centered(
+    "Shanghai Commercial Office & Industrial Park Market — In-depth Report",
+    size=10, color=GRAY, font="黑体", space_after=24)
+
+# 研发内容
+add_centered("研发方案  ·  报告大纲  ·  数据调用建议  ·  执行指引",
+             size=14, color=NAVY, font="黑体", space_after=4)
+add_centered("（讨论稿）", size=12, color=GRAY, font="宋体",
+             space_after=40)
+
+# 底部主体
+for _ in range(2):
+    doc.add_paragraph()
+add_centered("联合发布主体", size=11, color=GRAY, font="宋体",
+             space_after=4)
+add_centered("易居房地产研究院", size=16, bold=True, color=NAVY,
+             font="黑体", space_after=2)
+add_centered("×", size=14, bold=True, color=GOLD, font="黑体",
+             space_after=2)
+add_centered("复旦大学住房政策研究中心", size=16, bold=True, color=NAVY,
+             font="黑体", space_after=14)
+add_centered("联合课题组：上海商办楼宇与产业园区市场研究课题组",
+             size=11, color=GRAY, font="宋体", space_after=4)
+
+# 底部金色装饰
+bottom_p = doc.add_paragraph()
+bottom_p.paragraph_format.space_before = Pt(40)
+set_paragraph_border(bottom_p, "top", color="C8913A", size=36)
+
+
+# ============================== 目录 ==============================
+page_break()
+add_h1("目录  ·  Contents")
+toc_items = [
+    ("前言", "联合发布与项目背景"),
+    ("第一章", "上海商办楼宇与产业园区市场发展背景"),
+    ("第二章", "上海全域商办楼宇与产业园区供给格局"),
+    ("第三章", "上海商办与产业园区租金、空置和价格体系"),
+    ("第四章", "入驻企业画像与产业需求结构"),
+    ("第五章", "企业迁徙与产业流动趋势"),
+    ("第六章", "供需匹配与招商机会分析"),
+    ("第七章", "市场趋势预测"),
+    ("第八章", "政策建议与市场应用"),
+    ("第九章", "成果体系与商业化延展"),
+    ("附篇一", "数据体系与字段设计（六大数据库）"),
+    ("附篇二", "核心指标体系（五大指数）"),
+    ("附篇三", "数据调用、采集与合规建议"),
+    ("附篇四", "分工协同机制与工作流程"),
+    ("附篇五", "首期试点报告落地建议"),
+    ("附篇六", "关键难点与解决方案"),
+    ("附篇七", "最终成果包与商业化产品矩阵"),
+    ("结语", "研究价值与长期愿景"),
+]
+for tag, title in toc_items:
+    p = doc.add_paragraph()
+    p.paragraph_format.line_spacing = 1.8
+    tab_stops = p.paragraph_format.tab_stops
+    tab_stops.add_tab_stop(Cm(16.0), WD_TAB_ALIGNMENT.RIGHT,
+                           WD_TAB_LEADER.DOTS)
+    r0 = p.add_run(tag + "  ")
+    set_run_font(r0, name="黑体", size=11, bold=True, color=GOLD)
+    r = p.add_run(title)
+    set_run_font(r, size=11, color=NAVY)
+    p.add_run("\t")
+    rn = p.add_run("· · ·")
+    set_run_font(rn, size=10, color=GRAY)
+
+
+# ============================== 前言 ==============================
+add_section_divider("前言", "PREFACE", "联合发布与项目背景")
+
 add_h1("前言：联合发布与项目背景")
 add_h2("一、项目定位")
+
 add_h3("1. 报告名称")
 add_p("正式名称：《上海商办楼宇与产业园区市场深度报告》。")
 add_p("副标题（可根据发布场景选择）：")
@@ -218,18 +431,23 @@ add_h3("3. 报告目标读者")
 add_table(
     ["读者类别", "典型角色", "核心使用场景"],
     [
-        ["政府与产业招商部门", "市/区两级招商主管、街镇招商中心、开发区/功能区/产业园管理机构",
-         "产业空间治理、精准招商、楼宇经济和园区经济政策制定"],
-        ["楼宇和园区运营方", "商办业主、园区运营商、城市更新操盘方、国企平台公司",
-         "资产定位、租金策略、招商策略、运营服务设计"],
-        ["资产持有方与投资机构", "REITs/类REITs资产方、商办投资人、资管公司、地产基金",
-         "竞品对标、估值、改造、资本化路径"],
-        ["企业选址与扩张决策方", "科创/专精特新/总部/生产性服务业企业",
-         "选址、扩租、缩租、迁址决策"],
-        ["行业研究与咨询机构", "房地产研究机构、产业咨询、金融机构研究部门、城市更新服务商",
-         "市场对标、行业研究、政策咨询"],
+        ["政府与产业招商部门",
+         "市/区两级招商主管、街镇招商中心、开发区/功能区管委会",
+         "空间治理 · 精准招商 · 楼宇与园区经济政策制定"],
+        ["楼宇和园区运营方",
+         "商办业主、园区运营商、城市更新操盘方、国企平台公司",
+         "资产定位 · 租金策略 · 招商策略 · 运营服务设计"],
+        ["资产持有方与投资机构",
+         "REITs/类REITs资产方、商办投资人、资管公司、地产基金",
+         "竞品对标 · 估值 · 改造 · 资本化路径"],
+        ["企业选址与扩张决策方",
+         "科创/专精特新/总部/生产性服务业企业",
+         "选址 · 扩租 · 缩租 · 迁址决策"],
+        ["行业研究与咨询机构",
+         "房地产研究机构、产业咨询、金融研究部门、城市更新服务商",
+         "市场对标 · 行业研究 · 政策咨询"],
     ],
-    col_widths=[3.5, 6.0, 6.5],
+    col_widths=[3.4, 5.6, 6.4],
 )
 
 add_h2("二、项目背景与时代意义")
@@ -241,32 +459,40 @@ for t in [
     "随着城市发展进入存量时代，市场关注点正从“增量开发”转向“存量盘活”，从“资产租赁”"
     "转向“产业运营”，从“楼宇价值”转向“企业需求、产业集聚和空间效率”。",
     "企业需求端正在系统性重构。办公选址不再单纯追求地段、形象和总部标签，而是更加关注综"
-    "合成本、产业协同、政策赋能、空间灵活性、人才可达性和运营服务能力。科创、专精特新、"
-    "生产性服务业、人工智能、智能驾驶、生物医药等不同主体，对办公和产业空间提出了更复"
-    "杂、更动态、更精细化的需求。",
+    "合成本、产业协同、政策赋能、空间灵活性、人才可达性和运营服务能力。",
     "在此背景下，研发一份覆盖上海全域、兼顾供需两侧、嵌入产业视角、面向招商与资管决策的"
     "深度报告，具有明显的战略意义与现实价值。",
 ]:
     add_p(t)
 
-add_h2("三、报告核心价值")
-value_table = [
-    ["政府端", "摸清存量底数；识别空置/招商压力与供需错配；追踪企业迁徙、产业集聚和外溢；"
-     "支撑城市更新、楼宇经济政策制定与精准招商"],
-    ["行业端", "打破“重核心区、轻全域；重供给、轻需求；重静态、轻动态”的局限，建立上海"
-     "商办与产业园区市场的标准化研究框架"],
-    ["资产端", "判断区域竞争格局；对标竞品；明确目标产业与企业画像；优化租金、招商、运营、"
-     "改造与资本化策略"],
-    ["企业端", "比较综合承租成本；判断产业生态与政策环境；识别适配空间；降低选址风险，提"
-     "升空间配置效率"],
-    ["联合课题品牌", "形成“专业市场研究 + 高校智库 + 数据技术能力”的组合优势，打造行业"
-     "影响力的长期研究品牌"],
-]
-add_table(["维度", "核心价值"], value_table, col_widths=[3.5, 12.5])
-page_break()
+add_callout("本报告拟打造为：上海商办楼宇与产业园区市场年度旗舰研究产品 + "
+            "行业标准化研究样本 + 城市空间治理决策参考")
 
-# ====================== 第一章 ======================
+add_h2("三、报告核心价值")
+add_table(
+    ["维度", "核心价值"],
+    [
+        ["政府端", "摸清存量底数；识别空置/招商压力与供需错配；追踪企业迁徙、产业集聚和外溢；"
+                  "支撑城市更新、楼宇经济政策制定与精准招商"],
+        ["行业端", "打破“重核心区、轻全域；重供给、轻需求；重静态、轻动态”的局限，"
+                  "建立上海商办与产业园区市场的标准化研究框架"],
+        ["资产端", "判断区域竞争格局；对标竞品；明确目标产业与企业画像；"
+                  "优化租金、招商、运营、改造与资本化策略"],
+        ["企业端", "比较综合承租成本；判断产业生态与政策环境；识别适配空间；"
+                  "降低选址风险，提升空间配置效率"],
+        ["联合课题品牌", "形成“专业市场研究 + 高校智库 + 数据技术能力”的组合优势，"
+                       "打造行业影响力的长期研究品牌"],
+    ],
+    col_widths=[3.0, 12.4],
+)
+
+
+# ============================== 第一章 ==============================
+add_section_divider("01", "MARKET  CONTEXT",
+                    "上海商办与产业空间逻辑正在重构")
+
 add_h1("第一章  上海商办楼宇与产业园区市场发展背景")
+
 add_h2("1.1 上海城市发展阶段变化")
 for t in [
     "上海城市更新进入深水区，存量空间盘活成为城市发展的核心命题；",
@@ -301,7 +527,7 @@ add_table(
         ["硬科技/制造企业", "复合型研发办公、测试与厂办结合、产业链协同"],
         ["中小成长企业", "灵活面积、灵活租期、租金可承受、政策可达"],
     ],
-    col_widths=[4.0, 12.0],
+    col_widths=[4.0, 11.4],
 )
 
 add_h2("1.4 当前市场研究体系的不足")
@@ -323,9 +549,12 @@ for t in [
     "从宏观研究走向政府招商、资产运营和企业选址应用。",
 ]:
     add_bullet(t)
-page_break()
 
-# ====================== 第二章 ======================
+
+# ============================== 第二章 ==============================
+add_section_divider("02", "SUPPLY  LANDSCAPE",
+                    "上海全域商办楼宇与产业园区供给格局")
+
 add_h1("第二章  上海全域商办楼宇与产业园区供给格局")
 
 add_h2("2.1 全市商办与产业载体总体规模")
@@ -361,7 +590,7 @@ add_table(
         ["15", "金山区", "化工、新材料、临港金山"],
         ["16", "崇明区", "生态产业、海洋经济"],
     ],
-    col_widths=[1.5, 3.0, 11.5],
+    col_widths=[1.5, 3.0, 10.9],
 )
 
 add_h2("2.3 按街道/镇维度进行精细化拆解")
@@ -374,6 +603,8 @@ for t in [
     "招商活跃度、供需匹配度。",
 ]:
     add_bullet(t)
+
+add_callout("四级数据库：行政区 → 街道/镇 → 楼宇/园区 → 企业 — 报告核心差异化亮点")
 
 add_h2("2.4 按物业类型划分供给结构")
 add_table(
@@ -390,20 +621,24 @@ add_table(
         ["城市更新改造载体", "弹性", "主题型、垂直型产业楼宇"],
         ["国企平台持有载体", "弹性", "区属产业承载、招商配套"],
     ],
-    col_widths=[4.0, 4.0, 8.0],
+    col_widths=[4.0, 3.5, 7.9],
 )
 
 add_h2("2.5 重点商务与产业板块")
-add_p("建议在区/街镇基础上选择如下重点板块进行专项分析（每板块单列页面）：")
-panels = ["陆家嘴", "前滩", "张江科学城", "临港新片区", "徐汇滨江", "北外滩", "大虹桥",
-          "杨浦滨江", "五角场", "南京西路", "人民广场", "漕河泾", "紫竹", "金桥", "外高桥",
-          "嘉定汽车城", "松江G60科创走廊", "青浦西虹桥", "宝山南大智慧城", "奉贤东方美谷"]
-add_p("、".join(panels) + "。")
+add_p("建议在区/街镇基础上选择如下重点板块进行专项分析：")
+panels = ["陆家嘴", "前滩", "张江科学城", "临港新片区", "徐汇滨江", "北外滩",
+          "大虹桥", "杨浦滨江", "五角场", "南京西路", "人民广场", "漕河泾",
+          "紫竹", "金桥", "外高桥", "嘉定汽车城", "松江G60科创走廊",
+          "青浦西虹桥", "宝山南大智慧城", "奉贤东方美谷"]
+add_p("、".join(panels) + "。共 20 大重点板块。")
 add_p("每个板块建议分析：板块定位、核心载体、租金区间、空置水平、主导产业、企业结构、产"
       "业集聚度、未来供应压力、招商机会。")
-page_break()
 
-# ====================== 第三章 ======================
+
+# ============================== 第三章 ==============================
+add_section_divider("03", "RENT  ·  VACANCY  ·  COST",
+                    "上海商办与产业园区租金、空置和价格体系")
+
 add_h1("第三章  上海商办与产业园区租金、空置和价格体系")
 
 add_h2("3.1 全市租金水平分析（分层统计）")
@@ -437,7 +672,6 @@ for t in [
     add_bullet(t)
 
 add_h2("3.4 空置面积结构分析")
-add_p("不仅看空置率，更要看空置结构，对招商与资管价值更高：")
 add_table(
     ["结构维度", "释义", "招商资管含义"],
     [
@@ -450,13 +684,13 @@ add_table(
         ["长期空置", "≥12个月未去化", "需重新定位或改造"],
         ["新增空置", "近3个月新增", "短期波动信号"],
     ],
-    col_widths=[3.0, 4.5, 8.5],
+    col_widths=[3.0, 4.5, 7.9],
 )
 
 add_h2("3.5 企业综合承租成本分析")
-add_p("建议建立综合成本模型：")
-add_p("综合承租成本 = 租金 + 物业费 + 停车费 + 装修摊销 + 搬迁成本 + 通勤成本 − 政策补贴",
-      indent_first=False)
+add_callout("综合承租成本 = 租金 + 物业费 + 停车费 + 装修摊销 + 搬迁成本 + "
+            "通勤成本 − 政策补贴",
+            fill="102A5B", color=(255, 255, 255))
 for t in [
     "名义租金与实际成本的差异；",
     "不同区域企业综合承租成本比较；",
@@ -465,9 +699,12 @@ for t in [
     "企业降本型迁移的主要路径。",
 ]:
     add_bullet(t)
-page_break()
 
-# ====================== 第四章 ======================
+
+# ============================== 第四章 ==============================
+add_section_divider("04", "DEMAND  &  ENTERPRISES",
+                    "入驻企业画像与产业需求结构")
+
 add_h1("第四章  入驻企业画像与产业需求结构")
 
 add_h2("4.1 全市入驻企业总体分布")
@@ -478,24 +715,31 @@ for t in [
 ]:
     add_bullet(t)
 
-add_h2("4.2 行业结构分析（重点观察）")
-industries = ["人工智能", "集成电路", "生物医药", "智能驾驶", "新能源汽车", "机器人",
-              "低空经济", "软件信息服务", "金融服务", "专业服务", "文化传媒", "数字贸易",
-              "跨境电商", "高端制造", "生产性服务业", "总部经济", "专精特新企业"]
+add_h2("4.2 行业结构分析（17 大重点行业）")
+industries = ["人工智能", "集成电路", "生物医药", "智能驾驶", "新能源汽车",
+              "机器人", "低空经济", "软件信息服务", "金融服务", "专业服务",
+              "文化传媒", "数字贸易", "跨境电商", "高端制造",
+              "生产性服务业", "总部经济", "专精特新企业"]
 add_p("、".join(industries) + "。")
 
-add_h2("4.3 不同行业空间需求特征（示意）")
+add_h2("4.3 不同行业空间需求特征（示例）")
 add_table(
     ["行业", "典型空间需求", "选址偏好", "关注因素"],
     [
-        ["人工智能", "中大型办公、研发展示", "徐汇滨江、杨浦、张江、临港", "人才、算力、资本、政策"],
-        ["生物医药", "研发办公 + 实验空间", "张江、临港、闵行、奉贤", "实验条件、审批政策、产业链"],
-        ["智能驾驶", "办公、研发、测试协同", "嘉定、浦东、杨浦、临港", "测试场景、整车资源、政策"],
-        ["专业服务", "中小型高品质办公", "黄浦、静安、陆家嘴、北外滩", "客户可达性、品牌形象"],
-        ["高端制造", "研发办公 + 厂办空间", "嘉定、松江、临港、宝山", "成本、物流、产业配套"],
-        ["金融服务", "中大型办公、品牌展示", "陆家嘴、外滩、前滩", "监管、品牌、产业链客户"],
+        ["人工智能", "中大型办公 + 研发展示", "徐汇滨江·杨浦·张江·临港",
+         "人才/算力/资本/政策"],
+        ["生物医药", "研发办公 + 实验空间", "张江·临港·闵行·奉贤",
+         "实验条件/审批/产业链"],
+        ["智能驾驶", "办公 + 研发 + 测试", "嘉定·浦东·杨浦·临港",
+         "测试场景/整车/政策"],
+        ["专业服务", "中小型高品质办公", "黄浦·静安·陆家嘴·北外滩",
+         "客户可达/品牌"],
+        ["高端制造", "研发办公 + 厂办", "嘉定·松江·临港·宝山",
+         "成本/物流/产业配套"],
+        ["金融服务", "中大型品牌办公", "陆家嘴·外滩·前滩",
+         "监管/品牌/客户"],
     ],
-    col_widths=[2.5, 3.5, 4.5, 5.0],
+    col_widths=[2.5, 3.5, 4.6, 4.8],
 )
 
 add_h2("4.4 企业规模与空间需求")
@@ -509,7 +753,7 @@ for t in [
 add_p("分析维度：典型面积需求、租期偏好、租金承受能力、区域偏好、扩租潜力、迁址可能性、"
       "政策支持需求。")
 
-add_h2("4.5 重点企业清单体系")
+add_h2("4.5 重点企业清单体系（9 类）")
 for t in [
     "高成长企业清单、近期融资企业清单；",
     "专精特新企业清单、高新技术企业清单；",
@@ -518,9 +762,12 @@ for t in [
     "跨区迁移企业清单、重点产业链补链企业清单。",
 ]:
     add_bullet(t)
-page_break()
 
-# ====================== 第五章 ======================
+
+# ============================== 第五章 ==============================
+add_section_divider("05", "MIGRATION  &  FLOW",
+                    "企业迁徙与产业流动趋势")
+
 add_h1("第五章  企业迁徙与产业流动趋势")
 
 add_h2("5.1 企业迁徙总体格局")
@@ -552,12 +799,15 @@ add_table(
         ["机器人/硬科技", "向成本与产业空间外溢", "嘉定、松江、宝山、临港"],
         ["金融/专业服务", "仍偏好核心区", "陆家嘴、北外滩、南京西路"],
         ["文化传媒", "向滨江与新兴板块迁移", "徐汇滨江、杨浦滨江"],
-        ["总部型企业", "向品牌资产/滨江总部带集聚", "陆家嘴、前滩、北外滩、徐汇滨江"],
+        ["总部型企业", "向品牌资产/滨江总部带集聚",
+         "陆家嘴、前滩、北外滩、徐汇滨江"],
     ],
-    col_widths=[3.0, 5.5, 7.5],
+    col_widths=[3.0, 5.5, 6.9],
 )
 
-add_h2("5.4 区域吸引力研判（建议构建“区域吸引力指数”）")
+add_h2("5.4 区域吸引力研判")
+add_callout("区域吸引力指数 = f(企业净流入 + 重点产业流入 + 高成长企业流入 + "
+            "租金性价比 + 政策支持 + 交通可达 + 产业配套 + 空间适配 + 资本服务)")
 for t in [
     "企业净流入数量、重点产业企业流入、高成长企业流入；",
     "租金性价比、政策强度；",
@@ -573,33 +823,36 @@ for t in [
     "租金竞争力不足、产业定位模糊、老旧楼宇集中、政策与服务支撑不足的区域。",
 ]:
     add_bullet(t)
-page_break()
 
-# ====================== 第六章 ======================
+
+# ============================== 第六章 ==============================
+add_section_divider("06", "MATCHING  &  OPPORTUNITIES",
+                    "供需匹配与招商机会分析")
+
 add_h1("第六章  供需匹配与招商机会分析")
 
 add_h2("6.1 载体供给与企业需求匹配")
 for t in [
-    "面积匹配；租金匹配；",
-    "产业匹配；政策匹配；",
-    "区位匹配；空间功能匹配；",
+    "面积匹配、租金匹配；",
+    "产业匹配、政策匹配；",
+    "区位匹配、空间功能匹配；",
     "企业成长阶段匹配。",
 ]:
     add_bullet(t)
 
-add_h2("6.2 重点楼宇竞争力评价模型")
+add_h2("6.2 重点楼宇竞争力评价模型（7 维）")
 add_table(
-    ["评价维度", "核心指标"],
+    ["评价维度", "核心指标", "建议权重"],
     [
-        ["区位交通", "地铁距离、主干路、机场高铁可达性"],
-        ["资产品质", "建筑品质、标准层面积、层高、装修、智能化"],
-        ["租金表现", "报价租金、成交租金、租金弹性"],
-        ["企业结构", "入驻企业质量、行业集中度、龙头企业数量"],
-        ["运营服务", "物业服务、企业服务、活动运营"],
-        ["政策资源", "补贴政策、产业资质、招商主管"],
-        ["去化能力", "空置率、成交周期、租户稳定性"],
+        ["区位交通", "地铁距离、主干路、机场高铁可达性", "15%"],
+        ["资产品质", "建筑品质、标准层面积、层高、装修、智能化", "15%"],
+        ["租金表现", "报价租金、成交租金、租金弹性", "15%"],
+        ["企业结构", "入驻企业质量、行业集中度、龙头数量", "15%"],
+        ["运营服务", "物业服务、企业服务、活动运营", "15%"],
+        ["政策资源", "补贴政策、产业资质、招商主管", "10%"],
+        ["去化能力", "空置率、成交周期、租户稳定性", "15%"],
     ],
-    col_widths=[3.5, 12.5],
+    col_widths=[3.5, 8.4, 3.5],
 )
 
 add_h2("6.3 产业园区竞争力评价")
@@ -615,23 +868,26 @@ add_h2("6.4 招商机会识别（三类机会）")
 add_h3("1) 区域机会")
 for t in [
     "哪些区域适合承接核心区外溢企业；",
-    "哪些区域适合发展AI、智能驾驶、生物医药等新兴产业；",
+    "哪些区域适合发展 AI、智能驾驶、生物医药等新兴产业；",
     "哪些区域适合导入总部企业；",
     "哪些区域适合做成本型办公承接。",
 ]:
     add_bullet(t)
 add_h3("2) 产业机会")
 for t in [
-    "AI产业链补链机会；智能驾驶上下游企业导入机会；",
-    "生物医药研发服务企业导入机会；生产性服务业导入机会；",
+    "AI产业链补链机会；",
+    "智能驾驶上下游企业导入机会；",
+    "生物医药研发服务企业导入机会；",
     "专精特新企业集聚机会。",
 ]:
     add_bullet(t)
 add_h3("3) 企业线索机会")
 for t in [
-    "近期融资企业、新增招聘明显企业；",
-    "注册地址变更企业、扩租可能企业、迁址可能企业；",
-    "外溢承接企业、产业链上下游企业。",
+    "近期融资企业；",
+    "新增招聘明显企业；",
+    "注册地址变更企业；",
+    "扩租可能企业、迁址可能企业；",
+    "产业链上下游企业。",
 ]:
     add_bullet(t)
 
@@ -643,9 +899,12 @@ for t in [
     "资产品牌重塑建议、资本化与证券化准备建议。",
 ]:
     add_bullet(t)
-page_break()
 
-# ====================== 第七章 ======================
+
+# ============================== 第七章 ==============================
+add_section_divider("07", "TREND  FORECAST",
+                    "市场趋势预测")
+
 add_h1("第七章  市场趋势预测")
 
 add_h2("7.1 租金趋势预测")
@@ -689,11 +948,14 @@ add_table(
         ["郊区产业空间", "成本型外溢、研发制造结合、产业链集聚"],
         ["老旧商办更新", "主题楼宇、垂直产业楼宇、科创服务空间"],
     ],
-    col_widths=[3.5, 12.5],
+    col_widths=[3.5, 11.9],
 )
-page_break()
 
-# ====================== 第八章 ======================
+
+# ============================== 第八章 ==============================
+add_section_divider("08", "POLICY  &  APPLICATION",
+                    "政策建议与市场应用")
+
 add_h1("第八章  政策建议与市场应用")
 
 add_h2("8.1 对政府部门的建议")
@@ -738,9 +1000,12 @@ for t in [
     "研发型企业关注空间功能与产业配套。",
 ]:
     add_bullet(t)
-page_break()
 
-# ====================== 第九章 ======================
+
+# ============================== 第九章 ==============================
+add_section_divider("09", "DELIVERABLES  MATRIX",
+                    "成果体系与商业化延展")
+
 add_h1("第九章  成果体系与商业化延展")
 add_p("建议将本项目从单份报告升级为长期产品体系：")
 
@@ -769,9 +1034,12 @@ add_p("面向业主/运营方/国企平台：竞品分析、租金定位、空�
 
 add_h3("9.6 企业选址服务产品")
 add_p("面向企业：区域推荐、楼宇推荐、租金对标、政策匹配、成本测算、产业生态分析。")
-page_break()
 
-# ====================== 附篇一：数据体系 ======================
+
+# ============================== 附篇一 ==============================
+add_section_divider("附篇一", "DATA  ARCHITECTURE",
+                    "数据体系与字段设计（六大数据库）")
+
 add_h1("附篇一  数据体系与字段设计（六大数据库）")
 
 databases = [
@@ -780,45 +1048,45 @@ databases = [
       "总建筑面积", "可租赁面积", "标准层面积", "层数", "竣工时间", "物业等级",
       "产权方", "运营方", "物业公司", "交通条件", "地铁距离", "停车位数量",
       "配套商业", "招商联系人", "官方网站或招商页面"],
-     ["高德/百度/腾讯地图POI、AOI；各区政府公开园区名录；上海市产业园区名录；楼宇/"
-      "园区官网与招商页；房地产中介挂牌平台；公开新闻稿；实地调研补充。"]),
+     "高德/百度/腾讯地图POI、AOI；各区政府公开园区名录；上海市产业园区名录；楼宇/"
+     "园区官网与招商页；房地产中介挂牌平台；公开新闻稿；实地调研补充。"),
     ("2. 租金与空置数据库",
      ["报价租金", "成交租金区间", "物业费", "可租面积", "空置面积", "空置楼层",
       "空置套数", "最小可租面积", "最大连续可租面积", "装修状态", "免租期",
       "付款方式", "租期要求", "更新时间", "信息来源"],
-     ["仲量联行、世邦魏理仕、戴德梁行、高力国际、第一太平戴维斯公开报告；"
-      "易居研究院历史数据库；好租、点点租、58同城、安居客、房天下、楼盘网商办频道、"
-      "办公伙伴类平台；楼宇/园区招商公众号；中介报价单；电话询价；实地踩盘；客户真"
-      "实成交反馈。建议租金区分：公开挂牌、中介报价、实际成交。"]),
+     "仲量联行、世邦魏理仕、戴德梁行、高力国际、第一太平戴维斯公开报告；"
+     "易居研究院历史数据库；好租、点点租、58同城、安居客、房天下、楼盘网商办频道、"
+     "办公伙伴类平台；楼宇/园区招商公众号；中介报价单；电话询价；实地踩盘；"
+     "客户真实成交反馈。建议租金区分：公开挂牌、中介报价、实际成交。"),
     ("3. 企业入驻数据库",
      ["企业名称", "统一社会信用代码", "注册资本", "成立时间", "注册地址",
       "实际办公地址", "所在楼宇/园区", "所属行业", "细分赛道", "员工规模",
       "融资轮次", "是否专精特新", "是否高新技术企业", "是否上市/拟上市",
       "经营状态", "企业简介", "关联母公司/子公司"],
-     ["国家企业信用信息公示系统；上海市市场监督管理局；天眼查、企查查、爱企查、启信宝；"
-      "Wind/iFinD/Choice 企业库；各区重点企业名录、高新企业、专精特新、小巨人企业"
-      "名单；上市公司公告；融资新闻；园区入驻企业公示；楼宇水牌识别；企业官网与公众号；"
-      "招聘平台地址信息；高德/百度企业POI；实地调研。注意区分注册地址与实际办公地址。"]),
+     "国家企业信用信息公示系统；上海市市场监督管理局；天眼查、企查查、爱企查、启信宝；"
+     "Wind/iFinD/Choice 企业库；各区重点企业名录、高新企业、专精特新、小巨人企业"
+     "名单；上市公司公告；融资新闻；园区入驻企业公示；楼宇水牌识别；企业官网与公众号；"
+     "招聘平台地址信息；高德/百度企业POI；实地调研。注意区分注册地址与实际办公地址。"),
     ("4. 企业迁徙数据库",
      ["企业名称", "原办公地址", "原楼宇/园区", "原街道/镇", "新办公地址",
       "新楼宇/园区", "新街道/镇", "迁徙时间", "迁徙类型", "面积变化", "租金变化",
       "行业属性", "企业规模", "迁徙原因推测"],
-     ["工商地址变更记录；企业官网搬迁公告；公众号迁址通知；招聘平台办公地址变化；"
-      "地图POI地址变化；园区入驻新闻；楼宇签约新闻；中介成交记录；招商部门线索；"
-      "物业访谈；企业访谈。判断标准：至少两个以上来源交叉验证。"]),
+     "工商地址变更记录；企业官网搬迁公告；公众号迁址通知；招聘平台办公地址变化；"
+     "地图POI地址变化；园区入驻新闻；楼宇签约新闻；中介成交记录；招商部门线索；"
+     "物业访谈；企业访谈。判断标准：至少两个以上来源交叉验证。"),
     ("5. 产业标签数据库",
      ["企业名称", "一级行业", "二级行业", "三级赛道", "战略性新兴产业属性",
       "上海重点产业属性", "新质生产力方向", "产业链核心环节", "上下游关系",
       "主要产品", "主要客户", "技术方向", "融资情况", "专利数量", "资质荣誉"],
-     ["企业官网与招聘；融资新闻；国家知识产权局/专利数据库；启信宝/企查查产业标签；"
-      "政府重点产业企业名单；各区/园区产业图谱；上市公司公告；产业研究报告；"
-      "微信公众号与新闻报道。"]),
+     "企业官网与招聘；融资新闻；国家知识产权局/专利数据库；启信宝/企查查产业标签；"
+     "政府重点产业企业名单；各区/园区产业图谱；上市公司公告；产业研究报告；"
+     "微信公众号与新闻报道。"),
     ("6. 政策与配套数据库",
      ["区域政策", "街镇招商政策", "租金/装修/人才补贴", "税收奖励", "科技项目支持",
       "产业基金", "落户政策", "人才公寓", "公共服务平台", "周边交通", "商业配套",
       "教育医疗资源", "会议展示空间"],
-     ["上海市/各区政府官网；各区投促办；各区科委、经委、商务委；街镇招商主管部门；"
-      "园区招商手册；产业政策汇编；官方公众号；新闻发布会资料；政策申报平台。"]),
+     "上海市/各区政府官网；各区投促办；各区科委、经委、商务委；街镇招商主管部门；"
+     "园区招商手册；产业政策汇编；官方公众号；新闻发布会资料；政策申报平台。"),
 ]
 
 for name, fields, sources in databases:
@@ -826,11 +1094,13 @@ for name, fields, sources in databases:
     add_h3("核心字段")
     add_p("、".join(fields) + "。")
     add_h3("数据来源建议")
-    for s in sources:
-        add_p(s)
-page_break()
+    add_p(sources)
 
-# ====================== 附篇二：指标体系 ======================
+
+# ============================== 附篇二 ==============================
+add_section_divider("附篇二", "INDEX  SYSTEM",
+                    "核心指标体系（五大指数）")
+
 add_h1("附篇二  核心指标体系（五大指数）")
 indices = [
     ("1. 区域市场景气指数",
@@ -842,8 +1112,8 @@ indices = [
       "政策资源", "去化表现"],
      "对重点楼宇和园区横向比较，形成资产诊断模型，支撑招商和资管建议。"),
     ("3. 企业需求热度指数",
-     ["新注册企业数量", "融资企业数量", "招聘岗位增长", "扩租企业数量", "新租企业数量",
-      "重点产业企业活跃度"],
+     ["新注册企业数量", "融资企业数量", "招聘岗位增长", "扩租企业数量",
+      "新租企业数量", "重点产业企业活跃度"],
      "判断企业需求强弱，识别产业增长方向，输出招商线索。"),
     ("4. 产业集聚度指数",
      ["同行业企业数量", "龙头企业数量", "上下游企业完整度", "专精特新企业数量",
@@ -861,9 +1131,12 @@ for name, sub, use in indices:
     add_p("、".join(sub) + "。")
     add_h3("用途")
     add_p(use)
-page_break()
 
-# ====================== 附篇三：数据调用、采集与合规 ======================
+
+# ============================== 附篇三 ==============================
+add_section_divider("附篇三", "DATA  ACCESS  &  COMPLIANCE",
+                    "数据调用、采集与合规建议")
+
 add_h1("附篇三  数据调用、采集与合规建议")
 add_h2("一、五项数据调用原则")
 for t in [
@@ -889,16 +1162,16 @@ add_table(
          "补齐高端商务、科创研发与硬科技产业空间样本",
          "浦东商务与产业空间补全数据库"],
         ["第三阶段 重点产业区补全",
-         "闵行、嘉定、松江、青浦、宝山、奉贤；漕河泾、紫竹、嘉定汽车城、G60、南大、东方"
-         "美谷、西虹桥",
+         "闵行、嘉定、松江、青浦、宝山、奉贤；漕河泾、紫竹、嘉定汽车城、G60、南大、"
+         "东方美谷、西虹桥",
          "覆盖上海主要产业空间；新兴产业迁徙与产业链空间布局",
          "重点产业区专题数据库"],
         ["第四阶段 全域覆盖",
          "16区全覆盖",
-         "形成上海全域动态数据库；支持月度/季度/年度产品",
+         "形成全域动态数据库；支持月度/季度/年度产品",
          "上海商办楼宇与产业园区全域动态数据库"],
     ],
-    col_widths=[3.5, 4.5, 5.0, 4.0],
+    col_widths=[3.5, 4.0, 4.5, 3.4],
 )
 
 add_h2("三、合规性要点")
@@ -910,42 +1183,41 @@ for t in [
     "对外发布前进行合规审查。",
 ]:
     add_bullet(t)
-page_break()
 
-# ====================== 附篇四：分工协同 ======================
+
+# ============================== 附篇四 ==============================
+add_section_divider("附篇四", "JOINT  WORKFLOW",
+                    "分工协同机制与工作流程")
+
 add_h1("附篇四  分工协同机制与工作流程")
 
-add_h2("一、易居研究院 建议职责")
+add_h2("一、易居研究院  建议职责")
 for t in [
-    "商办市场研究框架设计；",
-    "楼宇和园区统计口径制定；",
-    "租金、空置、去化等市场指标研究；",
+    "商办市场研究框架设计、统计口径制定；",
+    "楼宇/园区/租金/空置/去化等市场指标研究；",
     "区域和板块市场分析；",
     "资产运营与招商策略研究；",
     "市场访谈和线下调研组织；",
-    "报告撰写和图表可视化；",
-    "季度/年度市场趋势研判；",
+    "报告撰写、可视化、季度/年度趋势研判；",
     "面向资产方、园区方、政府部门的应用转化；",
     "对外发布与行业传播。",
 ]:
     add_bullet(t)
 
-add_h2("二、复旦大学住房政策研究中心 建议职责")
+add_h2("二、复旦大学住房政策研究中心  建议职责")
 for t in [
     "城市更新和空间治理理论框架支持；",
     "产业空间与城市功能关系研究；",
-    "政策评价体系设计；",
-    "政府决策建议撰写；",
+    "政策评价体系设计、政府决策建议撰写；",
     "数据合规与公共政策视角把关；",
     "城市住房、就业、通勤、产业空间协同研究；",
-    "课题学术背书；",
-    "专家研讨会组织；",
+    "课题学术背书、专家研讨会组织；",
     "研究成果向政府端转化；",
     "年度白皮书及政策建议章节联合撰写。",
 ]:
     add_bullet(t)
 
-add_h2("三、数据技术与 AI 采集方 建议职责")
+add_h2("三、数据技术与 AI 采集方  建议职责")
 for t in [
     "楼宇/园区 POI/AOI 数据采集；",
     "企业工商数据采集与清洗；",
@@ -967,11 +1239,14 @@ add_table(
         ["月度报告选题会", "月", "重点区域、重点产业、重点企业迁徙案例、市场热点"],
         ["季度成果复盘会", "季度", "数据准确性、客户反馈、报告结构优化、商业化产品规划"],
     ],
-    col_widths=[3.5, 2.0, 10.5],
+    col_widths=[3.8, 2.0, 9.6],
 )
-page_break()
 
-# ====================== 附篇五：首期落地 ======================
+
+# ============================== 附篇五 ==============================
+add_section_divider("附篇五", "PILOT  ROLLOUT",
+                    "首期试点报告落地建议")
+
 add_h1("附篇五  首期试点报告落地建议")
 add_h2("一、首期名称")
 add_p("《上海中心城区商办楼宇与产业园区市场试点报告》；或：《上海中心城区商办与产业空间"
@@ -1010,17 +1285,20 @@ for title, items in chapters:
     add_h3(title)
     for it in items:
         add_bullet(it)
-page_break()
 
-# ====================== 附篇六：难点与方案 ======================
+
+# ============================== 附篇六 ==============================
+add_section_divider("附篇六", "KEY  CHALLENGES",
+                    "关键难点与解决方案")
+
 add_h1("附篇六  关键难点与解决方案")
 nodes = [
     ("难点一：实际办公地址难以准确识别",
      "工商注册地址 + 地图POI + 招聘地址 + 企业官网 + 公众号公告 + 楼宇水牌 + 物业访谈 + "
      "实地确认，多源交叉校验，避免将注册地址误认为实际办公地址。"),
     ("难点二：成交租金数据难获取",
-     "挂牌租金作为基础参考；中介报价作为市场校准；真实成交作为核心依据；通过物业访谈、经纪"
-     "人访谈、企业访谈积累成交数据库；报告中明确区分报价租金与成交租金。"),
+     "挂牌租金作为基础参考；中介报价作为市场校准；真实成交作为核心依据；通过物业访谈、经"
+     "纪人访谈、企业访谈积累成交数据库；报告中明确区分报价租金与成交租金。"),
     ("难点三：空置率口径不统一",
      "区分物理空置、招商空置、隐性空置三类；以“招商可租面积”口径为主，物理空置和隐性空置"
      "作辅助判断。"),
@@ -1034,30 +1312,41 @@ nodes = [
 for title, txt in nodes:
     add_h2(title)
     add_p(txt)
-page_break()
 
-# ====================== 附篇七：成果包 ======================
+
+# ============================== 附篇七 ==============================
+add_section_divider("附篇七", "DELIVERABLES",
+                    "最终成果包与商业化产品矩阵")
+
 add_h1("附篇七  最终成果包与商业化产品矩阵")
 add_table(
     ["类别", "成果", "用途与对象"],
     [
-        ["主报告", "《上海商办楼宇与产业园区市场深度报告》", "联合发布、行业传播、政策建议"],
-        ["数据附录", "楼宇/园区清单、区域指标表、产业企业分布表、租金空置表、迁徙样本表",
+        ["主报告", "《上海商办楼宇与产业园区市场深度报告》",
+         "联合发布、行业传播、政策建议"],
+        ["数据附录",
+         "楼宇/园区清单、区域指标表、产业企业分布表、租金空置表、迁徙样本表",
          "数据透明披露、合作方对接"],
-        ["可视化图册", "楼宇/园区分布图、租金与空置热力图、企业迁徙流向图、产业集聚图、"
-         "重点板块对比图、招商机会地图", "汇报、传播、政府决策"],
+        ["可视化图册",
+         "楼宇/园区分布图、租金与空置热力图、企业迁徙流向图、产业集聚图、"
+         "重点板块对比图、招商机会地图",
+         "汇报、传播、政府决策"],
         ["PPT汇报版", "简版30页 / 标准版50页 / 深度版80+页",
          "政府、园区、楼宇、资产方汇报"],
-        ["数据看板", "区域市场看板、楼宇园区看板、企业迁徙看板、产业热度看板、招商线索看板",
+        ["数据看板",
+         "区域市场看板、楼宇园区看板、企业迁徙看板、产业热度看板、招商线索看板",
          "持续监测与商业化输出"],
-        ["延伸产品", "月度简报、季度报告、年度白皮书、区域专项、楼宇/园区诊断、企业选址服务",
+        ["延伸产品",
+         "月度简报、季度报告、年度白皮书、区域专项、楼宇/园区诊断、企业选址服务",
          "长期产品体系与商业化"],
     ],
-    col_widths=[3.0, 7.5, 5.5],
+    col_widths=[3.0, 7.0, 5.4],
 )
-page_break()
 
-# ====================== 结语 ======================
+
+# ============================== 结语 ==============================
+add_section_divider("结语", "VISION",
+                    "研究价值与长期愿景")
 add_h1("结语  研究价值与长期愿景")
 for t in [
     "本报告拟由易居研究院与复旦大学住房政策研究中心联合研发，围绕上海商办楼宇与产业园区市"
@@ -1072,8 +1361,15 @@ for t in [
     "行业标准化研究样本和城市空间治理决策参考。",
 ]:
     add_p(t)
-add_p(" ")
-add_p("（讨论稿 · 仅供内部研讨使用）", indent_first=False)
+
+add_callout("打造为：上海商办楼宇与产业园区市场年度旗舰研究产品  +  "
+            "行业标准化研究样本  +  城市空间治理决策参考",
+            fill="102A5B", color=(255, 255, 255))
+
+doc.add_paragraph()
+add_centered("—  讨论稿 · 仅供联合课题组内部研讨使用  —",
+             size=10, color=GRAY, font="宋体")
+
 
 out = os.path.join(OUTPUT_DIR, "上海商办楼宇与产业园区市场深度报告.docx")
 doc.save(out)

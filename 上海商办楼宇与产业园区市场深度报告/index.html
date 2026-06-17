@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>上海商办楼宇与产业园区市场深度报告 · 下载入口</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+      "Microsoft YaHei", "Hiragino Sans GB", "Noto Sans CJK SC", sans-serif;
+    background: linear-gradient(135deg, #0b1f4a 0%, #102a5b 50%, #1a3a7a 100%);
+    color: #1a222e;
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .hero {
+    color: white;
+    padding: 60px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; left: 0; right: 0; top: 0; height: 6px;
+    background: linear-gradient(90deg, #c8913a, #e6b66e, #c8913a);
+  }
+  .hero .badge {
+    display: inline-block;
+    color: #e6b66e;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-bottom: 18px;
+    font-size: 14px;
+  }
+  .hero h1 {
+    font-size: 44px;
+    margin: 12px 0 6px;
+    letter-spacing: 2px;
+    font-weight: 800;
+  }
+  .hero h2 {
+    font-size: 20px;
+    font-weight: 400;
+    color: #cfddf0;
+    margin-bottom: 22px;
+  }
+  .hero .pubs {
+    margin-top: 12px;
+    color: #e6b66e;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .hero .pubs span { margin: 0 14px; }
+  .hero .tag {
+    margin-top: 22px;
+    display: inline-block;
+    background: #c8913a;
+    color: #0b1f4a;
+    padding: 8px 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 40px 24px 60px;
+  }
+  .section-title {
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 20px 0 18px;
+    padding-left: 14px;
+    border-left: 4px solid #c8913a;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 22px;
+  }
+  .card {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    transition: transform .25s ease, box-shadow .25s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.28);
+  }
+  .card .head {
+    padding: 22px 22px 16px;
+    color: white;
+    position: relative;
+  }
+  .card .head.docx { background: linear-gradient(135deg, #2e5ca3 0%, #1f3a68 100%); }
+  .card .head.pptx { background: linear-gradient(135deg, #e06a2c 0%, #b8492f 100%); }
+  .card .head.xlsx { background: linear-gradient(135deg, #2f7d5c 0%, #1e5946 100%); }
+  .card .head .type {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.35);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+  .card .head h3 { margin: 12px 0 6px; font-size: 22px; font-weight: 800; }
+  .card .head .meta { font-size: 12px; opacity: .88; }
+  .card .body {
+    padding: 20px 22px 8px;
+    flex: 1;
+  }
+  .card .body ul {
+    list-style: none;
+    padding: 0;
+  }
+  .card .body li {
+    padding: 6px 0 6px 18px;
+    position: relative;
+    color: #444b5a;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  .card .body li::before {
+    content: "";
+    position: absolute;
+    left: 4px; top: 14px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #c8913a;
+  }
+  .card .footer {
+    padding: 16px 22px 22px;
+    display: flex;
+    gap: 10px;
+    border-top: 1px solid #eef1f7;
+  }
+  .btn {
+    flex: 1;
+    text-align: center;
+    padding: 12px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 13.5px;
+    transition: all .2s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn-primary {
+    background: #102a5b;
+    color: white;
+  }
+  .btn-primary:hover { background: #0b1f4a; }
+  .btn-secondary {
+    background: #f3f5f8;
+    color: #1f3a68;
+    border: 1px solid #d8deea;
+  }
+  .btn-secondary:hover { background: #e9f0fa; }
+
+  .grid-second {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+  }
+  .info-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 18px;
+    color: white;
+  }
+  .info-card .k {
+    font-size: 12px;
+    color: #e6b66e;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .info-card .v {
+    font-size: 14px;
+    color: #cfddf0;
+    line-height: 1.6;
+  }
+  .footer-bar {
+    margin-top: 50px;
+    padding: 24px 16px;
+    text-align: center;
+    color: #cfddf0;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    font-size: 12.5px;
+  }
+  .footer-bar a { color: #e6b66e; text-decoration: none; }
+  .footer-bar a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 30px; }
+    .hero h2 { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="badge">JOINT  REPORT  ·  2026</div>
+  <h1>上海商办楼宇与产业园区</h1>
+  <h1 style="font-size:36px;color:#e6b66e;">市场深度报告</h1>
+  <h2>全域空间供给 · 企业需求迁徙 · 产业载体运营研究</h2>
+  <div class="pubs">
+    <span>易居房地产研究院</span>
+    <span style="color:#cfddf0;">×</span>
+    <span>复旦大学住房政策研究中心</span>
+  </div>
+  <div class="tag">研发方案 · 报告大纲 · 数据调用建议 · 执行指引（讨论稿）</div>
+</header>
+
+<main class="container">
+  <h3 class="section-title">交付物下载</h3>
+
+  <div class="grid">
+
+    <!-- Word -->
+    <div class="card">
+      <div class="head docx">
+        <span class="type">WORD  ·  DOCX</span>
+        <h3>深度报告（Word）</h3>
+        <div class="meta">封面 + 目录 + 九章 + 七附篇 + 结语  ·  约 60 KB</div>
+      </div>
+      <div class="body">
+        <ul>
+          <li>九大正文章节：背景 / 供给 / 租金空置 / 企业画像 / 迁徙 / 招商 / 趋势 / 政策 / 成果</li>
+          <li>七项附篇：数据体系、指标体系、调用合规、分工、首期、难点、成果包</li>
+          <li>含目录、页眉页脚、页码与封面装饰</li>
+        </ul>
+      </div>
+      <div class="footer">
+        <a class="btn btn-primary"
+           href="上海商办楼宇与产业园区市场深度报告.docx"
+           download>下载 DOCX</a>
+        <a class="btn btn-secondary"
+           href="https://github.com/hujigang2010-maker/AIDEN/raw/cursor/shanghai-commercial-report-cc11/上海商办楼宇与产业园区市场深度报告/上海商办楼宇与产业园区市场深度报告.docx">
+           GitHub 镜像</a>
+      </div>
+    </div>
+
+    <!-- PPT -->
+    <div class="card">
+      <div class="head pptx">
+        <span class="type">POWERPOINT  ·  PPTX</span>
+        <h3>汇报版 PPT</h3>
+        <div class="meta">共 37 页  ·  16:9 宽屏  ·  约 135 KB</div>
+      </div>
+      <div class="body">
+        <ul>
+          <li>杂志式封面 + 执行摘要 + 14 个章节</li>
+          <li>章节大隔页 · 时间线 · 流程图 · KPI 卡片</li>
+          <li>六大数据库 / 五大指数 / 三方分工 / 路线图</li>
+        </ul>
+      </div>
+      <div class="footer">
+        <a class="btn btn-primary"
+           href="上海商办楼宇与产业园区市场深度报告_汇报版.pptx"
+           download>下载 PPTX</a>
+        <a class="btn btn-secondary"
+           href="https://github.com/hujigang2010-maker/AIDEN/raw/cursor/shanghai-commercial-report-cc11/上海商办楼宇与产业园区市场深度报告/上海商办楼宇与产业园区市场深度报告_汇报版.pptx">
+           GitHub 镜像</a>
+      </div>
+    </div>
+
+    <!-- Excel -->
+    <div class="card">
+      <div class="head xlsx">
+        <span class="type">EXCEL  ·  XLSX</span>
+        <h3>数据调用底表</h3>
+        <div class="meta">14 个工作表  ·  含仪表盘与图表  ·  约 54 KB</div>
+      </div>
+      <div class="body">
+        <ul>
+          <li>仪表盘：KPI + 16 区样本指标 + 条件格式 + 柱状图</li>
+          <li>六大数据库字段清单 + 数据来源清单（8 大类）</li>
+          <li>五大指数体系 + 采集分期 + 评分模板 + 采集模板</li>
+        </ul>
+      </div>
+      <div class="footer">
+        <a class="btn btn-primary"
+           href="上海商办楼宇与产业园区市场深度报告_数据调用底表.xlsx"
+           download>下载 XLSX</a>
+        <a class="btn btn-secondary"
+           href="https://github.com/hujigang2010-maker/AIDEN/raw/cursor/shanghai-commercial-report-cc11/上海商办楼宇与产业园区市场深度报告/上海商办楼宇与产业园区市场深度报告_数据调用底表.xlsx">
+           GitHub 镜像</a>
+      </div>
+    </div>
+
+  </div>
+
+  <h3 class="section-title">项目要点</h3>
+
+  <div class="grid-second">
+    <div class="info-card">
+      <div class="k">研究覆盖</div>
+      <div class="v">上海 16 区 · 20 大重点板块 · 10 大物业类型 · 17 大重点行业</div>
+    </div>
+    <div class="info-card">
+      <div class="k">数据底座</div>
+      <div class="v">六大基础数据库（楼宇/园区、租金/空置、企业入驻、企业迁徙、产业标签、政策配套）</div>
+    </div>
+    <div class="info-card">
+      <div class="k">指标模型</div>
+      <div class="v">五大核心指数：景气 / 竞争力 / 需求热度 / 产业集聚 / 供需匹配</div>
+    </div>
+    <div class="info-card">
+      <div class="k">采集计划</div>
+      <div class="v">四阶段：中心城区 → 浦东 → 重点产业区 → 16 区全域</div>
+    </div>
+    <div class="info-card">
+      <div class="k">联合分工</div>
+      <div class="v">易居研究院 · 复旦住房政策研究中心 · 数据技术与 AI 采集方</div>
+    </div>
+    <div class="info-card">
+      <div class="k">商业化矩阵</div>
+      <div class="v">月度简报 + 季度深度 + 年度白皮书 + 区域专项 + 楼宇诊断 + 选址服务</div>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    本页为联合课题组内部研讨用。GitHub 仓库：
+    <a href="https://github.com/hujigang2010-maker/AIDEN/tree/cursor/shanghai-commercial-report-cc11">
+      hujigang2010-maker / AIDEN  ·  cursor/shanghai-commercial-report-cc11
+    </a><br/>
+    上海商办楼宇与产业园区市场研究课题组  ·  易居研究院 × 复旦大学住房政策研究中心
+  </div>
+</main>
+
+</body>
+</html>
