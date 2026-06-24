@@ -12,6 +12,7 @@ export function buildDetailCsv(data: Building[]): string {
   const header = [
     '楼宇编号',
     '楼宇名称',
+    '详细地址',
     '所属板块',
     '物业类型',
     '物业等级',
@@ -35,7 +36,7 @@ export function buildDetailCsv(data: Building[]): string {
     const m = computeMetrics(b)
     if (b.tenants.length === 0) {
       rows.push(
-        [b.id, b.name, b.plate, b.propertyType, b.grade, b.askingRent, b.propertyFee, b.totalArea, b.completionYear, b.floorHeight, m.occupancyRate, '', '', '', '', '', '', '', '']
+        [b.id, b.name, b.address ?? '', b.plate, b.propertyType, b.grade, b.askingRent, b.propertyFee, b.totalArea, b.completionYear, b.floorHeight, m.occupancyRate, '', '', '', '', '', '', '', '']
           .map(esc)
           .join(','),
       )
@@ -43,7 +44,7 @@ export function buildDetailCsv(data: Building[]): string {
     b.tenants.forEach((t) => {
       rows.push(
         [
-          b.id, b.name, b.plate, b.propertyType, b.grade, b.askingRent, b.propertyFee,
+          b.id, b.name, b.address ?? '', b.plate, b.propertyType, b.grade, b.askingRent, b.propertyFee,
           b.totalArea, b.completionYear, b.floorHeight, m.occupancyRate,
           t.name, t.industry, t.floor, t.leaseArea, t.dealRent, t.rentFreeMonths, t.status, t.remainingMonths,
         ]
@@ -58,7 +59,7 @@ export function buildDetailCsv(data: Building[]): string {
 /** 楼宇汇总表（每栋楼宇一行） */
 export function buildSummaryCsv(data: Building[]): string {
   const header = [
-    '楼宇编号', '楼宇名称', '所属板块', '物业类型', '物业等级',
+    '楼宇编号', '楼宇名称', '详细地址', '所属板块', '物业类型', '物业等级',
     '报价租金(元/㎡/天)', '平均成交租金(元/㎡/天)', '物业费(元/㎡/月)',
     '楼宇总建筑面积(㎡)', '已租面积(㎡)', '出租率(%)', '入驻企业数',
     '竣工时间', '标准层层高(米)',
@@ -68,7 +69,7 @@ export function buildSummaryCsv(data: Building[]): string {
     const m = computeMetrics(b)
     rows.push(
       [
-        b.id, b.name, b.plate, b.propertyType, b.grade,
+        b.id, b.name, b.address ?? '', b.plate, b.propertyType, b.grade,
         b.askingRent, m.avgDealRent, b.propertyFee,
         b.totalArea, m.leasedArea, m.occupancyRate, m.tenantCount,
         b.completionYear, b.floorHeight,

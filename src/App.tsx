@@ -29,7 +29,7 @@ export default function App() {
           </div>
           <div>
             <h1>杨浦区楼宇经济数据平台</h1>
-            <p>Yangpu Building Economy Intelligence · 楼宇 / 企业 / 租赁全维度</p>
+            <p>商业写字楼 + 工业/产业楼宇全维度 · 楼宇 {buildings.length} 栋 · 简版 / 详细版可一键导出</p>
           </div>
         </div>
         <nav className="nav-tabs">
@@ -55,7 +55,7 @@ export default function App() {
       </main>
 
       <footer className="footer">
-        数据为演示样例 · 共 {buildings.length} 栋楼宇 · 地图服务由
+        数据综合自政府公开文件 / 园区公示 / 主流商办平台公开行情，仅供参考 · 共 {buildings.length} 栋楼宇 · 地图服务由
         <a href="https://lbs.amap.com" target="_blank" rel="noreferrer"> 高德地图 </a>
         提供
       </footer>

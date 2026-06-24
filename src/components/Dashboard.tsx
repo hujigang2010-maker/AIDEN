@@ -188,8 +188,11 @@ export default function Dashboard({ data }: { data: Building[] }) {
     ],
   }
 
+  const officeCount = data.filter((b) => b.propertyType === '写字楼').length
+  const parkCount = data.filter((b) => b.propertyType === '产业园').length
+
   const kpis = [
-    { label: '楼宇总数', value: data.length, unit: '栋', sub: `覆盖 ${plates.length} 个板块`, c: '#38bdf8' },
+    { label: '楼宇总数', value: data.length, unit: '栋', sub: `写字楼 ${officeCount} · 产业园 ${parkCount} · 覆盖 ${plates.length} 板块`, c: '#38bdf8' },
     { label: '总建筑面积', value: formatWan(totalArea), sub: `已租 ${formatWan(leasedArea)}`, c: '#6366f1' },
     { label: '平均出租率', value: avgOcc, unit: '%', sub: `入驻企业 ${tenantCount} 家`, c: avgOcc >= 70 ? '#22c55e' : '#f59e0b' },
     { label: '平均报价租金', value: avgAsking, unit: '元/㎡/天', sub: '全区写字楼及园区', c: '#a855f7' },

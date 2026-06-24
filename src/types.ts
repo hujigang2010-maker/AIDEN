@@ -32,6 +32,8 @@ export interface Building {
   id: string
   /** 楼宇名称 */
   name: string
+  /** 详细地址 */
+  address?: string
   /** 所属板块 */
   plate: string
   /** 物业类型 */

@@ -22,6 +22,7 @@ export default function DetailDrawer({
   const info: { k: string; v: React.ReactNode }[] = [
     { k: '楼宇编号', v: building.id },
     { k: '所属板块', v: building.plate },
+    ...(building.address ? [{ k: '详细地址', v: building.address }] : []),
     { k: '报价租金', v: <>{building.askingRent}<small> 元/㎡/天</small></> },
     { k: '平均成交租金', v: m.avgDealRent ? <>{m.avgDealRent}<small> 元/㎡/天</small></> : '—' },
     { k: '物业费', v: building.propertyFee ? <>{building.propertyFee}<small> 元/㎡/月</small></> : '—' },

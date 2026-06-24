@@ -138,17 +138,17 @@ export default function BuildingTable({ data, filters, onSelect }: Props) {
         </button>
         <button
           className="btn-export"
-          onClick={() => downloadCsv('杨浦区楼宇汇总表.csv', buildSummaryCsv(filtered))}
-          title="导出当前筛选结果（每栋楼宇一行）"
+          onClick={() => downloadCsv('杨浦区楼宇数据_简版.csv', buildSummaryCsv(filtered))}
+          title="简版：每栋楼宇一行（楼宇维度核心字段）"
         >
-          ⬇ 导出汇总表
+          ⬇ 导出简版
         </button>
         <button
           className="btn-export"
-          onClick={() => downloadCsv('杨浦区楼宇企业明细表.csv', buildDetailCsv(filtered))}
-          title="导出当前筛选结果（每个入驻企业一行）"
+          onClick={() => downloadCsv('杨浦区楼宇数据_详细版.csv', buildDetailCsv(filtered))}
+          title="详细版：每个入驻企业一行（楼宇 + 企业全字段）"
         >
-          ⬇ 导出明细表
+          ⬇ 导出详细版
         </button>
         <div className="result-count">
           共 <b>{rows.length}</b> 栋楼宇
