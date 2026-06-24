@@ -7,6 +7,7 @@ import {
   typeColor,
 } from '../utils/metrics'
 import { IconSearch, Tag } from './ui'
+import { buildDetailCsv, buildSummaryCsv, downloadCsv } from '../utils/csv'
 
 type SortKey =
   | 'name'
@@ -134,6 +135,20 @@ export default function BuildingTable({ data, filters, onSelect }: Props) {
         />
         <button className="btn-reset" onClick={filters.reset}>
           重置
+        </button>
+        <button
+          className="btn-export"
+          onClick={() => downloadCsv('杨浦区楼宇汇总表.csv', buildSummaryCsv(filtered))}
+          title="导出当前筛选结果（每栋楼宇一行）"
+        >
+          ⬇ 导出汇总表
+        </button>
+        <button
+          className="btn-export"
+          onClick={() => downloadCsv('杨浦区楼宇企业明细表.csv', buildDetailCsv(filtered))}
+          title="导出当前筛选结果（每个入驻企业一行）"
+        >
+          ⬇ 导出明细表
         </button>
         <div className="result-count">
           共 <b>{rows.length}</b> 栋楼宇

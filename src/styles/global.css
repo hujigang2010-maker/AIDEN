@@ -344,6 +344,20 @@ select:focus {
   border-color: var(--bad);
   color: var(--bad);
 }
+.btn-export {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: var(--accent);
+  padding: 11px 15px;
+  border-radius: 11px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+.btn-export:hover {
+  background: rgba(56, 189, 248, 0.22);
+  border-color: var(--accent);
+}
 .result-count {
   font-size: 13px;
   color: var(--text-dim);
