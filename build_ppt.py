@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""生成《元信 × 火山引擎/腾讯云 算力补贴三方合作方案》PPT。"""
+"""生成《源信网络 × 火山引擎/腾讯云 算力补贴三方合作方案》PPT。"""
 from pptx import Presentation
 from pptx.util import Inches, Pt, Emu
 from pptx.dml.color import RGBColor
@@ -128,7 +128,7 @@ def header(slide, kicker, title, idx=None):
              [[(idx, 12, GRAY, False)]], align=PP_ALIGN.RIGHT)
     # 页脚
     text(slide, Inches(0.7), Inches(7.02), Inches(9), Inches(0.3),
-         [[("元信 × 复旦大学住房政策研究中心 × 杨浦区科技企业联合会  |  算力补贴合作方案", 9, GRAY, False)]])
+         [[("源信网络 × 复旦大学住房政策研究中心 × 杨浦区科技企业联合会  |  算力补贴合作方案", 9, GRAY, False)]])
 
 
 def chip(slide, x, y, w, h, label, fill, tcolor=WHITE, size=12, bold=True, rounded=True):
@@ -166,7 +166,7 @@ text(s, Inches(0.9), Inches(3.5), Inches(11.5), Inches(0.9),
 # 三方标签
 chip(s, Inches(0.9), Inches(5.3), Inches(3.4), Inches(0.55), "复旦大学住房政策研究中心", WHITE, NAVY, 12)
 chip(s, Inches(4.5), Inches(5.3), Inches(3.4), Inches(0.55), "杨浦区科技企业联合会", WHITE, NAVY, 12)
-chip(s, Inches(8.1), Inches(5.3), Inches(2.0), Inches(0.55), "元信", GOLD, WHITE, 13)
+chip(s, Inches(8.1), Inches(5.3), Inches(2.0), Inches(0.55), "源信网络", GOLD, WHITE, 13)
 text(s, Inches(0.9), Inches(6.5), Inches(8), Inches(0.4),
      [[("汇报交流稿  ·  2026 年 6 月", 13, LIGHT, False)]])
 
@@ -177,7 +177,7 @@ s = add_slide()
 header(s, "AGENDA", "目录")
 items = [
     ("01", "合作背景与机遇", "AI 算力时代与杨浦科创生态"),
-    ("02", "三方角色与定位", "复旦研究中心 · 科企联合会 · 元信"),
+    ("02", "三方角色与定位", "复旦研究中心 · 科企联合会 · 源信网络"),
     ("03", "合作总体框架", "大厂算力补贴的传导与分发链路"),
     ("04", "准入与申请条件", "高端办公门槛 + 5 万元无门槛消费券"),
     ("05", "补贴与优惠方式", "租金减免 · 算力补贴 · 运营产品补贴"),
@@ -207,9 +207,9 @@ s = add_slide()
 header(s, "01  合作背景", "AI 算力时代的普惠机遇", "01 / 08")
 paras = [
     ("AI 算力成为新基建", "大模型与 AI Agent 应用爆发，token 算力成为企业研发与经营的刚需，但中小企业普遍面临用云成本高、门槛高的痛点。"),
-    ("大厂算力红利可被引导", "火山引擎、腾讯云等持续投入算力补贴与生态扶持，元信作为合作方可对接补贴资源，向楼宇 / 园区的 B 端企业精准分发。"),
+    ("大厂算力红利可被引导", "火山引擎、腾讯云等持续投入算力补贴与生态扶持，源信网络作为合作方可对接补贴资源，向楼宇 / 园区的 B 端企业精准分发。"),
     ("杨浦科创载体丰富", "杨浦区甲级写字楼、产业园区、科技载体集聚，企业密度高，是算力普惠政策落地的优质试验田。"),
-    ("产学研政协同", "复旦大学住房政策研究中心提供政策研究与评估，科技企业联合会链接企业资源，元信负责运营落地，形成闭环。"),
+    ("产学研政协同", "复旦大学住房政策研究中心提供政策研究与评估，科技企业联合会链接企业资源，源信网络负责运营落地，形成闭环。"),
 ]
 y = 1.9
 for i, (t, d) in enumerate(paras):
@@ -232,7 +232,7 @@ cards = [
      ["政策设计与合规研究", "补贴成效评估与课题", "产学研成果转化与背书"]),
     ("杨浦区科技企业联合会", "企业资源 · 组织协调", CYAN,
      ["对接区内企业与载体", "组织申报与政策宣贯", "汇集企业算力需求"]),
-    ("元信", "运营落地 · 资源对接", GOLD,
+    ("源信网络", "运营落地 · 资源对接", GOLD,
      ["对接大厂算力补贴资源", "统筹楼宇 / 园区合作", "补贴发放与运营服务"]),
 ]
 cw = Inches(3.85)
@@ -264,7 +264,7 @@ s = add_slide()
 header(s, "03  合作框架", "算力补贴的传导与分发链路", "03 / 08")
 flow = [
     ("大厂", "火山引擎 / 腾讯云\n提供 token 算力补贴", BLUE),
-    ("元信", "对接补贴 + 统筹运营\n方案设计与发放", GOLD),
+    ("源信网络", "对接补贴 + 统筹运营\n方案设计与发放", GOLD),
     ("物业 / 楼宇 / 园区", "科技载体作为渠道\n承接并落地政策", CYAN),
     ("B 端企业", "园区楼宇内企业\n享受算力与租金福利", NAVY),
 ]
@@ -285,7 +285,7 @@ for i, (t, d, color) in enumerate(flow):
         ar.line.fill.background(); ar.shadow.inherit = False
 # 下方说明三块
 notes = [
-    ("补贴资源", "由元信对接大厂算力补贴与生态资源池，统一额度池管理。", BLUE),
+    ("补贴资源", "由源信网络对接大厂算力补贴与生态资源池，统一额度池管理。", BLUE),
     ("分发渠道", "以楼宇 / 园区为载体白名单，按准入条件向企业发放。", CYAN),
     ("政策福利", "企业端获得算力券、租金减免、云产品与运营补贴。", GOLD),
 ]
@@ -426,7 +426,7 @@ vals = [
     ("大厂（火山/腾讯）", BLUE, ["精准触达 B 端企业客户", "补贴转化为云消费与留存", "打造区域算力普惠样板"]),
     ("楼宇 / 园区物业", CYAN, ["差异化招商卖点", "提升入驻率与续约率", "升级为“算力友好型”载体"]),
     ("入驻 B 端企业", GOLD, ["降低用云与租金成本", "获得算力与上云支持", "加速 AI 应用落地"]),
-    ("元信 + 研究中心 + 联合会", NAVY, ["运营服务与生态收益", "政策研究与成果背书", "区域科创影响力提升"]),
+    ("源信网络 + 研究中心 + 联合会", NAVY, ["运营服务与生态收益", "政策研究与成果背书", "区域科创影响力提升"]),
 ]
 cw = Inches(5.75); ch = Inches(2.05)
 for i, (t, color, pts) in enumerate(vals):
@@ -488,9 +488,9 @@ text(s, Inches(0.9), Inches(4.0), Inches(11.5), Inches(0.6),
      [[("期待与各方深度合作，共建区域 AI 算力普惠样板", 18, LIGHT, False)]])
 chip(s, Inches(0.9), Inches(5.3), Inches(3.4), Inches(0.55), "复旦大学住房政策研究中心", WHITE, NAVY, 12)
 chip(s, Inches(4.5), Inches(5.3), Inches(3.4), Inches(0.55), "杨浦区科技企业联合会", WHITE, NAVY, 12)
-chip(s, Inches(8.1), Inches(5.3), Inches(2.0), Inches(0.55), "元信", GOLD, WHITE, 13)
+chip(s, Inches(8.1), Inches(5.3), Inches(2.0), Inches(0.55), "源信网络", GOLD, WHITE, 13)
 
 import os
-out = "元信算力补贴三方合作方案.pptx"
+out = "源信网络算力补贴三方合作方案.pptx"
 prs.save(out)
 print("saved", out, os.path.getsize(out))
