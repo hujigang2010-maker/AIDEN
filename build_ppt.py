@@ -205,7 +205,7 @@ def overview():
 # ============================================================
 def partnership():
     s = slide()
-    header(s, 3, "二、", "合作模式与分工",
+    header(s, 4, "三、", "合作双方与分工",
            "强强联合：AI 数据能力 + 学术与政策影响力，共同打造行业标杆")
     # two partner cards + middle plus
     cards = [
@@ -244,7 +244,7 @@ def partnership():
 # ============================================================
 def data_package():
     s = slide()
-    header(s, 4, "三、", "数据 + 分析合作内容",
+    header(s, 6, "五、", "数据 + 分析合作内容",
            "一体化的数据采集、分析与联合发布产出（空置率由我方 AI 自有模型测算）")
     cols = [
         ("基础数据层", NAVY,
@@ -280,7 +280,7 @@ def data_package():
 # ============================================================
 def fields_table():
     s = slide()
-    header(s, 5, "四、", "16 字段覆盖 · AI 可达性对照",
+    header(s, 7, "六、", "16 字段覆盖 · AI 可达性对照",
            "逐项对照贵方原始需求；标注需实地踏勘（“爬楼”）的字段")
     rows = [
         ("楼宇名称", "易", "100%", "AI 自动"),
@@ -342,7 +342,7 @@ def fields_table():
 # ============================================================
 def disclaimer():
     s = slide()
-    header(s, 6, "五、", "免责声明与责任共担",
+    header(s, 8, "七、", "免责声明与责任共担",
            "明确数据边界与双方权责，确保合作长期、稳健、可持续")
     # left: disclaimer
     x = Inches(0.62); w = Inches(6.0)
@@ -391,7 +391,7 @@ def disclaimer():
 # ============================================================
 def pricing_overview():
     s = slide()
-    header(s, 7, "六、", "报价方案 · 三个版本 + 递补",
+    header(s, 10, "九、", "报价方案 · 三个版本 + 递补",
            "以 ¥70,000 为最低保底报价；可按需选择纯报价、保底或扩范围版本")
     cards = [
         ("方案一", "纯报价版", NAVY, "¥70,000",
@@ -441,7 +441,7 @@ def pricing_overview():
 # ============================================================
 def expand_scope():
     s = slide()
-    header(s, 8, "六-A、", "方案三 · “扩大范围”收费项",
+    header(s, 11, "九-A、", "方案三 · “扩大范围”收费项",
            "在 ¥70,000 保底之上，范围每扩大一档，按下列标准弹性加收")
     rect(s, Inches(0.62), Inches(2.25), Inches(12.1), Inches(0.62), NAVY2, round_=True)
     txt(s, Inches(0.9), Inches(2.25), Inches(12), Inches(0.62),
@@ -481,7 +481,7 @@ def expand_scope():
 # ============================================================
 def variable_plan():
     s = slide()
-    header(s, 9, "六-B、", "递补方案 · 变动报价",
+    header(s, 12, "九-B、", "递补方案 · 变动报价",
            "面向长期、全市规模化合作的弹性定价机制（作为三方案之外的递补选项）")
     items = [
         ("规模递减", NAVY, "按区复制单价递减",
@@ -524,7 +524,7 @@ def variable_plan():
 # ============================================================
 def rollout():
     s = slide()
-    header(s, 10, "七、", "试点 → 全市 16 区复制路径",
+    header(s, 13, "十、", "试点 → 全市 16 区复制路径",
            "杨浦做透 → 中心城区 → 浦东 → 外围 · 规模效应让单区报价递减")
     stages = [
         ("阶段一", "杨浦区（试点）", "Month 1-2", "¥70K", "单区保底", NAVY),
@@ -566,7 +566,7 @@ def rollout():
 # ============================================================
 def value():
     s = slide()
-    header(s, 11, "八、", "我方差异化价值",
+    header(s, 14, "十一、", "我方差异化价值",
            "8 维度对比传统数据服务，AI 驱动、可复制、可联合发布")
     items = [
         ("数据颗粒度", "楼宇级 / 企业级 / 楼层级，细 10-100 倍"),
@@ -598,7 +598,7 @@ def value():
 # ============================================================
 def timeline():
     s = slide()
-    header(s, 12, "九、", "落地时间表",
+    header(s, 15, "十二、", "落地时间表",
            "8 周内完成杨浦试点项目，节点清晰、交付可控")
     steps = [
         ("W0", "合同确认", "签订协议、首付款到账"),
@@ -638,7 +638,7 @@ def timeline():
 # ============================================================
 def terms():
     s = slide()
-    header(s, 13, "十、", "合作条款",
+    header(s, 16, "十三、", "合作条款",
            "明确双方权责 · 确保合作长期稳定")
     items = [
         ("数据所有权", "原始数据双方共有；研究院享独家发布权"),
@@ -672,7 +672,7 @@ def recommendation():
     rect(s, 0, 0, SW, SH, NAVY)
     rect(s, 0, 0, SW, Inches(0.16), CRIMSON)
     txt(s, Inches(0.9), Inches(0.6), Inches(11), Inches(0.5),
-        [[("十一、", 14, GOLD, True), ("推荐报价", 26, WHITE, True)]])
+        [[("十四、", 14, GOLD, True), ("推荐报价", 26, WHITE, True)]])
     txt(s, Inches(0.92), Inches(1.18), Inches(11.5), Inches(0.4),
         [("综合贵方需求、数据边界与长期合作潜力，我方郑重推荐以下报价", 13,
           RGBColor(0xCF,0xD8,0xE6), False)])
@@ -689,11 +689,11 @@ def recommendation():
         [[("方案三 · 保底 + 扩范围", 20, WHITE, True)],
          [("¥70,000 保底  +  范围扩大弹性加收", 13, RGBColor(0xF0,0xD9,0xDC), True, 0)]])
     rpts = [
-        "以 ¥70,000 锁定杨浦试点基础收益（最低保底线）",
-        "范围每扩大一档（区域/字段/频次/栋数）透明加收",
-        "兼顾“先把杨浦做透”与“后续全市扩张”双重目标",
+        "试点 PoC 先付 ≥¥80,000 token 预付费 · 先付后开票 · 可抵扣",
+        "转正式合作以 ¥70,000 为最低保底，扩范围弹性加收",
         "空置率由我方 AI 自有模型测算，不含第三方采购付费项",
         "需“爬楼”字段以抽样估算交付，权责清晰、风险共担",
+        "数据支持另计 / 共担，免责与发布审核前置确认",
     ]
     ty = Inches(3.4)
     for p in rpts:
@@ -708,29 +708,30 @@ def recommendation():
         [("报价阶梯一览", 15, GOLD, True)])
     rect(s, x2 + Inches(0.35), Inches(2.7), Inches(1.0), Pt(2), GOLD)
     ladder = [
+        ("试点 PoC", "≥¥80,000", "先付后开票"),
         ("方案一 纯报价", "¥70,000", "一价到底"),
         ("方案二 保底", "¥70,000 起", "最低基准"),
         ("方案三 扩范围", "¥70,000 +", "★ 推荐"),
         ("递补 变动报价", "浮动", "全市/长期"),
     ]
-    ty = Inches(2.95)
+    ty = Inches(2.9)
     for name, price, tag in ladder:
         hl = "推荐" in tag
-        rect(s, x2 + Inches(0.3), ty, Inches(3.62), Inches(0.74),
+        rect(s, x2 + Inches(0.3), ty, Inches(3.62), Inches(0.6),
              CRIMSON if hl else NAVY, round_=True)
-        txt(s, x2 + Inches(0.5), ty + Inches(0.06), Inches(2.0), Inches(0.62),
-            [[(name, 12.5, WHITE, True)], [(tag, 10.5, GOLD if hl else RGBColor(0xAE,0xBA,0xCC), True, 0)]],
+        txt(s, x2 + Inches(0.5), ty, Inches(2.0), Inches(0.6),
+            [[(name, 12, WHITE, True)], [(tag, 10, GOLD if hl else RGBColor(0xAE,0xBA,0xCC), True, 0)]],
             anchor=MSO_ANCHOR.MIDDLE)
-        txt(s, x2 + Inches(2.3), ty, Inches(1.5), Inches(0.74),
-            [(price, 15, WHITE, True)], align=PP_ALIGN.RIGHT, anchor=MSO_ANCHOR.MIDDLE)
-        ty += Inches(0.84)
+        txt(s, x2 + Inches(2.3), ty, Inches(1.5), Inches(0.6),
+            [(price, 14, WHITE, True)], align=PP_ALIGN.RIGHT, anchor=MSO_ANCHOR.MIDDLE)
+        ty += Inches(0.7)
     txt(s, x2 + Inches(0.32), Inches(6.42), Inches(3.7), Inches(0.4),
         [("付款：50% 启动 + 30% 中期 + 20% 验收", 9.5, RGBColor(0xCF,0xD8,0xE6), False)])
 
     txt(s, Inches(0.92), Inches(6.7), Inches(11.5), Inches(0.5),
         [[("结论：", 13, GOLD, True),
-          ("建议以【方案三】启动杨浦试点，保底锁定收益、扩范围弹性增长；全市规模化阶段以【递补变动报价】平滑过渡。",
-           12.5, WHITE, False)]])
+          ("先以【试点 PoC · ¥80,000 token 预付费】启动验证，转正式合作采用【方案三】保底+扩范围，"
+           "全市规模化阶段以【递补变动报价】平滑过渡。", 12.5, WHITE, False)]])
 
 
 # ============================================================
@@ -754,12 +755,146 @@ def closing():
           RGBColor(0xAE,0xBA,0xCC), False)], align=PP_ALIGN.CENTER)
 
 
+# ============================================================
+# 项目边界 · 为什么需要收费
+# ============================================================
+def boundaries():
+    s = slide()
+    header(s, 3, "二、", "项目边界 · 为什么需要收费",
+           "数据采集、建模与发布存在客观成本与风险，合理收费是项目可持续的前提")
+    cards = [
+        ("AI 识别空置率存在不确定性", CRIMSON,
+         ["空置率依赖 AI 多源推断（POI / 招聘 / 入驻面积反推）",
+          "客观存在 ±5% 误差，需持续建模、校准与抽样验证",
+          "模型研发与维护构成真实、持续的投入"]),
+        ("数据源不统一", NAVY,
+         ["高德 / 企查查 / 中介 / 公开网络口径各不相同",
+          "需大量清洗、对齐、交叉校验与去重",
+          "“爬楼”字段更需人工实地补采与整合"]),
+        ("涉及对外发布合规风险", TEAL,
+         ["联合署名对外发布，需共同承担数据责任",
+          "PII 脱敏、口径合规、对外解释均需把关",
+          "合规审核与风险兜底产生实际成本"]),
+    ]
+    cw = Inches(3.92)
+    xs = [Inches(0.62), Inches(4.7), Inches(8.78)]
+    for (t, clr, pts), x in zip(cards, xs):
+        rect(s, x, Inches(2.3), cw, Inches(3.55), CARD, shadow=True, round_=True)
+        rect(s, x, Inches(2.3), cw, Inches(1.0), clr, round_=True)
+        rect(s, x, Inches(2.75), cw, Inches(0.55), clr)
+        txt(s, x + Inches(0.3), Inches(2.4), cw - Inches(0.55), Inches(0.8),
+            [(t, 15, WHITE, True)], anchor=MSO_ANCHOR.MIDDLE)
+        ty = Inches(3.55)
+        for p in pts:
+            txt(s, x + Inches(0.34), ty, cw - Inches(0.6), Inches(0.7),
+                [[("• ", 12, clr, True), (p, 12.5, INK, False)]])
+            ty += Inches(0.72)
+    rect(s, Inches(0.62), Inches(6.15), Inches(12.1), Inches(0.95), NAVY, round_=True)
+    rect(s, Inches(0.62), Inches(6.15), Inches(2.4), Inches(0.95), GOLD, round_=True)
+    txt(s, Inches(0.62), Inches(6.15), Inches(2.4), Inches(0.95),
+        [("收费合理化", 16, WHITE, True)], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+    txt(s, Inches(3.25), Inches(6.15), Inches(9.2), Inches(0.95),
+        [("正因建模不确定性、数据源整合与发布合规均需真实投入，项目以专业服务计费 —— "
+          "收费对应的是“可信、可用、可对外发布”的数据成果。", 13, WHITE, False)],
+        anchor=MSO_ANCHOR.MIDDLE)
+
+
+# ============================================================
+# 合作模式 · 服务三段结构
+# ============================================================
+def service_structure():
+    s = slide()
+    header(s, 5, "四、", "合作模式 · 服务三段结构",
+           "把“服务”拆清楚：数据研究建模 → AI 分析输出 → 报告与对外发布")
+    segs = [
+        ("①", "数据研究与模型部分", NAVY,
+         ["字段体系与口径定义", "空置率模型与方法学设计",
+          "数据标准、误差边界与验证规则", "学术框架 + 研究方法共建"]),
+        ("②", "AI 分析与输出部分", TEAL,
+         ["多源数据自动化采集", "AI 交叉验证、清洗与对齐",
+          "行业分布 / 板块迁徙分析", "可视化图表与数据系统"]),
+        ("③", "报告与对外发布部分", CRIMSON,
+         ["分析报告编制与排版", "联合署名、共同对外发布",
+          "发布前合规审核流程", "对外口径与解释统一"]),
+    ]
+    cw = Inches(3.78)
+    xs = [Inches(0.62), Inches(4.78), Inches(8.94)]
+    for (no, t, clr, pts), x in zip(segs, xs):
+        rect(s, x, Inches(2.45), cw, Inches(3.95), CARD, shadow=True, round_=True)
+        rect(s, x, Inches(2.45), cw, Inches(1.05), clr, round_=True)
+        rect(s, x, Inches(3.0), cw, Inches(0.5), clr)
+        txt(s, x + Inches(0.28), Inches(2.5), Inches(0.85), Inches(0.95),
+            [(no, 30, WHITE, True)], anchor=MSO_ANCHOR.MIDDLE)
+        txt(s, x + Inches(1.1), Inches(2.5), cw - Inches(1.35), Inches(0.95),
+            [(t, 15, WHITE, True)], anchor=MSO_ANCHOR.MIDDLE)
+        ty = Inches(3.78)
+        for p in pts:
+            txt(s, x + Inches(0.35), ty, cw - Inches(0.6), Inches(0.6),
+                [[("· ", 12, clr, True), (p, 12.5, INK, False)]])
+            ty += Inches(0.62)
+    for ax in [Inches(4.43), Inches(8.59)]:
+        a = s.shapes.add_shape(MSO_SHAPE.CHEVRON, ax, Inches(4.05), Inches(0.34), Inches(0.62))
+        a.fill.solid(); a.fill.fore_color.rgb = GOLD; a.line.fill.background()
+        a.shadow.inherit = False
+    txt(s, Inches(0.62), Inches(6.62), Inches(12), Inches(0.4),
+        [[("说明：", 12, CRIMSON, True),
+          ("三段服务既相互独立又彼此衔接，分别对应研究、技术与发布三类投入，便于分工计价与责任界定。",
+           12, GRAY, False)]])
+
+
+# ============================================================
+# 报价结构 · 分阶段结构价
+# ============================================================
+def pricing_structure():
+    s = slide()
+    header(s, 9, "八、", "报价结构 · 分阶段结构价",
+           "不给单一总价，给“结构价”：试点先行 · 数据另计 · 发布前置")
+    rows = [
+        ("①", "试点阶段（PoC）", NAVY,
+         "先付 ≥ ¥80,000 · 先付后开票",
+         "以小范围样例验证数据质量与模型效果；为 token / 算力等试验性使用预付费，"
+         "预付费可在转入正式合作时按约定抵扣。"),
+        ("②", "数据支持", TEAL,
+         "另计 / 双方共担",
+         "需第三方数据、额外实地采集或“爬楼”补采时，费用单独计价或由双方按约定共担，"
+         "口径与分摊透明。"),
+        ("③", "免责与发布审核", CRIMSON,
+         "前置确认 · 必备",
+         "免责边界（“爬楼”字段不承担全责）与对外发布审核流程，须双方在合作启动前"
+         "书面前置确认。"),
+    ]
+    y = Inches(2.35)
+    for (no, t, clr, headline, desc) in rows:
+        rh = Inches(1.2)
+        rect(s, Inches(0.62), y, Inches(12.1), rh, CARD, shadow=True, round_=True)
+        rect(s, Inches(0.62), y, Inches(0.95), rh, clr, round_=True)
+        txt(s, Inches(0.62), y, Inches(0.95), rh, [(no, 30, WHITE, True)],
+            align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        txt(s, Inches(1.78), y + Inches(0.17), Inches(4.2), Inches(0.5),
+            [(t, 17, NAVY, True)])
+        txt(s, Inches(1.81), y + Inches(0.66), Inches(6.0), Inches(0.5),
+            [(desc, 11.5, GRAY, False)])
+        rect(s, Inches(8.1), y + Inches(0.3), Inches(4.35), Inches(0.6),
+             LIGHT, line=clr, line_w=Pt(1.4), round_=True)
+        txt(s, Inches(8.15), y + Inches(0.3), Inches(4.25), Inches(0.6),
+            [(headline, 14, clr, True)], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        y += rh + Inches(0.16)
+    rect(s, Inches(0.62), Inches(6.5), Inches(12.1), Inches(0.78), NAVY, round_=True)
+    txt(s, Inches(0.95), Inches(6.5), Inches(11.6), Inches(0.78),
+        [[("关键：", 14, GOLD, True),
+          ("采用“分阶段结构价”而非一次性总价 —— 试点 PoC 先行验证，数据支持与发布审核分项约定，"
+           "双方风险可控、责任清晰。", 13, WHITE, False)]], anchor=MSO_ANCHOR.MIDDLE)
+
+
 cover()
 overview()
+boundaries()
 partnership()
+service_structure()
 data_package()
 fields_table()
 disclaimer()
+pricing_structure()
 pricing_overview()
 expand_scope()
 variable_plan()
