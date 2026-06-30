@@ -176,8 +176,8 @@ def slide_cover(prs):
     add_rect(s, 0, 0, SLIDE_W, SLIDE_H, NAVY)
     add_rect(s, 0, Inches(4.9), SLIDE_W, Pt(3), GOLD)
     # 顶部小标
-    add_text(s, Inches(0.9), Inches(1.2), Inches(11), Inches(0.5),
-             "复旦政策研究中心 × 杨浦科技企业联合会 × 群邦·88国总领事俱乐部",
+    add_text(s, Inches(0.9), Inches(1.2), Inches(11.5), Inches(0.5),
+             "复旦政策研究中心 × 杨浦科技企业联合会 × 郡邦·总领事俱乐部(CGC)",
              15, GOLD, True)
     add_text(s, Inches(0.9), Inches(2.4), Inches(11.5), Inches(1.4),
              C.PROJECT_NAME, 56, WHITE, True)
@@ -216,6 +216,59 @@ def slide_background(prs, idx, total):
              "机遇与思路", 18, NAVY, True)
     bullets(s, Inches(7.2), Inches(2.2), Inches(5.4), Inches(4.0),
             C.OPPORTUNITY, size=15, gap=12)
+    footer(s)
+    return s
+
+
+def slide_cgc_profile(prs, idx, total):
+    s = blank(prs)
+    header(s, "一、合作对象：总领事俱乐部（CGC）", idx, total)
+    bullets(s, Inches(0.7), Inches(1.55), Inches(11.9), Inches(3.0),
+            C.CGC_PROFILE, size=15.5, gap=12)
+    add_rect(s, Inches(0.5), Inches(4.65), Inches(12.33), Inches(0.6), GOLD)
+    add_text(s, Inches(0.7), Inches(4.65), Inches(12), Inches(0.6),
+             "宗旨：促进成员交流合作 · 推动各国与领区双边关系、经贸与旅游 · 发展国际文化与友好关系",
+             13, NAVY, True, anchor=MSO_ANCHOR.MIDDLE)
+    add_text(s, Inches(0.7), Inches(5.45), Inches(12), Inches(1.0),
+             "运营承办：郡邦（上海）文化交流发展有限公司　|　公众号：gh_79ebe44ac3d2（CGC）",
+             12, GREY)
+    footer(s)
+    return s
+
+
+def slide_assets(prs, idx, total):
+    s = blank(prs)
+    header(s, "二、CGC 既有品牌资产：在已有基础上升级变现", idx, total)
+    add_text(s, Inches(0.6), Inches(1.35), Inches(12), Inches(0.5),
+             "不必从零启动——CGC 已沉淀一批可直接升级为收入的品牌活动：",
+             14, NAVY, True)
+    bullets(s, Inches(0.7), Inches(2.0), Inches(11.9), Inches(4.2),
+            C.EXISTING_ASSETS, size=15.5, gap=16)
+    footer(s)
+    return s
+
+
+def slide_region(prs, idx, total):
+    s = blank(prs)
+    header(s, "三、长三角领区：把领事资源变成招商抓手", idx, total)
+    add_rect(s, Inches(0.5), Inches(1.4), Inches(12.33), Inches(0.85), NAVY)
+    add_text(s, Inches(0.7), Inches(1.4), Inches(12), Inches(0.85),
+             C.REGION["intro"], 14, WHITE, True, anchor=MSO_ANCHOR.MIDDLE)
+    # 四省市
+    cities = ["上海", "江苏", "浙江", "安徽"]
+    bw = Inches(2.85)
+    gap = Inches(0.33)
+    startx = Inches(0.6)
+    top = Inches(2.55)
+    for i, c in enumerate(cities):
+        x = startx + i * (bw + gap)
+        add_rect(s, x, top, bw, Inches(0.95), GOLD)
+        add_text(s, x, top, bw, Inches(0.95), c, 26, NAVY, True,
+                 align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+    add_text(s, Inches(0.6), Inches(3.75), Inches(12), Inches(0.5),
+             "四大应用方向", 16, NAVY, True)
+    bullets(s, Inches(0.7), Inches(4.25), Inches(11.9), Inches(2.4),
+            C.REGION["apps"], size=15, gap=12)
     footer(s)
     return s
 
@@ -418,28 +471,40 @@ def build(path):
     prs.slide_height = SLIDE_H
 
     # 内容页编号
-    total = 18
+    total = 20
+    n = [0]
+
+    def nxt():
+        n[0] += 1
+        return n[0]
+
     slide_cover(prs)
-    slide_section(prs, "01", "背景与机遇", "稀缺资源的叠加：领事人脉 + 地标空间 + 高校背书")
-    slide_background(prs, 1, total)
-    slide_parties(prs, 2, total)
-    slide_loop(prs, 3, total)
-    slide_strategy(prs, 4, total)
-    slide_section(prs, "02", "产品与变现", "六大产品线 · 国家会客厅 · 出海与人文特色")
-    slide_products(prs, 5, total)
-    slide_salon(prs, 6, total)
-    slide_outbound(prs, 7, total)
+    slide_section(prs, "01", "背景与机遇",
+                  "CGC 总领事俱乐部 · 长三角领区 · 稀缺资源叠加")
+    slide_cgc_profile(prs, nxt(), total)
+    slide_background(prs, nxt(), total)
+    slide_assets(prs, nxt(), total)
+    slide_parties(prs, nxt(), total)
+    slide_region(prs, nxt(), total)
+    slide_loop(prs, nxt(), total)
+    slide_strategy(prs, nxt(), total)
+    slide_section(prs, "02", "产品与变现",
+                  "六大产品线 · 国家会客厅 · 出海与人文特色")
+    slide_products(prs, nxt(), total)
+    slide_salon(prs, nxt(), total)
+    slide_outbound(prs, nxt(), total)
     # 表格页
-    add_table_slide(blank(prs), C.TABLE_ACTIVITIES, 8, total)
-    add_table_slide(blank(prs), C.TABLE_SALON, 9, total)
-    add_table_slide(blank(prs), C.TABLE_OUTBOUND, 10, total)
-    add_table_slide(blank(prs), C.TABLE_MEMBERSHIP, 11, total)
+    add_table_slide(blank(prs), C.TABLE_ASSETS, nxt(), total)
+    add_table_slide(blank(prs), C.TABLE_ACTIVITIES, nxt(), total)
+    add_table_slide(blank(prs), C.TABLE_SALON, nxt(), total)
+    add_table_slide(blank(prs), C.TABLE_OUTBOUND, nxt(), total)
+    add_table_slide(blank(prs), C.TABLE_MEMBERSHIP, nxt(), total)
     slide_section(prs, "03", "机制与落地", "分润机制 · 路线图 · 收入测算 · 合规")
-    add_table_slide(blank(prs), C.TABLE_REVENUE_SHARE, 12, total)
-    add_table_slide(blank(prs), C.TABLE_ROADMAP, 13, total)
-    add_table_slide(blank(prs), C.TABLE_PROJECTION, 14, total)
-    slide_compliance(prs, 15, total)
-    slide_next(prs, 16, total)
+    add_table_slide(blank(prs), C.TABLE_REVENUE_SHARE, nxt(), total)
+    add_table_slide(blank(prs), C.TABLE_ROADMAP, nxt(), total)
+    add_table_slide(blank(prs), C.TABLE_PROJECTION, nxt(), total)
+    slide_compliance(prs, nxt(), total)
+    slide_next(prs, nxt(), total)
     slide_end(prs)
 
     os.makedirs(os.path.dirname(path), exist_ok=True)
