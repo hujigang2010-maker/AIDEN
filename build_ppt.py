@@ -182,9 +182,10 @@ items = [
     ("04", "准入与申请条件", "高端办公门槛 + 5 万元无门槛消费券"),
     ("05", "补贴与优惠方式", "租金减免 · 算力补贴 · 运营产品补贴"),
     ("06", "补贴标准表", "按企业规模分档的补贴一览"),
-    ("07", "三方共赢价值", "各方收益与协同效应"),
-    ("08", "开放式可复制模式", "标准化模板 · 开放接入 · 可复制"),
-    ("09", "落地路径与下一步", "试点—推广—复制的实施计划"),
+    ("07", "火山引擎园区独立政策", "半年费用免费 + 大客户额外折扣"),
+    ("08", "三方共赢价值", "各方收益与协同效应"),
+    ("09", "开放式可复制模式", "标准化模板 · 开放接入 · 可复制"),
+    ("10", "落地路径与下一步", "试点—推广—复制的实施计划"),
 ]
 y = 1.72
 for i, (n, t, d) in enumerate(items):
@@ -205,7 +206,7 @@ for i, (n, t, d) in enumerate(items):
 # 3. 合作背景与机遇
 # ============================================================
 s = add_slide()
-header(s, "01  合作背景", "AI 算力时代的普惠机遇", "01 / 09")
+header(s, "01  合作背景", "AI 算力时代的普惠机遇", "01 / 10")
 paras = [
     ("AI 算力成为新基建", "大模型与 AI Agent 应用爆发，token 算力成为企业研发与经营的刚需，但中小企业普遍面临用云成本高、门槛高的痛点。"),
     ("大厂算力红利可被引导", "火山引擎、腾讯云等持续投入算力补贴与生态扶持，源信网络作为合作方可对接补贴资源，向楼宇 / 园区的 B 端企业精准分发。"),
@@ -227,7 +228,7 @@ for i, (t, d) in enumerate(paras):
 # 4. 三方角色与定位
 # ============================================================
 s = add_slide()
-header(s, "02  合作主体", "三方角色与定位", "02 / 09")
+header(s, "02  合作主体", "三方角色与定位", "02 / 10")
 cards = [
     ("复旦大学住房政策研究中心", "政策智库 · 研究背书", BLUE,
      ["政策设计与合规研究", "补贴成效评估与课题", "产学研成果转化与背书"]),
@@ -262,7 +263,7 @@ text(s, Inches(0.8), Inches(6.55), Inches(11.7), Inches(0.4),
 # 5. 合作总体框架（传导链路）
 # ============================================================
 s = add_slide()
-header(s, "03  合作框架", "算力补贴的传导与分发链路", "03 / 09")
+header(s, "03  合作框架", "算力补贴的传导与分发链路", "03 / 10")
 flow = [
     ("大厂", "火山引擎 / 腾讯云\n提供 token 算力补贴", BLUE),
     ("源信网络", "对接补贴 + 统筹运营\n方案设计与发放", GOLD),
@@ -303,7 +304,7 @@ for i, (t, d, color) in enumerate(notes):
 # 6. 准入与申请条件
 # ============================================================
 s = add_slide()
-header(s, "04  准入与申请", "准入门槛与申请条件", "04 / 09")
+header(s, "04  准入与申请", "准入门槛与申请条件", "04 / 10")
 # 左：高端办公门槛
 rect(s, Inches(0.8), Inches(1.9), Inches(7.0), Inches(4.55), LIGHT, shape=MSO_SHAPE.ROUNDED_RECTANGLE)
 rect(s, Inches(0.8), Inches(1.9), Inches(7.0), Inches(0.7), BLUE, shape=MSO_SHAPE.ROUNDED_RECTANGLE)
@@ -339,7 +340,7 @@ for i, d in enumerate(["园区 / 楼宇内企业均可领取", "用于抵扣大�
 # 7. 补贴与优惠方式（三支柱）
 # ============================================================
 s = add_slide()
-header(s, "05  补贴方式", "补贴与优惠方式 · 三大支柱", "05 / 09")
+header(s, "05  补贴方式", "补贴与优惠方式 · 三大支柱", "05 / 10")
 pillars = [
     ("租金减免", "免几个月 · 补几个月", BLUE,
      ["按合作规模采取“免 X 月 + 补 X 月”折扣", "由载体让利 + 补贴池共担", "签约越长、规模越大，减免越多"]),
@@ -369,7 +370,7 @@ for i, (t, sub, color, pts) in enumerate(pillars):
 # 8. 补贴标准表（按企业规模分档）
 # ============================================================
 s = add_slide()
-header(s, "06  补贴标准", "补贴标准一览（按企业规模分档）", "06 / 09")
+header(s, "06  补贴标准", "补贴标准一览（按企业规模分档）", "06 / 10")
 rows = [
     ["企业规模（人）", "算力补贴额度\n(元/年)", "免费消费券", "租金减免\n方案", "云/运营\n消费补贴", "大额签约\n折扣"],
     ["0–50（含）", "5 万 token券", "5 万元", "免1补1", "8.5 折", "9.5 折"],
@@ -419,10 +420,69 @@ text(s, Inches(0.8), Inches(6.25), Inches(11.7), Inches(0.7),
      line_spacing=1.1)
 
 # ============================================================
+# 8b. 火山引擎园区独立政策（新申请落地）
+# ============================================================
+s = add_slide()
+header(s, "07  园区政策", "火山引擎 · 园区独立政策", "07 / 10")
+text(s, Inches(0.8), Inches(1.62), Inches(11.7), Inches(0.4),
+     [[("最新进展：", 13, GOLD, True),
+       ("已为园区申请到火山引擎专属独立政策，以下为已沟通确认方案。", 13, GRAY, False)]])
+# 一、无门槛半年费用免费
+rect(s, Inches(0.8), Inches(2.12), Inches(11.7), Inches(1.18), NAVY, shape=MSO_SHAPE.ROUNDED_RECTANGLE)
+rect(s, Inches(0.8), Inches(2.12), Inches(1.55), Inches(1.18), GOLD, shape=MSO_SHAPE.ROUNDED_RECTANGLE)
+rect(s, Inches(1.2), Inches(2.12), Inches(0.35), Inches(1.18), GOLD)
+text(s, Inches(0.8), Inches(2.12), Inches(1.55), Inches(1.18),
+     [[("免", 40, WHITE, True)]], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+text(s, Inches(2.65), Inches(2.32), Inches(9.6), Inches(0.45),
+     [[("（一）无门槛 · 半年费用免费", 19, CYAN, True)]])
+text(s, Inches(2.65), Inches(2.82), Inches(9.6), Inches(0.42),
+     [[("按预估半年费用一次性发放代金券，园区企业 0 门槛即可享用。", 14, LIGHT, False)]])
+# 二、大客户额外折扣表
+text(s, Inches(0.8), Inches(3.52), Inches(11.7), Inches(0.4),
+     [[("（二）大客户额外折扣", 16, BLUE, True),
+       ("（在代金券之外，可叠加；按累计消费分档）", 12.5, GRAY, False)]])
+disc = [
+    ["累计消费（万元）", "额外折扣（除代金券外）"],
+    ["0 – 10", "5 折 ～ 7 折"],
+    ["10 – 30", "4.5 折 ～ 5 折"],
+    ["30 – 50", "4 折 ～ 4.5 折"],
+    ["50 – 100", "3.5 折 ～ 4 折"],
+    ["100 – 300", "3 折 ～ 3.5 折"],
+    ["300 – 500 +", "2.5 折 ～ 3 折"],
+]
+dn = len(disc)
+dt = s.shapes.add_table(dn, 2, Inches(2.17), Inches(3.92), Inches(9.0), Inches(2.3)).table
+dt.first_row = False
+dt.horz_banding = False
+dt.columns[0].width = Inches(4.5)
+dt.columns[1].width = Inches(4.5)
+for r in range(dn):
+    dt.rows[r].height = Inches(0.42) if r == 0 else Inches(0.35)
+    for c in range(2):
+        cell = dt.cell(r, c)
+        cell.vertical_anchor = MSO_ANCHOR.MIDDLE
+        cell.margin_top = Inches(0.01); cell.margin_bottom = Inches(0.01)
+        if r == 0:
+            cell.fill.solid(); cell.fill.fore_color.rgb = NAVY
+        else:
+            cell.fill.solid(); cell.fill.fore_color.rgb = WHITE if r % 2 == 1 else LIGHT
+        p = cell.text_frame.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
+        run = p.add_run(); run.text = disc[r][c]
+        if r == 0:
+            _set_font(run, 13, WHITE, True)
+        elif c == 1:
+            _set_font(run, 13, BLUE, True)
+        else:
+            _set_font(run, 13, INK, False)
+text(s, Inches(0.8), Inches(6.75), Inches(11.7), Inches(0.35),
+     [[("说明：", 11, GOLD, True),
+       ("折扣随累计消费提升而走低（越用越优惠），与半年免费代金券可叠加享受；具体以火山引擎最终政策为准。", 11, GRAY, False)]])
+
+# ============================================================
 # 9. 三方共赢价值
 # ============================================================
 s = add_slide()
-header(s, "07  共赢价值", "三方共赢与协同价值", "07 / 09")
+header(s, "08  共赢价值", "三方共赢与协同价值", "08 / 10")
 vals = [
     ("大厂（火山/腾讯）", BLUE, ["精准触达 B 端企业客户", "补贴转化为云消费与留存", "打造区域算力普惠样板"]),
     ("楼宇 / 园区物业", CYAN, ["差异化招商卖点", "提升入驻率与续约率", "升级为“算力友好型”载体"]),
@@ -448,7 +508,7 @@ for i, (t, color, pts) in enumerate(vals):
 # 9b. 开放式可复制合作模式
 # ============================================================
 s = add_slide()
-header(s, "08  可复制模式", "开放式 · 可复制合作模式", "08 / 09")
+header(s, "09  可复制模式", "开放式 · 可复制合作模式", "09 / 10")
 text(s, Inches(0.8), Inches(1.72), Inches(11.7), Inches(0.5),
      [[("把三方合作沉淀为“一次设计、处处可用”的开放式算力普惠样板——任何楼宇 / 园区 / 区域均可低成本接入与复制。",
         13.5, GRAY, False)]], line_spacing=1.1)
@@ -480,7 +540,7 @@ text(s, Inches(0.8), Inches(6.72), Inches(11.7), Inches(0.35),
 # 10. 落地路径与下一步
 # ============================================================
 s = add_slide()
-header(s, "09  落地路径", "落地路径与下一步", "09 / 09")
+header(s, "10  落地路径", "落地路径与下一步", "10 / 10")
 phases = [
     ("第一阶段\n试点", "选取 1–2 个标杆楼宇 / 园区，确定补贴池与白名单，落地首批企业。", BLUE),
     ("第二阶段\n推广", "总结试点成效，由联合会组织区内载体规模化申报与宣贯。", CYAN),

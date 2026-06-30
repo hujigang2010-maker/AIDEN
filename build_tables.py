@@ -102,6 +102,32 @@ for v in rows2:
     data_row(ws2, r, v); r += 1
 note(ws2, r, 6, "说明：以上为建议方案，最终额度以大厂（火山引擎/腾讯云）补贴政策及三方协议为准；“免X补X”指首年租金由载体减免与补贴池共担的月数。")
 
+# ============== Sheet 2b: 火山引擎园区独立政策 ==============
+wsv = wb.create_sheet("火山引擎园区政策")
+set_widths(wsv, [22, 30, 28])
+style_title(wsv, "二·补：火山引擎园区独立政策（已沟通确认）", 3)
+# 一、半年免费
+header_row(wsv, 2, ["政策一", "内容", "说明"])
+data_row(wsv, 3, ["无门槛·半年费用免费", "按预估半年费用一次性发放代金券", "园区企业 0 门槛即可享用"])
+# 二、大客户额外折扣
+wsv.cell(row=5, column=1, value="政策二：大客户额外折扣（除代金券外，可叠加）").font = Font(name=F, size=12, bold=True, color=NAVY)
+wsv.merge_cells(start_row=5, start_column=1, end_row=5, end_column=3)
+wsv.row_dimensions[5].height = 26
+header_row(wsv, 6, ["累计消费（万元）", "额外折扣（除代金券外）", "备注"])
+disc_rows = [
+    ["0 – 10", "5 折 ～ 7 折", ""],
+    ["10 – 30", "4.5 折 ～ 5 折", ""],
+    ["30 – 50", "4 折 ～ 4.5 折", "折扣随累计"],
+    ["50 – 100", "3.5 折 ～ 4 折", "消费提升而"],
+    ["100 – 300", "3 折 ～ 3.5 折", "走低，越用"],
+    ["300 – 500 +", "2.5 折 ～ 3 折", "越优惠"],
+]
+r = 7
+for v in disc_rows:
+    data_row(wsv, r, v, zebra=True); r += 1
+note(wsv, r, 3, "说明：半年免费代金券与大客户额外折扣可叠加享受；具体折扣与额度以火山引擎最终政策为准。")
+wsv.freeze_panes = "A3"
+
 # ============== Sheet 3: 补贴与优惠方式 ==============
 ws3 = wb.create_sheet("补贴与优惠方式")
 set_widths(ws3, [18, 26, 40])
