@@ -152,10 +152,10 @@ def cover():
         [[("易居研究院", 40, WHITE, True)],
          [("  ×  ", 30, GOLD, True),
           ("复旦大学住房政策研究中心", 34, WHITE, True)]])
-    txt(s, Inches(0.92), Inches(3.5), Inches(10.5), Inches(0.6),
-        [("杨浦区办公楼宇数据系统 · 试点合作项目", 18, RGBColor(0xCF,0xD8,0xE6), False)])
-    txt(s, Inches(0.92), Inches(4.15), Inches(11), Inches(0.5),
-        [("基于 16 字段需求 + 空置率定制 · 行业首份全域数据 · 双方联合发布、共同署名", 13,
+    txt(s, Inches(0.92), Inches(3.5), Inches(11.5), Inches(0.6),
+        [("《上海商办楼宇和产业园区市场报告》· 试点合作（杨浦 PoC）", 18, RGBColor(0xCF,0xD8,0xE6), False)])
+    txt(s, Inches(0.92), Inches(4.15), Inches(11.5), Inches(0.5),
+        [("全域全量数据 + AI 热力活跃度指数（替代出租率）· 双方联合发布、共同署名", 13,
           RGBColor(0xAE,0xBA,0xCC), False)])
 
     # info chips
@@ -251,8 +251,8 @@ def data_package():
          ["楼宇名称、所属板块、物业类型", "物业等级、总建筑面积、竣工时间",
           "入驻企业、所属行业、经营状态", "结构化 Excel 数据表"]),
         ("分析模型层", TEAL,
-         ["报价 / 成交租金、物业费", "租赁面积、免租期（抽样估算）",
-          "空置率动态模型（AI 自有测算）", "行业分布图谱 + 板块迁徙分析"]),
+         ["报价 / 成交租金、物业费", "租赁面积、企业画像",
+          "楼宇活跃度（热力）指数", "行业分布图谱 + 板块迁徙分析"]),
         ("成果交付层", CRIMSON,
          ["Excel 数据 + 40-60 页分析报告", "可视化图表与专题图",
           "联合署名行业专报", "季度更新机制"]),
@@ -270,9 +270,9 @@ def data_package():
             txt(s, x + Inches(0.34), ty, cw - Inches(0.6), Inches(0.8),
                 [[("✓ ", 13, GREEN, True), (p, 13, INK, False)]])
             ty += Inches(0.66)
-    txt(s, Inches(0.62), Inches(6.55), Inches(12), Inches(0.5),
+    txt(s, Inches(0.62), Inches(6.55), Inches(12.2), Inches(0.5),
         [[("说明：", 12, CRIMSON, True),
-          ("空置率全部由我方 AI 多源交叉自有模型测算（误差 ±5%），不含任何第三方机构采购付费项。", 12, GRAY, False)]])
+          ("出租率属闭源数据、不作核心指标，改以「楼宇活跃度（热力）指数」替代；空置率以企业入驻密度近似，均标注口径，不含第三方采购付费。", 12, GRAY, False)]])
 
 
 # ============================================================
@@ -391,7 +391,7 @@ def disclaimer():
 # ============================================================
 def pricing_page():
     s = slide()
-    header(s, 9, "八、", "报价方案 · 一页总览",
+    header(s, 11, "十、", "报价方案 · 一页总览",
            "已删除原 ¥28,000 基础包；新增 Token 预付费与变动报价 —— 全部报价一页可见")
     ORANGE = RGBColor(0xDE, 0x82, 0x0A)
     VIOLET = RGBColor(0x5E, 0x4B, 0x8C)
@@ -399,12 +399,12 @@ def pricing_page():
     cards = [
         ("试点 PoC", "Token 预付费", "试点验证 · 预付费", NAVY, RGBColor(0xE9, 0xF1, 0xFB),
          "≥ ¥80,000", "先付后开票 · 可抵扣",
-         ["最低不少于 ¥80,000", "小范围样例先行验证", "token/算力试验性使用",
-          "先付款、后开发票", "可抵扣正式合作费用"],
+         ["最低不少于 ¥80,000", "杨浦≈1,000 栋样本试跑", "含热力活跃度指标测试",
+          "Token 按量 · 先付后开票", "可抵扣正式合作费用"],
          "试点启动 · 预付费", False),
         ("方案 B", "数据+分析包", "数据 + 分析模型", ORANGE, RGBColor(0xFF, 0xF4, 0xD6),
          "¥78,000", "维护：¥18,000/季",
-         ["报价/成交租金、物业费", "租赁面积、免租期", "空置率动态模型",
+         ["报价/成交租金、物业费", "租赁面积、企业画像", "楼宇活跃度（热力）指数",
           "行业分布 + 板块迁徙", "Excel + 40-60 页报告"],
          "★ 研究院首选 · 标杆", True),
         ("方案 C", "长期合作包", "系统 + 服务分成", GREEN, RGBColor(0xE7, 0xF4, 0xEA),
@@ -414,8 +414,8 @@ def pricing_page():
          "长期战略合作伙伴", False),
         ("第四方案", "变动报价", "规模/频次/成效浮动", VIOLET, RGBColor(0xED, 0xEA, 0xF6),
          "浮动计价", "随规模与成效调整",
-         ["全市 16 区复制单价递减", "扩大范围按项加收", "季度/月度更新订阅",
-          "招商成效分成 10-15%", "规模越大、双方越受益"],
+         ["全市 16 区复制单价递减", "扩大范围按项加收", "热力更新 / 高颗粒度加收",
+          "季度/月度更新订阅", "招商成效分成 10-15%"],
          "全市 · 长期弹性补充", False),
     ]
     x = Inches(0.55); cw = Inches(2.9); gap = Inches(0.2)
@@ -454,8 +454,8 @@ def pricing_page():
          line=NAVY, line_w=Pt(1), round_=True)
     txt(s, Inches(0.8), Inches(6.6), Inches(11.8), Inches(0.6),
         [[("附加条款：", 11.5, CRIMSON, True),
-          ("空置率由我方 AI 自有模型测算（不含第三方采购付费）· 数据支持另计/双方共担 · "
-           "免责与发布审核须前置确认。", 11.5, GRAY, False)]], anchor=MSO_ANCHOR.MIDDLE)
+          ("出租率闭源、不作核心指标，改以热力活跃度替代 · Token 据实开票 · 热力指数收费点见第 10 页 · "
+           "数据支持另计/共担、发布审核前置。", 11.5, GRAY, False)]], anchor=MSO_ANCHOR.MIDDLE)
 
 
 # ============================================================
@@ -463,7 +463,7 @@ def pricing_page():
 # ============================================================
 def rollout():
     s = slide()
-    header(s, 10, "九、", "试点 → 全市 16 区复制路径",
+    header(s, 12, "十一、", "试点 → 全市 16 区复制路径",
            "杨浦做透 → 中心城区 → 浦东 → 外围 · 规模效应让单区报价递减")
     stages = [
         ("阶段一", "杨浦区（试点）", "Month 1-2", "¥70K", "单区保底", NAVY),
@@ -505,7 +505,7 @@ def rollout():
 # ============================================================
 def value():
     s = slide()
-    header(s, 11, "十、", "我方差异化价值",
+    header(s, 13, "十二、", "我方差异化价值",
            "8 维度对比传统数据服务，AI 驱动、可复制、可联合发布")
     items = [
         ("数据颗粒度", "楼宇级 / 企业级 / 楼层级，细 10-100 倍"),
@@ -537,7 +537,7 @@ def value():
 # ============================================================
 def timeline():
     s = slide()
-    header(s, 12, "十一、", "落地时间表",
+    header(s, 14, "十三、", "落地时间表",
            "8 周内完成杨浦试点项目，节点清晰、交付可控")
     steps = [
         ("W0", "合同确认", "签订协议、首付款到账"),
@@ -577,7 +577,7 @@ def timeline():
 # ============================================================
 def terms():
     s = slide()
-    header(s, 13, "十二、", "合作条款",
+    header(s, 15, "十四、", "合作条款",
            "明确双方权责 · 确保合作长期稳定")
     items = [
         ("数据所有权", "原始数据双方共有；研究院享独家发布权"),
@@ -611,7 +611,7 @@ def recommendation():
     rect(s, 0, 0, SW, SH, NAVY)
     rect(s, 0, 0, SW, Inches(0.16), CRIMSON)
     txt(s, Inches(0.9), Inches(0.6), Inches(11), Inches(0.5),
-        [[("十三、", 14, GOLD, True), ("推荐报价", 26, WHITE, True)]])
+        [[("十五、", 14, GOLD, True), ("推荐报价", 26, WHITE, True)]])
     txt(s, Inches(0.92), Inches(1.18), Inches(11.5), Inches(0.4),
         [("综合贵方需求、数据边界与长期合作潜力，我方郑重推荐以下报价", 13,
           RGBColor(0xCF,0xD8,0xE6), False)])
@@ -630,7 +630,7 @@ def recommendation():
     rpts = [
         "先以 Token 预付费 ≥¥80,000 启动 PoC（先付后开票 · 可抵扣）",
         "正式合作以【方案 B 数据+分析包】¥78,000 为标杆首选",
-        "空置率由我方 AI 自有模型测算，不含第三方采购付费项",
+        "热力活跃度指数替代闭源出租率，不含第三方采购付费",
         "需“爬楼”字段以抽样估算交付，权责清晰、风险共担",
         "数据支持另计 / 共担，免责与发布审核前置确认",
     ]
@@ -780,6 +780,112 @@ def service_structure():
            12, GRAY, False)]])
 
 
+# ============================================================
+# 报价定义 · 任务标准与范围
+# ============================================================
+def quote_definition():
+    s = slide()
+    header(s, 9, "八、", "报价定义 · 任务标准与范围",
+           "借用《上海商办楼宇和产业园区市场报告》题目界定范围；融合最近一次 AI 评审会需求")
+    # left: 任务标准（借用对方题目）
+    x = Inches(0.62); w = Inches(6.0)
+    rect(s, x, Inches(2.3), w, Inches(4.6), CARD, shadow=True, round_=True)
+    rect(s, x, Inches(2.3), w, Inches(0.85), NAVY, round_=True)
+    rect(s, x, Inches(2.72), w, Inches(0.43), NAVY)
+    txt(s, x + Inches(0.32), Inches(2.43), w - Inches(0.6), Inches(0.6),
+        [("▎任务标准（借用对方题目）", 15, WHITE, True)])
+    left = [
+        ("题目", "《上海商办楼宇和产业园区市场报告》"),
+        ("覆盖", "超甲/甲/乙级及以下写字楼 + 各类产业园区"),
+        ("颗粒度", "16 区 → 街道 / 镇二级（适配高德 POI/AOI）"),
+        ("字段五类", "资产基础 / 企业画像 / 租赁交易 / 迁徙 / 衍生"),
+        ("分期", "中心 7 区 → 浦东 → 全市全域"),
+        ("报告框架", "概览 / 分区 / 画像 / 迁徙 / 供需匹配 / 趋势"),
+    ]
+    ty = Inches(3.35)
+    for k, v in left:
+        txt(s, x + Inches(0.34), ty, w - Inches(0.65), Inches(0.6),
+            [[("▸ " + k + "：", 12, NAVY, True), (v, 11.5, INK, False)]])
+        ty += Inches(0.57)
+    # right: AI 评审会边界（写入报价定义）
+    x2 = Inches(6.92); w2 = Inches(5.8)
+    rect(s, x2, Inches(2.3), w2, Inches(4.6), CARD, shadow=True, round_=True)
+    rect(s, x2, Inches(2.3), w2, Inches(0.85), CRIMSON, round_=True)
+    rect(s, x2, Inches(2.72), w2, Inches(0.43), CRIMSON)
+    txt(s, x2 + Inches(0.32), Inches(2.43), w2 - Inches(0.6), Inches(0.6),
+        [("▎AI 评审会边界（写入报价定义）", 15, WHITE, True)])
+    right = [
+        "数据依赖网络“留痕”，静态 / 未公开信息无法纳入",
+        "出租率属闭源数据 → 不作为核心指标",
+        "改以“楼宇活跃度（热力）”替代出租率",
+        "层高等基于行业常识估算，准确率约 80%",
+        "成交租金缺时间戳、真实性存疑 → 标注口径",
+        "Token 消耗按量计费、据实开具发票",
+        "杨浦约 1,000 栋作为 PoC 验证样本",
+    ]
+    ty = Inches(3.35)
+    for p in right:
+        txt(s, x2 + Inches(0.34), ty, w2 - Inches(0.65), Inches(0.6),
+            [[("•  ", 12, CRIMSON, True), (p, 11.5, INK, False)]])
+        ty += Inches(0.49)
+
+
+# ============================================================
+# 热力活跃度指数 · 替代出租率与收费点
+# ============================================================
+def heat_index():
+    s = slide()
+    header(s, 10, "九、", "热力活跃度指数 · 替代出租率与收费点",
+           "以百度/高德热力图构建“楼宇活跃度”，绕过闭源出租率；明确各项收费点")
+    VIOLET = RGBColor(0x5E, 0x4B, 0x8C)
+    # left definition
+    x = Inches(0.62); w = Inches(4.5)
+    rect(s, x, Inches(2.3), w, Inches(4.58), CARD, shadow=True, round_=True)
+    rect(s, x, Inches(2.3), w, Inches(0.85), NAVY, round_=True)
+    rect(s, x, Inches(2.72), w, Inches(0.43), NAVY)
+    txt(s, x + Inches(0.3), Inches(2.43), w - Inches(0.55), Inches(0.6),
+        [("▎指标定义", 15, WHITE, True)])
+    defs = [
+        ("数据源", "百度 / 高德热力图（定位请求密度）"),
+        ("时段", "早 8:30-9:30 · 晚 18:00-19:00"),
+        ("颗粒度", "10 米级，可区分单栋出入口"),
+        ("计算", "活跃度 ÷ 总建筑面积 = 单位面积活跃度"),
+        ("作用", "替代闭源出租率，辨办公 / 居住"),
+    ]
+    ty = Inches(3.4)
+    for k, v in defs:
+        txt(s, x + Inches(0.32), ty, w - Inches(0.6), Inches(0.7),
+            [[("▎" + k, 12.5, CRIMSON, True)], [(v, 11, INK, False, 0)]])
+        ty += Inches(0.68)
+    # right charging points
+    x2 = Inches(5.35); w2 = Inches(7.38)
+    txt(s, x2, Inches(2.28), w2, Inches(0.5),
+        [("★ 热力指数收费点", 16, CRIMSON, True)])
+    items = [
+        ("①", "热力数据采集费", "百度/高德热力 API 调用", "按 楼宇 × 时段 × 天数", NAVY),
+        ("②", "Token / 算力费", "AI 运行按量计费、据实开票", "≈1,000栋约 ¥1,500/次", TEAL),
+        ("③", "热力指标建模费", "时间窗口 + 提示词 + 面积归一化", "一次性建模费", CRIMSON),
+        ("④", "热力更新订阅费", "月度 / 季度刷新与活跃度追踪", "按周期订阅", VIOLET),
+        ("⑤", "高颗粒度加收", "单栋出入口级（10 米）热力", "按需加收", GOLD),
+    ]
+    y = Inches(2.82)
+    rh = Inches(0.74); gap = Inches(0.12)
+    for (no, t, d, price, c) in items:
+        rect(s, x2, y, w2, rh, CARD, shadow=True, round_=True)
+        rect(s, x2, y, Inches(0.68), rh, c, round_=True)
+        txt(s, x2, y, Inches(0.68), rh, [(no, 22, WHITE, True)],
+            align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        txt(s, x2 + Inches(0.88), y + Inches(0.09), Inches(3.4), Inches(0.34),
+            [(t, 13.5, NAVY, True)])
+        txt(s, x2 + Inches(0.9), y + Inches(0.43), Inches(3.5), Inches(0.28),
+            [(d, 10, GRAY, False)])
+        rect(s, x2 + w2 - Inches(2.5), y + Inches(0.17), Inches(2.35), Inches(0.4),
+             LIGHT, line=c, line_w=Pt(1.2), round_=True)
+        txt(s, x2 + w2 - Inches(2.5), y + Inches(0.17), Inches(2.35), Inches(0.4),
+            [(price, 10.5, c, True)], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        y += rh + gap
+
+
 cover()
 overview()
 boundaries()
@@ -788,6 +894,8 @@ service_structure()
 data_package()
 fields_table()
 disclaimer()
+quote_definition()
+heat_index()
 pricing_page()
 rollout()
 value()
