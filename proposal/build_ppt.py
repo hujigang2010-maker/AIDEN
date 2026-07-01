@@ -316,56 +316,54 @@ text(s, Inches(1.1), Inches(5.78), Inches(11.1), Inches(1.0),
 # ---------- 6 章节02 空间 ----------
 nxt(); divider(IDX, "02", "空间与平面图", "SPACE & FLOOR PLAN", "3F 孵化办公（AI 主轴）· 5F 展厅贸易（IP 主轴）")
 
-# ---------- 7 3F 平面图 ----------
-nxt(); s = slide(); header(s, "02", "FLOOR PLAN · 3F", "3 楼平面布局 · 孵化 + 办公 ≈ 2850㎡"); footer(s, IDX)
-fx, fy, fw, fh = ML, Inches(1.85), Inches(8.05), Inches(4.75)
+# ---------- 7 3F 平面图（按真实布局复原） ----------
+nxt(); s = slide(); header(s, "02", "FLOOR PLAN · 3F", "3 楼平面布局 · OPC + AI + IP 创新中心 ≈ 2850㎡"); footer(s, IDX)
+fx, fy, fw, fh = ML, Inches(1.78), Inches(8.05), Inches(4.85)
 rect(s, fx, fy, fw, fh, line=GOLD, lw=1.5, radius=True, grad=[(0, "111830", None), (100, "0D1326", None)], gang=120)
-pad = Inches(0.2)
-ix, iy = Emu(fx + pad), Emu(fy + pad)
-iw = Emu(fw - pad * 2)
-# Row1
-zone(s, ix, iy, iw, Inches(1.35), "AI+IP 产业办公空间", "1150㎡", H_ACC, sub="301 / 302 / 303 · 可分割多间")
-# Row2
-rw = Emu((iw - Inches(0.2)) / 2)
-zone(s, ix, Emu(iy + Inches(1.5)), rw, Inches(1.2), "OPC 产业办公空间", "700㎡", H_ACC2, sub="304 / 305")
-zone(s, Emu(ix + rw + Inches(0.2)), Emu(iy + Inches(1.5)), rw, Inches(1.2), "AI+IP 产业办公空间", "600㎡", H_ACC, sub="306 / 310")
-# Row3
-rw3 = Emu((iw - Inches(0.4)) / 3)
-zone(s, ix, Emu(iy + Inches(2.85)), rw3, Inches(1.15), "AI 展示与运营", "250㎡", H_GREEN, sub="314")
-zone(s, Emu(ix + rw3 + Inches(0.2)), Emu(iy + Inches(2.85)), rw3, Inches(1.15), "直播间", "150㎡", H_GOLD, sub="316")
-zone(s, Emu(ix + (rw3 + Inches(0.2)) * 2), Emu(iy + Inches(2.85)), rw3, Inches(1.15), "接待 · 前台 · 休闲区 · 茶水间", "配套", H_ROSE)
-# 右侧信息
-card(s, Inches(9.15), Inches(1.85), Inches(3.33), Inches(4.75), "楼层要点", accent=GOLD, items=[
+pad = Inches(0.18)
+ix, iy = Emu(fx + pad), Emu(fy + pad); iw = Emu(fw - pad * 2); ih = Emu(fh - pad * 2)
+lw = Emu(iw * 0.56); gp = Inches(0.16); rx = Emu(ix + lw + gp); rwd = Emu(iw - lw - gp)
+# 左列：AI+IP 600 / 配套 / AI+IP 1150
+zone(s, ix, iy, lw, Inches(1.28), "AI+IP 产业办公空间", "600㎡", H_GOLD, sub="316 (150) · 301 (175)")
+zone(s, ix, Emu(iy + Inches(1.44)), lw, Inches(0.72), "接待 · 前台 · 休闲区 · 茶水间", "配套", H_ROSE)
+zone(s, ix, Emu(iy + Inches(2.32)), lw, Inches(2.02), "AI+IP 产业办公空间", "1150㎡", H_GOLD, sub="306·305·304·303·302·310")
+# 右列：直播间 250 / AI展示 150 / OPC 700
+zone(s, rx, iy, rwd, Inches(1.02), "直播间", "250㎡", H_ACC)
+zone(s, rx, Emu(iy + Inches(1.18)), rwd, Inches(0.86), "AI 展示与运营", "150㎡", H_GREEN)
+zone(s, rx, Emu(iy + Inches(2.2)), rwd, Inches(2.14), "OPC 产业办公空间", "700㎡", H_ACC2)
+card(s, Inches(9.15), Inches(1.78), Inches(3.33), Inches(4.85), "楼层要点", accent=GOLD, items=[
     "OPC + AI + IP 创新中心整层运营",
     "9 个可分割办公单元（301–316）",
     "含 AI 展示与运营 + 直播间双运营位",
-    "主轴：AI / OPC — 对齐「人工智能+」赛道",
+    "主轴：AI / OPC — 对齐「人工智能+」",
     "适配：AI 初创 / 研发设计 / 孵化项目",
     "设计建议：4–6 人设计条件，不做联合办公"])
-text(s, ML, Inches(6.6), Inches(8), Inches(0.3), "＊平面示意，依据一期方案面积数据复原；最终以物业实测与设计院图纸为准。", size=9.5, color=SOFT)
+text(s, ML, Inches(6.68), Inches(8), Inches(0.3), "＊依据一期方案平面图复原（分区/房号/面积对应）；最终以物业实测与设计院图纸为准。", size=9.5, color=SOFT)
 
-# ---------- 8 5F 平面图 ----------
-nxt(); s = slide(); header(s, "02", "FLOOR PLAN · 5F", "5 楼平面布局 · 展厅 + 贸易 ≈ 3670㎡"); footer(s, IDX)
-fx, fy, fw, fh = ML, Inches(1.85), Inches(8.05), Inches(4.75)
+# ---------- 8 5F 平面图（按真实布局复原） ----------
+nxt(); s = slide(); header(s, "02", "FLOOR PLAN · 5F", "5 楼平面布局 · 综合集群展厅 ≈ 3670㎡"); footer(s, IDX)
+fx, fy, fw, fh = ML, Inches(1.78), Inches(8.05), Inches(4.85)
 rect(s, fx, fy, fw, fh, line=GOLD, lw=1.5, radius=True, grad=[(0, "111830", None), (100, "0D1326", None)], gang=120)
-ix, iy = Emu(fx + pad), Emu(fy + pad); iw = Emu(fw - pad * 2)
-rw = Emu((iw - Inches(0.2)) / 2)
-zone(s, ix, iy, rw, Inches(1.4), "综合集群展厅", "900㎡", H_ACC, sub="50+ IP 集中展示 · 轮展")
-zone(s, Emu(ix + rw + Inches(0.2)), iy, rw, Inches(1.4), "AI+IP 展示中心", "700㎡", H_GOLD, sub="AI 智能产业集群")
-zone(s, ix, Emu(iy + Inches(1.55)), rw, Inches(1.25), "玩具/毛绒/潮玩 产业集群", "700㎡", H_ACC2, sub="汕头玩具 · 扬州毛绒 · 东莞潮玩")
-zone(s, Emu(ix + rw + Inches(0.2)), Emu(iy + Inches(1.55)), rw, Inches(1.25), "文创产业集群", "650㎡", H_GREEN, sub="景区 + 博物馆文创")
-rw3 = Emu((iw - Inches(0.4)) / 3)
-zone(s, ix, Emu(iy + Inches(2.95)), rw3, Inches(1.05), "OPC 社区培训中心", "330㎡", H_ROSE)
-zone(s, Emu(ix + rw3 + Inches(0.2)), Emu(iy + Inches(2.95)), rw3, Inches(1.05), "休闲沙龙区", "270㎡", H_ACC)
-zone(s, Emu(ix + (rw3 + Inches(0.2)) * 2), Emu(iy + Inches(2.95)), rw3, Inches(1.05), "仓储", "120㎡", H_ROSE)
-card(s, Inches(9.15), Inches(1.85), Inches(3.33), Inches(4.75), "楼层要点", accent=GOLD, items=[
+ix, iy = Emu(fx + pad), Emu(fy + pad); iw = Emu(fw - pad * 2); ih = Emu(fh - pad * 2)
+g = Inches(0.12)
+cA = Emu(iw * 0.205); cB = Emu(iw * 0.09); cC = Emu(iw * 0.225); cD = Emu(iw * 0.225); cE = Emu(iw * 0.205)
+xA = ix; xB = Emu(xA + cA + g); xC = Emu(xB + cB + g); xD = Emu(xC + cC + g); xE = Emu(xD + cD + g)
+zone(s, xA, iy, cA, ih, "AI+IP 展示中心", "700㎡", H_ROSE, sub="景区+博物馆文创 · 50+ IP 展示")
+zone(s, xB, iy, cB, ih, "休闲沙龙区", "", H_ACC)
+zone(s, xC, iy, cC, Inches(1.3), "东莞潮玩产业集群", "330㎡", H_GREEN)
+zone(s, xC, Emu(iy + Inches(1.42)), cC, Inches(3.02), "汕头玩具产业集群", "900㎡", H_ACC2)
+zone(s, xD, iy, cD, Inches(1.12), "AI 智能产业集群", "270㎡", H_GOLD)
+zone(s, xD, Emu(iy + Inches(1.24)), cD, Inches(3.2), "扬州毛绒产业集群", "700㎡", H_GOLD)
+zone(s, xE, iy, cE, Inches(0.8), "仓储", "120㎡", "6E7CA6")
+zone(s, xE, Emu(iy + Inches(0.92)), cE, Inches(3.52), "OPC 社区培训中心", "650㎡", H_ACC)
+card(s, Inches(9.15), Inches(1.78), Inches(3.33), Inches(4.85), "楼层要点", accent=GOLD, items=[
     "50+ IP 展示 + 跨境展销贸易",
-    "四大产业集群：玩具·毛绒·潮玩·文创",
+    "四大集群：汕头玩具·扬州毛绒·东莞潮玩·文创",
     "顶层可办漫展 / 展览（门票+赞助）",
     "主轴：IP 内容 — 对齐「互联网内容创作」",
     "适配：IP 品牌方 / 玩具外贸 / 文创贸易",
     "培训 + 沙龙 + 小红书招募 → 经营性收入"])
-text(s, ML, Inches(6.6), Inches(8), Inches(0.3), "＊平面示意，依据一期方案面积数据复原；最终以物业实测与设计院图纸为准。", size=9.5, color=SOFT)
+text(s, ML, Inches(6.68), Inches(8), Inches(0.3), "＊依据一期方案平面图复原（分区/面积对应）；最终以物业实测与设计院图纸为准。", size=9.5, color=SOFT)
 
 # ---------- 9 章节03 ----------
 nxt(); divider(IDX, "03", "我们能带来什么", "WHAT WE BRING", "六大稀缺资源，全部可资产化为招商工具")
@@ -447,6 +445,86 @@ table(s, Inches(5.1), Inches(2.45), Inches(7.38), [
     ["累计消费", "额外折扣"], ["0 – 10 万", "5 折 ~ 7 折"], ["10 – 30 万", "4.5 折 ~ 5 折"],
     ["30 – 50 万", "4 折 ~ 4.5 折"], ["50 – 100 万", "3.5 折 ~ 4 折"], ["100 – 300 万", "3 折 ~ 3.5 折"],
     ["300 – 500 万+", "2.5 折 ~ 3 折"]], [0.5, 0.5], sizes=[13, 13], rh=Inches(0.5), head_rh=Inches(0.44), first_col_color=INK)
+
+# ---------- 政策工具箱 · 三端赋能 ----------
+nxt(); s = slide(); header(s, "04", "POLICY TOOLBOX", "人工智能+数字内容 · 政策工具箱（三端）"); footer(s, IDX)
+tri = [("企业端 · 补给企业", GOLD, [
+    "科技创新券：企业≤30万/年、团队≤10万/年（≤50%）",
+    "模塑申城：算力券 / 模型券 / 语料券",
+    "高企首认 20万；专精特新市级 10万 / 国家小巨人 30万",
+    "AI 大数据房租 2.0 元/天/㎡（人均 15㎡）≤100万",
+    "经营性奖励 + 参保奖励（10–20 人给 10万，超 20 每人≤1.5万）"]),
+    ("载体端 · 强平台", ACC, [
+    "科技服务业：成果转化服务平台≤100万/年运营补贴",
+    "服务业引导资金：市级≥500万投资 / 区级 500–1000万，≤300万",
+    "OPC 超级个体社区：AI 工具链 / 智能体 / Tokens券 / 大厂团队 各≤1000–2000万",
+    "未来产业试验场 / 加速器（认定后申报）",
+    "→ 把创智汇做成「经认定载体 + 成果转化服务平台」"]),
+    ("场景端 · 造场景", ACC2, [
+    "AI 微短剧集聚区（徐汇/杨浦/闵行）：智能体≤研发20%≤1000万",
+    "优秀微短剧≤300万；优质厂牌≤200万；出海≤50万；课程≤20万",
+    "标志性重大应用场景 / 创新产品市场化应用（联合≤5家采购）",
+    "消费新场景专项：补助≤30%、≥100万、累计≤2000万",
+    "→ 5楼做「AI 数字内容高价值应用场景」"])]
+for i, (t, c, items) in enumerate(tri):
+    x = Emu(ML + i * Inches(3.94))
+    card(s, x, Inches(1.8), Inches(3.72), Inches(4.55), title=t, items=items, accent=c, bsize=10.8)
+text(s, ML, Inches(6.5), Inches(11.6), Inches(0.3),
+     "＊政策口径以各级政府最新发布文件为准；「经认定」类政策需先取得认定资格方可对外兑现。", size=9.5, color=SOFT)
+
+# ---------- 政企联动 · 辅助招商定位 ----------
+nxt(); s = slide(); header(s, "04", "GOV-ENTERPRISE SYNERGY", "政企联动 · 辅助招商定位"); footer(s, IDX)
+rect(s, ML, Inches(1.75), CW, Inches(0.95), grad=[(0, "23315A", None), (100, "1A2340", None)], gang=0, line=GOLD, lw=1.25, radius=True)
+text(s, Inches(1.1), Inches(1.75), Inches(11.2), Inches(0.95),
+     [("招商定位　", GOLD, True), ("创智汇 = 杨浦「AI + 数字内容」孵化转化载体 + 场景清单发布平台（3F 孵化转化 · 5F 场景应用与交易）", INK, True)],
+     size=15, anchor=MSO_ANCHOR.MIDDLE)
+syn = [("企业端 → 招什么", GOLD, "招「能拿补贴的优质企业」：AI/AIGC、数字人、智能体、AI 微短剧、内容生成工具、科技型中小；用三券与房租/经营奖励做入驻礼包。"),
+       ("载体端 → 靠什么", ACC, "把创智汇做成经认定载体 / OPC 社区 / 成果转化服务平台 / 服务业园区，取得政策兑现资格与运营补贴。"),
+       ("场景端 → 卖什么", ACC2, "5楼做 AI 数字内容高价值应用场景、AI 微短剧承接点、创新产品市场化应用撮合，形成可背书的场景清单。")]
+for i, (t, c, d) in enumerate(syn):
+    x = Emu(ML + i * Inches(3.94))
+    card(s, x, Inches(2.9), Inches(3.72), Inches(1.95), title=t, body=d, accent=c, bsize=11.5)
+rect(s, ML, Inches(5.05), CW, Inches(1.5), grad=[(0, "1A2340", None), (100, "121A30", None)], gang=120, line=LINE, radius=True)
+rect(s, ML, Inches(5.05), Inches(0.07), Inches(1.5), fill=GREEN)
+text(s, Inches(1.1), Inches(5.18), Inches(11), Inches(0.4), "政企联动机制", size=14.5, color=GREEN, bold=True)
+bullets(s, Inches(1.1), Inches(5.62), Inches(5.6), Inches(0.9),
+        ["挂牌「杨浦科技企业服务中心」，接入政务快速通道",
+         "对接区科经委 / 发改委 / 文旅局 / 市经信委"], size=11.5, gap=4, mark=GREEN)
+bullets(s, Inches(6.9), Inches(5.62), Inches(5.5), Inches(0.9),
+        ["建企业「三券」适配表，联合公司承接申报",
+         "补贴归运营平台公司，反哺招商可信度"], size=11.5, gap=4, mark=GREEN)
+
+# ---------- 后续摸排清单 ----------
+nxt(); s = slide(); header(s, "04", "NEXT-STEP CHECKLIST", "后续摸排清单 · 政企联动落地"); footer(s, IDX)
+table(s, ML, Inches(1.8), CW, [
+    ["摸排事项", "对接部门", "目的 / 判定"],
+    ["能否按创新创业载体 / 成果转化服务平台 / 场景清单申报", "区科经委", "确立载体端政策兑现资格"],
+    ["3F 办公孵化 + 5F 展示交易能否作服务业引导资金项目", "区发改委", "核算投资是否达 500 万门槛"],
+    ["取得 OPC 超级个体社区「认定条件」", "区人民政府 / 科经委", "先决条件；未认定只能做协同点"],
+    ["杨浦 AI 微短剧集聚区承接空间；5F 可否作展示/路演/拍摄/协同点", "区文旅局", "确立场景端承接身份"],
+    ["建企业「算力/模型/语料」三券适配表", "市经信委 / 平台", "核查合同 / 账单 / 发票 / 使用日志"],
+    ["科企联 / 服务机构是否入驻创新券平台", "科企联 / 服务机构", "打通创新券在线下单核验兑付"],
+    ["入驻企业产品进《创新产品推荐目录》→ 5F 找采购/承租联合申报", "市经信委 / 采购方", "落地 5F 订单撮合机制"]],
+    [0.5, 0.2, 0.3], sizes=[11.5, 11, 11], rh=Inches(0.56), head_rh=Inches(0.46), first_col_color=GOLD)
+
+# ---------- 政企联动 · 生态闭环（双环） ----------
+nxt(); s = slide(); header(s, "04", "ECO CLOSED LOOP", "政企联动 · 生态闭环（双环驱动）"); footer(s, IDX)
+outer = [("政府政策", "YOUNG立方/长阳秀带/人工智能+/微短剧/火山引擎", GOLD),
+         ("平台承接", "载体认定 · 挂牌 · 成果转化服务平台", ACC),
+         ("精准招商", "政策礼包 · 三券适配 · 场景背书", ACC2),
+         ("企业成长", "联合公司：注册/申报/知产/融资/出海", GREEN),
+         ("场景与内容", "5F 微短剧/展贸/IP · 创新产品应用", ROSE),
+         ("补贴反哺", "补贴归平台 · 资质回流 · 能级提升", GOLD)]
+for i, (t, d, c) in enumerate(outer):
+    x = Emu(ML + (i % 3) * Inches(3.94)); y = Emu(Inches(1.8) + (i // 3) * Inches(1.55))
+    card(s, x, y, Inches(3.72), Inches(1.4), title=t, body=d, accent=c, tsize=14.5, bsize=11)
+    if i % 3 != 2:
+        chev(s, Emu(x + Inches(3.72)), Emu(y + Inches(0.45)))
+rect(s, ML, Inches(4.95), CW, Inches(1.6), grad=[(0, "1C2748", None), (100, "16203C", None)], gang=0, line=GOLD, lw=1, radius=True)
+text(s, Inches(1.1), Inches(5.08), Inches(11.2), Inches(0.4), [("双环驱动　", GOLD, True), ("① 政企联动闭环：政府—平台—企业—场景—补贴反哺，能级持续提升；② 产业生态闭环：内容引流—产业承接—商业变现—服务成长。", INK, False)], size=12)
+bullets(s, Inches(1.1), Inches(5.55), Inches(11), Inches(0.9),
+        ["政企联动：把政策转化为招商资格与兑现能力，越做越有背书",
+         "生态自进化：内容 × 产业 × 商业 × 服务相互反哺，摆脱单一租金依赖"], size=11.5, gap=4, mark=GOLD)
 
 # ---------- 15 章节05 招商 ----------
 nxt(); divider(IDX, "05", "招商方案", "LEASING STRATEGY", "IP + AI 双轨 · 楼层产品化 · 四级漏斗")
@@ -573,6 +651,27 @@ bullets(s, Inches(7.02), Inches(2.55), Inches(5.3), Inches(2.6), [
 rect(s, Inches(7.02), Inches(5.25), Inches(5.2), Inches(1.05), grad=[(0, "1C2748", None), (100, "16203C", None)], gang=0, line=LINE, radius=True)
 text(s, Inches(7.22), Inches(5.35), Inches(4.9), Inches(0.9),
      [("多元化收入　", GOLD, True), ("联合培训 + 小红书招募增经营性收入；顶层可办漫展/展览（门票+赞助）。", INK, False)], size=11.5, anchor=MSO_ANCHOR.MIDDLE, space=1.15)
+
+# ---------- 媒体合作报价（媒体服务协议） ----------
+nxt(); s = slide(); header(s, "07", "MEDIA QUOTATION", "媒体合作报价 · 完整生态传播包"); footer(s, IDX)
+table(s, ML, Inches(1.78), Inches(8.35), [
+    ["服务项目", "数量", "说明"],
+    ["原创内容生产", "3 篇", "结合品牌定位，品牌宣传稿 + 营销活动稿原创采写"],
+    ["中央级/全国性/上海主流媒体宣发", "10 篇", "央视/人民网/新华网/第一财经/澎湃/界面等"],
+    ["全国社交平台流量投放", "—", "抖音 / 今日头条信息流，投放上海（不含短视频拍摄制作）"],
+    ["营销策划与舆情管理咨询", "≤2 次", "营销策划咨询 + 媒体舆情协调处理"]],
+    [0.42, 0.13, 0.45], sizes=[12, 11.5, 11], rh=Inches(0.62), head_rh=Inches(0.48), first_col_color=INK)
+rect(s, ML, Inches(5.2), Inches(8.35), Inches(1.35), grad=[(0, "23315A", None), (100, "1A2340", None)], gang=0, line=GOLD, lw=1.25, radius=True)
+text(s, Inches(1.1), Inches(5.35), Inches(8), Inches(0.5),
+     [("折后总价　", GOLD, True), ("5 万元", GOLD, True), ("（媒体总曝光量预计 ≥ 150 万）", INK, True)], size=17)
+text(s, Inches(1.1), Inches(5.95), Inches(8), Inches(0.5),
+     [("交付：", MUT, False), ("合作结束提供完整投放报告（发布链接证明 + 曝光量证明 + 投放分析）", INK, False)], size=11.5)
+card(s, Inches(9.42), Inches(1.78), Inches(3.06), Inches(2.35), "服务周期", accent=GOLD,
+     body="自签约起至 2026.12.31；服务期满可续，乙方享优先续约权。合作内容可按宣传需要调整。")
+card(s, Inches(9.42), Inches(4.28), Inches(3.06), Inches(2.27), "传播策略", accent=ACC, items=[
+    "主流媒体引领，权威发声定调",
+    "抖音 + 头条：广度覆盖 + 深度触达",
+    "信息流精准算法，锁定目标人群"])
 
 # ---------- 24 收益测算 ----------
 nxt(); s = slide(); header(s, "07", "ROI", "收益模型 · 对方视角测算"); footer(s, IDX)
