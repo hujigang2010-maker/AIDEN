@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 生成《与夏春先生 · 长三角战略合作建议方案》PPT
-机构：复旦大学住房政策研究中心 × 杨浦区科技企业联合会
+机构：复旦大学住房政策研究中心 × 上海市杨浦区科技企业联合会 × 上海市科技企业联合会
 """
 from pptx import Presentation
 from pptx.util import Inches, Pt, Emu
@@ -107,7 +107,7 @@ def footer(slide, title):
     PAGE["n"] += 1
     add_rect(slide, 0, SH - Inches(0.4), SW, Inches(0.4), NAVY)
     add_text(slide, Inches(0.5), SH - Inches(0.39), Inches(9), Inches(0.36),
-             [[("复旦大学住房政策研究中心  ×  杨浦区科技企业联合会", 9, GOLD_L, False)]],
+             [[("复旦大学住房政策研究中心 × 上海市杨浦区科技企业联合会 × 上海市科技企业联合会", 9, GOLD_L, False)]],
              anchor=MSO_ANCHOR.MIDDLE)
     add_text(slide, SW - Inches(4.5), SH - Inches(0.39), Inches(4), Inches(0.36),
              [[(f"{title}    |    {PAGE['n']:02d}", 9, WHITE, False)]],
@@ -154,17 +154,17 @@ add_text(s, Inches(0.9), Inches(4.4), Inches(8), Inches(1.0),
           [("交付载体：本方案（PPT）+ 配套测算与清单（Excel）", 12.5, RGBColor(0xC7,0xD2,0xE0), False)]],
          line_spacing=1.25)
 add_text(s, Inches(0.9), Inches(6.35), Inches(8.5), Inches(0.8),
-         [[("提报机构：复旦大学住房政策研究中心   ×   杨浦区科技企业联合会", 13, WHITE, False)],
+         [[("提报机构：复旦大学住房政策研究中心 × 上海市杨浦区科技企业联合会 × 上海市科技企业联合会", 12, WHITE, False)],
           [("2026 年 7 月", 11.5, GOLD_L, False)]], line_spacing=1.3)
 # 右侧竖排要点
 add_text(s, SW - Inches(4.3), Inches(1.4), Inches(3.6), Inches(4.8),
          [[("合作要点", 16, GOLD, True)],
           [("", 6, WHITE, False)],
-          [("① 长期战略协作 + 3 个月敏感性过渡", 12.5, WHITE, False)],
+          [("① 长期深化合作 + 3 个月适度过渡", 12.5, WHITE, False)],
           [("", 4, WHITE, False)],
           [("② 长三角区域服务总代理", 12.5, WHITE, False)],
           [("", 4, WHITE, False)],
-          [("③ 依托复旦 + 杨浦科委双背书", 12.5, WHITE, False)],
+          [("③ 依托复旦 + 市 / 区科技企业联合会背书", 12.5, WHITE, False)],
           [("", 4, WHITE, False)],
           [("④ 只做新区域增量，区隔新老团队", 12.5, WHITE, False)],
           [("", 4, WHITE, False)],
@@ -210,8 +210,8 @@ cards = [
      "聚焦全球宏观、资产配置、投资策略与行为金融：美联储与美债美股、黄金、香港虚拟资产 / RWA、中国经济“韧性”与 K 型分化，正是长三角高净值与科创人群最关注的议题。", TEAL),
     ("◆", "长三角：增量最大的落地市场",
      "长三角高净值人群与产业资本高度密集，科创企业集群成熟。夏春线上影响力强、但区域线下承接与机构化运营长期缺位——这正是本次合作的价值缺口。", NAVY2),
-    ("◆", "窗口已现（源自双方沟通纪要）",
-     "会议纪要已明确香港游学窗口期（中东资金、RWA 虚拟货币）、科技企业参访（AI / 科技前沿）等方向，且看重复旦 / 科委背书突破企业与高校资源——与我方禀赋精准匹配。", GOLD),
+    ("◆", "窗口已现 · 前期已充分沟通",
+     "双方前期沟通已明确香港游学窗口期（中东资金、RWA 虚拟货币）、科技企业参访（AI / 科技前沿）等方向，且看重复旦 + 市 / 区科技企业联合会背书突破企业与高校资源——与我方禀赋精准匹配。", GOLD),
 ]
 x0, y0, cw, ch, gx, gy = Inches(0.6), Inches(1.65), Inches(6.0), Inches(2.45), Inches(0.2), Inches(0.2)
 for i, (ic, h, b, ac) in enumerate(cards):
@@ -226,7 +226,7 @@ s = prs.slides.add_slide(BLANK)
 bg(s)
 content_header(s, "02  KEY QUOTES & INSIGHTS", "夏春先生核心观点（语录）解析")
 add_text(s, Inches(0.6), Inches(1.42), Inches(12), Inches(0.35),
-         [[("说明：以下语录摘自夏春先生公开访谈 / 公众号 · 视频号内容，并结合双方沟通纪要，提炼为长三角合作切入点。", 11, GREY, False, FONT, True)]])
+         [[("说明：以下语录摘自夏春先生公开访谈 / 公众号 · 视频号内容，并结合双方前期沟通，提炼为长三角合作切入点。", 11, GREY, False, FONT, True)]])
 quotes = [
     ("“2025 年……我个人更倾向于悲观派……需要更加警惕股债市场可能出现的危险。”",
      "稳健、风控优先的判断，天然契合长三角地产 / 高净值客群的避险配置焦虑。",
@@ -235,7 +235,7 @@ quotes = [
      "标志性、可复制的再平衡方法论，是可 IP 化的年度旗舰内容。",
      "→ 落地为长三角“年度资产配置盘点”旗舰活动 + 会员专栏，形成长期年度 IP。"),
     ("“香港对虚拟资产的接受度……速度甚至比美国更快；现货 ETF 允许实物兑换，全球首创。”",
-     "直接呼应纪要中的香港游学 RWA / 中东资金窗口期。",
+     "直接呼应双方共同关注的香港游学 RWA / 中东资金窗口期。",
      "→ 我方作为长三角组团总入口，承接“半天讲座 + 半天参访”香港游学。"),
     ("“可将加密资产视为美股七巨头之外的‘第八个巨头’，与美股相关性最高约 0.5。”",
      "行为金融 + 另类资产的独到洞见，精准命中科创 / 家办人群。",
@@ -243,7 +243,7 @@ quotes = [
     ("“我们更注重多元化分散、风险控制，寻找相对估值偏低但属同一投资逻辑的资产。”",
      "可迁移至不动产再配置，与复旦住房政策研究中心研究方向互补。",
      "→ 联合复旦推出“住房 / 不动产 + 大类资产”跨界研讨与课题。"),
-    ("（纪要）“香港游学需夏春博士全程参与；方案由夏春主导决策。”",
+    ("（前期沟通）“香港游学需夏春先生全程参与；方案由夏春先生主导决策。”",
      "夏春个人时间是核心稀缺资源，须为其减负。",
      "→ 我方承接全部执行、排期与履约，并以录播 / 图文复用降低其时间投入。"),
 ]
@@ -281,18 +281,18 @@ add_text(s, Inches(0.9), Inches(2.6), Inches(5.3), Inches(2.4),
 add_rect(s, Inches(6.8), Inches(1.7), Inches(5.9), Inches(3.4), CARD, shape=MSO_SHAPE.ROUNDED_RECTANGLE, shadow=True)
 add_rect(s, Inches(6.8), Inches(1.7), Inches(5.9), Inches(0.72), TEAL, shape=MSO_SHAPE.ROUNDED_RECTANGLE)
 add_text(s, Inches(7.05), Inches(1.7), Inches(5.5), Inches(0.72),
-         [[("杨浦区科技企业联合会", 17, WHITE, True)]], anchor=MSO_ANCHOR.MIDDLE)
+         [[("上海市杨浦区科技企业联合会（为主）", 15, WHITE, True)]], anchor=MSO_ANCHOR.MIDDLE)
 add_text(s, Inches(7.1), Inches(2.6), Inches(5.3), Inches(2.4),
          [[("• 杨浦（大创智 / 在线新经济）科创企业集群与会员企业", 12, GREY, False)],
-          [("• 科技企业参访的本地落地与组织能力（呼应纪要重点）", 12, GREY, False)],
-          [("• 政府侧资源与产业对接，服务科创企业家客群", 12, GREY, False)],
+          [("• 科技企业参访的本地落地与组织能力", 12, GREY, False)],
+          [("• 联合上海市科技企业联合会，市 / 区两级协同、资源更广", 12, GREY, False)],
           [("• 承接 AI / 科技前沿主题参访、企业内训与产业沙龙", 12, GREY, False)]], line_spacing=1.35)
 # 组合结论条
 add_rect(s, Inches(0.6), Inches(5.35), Inches(12.1), Inches(1.4), NAVY2, shape=MSO_SHAPE.ROUNDED_RECTANGLE)
 add_rect(s, Inches(0.6), Inches(5.35), Inches(0.13), Inches(1.4), GOLD, shape=MSO_SHAPE.ROUNDED_RECTANGLE)
 add_text(s, Inches(0.95), Inches(5.5), Inches(11.6), Inches(1.15),
          [[("组合优势 = 承接夏春 IP 的最佳区域平台", 15, GOLD_L, True)],
-          [("学术公信力（复旦） + 科创产业落地（杨浦科委） + 长三角本地网络，一站式解决夏春线下承接与机构化运营缺口，", 12, WHITE, False)],
+          [("学术公信力（复旦） + 科创产业落地（市 / 区科技企业联合会） + 长三角本地网络，一站式解决夏春线下承接与机构化运营缺口，", 12, WHITE, False)],
           [("既能做高端内容与政企研讨，又能规模化落地企业参访、财富沙龙与出海游学。", 12, WHITE, False)]],
          line_spacing=1.2)
 footer(s, "机构资源")
@@ -334,7 +334,7 @@ rows = [
     ("核心侧重", "内容生产、全国泛在影响", "金融产品与新业务孵化", "长三角区域落地与机构化承接"),
     ("目标客群", "全国粉丝 / 线上受众", "金融端存量客户", "长三角高净值 + 科创企业 + 高校 / 政府"),
     ("主要场景", "视频号 / 公众号内容", "金融配置与产品", "区域活动 / 参访 / 游学组团 / 内训"),
-    ("背书资源", "夏春个人 IP", "资本 / 金融资源", "复旦 + 杨浦科委 双背书 + 本地网络"),
+    ("背书资源", "夏春个人 IP", "资本 / 金融资源", "复旦 + 市 / 区科技企业联合会 背书 + 本地网络"),
     ("客户归属", "既有存量", "金融客户", "只做长三角新增增量，签不重叠条款"),
 ]
 tx, ty = Inches(0.6), Inches(1.75)
@@ -363,7 +363,7 @@ for j in range(4):
         y += row_h
     x += col_w[j]
 add_text(s, Inches(0.6), Inches(6.7), Inches(12), Inches(0.5),
-         [[("原则：不争夺存量、聚焦区域增量；边界清晰，与新老团队互补而非重叠（呼应纪要中“主导权 / 客户归属需界定”）。", 11.5, NAVY2, True)]])
+         [[("原则：不争夺存量、聚焦区域增量；边界清晰，与新老团队互补而非重叠（明确主导权 / 客户归属）。", 11.5, NAVY2, True)]])
 footer(s, "差异化")
 
 # =========================================================
@@ -376,13 +376,13 @@ content_header(s, "06  PHASING", "合作阶段：3 个月过渡 + 长期战略")
 add_rect(s, Inches(0.6), Inches(1.7), Inches(5.9), Inches(3.9), CARD, shape=MSO_SHAPE.ROUNDED_RECTANGLE, shadow=True)
 add_rect(s, Inches(0.6), Inches(1.7), Inches(5.9), Inches(0.8), TEAL, shape=MSO_SHAPE.ROUNDED_RECTANGLE)
 add_text(s, Inches(0.85), Inches(1.7), Inches(5.5), Inches(0.8),
-         [[("短期过渡 · 约 3 个月（敏感性适配期）", 15, WHITE, True)]], anchor=MSO_ANCHOR.MIDDLE)
+         [[("适度过渡 · 约 3 个月（双方适应与适配）", 15, WHITE, True)]], anchor=MSO_ANCHOR.MIDDLE)
 add_text(s, Inches(0.9), Inches(2.7), Inches(5.4), Inches(2.8),
-         [[("• 小步验证：单场跑通盈利模型，控风险", 12, GREY, False)],
-          [("• 建立信任与协作机制、明确对接人", 12, GREY, False)],
-          [("• 界定客户归属与分润规则", 12, GREY, False)],
-          [("• 签署合作备忘录（MOU）与区域授权草案", 12, GREY, False)],
-          [("• 敏感事项分步试探，随时可回调", 12, GREY, False)]], line_spacing=1.5)
+         [[("• 双方适应与适配，建立信任与协作机制", 12, GREY, False)],
+          [("• 小步落地：单场跑通盈利模型，控风险", 12, GREY, False)],
+          [("• 界定客户归属与收益分配规则", 12, GREY, False)],
+          [("• 签署合作备忘录（MOU）与区域独家授权草案", 12, GREY, False)],
+          [("• 敏感事项分步磨合，节奏可控", 12, GREY, False)]], line_spacing=1.5)
 # 长期
 add_rect(s, Inches(6.8), Inches(1.7), Inches(5.9), Inches(3.9), CARD, shape=MSO_SHAPE.ROUNDED_RECTANGLE, shadow=True)
 add_rect(s, Inches(6.8), Inches(1.7), Inches(5.9), Inches(0.8), NAVY, shape=MSO_SHAPE.ROUNDED_RECTANGLE)
@@ -390,15 +390,15 @@ add_text(s, Inches(7.05), Inches(1.7), Inches(5.5), Inches(0.8),
          [[("长期合作 · 深度战略协作", 15, WHITE, True)]], anchor=MSO_ANCHOR.MIDDLE)
 add_text(s, Inches(7.1), Inches(2.7), Inches(5.4), Inches(2.8),
          [[("• 区域独家总代理授权（多年期）", 12, GREY, False)],
+          [("• 收益分配清晰、数据共享，持续深化合作", 12, GREY, False)],
           [("• 共建长三角会员生态与 CRM 系统", 12, GREY, False)],
           [("• 年度活动 / 内容 / 游学 IP 化与品牌联合", 12, GREY, False)],
-          [("• 收益与数据共享、共同扩张", 12, GREY, False)],
           [("• 由点及面复制至长三角多城市", 12, GREY, False)]], line_spacing=1.5)
 # gate
 add_rect(s, Inches(0.6), Inches(5.85), Inches(12.1), Inches(0.9), GOLD, shape=MSO_SHAPE.ROUNDED_RECTANGLE)
 add_text(s, Inches(0.9), Inches(5.85), Inches(11.5), Inches(0.9),
-         [[("转正门槛（KPI Gate）：", 13, NAVY, True),
-           ("3 个月内完成 ≥3 场活动、达成营收 / 毛利 / 满意度阈值，即由过渡期自动转为长期区域独家。", 13, NAVY, False)]],
+         [[("过渡与转长期安排：", 13, NAVY, True),
+           ("三个月为双方适应与适配的适度过渡期；期间运作顺畅、无重大问题，即自动转为长期区域独家总代理，无需另设考核门槛。", 12.5, NAVY, False)]],
          anchor=MSO_ANCHOR.MIDDLE, line_spacing=1.15)
 footer(s, "合作阶段")
 
@@ -413,7 +413,7 @@ cards = [
     ("📈", "财富与资产配置沙龙", "夏春年度资产表 / 再平衡框架、黄金、美债美股；面向高净值客群的闭门研讨。", TEAL),
     ("✈", "香港 / 出海游学组团", "RWA、虚拟资产、中东资金窗口；半天讲座 + 半天参访，我方作长三角组团总入口。", NAVY2),
     ("📱", "内容本地化与私域", "公众号 / 视频号“长三角专栏”、会员分层与社群运营，沉淀区域私域资产。", GOLD),
-    ("🎓", "企业内训与政企研讨", "复旦住房政策中心 + 杨浦科委，承接企业内训与高规格政企对话。", TEAL),
+    ("🎓", "企业内训与政企研讨", "复旦住房政策中心 + 市 / 区科技企业联合会，承接企业内训与高规格政企对话。", TEAL),
     ("🧭", "家办 / 另类配置专场", "面向科创企业家、家族办公室的另类资产与行为金融专题。", NAVY2),
 ]
 x0, y0, cw, ch, gx, gy = Inches(0.6), Inches(1.65), Inches(4.0), Inches(2.4), Inches(0.15), Inches(0.15)
@@ -469,7 +469,7 @@ for i, (h, b, ac) in enumerate(risks):
     r, c = divmod(i, 2)
     bullet_card(s, x0 + c * (cw + gx), y0 + r * (ch + gy), cw, ch, "▲", h, b, ac)
 add_text(s, Inches(0.6), Inches(6.7), Inches(12), Inches(0.5),
-         [[("以上关键问题均源自双方沟通纪要“待解决问题”，将在 3 个月过渡期内逐项落定并写入合作备忘录。", 11.5, NAVY2, True)]])
+         [[("以上关键问题为双方前期沟通中的待解决事项，将在三个月适度过渡期内逐项落定并写入合作备忘录。", 11.5, NAVY2, True)]])
 footer(s, "风险管控")
 
 # =========================================================
@@ -477,11 +477,11 @@ footer(s, "风险管控")
 # =========================================================
 s = prs.slides.add_slide(BLANK)
 bg(s)
-content_header(s, "10  90-DAY PLAN & NEXT STEPS", "三个月过渡期行动计划与下一步")
+content_header(s, "10  90-DAY PLAN & NEXT STEPS", "三个月适度过渡期行动计划与下一步")
 months = [
-    ("第 1 月", "启动与共识", ["签署 MOU + 区域授权草案", "盘客 / 会员画像梳理", "首场活动策划立项"], TEAL),
+    ("第 1 月", "启动与共识", ["签署 MOU + 区域独家授权草案", "盘客 / 会员画像梳理", "首场活动策划立项"], TEAL),
     ("第 2 月", "首战落地", ["首场科技参访 / 资产沙龙落地", "香港游学预售启动", "私域 & CRM 搭建"], GOLD),
-    ("第 3 月", "复盘与转正", ["第 2–3 场活动落地", "财务复盘与满意度评估", "达标转长期独家评估"], NAVY),
+    ("第 3 月", "复盘与转长期", ["第 2–3 场活动落地", "运作复盘与双方磨合评估", "过渡顺畅 → 自动转长期"], NAVY),
 ]
 x0, y0, cw, ch, gx = Inches(0.6), Inches(1.7), Inches(3.9), Inches(3.5), Inches(0.22)
 for i, (m, theme, tasks, ac) in enumerate(months):
@@ -499,7 +499,7 @@ add_rect(s, Inches(0.6), Inches(5.5), Inches(12.15), Inches(1.2), NAVY2, shape=M
 add_rect(s, Inches(0.6), Inches(5.5), Inches(0.13), Inches(1.2), GOLD, shape=MSO_SHAPE.ROUNDED_RECTANGLE)
 add_text(s, Inches(0.95), Inches(5.62), Inches(11.6), Inches(1.0),
          [[("下一步", 14, GOLD_L, True),
-           ("：确认过渡期授权范围与首场活动档期 → 组建联合微信群同步进度（呼应纪要待办）→ 会签合作备忘录。", 13, WHITE, False)],
+           ("：确认过渡期独家授权范围与首场活动档期 → 组建联合微信群同步进度 → 会签合作备忘录。", 13, WHITE, False)],
           [("交付：本 PPT 方案 + 配套 Excel（语录解析表、3 个月计划、活动矩阵、财务测算、风险待办、KPI）。", 12, RGBColor(0xC7,0xD2,0xE0), False)]],
          line_spacing=1.3)
 footer(s, "行动计划")
@@ -516,7 +516,7 @@ add_text(s, Inches(0), Inches(2.9), SW, Inches(1.2),
           [("共建长三角财经内容与活动新生态", 30, GOLD_L, True)]],
          align=PP_ALIGN.CENTER, line_spacing=1.15)
 add_text(s, Inches(0), Inches(5.2), SW, Inches(0.8),
-         [[("复旦大学住房政策研究中心   ×   杨浦区科技企业联合会", 15, WHITE, False)],
+         [[("复旦大学住房政策研究中心 × 上海市杨浦区科技企业联合会 × 上海市科技企业联合会", 13, WHITE, False)],
           [("2026 年 7 月", 12, GOLD_L, False)]],
          align=PP_ALIGN.CENTER, line_spacing=1.4)
 
