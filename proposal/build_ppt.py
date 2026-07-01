@@ -17,13 +17,15 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 FONT = "Microsoft YaHei"
 FONT_EN = "Arial"
 
-BG_A = "0A0E1A"; BG_B = "151D38"
-PANEL = RGBColor(0x18, 0x21, 0x3E); PANEL2 = RGBColor(0x12, 0x19, 0x30)
-INK = RGBColor(0xF3, 0xF6, 0xFF); MUT = RGBColor(0x9A, 0xA8, 0xCC); SOFT = RGBColor(0x6E, 0x7C, 0xA6)
-ACC = RGBColor(0x5B, 0x8C, 0xFF); ACC2 = RGBColor(0x8A, 0x6C, 0xFF)
-GOLD = RGBColor(0xE6, 0xB8, 0x6A); GREEN = RGBColor(0x49, 0xD0, 0xA0); ROSE = RGBColor(0xF0, 0x7A, 0x8C)
-LINE = RGBColor(0x2C, 0x37, 0x59)
-H_ACC = "5B8CFF"; H_ACC2 = "8A6CFF"; H_GOLD = "E6B86A"; H_GREEN = "49D0A0"; H_ROSE = "F07A8C"
+# ===== 高端紫金主题（Royal Purple + Champagne Gold）=====
+BG_A = "1A1140"; BG_B = "3A206E"          # 深紫渐变背景
+PANEL = RGBColor(0x27, 0x1A, 0x4D); PANEL2 = RGBColor(0x1E, 0x15, 0x42)
+INK = RGBColor(0xF5, 0xF1, 0xFF); MUT = RGBColor(0xC6, 0xBA, 0xEA); SOFT = RGBColor(0x94, 0x86, 0xC4)
+ACC = RGBColor(0x8B, 0x7B, 0xFF); ACC2 = RGBColor(0xC7, 0x7D, 0xFF)   # 蓝紫 / 兰紫
+GOLD = RGBColor(0xE9, 0xC2, 0x7C); GREEN = RGBColor(0x56, 0xD6, 0xB6); ROSE = RGBColor(0xF5, 0x8B, 0xB8)
+LINE = RGBColor(0x4A, 0x3C, 0x7C)
+H_ACC = "8B7BFF"; H_ACC2 = "C77DFF"; H_GOLD = "E9C27C"; H_GREEN = "56D6B6"; H_ROSE = "F58BB8"
+DARKTX = RGBColor(0x24, 0x14, 0x40)       # 徽标上的深色字
 
 SW, SH = Inches(13.333), Inches(7.5)
 ML = Inches(0.85); CW = Inches(11.63)
@@ -64,7 +66,7 @@ def slide(gradient=True):
     if gradient:
         _set_gradient(bg, [(0, BG_A, None), (55, BG_B, None), (100, BG_A, None)], 120)
     else:
-        bg.fill.solid(); bg.fill.fore_color.rgb = RGBColor(0x0A, 0x0E, 0x1A)
+        bg.fill.solid(); bg.fill.fore_color.rgb = DARKTX
     s.shapes._spTree.remove(bg._element); s.shapes._spTree.insert(2, bg._element)
     return s
 
@@ -142,8 +144,8 @@ def header(s, sec, eyebrow, title):
 
 def footer(s, idx):
     text(s, ML, Inches(7.0), Inches(9), Inches(0.32),
-         [("创智汇 ", SOFT, False), ("CHUANGZHIHUI", SOFT, False, FONT_EN),
-          ("  ·  6600㎡ AI+IP 产业创新中心 · 谈判集中汇报", SOFT, False)], size=9.5)
+         [("上海创智汇 ", SOFT, False), ("CHUANGZHIHUI", SOFT, False, FONT_EN),
+          ("  ·  AI+数字内容无界共创港 · 6600㎡ 谈判集中汇报", SOFT, False)], size=9.5)
     rs = text(s, Inches(11.2), Inches(7.0), Inches(1.63), Inches(0.32),
               [("%02d" % idx, GOLD, True, FONT_EN), (" / 00", SOFT, False, FONT_EN)],
               size=10.5, align=PP_ALIGN.RIGHT)
@@ -152,13 +154,13 @@ def footer(s, idx):
 
 def card(s, x, y, w, h, title=None, body=None, items=None, accent=ACC, tcolor=INK,
          num=None, tsize=15.5, bsize=12.5):
-    rect(s, x, y, w, h, grad=[(0, "1A2340", None), (100, "121A30", None)], gang=120, line=LINE, lw=1, radius=True)
+    rect(s, x, y, w, h, grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=LINE, lw=1, radius=True)
     rect(s, x, y, Inches(0.07), h, fill=accent)
     ty = Emu(y + Inches(0.2)); tx = Emu(x + Inches(0.34))
     if num is not None:
         d = Inches(0.5)
         rect(s, tx, Emu(y + Inches(0.22)), d, d, grad=[(0, H_ACC, None), (100, H_ACC2, None)], gang=120, radius=True)
-        text(s, tx, Emu(y + Inches(0.22)), d, d, num, size=16, color=RGBColor(0x0A, 0x0E, 0x1A), bold=True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE, font=FONT_EN)
+        text(s, tx, Emu(y + Inches(0.22)), d, d, num, size=16, color=DARKTX, bold=True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE, font=FONT_EN)
         tx = Emu(x + Inches(1.0))
     if title:
         text(s, tx, ty, Emu(w - (tx - x) - Inches(0.2)), Inches(0.5), title, size=tsize, color=tcolor, bold=True,
@@ -174,9 +176,9 @@ def table(s, x, y, w, rows, col_w, sizes=None, rh=Inches(0.52), head_rh=Inches(0
     for ri, row in enumerate(rows):
         cur_h = head_rh if ri == 0 else rh
         if ri == 0:
-            rect(s, x, cy, w, cur_h, grad=[(0, "20294A", None), (100, "1A2240", None)], gang=0)
+            rect(s, x, cy, w, cur_h, grad=[(0, "36276C", None), (100, "2A1E55", None)], gang=0)
         elif ri % 2 == 0:
-            rect(s, x, cy, w, cur_h, fill=RGBColor(0x10, 0x17, 0x2C))
+            rect(s, x, cy, w, cur_h, fill=RGBColor(0x22, 0x18, 0x44))
         cx = x
         for ci, cell in enumerate(row):
             cwid = Emu(int(w * col_w[ci]))
@@ -236,16 +238,17 @@ nxt(); s = slide()
 oval(s, Inches(8.3), Inches(-2.0), Inches(7.5), Inches(7.5), grad=[(0, H_ACC, 22), (100, BG_A, 0)], gang=120)
 oval(s, Inches(9.6), Inches(3.2), Inches(5.5), Inches(5.5), grad=[(0, H_ACC2, 18), (100, BG_A, 0)], gang=120)
 rect(s, 0, 0, Inches(0.16), SH, grad=[(0, H_GOLD, None), (100, H_ACC2, None)], gang=90)
-text(s, ML, Inches(1.02), Inches(11), Inches(0.4), [("CHUANGZHIHUI · WUJIAOCHANG URBAN RENEWAL", GOLD, True, FONT_EN)], size=13, spacing=3)
-rect(s, ML, Inches(1.6), Inches(0.9), Pt(2.5), fill=GOLD)
-text(s, ML, Inches(1.86), Inches(11.4), Inches(1.7),
-     [("创智汇 ", INK, True), ("6600㎡", GOLD, True), ("\nAI + IP 产业创新中心 · 招商运营合作", INK, True)], size=39, bold=True, space=1.12)
-text(s, ML, Inches(3.66), Inches(11.4), Inches(0.5), [("谈 判 集 中 汇 报", MUT, False)], size=17, spacing=4)
-text(s, ML, Inches(4.24), Inches(11.4), Inches(0.9),
+text(s, ML, Inches(0.95), Inches(11), Inches(0.4), [("SHANGHAI CHUANGZHIHUI · WUJIAOCHANG", GOLD, True, FONT_EN)], size=13, spacing=3)
+rect(s, ML, Inches(1.52), Inches(0.9), Pt(2.5), fill=GOLD)
+text(s, ML, Inches(1.78), Inches(11.6), Inches(1.7),
+     [("上海创智汇", INK, True), ("\nAI + 数字内容无界共创港", GOLD, True)], size=40, bold=True, space=1.14)
+text(s, ML, Inches(3.62), Inches(11.6), Inches(0.5),
+     [("6600㎡ 招商运营合作", MUT, False), ("　·　", SOFT, False), ("谈判集中汇报", MUT, False)], size=16, spacing=1)
+text(s, ML, Inches(4.2), Inches(11.6), Inches(0.9),
      [("五角场片区城市更新 · 创智汇（一期）OPC + AI + IP 创新中心\n", MUT, False),
       ("3 楼 孵化器 + 办公 ≈ ", MUT, False), ("2850㎡", GOLD, True),
       ("      5 楼 展厅 + 贸易 ≈ ", MUT, False), ("3670㎡", GOLD, True)], size=15, space=1.5)
-tags = ["政策导入 · 招商闭环", "三年合作 · 可复制", "协同周边 ≤ 2 个项目", "参照「森马 × 元谷」打法"]
+tags = ["以 AI + 数字内容 为产业主轴", "政策导入 · 政企联动闭环", "三年合作 · 协同复制"]
 tx = ML
 for t in tags:
     wd = Inches(0.42 + len(t) * 0.14)
@@ -253,7 +256,7 @@ for t in tags:
     text(s, tx, Inches(5.5), wd, Inches(0.52), t, size=11.5, color=INK, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
     tx = Emu(tx + wd + Inches(0.2))
 rect(s, ML, Inches(6.5), CW, Pt(1), fill=LINE)
-text(s, ML, Inches(6.62), Inches(11), Inches(0.4), [("v2.0 谈判稿", GOLD, True), ("    本汇报仅用于商务谈判沟通", SOFT, False)], size=11)
+text(s, ML, Inches(6.62), Inches(11), Inches(0.4), [("v3.0 谈判稿", GOLD, True), ("    项目定位（三选一）：AI+数字内容无界共创港 / AI+数据智能产业创新中心 / AI+在线新经济产业创新港", SOFT, False)], size=10.5)
 
 # ---------- 2 议程 ----------
 nxt(); s = slide(); header(s, "", "AGENDA", "汇报议程 · 九大板块"); footer(s, IDX)
@@ -270,10 +273,32 @@ for i, (n, t, d) in enumerate(ag):
     text(s, Emu(x + Inches(1.25)), Emu(y + Inches(0.26)), Emu(cw - Inches(1.4)), Inches(0.4), t, size=15, color=INK, bold=True)
     text(s, Emu(x + Inches(0.32)), Emu(y + Inches(0.86)), Emu(cw - Inches(0.5)), Inches(0.4), d, size=11, color=MUT)
 
+# ---------- 项目定位 ----------
+nxt(); s = slide(); header(s, "", "POSITIONING", "项目定位 · 产业定位方向"); footer(s, IDX)
+text(s, ML, Inches(1.72), Inches(11), Inches(0.35), "项目命名（三选一）", size=14, color=GOLD, bold=True)
+names = [("方案一 · 推荐", "上海创智汇 · AI + 数字内容无界共创港", "最贴合「AI+数字内容」主轴与共创理念", GOLD, True),
+         ("方案二", "上海创智汇 · AI + 数据智能产业创新中心", "偏 AI 数据智能与硬科技定位", ACC, False),
+         ("方案三", "上海创智汇 · AI + 在线新经济产业创新港", "对齐杨浦「在线新经济」政策品牌", ACC2, False)]
+for i, (tag, nm, d, c, rec) in enumerate(names):
+    y = Emu(Inches(2.15) + i * Inches(0.92))
+    rect(s, ML, y, CW, Inches(0.8), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120,
+         line=(GOLD if rec else LINE), lw=(1.5 if rec else 1), radius=True)
+    rect(s, ML, y, Inches(0.07), Inches(0.8), fill=c)
+    text(s, Emu(ML + Inches(0.3)), y, Inches(2.1), Inches(0.8), [(tag, c, True)], size=13, anchor=MSO_ANCHOR.MIDDLE)
+    text(s, Emu(ML + Inches(2.5)), y, Inches(6.3), Inches(0.8), [(nm, INK, True)], size=17, anchor=MSO_ANCHOR.MIDDLE)
+    text(s, Emu(ML + Inches(8.7)), y, Inches(2.8), Inches(0.8), d, size=10.5, color=MUT, anchor=MSO_ANCHOR.MIDDLE, space=1.1)
+rect(s, ML, Inches(5.05), CW, Inches(1.55), grad=[(0, "3A2878", None), (100, "2A1E55", None)], gang=0, line=GOLD, lw=1.25, radius=True)
+text(s, Inches(1.1), Inches(5.18), Inches(11.2), Inches(0.4), [("产业定位方向　", GOLD, True), ("（经商讨暂定）", SOFT, False)], size=13.5)
+text(s, Inches(1.1), Inches(5.6), Inches(11.2), Inches(0.95),
+     [("以 ", MUT, False), ("人工智能和数字内容", GOLD, True), ("为产业主轴，重点承接 ", MUT, False),
+      ("AI 微短剧、AIGC 内容生产、数字 IP、创意设计、智能营销、在线新经济、OPC 超级个体", INK, True),
+      (" 等应用场景；并通过 办公空间 · 展示交易 · 订单撮合 · 政策服务 · 高校大厂资源 · IP 资源 · 出海服务，为入驻企业提供从落地到增长的综合服务。", MUT, False)],
+     size=12.5, space=1.28)
+
 # ---------- 3 关键信息 ----------
 nxt(); s = slide(); header(s, "00", "FACT SHEET", "关键信息提取 · 项目基本盘"); footer(s, IDX)
 y0 = Inches(1.78)
-rect(s, ML, y0, Inches(6.05), Inches(3.05), grad=[(0, "1A2340", None), (100, "121A30", None)], gang=120, line=LINE, radius=True)
+rect(s, ML, y0, Inches(6.05), Inches(3.05), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=LINE, radius=True)
 table(s, Emu(ML + Inches(0.18)), Emu(y0 + Inches(0.2)), Inches(5.7), [
     ["项目", "内容"], ["位置", "上海杨浦五角场 · 创智汇（创智天地）"], ["合作面积", "约 6600㎡"],
     ["3 楼 ≈2850㎡", "孵化器 + 办公（AI / OPC 主轴）"], ["5 楼 ≈3670㎡", "展厅 + 贸易（IP 内容主轴）"],
@@ -308,7 +333,7 @@ for i, (n, t, d) in enumerate(pts):
     x = Emu(ML + i * Inches(3.94))
     card(s, x, Inches(4.05), Inches(3.72), Inches(1.5), num=n, title=t, accent=GOLD)
     text(s, Emu(x + Inches(0.34)), Emu(Inches(4.05) + Inches(0.8)), Inches(3.3), Inches(0.66), d, size=11.5, color=MUT, space=1.18)
-rect(s, ML, Inches(5.78), CW, Inches(1.0), grad=[(0, "1C2748", None), (100, "16203C", None)], gang=0, line=GOLD, lw=1, radius=True)
+rect(s, ML, Inches(5.78), CW, Inches(1.0), grad=[(0, "322462", None), (100, "221848", None)], gang=0, line=GOLD, lw=1, radius=True)
 text(s, Inches(1.1), Inches(5.78), Inches(11.1), Inches(1.0),
      [("核心共识　", GOLD, True), ("把 6600㎡ 升级为「产业空间合作运营项目」——我方输出 政策 + 招商 + 产业资源 + 活动 + 媒体 五项能力，按「基础运营费 + 招商佣金 + 增值分成」取酬。", INK, False)],
      size=13.5, anchor=MSO_ANCHOR.MIDDLE, space=1.2)
@@ -319,7 +344,7 @@ nxt(); divider(IDX, "02", "空间与平面图", "SPACE & FLOOR PLAN", "3F 孵化
 # ---------- 7 3F 平面图（按真实布局复原） ----------
 nxt(); s = slide(); header(s, "02", "FLOOR PLAN · 3F", "3 楼平面布局 · OPC + AI + IP 创新中心 ≈ 2850㎡"); footer(s, IDX)
 fx, fy, fw, fh = ML, Inches(1.78), Inches(8.05), Inches(4.85)
-rect(s, fx, fy, fw, fh, line=GOLD, lw=1.5, radius=True, grad=[(0, "111830", None), (100, "0D1326", None)], gang=120)
+rect(s, fx, fy, fw, fh, line=GOLD, lw=1.5, radius=True, grad=[(0, "231A4A", None), (100, "1A1236", None)], gang=120)
 pad = Inches(0.18)
 ix, iy = Emu(fx + pad), Emu(fy + pad); iw = Emu(fw - pad * 2); ih = Emu(fh - pad * 2)
 lw = Emu(iw * 0.56); gp = Inches(0.16); rx = Emu(ix + lw + gp); rwd = Emu(iw - lw - gp)
@@ -343,7 +368,7 @@ text(s, ML, Inches(6.68), Inches(8), Inches(0.3), "＊依据一期方案平面�
 # ---------- 8 5F 平面图（按真实布局复原） ----------
 nxt(); s = slide(); header(s, "02", "FLOOR PLAN · 5F", "5 楼平面布局 · 综合集群展厅 ≈ 3670㎡"); footer(s, IDX)
 fx, fy, fw, fh = ML, Inches(1.78), Inches(8.05), Inches(4.85)
-rect(s, fx, fy, fw, fh, line=GOLD, lw=1.5, radius=True, grad=[(0, "111830", None), (100, "0D1326", None)], gang=120)
+rect(s, fx, fy, fw, fh, line=GOLD, lw=1.5, radius=True, grad=[(0, "231A4A", None), (100, "1A1236", None)], gang=120)
 ix, iy = Emu(fx + pad), Emu(fy + pad); iw = Emu(fw - pad * 2); ih = Emu(fh - pad * 2)
 g = Inches(0.12)
 cA = Emu(iw * 0.205); cB = Emu(iw * 0.09); cC = Emu(iw * 0.225); cD = Emu(iw * 0.225); cE = Emu(iw * 0.205)
@@ -354,7 +379,7 @@ zone(s, xC, iy, cC, Inches(1.3), "东莞潮玩产业集群", "330㎡", H_GREEN)
 zone(s, xC, Emu(iy + Inches(1.42)), cC, Inches(3.02), "汕头玩具产业集群", "900㎡", H_ACC2)
 zone(s, xD, iy, cD, Inches(1.12), "AI 智能产业集群", "270㎡", H_GOLD)
 zone(s, xD, Emu(iy + Inches(1.24)), cD, Inches(3.2), "扬州毛绒产业集群", "700㎡", H_GOLD)
-zone(s, xE, iy, cE, Inches(0.8), "仓储", "120㎡", "6E7CA6")
+zone(s, xE, iy, cE, Inches(0.8), "仓储", "120㎡", "9486C4")
 zone(s, xE, Emu(iy + Inches(0.92)), cE, Inches(3.52), "OPC 社区培训中心", "650㎡", H_ACC)
 card(s, Inches(9.15), Inches(1.78), Inches(3.33), Inches(4.85), "楼层要点", accent=GOLD, items=[
     "50+ IP 展示 + 跨境展销贸易",
@@ -380,7 +405,7 @@ cw2 = Inches(3.78); ch2 = Inches(1.72)
 for i, (t, d, c) in enumerate(res):
     x = Emu(ML + (i % 3) * (cw2 + Inches(0.14))); y = Emu(Inches(1.8) + (i // 3) * (ch2 + Inches(0.2)))
     card(s, x, y, cw2, ch2, title=t, body=d, accent=c, bsize=11.5)
-rect(s, ML, Inches(5.95), CW, Inches(0.72), grad=[(0, "1C2748", None), (100, "16203C", None)], gang=0, line=LINE, radius=True)
+rect(s, ML, Inches(5.95), CW, Inches(0.72), grad=[(0, "322462", None), (100, "221848", None)], gang=0, line=LINE, radius=True)
 text(s, Inches(1.1), Inches(5.95), Inches(11), Inches(0.72),
      [("普通园区「发广告 · 等上门」；六维齐发 → 客户 ", MUT, False), ("「被送进来」而非「被拉进来」。", GOLD, True)], size=13.5, anchor=MSO_ANCHOR.MIDDLE)
 
@@ -403,7 +428,7 @@ for i, (t, tag, d, c) in enumerate(pol):
     text(s, Emu(x + Inches(0.34)), Emu(y + Inches(0.16)), Inches(3.9), Inches(0.4), t, size=14.5, color=INK, bold=True)
     text(s, Emu(x + Inches(0.34)), Emu(y + Inches(0.52)), Inches(5.1), Inches(0.3), [(tag, c, True)], size=10.5)
     text(s, Emu(x + Inches(0.34)), Emu(y + Inches(0.82)), Inches(5.15), Inches(0.66), d, size=10.3, color=MUT, space=1.14)
-rect(s, ML, Inches(5.35), CW, Inches(1.32), grad=[(0, "23315A", None), (100, "1A2340", None)], gang=0, line=GOLD, lw=1, radius=True)
+rect(s, ML, Inches(5.35), CW, Inches(1.32), grad=[(0, "3A2878", None), (100, "2A1E55", None)], gang=0, line=GOLD, lw=1, radius=True)
 text(s, Inches(1.1), Inches(5.5), Inches(11.2), Inches(0.4), [("关键卡位　", GOLD, True), ("创智汇位于创智天地——正是 YOUNG立方「一楼(V聚场6号楼) · 一街(大学路) · 一园(B站新世代产业园) · 一区」核心腹地。", INK, False)], size=12.5)
 text(s, Inches(1.1), Inches(5.95), Inches(11.2), Inches(0.6), [("　　　　　　", GOLD, True), ("政策适配度极高：3F AI 孵化对齐「人工智能+」，5F IP 内容 / 微短剧对齐「互联网内容创作」，可直接承接补贴与载体认定。", MUT, False)], size=11.5, space=1.15)
 text(s, ML, Inches(6.72), Inches(11.6), Inches(0.2), "＊政策口径以杨浦区政府最新发布文件为准，本页为要点提炼。", size=9, color=SOFT)
@@ -424,7 +449,7 @@ for i, (n, t, d, c) in enumerate(steps):
     text(s, Emu(x + Inches(0.26)), Emu(y + Inches(1.3)), Emu(cwf - Inches(0.4)), Inches(1.1), d, size=10, color=MUT, space=1.15)
     if i < 4:
         chev(s, Emu(x + cwf), Emu(y + Inches(0.95)))
-rect(s, ML, Inches(5.0), CW, Inches(1.55), grad=[(0, "1C2748", None), (100, "16203C", None)], gang=0, line=GOLD, lw=1, radius=True)
+rect(s, ML, Inches(5.0), CW, Inches(1.55), grad=[(0, "322462", None), (100, "221848", None)], gang=0, line=GOLD, lw=1, radius=True)
 text(s, Inches(1.1), Inches(5.15), Inches(11.2), Inches(0.4), [("闭环逻辑　", GOLD, True), ("政策吸引企业 → 企业落位对齐产业 → 高效招商去化 → 联合公司服务企业成长 → 补贴/资质反哺平台 → 再吸引更优企业。", INK, False)], size=12.5)
 bullets(s, Inches(1.1), Inches(5.65), Inches(11), Inches(0.9),
         ["越招越准：政策把符合赛道的企业「筛」进来，去化质量高、租金承载强",
@@ -439,7 +464,7 @@ card(s, ML, Inches(4.0), Inches(4.05), Inches(2.5), "作为招商抓手", accent
     "叠加腾讯云免 2 月 / 85 折",
     "打造「创智汇专有算力政策包」",
     "签约共建，作为 AI 企业入驻礼包"])
-rect(s, Inches(5.1), Inches(1.8), Inches(7.38), Inches(0.55), grad=[(0, "20294A", None), (100, "1A2240", None)], gang=0, radius=True)
+rect(s, Inches(5.1), Inches(1.8), Inches(7.38), Inches(0.55), grad=[(0, "36276C", None), (100, "2A1E55", None)], gang=0, radius=True)
 text(s, Inches(5.3), Inches(1.8), Inches(7), Inches(0.55), [("二、大客户额外折扣（代金券之外，累计消费越多折扣越低）", GOLD, True)], size=13, anchor=MSO_ANCHOR.MIDDLE)
 table(s, Inches(5.1), Inches(2.45), Inches(7.38), [
     ["累计消费", "额外折扣"], ["0 – 10 万", "5 折 ~ 7 折"], ["10 – 30 万", "4.5 折 ~ 5 折"],
@@ -474,7 +499,7 @@ text(s, ML, Inches(6.5), Inches(11.6), Inches(0.3),
 
 # ---------- 政企联动 · 辅助招商定位 ----------
 nxt(); s = slide(); header(s, "04", "GOV-ENTERPRISE SYNERGY", "政企联动 · 辅助招商定位"); footer(s, IDX)
-rect(s, ML, Inches(1.75), CW, Inches(0.95), grad=[(0, "23315A", None), (100, "1A2340", None)], gang=0, line=GOLD, lw=1.25, radius=True)
+rect(s, ML, Inches(1.75), CW, Inches(0.95), grad=[(0, "3A2878", None), (100, "2A1E55", None)], gang=0, line=GOLD, lw=1.25, radius=True)
 text(s, Inches(1.1), Inches(1.75), Inches(11.2), Inches(0.95),
      [("招商定位　", GOLD, True), ("创智汇 = 杨浦「AI + 数字内容」孵化转化载体 + 场景清单发布平台（3F 孵化转化 · 5F 场景应用与交易）", INK, True)],
      size=15, anchor=MSO_ANCHOR.MIDDLE)
@@ -484,7 +509,7 @@ syn = [("企业端 → 招什么", GOLD, "招「能拿补贴的优质企业」�
 for i, (t, c, d) in enumerate(syn):
     x = Emu(ML + i * Inches(3.94))
     card(s, x, Inches(2.9), Inches(3.72), Inches(1.95), title=t, body=d, accent=c, bsize=11.5)
-rect(s, ML, Inches(5.05), CW, Inches(1.5), grad=[(0, "1A2340", None), (100, "121A30", None)], gang=120, line=LINE, radius=True)
+rect(s, ML, Inches(5.05), CW, Inches(1.5), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=LINE, radius=True)
 rect(s, ML, Inches(5.05), Inches(0.07), Inches(1.5), fill=GREEN)
 text(s, Inches(1.1), Inches(5.18), Inches(11), Inches(0.4), "政企联动机制", size=14.5, color=GREEN, bold=True)
 bullets(s, Inches(1.1), Inches(5.62), Inches(5.6), Inches(0.9),
@@ -520,7 +545,7 @@ for i, (t, d, c) in enumerate(outer):
     card(s, x, y, Inches(3.72), Inches(1.4), title=t, body=d, accent=c, tsize=14.5, bsize=11)
     if i % 3 != 2:
         chev(s, Emu(x + Inches(3.72)), Emu(y + Inches(0.45)))
-rect(s, ML, Inches(4.95), CW, Inches(1.6), grad=[(0, "1C2748", None), (100, "16203C", None)], gang=0, line=GOLD, lw=1, radius=True)
+rect(s, ML, Inches(4.95), CW, Inches(1.6), grad=[(0, "322462", None), (100, "221848", None)], gang=0, line=GOLD, lw=1, radius=True)
 text(s, Inches(1.1), Inches(5.08), Inches(11.2), Inches(0.4), [("双环驱动　", GOLD, True), ("① 政企联动闭环：政府—平台—企业—场景—补贴反哺，能级持续提升；② 产业生态闭环：内容引流—产业承接—商业变现—服务成长。", INK, False)], size=12)
 bullets(s, Inches(1.1), Inches(5.55), Inches(11), Inches(0.9),
         ["政企联动：把政策转化为招商资格与兑现能力，越做越有背书",
@@ -531,7 +556,7 @@ nxt(); divider(IDX, "05", "招商方案", "LEASING STRATEGY", "IP + AI 双轨 ·
 
 # ---------- 16 楼层定位 ----------
 nxt(); s = slide(); header(s, "05", "LEASING STRATEGY", "楼层产品切分 · 招商最小颗粒度"); footer(s, IDX)
-rect(s, ML, Inches(1.78), Inches(5.72), Inches(4.85), grad=[(0, "1A2340", None), (100, "121A30", None)], gang=120, line=LINE, radius=True)
+rect(s, ML, Inches(1.78), Inches(5.72), Inches(4.85), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=LINE, radius=True)
 rect(s, ML, Inches(1.78), Inches(0.07), Inches(4.85), fill=ACC)
 text(s, Inches(1.1), Inches(1.95), Inches(5.4), Inches(0.4), [("3 楼", ACC, True), ("　约 2850㎡　孵化 + 办公", INK, True)], size=16)
 table(s, Inches(1.05), Inches(2.5), Inches(5.4), [
@@ -539,7 +564,7 @@ table(s, Inches(1.05), Inches(2.5), Inches(5.4), [
     ["成长型单元", "200–350㎡×3–4", "AI 应用/研发服务"], ["OPC 联合办公", "工位大区", "AI 项目/黑客松/孵化"],
     ["直播 / AI 展示", "共享 1–2 间", "按次 / 时段"]],
     [0.33, 0.34, 0.33], sizes=[11.5, 11, 11], rh=Inches(0.46), head_rh=Inches(0.44), first_col_color=INK)
-rect(s, Inches(6.76), Inches(1.78), Inches(5.72), Inches(4.85), grad=[(0, "1A2340", None), (100, "121A30", None)], gang=120, line=LINE, radius=True)
+rect(s, Inches(6.76), Inches(1.78), Inches(5.72), Inches(4.85), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=LINE, radius=True)
 rect(s, Inches(6.76), Inches(1.78), Inches(0.07), Inches(4.85), fill=GOLD)
 text(s, Inches(7.02), Inches(1.95), Inches(5.4), Inches(0.4), [("5 楼", GOLD, True), ("　约 3670㎡　展厅 + 贸易", INK, True)], size=16)
 table(s, Inches(6.97), Inches(2.5), Inches(5.4), [
@@ -632,7 +657,7 @@ table(s, ML, Inches(1.72), CW, [
 
 # ---------- 23 媒体报价 + 增值 ----------
 nxt(); s = slide(); header(s, "07", "MEDIA & VALUE-ADD", "媒体报价 + 联合公司增值服务"); footer(s, IDX)
-rect(s, ML, Inches(1.8), Inches(5.72), Inches(4.75), grad=[(0, "1A2340", None), (100, "121A30", None)], gang=120, line=LINE, radius=True)
+rect(s, ML, Inches(1.8), Inches(5.72), Inches(4.75), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=LINE, radius=True)
 rect(s, ML, Inches(1.8), Inches(0.07), Inches(4.75), fill=ACC)
 text(s, Inches(1.1), Inches(1.98), Inches(5.4), Inches(0.4), [("媒体报价　", INK, True), ("基础包 5 万/年", ACC, True)], size=15.5)
 table(s, Inches(1.05), Inches(2.5), Inches(5.4), [
@@ -640,7 +665,7 @@ table(s, Inches(1.05), Inches(2.5), Inches(5.4), [
     ["账号代运营", "园区/IP 官方号内容运营"], ["短视频/直播间", "活动直播、企业专访"],
     ["新闻通稿/软文", "招商节点媒体声量"], ["专项传播", "漫展/峰会/挂牌节点另计"]],
     [0.38, 0.62], sizes=[11.5, 11], rh=Inches(0.44), head_rh=Inches(0.42), first_col_color=INK)
-rect(s, Inches(6.76), Inches(1.8), Inches(5.72), Inches(4.75), grad=[(0, "23315A", None), (100, "1A2340", None)], gang=120, line=GOLD, lw=1.25, radius=True)
+rect(s, Inches(6.76), Inches(1.8), Inches(5.72), Inches(4.75), grad=[(0, "3A2878", None), (100, "2A1E55", None)], gang=120, line=GOLD, lw=1.25, radius=True)
 rect(s, Inches(6.76), Inches(1.8), Inches(0.07), Inches(4.75), fill=GOLD)
 text(s, Inches(7.02), Inches(1.98), Inches(5.4), Inches(0.4), "企业增值服务 · 联合公司经营分成", size=15.5, color=GOLD, bold=True)
 bullets(s, Inches(7.02), Inches(2.55), Inches(5.3), Inches(2.6), [
@@ -648,7 +673,7 @@ bullets(s, Inches(7.02), Inches(2.55), Inches(5.3), Inches(2.6), [
     "税收法务、融资顾问、出海撮合",
     "以上通过成立联合公司经营、按约定分成",
     "补贴归属：申请下的补贴归运营平台公司"], size=12.5, gap=11, mark=GOLD)
-rect(s, Inches(7.02), Inches(5.25), Inches(5.2), Inches(1.05), grad=[(0, "1C2748", None), (100, "16203C", None)], gang=0, line=LINE, radius=True)
+rect(s, Inches(7.02), Inches(5.25), Inches(5.2), Inches(1.05), grad=[(0, "322462", None), (100, "221848", None)], gang=0, line=LINE, radius=True)
 text(s, Inches(7.22), Inches(5.35), Inches(4.9), Inches(0.9),
      [("多元化收入　", GOLD, True), ("联合培训 + 小红书招募增经营性收入；顶层可办漫展/展览（门票+赞助）。", INK, False)], size=11.5, anchor=MSO_ANCHOR.MIDDLE, space=1.15)
 
@@ -661,7 +686,7 @@ table(s, ML, Inches(1.78), Inches(8.35), [
     ["全国社交平台流量投放", "—", "抖音 / 今日头条信息流，投放上海（不含短视频拍摄制作）"],
     ["营销策划与舆情管理咨询", "≤2 次", "营销策划咨询 + 媒体舆情协调处理"]],
     [0.42, 0.13, 0.45], sizes=[12, 11.5, 11], rh=Inches(0.62), head_rh=Inches(0.48), first_col_color=INK)
-rect(s, ML, Inches(5.2), Inches(8.35), Inches(1.35), grad=[(0, "23315A", None), (100, "1A2340", None)], gang=0, line=GOLD, lw=1.25, radius=True)
+rect(s, ML, Inches(5.2), Inches(8.35), Inches(1.35), grad=[(0, "3A2878", None), (100, "2A1E55", None)], gang=0, line=GOLD, lw=1.25, radius=True)
 text(s, Inches(1.1), Inches(5.35), Inches(8), Inches(0.5),
      [("折后总价　", GOLD, True), ("5 万元", GOLD, True), ("（媒体总曝光量预计 ≥ 150 万）", INK, True)], size=17)
 text(s, Inches(1.1), Inches(5.95), Inches(8), Inches(0.5),
@@ -682,7 +707,7 @@ for i, (v, l, c) in enumerate(kk):
     card(s, x, Inches(1.85), Inches(2.78), Inches(1.5), accent=c)
     text(s, Emu(x + Inches(0.3)), Inches(2.02), Inches(2.3), Inches(0.6), [(v, c, True)], size=21, bold=True)
     text(s, Emu(x + Inches(0.3)), Inches(2.7), Inches(2.35), Inches(0.5), l, size=11, color=MUT, space=1.12)
-rect(s, ML, Inches(3.6), Inches(5.72), Inches(2.95), grad=[(0, "1A2340", None), (100, "121A30", None)], gang=120, line=LINE, radius=True)
+rect(s, ML, Inches(3.6), Inches(5.72), Inches(2.95), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=LINE, radius=True)
 rect(s, ML, Inches(3.6), Inches(0.07), Inches(2.95), fill=GOLD)
 text(s, Inches(1.1), Inches(3.78), Inches(5.4), Inches(0.4), "对方视角", size=14.5, color=INK, bold=True)
 table(s, Inches(1.05), Inches(4.25), Inches(5.35), [
@@ -732,7 +757,7 @@ for i, (n, d) in enumerate(road):
     card(s, x, Inches(3.7), Inches(3.72), Inches(1.7), accent=ACC)
     text(s, Emu(x + Inches(0.34)), Inches(3.9), Inches(2.6), Inches(0.6), [(n, ACC, True, FONT_EN), (" 天", MUT, False)], size=24)
     text(s, Emu(x + Inches(0.34)), Inches(4.55), Inches(3.25), Inches(0.85), d, size=11, color=MUT, space=1.18)
-rect(s, ML, Inches(5.65), CW, Inches(0.95), grad=[(0, "1C2748", None), (100, "16203C", None)], gang=0, line=GOLD, lw=1, radius=True)
+rect(s, ML, Inches(5.65), CW, Inches(0.95), grad=[(0, "322462", None), (100, "221848", None)], gang=0, line=GOLD, lw=1, radius=True)
 text(s, Inches(1.1), Inches(5.65), Inches(11), Inches(0.95),
      [("三年蓝图　", GOLD, True), ("先签 6600㎡ 单项目专项（单项目单核算），三年跑通 60/70/85% 去化后，协同周边 ≤2 项目并复制模式。", INK, False)],
      size=13.5, anchor=MSO_ANCHOR.MIDDLE)
@@ -745,10 +770,10 @@ rect(s, 0, 0, Inches(0.16), SH, grad=[(0, H_GOLD, None), (100, H_ACC2, None)], g
 text(s, ML, Inches(2.3), Inches(11), Inches(0.4), [("THANKS", GOLD, True, FONT_EN)], size=15, spacing=4)
 rect(s, ML, Inches(2.85), Inches(0.9), Pt(3), fill=GOLD)
 text(s, ML, Inches(3.1), Inches(11.5), Inches(1.8),
-     [("让创智汇成为杨浦五角场\n", INK, True), ("AI + IP 产业与城市更新", GOLD, True), ("的超级链接器与可复制样板", INK, True)], size=33, bold=True, space=1.2)
+     [("让上海创智汇成为杨浦五角场\n", INK, True), ("AI + 数字内容", GOLD, True), ("的无界共创港与可复制样板", INK, True)], size=32, bold=True, space=1.2)
 text(s, ML, Inches(5.1), Inches(11.5), Inches(0.5), "政策闭环  ·  三年合作  ·  协同复制  ·  内容自造流量", size=16, color=MUT, spacing=1)
 rect(s, ML, Inches(6.4), CW, Pt(1), fill=LINE)
-text(s, ML, Inches(6.55), Inches(11), Inches(0.4), [("谈判集中汇报 v2.0", GOLD, True), ("　期待与各方达成合作", SOFT, False)], size=12)
+text(s, ML, Inches(6.55), Inches(11), Inches(0.4), [("谈判集中汇报 v3.0", GOLD, True), ("　期待与各方达成合作", SOFT, False)], size=12)
 
 # 修正总页数
 total = len(prs.slides._sldIdLst)
