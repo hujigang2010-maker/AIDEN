@@ -835,6 +835,59 @@ card(s, Inches(6.76), Inches(3.75), Inches(5.72), Inches(2.6), "落地要点", a
     "团队：初期各部门抽调兼职（1 人起），成熟设全职（约 3 人），单独成立公司",
     "沪穗联动：与广州自贸港/电商出海项目协同，两地共享资源"])
 
+# ---------- 出海全链条 · 流程与服务（运营框架） ----------
+nxt(); s = slide(); header(s, "08", "GO-GLOBAL FULL CHAIN", "出海全链条 · 流程与服务（运营框架）"); footer(s, IDX)
+steps6 = [("01", "集聚入驻", "3F 孵化办公\n5F 展贸集群", GOLD),
+          ("02", "内容与产品", "AIGC/AI 短剧制作\nIP 授权 · 选品打样", ACC),
+          ("03", "海外通路", "TikTok/短剧出海\n跨境电商 · 展销", ACC2),
+          ("04", "订单撮合", "5F 展厅接单\n领事/商务对接", GREEN),
+          ("05", "履约交付", "报关物流 · 结汇\n财税合规", ROSE),
+          ("06", "增长复购", "品牌沉淀 · 复投\n反哺租金/合资收益", GOLD)]
+cwg = Inches(1.86)
+for i, (n, t, d, c) in enumerate(steps6):
+    x = Emu(ML + i * (cwg + Inches(0.1)))
+    card(s, x, Inches(1.75), cwg, Inches(2.0), accent=c)
+    text(s, Emu(x + Inches(0.22)), Inches(1.9), Inches(1.2), Inches(0.5), [(n, c, True, FONT_EN)], size=20, font=FONT_EN)
+    text(s, Emu(x + Inches(0.22)), Inches(2.38), Emu(cwg - Inches(0.35)), Inches(0.4), t, size=12.5, color=INK, bold=True)
+    text(s, Emu(x + Inches(0.22)), Inches(2.78), Emu(cwg - Inches(0.35)), Inches(0.9), d, size=9.5, color=MUT, space=1.15)
+srv = [("内容出海服务链", ACC, ["AI 短剧：剧本→AIGC 制作→翻译配音→TikTok/海外短剧平台分发→广告/付费分成",
+                        "数字 IP：国漫 IP 海外独家授权 → 海外手办/玩具开发 → 跨境渠道销售",
+                        "智能营销：海外社媒代运营 / 达人分发 / 信息流投放"]),
+       ("货品出海服务链", GOLD, ["供应链：玩具/毛绒/潮玩 OEM → 设计赋能 → 品牌化 → 海外订单",
+                        "通路：跨境电商（亚马逊/TikTok Shop）+ 海外展销 + 自贸港出口",
+                        "配套：报关物流 · 出口退税 · 结汇 · 财税法务（联合公司承接）"])]
+for i, (t, c, items) in enumerate(srv):
+    x = Emu(ML + i * Inches(5.92))
+    card(s, x, Inches(4.0), Inches(5.72), Inches(2.35), title=t, items=items, accent=c, bsize=11)
+text(s, ML, Inches(6.5), Inches(11.6), Inches(0.3),
+     "＊全链条服务由运营平台 + 联合公司 + 出海合作资源共同交付；收益按撮合佣金/分成计入合资公司。", size=9.5, color=SOFT)
+
+# ---------- 领事馆路径 · 海外订单达成逻辑 ----------
+nxt(); s = slide(); header(s, "08", "CONSULATE PATH", "领事馆路径 · 产业集聚 → 海外订单达成逻辑"); footer(s, IDX)
+steps5 = [("STEP 1", "产业集聚", "各类产业企业集聚平台：\n供应链 / IP 内容 / AI 应用\n形成可展示的产品池", GOLD),
+          ("STEP 2", "需求画像", "按国别梳理供需清单：\n企业出海意向 × 国别\n市场准入与政策研判", ACC),
+          ("STEP 3", "领事撮合", "国家会客厅 / 领事专题活动：\n连领事 → 对接所在国\n商务部 / 部长级洽谈", ACC2),
+          ("STEP 4", "商务对接", "国别推介会 / 买家团来访 /\n出海考察团（B2B 配对）\n展厅选品 · 样品确认", GREEN),
+          ("STEP 5", "订单落地", "签约 → 履约交付 → 结算\n订单扣点反哺租金\n超额进合资公司分配", ROSE)]
+cwp = Inches(2.24)
+for i, (n, t, d, c) in enumerate(steps5):
+    x = Emu(ML + i * (cwp + Inches(0.11)))
+    card(s, x, Inches(1.75), cwp, Inches(2.6), accent=c)
+    text(s, Emu(x + Inches(0.24)), Inches(1.9), Inches(1.6), Inches(0.4), [(n, c, True, FONT_EN)], size=13, font=FONT_EN)
+    text(s, Emu(x + Inches(0.24)), Inches(2.28), Emu(cwp - Inches(0.4)), Inches(0.4), t, size=14, color=INK, bold=True)
+    text(s, Emu(x + Inches(0.24)), Inches(2.72), Emu(cwp - Inches(0.4)), Inches(1.5), d, size=9.8, color=MUT, space=1.18)
+    if i < 4:
+        chev(s, Emu(x + cwp), Inches(2.7))
+rect(s, ML, Inches(4.6), CW, Inches(1.85), grad=[(0, "3A2878", None), (100, "2A1E55", None)], gang=0, line=GOLD, lw=1.25, radius=True)
+text(s, Inches(1.1), Inches(4.72), Inches(11.2), Inches(0.4),
+     [("双向撮合方法　", GOLD, True), ("「走出去」与「引进来」同一套领事通路，双向取酬。", INK, False)], size=13)
+bullets(s, Inches(1.1), Inches(5.15), Inches(5.6), Inches(1.2),
+        ["走出去：企业产品池 → 国别推介 → 海外买家 → 订单出口",
+         "引进来：领事引荐海外品牌/买家 → 5F 展厅落地 → 采购中国供应链"], size=11, gap=5, mark=GOLD)
+bullets(s, Inches(6.9), Inches(5.15), Inches(5.5), Inches(1.2),
+        ["高频活动养通路：领事午餐会/国别论坛/买家团（纳入年度 30 场）",
+         "取酬：撮合佣金 1%–3% + 单国服务包 + 会籍 + 订单扣点反哺租金"], size=11, gap=5, mark=GOLD)
+
 # ---------- 25 章节09 规划拓展 ----------
 nxt(); divider(IDX, "09", "规划建议与业务拓展", "PLANNING & EXPANSION", "规划设计 · 多元收入 · 资源导入 · 协同复制")
 
