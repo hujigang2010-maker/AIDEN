@@ -89,7 +89,7 @@ def main():
     r = title.add_run('元谷 2 万方招商材料工具包'); set_run(r, size=28, bold=True, color=RGBColor(0x0F, 0x24, 0x4E))
     title.add_run('\n'); r2 = title.add_run('精 选 脱 敏 版'); set_run(r2, size=22, bold=True, color=RGBColor(0xF2, 0x7E, 0x2D))
     sub = doc.add_paragraph(); sub.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = sub.add_run('项目一页通 · 招租亮点 · 产业牌照 · 产业沙龙 · 政策亮点 · 精选问答'); set_run(r, size=13, color=RGBColor(0x66, 0x70, 0x86))
+    r = sub.add_run('项目一页通 · 招租亮点 · 产业牌照 · 产业沙龙 · 政策亮点 · 媒体宣传 · 精选问答'); set_run(r, size=13, color=RGBColor(0x66, 0x70, 0x86))
     meta = doc.add_paragraph(); meta.alignment = WD_ALIGN_PARAGRAPH.CENTER
     meta.paragraph_format.space_before = Pt(32)
     for line in ['出品方:胡教授团队 (代表复旦大学住房政策研究中心、上海市科技企业联合会)',
@@ -180,8 +180,29 @@ def main():
 
     doc.add_page_break()
 
-    # 六、精选招商问答 30 问
-    heading(doc, '六、精选招商问答 (30 问)', level=1)
+    # 六、媒体宣传 (可选服务模块)
+    heading(doc, '六、媒体宣传服务(可选模块)', level=1)
+    add_para(doc, '以『主流媒体权威引领 + 社交媒体精准触达』双轮驱动, 放大元谷项目品牌声量、赋能招商;详见《元谷媒体宣传方案(媒体服务)》。', indent_first=True)
+    heading(doc, '6.1 服务内容与报价', level=2)
+    make_table(doc, ['服务项目', '数量', '费用 / 说明'], [
+        ['原创内容生产(品牌+营销稿原创采写)', '3 篇', '折后 5 万元(媒体总曝光量 ≥ 150 万)'],
+        ['中央级/全国/上海主流媒体宣发', '10 篇', '打包报价(按媒体档位据实核算)'],
+        ['社交媒体流量投放(抖音/今日头条信息流, 上海)', '按投放量', '按投放量计(短视频拍摄制作费不含)'],
+        ['营销策划与舆情管理咨询', '不超 2 次', '含于媒体服务包'],
+    ], widths_cm=[6.0, 2.0, 8.0])
+    heading(doc, '6.2 传播策略与媒体资源', level=2)
+    for line in [
+        '中央级/全国性媒体:央视新闻、央广网、人民网、新华网、中新网、第一财经、21 世纪经济报道、澎湃、界面、中国日报、上海证券报、中国证券报 等;',
+        '社交媒体:抖音(信息流)+ 今日头条(深度阅读), 精准算法锁定目标受众;',
+        '服务周期:自签订起至 2026/12/31, 乙方享优先续约权;合作结束提供完整投放报告(链接+曝光+分析);',
+        '与 6 场沙龙 + 5·22 峰会 + 5 项挂牌协同, 在 9/30、5/1 关键节点前集中投放, 把声量转化为招商线索。',
+    ]:
+        add_para(doc, line, indent_first=False, left_indent=15)
+
+    doc.add_page_break()
+
+    # 七、精选招商问答 30 问
+    heading(doc, '七、精选招商问答 (30 问)', level=1)
     qas = [
         ('元谷项目是什么?', '森马集团出品的科技+时尚产业综合体, 总建面 22 万㎡, 位于上海闵行大零号湾核心区。本期聚焦 4#+5# 楼 5F+ 共约 2 万㎡产业研发办公, 定位 IP + AI 双轨产业园区。'),
         ('在什么位置?', '上海市闵行区元江路-剑川路, 15 号线元江路站 TOD 上盖。距紫竹高新区 5km、虹桥机场 17km、浦东机场 36km。'),
