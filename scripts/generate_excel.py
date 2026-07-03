@@ -5,17 +5,18 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 
-NAVY = "0B1F3A"
-GOLD = "C9A24B"
-LIGHT = "F5EFE0"
+NAVY = "2A144A"      # 深紫（主色，沿用变量名）
+GOLD = "E0B95C"      # 金色辅助
+LIGHT = "EDE4F7"     # 浅紫标题底
 WHITE = "FFFFFF"
-GREY_ROW = "EDF0F5"
+GREY_ROW = "F3EEFA"  # 浅紫斑马行
 
+FONT = "微软雅黑"
 thin = Side(style="thin", color="B9C4D4")
 BORDER = Border(left=thin, right=thin, top=thin, bottom=thin)
-HEAD_FONT = Font(name="Noto Sans CJK SC", size=11, bold=True, color=WHITE)
-BODY_FONT = Font(name="Noto Sans CJK SC", size=10.5)
-TITLE_FONT = Font(name="Noto Sans CJK SC", size=14, bold=True, color=NAVY)
+HEAD_FONT = Font(name=FONT, size=11, bold=True, color=WHITE)
+BODY_FONT = Font(name=FONT, size=10.5)
+TITLE_FONT = Font(name=FONT, size=14, bold=True, color=NAVY)
 HEAD_FILL = PatternFill("solid", fgColor=NAVY)
 GOLD_FILL = PatternFill("solid", fgColor=GOLD)
 ZEBRA = PatternFill("solid", fgColor=GREY_ROW)
@@ -58,15 +59,45 @@ def make_sheet(ws, title, headers, rows, widths, note=None):
         r = len(rows) + 4
         ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=len(headers))
         c = ws.cell(r, 1, note)
-        c.font = Font(name="Noto Sans CJK SC", size=10, italic=True, color="7A6A3C")
+        c.font = Font(name=FONT, size=10, italic=True, color="6A4E9A")
         c.alignment = WRAP
         ws.row_dimensions[r].height = 30
     ws.freeze_panes = "A3"
 
 
-# ============ Sheet 1: 沙龙议程 ============
+# ============ Sheet 0: 三视角策略 ============
 ws = wb.active
-ws.title = "01-沙龙议程"
+ws.title = "00-三视角策略"
+make_sheet(
+    ws,
+    "活动策划三视角策略表（观众 / 热点 / 利益）",
+    ["视角", "核心问题", "策略要点", "对应沙龙动作", "落地负责人"],
+    [
+        ["观众视角", "如何让对的人愿意来？",
+         "精准邀约、低门槛入场、高规格体验、稀缺社交价值；把“被推销的顾虑”变成“怕错过的期待”",
+         "15席闭门限定 + 联名邀请函 + 一对一电话邀约 + 会前预热资料 + 老客带客礼遇", "（活动负责人）"],
+        ["观众视角", "来了如何有获得感？",
+         "现场即时价值：CRS自测、资产诊断、一手项目信息",
+         "设三张主题桌（身份/算力/房产），茶歇定向撮合客户与嘉宾", "（活动负责人）"],
+        ["热点视角", "凭什么被关注？",
+         "用全民赚钱话题与真实焦虑做钩子：美股收益、CRS落地、AI算力出海",
+         "开场美股收益复盘 → CRS追缴案例 → 迪拜算力洼地；世界杯/油价暖场", "（内容负责人）"],
+        ["热点视角", "如何卡准窗口、规避风险？",
+         "热点只做引子，敏感话题借壳包装；地缘冲突仅作背景（流量红利已过，不硬蹭）",
+         "以“全球资产配置/国际教育”外壳包装；不承诺避税，讲合法规划与申报", "（合规）"],
+        ["利益视角", "投资人能赚到什么？",
+         "身份即资产（零个税/美元/保值隔离）、捡漏窗口、算力产业入口、风险对冲",
+         "对比表 + 收益可视化案例（购房签证/法拍别墅7-8折/算力投资）", "（内容负责人）"],
+        ["利益视角", "渠道方与主办方如何获利？",
+         "补齐迪拜产品线、共享客源、考察团与签约分成、联名背书沉淀客户资产",
+         "与移民/金融/律所约定分成机制；系列化活动持续转化", "（负责人）"],
+    ],
+    [12, 22, 50, 50, 14],
+    note="设计原则：观众为起点（愿意来）、热点为引信（被关注）、利益为落点（能获益）。三视角贯穿PPT与全部执行环节。",
+)
+
+# ============ Sheet 1: 沙龙议程 ============
+ws = wb.create_sheet("01-沙龙议程")
 make_sheet(
     ws,
     "首期沙龙议程：出海新坐标·迪拜（建议周六 14:00–18:00 · 国际会客厅（拟） · 限15席闭门）",
