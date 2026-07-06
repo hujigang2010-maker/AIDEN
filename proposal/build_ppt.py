@@ -888,6 +888,69 @@ bullets(s, Inches(6.9), Inches(5.15), Inches(5.5), Inches(1.2),
         ["高频活动养通路：领事午餐会/国别论坛/买家团（纳入年度 30 场）",
          "取酬：撮合佣金 1%–3% + 单国服务包 + 会籍 + 订单扣点反哺租金"], size=11, gap=5, mark=GOLD)
 
+# ---------- 营收逻辑 · 收入结构（3F+5F 整体） ----------
+nxt(); s = slide(); header(s, "08", "REVENUE MODEL", "营收逻辑 · 收入结构（3F + 5F 整体）"); footer(s, IDX)
+rect(s, ML, Inches(1.68), CW, Inches(0.82), grad=[(0, "3A2878", None), (100, "2A1E55", None)], gang=0, line=GOLD, lw=1.25, radius=True)
+text(s, Inches(1.1), Inches(1.68), Inches(11.2), Inches(0.82),
+     [("收入逻辑　", GOLD, True), ("园区空间盘（租金/物业）＝对赌基础与出海反哺来源；运营平台收入＝固定服务 + 浮动佣金/分成 + 经营性 + 补贴。", INK, False)],
+     size=12.5, anchor=MSO_ANCHOR.MIDDLE, space=1.15)
+# 左：园区空间盘（背景）
+rect(s, ML, Inches(2.66), Inches(5.72), Inches(3.7), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=LINE, radius=True)
+rect(s, ML, Inches(2.66), Inches(0.07), Inches(3.7), fill=ACC)
+text(s, Inches(1.08), Inches(2.8), Inches(5.4), Inches(0.4), "① 园区空间盘（甲方口径 · 对赌基础）", size=13, color=ACC, bold=True)
+table(s, Inches(1.03), Inches(3.3), Inches(5.4), [
+    ["科目", "年化（示意）"],
+    ["3F 办公租金 2850㎡", "约 400 万（85% 去化 · ~4.5 元/㎡/天）"],
+    ["5F 展贸租金 + 物业", "约 300 万（部分免租 · 订单扣点反哺）"],
+    ["6600㎡ 物业费", "约 200 万（1.0 元/㎡/天 计）"],
+    ["空间盘合计", "约 900 万/年（满租稳定期）"]],
+    [0.46, 0.54], sizes=[10.5, 10.5], rh=Inches(0.5), head_rh=Inches(0.42), first_col_color=INK)
+# 右：运营平台收入（乙方口径）
+rect(s, Inches(6.76), Inches(2.66), Inches(5.72), Inches(3.7), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=GOLD, lw=1.25, radius=True)
+rect(s, Inches(6.76), Inches(2.66), Inches(0.07), Inches(3.7), fill=GOLD)
+text(s, Inches(7.04), Inches(2.8), Inches(5.4), Inches(0.4), "② 运营平台收入（乙方口径）", size=13, color=GOLD, bold=True)
+table(s, Inches(6.99), Inches(3.3), Inches(5.4), [
+    ["收入类别", "年化（示意）"],
+    ["固定服务费", "约 146 万（运营 96 + 活动 30 + 媒体 10 + 挂牌）"],
+    ["招商佣金", "1 月租金/成交（约 30–50 万）"],
+    ["增值 + 出海分成", "约 150–450 万（联合公司）"],
+    ["经营性 + 补贴", "约 50–100 万（门票/培训/空间 + 载体奖励）"]],
+    [0.4, 0.6], sizes=[10.5, 10.5], rh=Inches(0.5), head_rh=Inches(0.42), first_col_color=INK)
+text(s, ML, Inches(6.5), Inches(11.6), Inches(0.3),
+     "＊示意测算，用于沟通商业空间；租金/去化/分成以物业条件、签约与执行节奏为准。运营平台稳定期年收入区间约 380–740 万。", size=9.5, color=SOFT)
+
+# ---------- 营收逻辑 · 成本与盈亏测算 ----------
+nxt(); s = slide(); header(s, "08", "REVENUE MODEL", "营收逻辑 · 成本结构与盈亏测算"); footer(s, IDX)
+rect(s, ML, Inches(1.7), Inches(5.72), Inches(3.55), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=LINE, radius=True)
+rect(s, ML, Inches(1.7), Inches(0.07), Inches(3.55), fill=ROSE)
+text(s, Inches(1.08), Inches(1.84), Inches(5.4), Inches(0.4), "成本结构（运营平台 · 年化）", size=13, color=ROSE, bold=True)
+table(s, Inches(1.03), Inches(2.34), Inches(5.4), [
+    ["成本科目", "年化（示意）"],
+    ["团队人力（在地 2 + 出海 1–3 + 兼职）", "100–180 万"],
+    ["活动执行（约 30 场）", "约 30 万"],
+    ["媒体 + 网络投流", "约 10 万"],
+    ["运营杂费 / 差旅 / 办公", "20–40 万"],
+    ["硬件装修摊销", "甲方为主，乙方轻资产"],
+    ["成本合计", "约 160–260 万/年"]],
+    [0.62, 0.38], sizes=[10, 10.5], rh=Inches(0.44), head_rh=Inches(0.4), first_col_color=INK)
+# 三情景
+sc = [("保守", "收入 ~380 万", "成本 ~185 万", "净 +195 万", ACC),
+      ("中性", "收入 ~520 万", "成本 ~220 万", "净 +300 万", GOLD),
+      ("乐观", "收入 ~740 万", "成本 ~260 万", "净 +480 万", GREEN)]
+for i, (t, r, c0, n, c) in enumerate(sc):
+    y = Emu(Inches(1.7) + i * Inches(0.9))
+    rect(s, Inches(6.76), y, Inches(5.72), Inches(0.78), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=LINE, radius=True)
+    rect(s, Inches(6.76), y, Inches(0.07), Inches(0.78), fill=c)
+    text(s, Inches(7.02), y, Inches(1.1), Inches(0.78), [(t, c, True)], size=15, anchor=MSO_ANCHOR.MIDDLE)
+    text(s, Inches(8.0), y, Inches(2.0), Inches(0.78), r, size=11.5, color=MUT, anchor=MSO_ANCHOR.MIDDLE)
+    text(s, Inches(9.5), y, Inches(1.6), Inches(0.78), c0, size=11.5, color=MUT, anchor=MSO_ANCHOR.MIDDLE)
+    text(s, Inches(11.0), y, Inches(1.5), Inches(0.78), [(n, c, True)], size=13, anchor=MSO_ANCHOR.MIDDLE)
+rect(s, ML, Inches(5.45), CW, Inches(1.1), grad=[(0, "322462", None), (100, "221848", None)], gang=0, line=GOLD, lw=1, radius=True)
+text(s, Inches(1.1), Inches(5.56), Inches(11.2), Inches(0.4), [("盈亏与现金流　", GOLD, True), ("基础运营费 96 万/年为保底，覆盖基本盘；三情景净收益均为正，出海撮合为最大增长弹性。", INK, False)], size=12)
+bullets(s, Inches(1.1), Inches(6.0), Inches(11), Inches(0.5),
+        ["轻资产：装修硬件以甲方投入为主，乙方前期投入低、回正快；补贴与增值/出海形成第二增长曲线"], size=11, gap=2, mark=GOLD)
+text(s, ML, Inches(6.62), Inches(11.6), Inches(0.28), "＊三情景为示意测算区间，实际以签约、去化与出海落地为准。", size=9, color=SOFT)
+
 # ---------- 25 章节09 规划拓展 ----------
 nxt(); divider(IDX, "09", "规划建议与业务拓展", "PLANNING & EXPANSION", "规划设计 · 多元收入 · 资源导入 · 协同复制")
 
