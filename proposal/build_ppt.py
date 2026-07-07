@@ -629,7 +629,7 @@ op = [("招商打法", GOLD, ["牌照锚定 + 政策礼包前置，客户「送�
       ("运营团队", ACC, ["在地 2 人（招商 + 综合管理，均全方位）",
                      "出海撮合：初期各部门抽调兼职，成熟设全职约 3 人",
                      "挂牌杨浦科技企业服务中心，接政务通道"]),
-      ("运营节奏", ACC2, ["月度招商目标 + 去化看板（对赌三年均 85%）",
+      ("运营节奏", ACC2, ["月度招商目标 + 去化看板（参考目标，招商不对赌）",
                       "常态化活动完成载体 KPI，运营满年申请补贴（约一二十万）",
                       "企业服务收费体系逐步导入，沉淀会员/私域"])]
 for i, (t, c, items) in enumerate(op):
@@ -660,13 +660,13 @@ text(s, ML, Inches(6.35), Inches(11.6), Inches(0.3),
      "＊对标魔术空间约 110 场/年：活动场次越多，招商与载体 KPI 越有利；30 场为满足各项要求的基线。", size=9.5, color=SOFT)
 
 # ---------- 18 章节06 排期 ----------
-nxt(); divider(IDX, "06", "节点与排期", "MILESTONES & SCHEDULE", "三年合作 · 三年平均 85%（80% / 85% / 95%）去化目标")
+nxt(); divider(IDX, "06", "节点与排期", "MILESTONES & SCHEDULE", "三年合作 · 招商轻运营（不对赌）· 出海为增长引擎")
 
 # ---------- 19 三年排期 ----------
-nxt(); s = slide(); header(s, "06", "MILESTONES & SCHEDULE", "三年运营节奏 · 去化与品牌双线推进"); footer(s, IDX)
-phases = [("第 1 年", "去化 80%", "启动 + 导入", "命名/手册/收费/政策汇编/首批挂牌/样板企业/首批招引 AI·IP·潮玩", ACC),
-          ("第 2 年", "去化 85%", "成型 + 提质", "重点客户补位/专精特新·高企培育/企业服务收费/漫展与沙龙常态化", ACC2),
-          ("第 3 年", "去化 95%", "提升 + 复制", "区级示范点/载体资质/补贴反哺/出海撮合放量/协同周边≤2项目", GOLD)]
+nxt(); s = slide(); header(s, "06", "MILESTONES & SCHEDULE", "三年运营节奏 · 去化与出海双线推进"); footer(s, IDX)
+phases = [("第 1 年", "参考 80%", "启动 + 导入", "命名/手册/收费/政策汇编/首批挂牌/样板企业/首批招引 AI·IP·潮玩", ACC),
+          ("第 2 年", "参考 85%", "成型 + 提质", "重点客户补位/专精特新·高企培育/企业服务收费/出海撮合起量", ACC2),
+          ("第 3 年", "参考 95%", "提升 + 复制", "区级示范点/载体资质/补贴反哺/出海撮合放量/协同周边≤2项目", GOLD)]
 rect(s, Inches(1.2), Inches(2.15), Pt(3), Inches(3.9), grad=[(0, H_ACC, None), (100, H_GOLD, None)], gang=90)
 y = Inches(2.05)
 for nm, tgt, stage, act, c in phases:
@@ -679,14 +679,14 @@ for nm, tgt, stage, act, c in phases:
     y = Emu(y + Inches(1.3))
 
 # ---------- 20 章节07 条款报价 ----------
-nxt(); divider(IDX, "07", "商业条款与合作报价", "TERMS & QUOTATION", "三年合作 · 五类收费 · 联合公司 · 测算")
+nxt(); divider(IDX, "07", "商业条款与合作报价", "TERMS & QUOTATION", "招商轻运营（不对赌）· 出海重收费 · 联合公司 · 测算")
 
 # ---------- 21 合作模式与原则 ----------
-nxt(); s = slide(); header(s, "07", "COOPERATION MODEL", "合作模式与原则 · 对赌运营"); footer(s, IDX)
+nxt(); s = slide(); header(s, "07", "COOPERATION MODEL", "合作模式与原则 · 轻资产运营"); footer(s, IDX)
 mod = [("合作周期", "3 年", "首期三年，满租后享优先续约", GOLD),
        ("协同复制", "≤ 2 个", "可协同周边不超过两个项目，模式可复制", ACC),
-       ("合作方式", "对赌运营", "收基础运营费并对赌去化目标", ACC2),
-       ("人员配置", "2 人", "含杨浦科技企业服务中心挂牌服务", GREEN)]
+       ("合作方式", "轻资产", "招商不对赌；月费转化为出海专项服务费", ACC2),
+       ("协议分层", "双协议", "招商轻运营协议 + 出海联合运营协议", GREEN)]
 for i, (t, v, d, c) in enumerate(mod):
     x = Emu(ML + i * Inches(2.96))
     card(s, x, Inches(1.85), Inches(2.78), Inches(2.0), accent=c)
@@ -695,10 +695,10 @@ for i, (t, v, d, c) in enumerate(mod):
     text(s, Emu(x + Inches(0.3)), Inches(3.2), Inches(2.35), Inches(0.6), d, size=10.5, color=MUT, space=1.14)
 text(s, ML, Inches(4.15), Inches(8), Inches(0.4), "合作原则", size=16, color=GOLD, bold=True)
 pr = ["空间价值最大化——做产业运营而非二房东租赁",
-      "风险收益匹配——基础运营费保障 + 增量分成",
-      "招商资源共享——双方共同推动企业导入",
-      "政策服务赋能——政策既是招商工具也是盈利工具",
-      "阶段化对赌——按三年平均 85%（80/85/95）去化考核",
+      "轻资产不对赌——招商板块不背对赌，降低风险",
+      "招商佣金强化——按市场 2–3 个月租金取酬",
+      "月费转化——原月费并入出海专项服务费（换名）",
+      "出海重收费——强化国际出海职能并在此收费",
       "可复制外延——跑通后协同周边项目、拓展新合作"]
 for i, p in enumerate(pr):
     x = Emu(ML + (i % 2) * Inches(5.92)); y = Emu(Inches(4.65) + (i // 2) * Inches(0.66))
@@ -706,18 +706,18 @@ for i, p in enumerate(pr):
     text(s, Emu(x + Inches(0.24)), y, Inches(5.6), Inches(0.5), p, size=12, color=INK, anchor=MSO_ANCHOR.MIDDLE)
 
 # ---------- 22 合作报价总表 ----------
-nxt(); s = slide(); header(s, "07", "QUOTATION", "合作报价总表 · 五类收费"); footer(s, IDX)
+nxt(); s = slide(); header(s, "07", "QUOTATION", "合作报价总表 · 招商轻运营（不对赌）+ 出海重收费"); footer(s, IDX)
 table(s, ML, Inches(1.72), CW, [
     ["收费项", "标准 / 口径", "支付方", "备注"],
-    ["基础运营费", "96 万/年（8 万/月）", "合作方按月", "含 2 人在地团队，支持对赌"],
-    ["对赌去化目标", "三年平均 85%（或 首年 80%/次年 85%/三年 95%）", "—", "达标机制，挂钩基础运营费"],
-    ["招商佣金", "成交后 1 个月租金（首年不重复）", "合作方", "按进价/净值计（市场为 2–3 月）"],
-    ["挂牌费", "3 万/个，按数量与影响力分档", "合作方", "国际会议厅费用另计"],
+    ["招商佣金（强化）", "成交后 2–3 个月租金（首年不重复）", "合作方", "市场标准，作招商板块主收费；招商不对赌"],
     ["活动执行费", "约 30 场/年 打包 30 万（每场≥30 人）", "合作方", "含策划执行、导师及物料"],
+    ["挂牌费", "3 万/个，按数量与影响力分档", "合作方", "国际会议厅费用另计"],
     ["媒体流量费", "10 万/年（含网络投流）", "合作方", "官媒背书 5 万 + 自媒体/投流 5 万"],
+    ["出海专项服务费", "出海协议框架内计收（由原月费转化，非月费）", "合作方/合资公司", "含 2–3 人出海团队，强化国际出海职能"],
+    ["出海撮合佣金", "平台利润 1–30 万/项目 + 落地佣金 1%–3%", "合资公司", "国际出海收费重点"],
     ["企业增值服务", "工商/政策/知产/财税法务/融资/出海撮合", "入驻企业", "成立联合公司经营分成"],
     ["补贴与资质", "协助申请政府补贴与企业资质", "—", "申请下的补贴归运营平台公司"]],
-    [0.17, 0.45, 0.12, 0.26], sizes=[12, 10.5, 10.5, 10.5], rh=Inches(0.5), head_rh=Inches(0.46), first_col_color=GOLD)
+    [0.17, 0.45, 0.13, 0.25], sizes=[12, 10.5, 10, 10.5], rh=Inches(0.52), head_rh=Inches(0.46), first_col_color=GOLD)
 
 # ---------- 23 媒体报价 + 增值 ----------
 nxt(); s = slide(); header(s, "07", "MEDIA & VALUE-ADD", "媒体报价 + 联合公司增值服务"); footer(s, IDX)
@@ -766,7 +766,7 @@ card(s, Inches(9.42), Inches(4.28), Inches(3.06), Inches(2.27), "传播策略", 
 
 # ---------- 24 收益测算 ----------
 nxt(); s = slide(); header(s, "07", "ROI", "收益模型 · 对方视角测算"); footer(s, IDX)
-kk = [("96 万/年", "基础运营费（8 万/月）", GOLD), ("+ 招商佣金", "1 月租金 · 成交计", ACC),
+kk = [("招商佣金", "2–3 月租金 · 成交计（强化）", GOLD), ("出海专项服务费", "原月费转化 · 出海协议内", ACC),
       ("+ 30 万", "活动打包（约 30 场）", ACC2), ("+ 10 万", "媒体流量费（含投流）", GREEN)]
 for i, (v, l, c) in enumerate(kk):
     x = Emu(ML + i * Inches(2.96))
@@ -778,13 +778,13 @@ rect(s, ML, Inches(3.6), Inches(0.07), Inches(2.95), fill=GOLD)
 text(s, Inches(1.1), Inches(3.78), Inches(5.4), Inches(0.4), "对方视角", size=14.5, color=INK, bold=True)
 table(s, Inches(1.05), Inches(4.25), Inches(5.35), [
     ["维度", "口径"], ["对方空间成本", "≈554 万/年（2.3 元/㎡/天）"],
-    ["我方固定服务包", "约 136 万/年（96+30+10）+ 佣金"], ["列支来源", "利润/合作方运营费，非纯增量"]],
-    [0.34, 0.66], sizes=[11.5, 11], rh=Inches(0.5), head_rh=Inches(0.44), first_col_color=ACC)
+    ["招商板块", "佣金 2–3 月 + 活动 30 万 + 媒体 10 万（不对赌）"], ["出海板块", "出海专项服务费 + 撮合佣金（重收费）"]],
+    [0.28, 0.72], sizes=[11.5, 10.5], rh=Inches(0.5), head_rh=Inches(0.44), first_col_color=ACC)
 card(s, Inches(6.76), Inches(3.6), Inches(5.72), Inches(2.95), "为什么算得过账", accent=GREEN, items=[
-    "去化率按 80→85→95%（三年均 85%）逐年抬升",
-    "政策/补贴回流企业与平台，企业质量更高",
-    "出海撮合 + 联合公司形成第二增长曲线",
-    "比照元谷「花一份钱赚四份钱」逻辑，账面可算正"])
+    "招商轻资产不对赌，降低双方风险",
+    "佣金强化至 2–3 月，贴合市场标准",
+    "月费转出海专项服务费，出海为增长引擎",
+    "出海撮合 + 联合公司 + 国家会客厅第二曲线"])
 
 # ---------- 章节08 出海与国际会客厅 ----------
 nxt(); divider(IDX, "08", "出海撮合与国际会客厅", "GLOBAL & CONSUL SALON", "国家会客厅 · 领事资源 · 出海撮合业务闭环")
@@ -839,7 +839,7 @@ card(s, Inches(6.76), Inches(3.75), Inches(5.72), Inches(2.6), "落地要点", a
 nxt(); s = slide(); header(s, "08", "GO-GLOBAL FULL CHAIN", "出海全链条 · 流程与服务（运营框架）"); footer(s, IDX)
 steps6 = [("01", "集聚入驻", "3F 孵化办公\n5F 展贸集群", GOLD),
           ("02", "内容与产品", "AIGC/AI 短剧制作\nIP 授权 · 选品打样", ACC),
-          ("03", "海外通路", "TikTok/短剧出海\n跨境电商 · 展销", ACC2),
+          ("03", "海外通路", "TikTok/领英/短剧\n跨境电商 · 展销", ACC2),
           ("04", "订单撮合", "5F 展厅接单\n领事/商务对接", GREEN),
           ("05", "履约交付", "报关物流 · 结汇\n财税合规", ROSE),
           ("06", "增长复购", "品牌沉淀 · 复投\n反哺租金/合资收益", GOLD)]
@@ -852,9 +852,9 @@ for i, (n, t, d, c) in enumerate(steps6):
     text(s, Emu(x + Inches(0.22)), Inches(2.78), Emu(cwg - Inches(0.35)), Inches(0.9), d, size=9.5, color=MUT, space=1.15)
 srv = [("内容出海服务链", ACC, ["AI 短剧：剧本→AIGC 制作→翻译配音→TikTok/海外短剧平台分发→广告/付费分成",
                         "数字 IP：国漫 IP 海外独家授权 → 海外手办/玩具开发 → 跨境渠道销售",
-                        "智能营销：海外社媒代运营 / 达人分发 / 信息流投放"]),
+                        "领英出海：LinkedIn B2B 海外获客 / 品牌出海 / 决策人触达"]),
        ("货品出海服务链", GOLD, ["供应链：玩具/毛绒/潮玩 OEM → 设计赋能 → 品牌化 → 海外订单",
-                        "通路：跨境电商（亚马逊/TikTok Shop）+ 海外展销 + 自贸港出口",
+                        "通路：TikTok / 领英 / 跨境电商（亚马逊·TikTok Shop）+ 海外展销 + 自贸港",
                         "配套：报关物流 · 出口退税 · 结汇 · 财税法务（联合公司承接）"])]
 for i, (t, c, items) in enumerate(srv):
     x = Emu(ML + i * Inches(5.92))
@@ -888,16 +888,54 @@ bullets(s, Inches(6.9), Inches(5.15), Inches(5.5), Inches(1.2),
         ["高频活动养通路：领事午餐会/国别论坛/买家团（纳入年度 30 场）",
          "取酬：撮合佣金 1%–3% + 单国服务包 + 会籍 + 订单扣点反哺租金"], size=11, gap=5, mark=GOLD)
 
+# ---------- 大湾区 · 广州出海资源叠加 ----------
+nxt(); s = slide(); header(s, "08", "GBA RESOURCES", "大湾区出海资源叠加 · 复旦系 + 高校（沪穗联动）"); footer(s, IDX)
+gba = [("复旦珠海创新研究院", GOLD, "九大公共平台（集成电路/大数据智算/工业仿真/海洋科技/物联网智慧城市/先进材料）；「手心研发·手背转化」；服务横琴粤澳深合区"),
+       ("葡语国家科技合作平台", ACC, "横琴对接葡语系（巴西/葡萄牙/安哥拉/莫桑比克）唯一国家级平台；市场调研·本地匹配·海外展会·合规咨询"),
+       ("珠澳双循环出海窗口", ACC2, "澳门自由港 + 葡语商贸平台；「内地研发 + 澳门展销 + 葡语国家落地」；设海外总部/海外仓中转，规避关税壁垒"),
+       ("粤港澳复旦成果转化中心", GREEN, "复旦技术转移落地南沙；技术授权海外/国际专利/海外临床与认证；港澳跨境通道 + 粤科复旦母基金等出海基金矩阵"),
+       ("大湾区精准医学研究院", ROSE, "省市南沙复旦五方共建；南沙唯一万笼级实验动物中心；肿瘤/代谢/生殖精准诊疗、类器官、医疗器械转化"),
+       ("深圳复旦研究院", ACC, "河套深港科创合作区；AI/前沿医学/集成电路；联动香港，打通深港产学研")]
+for i, (t, c, d) in enumerate(gba):
+    x = Emu(ML + (i % 3) * Inches(3.94)); y = Emu(Inches(1.78) + (i // 3) * Inches(1.72))
+    card(s, x, y, Inches(3.72), Inches(1.55), title=t, body=d, accent=c, tsize=13, bsize=10)
+rect(s, ML, Inches(5.28), CW, Inches(1.32), grad=[(0, "3A2878", None), (100, "2A1E55", None)], gang=0, line=GOLD, lw=1, radius=True)
+text(s, Inches(1.1), Inches(5.4), Inches(11.2), Inches(0.4), [("高校出海资源　", GOLD, True), ("暨南大学 · 华侨大学 · 广东外语外贸大学 · 广州大学黄埔研究院 + 复旦广州校友会", INK, True)], size=12.5)
+bullets(s, Inches(1.1), Inches(5.85), Inches(11), Inches(0.7),
+        ["广外＝出海第一梯队：小语种（东盟/葡语/西语）· 海丝国别智库 · 跨境合规 · 国际贸易 · 海外市场调研",
+         "广州大学黄埔研究院：数字经济 · 跨境新媒体 · 海外独立站 · 智能制造国际转化"], size=10.5, gap=3, mark=GOLD)
+
+# ---------- 战略资源探讨 · 东方枢纽 + 谷歌 + 领英 ----------
+nxt(); s = slide(); header(s, "08", "STRATEGIC EXPLORATION", "战略资源探讨 · 东方枢纽 / 谷歌 / 领英"); footer(s, IDX)
+ex = [("东方枢纽", GOLD, ["国际商务合作区 + 综保区 + 空铁枢纽（临港/浦东方向）",
+                     "探讨：出海企业「境内关外」通道、保税展示、国际中转",
+                     "作用：为出海订单与海外仓提供口岸与政策承接点"]),
+      ("谷歌 Google", ACC, ["探讨：Google Ads / YouTube 出海投放与海外获客",
+                        "探讨：谷歌在领事馆/国别活动中的技术与流量角色",
+                        "作用：叠加海外数字营销通路，服务内容与货品出海"]),
+      ("领英 LinkedIn", ACC2, ["B2B 海外决策人触达、品牌出海、海外招募",
+                          "与展会/领事撮合互补，沉淀海外客户资产",
+                          "作用：国际出海职能的线上主通路之一"])]
+for i, (t, c, items) in enumerate(ex):
+    x = Emu(ML + i * Inches(3.94))
+    card(s, x, Inches(1.8), Inches(3.72), Inches(3.05), title=t, items=items, accent=c, bsize=11)
+rect(s, ML, Inches(5.05), CW, Inches(1.5), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=GOLD, lw=1, radius=True)
+rect(s, ML, Inches(5.05), Inches(0.07), Inches(1.5), fill=GOLD)
+text(s, Inches(1.1), Inches(5.18), Inches(11), Inches(0.4), [("说明　", GOLD, True), ("本页为战略资源探讨方向（待落实），用以强化国际出海职能并在出海板块形成收费。", INK, False)], size=12)
+bullets(s, Inches(1.1), Inches(5.62), Inches(11), Inches(0.8),
+        ["收费落点：出海专项服务费 + 撮合佣金 + 海外营销投放代运营 + 国家会客厅冠名/会籍",
+         "东方枢纽与谷歌合作以实际对接结果为准，不构成承诺"], size=10.5, gap=3, mark=GOLD)
+
 # ---------- 营收逻辑 · 收入结构（3F+5F 整体） ----------
 nxt(); s = slide(); header(s, "08", "REVENUE MODEL", "营收逻辑 · 收入结构（3F + 5F 整体）"); footer(s, IDX)
 rect(s, ML, Inches(1.68), CW, Inches(0.82), grad=[(0, "3A2878", None), (100, "2A1E55", None)], gang=0, line=GOLD, lw=1.25, radius=True)
 text(s, Inches(1.1), Inches(1.68), Inches(11.2), Inches(0.82),
-     [("收入逻辑　", GOLD, True), ("园区空间盘（租金/物业）＝对赌基础与出海反哺来源；运营平台收入＝固定服务 + 浮动佣金/分成 + 经营性 + 补贴。", INK, False)],
-     size=12.5, anchor=MSO_ANCHOR.MIDDLE, space=1.15)
+     [("收入逻辑　", GOLD, True), ("园区空间盘（租金/物业）＝出海反哺来源；运营平台收入＝招商佣金（强化）+ 出海专项服务费 + 撮合分成 + 经营性/补贴。", INK, False)],
+     size=12, anchor=MSO_ANCHOR.MIDDLE, space=1.15)
 # 左：园区空间盘（背景）
 rect(s, ML, Inches(2.66), Inches(5.72), Inches(3.7), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=LINE, radius=True)
 rect(s, ML, Inches(2.66), Inches(0.07), Inches(3.7), fill=ACC)
-text(s, Inches(1.08), Inches(2.8), Inches(5.4), Inches(0.4), "① 园区空间盘（甲方口径 · 对赌基础）", size=13, color=ACC, bold=True)
+text(s, Inches(1.08), Inches(2.8), Inches(5.4), Inches(0.4), "① 园区空间盘（甲方口径 · 出海反哺来源）", size=13, color=ACC, bold=True)
 table(s, Inches(1.03), Inches(3.3), Inches(5.4), [
     ["科目", "年化（示意）"],
     ["3F 办公租金 2850㎡", "约 400 万（85% 去化 · ~4.5 元/㎡/天）"],
@@ -911,10 +949,10 @@ rect(s, Inches(6.76), Inches(2.66), Inches(0.07), Inches(3.7), fill=GOLD)
 text(s, Inches(7.04), Inches(2.8), Inches(5.4), Inches(0.4), "② 运营平台收入（乙方口径）", size=13, color=GOLD, bold=True)
 table(s, Inches(6.99), Inches(3.3), Inches(5.4), [
     ["收入类别", "年化（示意）"],
-    ["固定服务费", "约 146 万（运营 96 + 活动 30 + 媒体 10 + 挂牌）"],
-    ["招商佣金", "1 月租金/成交（约 30–50 万）"],
-    ["增值 + 出海分成", "约 150–450 万（联合公司）"],
-    ["经营性 + 补贴", "约 50–100 万（门票/培训/空间 + 载体奖励）"]],
+    ["招商佣金（强化）", "2–3 月租金/成交（约 60–120 万）"],
+    ["活动 + 媒体", "活动 30 万 + 媒体 10 万 + 挂牌"],
+    ["出海专项服务费", "原月费转化，出海协议内计收"],
+    ["出海撮合 + 增值分成", "约 150–450 万（联合公司）"]],
     [0.4, 0.6], sizes=[10.5, 10.5], rh=Inches(0.5), head_rh=Inches(0.42), first_col_color=INK)
 text(s, ML, Inches(6.5), Inches(11.6), Inches(0.3),
      "＊示意测算，用于沟通商业空间；租金/去化/分成以物业条件、签约与执行节奏为准。运营平台稳定期年收入区间约 380–740 万。", size=9.5, color=SOFT)
@@ -946,7 +984,7 @@ for i, (t, r, c0, n, c) in enumerate(sc):
     text(s, Inches(9.5), y, Inches(1.6), Inches(0.78), c0, size=11.5, color=MUT, anchor=MSO_ANCHOR.MIDDLE)
     text(s, Inches(11.0), y, Inches(1.5), Inches(0.78), [(n, c, True)], size=13, anchor=MSO_ANCHOR.MIDDLE)
 rect(s, ML, Inches(5.45), CW, Inches(1.1), grad=[(0, "322462", None), (100, "221848", None)], gang=0, line=GOLD, lw=1, radius=True)
-text(s, Inches(1.1), Inches(5.56), Inches(11.2), Inches(0.4), [("盈亏与现金流　", GOLD, True), ("基础运营费 96 万/年为保底，覆盖基本盘；三情景净收益均为正，出海撮合为最大增长弹性。", INK, False)], size=12)
+text(s, Inches(1.1), Inches(5.56), Inches(11.2), Inches(0.4), [("盈亏与现金流　", GOLD, True), ("招商轻资产不对赌、佣金强化保基本盘；出海专项服务费 + 撮合为最大增长弹性，三情景净收益均为正。", INK, False)], size=12)
 bullets(s, Inches(1.1), Inches(6.0), Inches(11), Inches(0.5),
         ["轻资产：装修硬件以甲方投入为主，乙方前期投入低、回正快；补贴与增值/出海形成第二增长曲线"], size=11, gap=2, mark=GOLD)
 text(s, ML, Inches(6.62), Inches(11.6), Inches(0.28), "＊三情景为示意测算区间，实际以签约、去化与出海落地为准。", size=9, color=SOFT)
@@ -972,8 +1010,8 @@ nxt(); divider(IDX, "10", "投决建议与下一步", "DECISION & NEXT STEP", "�
 
 # ---------- 28 三问 + 路线 ----------
 nxt(); s = slide(); header(s, "10", "DECISION & NEXT STEP", "三问决策 + 启动路线图"); footer(s, IDX)
-q = [("Q1", "合作模式？", "对赌运营：基础运营费 96 万/年 + 佣金 + 增值分成，对赌三年均 85%", GOLD),
-     ("Q2", "报价档位？", "基础 96 万/年 + 活动 30 万 + 媒体 10 万 + 挂牌（3 万/个）+ 1 月佣金", ACC),
+q = [("Q1", "合作模式？", "轻资产运营（招商不对赌）：佣金 2–3 月 + 出海专项服务费 + 增值分成", GOLD),
+     ("Q2", "报价档位？", "招商：佣金 2–3 月 + 活动 30 万 + 媒体 10 万 + 挂牌；出海：专项服务费 + 撮合佣金", ACC),
      ("Q3", "何时启动？", "与装修/设计交付同步，尽快签 MOU，先行政策梳理与挂牌筹备", ACC2)]
 for i, (n, t, d, qc) in enumerate(q):
     x = Emu(ML + i * Inches(3.94))
