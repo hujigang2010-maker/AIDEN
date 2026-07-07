@@ -116,22 +116,30 @@ def add_table_slide(slide, tdata, idx, total):
     ncol = len(headers)
     nrow = len(rows) + 1
     left = Inches(0.5)
-    top = Inches(1.45)
+    top = Inches(1.4)
     width = Inches(12.33)
-    height = Inches(0.42) * nrow
+    # 自适应行高与字号，避免多行表溢出
+    avail = 5.05  # inches for the table body
+    row_h = min(0.42, avail / nrow)
+    cell_fs = 10.5 if nrow <= 10 else (9.5 if nrow <= 13 else 8.8)
+    head_fs = 12 if nrow <= 10 else 11
+    height = Inches(row_h) * nrow
     gtbl = slide.shapes.add_table(nrow, ncol, left, top, width, height).table
+    # 首列略宽
+    first_w = int(width * 0.16) if ncol >= 4 else int(width / ncol)
+    rest = int((width - first_w) / (ncol - 1)) if ncol > 1 else int(width)
     for ci in range(ncol):
-        gtbl.columns[ci].width = Emu(int(width / ncol))
+        gtbl.columns[ci].width = Emu(first_w if ci == 0 else rest)
     for ci, htext in enumerate(headers):
         cell = gtbl.cell(0, ci)
         cell.fill.solid(); cell.fill.fore_color.rgb = NAVY
         cell.vertical_anchor = MSO_ANCHOR.MIDDLE
-        cell.margin_left = Inches(0.06); cell.margin_right = Inches(0.06)
+        cell.margin_left = Inches(0.05); cell.margin_right = Inches(0.05)
+        cell.margin_top = Inches(0.01); cell.margin_bottom = Inches(0.01)
         p = cell.text_frame.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
         r = p.add_run(); r.text = htext
-        set_font(r, 12, WHITE, True)
+        set_font(r, head_fs, WHITE, True)
     for ri, row in enumerate(rows, start=1):
-        is_total = (str(row[0]) in ("合计", "乐观"))
         emph = str(row[0]) in ("合计",)
         for ci, val in enumerate(row):
             cell = gtbl.cell(ri, ci)
@@ -141,17 +149,17 @@ def add_table_slide(slide, tdata, idx, total):
             else:
                 cell.fill.fore_color.rgb = WHITE if ri % 2 else LIGHT
             cell.vertical_anchor = MSO_ANCHOR.MIDDLE
-            cell.margin_left = Inches(0.06); cell.margin_right = Inches(0.06)
-            cell.margin_top = Inches(0.02); cell.margin_bottom = Inches(0.02)
+            cell.margin_left = Inches(0.05); cell.margin_right = Inches(0.05)
+            cell.margin_top = Inches(0.01); cell.margin_bottom = Inches(0.01)
             p = cell.text_frame.paragraphs[0]
             p.alignment = PP_ALIGN.CENTER if ci else PP_ALIGN.LEFT
             r = p.add_run(); r.text = str(val)
-            set_font(r, 10.5, DARK, emph or ci == 0)
+            set_font(r, cell_fs, DARK, emph or ci == 0)
     note = tdata.get("note")
     if note:
-        ny = top + height + Inches(0.12)
+        ny = top + height + Inches(0.1)
         add_text(slide, Inches(0.5), ny, Inches(12.33), Inches(0.9),
-                 "说明：" + note, 10.5, GREY)
+                 "说明：" + note, 10, GREY)
     footer(slide)
 
 
@@ -167,10 +175,61 @@ def slide_cover(prs):
              C.PROJECT_NAME, 44, WHITE, True)
     add_text(s, Inches(0.92), Inches(3.75), Inches(11.5), Inches(0.8),
              C.PROJECT_SUBTITLE, 24, LIGHT)
-    add_text(s, Inches(0.92), Inches(5.1), Inches(11.5), Inches(0.6),
-             "东亚 + 东南亚出海 · 300人 · 论坛 + 轻社交酒会 · 8月中下旬", 16, GOLD, True)
+    add_text(s, Inches(0.92), Inches(5.1), Inches(11.7), Inches(0.6),
+             "东南亚六国+日韩 · 300人 · 论坛(免费)+轻社交酒会 · " + C.EVENT_DATE, 15, GOLD, True)
     add_text(s, Inches(0.92), Inches(6.6), Inches(11.5), Inches(0.5),
              "主体：总领文化传播有限公司（筹）　|　" + C.VERSION, 12, GREY)
+    return s
+
+
+def slide_date(prs, idx, total):
+    s = blank(prs)
+    header(s, "择期：黄道吉日 2026/9/28", idx, total)
+    add_rect(s, Inches(0.5), Inches(1.5), Inches(5.9), Inches(2.4), NAVY)
+    add_text(s, Inches(0.7), Inches(1.7), Inches(5.5), Inches(0.5), "活动日期", 16, GOLD, True)
+    add_text(s, Inches(0.7), Inches(2.25), Inches(5.5), Inches(1.4),
+             C.HUANGLI["date"] + "\n（周一 · 下午 13:00–18:30）", 20, WHITE, True)
+    add_rect(s, Inches(6.6), Inches(1.5), Inches(6.23), Inches(2.4), LIGHT)
+    add_text(s, Inches(6.8), Inches(1.65), Inches(5.9), Inches(2.2),
+             "【宜】" + C.HUANGLI["yi"] + "\n\n【忌】" + C.HUANGLI["ji"] +
+             "\n\n【冲】" + C.HUANGLI["chong"], 12.5, DARK)
+    add_rect(s, Inches(0.5), Inches(4.15), Inches(12.33), Inches(0.6), GOLD)
+    add_text(s, Inches(0.7), Inches(4.15), Inches(12), Inches(0.6),
+             "择此日之由：" + C.HUANGLI["why"], 13, NAVY, True, anchor=MSO_ANCHOR.MIDDLE)
+    bullets(s, Inches(0.7), Inches(4.95), Inches(12), Inches(1.4),
+            C.DATE_BACKUP + [C.HOLIDAY_NOTE], size=12.5, gap=8, marker="·")
+    footer(s)
+    return s
+
+
+def slide_countries(prs, idx, total):
+    s = blank(prs)
+    header(s, "具体国家：东南亚六国 + 日韩加持", idx, total)
+    # 东南亚六国 + 日韩，用色块国旗式卡片
+    sea = ["新加坡", "马来西亚", "泰国", "印度尼西亚", "越南", "菲律宾"]
+    ea = ["日本", "韩国"]
+    add_text(s, Inches(0.6), Inches(1.35), Inches(12), Inches(0.4),
+             "首场主体 · 东南亚六国", 15, NAVY, True)
+    bw = Inches(1.9); gap = Inches(0.13); startx = Inches(0.6); top = Inches(1.85)
+    for i, c in enumerate(sea):
+        x = startx + i * (bw + gap)
+        add_rect(s, x, top, bw, Inches(0.85), NAVY)
+        add_text(s, x, top, bw, Inches(0.85), c, 16, WHITE, True,
+                 align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+    add_text(s, Inches(0.6), Inches(3.0), Inches(12), Inches(0.4),
+             "加持提升规格 · 东亚", 15, NAVY, True)
+    for i, c in enumerate(ea):
+        x = startx + i * (bw + gap)
+        add_rect(s, x, Inches(3.5), bw, Inches(0.85), GOLD)
+        add_text(s, x, Inches(3.5), bw, Inches(0.85), c, 16, NAVY, True,
+                 align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+    add_rect(s, Inches(0.5), Inches(4.7), Inches(12.33), Inches(1.7), LIGHT)
+    add_text(s, Inches(0.7), Inches(4.82), Inches(12), Inches(0.4), "国别推介重点", 14, NAVY, True)
+    add_text(s, Inches(0.7), Inches(5.25), Inches(12.0), Inches(1.1),
+             "新加坡（总部/金融/转口）· 马来西亚（电子/清真/数据中心）· 泰国（汽车与新能源配套）"
+             "\n印尼（资源/消费/数字经济）· 越南（电子/纺织/制造转移）· 菲律宾（消费/BPO/基建）"
+             "\n日本（高端制造/消费/科技）· 韩国（半导体/美妆/文化科技）", 12.5, DARK)
+    footer(s)
     return s
 
 
@@ -207,8 +266,8 @@ def slide_model(prs, idx, total):
             size=17, gap=18)
     add_rect(s, Inches(0.5), Inches(6.2), Inches(12.33), Inches(0.7), GOLD)
     add_text(s, Inches(0.7), Inches(6.2), Inches(12), Inches(0.7),
-             "一句话：白天低门槛做大基数 → 撬动 B 端赞助 → 覆盖成本并盈利。",
-             14, NAVY, True, anchor=MSO_ANCHOR.MIDDLE)
+             "一句话：下午论坛免费做大基数 → B 端赞助 + 展位增值 + 会客厅挂牌 → 覆盖成本并盈利。",
+             13.5, NAVY, True, anchor=MSO_ANCHOR.MIDDLE)
     footer(s)
     return s
 
@@ -287,7 +346,7 @@ def build(path):
     prs = Presentation()
     prs.slide_width = SLIDE_W
     prs.slide_height = SLIDE_H
-    total = 15
+    total = 18
     n = [0]
 
     def nxt():
@@ -295,15 +354,18 @@ def build(path):
         return n[0]
 
     slide_cover(prs)
-    slide_section(prs, "01", "目标与定位", "跑通正向现金流 · 沉淀核心理事 · 讲清出海服务流线")
+    slide_section(prs, "01", "目标 · 定位 · 择期", "跑通正向现金流 · 沉淀核心理事 · 黄道吉日 9/28")
     slide_goal(prs, nxt(), total)
     add_table_slide(blank(prs), C.TBL_OVERVIEW, nxt(), total)
-    slide_section(prs, "02", "活动方案与流程", "论坛 + 轻社交酒会（不做晚宴） · 半天 rundown")
+    slide_date(prs, nxt(), total)
+    slide_countries(prs, nxt(), total)
+    slide_section(prs, "02", "活动方案与议程", "论坛(免费) + 轻社交酒会（不做晚宴） · 详细议程")
     add_table_slide(blank(prs), C.TBL_RUNDOWN, nxt(), total)
     slide_model(prs, nxt(), total)
-    slide_section(prs, "03", "收费与赞助落地", "C 端筛选 · B 端赞助 · 会客厅挂牌 · 成本与盈亏")
-    add_table_slide(blank(prs), C.TBL_C_PRICING, nxt(), total)
+    slide_section(prs, "03", "收费与赞助落地", "下午免费 · B 端赞助 · 展位增值 · 会客厅 · 盈亏")
+    add_table_slide(blank(prs), C.TBL_ENROLL, nxt(), total)
     add_table_slide(blank(prs), C.TBL_B_SPONSOR, nxt(), total)
+    add_table_slide(blank(prs), C.TBL_ADDON, nxt(), total)
     add_table_slide(blank(prs), C.TBL_SALON_GOV, nxt(), total)
     add_table_slide(blank(prs), C.TBL_COST, nxt(), total)
     add_table_slide(blank(prs), C.TBL_PNL, nxt(), total)

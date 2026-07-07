@@ -34,6 +34,16 @@ def build(path):
     for x in C.OBJECTIVES:
         L.append(f"- {x}")
     L.append("")
+    L.append("## 择期：黄道吉日")
+    L.append(f"- **活动日期**：{C.HUANGLI['date']}（下午 13:00–18:30）")
+    L.append(f"- **【宜】**：{C.HUANGLI['yi']}")
+    L.append(f"- **【忌】**：{C.HUANGLI['ji']}")
+    L.append(f"- **【冲】**：{C.HUANGLI['chong']}")
+    L.append(f"- **择此日之由**：{C.HUANGLI['why']}")
+    for x in C.DATE_BACKUP:
+        L.append(f"- {x}")
+    L.append(f"- {C.HOLIDAY_NOTE}")
+    L.append("")
     L.append("## 二、首场定位")
     for x in C.POSITIONING:
         L.append(f"- {x}")
