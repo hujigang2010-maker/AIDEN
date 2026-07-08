@@ -965,6 +965,25 @@ nxt(); collab(IDX, "EAST-HUB PARTNERSHIP", "东方枢纽合作 · 合作模式�
     "若落地：服务对接费 + 撮合佣金 + 仓储分成。",
     "中保区（东方枢纽）合作模式尚未明确，暂不纳入本次预算；作为加分项后补（主干先行·枝叶后补）。", ROSE)
 
+# ---------- 出海费用清单（轻运营 · 挂牌/代运营/资源导入） ----------
+nxt(); s = slide(); header(s, "08", "GO-GLOBAL FEES", "出海费用清单 · 挂牌 / 代运营 / 资源导入（轻运营）"); footer(s, IDX)
+rect(s, ML, Inches(1.68), CW, Inches(0.82), grad=[(0, "3A2878", None), (100, "2A1E55", None)], gang=0, line=GOLD, lw=1.25, radius=True)
+text(s, Inches(1.1), Inches(1.68), Inches(11.2), Inches(0.82),
+     [("方式　", GOLD, True), ("出海板块以「轻运营」推进：以运营活动 + 资源对接为主，不重投入；活动场次或按招人方式后续再定。以下为出海成本项（供甲方预算）。", INK, False)],
+     size=12.5, anchor=MSO_ANCHOR.MIDDLE, space=1.16)
+table(s, ML, Inches(2.72), CW, [
+    ["费用项", "内容", "金额（含单位）"],
+    ["① 出海挂牌费", "国家 / 北欧会客厅挂牌 + 领事资源背书 + 出海身份/牌照", "10–20 万元（一次性 / 按牌）"],
+    ["② 代运营费用", "领英 / 谷歌 / 短剧 / 社媒 海外账号搭建与投放代运营（媒介投放费由企业承担）", "打包 15–30 万/年（或 1–3 万/月/家）"],
+    ["③ 资源导入费用", "大湾区 / 复旦系 / 高校 / 领事 / 买家团 / IP 资源对接与导入", "打包 10–20 万/年（或按项目 1–5 万/次）"]],
+    [0.2, 0.54, 0.26], sizes=[12, 10.5, 11], rh=Inches(0.72), head_rh=Inches(0.48), first_col_color=GOLD)
+rect(s, ML, Inches(5.5), CW, Inches(1.05), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=GOLD, lw=1, radius=True)
+rect(s, ML, Inches(5.5), Inches(0.07), Inches(1.05), fill=GOLD)
+text(s, Inches(1.1), Inches(5.6), Inches(11.2), Inches(0.4),
+     [("费用合计（示意）　", GOLD, True), ("一次性：挂牌 10–20 万；年度：代运营 + 资源导入 约 25–50 万/年 → 首年约 35–70 万。", INK, False)], size=12)
+text(s, Inches(1.1), Inches(6.04), Inches(11.2), Inches(0.4),
+     [("备注　", MUT, True), ("不含出海撮合佣金（平台利润 1–30 万/项目 + 落地 1%–3%，按成交另计）与海外媒介投放费（企业承担）；活动/招人方式待定后细化。", MUT, False)], size=10.5, space=1.12)
+
 # ---------- 营收逻辑 · 收入结构（3F+5F 整体） ----------
 nxt(); s = slide(); header(s, "08", "REVENUE MODEL", "营收逻辑 · 收入结构（3F + 5F 整体）"); footer(s, IDX)
 rect(s, ML, Inches(1.68), CW, Inches(0.82), grad=[(0, "3A2878", None), (100, "2A1E55", None)], gang=0, line=GOLD, lw=1.25, radius=True)
