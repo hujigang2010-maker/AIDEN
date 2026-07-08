@@ -6,11 +6,11 @@ from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.properties import PageSetupProperties
 import plan_data as D
 
-NAVY = "1F3864"
-BLUE = "2E5496"
-LTBLUE = "D9E1F2"
-GOLD = "BF9000"
-GREY = "F2F2F2"
+NAVY = "2E1F47"    # 深紫（标题/深色底）
+BLUE = "5B3E8E"    # 主紫
+LTBLUE = "EAE3F5"  # 浅紫（表头/强调底）
+GOLD = "B0841A"    # 金（数字/强调）
+GREY = "F6F3FB"    # 交替行浅紫灰
 WHITE = "FFFFFF"
 
 thin = Side(style="thin", color="BFBFBF")
@@ -59,8 +59,8 @@ ws = wb.active
 ws.title = "1-12场活动总览"
 headers = ["序号", "拟定时间", "活动主题", "产业板块", "形式/规模", "场地建议", "报价档位", "报价(万元)"]
 widths = [6, 16, 34, 20, 16, 26, 14, 11]
-hr = title_row(ws, "东方枢纽 × 复旦大学住房政策研究中心 × 杨浦区科技企业联合会  |  下半年 12 场活动总览",
-               len(headers), "报价单位：人民币·万元（初步建议，最终以指定策划供应商合同为准）")
+hr = title_row(ws, "东方枢纽 × 复旦大学 × 上海市科技企业联合会  |  下半年 12 场活动总览",
+               len(headers), "以“上海市级 + 浦东新区”资源联动为核心；报价单位：人民币·万元（初步建议，最终以指定策划供应商合同为准）")
 for i, w in enumerate(widths, 1):
     ws.column_dimensions[get_column_letter(i)].width = w
 for j, h in enumerate(headers, 1):
@@ -153,6 +153,12 @@ style_cell(ws.cell(row=r, column=1, value="合计"), bold=True, fill=NAVY, color
 style_cell(ws.cell(row=r, column=2, value=len(D.ACTIVITIES)), center=True, bold=True, fill=NAVY, color=WHITE)
 style_cell(ws.cell(row=r, column=3, value="—"), center=True, fill=NAVY, color=WHITE)
 style_cell(ws.cell(row=r, column=4, value=D.TOTAL_PRICE), center=True, bold=True, fill=NAVY, color=WHITE)
+r += 2
+drop = round((1 - D.TOTAL_PRICE / D.PREV_TOTAL) * 100)
+c = ws.cell(row=r, column=1,
+            value=f"说明：按东方枢纽标准优化后，全年合计约 {D.TOTAL_PRICE} 万元，较初版 {D.PREV_TOTAL} 万元下调约 {drop}%；上不封顶原则下的合理基准价，可按规模/邀约确认后微调。")
+c.font = Font(name=FONT, italic=True, size=9, color="595959")
+ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
 
 # ---------------------------------------------------------------- Sheet 4 招商价值
 ws = wb.create_sheet("4-招商引资价值分析")
@@ -212,18 +218,43 @@ for name, val in D.ROI_SUMMARY:
     style_cell(ws.cell(row=r, column=2, value=val), fill=GREY if r % 2 else WHITE, color=GOLD, bold=True)
     r += 1
 
-# ---------------------------------------------------------------- Sheet 5 执行机制
-ws = wb.create_sheet("5-执行机制与保障")
-hr = title_row(ws, "执行机制与合规保障", 2)
-ws.column_dimensions["A"].width = 20
-ws.column_dimensions["B"].width = 70
-for j, h in enumerate(["环节", "要点"], 1):
-    style_header(ws.cell(row=hr, column=j, value=h))
+# ---------------------------------------------------------------- Sheet 5 合作资源与执行机制
+ws = wb.create_sheet("5-合作资源与执行机制")
+hr = title_row(ws, "合作资源背书与执行机制", 2)
+ws.column_dimensions["A"].width = 22
+ws.column_dimensions["B"].width = 72
+# 三方
+ws.cell(row=hr, column=1, value="一、三方合作定位").font = Font(name=FONT, bold=True, size=12, color=NAVY)
 r = hr + 1
+for name, role, desc in D.PARTIES:
+    style_cell(ws.cell(row=r, column=1, value=f"{name}\n（{role}）"), bold=True, center=True, fill=LTBLUE)
+    style_cell(ws.cell(row=r, column=2, value=desc), fill=GREY if r % 2 else WHITE)
+    ws.row_dimensions[r].height = 48
+    r += 1
+style_cell(ws.cell(row=r, column=1, value="备选/补充科技组织"), bold=True, center=True, fill=GREY)
+style_cell(ws.cell(row=r, column=2, value="、".join(D.ALT_TECH_ORGS)), fill=WHITE)
+r += 2
+# 政府资源
+ws.cell(row=r, column=1, value="二、政府资源背书矩阵（市级 + 浦东新区联动）").font = Font(name=FONT, bold=True, size=12, color=NAVY)
+r += 1
+for group, items in D.GOV_RESOURCES.items():
+    style_cell(ws.cell(row=r, column=1, value=group), bold=True, center=True, fill=BLUE, color=WHITE)
+    style_cell(ws.cell(row=r, column=2, value="\n".join("• " + x for x in items)), fill=GREY if r % 2 else WHITE)
+    ws.row_dimensions[r].height = 58
+    r += 1
+style_cell(ws.cell(row=r, column=1, value="联动逻辑"), bold=True, center=True, fill=GOLD, color=WHITE)
+style_cell(ws.cell(row=r, column=2, value=D.GOV_TAGLINE), fill=WHITE)
+r += 2
+# 执行机制
+ws.cell(row=r, column=1, value="三、执行机制与合规保障").font = Font(name=FONT, bold=True, size=12, color=NAVY)
+r += 1
+for j, h in enumerate(["环节", "要点"], 1):
+    style_header(ws.cell(row=r, column=j, value=h))
+r += 1
 for name, desc in D.EXECUTION:
     style_cell(ws.cell(row=r, column=1, value=name), bold=True, center=True, fill=LTBLUE)
     style_cell(ws.cell(row=r, column=2, value=desc), fill=GREY if r % 2 else WHITE)
-    ws.row_dimensions[r].height = 34
+    ws.row_dimensions[r].height = 32
     r += 1
 
 for ws in wb.worksheets:
