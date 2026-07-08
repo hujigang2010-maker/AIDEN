@@ -926,6 +926,45 @@ bullets(s, Inches(1.1), Inches(5.62), Inches(11), Inches(0.8),
         ["收费落点：出海专项服务费 + 撮合佣金 + 海外营销投放代运营 + 国家会客厅冠名/会籍",
          "东方枢纽与谷歌合作以实际对接结果为准，不构成承诺"], size=10.5, gap=3, mark=GOLD)
 
+# ========== 三大合作展开（谷歌 / 领英 / 东方枢纽）==========
+def collab(idx, eyebrow, title, lead, content, fees, costs, land, status, scolor):
+    s = slide(); header(s, "08", eyebrow, title); footer(s, idx)
+    rect(s, ML, Inches(1.68), CW, Inches(0.92), grad=[(0, "3A2878", None), (100, "2A1E55", None)], gang=0, line=GOLD, lw=1.25, radius=True)
+    text(s, Inches(1.1), Inches(1.68), Inches(11.2), Inches(0.92),
+         [("合作模式　", GOLD, True), (lead, INK, False)], size=12.5, anchor=MSO_ANCHOR.MIDDLE, space=1.18)
+    card(s, ML, Inches(2.78), Inches(3.72), Inches(2.5), "合作内容", items=content, accent=ACC, bsize=11)
+    card(s, Inches(4.79), Inches(2.78), Inches(3.72), Inches(2.5), "收费（含单位）", items=fees, accent=GOLD, bsize=11)
+    card(s, Inches(8.78), Inches(2.78), Inches(3.7), Inches(2.5), "成本（含单位）", items=costs, accent=ROSE, bsize=11)
+    rect(s, ML, Inches(5.45), CW, Inches(1.1), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=LINE, radius=True)
+    rect(s, ML, Inches(5.45), Inches(0.07), Inches(1.1), fill=scolor)
+    text(s, Inches(1.1), Inches(5.56), Inches(11.2), Inches(0.4), [("收费落点　", GOLD, True), (land, INK, False)], size=11.5)
+    text(s, Inches(1.1), Inches(6.02), Inches(11.2), Inches(0.4), [("状态　", scolor, True), (status, MUT, False)], size=11)
+    return s
+
+nxt(); collab(IDX, "GOOGLE PARTNERSHIP", "谷歌合作 · 合作模式展开",
+    "以园区/平台名义对接谷歌出海生态（Google Ads / YouTube / Google Cloud），为入驻企业提供海外投放开户、代运营与出海营销培训；并探讨谷歌在领事馆/国别活动中的技术与流量支持角色。",
+    ["海外广告开户、充值与合规", "YouTube / 搜索出海投放代运营", "出海营销培训与认证", "谷歌出海资源与国别活动对接"],
+    ["投放代运营 1–3 万/月/家", "或按投放额 10%–15% 计", "开户返点分成（平台侧）", "培训 按场/人计"],
+    ["代运营人力（兼职分摊）", "投放媒介费由客户承担", "账户合规/风控成本", "—"],
+    "出海专项服务费 + 海外营销代运营 + 返点分成。",
+    "探讨中 / 待落实，以实际对接结果为准，不构成承诺。", ACC)
+
+nxt(); collab(IDX, "LINKEDIN PARTNERSHIP", "领英合作 · 合作模式展开",
+    "以平台名义对接领英营销解决方案，为出海企业做 B2B 品牌页、广告投放、决策人触达与海外招募；纳入出海全链条线上主通路，与展会/领事撮合互补。",
+    ["企业领英账号搭建与代运营", "B2B 广告投放 / 决策人触达", "海外 KOL / 人才招募", "领英出海培训"],
+    ["账号搭建 0.5–1 万/家（一次性）", "代运营 1–3 万/月/家", "或按投放额 10%–15% 计", "培训 按场计"],
+    ["代运营人力（兼职分摊）", "投放媒介费由客户承担", "领英资源合作分成", "—"],
+    "出海专项服务费 + 代运营分成。",
+    "探讨中 / 待落实，沉淀海外客户资产为长期价值。", ACC2)
+
+nxt(); collab(IDX, "EAST-HUB PARTNERSHIP", "东方枢纽合作 · 合作模式展开",
+    "对接东方枢纽（浦东综保区 / 国际商务合作区 / 空铁枢纽），为出海企业提供境内关外通道、保税展示、海外仓与国际中转、口岸与政策承接，作为出海物流与合规落地节点。",
+    ["保税展示 / 展销", "海外仓 / 国际中转", "跨境电商 / 出口退税通道", "口岸政策承接与合规"],
+    ["服务对接费（待定）", "撮合佣金（待定）", "仓储 / 中转分成（待定）", "—"],
+    ["合作模式未明，成本待定", "—", "—", "—"],
+    "若落地：服务对接费 + 撮合佣金 + 仓储分成。",
+    "中保区（东方枢纽）合作模式尚未明确，暂不纳入本次预算；作为加分项后补（主干先行·枝叶后补）。", ROSE)
+
 # ---------- 营收逻辑 · 收入结构（3F+5F 整体） ----------
 nxt(); s = slide(); header(s, "08", "REVENUE MODEL", "营收逻辑 · 收入结构（3F + 5F 整体）"); footer(s, IDX)
 rect(s, ML, Inches(1.68), CW, Inches(0.82), grad=[(0, "3A2878", None), (100, "2A1E55", None)], gang=0, line=GOLD, lw=1.25, radius=True)
@@ -988,6 +1027,71 @@ text(s, Inches(1.1), Inches(5.56), Inches(11.2), Inches(0.4), [("盈亏与现金
 bullets(s, Inches(1.1), Inches(6.0), Inches(11), Inches(0.5),
         ["轻资产：装修硬件以甲方投入为主，乙方前期投入低、回正快；补贴与增值/出海形成第二增长曲线"], size=11, gap=2, mark=GOLD)
 text(s, ML, Inches(6.62), Inches(11.6), Inches(0.28), "＊三情景为示意测算区间，实际以签约、去化与出海落地为准。", size=9, color=SOFT)
+
+# ---------- 财务测算 · 政策申报相关收入（能否拿到现金） ----------
+nxt(); s = slide(); header(s, "08", "POLICY INCOME", "财务测算 · 政策申报收入（能否拿到现金）"); footer(s, IDX)
+table(s, ML, Inches(1.7), CW, [
+    ["政策", "金额（含单位）", "平台可实现现金（单位）", "现金确定性"],
+    ["载体运营/活动补贴（科技服务业·成果转化平台）", "认定后≤100 万/年；运营满年约 10–20 万/年", "直接到平台 10–20 万/年", "现金·较确定（需认定+满年）"],
+    ["高新技术企业认定", "首次 20 万/次（企业·一次性）", "申报服务费 2–8 万/家", "现金·确定（服务费）"],
+    ["专精特新", "市级 10 / 国家小巨人 30 万（企业·一次性）", "服务费 2–8 万/家", "现金·确定（服务费）"],
+    ["科技型中小企业备案", "资格（企业·无直接现金）", "服务费 0.3–2 万/家", "现金·确定（服务费）"],
+    ["AI/大数据房租补贴", "2 元/天/㎡·≤100 万/年（企业·3 年）", "代申请成功费 到账 5%–15%", "现金·依到账"],
+    ["政府补贴项目（各类）", "视项目（企业）", "成功费 到账额 5%–15%", "现金·以兑现为准"],
+    ["科技创新券", "企业≤30 万·团队≤10 万/年（抵付服务）", "作服务机构核销分成", "现金·需入驻创新券平台"],
+    ["算力补贴 + 云折扣", "最高 50%（企业）", "— 招商抓手（非平台现金）", "非现金（招商用）"]],
+    [0.32, 0.28, 0.24, 0.16], sizes=[10, 9.5, 9.5, 9.5], rh=Inches(0.44), head_rh=Inches(0.42), first_col_color=GOLD)
+rect(s, ML, Inches(5.95), CW, Inches(0.72), grad=[(0, "3A2878", None), (100, "2A1E55", None)], gang=0, line=GOLD, lw=1, radius=True)
+text(s, Inches(1.1), Inches(5.95), Inches(11.2), Inches(0.72),
+     [("关键提示　", GOLD, True), ("计入预算的政策收入＝平台可实现现金（申报服务费 + 成功分成 + 载体运营补贴）；产业补贴主体流向企业/载体，平台按约定分成或成功费取酬。未来预判：微短剧专项、模塑申城三券、YOUNG立方直播券/活动补贴（窗口开放后追加）。", INK, False)],
+     size=10.5, anchor=MSO_ANCHOR.MIDDLE, space=1.15)
+
+# ---------- 财务测算 · 国际会客厅（北欧会客厅） ----------
+nxt(); s = slide(); header(s, "08", "SALON P&L", "财务测算 · 国际会客厅（北欧会客厅）"); footer(s, IDX)
+rect(s, ML, Inches(1.68), CW, Inches(0.98), grad=[(0, "3A2878", None), (100, "2A1E55", None)], gang=0, line=GOLD, lw=1.25, radius=True)
+text(s, Inches(1.1), Inches(1.68), Inches(11.2), Inches(0.98),
+     [("合作模式　", GOLD, True), ("联合国际领事资源合作方，以「北欧/国别会客厅」为载体，在核心区高层空间做外事接待·文化展示·招商对接·企业出海；平台负责运营策划、活动执行与出海撮合，按「冠名 + 会籍 + 活动 + 出海对接」收费，与领事资源合作方分润。", INK, False)],
+     size=12, anchor=MSO_ANCHOR.MIDDLE, space=1.16)
+rect(s, ML, Inches(2.82), Inches(5.72), Inches(2.5), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=LINE, radius=True)
+rect(s, ML, Inches(2.82), Inches(0.07), Inches(2.5), fill=GOLD)
+text(s, Inches(1.08), Inches(2.95), Inches(5.4), Inches(0.4), "收费（合理·不高估）", size=13, color=GOLD, bold=True)
+table(s, Inches(1.03), Inches(3.45), Inches(5.4), [
+    ["项目", "金额（单位）"],
+    ["冠名/联合冠名", "30–80 万/年"],
+    ["企业会籍", "10 万/家/年（保守 3–5 家）"],
+    ["单场活动（领事出席）", "3–8 万/场（6–8 场/年）"],
+    ["出海对接服务", "单国服务包 20–50 万/项目"]],
+    [0.42, 0.58], sizes=[10, 10], rh=Inches(0.42), head_rh=Inches(0.38), first_col_color=INK)
+rect(s, Inches(6.76), Inches(2.82), Inches(5.72), Inches(2.5), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=LINE, radius=True)
+rect(s, Inches(6.76), Inches(2.82), Inches(0.07), Inches(2.5), fill=ROSE)
+text(s, Inches(7.02), Inches(2.95), Inches(5.4), Inches(0.4), "成本（含单位）", size=13, color=ROSE, bold=True)
+table(s, Inches(6.99), Inches(3.45), Inches(5.4), [
+    ["项目", "金额（单位）"],
+    ["活动执行", "3–5 万/场"],
+    ["领事/嘉宾对接接待", "2–5 万/场"],
+    ["空间/场地分摊", "按次或年（合作方空间）"],
+    ["合作方分润", "领事资源方 40%–50%"]],
+    [0.42, 0.58], sizes=[10, 10], rh=Inches(0.42), head_rh=Inches(0.38), first_col_color=INK)
+rect(s, ML, Inches(5.48), CW, Inches(1.05), grad=[(0, "322462", None), (100, "221848", None)], gang=0, line=GOLD, lw=1, radius=True)
+text(s, Inches(1.1), Inches(5.58), Inches(11.2), Inches(0.9),
+     [("合理预估（不高估）　", GOLD, True), ("首年收入 ~80–120 万，平台净 ~20–40 万/年；成熟期收入 ~150–250 万，平台净 ~50–90 万/年（分润与成本后）。数据为保守测算，待与合作方最终确认。", INK, False)],
+     size=11.5, anchor=MSO_ANCHOR.MIDDLE, space=1.15)
+
+# ---------- 财务测算 · 企业服务（项目/收费/成本） ----------
+nxt(); s = slide(); header(s, "08", "ENTERPRISE SERVICE P&L", "财务测算 · 企业服务（项目 / 收费 / 成本）"); footer(s, IDX)
+table(s, ML, Inches(1.7), CW, [
+    ["服务项目", "收费（含单位）", "成本（含单位）"],
+    ["工商注册 · 代账", "注册引流免费；代账 3000–6000 元/年/家", "第三方分成 + 人力"],
+    ["政策申报", "普通 0.3–2 万/项；高企/专精特新 2–8 万/项；补贴成功费 到账 5%–15%", "人力 + 材料杂费"],
+    ["知识产权", "商标 800–2000 元/件；软著 2000–5000 元/件；专利代理 5000–1 万/件", "第三方分成"],
+    ["财税 · 法务", "顾问 1–5 万/年/家", "第三方分成"],
+    ["融资顾问", "成功佣金 融资额 1%–3%", "人力"],
+    ["出海撮合", "平台利润 1–30 万/项目 + 落地佣金 1%–3%", "出海团队（单列）"]],
+    [0.2, 0.5, 0.3], sizes=[10.5, 10, 10], rh=Inches(0.5), head_rh=Inches(0.44), first_col_color=GOLD)
+rect(s, ML, Inches(5.65), CW, Inches(1.0), grad=[(0, "2A1E55", None), (100, "1E1542", None)], gang=120, line=GOLD, lw=1, radius=True)
+rect(s, ML, Inches(5.65), Inches(0.07), Inches(1.0), fill=ROSE)
+text(s, Inches(1.1), Inches(5.74), Inches(11.2), Inches(0.4), [("成本与人力（必列示）　", GOLD, True), ("企业服务暂不设专职，但属必做工作：按兼职/共享人力列示 约 15–30 万/年（社保+人力）。", INK, False)], size=11.5)
+text(s, Inches(1.1), Inches(6.18), Inches(11.2), Inches(0.4), [("　　　　　　　　　　　", GOLD, False), ("第三方服务分成 按收入 30%–50%；系统/材料杂费 约 2–5 万/年。合理预估：首年企业服务收入(不含出海) ~30–60 万，净利 ~10–25 万。", MUT, False)], size=10.5, space=1.12)
 
 # ---------- 25 章节09 规划拓展 ----------
 nxt(); divider(IDX, "09", "规划建议与业务拓展", "PLANNING & EXPANSION", "规划设计 · 多元收入 · 资源导入 · 协同复制")
