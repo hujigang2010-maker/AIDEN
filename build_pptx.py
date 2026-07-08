@@ -117,8 +117,8 @@ rect(s, Inches(12.25), Inches(4.55), Inches(1.05), Inches(2.0), fill=RGBColor(0x
 text(s, Inches(0.72), Inches(0.55), Inches(12), Inches(0.5),
      [[("三方战略合作 · 下半年活动计划", 15, True, LILAC)]])
 text(s, Inches(0.72), Inches(1.12), Inches(12), Inches(1.5),
-     [[("东方枢纽 133 万方招商", 40, True, WHITE)],
-      [("12 场高质量闭门活动策划方案", 40, True, WHITE)]], space_after=2)
+     [[("东方枢纽 A 片区整体办公招商", 38, True, WHITE)],
+      [("12 场高质量闭门活动策划方案", 38, True, WHITE)]], space_after=2)
 rect(s, Inches(0.75), Inches(3.02), Inches(2.0), Pt(3), fill=GOLD)
 text(s, Inches(0.72), Inches(3.2), Inches(12), Inches(0.5),
      [[("复旦大学  ·  上海市科技企业联合会  ·  东方枢纽", 15, True, WHITE)]])
@@ -132,12 +132,12 @@ s = slide(); bg(s); header(s, "AGENDA", "汇报目录")
 items = [
     ("01", "合作背景与三方定位", "谁在合作 · 各自角色"),
     ("02", "政府资源背书矩阵", "市级 + 浦东新区联动"),
-    ("03", "战略目标与合作原则", "小而美 · 重质量 · 科创赋能"),
-    ("04", "六大核心产业与 12 场总览", "时间 · 主题 · 规模 · 报价"),
-    ("05", "12 场活动详细策划案", "内容 · 嘉宾 · 招商衔接"),
-    ("06", "报价体系（优化下调）", "三档模型 · 全年预算"),
-    ("07", "招商引资价值分析（核心）", "133 万方去化转化"),
-    ("08", "执行机制与下一步", "OA · 供应商 · 落地"),
+    ("03", "招商标的 · A 片区办公项目", "四大产品线 · 销售/租赁"),
+    ("04", "战略目标与合作原则", "小而美 · 重质量 · 科创赋能"),
+    ("05", "六大核心产业与 12 场总览", "时间 · 主题 · 规模 · 报价"),
+    ("06", "12 场活动详细策划案", "内容 · 嘉宾 · 招商衔接"),
+    ("07", "报价体系（优化下调）", "分档模型 · 全年预算"),
+    ("08", "招商价值分析 · 执行与下一步", "A 片区去化转化 · 落地"),
 ]
 cx = [Inches(0.6), Inches(6.9)]
 for i, (num, t, sub) in enumerate(items):
@@ -196,8 +196,39 @@ rect(s, Inches(0.6), y, Pt(5), Inches(0.95), fill=GOLD)
 text(s, Inches(0.9), y, Inches(11.8), Inches(0.95), [[(D.GOV_TAGLINE, 13, True, WHITE)]], anchor=MSO_ANCHOR.MIDDLE)
 footer(s, 4)
 
-# ============================================================ 5. 战略目标与原则
-s = slide(); bg(s); header(s, "战略 · STRATEGY", "战略目标与六大合作原则", "03")
+# ============================================================ 5. 招商标的 · A 片区
+s = slide(); bg(s); header(s, "标的 · PROJECT", "招商标的 · A 片区整体办公项目", "03")
+P = D.PROJECT
+text(s, Inches(0.72), Inches(1.35), Inches(12.3), Inches(0.4),
+     [[(P["position"], 11.5, False, GREY)]])
+# 体量条（更正 133 万方）
+rect(s, Inches(0.6), Inches(1.82), Inches(12.35), Inches(0.55), fill=LAV)
+rect(s, Inches(0.6), Inches(1.82), Pt(5), Inches(0.55), fill=GOLD)
+text(s, Inches(0.82), Inches(1.82), Inches(12), Inches(0.55),
+     [[("体量：", 11, True, PLUM), (P["area"] + "  ", 11, True, GOLD),
+       ("（招商标的为 A 片区办公项目，非“133 万方”）", 10, False, GREY)]], anchor=MSO_ANCHOR.MIDDLE)
+# 四大产品线
+for i, (n, d) in enumerate(P["product_lines"]):
+    col = i % 2; row = i // 2
+    x = Inches(0.6) + col*Inches(6.3); y = Inches(2.55) + row*Inches(1.2)
+    w = Inches(6.0); h = Inches(1.05)
+    rect(s, x, y, w, h, fill=WHITE, line=LAVED, line_w=1, shadow=True)
+    rect(s, x, y, Inches(0.14), h, fill=[PURPLE, PURPLE2, PLUM, TIER_C["A"]][i])
+    text(s, x+Inches(0.3), y+Inches(0.1), w-Inches(0.4), Inches(0.35), [[(f"产品线 {i+1} · {n}", 12, True, PURPLE)]])
+    text(s, x+Inches(0.3), y+Inches(0.48), w-Inches(0.5), Inches(0.55), [[(d, 9.3, False, DARK)]], line_spacing=1.05)
+# 模式 + 匹配
+y = Inches(5.05)
+rect(s, Inches(0.6), y, Inches(12.35), Inches(1.55), fill=WHITE, line=LAVED, line_w=1, shadow=True)
+rect(s, Inches(0.6), y, w if False else Inches(0.14), Inches(1.55), fill=GOLD)
+text(s, Inches(0.85), y+Inches(0.1), Inches(12), Inches(0.32), [[("销售 / 租赁模式", 12, True, PLUM)]])
+runs = [[("· ", 9.5, True, GOLD), (x, 9.5, False, DARK)] for x in P["model"]]
+text(s, Inches(0.87), y+Inches(0.42), Inches(12), Inches(0.7), runs, space_after=2, line_spacing=1.0)
+text(s, Inches(0.85), y+Inches(1.18), Inches(12), Inches(0.32),
+     [[("活动↔产品匹配：", 9.5, True, PURPLE), (P["match"], 9.5, False, GREY)]])
+footer(s, 5)
+
+# ============================================================ 6. 战略目标与原则
+s = slide(); bg(s); header(s, "战略 · STRATEGY", "战略目标与六大合作原则", "04")
 text(s, Inches(0.72), Inches(1.38), Inches(12.3), Inches(0.45),
      [[("总目标：以高质量活动为抓手，为东方枢纽 133 万方项目实现精准导流与高效去化转化。", 13, True, PLUM)]])
 for i, (name, desc) in enumerate(D.PRINCIPLES):
@@ -208,10 +239,10 @@ for i, (name, desc) in enumerate(D.PRINCIPLES):
     rect(s, x, y, Pt(5), h, fill=GOLD)
     text(s, x+Inches(0.22), y+Inches(0.14), w-Inches(0.35), Inches(0.4), [[(name, 13, True, PURPLE)]])
     text(s, x+Inches(0.22), y+Inches(0.54), w-Inches(0.38), Inches(0.85), [[(desc, 10.5, False, DARK)]], line_spacing=1.12)
-footer(s, 5)
+footer(s, 6)
 
-# ============================================================ 6. 六大产业
-s = slide(); bg(s); header(s, "产业 · SECTORS", "东方枢纽六大核心产业板块", "04")
+# ============================================================ 7. 六大产业
+s = slide(); bg(s); header(s, "产业 · SECTORS", "东方枢纽六大核心产业板块", "05")
 text(s, Inches(0.72), Inches(1.35), Inches(12), Inches(0.4),
      [[("12 场活动全部围绕以下六大板块定向邀约，而非泛化铺量。", 12, False, GREY)]])
 icons = ["高服", "国贸", "民航", "医药", "工联", "绿能"]
@@ -226,10 +257,10 @@ for i, (name, desc) in enumerate(D.INDUSTRIES):
          align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
     text(s, x+Inches(1.3), y+Inches(0.45), w-Inches(1.45), Inches(0.8), [[(name, 14, True, PLUM)]], anchor=MSO_ANCHOR.MIDDLE)
     text(s, x+Inches(0.28), y+Inches(1.42), w-Inches(0.5), Inches(0.7), [[(desc, 10.5, False, GREY)]], line_spacing=1.1)
-footer(s, 6)
+footer(s, 7)
 
-# ============================================================ 7. 12场总览表
-s = slide(); bg(s); header(s, "总览 · OVERVIEW", "下半年 12 场活动总览", "04")
+# ============================================================ 8. 12场总览表
+s = slide(); bg(s); header(s, "总览 · OVERVIEW", "下半年 12 场活动总览", "05")
 cols = [("#", 0.5), ("拟定时间", 1.85), ("活动主题", 4.3), ("产业板块", 2.05), ("规模", 1.4), ("档", 0.55), ("报价\n万元", 0.85)]
 x0 = Inches(0.5); y0 = Inches(1.35); rowh = Inches(0.44)
 cxs = []; acc = x0
@@ -284,16 +315,16 @@ def act_card(s, x, y, w, h, a):
     runs = [[("· ", 9, True, GOLD), (ln, 8.7, False, DARK)] for ln in a["invest"]]
     text(s, x+Inches(0.2), yy3+Inches(0.23), w-Inches(0.35), Inches(0.8), runs, space_after=1, line_spacing=1.0)
 
-pg = 8
+pg = 9
 for i in range(0, 12, 2):
     s = slide(); bg(s)
-    header(s, "详细策划 · PLAYBOOK", f"12 场活动详细策划案（{i+1}–{i+2} / 12）", "05")
+    header(s, "详细策划 · PLAYBOOK", f"12 场活动详细策划案（{i+1}–{i+2} / 12）", "06")
     act_card(s, Inches(0.5), Inches(1.4), Inches(6.05), Inches(5.35), D.ACTIVITIES[i])
     act_card(s, Inches(6.78), Inches(1.4), Inches(6.05), Inches(5.35), D.ACTIVITIES[i+1])
     footer(s, pg); pg += 1
 
 # ============================================================ 14. 报价体系
-s = slide(); bg(s); header(s, "报价 · QUOTE", "报价体系 · 按东方枢纽标准优化下调", "06")
+s = slide(); bg(s); header(s, "报价 · QUOTE", "报价体系 · 按东方枢纽标准优化下调", "07")
 tier_keys = list(D.TIERS.keys())
 for i, k in enumerate(tier_keys):
     x = Inches(0.5) + i * Inches(4.25); y = Inches(1.35); w = Inches(3.95); h = Inches(3.35)
@@ -312,27 +343,24 @@ for a in D.ACTIVITIES:
 y = Inches(4.95)
 rect(s, Inches(0.5), y, Inches(12.33), Inches(1.7), fill=LAV, line=LAVED, line_w=0.75)
 drop = round((1 - D.TOTAL_PRICE / D.PREV_TOTAL) * 100)
-text(s, Inches(0.7), y+Inches(0.12), Inches(11.8), Inches(0.4),
-     [[("全年预算汇总", 13, True, PLUM), (f"    （较初版 {D.PREV_TOTAL} 万元下调约 {drop}%，上不封顶原则下的合理基准价）", 10, False, GREY)]])
-tcolors = [TIER_C["A"], TIER_C["B"], TIER_C["C"]]
-seg = [(f"A 档 × {tier_counts[tier_keys[0]]} 场", round(tier_counts[tier_keys[0]]*D.TIER_TOTAL[tier_keys[0]],1)),
-       (f"B 档 × {tier_counts[tier_keys[1]]} 场", round(tier_counts[tier_keys[1]]*D.TIER_TOTAL[tier_keys[1]],1)),
-       (f"C 档 × {tier_counts[tier_keys[2]]} 场", round(tier_counts[tier_keys[2]]*D.TIER_TOTAL[tier_keys[2]],1))]
-for i, (lab, val) in enumerate(seg):
-    x = Inches(0.7) + i*Inches(3.15); yy = y+Inches(0.62)
-    rect(s, x, yy, Inches(2.9), Inches(0.85), fill=WHITE, line=tcolors[i], line_w=1.2)
-    text(s, x, yy+Inches(0.08), Inches(2.9), Inches(0.35), [[(lab, 11, True, tcolors[i])]], align=PP_ALIGN.CENTER)
-    text(s, x, yy+Inches(0.42), Inches(2.9), Inches(0.4), [[(f"{val} 万元", 13, True, PLUM)]], align=PP_ALIGN.CENTER)
-x = Inches(0.7) + 3*Inches(3.15); yy = y+Inches(0.62)
-rect(s, x, yy, Inches(2.6), Inches(0.85), fill=PLUM)
-text(s, x, yy+Inches(0.08), Inches(2.6), Inches(0.35), [[("12 场合计", 11, True, LILAC)]], align=PP_ALIGN.CENTER)
-text(s, x, yy+Inches(0.42), Inches(2.6), Inches(0.4), [[(f"{D.TOTAL_PRICE} 万元", 14, True, WHITE)]], align=PP_ALIGN.CENTER)
+text(s, Inches(0.7), y+Inches(0.12), Inches(11.95), Inches(0.4),
+     [[("全年预算汇总", 13, True, PLUM),
+       (f"    （较初版 {D.PREV_TOTAL} 万元下调约 {drop}%；本期 12 场均为 A/B 档，未设 C 档旗舰；上不封顶原则下的合理基准价）", 9.5, False, GREY)]])
+used = [k for k in tier_keys if tier_counts.get(k, 0) > 0]
+boxes = [(f"{k.split(' ')[0]} 档 × {tier_counts[k]} 场", round(tier_counts[k]*D.TIER_TOTAL[k], 1), TIER_C[k.split(" ")[0]], False) for k in used]
+boxes.append(("12 场合计", D.TOTAL_PRICE, PLUM, True))
+n = len(boxes); gap = Inches(0.22); bw = (Inches(11.93) - gap*(n-1)) / n
+for i, (lab, val, colr, is_total) in enumerate(boxes):
+    x = Inches(0.7) + i*(bw+gap); yy = y+Inches(0.62)
+    rect(s, x, yy, bw, Inches(0.85), fill=(PLUM if is_total else WHITE), line=(None if is_total else colr), line_w=1.2)
+    text(s, x, yy+Inches(0.08), bw, Inches(0.35), [[(lab, 11, True, (LILAC if is_total else colr))]], align=PP_ALIGN.CENTER)
+    text(s, x, yy+Inches(0.42), bw, Inches(0.4), [[(f"{val} 万元", 13, True, (WHITE if is_total else PLUM))]], align=PP_ALIGN.CENTER)
 footer(s, pg); pg += 1
 
 # ============================================================ 15. 招商漏斗
-s = slide(); bg(s); header(s, "价值 · 核心", "招商引资价值分析（一）转化漏斗", "07")
+s = slide(); bg(s); header(s, "价值 · 核心", "招商引资价值分析（一）转化漏斗", "08")
 text(s, Inches(0.72), Inches(1.3), Inches(12.3), Inches(0.4),
-     [[("核心利好：12 场活动为东方枢纽 133 万方项目构建“引流—深挖—对接—签约”的可量化招商漏斗。", 12, True, PLUM)]])
+     [[("核心利好：12 场活动为东方枢纽 A 片区办公项目构建“引流—深挖—对接—选址落地”的可量化招商漏斗。", 12, True, PLUM)]])
 fw_list = [Inches(9.0), Inches(7.4), Inches(5.8), Inches(4.2), Inches(3.0)]
 fcolors = [PURPLE, RGBColor(0x53,0x39,0x82), RGBColor(0x47,0x30,0x72), RGBColor(0x3A,0x27,0x5C), GOLD]
 y = Inches(1.95)
@@ -348,8 +376,8 @@ text(s, Inches(0.7), Inches(6.75), Inches(12), Inches(0.35),
 footer(s, pg); pg += 1
 
 # ============================================================ 16. 去化 + 支柱
-s = slide(); bg(s); header(s, "价值 · 核心", "招商引资价值分析（二）去化测算与价值支柱", "07")
-text(s, Inches(0.72), Inches(1.32), Inches(6), Inches(0.4), [[("133 万方 × 情景去化率测算", 13, True, PLUM)]])
+s = slide(); bg(s); header(s, "价值 · 核心", "招商引资价值分析（二）去化测算与价值支柱", "08")
+text(s, Inches(0.72), Inches(1.32), Inches(6.2), Inches(0.4), [[("A 片区办公约 30 万㎡ × 情景去化率", 13, True, PLUM)]])
 scol = [PURPLE2, PURPLE, GOLD]
 for i, (name, rate, area) in enumerate(D.GMV_SCENARIOS):
     x = Inches(0.6) + i*Inches(2.05); y = Inches(1.8)

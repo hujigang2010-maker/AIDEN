@@ -162,7 +162,7 @@ ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
 
 # ---------------------------------------------------------------- Sheet 4 招商价值
 ws = wb.create_sheet("4-招商引资价值分析")
-hr = title_row(ws, "招商引资价值分析 · 针对东方枢纽 133 万方项目", 3,
+hr = title_row(ws, "招商引资价值分析 · 针对东方枢纽 A 片区办公项目（约 30 万㎡）", 3,
                "以下数值均为测算假设，用于展示价值逻辑，非承诺性数据")
 # 漏斗
 ws.column_dimensions["A"].width = 26
@@ -180,7 +180,7 @@ for stage, basis, val in D.FUNNEL:
     r += 1
 r += 1
 # 去化情景
-ws.cell(row=r, column=1, value="二、去化面积测算（133 万方 × 情景去化率）").font = Font(name=FONT, bold=True, size=12, color=NAVY)
+ws.cell(row=r, column=1, value="二、去化面积测算（A 片区办公约 30 万㎡ × 情景去化率）").font = Font(name=FONT, bold=True, size=12, color=NAVY)
 r += 1
 for j, h in enumerate(["情景", "去化率假设", "带动去化面积"], 1):
     style_header(ws.cell(row=r, column=j, value=h))
@@ -219,13 +219,31 @@ for name, val in D.ROI_SUMMARY:
     r += 1
 
 # ---------------------------------------------------------------- Sheet 5 合作资源与执行机制
-ws = wb.create_sheet("5-合作资源与执行机制")
-hr = title_row(ws, "合作资源背书与执行机制", 2)
+ws = wb.create_sheet("5-招商标的与执行机制")
+hr = title_row(ws, "招商标的 · 合作资源背书 · 执行机制", 2)
 ws.column_dimensions["A"].width = 22
 ws.column_dimensions["B"].width = 72
-# 三方
-ws.cell(row=hr, column=1, value="一、三方合作定位").font = Font(name=FONT, bold=True, size=12, color=NAVY)
+# 招商标的
+ws.cell(row=hr, column=1, value="〇、招商标的：" + D.PROJECT["name"]).font = Font(name=FONT, bold=True, size=12, color=NAVY)
 r = hr + 1
+style_cell(ws.cell(row=r, column=1, value="项目定位"), bold=True, center=True, fill=LTBLUE)
+style_cell(ws.cell(row=r, column=2, value=D.PROJECT["position"]), fill=WHITE)
+ws.row_dimensions[r].height = 32; r += 1
+style_cell(ws.cell(row=r, column=1, value="体量规模"), bold=True, center=True, fill=LTBLUE)
+style_cell(ws.cell(row=r, column=2, value=D.PROJECT["area"] + "（说明：招商标的为 A 片区办公项目，非“133 万方”）"), fill=WHITE, color=GOLD, bold=True)
+ws.row_dimensions[r].height = 30; r += 1
+style_cell(ws.cell(row=r, column=1, value="四大产品线"), bold=True, center=True, fill=LTBLUE)
+style_cell(ws.cell(row=r, column=2, value="\n".join(f"• {n}：{d}" for n, d in D.PROJECT["product_lines"])), fill=WHITE)
+ws.row_dimensions[r].height = 92; r += 1
+style_cell(ws.cell(row=r, column=1, value="销售/租赁模式"), bold=True, center=True, fill=LTBLUE)
+style_cell(ws.cell(row=r, column=2, value="\n".join("• " + x for x in D.PROJECT["model"])), fill=WHITE)
+ws.row_dimensions[r].height = 66; r += 1
+style_cell(ws.cell(row=r, column=1, value="活动↔产品匹配"), bold=True, center=True, fill=GOLD, color=WHITE)
+style_cell(ws.cell(row=r, column=2, value=D.PROJECT["match"]), fill=WHITE)
+ws.row_dimensions[r].height = 32; r += 2
+# 三方
+ws.cell(row=r, column=1, value="一、三方合作定位").font = Font(name=FONT, bold=True, size=12, color=NAVY)
+r += 1
 for name, role, desc in D.PARTIES:
     style_cell(ws.cell(row=r, column=1, value=f"{name}\n（{role}）"), bold=True, center=True, fill=LTBLUE)
     style_cell(ws.cell(row=r, column=2, value=desc), fill=GREY if r % 2 else WHITE)
