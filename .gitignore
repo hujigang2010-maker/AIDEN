@@ -1,0 +1,7 @@
+
+# Python
+__pycache__/
+*.pyc
+
+# 渲染中间产物
+*.pdf
