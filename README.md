@@ -27,10 +27,19 @@
 - B 档市区专场（≤80 人）：**8.8 万元/场**
 - 全年 10 场合计约 **62.0 万元**（单场立项累加）
 
+## 单场独立 PPT（10 份）
+目录：`单场立项PPT/`  
+每场 5 页：封面 → OA 要件 → 内容策划 → 预算明细 → 执行下一步。
+
+```bash
+python build_single_pptx.py   # 生成 10 份单场 PPT
+```
+
 ## 复现
 ```bash
 pip install python-pptx openpyxl
 python build_xlsx.py
 python build_pptx.py
+python build_single_pptx.py
 ```
 内容集中在 `plan_data.py`。
