@@ -128,6 +128,15 @@ def build():
         size=12,
         color=GREY,
         align=WD_ALIGN_PARAGRAPH.CENTER,
+        space_after=8,
+    )
+    add_p(
+        doc,
+        "Slogan：百年复兴，智造再启航",
+        bold=True,
+        size=12,
+        color=ACCENT,
+        align=WD_ALIGN_PARAGRAPH.CENTER,
         space_after=16,
     )
     add_p(
@@ -164,17 +173,21 @@ def build():
     add_h(doc, "目录", level=1)
     toc = [
         "一、活动背景与战略意义",
-        "二、择日专章：为何选定 2026 年 9 月 12 日",
-        "三、活动定位、目标与主题板块",
-        "四、活动概览与规模结构",
-        "五、场地建议（复兴岛）",
-        "六、嘉宾阵容与邀约策略",
-        "七、国际会议厅 / 会客厅揭牌落位计划",
-        "八、详细议程安排",
-        "九、组织架构与执行倒排期",
-        "十、预算测算（示意）",
-        "十一、预期成效与 KPI",
-        "十二、风险预案与下一步行动",
+        "二、历史文脉回顾与议题衍生",
+        "三、市、区领导寄托与活动回应",
+        "四、大上海 / 杨浦规划对齐与六大课题",
+        "五、「船台·智能体」黑客松专章",
+        "六、择日专章：为何选定 2026 年 9 月 12 日",
+        "七、活动定位、目标与主题板块",
+        "八、活动概览与规模结构",
+        "九、场地建议（复兴岛）",
+        "十、嘉宾阵容与邀约策略",
+        "十一、国际会议厅 / 会客厅揭牌落位计划",
+        "十二、详细议程安排",
+        "十三、组织架构与执行倒排期",
+        "十四、预算测算（示意）",
+        "十五、预期成效与 KPI",
+        "十六、风险预案与下一步行动",
         "附录：拟邀「一带一路」国家参考池",
     ]
     for t in toc:
@@ -194,18 +207,67 @@ def build():
         add_p(doc, body, color=INK)
     add_h(doc, "政策迎合要点", level=2)
     add_bullets(doc, C.POLICY_HOOKS)
-    add_h(doc, "本场活动要回答的三个问题", level=2)
+    add_h(doc, "本场活动要回答的四个问题", level=2)
     add_bullets(
         doc,
         [
+            "百年「复兴」文脉如何转译为今日创客岛的主题与空间体验？",
             "自 2025 年 12 月启动以来，全球创客岛交出了什么阶段性答卷？",
-            "杨浦如何把「量子城市」从概念变成岛上可看、可感、可汇报的实践？",
-            "国际化不是口号：领事来了、会客厅落了、企业对接了吗？",
+            "杨浦如何把「量子城市」与市、区领导寄托做成可汇报实践？",
+            "国际化与创客生态是否同时可见：领事、会客厅、黑客松都到位了吗？",
         ],
     )
 
-    # ===== 二、择日 =====
-    add_h(doc, "二、择日专章：为何选定 2026 年 9 月 12 日", level=1)
+    # ===== 二、历史文脉 =====
+    add_h(doc, "二、历史文脉回顾与议题衍生", level=1)
+    add_p(
+        doc,
+        "复兴岛是黄浦江内唯一封闭式内陆岛。由周家嘴浅滩经浚浦局吹填成岛，"
+        "历经周家嘴岛、定海岛（一度昭和岛），抗战胜利后定名「复兴岛」，寓国家复兴。"
+        "造船、仓储、渔业等工业文脉深厚；船台、塔吊、定海桥成为今日活化载体。",
+        color=INK,
+    )
+    add_h(doc, "时间轴", level=2)
+    add_table(doc, ["时期", "节点", "要点"], list(C.HISTORY_TIMELINE))
+    add_h(doc, "关键文脉载体", level=2)
+    add_table(doc, ["载体", "说明"], list(C.HISTORY_HERITAGE))
+    add_h(doc, "衍生议题（回顾→当代转译）", level=2)
+    for d in C.HISTORY_DERIVATIVES:
+        add_h(doc, d["name"], level=3)
+        add_bullets(doc, d["points"])
+
+    # ===== 三、领导寄托 =====
+    add_h(doc, "三、市、区领导寄托与活动回应", level=1)
+    for block in C.LEADERSHIP:
+        add_h(doc, block["who"], level=2)
+        add_bullets(doc, block["points"])
+    add_h(doc, "本场活动如何接住寄托", level=2)
+    add_bullets(doc, C.LEADERSHIP_RESPONSE)
+
+    # ===== 四、规划课题 =====
+    add_h(doc, "四、大上海 / 杨浦规划对齐与六大课题", level=1)
+    add_table(doc, ["规划维度", "对齐要点"], list(C.PLANNING_ALIGN))
+    add_h(doc, "六大课题设计", level=2)
+    add_table(doc, ["课题", "题目", "聚焦"], list(C.TOPIC_AGENDA))
+
+    # ===== 五、黑客松 =====
+    add_h(doc, "五、「船台·智能体」黑客松专章", level=1)
+    add_p(doc, f"{C.HACKATHON['name']}　｜　{C.HACKATHON['slogan']}", bold=True, color=ACCENT)
+    add_p(doc, f"窗口：{C.HACKATHON['window']}　｜　规模：{C.HACKATHON['scale']}", color=INK)
+    add_p(doc, f"场地：{C.HACKATHON['venue']}", color=INK)
+    add_h(doc, "为何必须做", level=2)
+    add_bullets(doc, C.HACKATHON["why"])
+    add_h(doc, "四大赛道", level=2)
+    add_table(doc, ["赛道", "课题方向"], list(C.HACKATHON["tracks"]))
+    add_h(doc, "规则要点", level=2)
+    add_bullets(doc, C.HACKATHON["rules"])
+    add_h(doc, "赛程", level=2)
+    add_table(doc, ["时间", "环节"], list(C.HACKATHON["schedule"]))
+    add_h(doc, "黑客松 KPI", level=2)
+    add_bullets(doc, C.HACKATHON["kpis"])
+
+    # ===== 六、择日 =====
+    add_h(doc, "六、择日专章：为何选定 2026 年 9 月 12 日", level=1)
     add_p(
         doc,
         "收官节点要求活动不晚于 2026 年 9 月 15 日。"
@@ -238,8 +300,8 @@ def build():
         color=ACCENT,
     )
 
-    # ===== 三、定位 =====
-    add_h(doc, "三、活动定位、目标与主题板块", level=1)
+    # ===== 七、定位 =====
+    add_h(doc, "七、活动定位、目标与主题板块", level=1)
     add_h(doc, "一句话定位", level=2)
     add_p(doc, C.ONE_LINER, color=INK)
     add_h(doc, "五大目标", level=2)
@@ -249,14 +311,14 @@ def build():
         add_h(doc, f"{pillar['name']}（{pillar['tag']}）", level=3)
         add_bullets(doc, pillar["points"])
 
-    # ===== 四、概览 =====
-    add_h(doc, "四、活动概览与规模结构", level=1)
+    # ===== 八、概览 =====
+    add_h(doc, "八、活动概览与规模结构", level=1)
     add_table(doc, ["项目", "内容"], C.OVERVIEW)
     add_h(doc, "席位结构（200–300 人）", level=2)
     add_table(doc, ["席别", "人数", "组成"], C.SEAT_PLAN)
 
-    # ===== 五、场地 =====
-    add_h(doc, "五、场地建议（复兴岛）", level=1)
+    # ===== 九、场地 =====
+    add_h(doc, "九、场地建议（复兴岛）", level=1)
     add_p(doc, "必须在岛上办——这是政治象征与叙事完整性的底线。场地遴选标准：", color=INK)
     add_bullets(doc, C.VENUE_CRITERIA)
     for v in C.VENUE_OPTIONS:
@@ -264,8 +326,8 @@ def build():
         add_p(doc, v["desc"], color=INK)
         add_p(doc, f"容量：{v['capacity']}　　优势：{v['pros']}", color=GREY)
 
-    # ===== 六、嘉宾 =====
-    add_h(doc, "六、嘉宾阵容与邀约策略", level=1)
+    # ===== 十、嘉宾 =====
+    add_h(doc, "十、嘉宾阵容与邀约策略", level=1)
     add_p(
         doc,
         "政治规格与国际规格必须同时在场：区委区政府主要领导 +「一带一路」总领事亲自出席，"
@@ -287,8 +349,8 @@ def build():
         ],
     )
 
-    # ===== 七、揭牌 =====
-    add_h(doc, "七、国际会议厅 / 会客厅揭牌落位计划", level=1)
+    # ===== 十一、揭牌 =====
+    add_h(doc, "十一、国际会议厅 / 会客厅揭牌落位计划", level=1)
     add_p(
         doc,
         "揭牌是本场活动区别于普通峰会的「硬成果」。建议采用「国家厅 + 片区厅 + 产业平台」组合，"
@@ -300,8 +362,8 @@ def build():
     add_h(doc, "落位原则", level=2)
     add_bullets(doc, C.UNVEILING_PRINCIPLES)
 
-    # ===== 八、议程 =====
-    add_h(doc, "八、详细议程安排", level=1)
+    # ===== 十二、议程 =====
+    add_h(doc, "十二、详细议程安排", level=1)
     add_p(
         doc,
         f"日程以 {C.EVENT_DATE} 全天为基准设计；上午聚焦「政治规格 + 揭牌签约」，"
@@ -310,24 +372,24 @@ def build():
     )
     add_table(doc, ["时间", "环节", "内容要点", "责任"], C.AGENDA)
 
-    # ===== 九、组织与倒排 =====
-    add_h(doc, "九、组织架构与执行倒排期", level=1)
+    # ===== 十三、组织与倒排 =====
+    add_h(doc, "十三、组织架构与执行倒排期", level=1)
     add_h(doc, "组织架构", level=2)
     add_table(doc, ["组别", "职责"], C.ORG_STRUCTURE)
     add_h(doc, "倒排期（自即日起）", level=2)
     add_table(doc, ["节点", "关键任务"], C.TIMELINE)
 
-    # ===== 十、预算 =====
-    add_h(doc, "十、预算测算（示意）", level=1)
+    # ===== 十四、预算 =====
+    add_h(doc, "十四、预算测算（示意）", level=1)
     add_table(doc, ["成本项", "预算(万元)", "说明"], C.BUDGET)
     add_p(doc, C.BUDGET_NOTE, color=GREY)
 
-    # ===== 十一、KPI =====
-    add_h(doc, "十一、预期成效与 KPI", level=1)
+    # ===== 十五、KPI =====
+    add_h(doc, "十五、预期成效与 KPI", level=1)
     add_table(doc, ["维度", "量化目标"], C.KPIS)
 
-    # ===== 十二、风险 =====
-    add_h(doc, "十二、风险预案与下一步行动", level=1)
+    # ===== 十六、风险 =====
+    add_h(doc, "十六、风险预案与下一步行动", level=1)
     add_h(doc, "主要风险与对策", level=2)
     add_table(doc, ["风险", "对策", "等级"], C.RISKS)
     add_h(doc, "下一步行动（建议立即执行）", level=2)
