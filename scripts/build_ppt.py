@@ -32,7 +32,7 @@ prs.slide_width = Inches(13.333)
 prs.slide_height = Inches(7.5)
 SW, SH = prs.slide_width, prs.slide_height
 BLANK = prs.slide_layouts[6]
-TOTAL = 25
+TOTAL = 26
 
 
 def set_cjk(run, name=FONT):
@@ -106,7 +106,7 @@ def header(s, kicker, title, idx):
 
 def footer(s):
     text(s, Inches(0.7), Inches(7.08), Inches(8.8), Inches(0.3),
-         [[("创客复兴·智汇杨浦｜全球创客岛成果发布暨国际峰会｜V3.1", 9, GREY, False)]])
+         [[("创客复兴·智汇杨浦｜全球创客岛成果发布暨国际峰会｜V3.2", 9, GREY, False)]])
     text(s, Inches(9.5), Inches(7.08), Inches(3.2), Inches(0.3),
          [[("建议日期 2026-09-12", 9, GREY, False)]], align=PP_ALIGN.RIGHT)
 
@@ -174,7 +174,7 @@ text(s, Inches(0.9), Inches(3.75), Inches(11.5), Inches(1.5),
      [[("Slogan：锚定全球创客岛，答卷量子城市", 16, TEAL2, True)],
       [("主会日：" + C.EVENT_DATE + "　｜　服务 9/15 收官节点", 14, WHITE, True)],
       [("结构：主论坛 + 分论坛 + 体验层 + 黑客松　｜　杨浦AI企业同台互动", 13, LIGHT, False)],
-      [("规格：区领导 + 一带一路总领事 + 优刻得/智谱/苏度等 + 创客", 12, GREY, False)]],
+      [("规格：区领导 + 东亚/东南亚总领事（按全部出席准备）+ 杨浦AI企业 + 创客", 12, GREY, False)]],
      space_after=4)
 text(s, Inches(0.9), Inches(5.9), Inches(11.5), Inches(0.65),
      [[("主呈现：PPT + Excel　｜　" + C.VERSION, 14, WHITE, True)],
@@ -198,7 +198,7 @@ toc = [
     ("04", "领导寄托"), ("05", "规划课题"), ("06", "敦煌项目"),
     ("07", "冷启动角色"), ("08", "择日"), ("09", "定位目标"),
     ("10", "杨浦企业"), ("11", "主题板块"), ("12", "体验层"),
-    ("13", "黑客松"), ("14", "规模场地"), ("15", "嘉宾揭牌"),
+    ("13", "黑客松"), ("14", "规模场地"), ("15", "嘉宾领事"),
     ("16", "议程"), ("17", "倒排组织"), ("18", "预算KPI"),
 ]
 for i, (n, t) in enumerate(toc):
@@ -438,9 +438,46 @@ add_table(s, Inches(0.35), Inches(4.4), Inches(12.6), Inches(2.3),
           ["揭牌类型", "数量", "形式"], uv,
           col_widths=[Inches(4.5), Inches(2.2), Inches(5.9)], font_size=11)
 
-# ===== 19 议程上午 =====
+# ===== 19 领事名单 =====
 s = add_slide(NAVY)
-header(s, "AGENDA · 上午", "规格致辞 · 杨浦AI力量 · 揭牌签约", 20)
+header(s, "CONSULS · 东亚东南亚", "驻沪总领事名单 · 暂按全部出席准备", 20)
+footer(s)
+consul_rows = [
+    [
+        c["region"],
+        c["country"],
+        f"{c['name_zh']}（{c['name_en']}）",
+        c["focus"],
+        c["role"],
+    ]
+    for c in C.EAST_SE_ASIA_CONSULS
+]
+add_table(
+    s,
+    Inches(0.25),
+    Inches(1.2),
+    Inches(12.8),
+    Inches(5.35),
+    ["片区", "国家", "总领事", "合作侧重", "现场安排"],
+    consul_rows,
+    col_widths=[Inches(1.0), Inches(1.5), Inches(3.4), Inches(3.5), Inches(3.4)],
+    font_size=9,
+)
+text(
+    s,
+    Inches(0.35),
+    Inches(6.6),
+    Inches(12.6),
+    Inches(0.4),
+    [[(
+        "公开资料整理（2026-07）· 共 11 国驻沪总领事 · 未在沪设馆：缅甸/文莱/朝鲜/东帝汶（见 Excel）· 出席以外事确认为准",
+        10, GREY, False,
+    )]],
+)
+
+# ===== 20 议程上午 =====
+s = add_slide(NAVY)
+header(s, "AGENDA · 上午", "规格致辞 · 杨浦AI力量 · 揭牌签约", 21)
 footer(s)
 am = [a for a in C.AGENDA if a[0][:2] in ("08", "09", "10", "11", "12")]
 add_table(s, Inches(0.3), Inches(1.28), Inches(12.7), Inches(5.5),
@@ -448,9 +485,9 @@ add_table(s, Inches(0.3), Inches(1.28), Inches(12.7), Inches(5.5),
           [[a[0], a[1], a[2], a[3]] for a in am],
           col_widths=[Inches(1.6), Inches(2.9), Inches(6.1), Inches(2.1)], font_size=10)
 
-# ===== 20 议程下午 =====
+# ===== 21 议程下午 =====
 s = add_slide(NAVY)
-header(s, "AGENDA · 下午", "四分论坛 · 体验层 · Demo Day · 酒会", 21)
+header(s, "AGENDA · 下午", "四分论坛 · 体验层 · Demo Day · 酒会", 22)
 footer(s)
 pm = [a for a in C.AGENDA if a[0][:2] in ("13", "15", "16")]
 add_table(s, Inches(0.3), Inches(1.28), Inches(12.7), Inches(5.0),
@@ -458,11 +495,11 @@ add_table(s, Inches(0.3), Inches(1.28), Inches(12.7), Inches(5.0),
           [[a[0], a[1], a[2], a[3]] for a in pm],
           col_widths=[Inches(1.6), Inches(3.0), Inches(6.0), Inches(2.1)], font_size=9)
 text(s, Inches(0.5), Inches(6.45), Inches(12.3), Inches(0.4),
-     [[("完整议程、敦煌对接与黑客松台账见 Excel。", 11, GREY, False)]])
+     [[("完整议程、领事台账、敦煌对接与黑客松见 Excel。", 11, GREY, False)]])
 
-# ===== 21 倒排组织 =====
+# ===== 22 倒排组织 =====
 s = add_slide(NAVY)
-header(s, "TIMELINE & ORG", "倒排期与专班架构", 22)
+header(s, "TIMELINE & ORG", "倒排期与专班架构", 23)
 footer(s)
 add_table(s, Inches(0.35), Inches(1.28), Inches(7.7), Inches(5.5),
           ["节点", "关键任务"], [[a, b] for a, b in C.TIMELINE],
@@ -472,9 +509,9 @@ card(s, Inches(8.25), Inches(1.28), Inches(4.65), Inches(5.5),
      [f"{a}" for a, _ in C.ORG_STRUCTURE],
      accent=TEAL2, tsize=13, bsize=11)
 
-# ===== 22 预算 KPI =====
+# ===== 23 预算 KPI =====
 s = add_slide(NAVY)
-header(s, "BUDGET & KPI", "中值约 70 万 · 成效必须可写进专报", 23)
+header(s, "BUDGET & KPI", "中值约 74 万 · 成效必须可写进专报", 24)
 footer(s)
 add_table(s, Inches(0.3), Inches(1.28), Inches(7.1), Inches(5.5),
           ["成本项", "万元", "说明"], [[a, b, c] for a, b, c in C.BUDGET],
@@ -483,15 +520,15 @@ add_table(s, Inches(7.6), Inches(1.28), Inches(5.3), Inches(5.5),
           ["维度", "量化目标"], [[a, b] for a, b in C.KPIS],
           col_widths=[Inches(1.5), Inches(3.8)], font_size=9)
 
-# ===== 23 决策清单 =====
+# ===== 24 决策清单 =====
 s = add_slide(NAVY)
-header(s, "NEXT · 决策清单", "建议立即拍板与跟进的关键事项", 24)
+header(s, "NEXT · 决策清单", "建议立即拍板与跟进的关键事项", 25)
 footer(s)
 steps = [
     ("1", "确认主题「创客复兴·智汇杨浦」与主会日 9/12"),
     ("2", "锁定优刻得/智谱/苏度等企业互动与发言名单"),
     ("3", "48h 完成敦煌核查；锁定会场与揭牌对象"),
-    ("4", "启动外事报批、领事邀约、黑客松报名"),
+    ("4", "启动外事报批；按 11 国总领事全名单邀约"),
     ("5", "一事一议达线报区；用本 PPT+Excel 作请示附件"),
 ]
 for i, (n, t) in enumerate(steps):

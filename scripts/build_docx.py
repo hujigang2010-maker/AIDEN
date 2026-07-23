@@ -330,22 +330,41 @@ def build():
     add_h(doc, "十、嘉宾阵容与邀约策略", level=1)
     add_p(
         doc,
-        "政治规格与国际规格必须同时在场：区委区政府主要领导 +「一带一路」总领事亲自出席，"
-        "才能形成「政绩答卷」所需的高位画面。",
+        "政治规格与国际规格必须同时在场：区委区政府主要领导 + 东亚/东南亚驻沪总领事"
+        "（暂按全部出席准备）亲自到场，才能形成「政绩答卷」所需的高位画面。",
         color=INK,
     )
     for g in C.GUEST_TIERS:
         add_h(doc, g["tier"], level=2)
         add_bullets(doc, g["targets"])
         add_p(doc, f"目标：{g['goal']}", color=GREY, space_after=8)
+    add_h(doc, "东亚 + 东南亚驻沪总领事名单（暂按全部参加）", level=2)
+    add_p(doc, C.CONSUL_INVITE_NOTE, color=GREY, space_after=8)
+    add_table(
+        doc,
+        ["片区", "国家", "总领事", "英文名", "合作侧重", "现场安排"],
+        [
+            [
+                c["region"],
+                c["country"],
+                c["name_zh"],
+                c["name_en"],
+                c["focus"],
+                c["role"],
+            ]
+            for c in C.EAST_SE_ASIA_CONSULS
+        ],
+    )
+    add_h(doc, "暂未在沪设总领事馆的国家/地区", level=2)
+    add_bullets(doc, [f"{a}：{b}" for a, b in C.CONSUL_NO_SHANGHAI_CG])
     add_h(doc, "邀约策略要点", level=2)
     add_bullets(
         doc,
         [
-            "外事路径：经区外办规范邀约，提前锁定揭牌国总领事本人出席。",
+            "外事路径：经区外办规范邀约；11 国全名单并联推进，揭牌国必须本人出席。",
             "领导路径：以「全球创客岛收官答卷 + 量子城市岛上实践」请示件报区主要领导。",
             "产业路径：以场景合作与入岛政策吸引头部企业负责人，而非仅市场部门出席。",
-            "规模控制：宁缺毋滥，核心席质量优先于总人数冲高。",
+            "规模控制：贵宾席按全员预留；核心席质量优先，未确认到场可改书面致辞+副总领事。",
         ],
     )
 
@@ -396,11 +415,11 @@ def build():
     add_bullets(doc, C.NEXT_STEPS)
 
     # ===== 附录 =====
-    add_h(doc, "附录：拟邀「一带一路」国家参考池", level=1)
+    add_h(doc, "附录：拟邀「一带一路」延伸国家参考池", level=1)
     add_p(
         doc,
-        "首场建议确认 6–10 国总领事出席；揭牌优先选择已有空间意向与经贸基础的国家。"
-        "下表为参考池，最终名单以外事确认与揭牌谈判为准。",
+        "东亚与东南亚驻沪总领事已按全部出席单独建档（见第十章）。"
+        "下表为中东/中亚/中东欧等延伸参考池，视揭牌谈判与档期追加邀约。",
         color=INK,
     )
     add_table(doc, ["国家", "合作侧重"], C.BRI_COUNTRY_POOL)
