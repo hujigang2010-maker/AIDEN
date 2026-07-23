@@ -88,8 +88,8 @@ wb = Workbook()
 # 0 仪表盘
 ws = wb.active
 ws.title = "0.总览仪表盘"
-style_title(ws, f"{C.PROJECT_NAME}｜Excel 执行呈现台账（V3）", 4, NAVY)
-style_sub(ws, f"{C.VERSION}｜主论坛+分论坛+体验层+黑客松｜敦煌意向｜主会日 {C.EVENT_DATE_SHORT}", 4)
+style_title(ws, f"{C.PROJECT_NAME}｜{C.PROJECT_FULL}", 4, NAVY)
+style_sub(ws, f"{C.VERSION}｜杨浦AI企业互动｜四层结构｜敦煌意向｜主会日 {C.EVENT_DATE_SHORT}", 4)
 
 ws.merge_cells("A4:D4")
 c = ws.cell(4, 1, "一、决策速览")
@@ -120,20 +120,21 @@ nav = [
     ["5.规划与课题", "规划对齐+六课题", "议题设计"],
     ["6.敦煌项目", "意向/空间/核实/用法", "一事一议样本"],
     ["7.冷启动角色", "原则+协同方", "对接纪律"],
-    ["8.择日专章", "首选/备选/规避", "日期决策"],
-    ["9.详细议程", "全天含分论坛D与体验层", "现场脚本"],
-    ["10.体验游戏层", "五关卡集章任务", "体验执行"],
-    ["11.黑客松专章", "赛道/赛程/规则/KPI", "创客执行"],
-    ["12.嘉宾邀请", "政要/领事/产业/创客", "邀约台账"],
-    ["13.一带一路国别池", "拟邀国家", "国际资源"],
-    ["14.揭牌落位", "会客厅+敦煌意向", "硬成果"],
-    ["15.席位结构", "主会席别", "会务排座"],
-    ["16.组织架构", "含智库/文旅/黑客松", "分工责任"],
-    ["17.倒排期", "节点任务", "进度表"],
-    ["18.预算测算", "分项费用", "资金安排"],
-    ["19.KPI成效", "验收标准", "复盘"],
-    ["20.风险预案", "风险对策", "应急"],
-    ["21.下一步行动", "含敦煌48h核查", "立即执行"],
+    ["8.杨浦企业互动", "优刻得/智谱/苏度等", "企业邀约"],
+    ["9.择日专章", "首选/备选/规避", "日期决策"],
+    ["10.详细议程", "含杨浦AI力量环节", "现场脚本"],
+    ["11.体验游戏层", "五关卡集章任务", "体验执行"],
+    ["12.黑客松专章", "赛道/赛程/规则/KPI", "创客执行"],
+    ["13.嘉宾邀请", "政要/领事/杨浦企业", "邀约台账"],
+    ["14.一带一路国别池", "拟邀国家", "国际资源"],
+    ["15.揭牌落位", "会客厅+敦煌意向", "硬成果"],
+    ["16.席位结构", "主会席别", "会务排座"],
+    ["17.组织架构", "含智库/文旅/黑客松", "分工责任"],
+    ["18.倒排期", "节点任务", "进度表"],
+    ["19.预算测算", "分项费用", "资金安排"],
+    ["20.KPI成效", "验收标准", "复盘"],
+    ["21.风险预案", "风险对策", "应急"],
+    ["22.下一步行动", "企业锁定+敦煌核查", "立即执行"],
 ]
 header_row(ws, 16, ["工作表", "内容", "用途", "优先级"], [22, 40, 22, 12], NAVY)
 data_rows(ws, 17, [[a, b, c, "高" if i < 11 else "中"] for i, (a, b, c) in enumerate(nav)],
@@ -253,8 +254,21 @@ header_row(ws, r, ["角色方", "价值与职责", "备注"], [28, 70, 16], GOLD
 data_rows(ws, r + 1, [[a, b, ""] for a, b in C.PARTNERS], base_h=40)
 freeze(ws)
 
-# 8 择日
-ws = wb.create_sheet("8.择日专章")
+# 8 杨浦企业互动
+ws = wb.create_sheet("8.杨浦企业互动")
+style_title(ws, "杨浦 AI / 具身智能优质企业互动清单", 5, TEAL)
+style_sub(ws, "优刻得·智谱·苏度·卓益得等上岛同台｜主论坛发言+分论坛+体验层+黑客松导师", 5)
+hr = 4
+header_row(ws, hr, ["企业", "赛道", "杨浦关联", "活动互动角色", "邀约状态"], [18, 14, 32, 40, 12], NAVY)
+rows = [[a, b, c, d, "待邀约"] for a, b, c, d in C.YANGPU_ENTERPRISES]
+data_rows(ws, hr + 1, rows, base_h=36)
+r = hr + 1 + len(rows) + 1
+header_row(ws, r, ["互动机制", "说明", "责任方"], [28, 60, 18], GOLD)
+data_rows(ws, r + 1, [[a, b, "科企联+产业内容组"] for a, b in C.ENTERPRISE_INTERACTION], base_h=28)
+freeze(ws)
+
+# 9 择日
+ws = wb.create_sheet("9.择日专章")
 style_title(ws, "择日专章｜9/15 前最靠近收官节点的黄道吉日", 4, GOLD)
 style_sub(ws, "主推9/12；备选9/9；规避9/10杨公忌日；黑客松绑定周五晚开营", 4)
 hr = 4
@@ -269,10 +283,10 @@ rows = [
 data_rows(ws, hr + 1, rows, base_h=30)
 freeze(ws)
 
-# 9 议程
-ws = wb.create_sheet("9.详细议程")
+# 10 议程
+ws = wb.create_sheet("10.详细议程")
 style_title(ws, f"详细议程｜{C.EVENT_DATE}", 6)
-style_sub(ws, "主论坛+四分论坛+体验层+黑客松Demo Day", 6)
+style_sub(ws, "含「杨浦AI力量」企业环节 + 四分论坛 + 体验层 + Demo Day", 6)
 hr = 4
 header_row(ws, hr, ["时段", "时间", "环节", "内容要点", "责任方", "状态"], [10, 16, 26, 42, 14, 10])
 rows = []
@@ -282,20 +296,20 @@ for t, name, detail, owner in C.AGENDA:
 data_rows(ws, hr + 1, rows, aligns=["center", "center", "left", "left", "center", "center"], base_h=28)
 freeze(ws)
 
-# 10 体验游戏层
-ws = wb.create_sheet("10.体验游戏层")
+# 11 体验游戏层
+ws = wb.create_sheet("11.体验游戏层")
 style_title(ws, "体验 / 游戏层关卡设计（论坛×游戏化体验）", 4, TEAL)
-style_sub(ws, "非电竞：沉浸关卡+集章任务；与分论坛D（敦煌）、黑客松互相导流", 4)
+style_sub(ws, "非电竞：沉浸关卡+集章任务；苏度/卓益得等真机互动+敦煌关卡", 4)
 hr = 4
 header_row(ws, hr, ["关卡", "内容", "责任组", "状态"], [22, 60, 16, 12], NAVY)
 data_rows(ws, hr + 1,
-          [[a, b, "文旅沉浸组" if "敦煌" in a or "沉浸" in a else "文脉展示组", "待脚本"]
+          [[a, b, "文旅沉浸组" if "敦煌" in a or "沉浸" in a else ("产业内容组" if "智能体" in a else "文脉展示组"), "待脚本"]
            for a, b in C.EXPERIENCE_LAYER],
           aligns=["left", "left", "center", "center"], base_h=30)
 freeze(ws)
 
-# 11 黑客松
-ws = wb.create_sheet("11.黑客松专章")
+# 12 黑客松
+ws = wb.create_sheet("12.黑客松专章")
 style_title(ws, f"{C.HACKATHON['name']}｜执行台账", 4, GOLD)
 style_sub(ws, f"{C.HACKATHON['slogan']}｜{C.HACKATHON['window']}｜{C.HACKATHON['scale']}", 4)
 hr = 4
@@ -309,17 +323,17 @@ rows.append(["场地", C.HACKATHON["venue"], "会务保障组", "待锁定"])
 data_rows(ws, hr + 1, rows, aligns=["center", "left", "center", "center"], base_h=28)
 freeze(ws)
 
-# 12 嘉宾
-ws = wb.create_sheet("12.嘉宾邀请")
-style_title(ws, "嘉宾分层与邀约目标", 5)
+# 13 嘉宾
+ws = wb.create_sheet("13.嘉宾邀请")
+style_title(ws, "嘉宾分层与邀约目标（含杨浦企业主力军）", 5)
 hr = 4
-header_row(ws, hr, ["层级", "邀约对象", "目标", "负责人", "确认状态"], [18, 55, 28, 12, 12])
+header_row(ws, hr, ["层级", "邀约对象", "目标", "负责人", "确认状态"], [22, 52, 28, 12, 12])
 rows = [[g["tier"], "；".join(g["targets"]), g["goal"], "", "待启动"] for g in C.GUEST_TIERS]
 data_rows(ws, hr + 1, rows, base_h=52)
 freeze(ws)
 
-# 13 国别
-ws = wb.create_sheet("13.一带一路国别池")
+# 14 国别
+ws = wb.create_sheet("14.一带一路国别池")
 style_title(ws, "拟邀「一带一路」国家参考池", 6, TEAL)
 hr = 4
 header_row(ws, hr, ["序号", "国家", "合作侧重", "是否揭牌候选", "领事确认", "备注"], [8, 16, 40, 14, 12, 20])
@@ -327,8 +341,8 @@ rows = [[i + 1, n, f, "是" if i < 3 else "待定", "待邀约", ""] for i, (n, 
 data_rows(ws, hr + 1, rows, aligns=["center", "center", "left", "center", "center", "left"], base_h=26)
 freeze(ws)
 
-# 14 揭牌
-ws = wb.create_sheet("14.揭牌落位")
+# 15 揭牌
+ws = wb.create_sheet("15.揭牌落位")
 style_title(ws, "国际会议厅 / 会客厅揭牌落位计划（含敦煌视进度）", 6, GOLD)
 hr = 4
 header_row(ws, hr, ["落位类型", "数量建议", "形式", "价值", "意向对象", "协议状态"], [28, 14, 32, 32, 16, 12])
@@ -342,8 +356,8 @@ for i, p in enumerate(C.UNVEILING_PRINCIPLES):
     ws.merge_cells(start_row=r + 1 + i, start_column=1, end_row=r + 1 + i, end_column=6)
 freeze(ws)
 
-# 15 席位
-ws = wb.create_sheet("15.席位结构")
+# 16 席位
+ws = wb.create_sheet("16.席位结构")
 style_title(ws, "席位结构（主会场 200–300 人）", 4)
 hr = 4
 header_row(ws, hr, ["席别", "人数", "组成", "签到通道"], [28, 14, 55, 14])
@@ -352,8 +366,8 @@ rows = [[a, b, c, "贵宾" if i < 2 else ("创客" if "黑客" in a or "创客" 
 data_rows(ws, hr + 1, rows, aligns=["left", "center", "left", "center"], base_h=28)
 freeze(ws)
 
-# 16 组织
-ws = wb.create_sheet("16.组织架构")
+# 17 组织
+ws = wb.create_sheet("17.组织架构")
 style_title(ws, "组织架构与职责（含智库/文旅/黑客松）", 4)
 hr = 4
 header_row(ws, hr, ["组别", "职责", "组长（待填）", "成员（待填）"], [18, 60, 14, 20])
@@ -361,8 +375,8 @@ rows = [[a, b, "", ""] for a, b in C.ORG_STRUCTURE]
 data_rows(ws, hr + 1, rows, base_h=30)
 freeze(ws)
 
-# 17 倒排
-ws = wb.create_sheet("17.倒排期")
+# 18 倒排
+ws = wb.create_sheet("18.倒排期")
 style_title(ws, "执行倒排期", 5, TEAL)
 hr = 4
 header_row(ws, hr, ["序号", "节点", "关键任务", "责任组", "状态"], [8, 22, 70, 14, 12])
@@ -372,8 +386,8 @@ rows = [[i + 1, a, b, owners[i % len(owners)], "待启动"] for i, (a, b) in enu
 data_rows(ws, hr + 1, rows, aligns=["center", "left", "left", "center", "center"], base_h=30)
 freeze(ws)
 
-# 18 预算
-ws = wb.create_sheet("18.预算测算")
+# 19 预算
+ws = wb.create_sheet("19.预算测算")
 style_title(ws, "预算测算（示意，单位：万元）", 5, GOLD)
 style_sub(ws, C.BUDGET_NOTE, 5)
 hr = 4
@@ -394,16 +408,16 @@ for a, b, c in C.BUDGET:
 data_rows(ws, hr + 1, rows, aligns=["left", "center", "center", "center", "left"], base_h=28)
 freeze(ws)
 
-# 19 KPI
-ws = wb.create_sheet("19.KPI成效")
+# 20 KPI
+ws = wb.create_sheet("20.KPI成效")
 style_title(ws, "预期成效与 KPI", 4)
 hr = 4
 header_row(ws, hr, ["维度", "量化目标", "实测结果（待填）", "是否达标"], [14, 70, 20, 12])
 data_rows(ws, hr + 1, [[a, b, "", ""] for a, b in C.KPIS], base_h=30)
 freeze(ws)
 
-# 20 风险
-ws = wb.create_sheet("20.风险预案")
+# 21 风险
+ws = wb.create_sheet("21.风险预案")
 style_title(ws, "风险预案", 4, RED)
 hr = 4
 header_row(ws, hr, ["风险", "对策", "等级", "跟踪人"], [30, 60, 10, 12])
@@ -411,18 +425,22 @@ data_rows(ws, hr + 1, [[a, b, c, ""] for a, b, c in C.RISKS],
           aligns=["left", "left", "center", "center"], base_h=34)
 freeze(ws)
 
-# 21 下一步
-ws = wb.create_sheet("21.下一步行动")
-style_title(ws, "下一步行动清单（含敦煌 48h 核查）", 4, TEAL)
+# 22 下一步
+ws = wb.create_sheet("22.下一步行动")
+style_title(ws, "下一步行动清单（主题定稿 · 企业锁定 · 敦煌核查）", 4, TEAL)
 hr = 4
 header_row(ws, hr, ["序号", "行动项", "完成时限", "状态"], [8, 70, 18, 12])
 limits = ["本周内", "对接会后48小时", "3日内", "1周内", "1周内", "10日内", "同步推进"]
 rows = [[i + 1, t, limits[min(i, len(limits) - 1)], "待启动"] for i, t in enumerate(C.NEXT_STEPS)]
+rows.insert(1, [0, "锁定优刻得、智谱、苏度等企业主论坛/分论坛/体验层互动名单", "本周内", "待启动"])
+# renumber
+for i, row in enumerate(rows):
+    row[0] = i + 1
 data_rows(ws, hr + 1, rows, aligns=["center", "left", "center", "center"], base_h=32)
 freeze(ws)
 
-# 22 主题板块
-ws = wb.create_sheet("22.主题板块")
+# 23 主题板块
+ws = wb.create_sheet("23.主题板块")
 style_title(ws, "四大主题板块协同要点（含敦煌沉浸）", 3)
 hr = 4
 header_row(ws, hr, ["板块", "英文标签", "要点"], [22, 22, 70])

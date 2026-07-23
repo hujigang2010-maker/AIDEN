@@ -32,7 +32,7 @@ prs.slide_width = Inches(13.333)
 prs.slide_height = Inches(7.5)
 SW, SH = prs.slide_width, prs.slide_height
 BLANK = prs.slide_layouts[6]
-TOTAL = 24
+TOTAL = 25
 
 
 def set_cjk(run, name=FONT):
@@ -106,7 +106,7 @@ def header(s, kicker, title, idx):
 
 def footer(s):
     text(s, Inches(0.7), Inches(7.08), Inches(8.8), Inches(0.3),
-         [[("杨浦·复兴岛｜全球创客岛收官答卷大会｜V3 敦煌·四层结构", 9, GREY, False)]])
+         [[("创客复兴·智汇杨浦｜全球创客岛成果发布暨国际峰会｜V3.1", 9, GREY, False)]])
     text(s, Inches(9.5), Inches(7.08), Inches(3.2), Inches(0.3),
          [[("建议日期 2026-09-12", 9, GREY, False)]], align=PP_ALIGN.RIGHT)
 
@@ -163,22 +163,22 @@ s = add_slide(NAVY)
 rect(s, 0, 0, Inches(0.18), SH, TEAL)
 rect(s, 0, Inches(5.55), SW, Pt(3), TEAL)
 rect(s, 0, Inches(5.63), Inches(4.8), Pt(3), GOLD)
-text(s, Inches(0.9), Inches(1.0), Inches(11.5), Inches(0.35),
-     [[("杨浦区复兴岛｜PPT 策划方案 V3", 14, TEAL2, True)]])
-text(s, Inches(0.9), Inches(1.4), Inches(11.7), Inches(1.8),
-     [[(C.PROJECT_NAME, 30, WHITE, True)],
-      [(C.PROJECT_FULL, 17, GOLD, True)],
-      [("主论坛 + 分论坛 + 体验/游戏层 + 黑客松　｜　敦煌文旅科技意向", 13, LIGHT, False)]],
-     space_after=7)
-text(s, Inches(0.9), Inches(3.5), Inches(11.5), Inches(1.6),
-     [[("Slogan：百年复兴，智造再启航", 16, TEAL2, True)],
+text(s, Inches(0.9), Inches(0.95), Inches(11.5), Inches(0.35),
+     [[("杨浦区 · 复兴岛｜政府口径主题已定稿", 13, TEAL2, True)]])
+text(s, Inches(0.9), Inches(1.35), Inches(11.7), Inches(2.15),
+     [[(C.PROJECT_NAME, 36, WHITE, True)],
+      [(C.PROJECT_FULL, 15, GOLD, True)],
+      [(C.PROJECT_SUBTITLE, 13, LIGHT, False)]],
+     space_after=8)
+text(s, Inches(0.9), Inches(3.75), Inches(11.5), Inches(1.5),
+     [[("Slogan：锚定全球创客岛，答卷量子城市", 16, TEAL2, True)],
       [("主会日：" + C.EVENT_DATE + "　｜　服务 9/15 收官节点", 14, WHITE, True)],
-      [("黑客松：" + C.HACKATHON_WINDOW, 12, LIGHT, False)],
-      [("规格：区领导 + 一带一路总领事 + 产业龙头 + 敦煌样本 + 创客", 12, GREY, False)]],
+      [("结构：主论坛 + 分论坛 + 体验层 + 黑客松　｜　杨浦AI企业同台互动", 13, LIGHT, False)],
+      [("规格：区领导 + 一带一路总领事 + 优刻得/智谱/苏度等 + 创客", 12, GREY, False)]],
      space_after=4)
-text(s, Inches(0.9), Inches(5.85), Inches(11.5), Inches(0.7),
+text(s, Inches(0.9), Inches(5.9), Inches(11.5), Inches(0.65),
      [[("主呈现：PPT + Excel　｜　" + C.VERSION, 14, WHITE, True)],
-      [("文脉 · 领导寄托 · 规划课题 · 敦煌一事一议 · 四层活动结构", 12, GREY, False)]],
+      [("高端大气主题 · 杨浦优质企业互动 · 国际揭牌 · 敦煌样本", 12, GREY, False)]],
      space_after=3)
 
 # ===== 02 一页总览 =====
@@ -197,9 +197,9 @@ toc = [
     ("01", "一页总览"), ("02", "四层结构"), ("03", "历史文脉"),
     ("04", "领导寄托"), ("05", "规划课题"), ("06", "敦煌项目"),
     ("07", "冷启动角色"), ("08", "择日"), ("09", "定位目标"),
-    ("10", "主题板块"), ("11", "体验/游戏层"), ("12", "黑客松"),
-    ("13", "规模场地"), ("14", "嘉宾揭牌"), ("15", "议程"),
-    ("16", "倒排组织"), ("17", "预算KPI"), ("18", "决策清单"),
+    ("10", "杨浦企业"), ("11", "主题板块"), ("12", "体验层"),
+    ("13", "黑客松"), ("14", "规模场地"), ("15", "嘉宾揭牌"),
+    ("16", "议程"), ("17", "倒排组织"), ("18", "预算KPI"),
 ]
 for i, (n, t) in enumerate(toc):
     col, row = i % 6, i // 6
@@ -340,9 +340,23 @@ for i, obj in enumerate(C.OBJECTIVES):
     text(s, Inches(1.35), y + Inches(0.12), Inches(11.2), Inches(0.42),
          [[(obj, 12, WHITE, False)]])
 
-# ===== 13 主题板块 =====
+# ===== 13 杨浦企业互动 =====
 s = add_slide(NAVY)
-header(s, "PILLARS · 主题板块", "文脉 · 出海 · 硬科技 · 敦煌沉浸", 13)
+header(s, "YANGPU AI · 企业互动", "优刻得 · 智谱 · 苏度 · 卓益得等上岛同台", 13)
+footer(s)
+rows = [[a, b, d] for a, b, _, d in C.YANGPU_ENTERPRISES[:8]]
+add_table(s, Inches(0.3), Inches(1.28), Inches(12.7), Inches(4.3),
+          ["企业", "赛道", "活动互动角色"], rows,
+          col_widths=[Inches(2.4), Inches(2.0), Inches(8.3)], font_size=10)
+text(s, Inches(0.5), Inches(5.75), Inches(12.3), Inches(0.9),
+     [[("互动机制", 13, GOLD, True)],
+      [("主论坛「杨浦AI力量」发言 ｜ 分论坛具身圆桌 ｜ 体验层真机 ｜ 黑客松导师/算力 ｜ 签约意向墙", 12, LIGHT, False)],
+      [("说明：苏度科技为杨浦具身智能重点企业（会商口述「首度」对应此方向企业）。", 11, GREY, False)]],
+     space_after=2)
+
+# ===== 14 主题板块 =====
+s = add_slide(NAVY)
+header(s, "PILLARS · 主题板块", "文脉 · 出海 · 硬科技 · 敦煌沉浸", 14)
 footer(s)
 accents = [GOLD, TEAL, TEAL2, RGBColor(0x3D, 0x7E, 0xA6)]
 for i, p in enumerate(C.THEME_PILLARS):
@@ -352,7 +366,7 @@ for i, p in enumerate(C.THEME_PILLARS):
 
 # ===== 14 体验/游戏层 =====
 s = add_slide(NAVY)
-header(s, "PLAY LAYER · 体验层", "论坛 × 游戏化体验：可玩可感的沉浸关卡", 14)
+header(s, "PLAY LAYER · 体验层", "论坛 × 游戏化体验：可玩可感的沉浸关卡", 15)
 footer(s)
 add_table(s, Inches(0.4), Inches(1.3), Inches(12.5), Inches(4.2),
           ["关卡", "内容"], [[a, b] for a, b in C.EXPERIENCE_LAYER],
@@ -362,9 +376,9 @@ text(s, Inches(0.55), Inches(5.7), Inches(12.2), Inches(0.9),
       [("冷启动打样原则：空间未就绪可用多媒体样片；成熟后再上重资产永久落地。", 12, GREY, False)]],
      space_after=3)
 
-# ===== 15 黑客松 =====
+# ===== 16 黑客松 =====
 s = add_slide(NAVY)
-header(s, "HACKATHON · 黑客松", C.HACKATHON["name"], 15)
+header(s, "HACKATHON · 黑客松", C.HACKATHON["name"], 16)
 footer(s)
 text(s, Inches(0.55), Inches(1.3), Inches(12.2), Inches(0.45),
      [[(C.HACKATHON["slogan"] + "　｜　" + C.HACKATHON["window"], 14, GOLD, True)]])
@@ -382,7 +396,7 @@ add_table(s, Inches(0.4), Inches(4.45), Inches(12.5), Inches(2.3),
 
 # ===== 16 黑客松赛程 =====
 s = add_slide(NAVY)
-header(s, "HACKATHON · 赛程规则", "24 小时登岛出作品、出苗子", 16)
+header(s, "HACKATHON · 赛程规则", "24 小时登岛出作品、出苗子", 17)
 footer(s)
 add_table(s, Inches(0.4), Inches(1.3), Inches(7.5), Inches(4.0),
           ["时间", "环节"], [[a, b] for a, b in C.HACKATHON["schedule"]],
@@ -395,7 +409,7 @@ text(s, Inches(0.5), Inches(5.55), Inches(12.3), Inches(1.1),
 
 # ===== 17 规模场地 =====
 s = add_slide(NAVY)
-header(s, "SCALE & VENUE", "主会 200–300 人 · 体验/黑客松分流 · 必须在岛上", 17)
+header(s, "SCALE & VENUE", "主会 200–300 人 · 体验/黑客松分流 · 必须在岛上", 18)
 footer(s)
 add_table(s, Inches(0.4), Inches(1.3), Inches(6.4), Inches(4.3),
           ["席别", "人数", "组成"], list(C.SEAT_PLAN),
@@ -413,7 +427,7 @@ card(s, Inches(7.05), Inches(1.3), Inches(5.8), Inches(5.3),
 
 # ===== 18 嘉宾揭牌 =====
 s = add_slide(NAVY)
-header(s, "GUESTS & UNVEILING", "政治高位 + 国际高位 + 硬成果落位", 18)
+header(s, "GUESTS & UNVEILING", "政治高位 + 国际高位 + 杨浦企业 + 硬成果", 19)
 footer(s)
 guest_rows = [[g["tier"], "；".join(g["targets"][:2]), g["goal"]] for g in C.GUEST_TIERS]
 add_table(s, Inches(0.35), Inches(1.3), Inches(12.6), Inches(2.9),
@@ -426,7 +440,7 @@ add_table(s, Inches(0.35), Inches(4.4), Inches(12.6), Inches(2.3),
 
 # ===== 19 议程上午 =====
 s = add_slide(NAVY)
-header(s, "AGENDA · 上午", "文脉开幕 · 规格致辞 · 揭牌签约", 19)
+header(s, "AGENDA · 上午", "规格致辞 · 杨浦AI力量 · 揭牌签约", 20)
 footer(s)
 am = [a for a in C.AGENDA if a[0][:2] in ("08", "09", "10", "11", "12")]
 add_table(s, Inches(0.3), Inches(1.28), Inches(12.7), Inches(5.5),
@@ -436,7 +450,7 @@ add_table(s, Inches(0.3), Inches(1.28), Inches(12.7), Inches(5.5),
 
 # ===== 20 议程下午 =====
 s = add_slide(NAVY)
-header(s, "AGENDA · 下午", "四分论坛 · 体验层 · Demo Day · 酒会", 20)
+header(s, "AGENDA · 下午", "四分论坛 · 体验层 · Demo Day · 酒会", 21)
 footer(s)
 pm = [a for a in C.AGENDA if a[0][:2] in ("13", "15", "16")]
 add_table(s, Inches(0.3), Inches(1.28), Inches(12.7), Inches(5.0),
@@ -448,7 +462,7 @@ text(s, Inches(0.5), Inches(6.45), Inches(12.3), Inches(0.4),
 
 # ===== 21 倒排组织 =====
 s = add_slide(NAVY)
-header(s, "TIMELINE & ORG", "倒排期与专班架构", 21)
+header(s, "TIMELINE & ORG", "倒排期与专班架构", 22)
 footer(s)
 add_table(s, Inches(0.35), Inches(1.28), Inches(7.7), Inches(5.5),
           ["节点", "关键任务"], [[a, b] for a, b in C.TIMELINE],
@@ -460,7 +474,7 @@ card(s, Inches(8.25), Inches(1.28), Inches(4.65), Inches(5.5),
 
 # ===== 22 预算 KPI =====
 s = add_slide(NAVY)
-header(s, "BUDGET & KPI", "中值约 70 万 · 成效必须可写进专报", 22)
+header(s, "BUDGET & KPI", "中值约 70 万 · 成效必须可写进专报", 23)
 footer(s)
 add_table(s, Inches(0.3), Inches(1.28), Inches(7.1), Inches(5.5),
           ["成本项", "万元", "说明"], [[a, b, c] for a, b, c in C.BUDGET],
@@ -471,14 +485,14 @@ add_table(s, Inches(7.6), Inches(1.28), Inches(5.3), Inches(5.5),
 
 # ===== 23 决策清单 =====
 s = add_slide(NAVY)
-header(s, "NEXT · 决策清单", "建议立即拍板与跟进的关键事项", 23)
+header(s, "NEXT · 决策清单", "建议立即拍板与跟进的关键事项", 24)
 footer(s)
 steps = [
-    ("1", "确认主日期 9/12 + 四层结构（含体验层/黑客松）"),
-    ("2", "48h 内完成敦煌事实核查与空间踏勘初判"),
-    ("3", "锁定主会场、体验/黑客松厂房与 3 个揭牌对象"),
+    ("1", "确认主题「创客复兴·智汇杨浦」与主会日 9/12"),
+    ("2", "锁定优刻得/智谱/苏度等企业互动与发言名单"),
+    ("3", "48h 完成敦煌核查；锁定会场与揭牌对象"),
     ("4", "启动外事报批、领事邀约、黑客松报名"),
-    ("5", "敦煌达线则一事一议报区；同步用 PPT+Excel 请示"),
+    ("5", "一事一议达线报区；用本 PPT+Excel 作请示附件"),
 ]
 for i, (n, t) in enumerate(steps):
     y = Inches(1.5) + i * Inches(0.95)
@@ -493,15 +507,15 @@ for i, (n, t) in enumerate(steps):
 s = add_slide(NAVY)
 rect(s, 0, 0, Inches(0.18), SH, TEAL)
 rect(s, 0, Inches(3.2), SW, Pt(3), TEAL)
-text(s, Inches(0.9), Inches(1.8), Inches(11.5), Inches(1.3),
-     [[("百年复兴，智造再启航。", 30, WHITE, True)],
-      [("主论坛 · 分论坛 · 体验层 · 黑客松　｜　敦煌一事一议样本", 15, GOLD, True)]],
+text(s, Inches(0.9), Inches(1.7), Inches(11.5), Inches(1.4),
+     [[(C.PROJECT_NAME, 32, WHITE, True)],
+      [("锚定全球创客岛，答卷量子城市", 16, GOLD, True)]],
      align=PP_ALIGN.CENTER, space_after=10)
-text(s, Inches(0.9), Inches(3.5), Inches(11.5), Inches(2.0),
-     [[(C.EVENT_DATE, 17, TEAL2, True)],
-      [("服务 9 月 15 日收官节点　｜　" + C.HACKATHON_WINDOW, 13, LIGHT, False)],
-      [("主呈现：PPT 策划方案  +  Excel 执行台账", 14, LIGHT, False)],
-      [(C.VERSION, 12, GREY, False)]],
+text(s, Inches(0.9), Inches(3.4), Inches(11.5), Inches(2.1),
+     [[(C.PROJECT_FULL, 14, LIGHT, True)],
+      [(C.EVENT_DATE + "　｜　服务 9/15 收官节点", 14, TEAL2, True)],
+      [("优刻得 · 智谱 · 苏度 · 卓益得等杨浦企业同台互动", 13, LIGHT, False)],
+      [("主呈现：PPT 策划方案  +  Excel 执行台账　｜　" + C.VERSION, 12, GREY, False)]],
      align=PP_ALIGN.CENTER, space_after=5)
 
 prs.save(OUT_FILE)
