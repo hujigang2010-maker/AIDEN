@@ -195,7 +195,7 @@ def page_cover(c, page, total):
     c.drawCentredString(W / 2, H - 119.5 * mm,
                         "国资业主 × 联合会协办 × 服务中心科技服务 × 国家级孵化器 × 复旦学术支持 × 同浦汇产业招服")
 
-    # partners — 上移铺满下半屏
+    # partners — 拉高铺满至联系条，消除下半留白
     partners = [
         ("业主", "杨浦科创集团", "杨浦国资委体系"),
         ("联合协办", "杨浦区科技企业联合会", "协会背书·政企通道"),
@@ -204,38 +204,34 @@ def page_cover(c, page, total):
         ("学术支持", "复旦大学住房政策研究中心", "政策研究与智力支持"),
         ("产业招服", "同浦汇", "招商运营·产业服务"),
     ]
-    y_top = H - 132 * mm
+    y_top = H - 130 * mm
+    contact_top = 31 * mm
+    gap = 2.2 * mm
     cw = (W - 2 * M - 4 * mm) / 3
-    ch = 32 * mm
+    ch = (y_top - contact_top - gap) / 2
     for i, (role, name, sub) in enumerate(partners):
         col, row = i % 3, i // 3
         x = M + col * (cw + 2 * mm)
-        y = y_top - row * (ch + 2.5 * mm)
+        y = y_top - row * (ch + gap)
         c.setFillColor(PURPLE3)
         c.roundRect(x, y - ch, cw, ch, 2.5, fill=1, stroke=0)
         c.setStrokeColor(GOLD)
         c.setLineWidth(0.85)
         c.roundRect(x, y - ch, cw, ch, 2.5, fill=0, stroke=1)
         c.setFillColor(GOLD)
-        c.setFont(FONT, 7.5)
-        c.drawString(x + 3 * mm, y - 7 * mm, role)
+        c.setFont(FONT, 8)
+        c.drawString(x + 3.5 * mm, y - 8 * mm, role)
         c.setFillColor(white)
-        c.setFont(FONT, 9.5)
-        # 固定两行名，避免溢出到联系条
-        if c.stringWidth(name, FONT, 9.5) > cw - 6 * mm:
-            # 拆两行
-            mid = len(name) // 2
-            # 尽量在词边界
-            c.drawString(x + 3 * mm, y - 15 * mm, name[:mid])
-            c.drawString(x + 3 * mm, y - 21 * mm, name[mid:])
-            c.setFillColor(SOFT)
-            c.setFont(FONT, 7)
-            c.drawString(x + 3 * mm, y - ch + 5 * mm, sub)
+        c.setFont(FONT, 11)
+        if c.stringWidth(name, FONT, 11) > cw - 7 * mm:
+            mid = (len(name) + 1) // 2
+            c.drawString(x + 3.5 * mm, y - 18 * mm, name[:mid])
+            c.drawString(x + 3.5 * mm, y - 25 * mm, name[mid:])
         else:
-            c.drawString(x + 3 * mm, y - 16 * mm, name)
-            c.setFillColor(SOFT)
-            c.setFont(FONT, 7)
-            c.drawString(x + 3 * mm, y - ch + 5 * mm, sub)
+            c.drawString(x + 3.5 * mm, y - 20 * mm, name)
+        c.setFillColor(SOFT)
+        c.setFont(FONT, 7.5)
+        c.drawString(x + 3.5 * mm, y - ch + 6 * mm, sub)
 
     # contact bar
     c.setFillColor(HexColor("#3A2468"))
