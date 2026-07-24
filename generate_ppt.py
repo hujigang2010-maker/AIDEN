@@ -142,11 +142,11 @@ s = add_slide()
 header(s, "目录", "策划案结构", "提交贵局审阅 · 便于对接落地")
 items = [
     ("01", "背景与目的"),
-    ("02", "组织方与接待单位"),
-    ("03", "考察人员构成"),
-    ("04", "合作主题与方向"),
-    ("05", "时间与行程方案"),
-    ("06", "预期成果与恳请支持"),
+    ("02", "组织与人员"),
+    ("03", "合作主题方向"),
+    ("04", "宁波港资源筛选"),
+    ("05", "互动链接与行程"),
+    ("06", "成果与恳请支持"),
 ]
 for i, (no, name) in enumerate(items):
     col = i % 3
@@ -220,88 +220,135 @@ for i, theme in enumerate(C.COOP_THEMES):
          accent=accents[i])
 footer(s, 6)
 
-# ================================================================ 7. 时间
+# ================================================================ 7. 筛选原则
+s = add_slide()
+header(s, "04 资源筛选", "宁波港不宜走马观花 · 按三原则精选", C.VALUE_CHAIN)
+textbox(s, Inches(0.5), Inches(1.4), Inches(12.3), Inches(0.7),
+        [(C.SCREEN_INTRO, 12, DARK, False)])
+for i, (name, desc) in enumerate(C.SCREEN_CRITERIA):
+    x = Inches(0.5) + (i % 4) * Inches(3.15)
+    y = Inches(2.4) + (i // 4) * Inches(2.4)
+    rect(s, x, y, Inches(3.0), Inches(3.5), fill=MIST)
+    rect(s, x, y, Inches(3.0), Pt(5), fill=TEAL if i < 2 else AMBER)
+    textbox(s, x + Inches(0.15), y + Inches(0.3), Inches(2.7), Inches(0.5),
+            [(f"0{i+1}", 18, TEAL, True)])
+    textbox(s, x + Inches(0.15), y + Inches(0.9), Inches(2.7), Inches(0.5),
+            [(name, 16, NAVY, True)])
+    textbox(s, x + Inches(0.15), y + Inches(1.55), Inches(2.7), Inches(1.6),
+            [(desc, 13, DARK, False)])
+footer(s, 7)
+
+# ================================================================ 8. 港口线
+s = add_slide()
+header(s, "04 港口线精选", "核心必看 + 推荐加深 + 文化选配", "穿山港区 · 航运展示厅 · 梅山港区 · 港口博物馆")
+for i, site in enumerate(C.PORT_SITES):
+    col = i % 2
+    row = i // 2
+    x = Inches(0.4) + col * Inches(6.4)
+    y = Inches(1.35) + row * Inches(2.7)
+    rect(s, x, y, Inches(6.2), Inches(2.5), fill=MIST)
+    rect(s, x, y, Pt(5), Inches(2.5), fill=TEAL if "核心" in site["tier"] else AMBER)
+    textbox(s, x + Inches(0.2), y + Inches(0.12), Inches(5.8), Inches(0.35),
+            [(f"【{site['tier']}】", 11, TEAL, True)])
+    textbox(s, x + Inches(0.2), y + Inches(0.42), Inches(5.8), Inches(0.55),
+            [(site["name"], 13, NAVY, True)])
+    textbox(s, x + Inches(0.2), y + Inches(1.05), Inches(5.8), Inches(1.3),
+            [(f"看：{site['see']}", 11, DARK, False, 4),
+             (f"互动：{site['interact']}", 11, GREY, False)])
+footer(s, 8)
+
+# ================================================================ 9. 产业孵化线
+s = add_slide()
+header(s, "04 产业与孵化线", "智造标杆 + 新能源 + 硬科技 + 落地载体", "与上海企业家、投资机构需求精准匹配")
+for i, site in enumerate(C.INDUSTRY_SITES):
+    col = i % 2
+    row = i // 2
+    x = Inches(0.4) + col * Inches(6.4)
+    y = Inches(1.35) + row * Inches(2.7)
+    rect(s, x, y, Inches(6.2), Inches(2.5), fill=MIST)
+    rect(s, x, y, Pt(5), Inches(2.5), fill=SEA if "核心" in site["tier"] else AMBER)
+    textbox(s, x + Inches(0.2), y + Inches(0.12), Inches(5.8), Inches(0.3),
+            [(f"【{site['tier']}】", 11, SEA, True)])
+    textbox(s, x + Inches(0.2), y + Inches(0.4), Inches(5.8), Inches(0.5),
+            [(site["name"], 13, NAVY, True)])
+    textbox(s, x + Inches(0.2), y + Inches(1.0), Inches(5.8), Inches(1.3),
+            [(f"链接：{site['link']}", 11, DARK, False, 4),
+             (f"互动：{site['interact']}", 11, GREY, False)])
+footer(s, 9)
+
+# ================================================================ 10. 互动链接
+s = add_slide()
+header(s, "05 互动链接", "把参访变成沟通与转化", "看—问—对—跟 闭环")
+for i, link in enumerate(C.INTERACTION_LINKS):
+    col = i % 2
+    row = i // 2
+    x = Inches(0.4) + col * Inches(6.4)
+    y = Inches(1.35) + row * Inches(2.7)
+    rect(s, x, y, Inches(6.2), Inches(2.5), fill=DEEP if i % 2 else NAVY)
+    textbox(s, x + Inches(0.25), y + Inches(0.2), Inches(5.7), Inches(0.4),
+            [(link["name"], 14, AMBER, True)])
+    textbox(s, x + Inches(0.25), y + Inches(0.65), Inches(5.7), Inches(0.35),
+            [(f"{link['anchor']} ｜ {link['form']}", 11, SEA, False)])
+    textbox(s, x + Inches(0.25), y + Inches(1.1), Inches(5.7), Inches(1.2),
+            [(f"· {a}", 12, WHITE, False, 5) for a in link["agenda"]])
+footer(s, 10)
+
+# ================================================================ 11. 时间
 s = add_slide()
 header(s, "05 时间安排", C.TIME_WINDOW, C.DATE_CONFIRM)
-# 两个方案
 rect(s, Inches(0.5), Inches(1.5), Inches(6.0), Inches(3.2), fill=MIST)
 rect(s, Inches(0.5), Inches(1.5), Inches(6.0), Pt(5), fill=TEAL)
 textbox(s, Inches(0.75), Inches(1.75), Inches(5.5), Inches(2.7),
         [(C.TIME_OPTIONS[0][0], 16, NAVY, True, 8),
          (C.TIME_OPTIONS[0][1], 13, TEAL, True, 8),
          (C.TIME_OPTIONS[0][2], 13, DARK, False, 10),
-         ("适合：港口 + 园区 + 政策座谈精华行程", 12, GREY, False)])
+         ("穿山港区 + 航运展厅 + 海天智造", 12, GREY, False)])
 
 rect(s, Inches(6.8), Inches(1.5), Inches(6.0), Inches(3.2), fill=NAVY)
 textbox(s, Inches(7.05), Inches(1.75), Inches(5.5), Inches(2.7),
         [(C.TIME_OPTIONS[1][0], 16, AMBER, True, 8),
          (C.TIME_OPTIONS[1][1], 13, SEA, True, 8),
          (C.TIME_OPTIONS[1][2], 13, WHITE, False, 10),
-         ("推荐：增加企业深访 + PE/VC·CVC 投洽", 12, RGBColor(0xB8, 0xCF, 0xDC), False)])
+         ("加极氪/硬科技深访 + 孵化落地 + 投洽", 12, RGBColor(0xB8, 0xCF, 0xDC), False)])
 
 textbox(s, Inches(0.5), Inches(5.0), Inches(12.3), Inches(1.6),
         [("建议窗口", 13, TEAL, True, 6)] +
         [(f"· {m}", 12, DARK, False, 5) for m in C.PREFERRED_MONTHS])
-footer(s, 7)
+footer(s, 11)
 
-# ================================================================ 8. 第一日行程
+# ================================================================ 12. 第一日行程
 s = add_slide()
-header(s, "05 行程 · 第一日", "精华行程（一日行至此结束）", "具体点位可与贵局协商微调")
-headers = ["时间", "事项", "说明"]
-rows = C.DAY1_ITINERARY
-# 简易列表呈现
-for i, (t, act, note) in enumerate(rows):
+header(s, "05 行程 · 第一日", "已嵌入港口精选点位与互动链接一、二", "一日行至此结束")
+for i, (t, act, note) in enumerate(C.DAY1_ITINERARY):
     y = Inches(1.35) + i * Inches(0.65)
     bg = MIST if i % 2 == 0 else WHITE
     rect(s, Inches(0.45), y, Inches(12.4), Inches(0.58), fill=bg)
     textbox(s, Inches(0.55), y + Inches(0.08), Inches(2.3), Inches(0.42),
             [(t, 11, TEAL, True)], anchor=MSO_ANCHOR.MIDDLE)
-    textbox(s, Inches(2.9), y + Inches(0.08), Inches(4.0), Inches(0.42),
-            [(act, 12, NAVY, True)], anchor=MSO_ANCHOR.MIDDLE)
-    textbox(s, Inches(7.0), y + Inches(0.08), Inches(5.6), Inches(0.42),
+    textbox(s, Inches(2.9), y + Inches(0.08), Inches(4.2), Inches(0.42),
+            [(act, 11.5, NAVY, True)], anchor=MSO_ANCHOR.MIDDLE)
+    textbox(s, Inches(7.2), y + Inches(0.08), Inches(5.4), Inches(0.42),
             [(note, 11, GREY, False)], anchor=MSO_ANCHOR.MIDDLE)
-footer(s, 8)
+footer(s, 12)
 
-# ================================================================ 9. 第二日行程
+# ================================================================ 13. 第二日行程
 s = add_slide()
-header(s, "05 行程 · 第二日", "两日深度行（推荐）", "科技孵化 · 企业深访 · 资本投洽")
+header(s, "05 行程 · 第二日", "孵化落地 · 新能源智造 · 硬科技 · 投洽", "推荐两日深度行")
 for i, (t, act, note) in enumerate(C.DAY2_ITINERARY):
-    y = Inches(1.45) + i * Inches(0.8)
-    rect(s, Inches(0.5), y, Inches(12.3), Inches(0.7), fill=MIST if i % 2 == 0 else LIGHT)
-    rect(s, Inches(0.5), y, Pt(5), Inches(0.7), fill=AMBER if i == 3 else TEAL)
-    textbox(s, Inches(0.75), y + Inches(0.12), Inches(2.4), Inches(0.45),
-            [(t, 12, TEAL, True)], anchor=MSO_ANCHOR.MIDDLE)
-    textbox(s, Inches(3.3), y + Inches(0.12), Inches(4.2), Inches(0.45),
-            [(act, 13, NAVY, True)], anchor=MSO_ANCHOR.MIDDLE)
-    textbox(s, Inches(7.6), y + Inches(0.12), Inches(5.0), Inches(0.45),
-            [(note, 12, GREY, False)], anchor=MSO_ANCHOR.MIDDLE)
-footer(s, 9)
+    y = Inches(1.35) + i * Inches(0.72)
+    rect(s, Inches(0.5), y, Inches(12.3), Inches(0.65), fill=MIST if i % 2 == 0 else LIGHT)
+    rect(s, Inches(0.5), y, Pt(5), Inches(0.65), fill=AMBER if i == 4 else TEAL)
+    textbox(s, Inches(0.75), y + Inches(0.1), Inches(2.4), Inches(0.45),
+            [(t, 11, TEAL, True)], anchor=MSO_ANCHOR.MIDDLE)
+    textbox(s, Inches(3.3), y + Inches(0.1), Inches(4.5), Inches(0.45),
+            [(act, 12, NAVY, True)], anchor=MSO_ANCHOR.MIDDLE)
+    textbox(s, Inches(7.9), y + Inches(0.1), Inches(4.7), Inches(0.45),
+            [(note, 11, GREY, False)], anchor=MSO_ANCHOR.MIDDLE)
+footer(s, 13)
 
-# ================================================================ 10. 参访点
+# ================================================================ 14. 成果与长效
 s = add_slide()
-header(s, "05 建议点位", "恳请贵局协助协调开放", "港口 · 园区 · 企业 · 孵化器 · 对接会场")
-for i, (site, focus) in enumerate(C.SUGGESTED_SITES):
-    col = i % 3
-    row = i // 3
-    if i >= 3:
-        # 第2行两个居中一点
-        x = Inches(2.2) + (i - 3) * Inches(4.5)
-        y = Inches(4.3)
-    else:
-        x = Inches(0.5) + col * Inches(4.2)
-        y = Inches(1.55)
-    rect(s, x, y, Inches(3.95), Inches(2.3), fill=MIST)
-    textbox(s, x + Inches(0.2), y + Inches(0.25), Inches(3.55), Inches(0.4),
-            [(f"0{i+1}", 14, TEAL, True)])
-    textbox(s, x + Inches(0.2), y + Inches(0.7), Inches(3.55), Inches(0.7),
-            [(site, 14, NAVY, True)])
-    textbox(s, x + Inches(0.2), y + Inches(1.45), Inches(3.55), Inches(0.6),
-            [(focus, 12, GREY, False)])
-footer(s, 10)
-
-# ================================================================ 11. 成果与长效
-s = add_slide()
-header(s, "06 预期成果", "一次成行 · 多项跟进 · 机制沉淀", "")
+header(s, "06 预期成果", "四类线索清单 · 可跟进可转化", "")
 textbox(s, Inches(0.5), Inches(1.4), Inches(6.2), Inches(5.2),
         [("本次预期成果", 14, TEAL, True, 8)] +
         [(f"· {o}", 12.5, DARK, False, 10) for o in C.OUTCOMES])
@@ -313,27 +360,23 @@ for name, desc in C.LONG_TERM:
     lines.append((name, 13, SEA, True, 4))
     lines.append((desc, 12, WHITE, False, 10))
 textbox(s, Inches(7.2), Inches(2.2), Inches(5.4), Inches(4.1), lines)
-footer(s, 11)
+footer(s, 14)
 
-# ================================================================ 12. 恳请支持
+# ================================================================ 15. 恳请支持
 s = add_slide()
-header(s, "06 恳请支持", "请宁波经济技术开发区投资促进局予以指导", "")
+header(s, "06 恳请支持", "请贵局协助协调港口、企业与互动环节", "")
 for i, (title, desc) in enumerate(C.SUPPORT_REQUESTS):
-    col = i % 3
-    row = i // 3
-    x = Inches(0.45) + col * Inches(4.2)
-    y = Inches(1.45) + row * Inches(2.5)
-    rect(s, x, y, Inches(4.0), Inches(2.25), fill=MIST)
-    rect(s, x, y, Inches(4.0), Pt(4), fill=TEAL)
-    textbox(s, x + Inches(0.2), y + Inches(0.25), Inches(3.6), Inches(0.45),
-            [(f"{i+1}. {title}", 14, NAVY, True)])
-    textbox(s, x + Inches(0.2), y + Inches(0.85), Inches(3.6), Inches(1.15),
-            [(desc, 12, DARK, False)])
-footer(s, 12)
+    y = Inches(1.32) + i * Inches(0.75)
+    rect(s, Inches(0.5), y, Inches(12.3), Inches(0.68), fill=MIST if i % 2 == 0 else LIGHT)
+    textbox(s, Inches(0.7), y + Inches(0.12), Inches(2.8), Inches(0.45),
+            [(f"{i+1}. {title}", 13, NAVY, True)], anchor=MSO_ANCHOR.MIDDLE)
+    textbox(s, Inches(3.6), y + Inches(0.12), Inches(9.0), Inches(0.45),
+            [(desc, 12, DARK, False)], anchor=MSO_ANCHOR.MIDDLE)
+footer(s, 15)
 
-# ================================================================ 13. 下一步
+# ================================================================ 16. 下一步
 s = add_slide()
-header(s, "下一步", "从策划案到成行的五步路径", "")
+header(s, "下一步", "从策划案到成行：先锁定点位再确认人员", "")
 for i, (step, work) in enumerate(C.NEXT_STEPS):
     y = Inches(1.5) + i * Inches(0.95)
     rect(s, Inches(0.5), y, Inches(12.3), Inches(0.85), fill=MIST if i % 2 == 0 else LIGHT)
@@ -341,23 +384,24 @@ for i, (step, work) in enumerate(C.NEXT_STEPS):
             [(step, 14, TEAL, True)], anchor=MSO_ANCHOR.MIDDLE)
     textbox(s, Inches(4.4), y + Inches(0.2), Inches(8.1), Inches(0.45),
             [(work, 13, DARK, False)], anchor=MSO_ANCHOR.MIDDLE)
-footer(s, 13)
+footer(s, 16)
 
-# ================================================================ 14. 封底
+# ================================================================ 17. 封底
 s = add_slide()
 rect(s, 0, 0, SW, SH, fill=DEEP)
 rect(s, 0, 0, Inches(0.18), SH, fill=TEAL)
 textbox(s, Inches(0.8), Inches(1.8), Inches(11.5), Inches(0.5),
         [("期待与贵局携手", 14, SEA, True)])
 textbox(s, Inches(0.8), Inches(2.4), Inches(11.5), Inches(1.5),
-        [("以宁波港与经开区为纽带", 28, WHITE, True, 10),
-         ("推动沪甬产业协同与资本对接", 28, WHITE, True)])
-textbox(s, Inches(0.8), Inches(4.3), Inches(11.5), Inches(1.2),
-        [(C.CLOSING[:60] + "……", 13, RGBColor(0xB8, 0xCF, 0xDC), False)])
+        [("精选港口点位 · 链接产业与资本", 26, WHITE, True, 10),
+         ("推动沪甬可跟进、可转化的务实合作", 26, WHITE, True)])
+textbox(s, Inches(0.8), Inches(4.5), Inches(11.5), Inches(1.0),
+        [("港口枢纽 → 港航服务 → 临港智造 → 科创落地 → 资本投洽", 14,
+          RGBColor(0xB8, 0xCF, 0xDC), False)])
 textbox(s, Inches(0.8), Inches(5.8), Inches(11.5), Inches(1.0),
         [("复旦大学住房政策研究中心", 14, WHITE, True, 6),
          ("上海市杨浦区科技企业联合会", 14, WHITE, True, 6),
-         ("提交：" + C.RECIPIENT + "  ·  " + C.DOC_DATE, 12, AMBER, False)])
+         ("提交：" + C.RECIPIENT + "  ·  " + C.DOC_DATE + "  ·  " + C.VERSION, 12, AMBER, False)])
 
 OUT_DIR = os.path.join(os.path.dirname(__file__), "output")
 os.makedirs(OUT_DIR, exist_ok=True)

@@ -170,59 +170,97 @@ def main():
         for pt in theme["points"]:
             bullet(doc, pt, size=11)
 
-    # ---------------- 五、时间安排 ----------------
+    # ---------------- 四点五、宁波港资源筛选 ----------------
     doc.add_page_break()
-    heading(doc, "五、时间安排建议", 1)
+    heading(doc, "五、宁波港及周边参访资源筛选", 1)
+    para(doc, C.SCREEN_INTRO, size=11.5, first_line_indent=22, space_after=8)
+    para(doc, C.VALUE_CHAIN, size=11.5, bold=True, color=TEAL, space_after=10)
+
+    heading(doc, "5.1 筛选原则", 2)
+    add_table(doc,
+              ["原则", "说明"],
+              list(C.SCREEN_CRITERIA))
+    para(doc, "", size=6)
+
+    heading(doc, "5.2 港口线精选点位", 2)
+    for site in C.PORT_SITES:
+        para(doc, f"【{site['tier']}】{site['name']}", size=12, bold=True,
+             color=ACCENT, space_after=4)
+        bullet(doc, f"为何值得去：{site['why']}", size=11)
+        bullet(doc, f"看什么：{site['see']}", size=11)
+        bullet(doc, f"现场互动：{site['interact']}", size=11)
+        bullet(doc, f"与沪方链接：{site['link']}", size=11)
+
+    heading(doc, "5.3 产业与孵化线精选点位", 2)
+    for site in C.INDUSTRY_SITES:
+        para(doc, f"【{site['tier']}】{site['name']}", size=12, bold=True,
+             color=ACCENT, space_after=4)
+        bullet(doc, f"为何值得去：{site['why']}", size=11)
+        bullet(doc, f"看什么：{site['see']}", size=11)
+        bullet(doc, f"现场互动：{site['interact']}", size=11)
+        bullet(doc, f"与沪方链接：{site['link']}", size=11)
+
+    heading(doc, "5.4 互动链接设计（把参访变成沟通与转化）", 2)
+    for link in C.INTERACTION_LINKS:
+        para(doc, link["name"], size=12, bold=True, color=TEAL, space_after=2)
+        para(doc, f"嵌入节点：{link['anchor']}　｜　形式：{link['form']}",
+             size=11, color=GREY, space_after=4)
+        for a in link["agenda"]:
+            bullet(doc, a, size=11)
+
+    # ---------------- 六、时间安排 ----------------
+    doc.add_page_break()
+    heading(doc, "六、时间安排建议", 1)
     para(doc, C.TIME_WINDOW, size=12, bold=True, color=ACCENT, space_after=8)
     para(doc, C.DATE_CONFIRM, size=11, color=GREY, space_after=10)
 
-    heading(doc, "5.1 行程深度选项", 2)
+    heading(doc, "6.1 行程深度选项", 2)
     add_table(doc,
               ["方案", "时长", "适用情形"],
               list(C.TIME_OPTIONS))
     para(doc, "", size=6)
 
-    heading(doc, "5.2 建议窗口", 2)
+    heading(doc, "6.2 建议窗口", 2)
     for m in C.PREFERRED_MONTHS:
         bullet(doc, m, size=11)
 
-    # ---------------- 六、行程方案 ----------------
-    heading(doc, "六、建议行程方案", 1)
+    # ---------------- 七、行程方案 ----------------
+    heading(doc, "七、建议行程方案（已嵌入精选点位与互动链接）", 1)
     para(doc,
-         "以下为建议框架，具体参访点、座谈主题与时段可由双方根据接待条件微调。"
+         "以下行程已嵌入第五节筛选点位与四大互动链接，具体开放范围可由双方按接待条件微调。"
          "推荐采用「方案 B · 两日深度行」。",
          size=11.5, first_line_indent=22, space_after=10)
 
-    heading(doc, "6.1 第一日（精华行程，一日行至此结束）", 2)
+    heading(doc, "7.1 第一日（精华行程，一日行至此结束）", 2)
     add_table(doc,
               ["时间", "事项", "说明"],
               list(C.DAY1_ITINERARY))
     para(doc, "", size=6)
 
-    heading(doc, "6.2 第二日（两日行加深对接，推荐）", 2)
+    heading(doc, "7.2 第二日（两日行加深对接，推荐）", 2)
     add_table(doc,
               ["时间", "事项", "说明"],
               list(C.DAY2_ITINERARY))
     para(doc, "", size=6)
 
-    heading(doc, "6.3 建议参访与对接点", 2)
+    heading(doc, "7.3 参访资源总表（请贵局协助勾选协调）", 2)
     add_table(doc,
-              ["建议点位", "交流重点"],
+              ["建议点位", "定位与重点"],
               list(C.SUGGESTED_SITES))
     para(doc, "", size=6)
 
-    # ---------------- 七、预期成果 ----------------
-    heading(doc, "七、预期成果与长效合作", 1)
-    heading(doc, "7.1 本次预期成果", 2)
+    # ---------------- 八、预期成果 ----------------
+    heading(doc, "八、预期成果与长效合作", 1)
+    heading(doc, "8.1 本次预期成果", 2)
     for o in C.OUTCOMES:
         bullet(doc, o, size=11)
 
-    heading(doc, "7.2 长效合作设想", 2)
+    heading(doc, "8.2 长效合作设想", 2)
     for name, desc in C.LONG_TERM:
         bullet(doc, f"{name}：{desc}", size=11)
 
-    # ---------------- 八、恳请支持 ----------------
-    heading(doc, "八、恳请接待单位支持事项", 1)
+    # ---------------- 九、恳请支持 ----------------
+    heading(doc, "九、恳请接待单位支持事项", 1)
     para(doc,
          "为保障考察交流顺利、高效、务实，恳请贵局在以下方面给予支持与指导：",
          size=11.5, first_line_indent=22, space_after=8)
@@ -231,13 +269,13 @@ def main():
               list(C.SUPPORT_REQUESTS))
     para(doc, "", size=6)
 
-    # ---------------- 九、费用原则 ----------------
-    heading(doc, "九、费用与分工原则", 1)
+    # ---------------- 十、费用原则 ----------------
+    heading(doc, "十、费用与分工原则", 1)
     for c in C.COST_PRINCIPLES:
         bullet(doc, c, size=11)
 
-    # ---------------- 十、下一步 ----------------
-    heading(doc, "十、下一步工作安排", 1)
+    # ---------------- 十一、下一步 ----------------
+    heading(doc, "十一、下一步工作安排", 1)
     add_table(doc,
               ["步骤", "工作内容"],
               list(C.NEXT_STEPS))

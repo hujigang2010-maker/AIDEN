@@ -53,7 +53,46 @@ def build():
             L.append(f"- {pt}")
         L.append("")
 
-    L.append("## 五、时间安排建议")
+    L.append("## 五、宁波港及周边参访资源筛选")
+    L.append(C.SCREEN_INTRO)
+    L.append("")
+    L.append(f"**认知路径：** {C.VALUE_CHAIN}")
+    L.append("")
+    L.append("### 5.1 筛选原则")
+    L.append("| 原则 | 说明 |")
+    L.append("| --- | --- |")
+    for a, b in C.SCREEN_CRITERIA:
+        L.append(f"| {a} | {b} |")
+    L.append("")
+
+    L.append("### 5.2 港口线精选点位")
+    for site in C.PORT_SITES:
+        L.append(f"#### 【{site['tier']}】{site['name']}")
+        L.append(f"- **为何值得去**：{site['why']}")
+        L.append(f"- **看什么**：{site['see']}")
+        L.append(f"- **现场互动**：{site['interact']}")
+        L.append(f"- **与沪方链接**：{site['link']}")
+        L.append("")
+
+    L.append("### 5.3 产业与孵化线精选点位")
+    for site in C.INDUSTRY_SITES:
+        L.append(f"#### 【{site['tier']}】{site['name']}")
+        L.append(f"- **为何值得去**：{site['why']}")
+        L.append(f"- **看什么**：{site['see']}")
+        L.append(f"- **现场互动**：{site['interact']}")
+        L.append(f"- **与沪方链接**：{site['link']}")
+        L.append("")
+
+    L.append("### 5.4 互动链接设计")
+    for link in C.INTERACTION_LINKS:
+        L.append(f"#### {link['name']}")
+        L.append(f"- 嵌入节点：{link['anchor']}")
+        L.append(f"- 形式：{link['form']}")
+        for a in link["agenda"]:
+            L.append(f"- {a}")
+        L.append("")
+
+    L.append("## 六、时间安排建议")
     L.append(f"**{C.TIME_WINDOW}**")
     L.append("")
     L.append(C.DATE_CONFIRM)
@@ -68,49 +107,49 @@ def build():
         L.append(f"- {m}")
     L.append("")
 
-    L.append("## 六、建议行程方案")
-    L.append("### 6.1 第一日（精华行程）")
+    L.append("## 七、建议行程方案（已嵌入精选点位）")
+    L.append("### 7.1 第一日（精华行程）")
     L.append("| 时间 | 事项 | 说明 |")
     L.append("| --- | --- | --- |")
     for row in C.DAY1_ITINERARY:
         L.append("| " + " | ".join(row) + " |")
     L.append("")
-    L.append("### 6.2 第二日（两日深度行 · 推荐）")
+    L.append("### 7.2 第二日（两日深度行 · 推荐）")
     L.append("| 时间 | 事项 | 说明 |")
     L.append("| --- | --- | --- |")
     for row in C.DAY2_ITINERARY:
         L.append("| " + " | ".join(row) + " |")
     L.append("")
-    L.append("### 6.3 建议参访与对接点")
-    L.append("| 建议点位 | 交流重点 |")
+    L.append("### 7.3 参访资源总表")
+    L.append("| 建议点位 | 定位与重点 |")
     L.append("| --- | --- |")
     for a, b in C.SUGGESTED_SITES:
         L.append(f"| {a} | {b} |")
     L.append("")
 
-    L.append("## 七、预期成果与长效合作")
-    L.append("### 7.1 本次预期成果")
+    L.append("## 八、预期成果与长效合作")
+    L.append("### 8.1 本次预期成果")
     for o in C.OUTCOMES:
         L.append(f"- {o}")
     L.append("")
-    L.append("### 7.2 长效合作设想")
+    L.append("### 8.2 长效合作设想")
     for name, desc in C.LONG_TERM:
         L.append(f"- **{name}**：{desc}")
     L.append("")
 
-    L.append("## 八、恳请接待单位支持事项")
+    L.append("## 九、恳请接待单位支持事项")
     L.append("| 支持事项 | 具体说明 |")
     L.append("| --- | --- |")
     for a, b in C.SUPPORT_REQUESTS:
         L.append(f"| {a} | {b} |")
     L.append("")
 
-    L.append("## 九、费用与分工原则")
+    L.append("## 十、费用与分工原则")
     for c in C.COST_PRINCIPLES:
         L.append(f"- {c}")
     L.append("")
 
-    L.append("## 十、下一步工作安排")
+    L.append("## 十一、下一步工作安排")
     L.append("| 步骤 | 工作内容 |")
     L.append("| --- | --- |")
     for a, b in C.NEXT_STEPS:
