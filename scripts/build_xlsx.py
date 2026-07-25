@@ -137,16 +137,17 @@ nav = [
     ["22.风险预案", "风险对策", "应急"],
     ["23.下一步行动", "企业锁定+领事全名单邀约", "立即执行"],
     ["24.主题板块", "四大板块协同要点", "内容统筹"],
+    ["25.出海行业支持", "行业方向×当地支持×国别", "领事圆桌专报"],
 ]
 header_row(ws, 16, ["工作表", "内容", "用途", "优先级"], [22, 40, 22, 12], NAVY)
 data_rows(ws, 17, [[a, b, c, "高" if i < 11 else "中"] for i, (a, b, c) in enumerate(nav)],
           aligns=["left", "left", "left", "center"], base_h=20)
 
-ws.merge_cells("A43:D44")
-c = ws.cell(43, 1, C.ONE_LINER)
+ws.merge_cells("A44:D45")
+c = ws.cell(44, 1, C.ONE_LINER)
 c.font = Font(name=FONT, size=11, color=INK)
 c.alignment = Alignment(wrap_text=True, vertical="center", indent=1)
-ws.row_dimensions[43].height = 48
+ws.row_dimensions[44].height = 48
 for j, w in enumerate([22, 40, 22, 28], 1):
     ws.column_dimensions[get_column_letter(j)].width = w
 ws.freeze_panes = "A5"
@@ -495,6 +496,45 @@ hr = 4
 header_row(ws, hr, ["板块", "英文标签", "要点"], [22, 22, 70])
 rows = [[p["name"], p["tag"], "；".join(p["points"])] for p in C.THEME_PILLARS]
 data_rows(ws, hr + 1, rows, base_h=48)
+freeze(ws)
+
+# 25 出海行业支持（领事专报台账）
+ws = wb.create_sheet("25.出海行业支持")
+style_title(ws, C.OUTBOUND_BRIEF_TITLE + "｜" + C.OUTBOUND_BRIEF_SUB, 7, TEAL)
+style_sub(ws, "供分论坛 C 国别分桌与总领事会前预读；正式口径以外事确认为准。", 7)
+hr = 4
+header_row(
+    ws,
+    hr,
+    ["代号", "行业方向", "代表企业", "出海计划", "优先市场", "当地支持诉求", "总领事可如何帮助"],
+    [8, 18, 18, 32, 22, 40, 32],
+)
+rows = [
+    [
+        ind["code"],
+        ind["name"],
+        ind["enterprises"],
+        ind["plan"],
+        ind["markets"],
+        "；".join(ind["supports"]),
+        ind["consul_can"],
+    ]
+    for ind in C.OUTBOUND_INDUSTRIES
+]
+data_rows(ws, hr + 1, rows, base_h=48)
+r = hr + 1 + len(rows) + 1
+ws.cell(r, 1, "国别×优先行业匹配").font = Font(name=FONT, size=11, bold=True, color=TEAL)
+ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=7)
+hr2 = r + 1
+header_row(ws, hr2, ["国家", "总领事", "优先对接行业", "会谈切入点", "", "", ""], [12, 18, 28, 40, 8, 8, 8], NAVY)
+rows2 = [[a, b, c, d, "", "", ""] for a, b, c, d in C.OUTBOUND_COUNTRY_MATCH]
+data_rows(ws, hr2 + 1, rows2, base_h=28)
+r3 = hr2 + 1 + len(rows2) + 1
+ws.cell(r3, 1, "支持五包").font = Font(name=FONT, size=11, bold=True, color=TEAL)
+for i, (name, desc) in enumerate(C.OUTBOUND_SUPPORT_PACKS):
+    cell = ws.cell(r3 + 1 + i, 1, f"· {name}：{desc}")
+    cell.font = Font(name=FONT, size=10, color=INK)
+    ws.merge_cells(start_row=r3 + 1 + i, start_column=1, end_row=r3 + 1 + i, end_column=7)
 freeze(ws)
 
 wb.save(OUT_FILE)

@@ -32,7 +32,7 @@ prs.slide_width = Inches(13.333)
 prs.slide_height = Inches(7.5)
 SW, SH = prs.slide_width, prs.slide_height
 BLANK = prs.slide_layouts[6]
-TOTAL = 26
+TOTAL = 29
 
 
 def set_cjk(run, name=FONT):
@@ -106,7 +106,7 @@ def header(s, kicker, title, idx):
 
 def footer(s):
     text(s, Inches(0.7), Inches(7.08), Inches(8.8), Inches(0.3),
-         [[("创客复兴·智汇杨浦｜全球创客岛成果发布暨国际峰会｜V3.2", 9, GREY, False)]])
+         [[("创客复兴·智汇杨浦｜全球创客岛成果发布暨国际峰会｜V3.3", 9, GREY, False)]])
     text(s, Inches(9.5), Inches(7.08), Inches(3.2), Inches(0.3),
          [[("建议日期 2026-09-12", 9, GREY, False)]], align=PP_ALIGN.RIGHT)
 
@@ -199,7 +199,7 @@ toc = [
     ("07", "冷启动角色"), ("08", "择日"), ("09", "定位目标"),
     ("10", "杨浦企业"), ("11", "主题板块"), ("12", "体验层"),
     ("13", "黑客松"), ("14", "规模场地"), ("15", "嘉宾领事"),
-    ("16", "议程"), ("17", "倒排组织"), ("18", "预算KPI"),
+    ("16", "出海对接"), ("17", "议程组织"), ("18", "预算KPI"),
 ]
 for i, (n, t) in enumerate(toc):
     col, row = i % 6, i // 6
@@ -475,9 +475,69 @@ text(
     )]],
 )
 
-# ===== 20 议程上午 =====
+# ===== 21 出海行业方向 =====
 s = add_slide(NAVY)
-header(s, "AGENDA · 上午", "规格致辞 · 杨浦AI力量 · 揭牌签约", 21)
+header(s, "OUTBOUND · 行业方向", "复兴岛侧重点出海企业聚焦六大方向", 21)
+footer(s)
+rows = [
+    [ind["code"], ind["name"], ind["enterprises"], ind["markets"], ind["plan"][:42] + ("…" if len(ind["plan"]) > 42 else "")]
+    for ind in C.OUTBOUND_INDUSTRIES
+]
+add_table(
+    s, Inches(0.25), Inches(1.2), Inches(12.8), Inches(5.0),
+    ["代号", "行业方向", "代表企业", "优先市场", "出海计划要点"],
+    rows,
+    col_widths=[Inches(0.8), Inches(2.6), Inches(2.8), Inches(2.8), Inches(3.8)],
+    font_size=10,
+)
+text(
+    s, Inches(0.4), Inches(6.4), Inches(12.5), Inches(0.4),
+    [[("完整版见单独专报 PPT《出海行业方向与当地支持诉求》；供总领事会前预读与分论坛 C 分桌。", 11, GREY, False)]],
+)
+
+# ===== 22 当地支持 =====
+s = add_slide(NAVY)
+header(s, "OUTBOUND · 当地支持", "出海后需要什么：领事可有的放矢回应", 22)
+footer(s)
+rows = [
+    [
+        ind["code"] + " " + ind["name"],
+        "；".join(ind["supports"][:2]),
+        ind["consul_can"],
+    ]
+    for ind in C.OUTBOUND_INDUSTRIES
+]
+add_table(
+    s, Inches(0.25), Inches(1.2), Inches(12.8), Inches(4.55),
+    ["行业方向", "当地支持诉求（节选）", "总领事可如何帮助"],
+    rows,
+    col_widths=[Inches(3.2), Inches(5.0), Inches(4.6)],
+    font_size=9,
+)
+packs = "　｜　".join([f"{a}" for a, _ in C.OUTBOUND_SUPPORT_PACKS])
+text(
+    s, Inches(0.4), Inches(5.95), Inches(12.5), Inches(0.7),
+    [[("支持五包（可认领）", 12, GOLD, True)],
+     [(packs, 12, LIGHT, False)]],
+    space_after=2,
+)
+
+# ===== 23 国别匹配 =====
+s = add_slide(NAVY)
+header(s, "OUTBOUND · 国别匹配", "11 国总领事 × 优先行业 · 圆桌分桌", 23)
+footer(s)
+rows = [[a, b, c, d] for a, b, c, d in C.OUTBOUND_COUNTRY_MATCH]
+add_table(
+    s, Inches(0.25), Inches(1.2), Inches(12.8), Inches(5.5),
+    ["国家", "总领事", "优先对接行业", "会谈切入点"],
+    rows,
+    col_widths=[Inches(1.3), Inches(2.4), Inches(3.8), Inches(5.3)],
+    font_size=9,
+)
+
+# ===== 24 议程上午 =====
+s = add_slide(NAVY)
+header(s, "AGENDA · 上午", "规格致辞 · 杨浦AI力量 · 揭牌签约", 24)
 footer(s)
 am = [a for a in C.AGENDA if a[0][:2] in ("08", "09", "10", "11", "12")]
 add_table(s, Inches(0.3), Inches(1.28), Inches(12.7), Inches(5.5),
@@ -485,9 +545,9 @@ add_table(s, Inches(0.3), Inches(1.28), Inches(12.7), Inches(5.5),
           [[a[0], a[1], a[2], a[3]] for a in am],
           col_widths=[Inches(1.6), Inches(2.9), Inches(6.1), Inches(2.1)], font_size=10)
 
-# ===== 21 议程下午 =====
+# ===== 25 议程下午 =====
 s = add_slide(NAVY)
-header(s, "AGENDA · 下午", "四分论坛 · 体验层 · Demo Day · 酒会", 22)
+header(s, "AGENDA · 下午", "四分论坛 · 体验层 · Demo Day · 酒会", 25)
 footer(s)
 pm = [a for a in C.AGENDA if a[0][:2] in ("13", "15", "16")]
 add_table(s, Inches(0.3), Inches(1.28), Inches(12.7), Inches(5.0),
@@ -495,11 +555,11 @@ add_table(s, Inches(0.3), Inches(1.28), Inches(12.7), Inches(5.0),
           [[a[0], a[1], a[2], a[3]] for a in pm],
           col_widths=[Inches(1.6), Inches(3.0), Inches(6.0), Inches(2.1)], font_size=9)
 text(s, Inches(0.5), Inches(6.45), Inches(12.3), Inches(0.4),
-     [[("完整议程、领事台账、敦煌对接与黑客松见 Excel。", 11, GREY, False)]])
+     [[("完整议程、领事专报、敦煌对接与黑客松见 Excel / 单独出海专报 PPT。", 11, GREY, False)]])
 
-# ===== 22 倒排组织 =====
+# ===== 26 倒排组织 =====
 s = add_slide(NAVY)
-header(s, "TIMELINE & ORG", "倒排期与专班架构", 23)
+header(s, "TIMELINE & ORG", "倒排期与专班架构", 26)
 footer(s)
 add_table(s, Inches(0.35), Inches(1.28), Inches(7.7), Inches(5.5),
           ["节点", "关键任务"], [[a, b] for a, b in C.TIMELINE],
@@ -509,9 +569,9 @@ card(s, Inches(8.25), Inches(1.28), Inches(4.65), Inches(5.5),
      [f"{a}" for a, _ in C.ORG_STRUCTURE],
      accent=TEAL2, tsize=13, bsize=11)
 
-# ===== 23 预算 KPI =====
+# ===== 27 预算 KPI =====
 s = add_slide(NAVY)
-header(s, "BUDGET & KPI", "中值约 74 万 · 成效必须可写进专报", 24)
+header(s, "BUDGET & KPI", "中值约 74 万 · 成效必须可写进专报", 27)
 footer(s)
 add_table(s, Inches(0.3), Inches(1.28), Inches(7.1), Inches(5.5),
           ["成本项", "万元", "说明"], [[a, b, c] for a, b, c in C.BUDGET],
@@ -520,15 +580,15 @@ add_table(s, Inches(7.6), Inches(1.28), Inches(5.3), Inches(5.5),
           ["维度", "量化目标"], [[a, b] for a, b in C.KPIS],
           col_widths=[Inches(1.5), Inches(3.8)], font_size=9)
 
-# ===== 24 决策清单 =====
+# ===== 28 决策清单 =====
 s = add_slide(NAVY)
-header(s, "NEXT · 决策清单", "建议立即拍板与跟进的关键事项", 25)
+header(s, "NEXT · 决策清单", "建议立即拍板与跟进的关键事项", 28)
 footer(s)
 steps = [
     ("1", "确认主题「创客复兴·智汇杨浦」与主会日 9/12"),
     ("2", "锁定优刻得/智谱/苏度等企业互动与发言名单"),
     ("3", "48h 完成敦煌核查；锁定会场与揭牌对象"),
-    ("4", "启动外事报批；按 11 国总领事全名单邀约"),
+    ("4", "启动外事报批；附出海专报给 11 国总领事预读"),
     ("5", "一事一议达线报区；用本 PPT+Excel 作请示附件"),
 ]
 for i, (n, t) in enumerate(steps):

@@ -368,6 +368,24 @@ def build():
         ],
     )
 
+    add_h(doc, "出海行业方向与当地支持（领事专报摘要）", level=2)
+    add_p(doc, "详见单独 PPT《出海行业方向与当地支持诉求_领事对接专报》。摘要如下：", color=GREY)
+    add_table(
+        doc,
+        ["代号", "行业方向", "代表企业", "优先市场", "当地支持（节选）"],
+        [
+            [
+                ind["code"],
+                ind["name"],
+                ind["enterprises"],
+                ind["markets"],
+                "；".join(ind["supports"][:2]),
+            ]
+            for ind in C.OUTBOUND_INDUSTRIES
+        ],
+    )
+    add_bullets(doc, C.OUTBOUND_NEXT)
+
     # ===== 十一、揭牌 =====
     add_h(doc, "十一、国际会议厅 / 会客厅揭牌落位计划", level=1)
     add_p(
