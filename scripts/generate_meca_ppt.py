@@ -157,6 +157,36 @@ def card(s, x, y, w, h, title, bullets, accent=SAND, body_size=12):
     txt(s, x + Inches(0.22), y + Inches(0.58), w - Inches(0.4), h - Inches(0.7), lines)
 
 
+def draw_table(s, x0, y0, col_widths_in, row_h_in, headers, rows,
+               header_bg=SAND, header_fg=INK, zebra=(TEAL, INK_2),
+               first_col_color=SAND_LT, body_size=12, header_size=12,
+               gap_in=0.06):
+    """按英寸绘制表格，避免 float 与 Inches 混算导致负宽度叠字。"""
+    widths = [Inches(w) for w in col_widths_in]
+    xs = [x0]
+    for w in widths[:-1]:
+        xs.append(xs[-1] + w)
+    gap = Inches(gap_in)
+    row_h = Inches(row_h_in)
+    # 表头
+    for j, h in enumerate(headers):
+        rrect(s, xs[j], y0, widths[j] - gap, row_h, header_bg)
+        txt(s, xs[j] + Inches(0.08), y0, widths[j] - gap - Inches(0.12), row_h,
+            [(h, header_size, header_fg, True)],
+            align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+    # 数据行
+    for i, row in enumerate(rows):
+        y = y0 + row_h + Inches(0.06) + i * (row_h + Inches(0.05))
+        bg = zebra[0] if i % 2 == 0 else zebra[1]
+        for j, val in enumerate(row):
+            rrect(s, xs[j], y, widths[j] - gap, row_h, bg)
+            color = first_col_color if j == 0 else WHITE
+            txt(s, xs[j] + Inches(0.1), y, widths[j] - gap - Inches(0.16), row_h,
+                [(str(val), body_size, color, j == 0)],
+                align=PP_ALIGN.CENTER if j else PP_ALIGN.LEFT,
+                anchor=MSO_ANCHOR.MIDDLE)
+
+
 # ============================================================================
 # 1 封面
 # ============================================================================
@@ -348,32 +378,23 @@ for i, (title, accent, bullets) in enumerate(pillars):
 # 8 会员定位与价格（重点）
 # ============================================================================
 s = new("未来会员定位与价格体系", "规划假设以 AED 计价，立项时以实测替换", "定价")
-headers = ["层级", "获取方式", "年费（规划）", "名额", "核心定位"]
-rows = [
-    ["创始会员（个人）", "通过平台购房", "首 3 年免年费\n第 4 年起 3,000", "1,000", "全权益 + 优先权 + 编号荣誉"],
-    ["正式会员", "申请 + 审核", "AED 3,000/年", "不限", "标准生活权益，扩展层"],
-    ["企业会员（标准）", "企业申请审核", "AED 12,000/年", "不限", "黄页/招聘/撮合/活动 2 席"],
-    ["企业会员（战略）", "邀请制", "AED 60,000/年", "≤30", "联合品牌、峰会主论坛、深度撮合"],
-    ["理事单位", "邀请 + 理事会", "AED 200,000/年", "≤12", "参与治理、优先合作、冠名权"],
-]
-# header row
-y0 = Inches(1.5)
-widths = [2.2, 2.2, 2.5, 1.3, 3.8]
-xs = [Inches(0.45)]
-for w in widths[:-1]:
-    xs.append(xs[-1] + w)
-for j, h in enumerate(headers):
-    rrect(s, xs[j], y0, widths[j] - Inches(0.06), Inches(0.55), SAND)
-    txt(s, xs[j] + Inches(0.08), y0 + Inches(0.1), widths[j] - Inches(0.2), Inches(0.4),
-        [(h, 12, INK, True)], align=PP_ALIGN.CENTER)
-for i, row in enumerate(rows):
-    y = y0 + Inches(0.6) + i * Inches(0.9)
-    bg = TEAL if i % 2 == 0 else INK_2
-    for j, val in enumerate(row):
-        rrect(s, xs[j], y, widths[j] - Inches(0.06), Inches(0.82), bg)
-        txt(s, xs[j] + Inches(0.1), y + Inches(0.12), widths[j] - Inches(0.25), Inches(0.6),
-            [(val.replace("\n", " / "), 11, WHITE if j else SAND_LT, j == 0)],
-            anchor=MSO_ANCHOR.MIDDLE)
+draw_table(
+    s,
+    x0=Inches(0.4),
+    y0=Inches(1.5),
+    col_widths_in=[2.35, 2.15, 2.7, 1.2, 4.4],
+    row_h_in=0.78,
+    headers=["层级", "获取方式", "年费（规划）", "名额", "核心定位"],
+    rows=[
+        ["创始会员（个人）", "通过平台购房", "前3年免年费；第4年起 3,000", "1,000", "全权益 + 优先权 + 编号荣誉"],
+        ["正式会员", "申请 + 审核", "AED 3,000 / 年", "不限", "标准生活权益，扩展层"],
+        ["企业会员（标准）", "企业申请审核", "AED 12,000 / 年", "不限", "黄页 / 招聘 / 撮合 / 活动 2 席"],
+        ["企业会员（战略）", "邀请制", "AED 60,000 / 年", "≤30", "联合品牌、峰会主论坛、深度撮合"],
+        ["理事单位", "邀请 + 理事会", "AED 200,000 / 年", "≤12", "参与治理、优先合作、冠名权"],
+    ],
+    body_size=12,
+    header_size=13,
+)
 
 # ============================================================================
 # 9 会员分层画像
@@ -484,32 +505,26 @@ card(s, Inches(9.0), Inches(1.5), Inches(3.9), Inches(5.2),
 # 13 社群矩阵详表
 # ============================================================================
 s = new("海外社群搭建清单", "渠道定位 · 内容 · 首年目标", "矩阵")
-matrix = [
-    ("微信私域", "转化留存", "权益上新/答疑/活动", "创始群 1 + 分会 12", "续费率 ≥70%"),
-    ("微信公众号", "深度权威", "政策解读/白皮书", "周更 2 篇", "粉丝 3 万"),
-    ("Facebook 群", "海外获客", "本地生活/活动招募", "主群 1 + 城市分群", "成员 1 万"),
-    ("Facebook 页", "品牌传播", "活动相册/媒体合作", "周更 3 条", "互动率 ≥3%"),
-    ("Instagram", "生活方式", "现场/探店/会员故事", "周更 4 条", "粉丝 2 万"),
-    ("LinkedIn", "企业商务", "峰会/合作案例/招聘", "周更 2 条", "企业线索 200"),
-    ("WhatsApp", "本地触达", "活动提醒/紧急通知", "分层社区", "打开率 ≥60%"),
-    ("线下分会", "关系沉淀", "月度沙龙/需求墙", "12 行业分会", "月活出席 ≥80"),
-]
-hw = [1.8, 1.5, 2.8, 2.8, 2.8]
-hx = [Inches(0.4)]
-for w in hw[:-1]:
-    hx.append(hx[-1] + w)
-heads = ["渠道", "定位", "内容类型", "组织形态", "首年目标"]
-for j, h in enumerate(heads):
-    rrect(s, hx[j], Inches(1.45), hw[j] - Inches(0.06), Inches(0.48), SAND)
-    txt(s, hx[j] + Inches(0.08), Inches(1.52), hw[j] - Inches(0.2), Inches(0.35),
-        [(h, 12, INK, True)], align=PP_ALIGN.CENTER)
-for i, row in enumerate(matrix):
-    y = Inches(2.0 + i * 0.58)
-    bg = TEAL if i % 2 == 0 else INK_2
-    for j, val in enumerate(row):
-        rrect(s, hx[j], y, hw[j] - Inches(0.06), Inches(0.52), bg)
-        txt(s, hx[j] + Inches(0.08), y + Inches(0.08), hw[j] - Inches(0.2), Inches(0.38),
-            [(val, 11, WHITE if j else SAND_LT, j == 0)], anchor=MSO_ANCHOR.MIDDLE)
+draw_table(
+    s,
+    x0=Inches(0.35),
+    y0=Inches(1.42),
+    col_widths_in=[2.0, 1.55, 3.05, 3.15, 2.85],
+    row_h_in=0.52,
+    headers=["渠道", "定位", "内容类型", "组织形态", "首年目标"],
+    rows=[
+        ["微信私域", "转化留存", "权益上新 / 答疑 / 活动", "创始群 1 + 分会 12", "续费率 ≥70%"],
+        ["微信公众号", "深度权威", "政策解读 / 白皮书", "周更 2 篇", "粉丝 3 万"],
+        ["Facebook 群", "海外获客", "本地生活 / 活动招募", "主群 1 + 城市分群", "成员 1 万"],
+        ["Facebook 页", "品牌传播", "活动相册 / 媒体合作", "周更 3 条", "互动率 ≥3%"],
+        ["Instagram", "生活方式", "现场 / 探店 / 会员故事", "周更 4 条", "粉丝 2 万"],
+        ["LinkedIn", "企业商务", "峰会 / 合作案例 / 招聘", "周更 2 条", "企业线索 200"],
+        ["WhatsApp", "本地触达", "活动提醒 / 紧急通知", "分层社区", "打开率 ≥60%"],
+        ["线下分会", "关系沉淀", "月度沙龙 / 需求墙", "12 个行业分会", "月活出席 ≥80"],
+    ],
+    body_size=12,
+    header_size=12,
+)
 
 # ============================================================================
 # 14 年度活动
