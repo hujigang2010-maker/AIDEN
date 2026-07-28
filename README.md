@@ -8,12 +8,14 @@
 |------|------|
 | `exports/学生实习赋能计划_可行性论证方案.pptx` | 论证 PPT（背景、人群、产品、定价、盈利、落地、风险） |
 | `exports/学生实习赋能计划_可行性论证数据表.xlsx` | 配套 Excel（企业清单、定价、测算、计划、KPI） |
+| `exports/实习推送_企业名录与收费流程说明.pptx` | 专项说明：上海 AI/具身智能名录、收费项目、推送成本与流程 |
 
 ## 重新生成
 
 ```bash
 python3 scripts/build_internship_feasibility_ppt.py
 python3 scripts/build_internship_feasibility_excel.py
+python3 scripts/build_internship_process_ppt.py
 ```
 
 依赖：`python-pptx`、`openpyxl`（通常已预装，若缺失可 `pip3 install python-pptx openpyxl`）。
