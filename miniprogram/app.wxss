@@ -1,0 +1,99 @@
+/** 全局视觉规范：深蓝 / 青绿 / 暖金 */
+page {
+  --navy: #123F55;
+  --teal: #0B7584;
+  --gold: #A17C4C;
+  --bg: #F3F6F8;
+  --surface: #FFFFFF;
+  --ink: #1A2B34;
+  --muted: #5A6F7A;
+  --line: #D8E2E8;
+  --chip: #E8F2F4;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 28rpx;
+  line-height: 1.6;
+}
+
+.section {
+  padding: 16rpx 36rpx 32rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 24rpx;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: #fff;
+  border-radius: 999rpx;
+  padding: 16rpx 32rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999rpx;
+  padding: 16rpx 32rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  padding: 0 36rpx 24rpx;
+}
+
+.chip {
+  display: inline-block;
+  margin-right: 16rpx;
+  padding: 12rpx 28rpx;
+  border-radius: 999rpx;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 24rpx;
+}
+
+.chip-active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 28rpx;
+  padding: 28rpx;
+  margin: 0 36rpx 20rpx;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 20rpx;
+  font-weight: 600;
+  color: var(--gold);
+  background: rgba(161, 124, 76, 0.12);
+  padding: 4rpx 14rpx;
+  border-radius: 8rpx;
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 80rpx 40rpx;
+  font-size: 26rpx;
+}

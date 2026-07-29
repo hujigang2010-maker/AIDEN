@@ -1,0 +1,45 @@
+.page {
+  min-height: 100vh;
+  padding-bottom: 40rpx;
+}
+
+.intro {
+  padding: 8rpx 36rpx 16rpx;
+  font-size: 26rpx;
+  color: #5A6F7A;
+  line-height: 1.65;
+}
+
+.search-box {
+  padding: 0 36rpx 20rpx;
+}
+
+.search-input {
+  background: #fff;
+  border: 1px solid #D8E2E8;
+  border-radius: 20rpx;
+  height: 76rpx;
+  padding: 0 28rpx;
+  font-size: 26rpx;
+}
+
+.policy-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  line-height: 1.45;
+  margin-bottom: 12rpx;
+  color: #1A2B34;
+}
+
+.policy-meta {
+  font-size: 24rpx;
+  color: #5A6F7A;
+}
+
+.foot-hint {
+  text-align: center;
+  font-size: 22rpx;
+  color: #5A6F7A;
+  padding: 16rpx 36rpx 32rpx;
+  line-height: 1.6;
+}

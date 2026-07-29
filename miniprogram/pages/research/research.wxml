@@ -1,0 +1,32 @@
+<view class="page">
+  <view class="intro">聚焦中国住房制度与城市居住问题，持续产出有温度、有证据的研究。</view>
+
+  <scroll-view class="chip-row" scroll-x>
+    <view
+      wx:for="{{chips}}"
+      wx:key="*this"
+      class="chip {{filter === item ? 'chip-active' : ''}}"
+      data-chip="{{item}}"
+      bindtap="onFilter"
+    >{{item}}</view>
+  </scroll-view>
+
+  <block wx:if="{{list.length}}">
+    <view
+      class="card"
+      wx:for="{{list}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="openDetail"
+    >
+      <view class="card-meta">
+        <text class="badge">{{item.type}}</text>
+        <text class="date">{{item.date}}</text>
+      </view>
+      <view class="card-title">{{item.title}}</view>
+      <view class="card-summary">{{item.summary}}</view>
+      <view class="card-link">阅读摘要 →</view>
+    </view>
+  </block>
+  <view wx:else class="empty">相关研究正在整理中，敬请期待</view>
+</view>

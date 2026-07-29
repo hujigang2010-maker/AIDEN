@@ -1,0 +1,52 @@
+<view class="page">
+  <view class="hero">
+    <view class="status-safe"></view>
+    <view class="nav-title">住房政策研究中心</view>
+    <view class="hero-brand">FUDAN · HPRC</view>
+    <view class="hero-title">让每一份居住愿景，都有政策的答案</view>
+    <view class="hero-sub">以学术研究回应居住关切</view>
+    <view class="hero-aux">立足复旦，面向中国，连接学术与实践</view>
+    <view class="hero-actions">
+      <button class="btn-primary" bindtap="goResearch">查看研究成果</button>
+      <button class="btn-ghost" bindtap="goPolicy">浏览政策数据库</button>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">功能入口</view>
+    <view class="entry-grid">
+      <view class="entry" bindtap="goResearch">
+        <view class="entry-title">研究成果</view>
+        <view class="entry-desc">汇聚住房制度、市场与城市更新等领域成果</view>
+      </view>
+      <view class="entry" bindtap="goPolicy">
+        <view class="entry-title">政策数据库</view>
+        <view class="entry-desc">快速检索住房保障、租赁与更新政策文件</view>
+      </view>
+      <view class="entry" bindtap="onMapTap">
+        <view class="entry-title">研究地图</view>
+        <view class="entry-desc">梳理不同城市与区域的实践脉络</view>
+      </view>
+      <view class="entry" bindtap="goAbout">
+        <view class="entry-title">关于中心</view>
+        <view class="entry-desc">了解定位、研究团队与合作方向</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <view class="section-title">中心动态</view>
+      <view class="more" bindtap="goResearch">查看全部</view>
+    </view>
+    <block wx:for="{{feeds}}" wx:key="title">
+      <view class="feed" data-ref="{{item.ref}}" bindtap="openFeed">
+        <view class="feed-type">{{item.type}}</view>
+        <view class="feed-title">{{item.title}}</view>
+        <view class="feed-summary">{{item.summary}}</view>
+      </view>
+    </block>
+  </view>
+
+  <view class="copyright">© 复旦大学住房政策研究中心</view>
+</view>

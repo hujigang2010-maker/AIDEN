@@ -1,0 +1,11 @@
+<view class="page" wx:if="{{item}}">
+  <view class="badge-wrap">
+    <text class="type-badge">{{item.type || item.category}}</text>
+  </view>
+  <view class="title">{{item.title}}</view>
+  <view class="meta">{{item.org ? item.org + ' · ' : ''}}{{item.date}}</view>
+  <view class="lead" wx:if="{{item.summary}}">{{item.summary}}</view>
+  <view class="body">{{item.body}}</view>
+  <view class="demo-tip">演示数据 · 正式上线前请替换</view>
+</view>
+<view class="empty" wx:else>内容不存在或已下线</view>

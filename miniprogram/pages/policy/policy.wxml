@@ -1,0 +1,39 @@
+<view class="page">
+  <view class="intro">收录住房与城市发展领域重要政策文件，支持按主题快速查找。</view>
+
+  <view class="search-box">
+    <input
+      class="search-input"
+      placeholder="搜索政策名称、发布机构"
+      value="{{keyword}}"
+      bindinput="onSearch"
+      confirm-type="search"
+    />
+  </view>
+
+  <scroll-view class="chip-row" scroll-x>
+    <view
+      wx:for="{{chips}}"
+      wx:key="*this"
+      class="chip {{filter === item ? 'chip-active' : ''}}"
+      data-chip="{{item}}"
+      bindtap="onFilter"
+    >{{item}}</view>
+  </scroll-view>
+
+  <block wx:if="{{list.length}}">
+    <view
+      class="card policy"
+      wx:for="{{list}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="openDetail"
+    >
+      <view class="policy-title">{{item.title}}</view>
+      <view class="policy-meta">{{item.org}} · {{item.date}}</view>
+    </view>
+  </block>
+  <view wx:else class="empty">未找到相关政策，试试其他关键词</view>
+
+  <view class="foot-hint">数据持续更新中 · 欢迎研究者向中心推荐政策资料</view>
+</view>
