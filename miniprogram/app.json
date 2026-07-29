@@ -1,0 +1,51 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/research/research",
+    "pages/policy/policy",
+    "pages/about/about",
+    "pages/detail/detail"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#123F55",
+    "navigationBarTitleText": "住房政策研究中心",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F3F6F8",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#5A6F7A",
+    "selectedColor": "#123F55",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tab-home.png",
+        "selectedIconPath": "images/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/research/research",
+        "text": "研究成果",
+        "iconPath": "images/tab-research.png",
+        "selectedIconPath": "images/tab-research-active.png"
+      },
+      {
+        "pagePath": "pages/policy/policy",
+        "text": "政策库",
+        "iconPath": "images/tab-policy.png",
+        "selectedIconPath": "images/tab-policy-active.png"
+      },
+      {
+        "pagePath": "pages/about/about",
+        "text": "关于",
+        "iconPath": "images/tab-about.png",
+        "selectedIconPath": "images/tab-about-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

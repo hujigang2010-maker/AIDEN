@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>复旦大学住房政策研究中心 · 小程序样张</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #123F55;
+      --teal: #0B7584;
+      --gold: #A17C4C;
+      --gold-soft: #C4A574;
+      --bg: #F3F6F8;
+      --surface: #FFFFFF;
+      --ink: #1A2B34;
+      --muted: #5A6F7A;
+      --line: #D8E2E8;
+      --chip: #E8F2F4;
+      --danger: #B85C38;
+      --shadow: 0 12px 40px rgba(18, 63, 85, 0.18);
+      --phone-w: 390px;
+      --phone-h: 844px;
+      --radius: 14px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 80% 60% at 15% 10%, rgba(11, 117, 132, 0.18), transparent 55%),
+        radial-gradient(ellipse 70% 50% at 85% 90%, rgba(161, 124, 76, 0.16), transparent 50%),
+        linear-gradient(160deg, #0E2F40 0%, #123F55 40%, #0A4F5C 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .stage {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) auto minmax(280px, 1fr);
+      gap: 32px;
+      align-items: center;
+      padding: 40px 28px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .brand-panel, .note-panel {
+      color: #E8F0F4;
+      animation: rise 0.8s var(--ease) both;
+    }
+    .note-panel { animation-delay: 0.15s; }
+
+    .brand-kicker {
+      font-size: 12px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold-soft);
+      margin-bottom: 14px;
+    }
+    .brand-panel h1 {
+      font-family: "Noto Serif SC", serif;
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 16px;
+    }
+    .brand-panel p, .note-panel p {
+      font-size: 15px;
+      line-height: 1.75;
+      color: rgba(232, 240, 244, 0.82);
+      max-width: 34ch;
+    }
+    .brand-panel .tagline {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(196, 165, 116, 0.35);
+      font-family: "Noto Serif SC", serif;
+      font-size: 18px;
+      color: #fff;
+    }
+
+    .note-panel h2 {
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      color: var(--gold-soft);
+      margin-bottom: 14px;
+      font-weight: 600;
+    }
+    .note-panel ul {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+    .note-panel li {
+      font-size: 13px;
+      line-height: 1.6;
+      color: rgba(232, 240, 244, 0.78);
+      padding-left: 14px;
+      position: relative;
+    }
+    .note-panel li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    .phone-wrap {
+      position: relative;
+      animation: rise 0.7s var(--ease) 0.08s both;
+    }
+    .phone {
+      width: var(--phone-w);
+      height: var(--phone-h);
+      background: #0B1520;
+      border-radius: 42px;
+      padding: 12px;
+      box-shadow: var(--shadow), 0 0 0 1px rgba(255,255,255,0.08);
+      position: relative;
+    }
+    .phone-inner {
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      border-radius: 32px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .notch {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 118px;
+      height: 28px;
+      background: #0B1520;
+      border-radius: 20px;
+      z-index: 40;
+    }
+
+    /* Status bar */
+    .status-bar {
+      height: 48px;
+      padding: 14px 22px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      background: transparent;
+      position: relative;
+      z-index: 30;
+      flex-shrink: 0;
+    }
+    .status-bar.light { color: #fff; }
+    .status-icons { display: flex; gap: 6px; align-items: center; opacity: 0.9; }
+    .status-icons span {
+      display: inline-block;
+      height: 10px;
+      border-radius: 2px;
+      background: currentColor;
+    }
+    .sig { width: 14px; }
+    .wifi { width: 12px; height: 9px; }
+    .bat { width: 22px; height: 10px; border-radius: 3px; position: relative; }
+    .bat::after {
+      content: "";
+      position: absolute;
+      right: -3px;
+      top: 2px;
+      width: 2px;
+      height: 6px;
+      background: currentColor;
+      border-radius: 1px;
+    }
+
+    /* Nav */
+    .nav-bar {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 25;
+      flex-shrink: 0;
+      padding: 0 16px;
+    }
+    .nav-bar.light .nav-title { color: #fff; }
+    .nav-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .nav-back {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: inherit;
+    }
+    .nav-back.show { display: flex; }
+    .nav-back svg { width: 20px; height: 20px; }
+
+    /* Screens */
+    .screens {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    .screen {
+      position: absolute;
+      inset: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      opacity: 0;
+      transform: translateX(24px);
+      pointer-events: none;
+      transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+      scrollbar-width: none;
+    }
+    .screen::-webkit-scrollbar { display: none; }
+    .screen.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+      z-index: 2;
+    }
+    .screen.leaving {
+      opacity: 0;
+      transform: translateX(-16px);
+    }
+
+    /* Tab bar */
+    .tab-bar {
+      height: 64px;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      flex-shrink: 0;
+      z-index: 20;
+      padding-bottom: 6px;
+    }
+    .tab {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .tab svg { width: 22px; height: 22px; }
+    .tab.active { color: var(--navy); }
+    .tab.active .tab-dot {
+      background: var(--teal);
+    }
+    .tab-icon-wrap {
+      position: relative;
+      width: 22px;
+      height: 22px;
+    }
+    .tab-dot {
+      position: absolute;
+      bottom: -3px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: transparent;
+      transition: background 0.2s;
+    }
+
+    /* Home */
+    .hero {
+      position: relative;
+      margin: -48px -0 0;
+      padding: 88px 22px 28px;
+      background:
+        linear-gradient(165deg, rgba(14, 47, 64, 0.55) 0%, rgba(18, 63, 85, 0.72) 45%, rgba(11, 117, 132, 0.78) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%230E2F40'/%3E%3Cstop offset='1' stop-color='%230B7584'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='800' height='600'/%3E%3Cpath fill='%23A17C4C' fill-opacity='0.12' d='M0 420 L180 300 L320 380 L480 220 L640 340 L800 180 L800 600 L0 600 Z'/%3E%3Cpath fill='%23ffffff' fill-opacity='0.06' d='M0 500 L200 380 L360 460 L520 300 L700 420 L800 340 L800 600 L0 600 Z'/%3E%3Crect x='120' y='180' width='40' height='160' fill='%23ffffff' fill-opacity='0.08'/%3E%3Crect x='180' y='140' width='52' height='200' fill='%23ffffff' fill-opacity='0.1'/%3E%3Crect x='250' y='200' width='36' height='140' fill='%23ffffff' fill-opacity='0.07'/%3E%3Crect x='520' y='120' width='48' height='220' fill='%23ffffff' fill-opacity='0.09'/%3E%3Crect x='590' y='160' width='60' height='180' fill='%23ffffff' fill-opacity='0.08'/%3E%3C/svg%3E") center/cover;
+      color: #fff;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 48px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+    }
+    .hero-brand {
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      color: var(--gold-soft);
+      margin-bottom: 14px;
+      font-weight: 600;
+    }
+    .hero h2 {
+      font-family: "Noto Serif SC", serif;
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.35;
+      margin-bottom: 10px;
+      max-width: 12em;
+    }
+    .hero .sub {
+      font-size: 13px;
+      opacity: 0.88;
+      margin-bottom: 6px;
+    }
+    .hero .aux {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-bottom: 20px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: transform 0.2s var(--ease), box-shadow 0.2s;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary {
+      background: var(--gold);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(161, 124, 76, 0.35);
+    }
+    .btn-ghost {
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.28);
+    }
+
+    .section {
+      padding: 8px 18px 20px;
+    }
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .section-more {
+      border: none;
+      background: none;
+      color: var(--teal);
+      font-size: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 500;
+    }
+
+    .entry-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .entry {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px 12px;
+      text-align: left;
+      cursor: pointer;
+      font-family: inherit;
+      transition: border-color 0.2s, transform 0.2s var(--ease);
+      animation: fadeUp 0.5s var(--ease) both;
+    }
+    .entry:nth-child(1) { animation-delay: 0.05s; }
+    .entry:nth-child(2) { animation-delay: 0.1s; }
+    .entry:nth-child(3) { animation-delay: 0.15s; }
+    .entry:nth-child(4) { animation-delay: 0.2s; }
+    .entry:active { transform: scale(0.98); }
+    .entry:hover { border-color: rgba(11, 117, 132, 0.45); }
+    .entry-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 10px;
+      background: var(--chip);
+      color: var(--teal);
+    }
+    .entry-icon svg { width: 18px; height: 18px; }
+    .entry h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .entry p {
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .feed-list { display: grid; gap: 10px; }
+    .feed-item {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 14px;
+      border: 1px solid var(--line);
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      width: 100%;
+      transition: border-color 0.2s;
+      animation: fadeUp 0.5s var(--ease) both;
+    }
+    .feed-item:hover { border-color: rgba(18, 63, 85, 0.3); }
+    .feed-type {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--teal);
+      background: var(--chip);
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .feed-item h4 {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.45;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .feed-item p {
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    /* List pages */
+    .page-intro {
+      padding: 4px 18px 12px;
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+    .chips {
+      display: flex;
+      gap: 8px;
+      padding: 0 18px 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .chips::-webkit-scrollbar { display: none; }
+    .chip {
+      flex-shrink: 0;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .chip.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #fff;
+    }
+
+    .search-box {
+      margin: 0 18px 12px;
+      position: relative;
+    }
+    .search-box input {
+      width: 100%;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0 14px 0 38px;
+      font-size: 13px;
+      font-family: inherit;
+      background: var(--surface);
+      color: var(--ink);
+      outline: none;
+    }
+    .search-box input:focus { border-color: var(--teal); }
+    .search-box svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: var(--muted);
+    }
+
+    .card-list { padding: 0 18px 24px; display: grid; gap: 10px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      width: 100%;
+      transition: transform 0.2s var(--ease), border-color 0.2s;
+    }
+    .card:active { transform: scale(0.985); }
+    .card:hover { border-color: rgba(11, 117, 132, 0.4); }
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .badge {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--gold);
+      background: rgba(161, 124, 76, 0.12);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .card-date {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.45;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .card p {
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .card-link {
+      font-size: 12px;
+      color: var(--teal);
+      font-weight: 600;
+    }
+
+    .policy-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      width: 100%;
+    }
+    .policy-item h3 {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.45;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .policy-item .meta {
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .policy-item .meta::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .foot-hint {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      padding: 8px 18px 20px;
+      line-height: 1.6;
+    }
+
+    /* About */
+    .about-hero {
+      margin: 0 18px 16px;
+      padding: 22px 18px;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(18, 63, 85, 0.95), rgba(11, 117, 132, 0.9)),
+        var(--navy);
+      color: #fff;
+    }
+    .about-hero .label {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--gold-soft);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .about-hero h2 {
+      font-family: "Noto Serif SC", serif;
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+    .about-hero .sub {
+      font-size: 13px;
+      opacity: 0.85;
+      margin-bottom: 14px;
+    }
+    .about-hero .desc {
+      font-size: 12px;
+      line-height: 1.7;
+      opacity: 0.82;
+    }
+    .about-hero .more-btn {
+      margin-top: 12px;
+      border: none;
+      background: transparent;
+      color: var(--gold-soft);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 0;
+    }
+    .about-extra {
+      display: none;
+      margin-top: 10px;
+      font-size: 12px;
+      line-height: 1.7;
+      opacity: 0.82;
+    }
+    .about-extra.show { display: block; }
+
+    .dir-list {
+      padding: 0 18px 16px;
+      display: grid;
+      gap: 8px;
+    }
+    .dir-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--navy);
+    }
+    .dir-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--chip);
+      color: var(--teal);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .contact-box {
+      margin: 0 18px 24px;
+      padding: 16px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .contact-box h3 {
+      font-size: 15px;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .contact-box .hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .contact-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 13px;
+      margin-bottom: 10px;
+      color: var(--ink);
+    }
+    .contact-row:last-child { margin-bottom: 0; }
+    .contact-label {
+      color: var(--muted);
+      width: 36px;
+      flex-shrink: 0;
+      font-size: 12px;
+      padding-top: 1px;
+    }
+    .contact-row a {
+      color: var(--teal);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* Detail overlay */
+    .detail-screen {
+      position: absolute;
+      inset: 0;
+      background: var(--bg);
+      z-index: 50;
+      transform: translateX(100%);
+      transition: transform 0.35s var(--ease);
+      display: flex;
+      flex-direction: column;
+    }
+    .detail-screen.open { transform: translateX(0); }
+    .detail-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 20px 32px;
+    }
+    .detail-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--teal);
+      background: var(--chip);
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .detail-body h2 {
+      font-family: "Noto Serif SC", serif;
+      font-size: 22px;
+      line-height: 1.4;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .detail-meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 18px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    .detail-body .lead {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--ink);
+      margin-bottom: 14px;
+    }
+    .detail-body .para {
+      font-size: 13px;
+      line-height: 1.85;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .toast {
+      position: absolute;
+      left: 50%;
+      bottom: 88px;
+      transform: translateX(-50%) translateY(12px);
+      background: rgba(18, 63, 85, 0.92);
+      color: #fff;
+      font-size: 12px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s var(--ease);
+      z-index: 60;
+      white-space: nowrap;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .empty {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted);
+      font-size: 13px;
+      display: none;
+    }
+    .empty.show { display: block; }
+
+    .copyright {
+      text-align: center;
+      font-size: 10px;
+      color: #9AABB4;
+      padding: 4px 0 12px;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 980px) {
+      .stage {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        padding: 28px 16px 48px;
+      }
+      .brand-panel, .note-panel {
+        text-align: center;
+        max-width: 420px;
+      }
+      .brand-panel p, .note-panel p { max-width: none; }
+      .note-panel ul { text-align: left; }
+      .note-panel { order: 3; }
+    }
+    @media (max-width: 420px) {
+      :root { --phone-w: calc(100vw - 24px); --phone-h: min(780px, 92vh); }
+      .phone { border-radius: 28px; padding: 8px; }
+      .phone-inner { border-radius: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <aside class="brand-panel">
+      <div class="brand-kicker">FUDAN · HPRC</div>
+      <h1>复旦大学<br />住房政策研究中心</h1>
+      <p>以住房政策研究为核心，连接学术成果、政策文件与公众居住关切的数字化知识服务平台。</p>
+      <p class="tagline">读懂住房政策<br />看见城市未来</p>
+    </aside>
+
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-inner" id="app">
+          <div class="notch"></div>
+          <div class="status-bar light" id="statusBar">
+            <span>9:41</span>
+            <div class="status-icons">
+              <span class="sig"></span>
+              <span class="wifi"></span>
+              <span class="bat"></span>
+            </div>
+          </div>
+          <div class="nav-bar light" id="navBar">
+            <button class="nav-back" id="navBack" aria-label="返回" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div class="nav-title" id="navTitle">住房政策研究中心</div>
+          </div>
+
+          <div class="screens">
+            <!-- 首页 -->
+            <section class="screen active" data-screen="home" id="screen-home">
+              <div class="hero">
+                <div class="hero-brand">FUDAN · HPRC</div>
+                <h2>让每一份居住愿景，都有政策的答案</h2>
+                <p class="sub">以学术研究回应居住关切</p>
+                <p class="aux">立足复旦，面向中国，连接学术与实践</p>
+                <div class="hero-actions">
+                  <button class="btn btn-primary" type="button" data-goto="research">查看研究成果</button>
+                  <button class="btn btn-ghost" type="button" data-goto="policy">浏览政策数据库</button>
+                </div>
+              </div>
+              <div class="section">
+                <div class="section-head">
+                  <h3 class="section-title">功能入口</h3>
+                </div>
+                <div class="entry-grid">
+                  <button class="entry" type="button" data-goto="research">
+                    <div class="entry-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+                    </div>
+                    <h3>研究成果</h3>
+                    <p>汇聚住房制度、市场与城市更新等领域成果</p>
+                  </button>
+                  <button class="entry" type="button" data-goto="policy">
+                    <div class="entry-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>
+                    </div>
+                    <h3>政策数据库</h3>
+                    <p>快速检索住房保障、租赁与更新政策文件</p>
+                  </button>
+                  <button class="entry" type="button" data-action="map">
+                    <div class="entry-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 6l7-3 8 3 7-3v15l-7 3-8-3-7 3z"/><path d="M8 3v15M16 6v15"/></svg>
+                    </div>
+                    <h3>研究地图</h3>
+                    <p>梳理不同城市与区域的实践脉络</p>
+                  </button>
+                  <button class="entry" type="button" data-goto="about">
+                    <div class="entry-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                    </div>
+                    <h3>关于中心</h3>
+                    <p>了解定位、研究团队与合作方向</p>
+                  </button>
+                </div>
+              </div>
+              <div class="section">
+                <div class="section-head">
+                  <h3 class="section-title">中心动态</h3>
+                  <button class="section-more" type="button" data-goto="research">查看全部</button>
+                </div>
+                <div class="feed-list" id="feedList"></div>
+              </div>
+              <p class="copyright">© 复旦大学住房政策研究中心</p>
+            </section>
+
+            <!-- 研究成果 -->
+            <section class="screen" data-screen="research" id="screen-research">
+              <p class="page-intro">聚焦中国住房制度与城市居住问题，持续产出有温度、有证据的研究。</p>
+              <div class="chips" id="researchChips"></div>
+              <div class="card-list" id="researchList"></div>
+              <div class="empty" id="researchEmpty">相关研究正在整理中，敬请期待</div>
+            </section>
+
+            <!-- 政策数据库 -->
+            <section class="screen" data-screen="policy" id="screen-policy">
+              <p class="page-intro">收录住房与城市发展领域重要政策文件，支持按主题快速查找。</p>
+              <div class="search-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/></svg>
+                <input id="policySearch" type="search" placeholder="搜索政策名称、发布机构" autocomplete="off" />
+              </div>
+              <div class="chips" id="policyChips"></div>
+              <div class="card-list" id="policyList"></div>
+              <div class="empty" id="policyEmpty">未找到相关政策，试试其他关键词</div>
+              <p class="foot-hint">数据持续更新中 · 欢迎研究者向中心推荐政策资料</p>
+            </section>
+
+            <!-- 关于中心 -->
+            <section class="screen" data-screen="about" id="screen-about">
+              <div class="about-hero">
+                <div class="label">FUDAN · HPRC</div>
+                <h2>住房政策研究中心</h2>
+                <p class="sub">立足复旦，面向中国，连接学术与实践</p>
+                <p class="desc" id="aboutDesc">复旦大学住房政策研究中心致力于住房制度、房地产市场、城市更新与居住社会学等领域的学术研究和政策咨询，推动构建更加公平、可持续、有韧性的居住体系。</p>
+                <button class="more-btn" type="button" id="aboutMoreBtn">展开介绍</button>
+                <p class="about-extra" id="aboutExtra">中心汇聚经济学、社会学、管理学、城市规划等多学科力量，持续开展基础研究、政策评估与公共传播。</p>
+              </div>
+              <div class="section-head" style="padding: 0 18px; margin-bottom: 12px;">
+                <h3 class="section-title">研究方向</h3>
+              </div>
+              <div class="dir-list">
+                <div class="dir-item"><span class="dir-num">01</span>住房制度与住房保障</div>
+                <div class="dir-item"><span class="dir-num">02</span>房地产市场与金融</div>
+                <div class="dir-item"><span class="dir-num">03</span>城市更新与社区治理</div>
+              </div>
+              <div class="contact-box">
+                <h3>与我们保持联系</h3>
+                <p class="hint">欢迎学术交流、政策咨询与合作</p>
+                <div class="contact-row">
+                  <span class="contact-label">邮箱</span>
+                  <a href="mailto:hprc@fudan.edu.cn" id="copyEmail">hprc@fudan.edu.cn</a>
+                </div>
+                <div class="contact-row">
+                  <span class="contact-label">地址</span>
+                  <span>上海市杨浦区邯郸路 220 号</span>
+                </div>
+              </div>
+              <p class="copyright">© 复旦大学住房政策研究中心</p>
+            </section>
+
+            <!-- 详情页 -->
+            <div class="detail-screen" id="detailScreen">
+              <div class="nav-bar" style="background: var(--bg);">
+                <button class="nav-back show" id="detailBack" aria-label="返回" type="button" style="color: var(--ink);">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <div class="nav-title">详情</div>
+              </div>
+              <div class="detail-body" id="detailBody"></div>
+            </div>
+          </div>
+
+          <nav class="tab-bar" id="tabBar">
+            <button class="tab active" type="button" data-tab="home">
+              <div class="tab-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+                <span class="tab-dot"></span>
+              </div>
+              首页
+            </button>
+            <button class="tab" type="button" data-tab="research">
+              <div class="tab-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+                <span class="tab-dot"></span>
+              </div>
+              研究成果
+            </button>
+            <button class="tab" type="button" data-tab="policy">
+              <div class="tab-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+                <span class="tab-dot"></span>
+              </div>
+              政策库
+            </button>
+            <button class="tab" type="button" data-tab="about">
+              <div class="tab-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                <span class="tab-dot"></span>
+              </div>
+              关于
+            </button>
+          </nav>
+
+          <div class="toast" id="toast"></div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="note-panel">
+      <h2>样张说明</h2>
+      <p style="margin-bottom: 14px;">本页为微信小程序高保真 HTML 样张，可在浏览器中交互预览。正式上线需在微信开发者工具中导入 <code style="color:#C4A574;">miniprogram/</code> 目录。</p>
+      <ul>
+        <li>四栏结构：首页 / 研究成果 / 政策库 / 关于</li>
+        <li>演示数据可筛选、搜索与查看详情</li>
+        <li>视觉遵循深蓝 · 青绿 · 暖金规范</li>
+        <li>文案基于执行文案 V1.1 优化版</li>
+      </ul>
+    </aside>
+  </div>
+
+  <script>
+    const RESEARCH = [
+      {
+        id: "r1",
+        type: "研究报告",
+        title: "2025年中国住房发展报告",
+        summary: "从增量扩张走向存量提质，观察住房发展新阶段。",
+        date: "2025.06.18",
+        body: "本报告系统梳理中国住房发展从增量扩张向存量提质转型的阶段性特征，结合人口结构、城市化节奏与住房供需变化，提出面向高质量发展的政策观察与建议。研究强调，住房政策应更关注居住公平、存量更新与长期韧性。"
+      },
+      {
+        id: "r2",
+        type: "学术论文",
+        title: "城市更新中的居住公平与空间治理",
+        summary: "基于多中心城市样本，讨论空间分异与政策回应。",
+        date: "2025.04.09",
+        body: "文章从空间、社会与政策三个维度重新理解城市更新，讨论居住公平如何在空间治理中被制度化和可评估。基于多中心城市样本，研究提出兼顾效率与公平的更新路径框架。"
+      },
+      {
+        id: "r3",
+        type: "中心活动",
+        title: "保障性住房高质量发展路径",
+        summary: "住房政策前沿讲座暨青年学者工作坊活动回顾。",
+        date: "2025.05.26",
+        body: "讲座汇聚学界与业界观点，共同探讨保障性住房在供给结构、融资机制、社区治理与长期运营等方面的关键议题。青年学者工作坊同步围绕实证方法与政策评估展开交流。"
+      }
+    ];
+
+    const FEEDS = [
+      { type: "最新发布", title: "2025年中国住房发展报告：从增量扩张走向存量提质", summary: "观察住房发展新阶段，回应城市居住需求的新变化。", ref: "r1" },
+      { type: "中心活动", title: "住房政策前沿讲座：保障性住房高质量发展路径", summary: "汇聚学界与业界观点，共同探讨保障性住房发展方向。", ref: "r3" },
+      { type: "学术观点", title: "城市更新中的居住公平与空间治理", summary: "从空间、社会与政策三个维度，重新理解城市更新。", ref: "r2" }
+    ];
+
+    const POLICIES = [
+      { id: "p1", category: "租赁住房", title: "关于加快发展保障性租赁住房的意见", org: "国务院办公厅", date: "2021.06.24", body: "意见提出加快发展保障性租赁住房，缓解住房困难群体和新市民、青年人住房问题，明确地方政府主体责任，完善土地、财税、金融等支持政策。" },
+      { id: "p2", category: "住房保障", title: "关于规划建设保障性住房的指导意见", org: "国务院", date: "2023.08.25", body: "指导意见围绕规划建设保障性住房作出部署，强调加大保障性住房供给，完善配售与管理制度，推动构建房地产发展新模式。" },
+      { id: "p3", category: "租赁住房", title: "住房租赁条例（征求意见稿）", org: "住房和城乡建设部", date: "2023.09.28", body: "征求意见稿对住房租赁市场主体、合同规范、租金行为、公共服务与监督管理作出系统规定，旨在促进住房租赁市场健康发展。" },
+      { id: "p4", category: "城市更新", title: "关于在实施城市更新行动中防止大拆大建问题的通知", org: "住房和城乡建设部", date: "2021.08.30", body: "通知要求严控大规模拆除、增建与搬迁，坚持留改拆并举，注重保护利用既有建筑，推动城市更新更加注重内涵提升。" },
+      { id: "p5", category: "房地产市场", title: "关于做好当前和今后一个时期保障性租赁住房工作的意见", org: "多部门", date: "2022.02.08", body: "意见从筹集渠道、资金支持、运营管理等方面细化保障性租赁住房工作安排，服务新市民和青年人住房需求。" }
+    ];
+
+    const TITLES = {
+      home: "住房政策研究中心",
+      research: "研究成果",
+      policy: "政策数据库",
+      about: "关于中心"
+    };
+
+    let current = "home";
+    let researchFilter = "全部";
+    let policyFilter = "全部";
+    let detailOpen = false;
+
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => [...document.querySelectorAll(sel)];
+
+    function toast(msg) {
+      const el = $("#toast");
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => el.classList.remove("show"), 1800);
+    }
+
+    function setChrome(screen) {
+      const isHome = screen === "home" && !detailOpen;
+      $("#statusBar").classList.toggle("light", isHome);
+      $("#navBar").classList.toggle("light", isHome);
+      $("#navTitle").textContent = TITLES[screen] || "住房政策研究中心";
+      $("#navBar").style.background = isHome ? "transparent" : "var(--bg)";
+      $("#navBar").style.color = isHome ? "#fff" : "var(--ink)";
+    }
+
+    function go(screen) {
+      if (detailOpen) closeDetail();
+      if (screen === current) return;
+      const prev = $(`#screen-${current}`);
+      const next = $(`#screen-${screen}`);
+      if (!next) return;
+      prev.classList.remove("active");
+      next.classList.add("active");
+      current = screen;
+      $$(".tab").forEach((t) => t.classList.toggle("active", t.dataset.tab === screen));
+      setChrome(screen);
+      next.scrollTop = 0;
+    }
+
+    function openDetail(item) {
+      detailOpen = true;
+      const body = $("#detailBody");
+      body.innerHTML = `
+        <span class="detail-badge">${item.type || item.category || "详情"}</span>
+        <h2>${item.title}</h2>
+        <div class="detail-meta">${item.org ? item.org + " · " : ""}${item.date || ""}</div>
+        <p class="lead">${item.summary || ""}</p>
+        <p class="para">${item.body || "正文内容待中心确认后替换为最终版本。"}</p>
+        <p class="para" style="color:var(--gold);font-size:12px;">演示数据 · 正式上线前请替换</p>
+      `;
+      $("#detailScreen").classList.add("open");
+      $("#tabBar").style.visibility = "hidden";
+      $("#navBar").style.visibility = "hidden";
+      $("#statusBar").classList.remove("light");
+    }
+
+    function closeDetail() {
+      detailOpen = false;
+      $("#detailScreen").classList.remove("open");
+      $("#tabBar").style.visibility = "visible";
+      $("#navBar").style.visibility = "visible";
+      setChrome(current);
+    }
+
+    function renderFeeds() {
+      $("#feedList").innerHTML = FEEDS.map((f, i) => `
+        <button class="feed-item" type="button" data-ref="${f.ref}" style="animation-delay:${0.05 * (i + 1)}s">
+          <span class="feed-type">${f.type}</span>
+          <h4>${f.title}</h4>
+          <p>${f.summary}</p>
+        </button>
+      `).join("");
+      $$("#feedList .feed-item").forEach((el) => {
+        el.addEventListener("click", () => {
+          const item = RESEARCH.find((r) => r.id === el.dataset.ref);
+          if (item) openDetail(item);
+        });
+      });
+    }
+
+    function renderResearch() {
+      const chips = ["全部", "研究报告", "学术论文", "中心活动"];
+      $("#researchChips").innerHTML = chips.map((c) =>
+        `<button class="chip${c === researchFilter ? " active" : ""}" type="button" data-chip="${c}">${c}</button>`
+      ).join("");
+      $$("#researchChips .chip").forEach((el) => {
+        el.addEventListener("click", () => {
+          researchFilter = el.dataset.chip;
+          renderResearch();
+        });
+      });
+      const list = RESEARCH.filter((r) => researchFilter === "全部" || r.type === researchFilter);
+      $("#researchEmpty").classList.toggle("show", list.length === 0);
+      $("#researchList").innerHTML = list.map((r) => `
+        <button class="card" type="button" data-id="${r.id}">
+          <div class="card-meta">
+            <span class="badge">${r.type}</span>
+            <span class="card-date">${r.date}</span>
+          </div>
+          <h3>${r.title}</h3>
+          <p>${r.summary}</p>
+          <span class="card-link">阅读摘要 →</span>
+        </button>
+      `).join("");
+      $$("#researchList .card").forEach((el) => {
+        el.addEventListener("click", () => {
+          const item = RESEARCH.find((r) => r.id === el.dataset.id);
+          if (item) openDetail(item);
+        });
+      });
+    }
+
+    function renderPolicy() {
+      const chips = ["全部", "住房保障", "租赁住房", "城市更新", "房地产市场"];
+      $("#policyChips").innerHTML = chips.map((c) =>
+        `<button class="chip${c === policyFilter ? " active" : ""}" type="button" data-chip="${c}">${c}</button>`
+      ).join("");
+      $$("#policyChips .chip").forEach((el) => {
+        el.addEventListener("click", () => {
+          policyFilter = el.dataset.chip;
+          renderPolicy();
+        });
+      });
+      const q = ($("#policySearch").value || "").trim().toLowerCase();
+      const list = POLICIES.filter((p) => {
+        const catOk = policyFilter === "全部" || p.category === policyFilter;
+        const qOk = !q || p.title.toLowerCase().includes(q) || p.org.toLowerCase().includes(q);
+        return catOk && qOk;
+      });
+      $("#policyEmpty").classList.toggle("show", list.length === 0);
+      $("#policyList").innerHTML = list.map((p) => `
+        <button class="policy-item" type="button" data-id="${p.id}">
+          <h3>${p.title}</h3>
+          <div class="meta">${p.org} · ${p.date}</div>
+        </button>
+      `).join("");
+      $$("#policyList .policy-item").forEach((el) => {
+        el.addEventListener("click", () => {
+          const item = POLICIES.find((p) => p.id === el.dataset.id);
+          if (item) openDetail(item);
+        });
+      });
+    }
+
+    // Events
+    $$(".tab").forEach((t) => t.addEventListener("click", () => go(t.dataset.tab)));
+    $$("[data-goto]").forEach((el) => el.addEventListener("click", () => go(el.dataset.goto)));
+    $$("[data-action='map']").forEach((el) => el.addEventListener("click", () => toast("研究地图功能即将上线")));
+    $("#detailBack").addEventListener("click", closeDetail);
+    $("#policySearch").addEventListener("input", renderPolicy);
+
+    $("#aboutMoreBtn").addEventListener("click", () => {
+      const extra = $("#aboutExtra");
+      const open = extra.classList.toggle("show");
+      $("#aboutMoreBtn").textContent = open ? "收起介绍" : "展开介绍";
+    });
+
+    $("#copyEmail").addEventListener("click", async (e) => {
+      e.preventDefault();
+      try {
+        await navigator.clipboard.writeText("hprc@fudan.edu.cn");
+        toast("已复制到剪贴板");
+      } catch {
+        toast("hprc@fudan.edu.cn");
+      }
+    });
+
+    // Sync home hero under transparent nav
+    const homeScreen = $("#screen-home");
+    homeScreen.addEventListener("scroll", () => {
+      if (current !== "home" || detailOpen) return;
+      const scrolled = homeScreen.scrollTop > 40;
+      if (scrolled) {
+        $("#statusBar").classList.remove("light");
+        $("#navBar").classList.remove("light");
+        $("#navBar").style.background = "var(--bg)";
+        $("#navBar").style.color = "var(--ink)";
+      } else {
+        setChrome("home");
+      }
+    });
+
+    renderFeeds();
+    renderResearch();
+    renderPolicy();
+    setChrome("home");
+  </script>
+</body>
+</html>

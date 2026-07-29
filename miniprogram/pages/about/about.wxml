@@ -1,0 +1,33 @@
+<view class="page">
+  <view class="about-hero">
+    <view class="label">FUDAN · HPRC</view>
+    <view class="title">住房政策研究中心</view>
+    <view class="sub">立足复旦，面向中国，连接学术与实践</view>
+    <view class="desc">{{desc}}</view>
+    <view class="more-btn" bindtap="toggleMore">{{expanded ? '收起介绍' : '展开介绍'}}</view>
+    <view class="extra" wx:if="{{expanded}}">{{extra}}</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">研究方向</view>
+    <view class="dir" wx:for="{{directions}}" wx:key="name">
+      <view class="dir-num">{{item.num}}</view>
+      <view>{{item.name}}</view>
+    </view>
+  </view>
+
+  <view class="contact">
+    <view class="contact-title">与我们保持联系</view>
+    <view class="contact-hint">欢迎学术交流、政策咨询与合作</view>
+    <view class="row">
+      <text class="label-sm">邮箱</text>
+      <text class="link" bindtap="copyEmail">hprc@fudan.edu.cn</text>
+    </view>
+    <view class="row">
+      <text class="label-sm">地址</text>
+      <text>上海市杨浦区邯郸路 220 号</text>
+    </view>
+  </view>
+
+  <view class="copyright">© 复旦大学住房政策研究中心</view>
+</view>
