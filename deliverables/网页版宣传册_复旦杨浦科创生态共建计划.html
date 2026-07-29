@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>复旦杨浦科创生态共建计划</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap');
+  :root{
+    --navy:#0F2E5C;
+    --navy-deep:#081C3A;
+    --gold:#C8963E;
+    --ink:#1A1D21;
+    --grey:#5C6570;
+    --line:#E3E7EC;
+    --bg:#FFFFFF;
+    --soft:#F5F7FA;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    color:var(--ink);background:
+      radial-gradient(ellipse 80% 50% at 10% -10%, rgba(15,46,92,.08), transparent 55%),
+      radial-gradient(ellipse 60% 40% at 100% 0%, rgba(200,150,62,.08), transparent 50%),
+      linear-gradient(180deg, #EEF2F7 0%, #F7F8FA 40%, #EEF2F7 100%);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.75;
+  }
+  .page{max-width:720px;margin:0 auto;background:var(--bg);box-shadow:0 18px 50px rgba(8,28,58,.08);}
+  section{padding:52px 30px;}
+  @media(max-width:480px){section{padding:40px 22px;}}
+
+  .hero{
+    background:
+      linear-gradient(135deg, rgba(8,28,58,.55), rgba(15,46,92,.35)),
+      linear-gradient(160deg,var(--navy-deep) 0%,var(--navy) 55%,#16457F 100%);
+    color:#fff;padding:72px 30px 60px;position:relative;overflow:hidden;
+    min-height:88vh;display:flex;flex-direction:column;justify-content:flex-end;
+  }
+  .hero::after{
+    content:"";position:absolute;right:-90px;top:-90px;width:280px;height:280px;
+    border:1px solid rgba(200,150,62,.35);border-radius:50%;
+  }
+  .hero::before{
+    content:"";position:absolute;right:-30px;bottom:-140px;width:220px;height:220px;
+    border:1px solid rgba(255,255,255,.12);border-radius:50%;
+  }
+  .hero-grid{
+    position:absolute;inset:0;opacity:.12;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.2) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.2) 1px, transparent 1px);
+    background-size:42px 42px;
+    mask-image:linear-gradient(180deg, #000 20%, transparent 90%);
+  }
+  .eyebrow{
+    display:inline-block;font-size:12px;letter-spacing:.22em;color:var(--gold);
+    border-bottom:1px solid rgba(200,150,62,.55);padding:0 0 8px;margin-bottom:26px;
+  }
+  h1{
+    font-family:"Noto Serif SC","Songti SC",serif;
+    font-size:42px;line-height:1.28;font-weight:700;letter-spacing:.02em;
+  }
+  @media(max-width:480px){h1{font-size:32px;}}
+  .hero .sub{
+    margin-top:20px;font-size:16px;color:rgba(255,255,255,.82);max-width:30em;font-weight:300;
+  }
+  .rule{width:46px;height:3px;background:var(--gold);margin:30px 0 24px;}
+  .orgs{font-size:14px;color:rgba(255,255,255,.72);line-height:2;}
+  .orgs strong{color:#fff;font-weight:500;}
+  .kw{
+    margin-top:34px;display:flex;gap:18px;flex-wrap:wrap;position:relative;z-index:2;
+  }
+  .kw span{
+    font-size:13px;letter-spacing:.12em;padding:0;color:rgba(255,255,255,.9);
+    border:none;background:none;position:relative;
+  }
+  .kw span + span::before{
+    content:"";position:absolute;left:-11px;top:50%;width:4px;height:4px;
+    margin-top:-2px;border-radius:50%;background:var(--gold);
+  }
+
+  .num{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:600;}
+  h2{
+    font-family:"Noto Serif SC","Songti SC",serif;
+    font-size:25px;line-height:1.45;font-weight:700;margin:12px 0 18px;color:var(--navy);
+  }
+  @media(max-width:480px){h2{font-size:22px;}}
+  p{font-size:15.5px;color:var(--grey);margin-bottom:14px;}
+  p.lead{font-size:17px;color:var(--ink);font-weight:500;}
+  .alt{background:var(--soft);}
+
+  .goal{
+    border-left:3px solid var(--gold);padding:22px 0 22px 20px;margin-top:16px;
+    background:transparent;position:relative;
+  }
+  .goal .tag{
+    position:absolute;top:22px;right:0;font-size:11px;letter-spacing:.15em;
+    color:var(--gold);
+  }
+  .goal .idx{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.15em;}
+  .goal h3{font-size:19px;margin:6px 0 10px;color:var(--navy);font-weight:700;}
+  .goal p{margin:0;font-size:14.5px;}
+
+  .flow{margin-top:22px;border-left:2px solid var(--line);padding-left:0;}
+  .step{position:relative;padding:0 0 26px 26px;}
+  .step:last-child{padding-bottom:0;}
+  .step::before{
+    content:"";position:absolute;left:-7px;top:7px;width:12px;height:12px;
+    background:var(--gold);border-radius:50%;border:3px solid #fff;
+    box-shadow:0 0 0 1px rgba(200,150,62,.35);
+  }
+  .step h4{font-size:16.5px;color:var(--navy);margin-bottom:5px;font-weight:700;}
+  .step p{font-size:14.5px;margin:0;}
+
+  .aud{border-top:1px solid var(--line);padding:16px 0;display:flex;gap:16px;align-items:flex-start;}
+  .aud:last-of-type{border-bottom:1px solid var(--line);}
+  .aud dt{
+    flex:0 0 6.5em;font-size:14.5px;font-weight:700;color:var(--navy);line-height:1.6;
+  }
+  .aud dd{font-size:14.5px;color:var(--grey);line-height:1.7;}
+  @media(max-width:480px){
+    .aud{flex-direction:column;gap:5px;}
+    .aud dt{flex:none;}
+  }
+
+  .quote{
+    background:linear-gradient(135deg,var(--navy-deep),var(--navy));
+    color:#fff;padding:34px 28px;margin-top:28px;position:relative;overflow:hidden;
+  }
+  .quote::after{
+    content:"";position:absolute;right:-40px;bottom:-40px;width:120px;height:120px;
+    border:1px solid rgba(200,150,62,.3);border-radius:50%;
+  }
+  .quote .q-l{font-size:12px;letter-spacing:.2em;color:var(--gold);margin-bottom:12px;}
+  .quote p{color:rgba(255,255,255,.9);font-size:16.5px;margin:0;line-height:1.85;}
+
+  .info{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;margin-top:22px;background:#fff;}
+  .info .row{display:flex;border-bottom:1px solid var(--line);}
+  .info .row:last-child{border-bottom:none;}
+  .info .k{
+    flex:0 0 106px;background:var(--soft);padding:14px 16px;
+    font-size:14px;font-weight:600;color:var(--navy);
+  }
+  .info .v{padding:14px 16px;font-size:14.5px;color:var(--grey);}
+  .tbd{color:#A9B1BA;}
+
+  .units{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px;margin-top:22px;}
+  @media(max-width:480px){.units{grid-template-columns:1fr;}}
+  .unit{padding-top:14px;border-top:2px solid var(--gold);}
+  .unit h4{font-size:16px;color:var(--navy);margin-bottom:6px;}
+  .unit p{font-size:13.5px;margin:0;color:var(--grey);}
+  .unit .meta{margin-top:8px;font-size:12px;color:var(--gold);letter-spacing:.04em;}
+
+  footer{background:var(--navy-deep);color:rgba(255,255,255,.65);padding:48px 30px;text-align:center;font-size:13.5px;line-height:2;}
+  footer strong{display:block;color:#fff;font-size:15px;font-weight:600;margin-bottom:10px;}
+  footer .fin{
+    font-family:"Noto Serif SC","Songti SC",serif;
+    font-size:20px;color:#fff;font-weight:700;margin-bottom:22px;line-height:1.6;
+  }
+  footer .gold{color:var(--gold);}
+
+  @keyframes rise {
+    from { opacity:0; transform:translateY(18px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  .hero > *:not(.hero-grid){ position:relative; z-index:1; animation:rise .9s ease both; }
+  .hero .eyebrow{ animation-delay:.05s; }
+  .hero h1{ animation-delay:.18s; }
+  .hero .sub{ animation-delay:.3s; }
+  .hero .rule{ animation-delay:.4s; }
+  .hero .orgs{ animation-delay:.5s; }
+  .hero .kw{ animation-delay:.65s; }
+  .reveal{ opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="eyebrow">联合发起 · 面向杨浦 · 链接复旦</div>
+    <h1>复旦杨浦<br>科创生态共建计划</h1>
+    <p class="sub">以住房政策研究为纽带，连接科技企业、产业资源与高端客户群——让资源相遇，让合作发生。</p>
+    <div class="rule"></div>
+    <div class="orgs">
+      联合组织单位<br>
+      <strong>复旦大学住房政策研究中心　×　杨浦区科技企业联合会</strong><br>
+      秘书长 / 会长 联合发起
+    </div>
+    <div class="kw"><span>促招商</span><span>强链条</span><span>聚人群</span></div>
+  </div>
+
+  <section class="reveal">
+    <div class="num">01　为什么是现在</div>
+    <h2>把「资源相遇」，变成「生态共建」</h2>
+    <p class="lead">一个区域的科创活力，从来不是靠企业数量堆出来的。真正决定高度的，是连接的密度。</p>
+    <p>科技企业的成长，离不开空间、人才、资本、场景与产业协同。杨浦拥有深厚的科创基因与丰富的产业腹地，复旦则汇聚政策研究能力、学术智力与高层次人才网络。</p>
+    <p>双方联合发起本计划，是为了搭建一个更高质量、更可持续的连接平台——不是办一场活动，而是运转一条生态链。</p>
+    <div class="quote">
+      <div class="q-l">核心判断</div>
+      <p>招商不是一次性的「引进」，而是围绕企业全生命周期，持续链接空间、政策、资本、技术、人才与客户。</p>
+    </div>
+  </section>
+
+  <section class="alt reveal">
+    <div class="num">02　三大目标</div>
+    <h2>我们只做三件事</h2>
+    <p>三件事，一条逻辑：让有价值的连接，反复发生。</p>
+
+    <div class="goal">
+      <div class="tag">引资源</div>
+      <div class="idx">01</div>
+      <h3>促进招商</h3>
+      <p>让优质科技企业更了解杨浦、走进杨浦、落地杨浦。不做单向招引，而是把空间、政策、场景、客户一次讲清楚。</p>
+    </div>
+
+    <div class="goal">
+      <div class="tag">强协同</div>
+      <div class="idx">02</div>
+      <h3>促进生态链达成</h3>
+      <p>让企业与产业伙伴、科研机构、资本方及应用场景高效对接，形成可跟进、可落地的合作线索。</p>
+    </div>
+
+    <div class="goal">
+      <div class="tag">聚人群</div>
+      <div class="idx">03</div>
+      <h3>促进高端客户群形成</h3>
+      <p>以高质量活动聚合高质量人群，沉淀长期互信与合作关系——圈层不是组织出来的，是反复见面沉淀出来的。</p>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="num">03　活动怎么做</div>
+    <h2>从一次相聚，到一条可持续的生态链</h2>
+    <p>活动不止于主题分享，更强调 <strong>认识 → 对话 → 匹配 → 跟进</strong> 的完整闭环。以小而精的组织方式，提升每一次见面的有效性。</p>
+
+    <div class="flow">
+      <div class="step">
+        <h4>1　主题引导</h4>
+        <p>围绕住房政策、科技产业、企业发展与区域机会，输出有价值的趋势判断。</p>
+      </div>
+      <div class="step">
+        <h4>2　企业呈现</h4>
+        <p>精选科技企业与产业项目，讲清技术、产品、场景与合作诉求。</p>
+      </div>
+      <div class="step">
+        <h4>3　资源对接</h4>
+        <p>组织企业、投资、科研、园区、服务机构与高端客户进行定向交流。</p>
+      </div>
+      <div class="step">
+        <h4>4　持续跟进</h4>
+        <p>沉淀需求清单、合作线索与后续拜访机制，让活动成果可追踪。</p>
+      </div>
+    </div>
+
+    <div class="units">
+      <div class="unit">
+        <h4>主旨分享</h4>
+        <p>复旦智力与杨浦实践的交汇。</p>
+        <div class="meta">约 40 分钟 · 1–2 位主讲</div>
+      </div>
+      <div class="unit">
+        <h4>圆桌对话</h4>
+        <p>科技企业如何在区域中找到成长坐标。</p>
+        <div class="meta">约 45 分钟 · 4–5 位嘉宾</div>
+      </div>
+      <div class="unit">
+        <h4>项目路演</h4>
+        <p>企业把需求说清楚，把机会讲明白。</p>
+        <div class="meta">每家约 8 分钟 · 5–6 家</div>
+      </div>
+      <div class="unit">
+        <h4>闭门交流</h4>
+        <p>面向重点企业与高端客户的定向洽谈。</p>
+        <div class="meta">限额邀请制</div>
+      </div>
+    </div>
+
+    <div class="quote">
+      <div class="q-l">活动关键词</div>
+      <p>专业　·　开放　·　精准　·　持续</p>
+    </div>
+  </section>
+
+  <section class="alt reveal">
+    <div class="num">04　谁应该来到这里</div>
+    <h2>让真正有合作可能的人，坐到同一张桌旁</h2>
+    <dl>
+      <div class="aud"><dt>科技企业</dt><dd>寻找落地空间、产业协同、政策服务、投融资与高端客户。</dd></div>
+      <div class="aud"><dt>投资机构</dt><dd>发现具有成长潜力的项目，建立长期项目观察与服务关系。</dd></div>
+      <div class="aud"><dt>高校院所</dt><dd>推动技术成果、人才资源与企业应用场景有效连接。</dd></div>
+      <div class="aud"><dt>产业链伙伴</dt><dd>围绕供应链、客户、渠道、技术和服务展开合作。</dd></div>
+      <div class="aud"><dt>园区与服务机构</dt><dd>为企业提供空间、人才、法务、财税、品牌等综合支持。</dd></div>
+      <div class="aud"><dt>高端客户群</dt><dd>以专业判断、产业视野与高质量社交，参与更有价值的生态网络。</dd></div>
+    </dl>
+    <div class="quote">
+      <div class="q-l">我们寻找的伙伴</div>
+      <p>愿意开放资源、认真对话、长期合作——共同把「单点机会」，变成「生态增量」。</p>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="num">05　活动信息</div>
+    <h2>报名与合作咨询</h2>
+    <div class="info">
+      <div class="row"><div class="k">活动时间</div><div class="v tbd">【待定】</div></div>
+      <div class="row"><div class="k">活动地点</div><div class="v tbd">【待定】</div></div>
+      <div class="row"><div class="k">活动形式</div><div class="v">主旨分享 · 圆桌对话 · 项目路演 · 闭门交流</div></div>
+      <div class="row"><div class="k">参与规模</div><div class="v tbd">【待定】（限额，需审核）</div></div>
+      <div class="row"><div class="k">参与对象</div><div class="v">科技企业｜投资机构｜高校院所｜产业伙伴｜园区与专业服务机构｜高端客户</div></div>
+      <div class="row"><div class="k">联系人</div><div class="v tbd">【姓名】</div></div>
+      <div class="row"><div class="k">电话</div><div class="v tbd">【电话】</div></div>
+      <div class="row"><div class="k">微信</div><div class="v tbd">【微信】</div></div>
+      <div class="row"><div class="k">公众号</div><div class="v">复联会</div></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="fin">资源不会自己相遇，<br>合作不会自动发生。</div>
+    <strong>复旦杨浦科创生态共建计划</strong>
+    联合组织：复旦大学住房政策研究中心 ｜ 杨浦区科技企业联合会<br>
+    <span class="gold">关注「复联会」，获取活动信息与合作机会</span>
+  </footer>
+
+</div>
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+</script>
+</body>
+</html>
