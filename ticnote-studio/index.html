@@ -743,8 +743,11 @@
     session: "tn_studio_session_v1",
   };
 
-  /** 正式网页版地址（GitHub Pages，正确 HTML Content-Type） */
-  const PUBLIC_STUDIO_URL = "https://hujigang2010-maker.github.io/ticnote-studio/";
+  /**
+   * 备用入口（仅当当前不是 http 打开时使用）。
+   * 注意：jsDelivr/raw 会以 text/plain 打开，请勿分享那些链接。
+   */
+  const PUBLIC_STUDIO_URL = "https://htmlpreview.github.io/?https://github.com/hujigang2010-maker/AIDEN/blob/gh-pages/ticnote-studio/index.html";
 
   const AGENTS = [
     {
@@ -1824,8 +1827,16 @@
     }
   }
 
+  function studioPublicBase() {
+    // 优先当前打开的网页地址，保证书签剪藏能回到同一站点
+    if (location.protocol.startsWith("http") && !/127\.0\.0\.1|localhost/.test(location.host)) {
+      return location.origin + location.pathname.replace(/index\.html?$/i, "").replace(/\/?$/, "/");
+    }
+    return PUBLIC_STUDIO_URL;
+  }
+
   function buildBookmarklet() {
-    const target = PUBLIC_STUDIO_URL;
+    const target = studioPublicBase();
     // 书签：抓取标题+正文，经 hash 传给 Studio
     const code =
       "javascript:(function(){try{var t=document.title||'网页剪藏';var x=(document.body&&(document.body.innerText||document.body.textContent)||'').replace(/\\s+/g,' ').trim().slice(0,18000);var u=location.href;var p=btoa(unescape(encodeURIComponent(JSON.stringify({title:t,text:x,url:u,ts:Date.now()}))));var w=open('" +
