@@ -23,7 +23,18 @@
 
 > AppKey 与 Token 只保存在本机浏览器 `localStorage`，不会上传到第三方（除你配置的 TicNote / AI 端点外）。
 
-## 运行方式
+## 网页版（可直接打开）
+
+请用下面这种**真正的网页地址**打开（`content-type: text/html`）。  
+不要用 jsDelivr / raw.githubusercontent 链接——它们会以纯文本打开，看起来像一堆代码/数字。
+
+仓库里的单文件：`standalone.html`（也可下载后用 Chrome/Edge 双击打开）。
+
+页面内已带：
+- **✂ 剪进 TicNote Studio** 书签小工具（拖到书签栏，任意网页一键剪藏）
+- **转录倒计时**（音频听写按剩余时长；AI/云端转写按估算倒计时）
+
+## 运行方式（本地完整版，含 TicNote API 代理）
 
 ```bash
 cd ticnote-studio

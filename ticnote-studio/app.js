@@ -8,6 +8,12 @@
     session: "tn_studio_session_v1",
   };
 
+  /**
+   * 备用入口（仅当当前不是 http 打开时使用）。
+   * 注意：jsDelivr/raw 会以 text/plain 打开，请勿分享那些链接。
+   */
+  const PUBLIC_STUDIO_URL = "https://htmlpreview.github.io/?https://github.com/hujigang2010-maker/AIDEN/blob/gh-pages/ticnote-studio/index.html";
+
   const AGENTS = [
     {
       id: "summarizer",
@@ -110,6 +116,12 @@
     aiEndpoint: $("aiEndpoint"),
     aiKey: $("aiKey"),
     aiModel: $("aiModel"),
+    countdownBar: $("countdownBar"),
+    countdownLabel: $("countdownLabel"),
+    countdownTime: $("countdownTime"),
+    countdownFill: $("countdownFill"),
+    countdownHint: $("countdownHint"),
+    bookmarkletLink: $("bookmarkletLink"),
   };
 
   const state = {
@@ -132,6 +144,105 @@
     els.toast.classList.add("show");
     clearTimeout(toast._t);
     toast._t = setTimeout(() => els.toast.classList.remove("show"), 2600);
+  }
+
+  function formatClock(sec) {
+    sec = Math.max(0, Math.ceil(sec || 0));
+    const m = String(Math.floor(sec / 60)).padStart(2, "0");
+    const s = String(sec % 60).padStart(2, "0");
+    return `${m}:${s}`;
+  }
+
+  /** 转录倒计时：支持按总时长推进，或绑定 audio 元素剩余时间 */
+  const countdown = {
+    timer: null,
+    mode: null,
+    startedAt: 0,
+    totalSec: 0,
+    audioEl: null,
+    stop() {
+      if (this.timer) clearInterval(this.timer);
+      this.timer = null;
+      this.mode = null;
+      this.audioEl = null;
+      if (els.countdownBar) els.countdownBar.classList.add("hidden");
+    },
+    show(label, hint) {
+      if (!els.countdownBar) return;
+      els.countdownBar.classList.remove("hidden");
+      els.countdownLabel.textContent = label || "转录进行中";
+      if (els.countdownHint) els.countdownHint.textContent = hint || "预计剩余时间会随进度更新";
+    },
+    paint(remainSec, totalSec) {
+      const total = Math.max(1, totalSec || this.totalSec || 1);
+      const remain = Math.max(0, remainSec);
+      const done = Math.min(1, (total - remain) / total);
+      els.countdownTime.textContent = formatClock(remain);
+      els.countdownFill.style.width = `${Math.round(done * 100)}%`;
+    },
+    /** 固定总时长倒计时（AI 估算 / TicNote 轮询） */
+    startFixed(totalSec, label, hint) {
+      this.stop();
+      this.mode = "fixed";
+      this.totalSec = Math.max(5, totalSec);
+      this.startedAt = Date.now();
+      this.show(label, hint);
+      this.paint(this.totalSec, this.totalSec);
+      this.timer = setInterval(() => {
+        const elapsed = (Date.now() - this.startedAt) / 1000;
+        const remain = Math.max(0, this.totalSec - elapsed);
+        this.paint(remain, this.totalSec);
+        if (remain <= 0) {
+          els.countdownLabel.textContent = "即将完成…";
+        }
+      }, 250);
+    },
+    /** 跟随音频播放剩余时间 */
+    startAudio(audioEl, label) {
+      this.stop();
+      this.mode = "audio";
+      this.audioEl = audioEl;
+      this.show(label || "播放听写中", "按音频剩余时长估算转录结束时间");
+      const tick = () => {
+        const d = audioEl.duration;
+        const c = audioEl.currentTime || 0;
+        if (!Number.isFinite(d) || d <= 0) {
+          els.countdownTime.textContent = "--:--";
+          els.countdownFill.style.width = "0%";
+          return;
+        }
+        this.totalSec = d;
+        this.paint(d - c, d);
+      };
+      tick();
+      this.timer = setInterval(tick, 250);
+    },
+    finish(msg) {
+      if (els.countdownBar && !els.countdownBar.classList.contains("hidden")) {
+        els.countdownLabel.textContent = msg || "转录完成";
+        els.countdownTime.textContent = "00:00";
+        els.countdownFill.style.width = "100%";
+      }
+      clearTimeout(this._hide);
+      this._hide = setTimeout(() => this.stop(), 1600);
+    },
+  };
+
+  function estimateAiTranscribeSec(file, audioEl) {
+    let dur = audioEl && Number.isFinite(audioEl.duration) ? audioEl.duration : 0;
+    if (!dur && file && file.size) {
+      // 粗估：约 128kbps → 字节/16 ≈ 秒
+      dur = file.size / 16000;
+    }
+    dur = Math.max(20, Math.min(dur || 60, 3600));
+    // 云端转写通常快于实时，按 0.35x 估算，最少 15 秒
+    return Math.max(15, Math.round(dur * 0.35));
+  }
+
+  function estimateCloudTranscribeSec(durationSec, fileCount) {
+    const per = durationSec && durationSec > 0 ? durationSec * 0.4 : 45;
+    const n = Math.max(1, fileCount || 1);
+    return Math.max(20, Math.round(Math.min(per, 180) * Math.min(n, 5) * 0.6 + 15));
   }
 
   function uid() {
@@ -688,6 +799,12 @@
     // AI whisper-compatible path
     if (state.settings.aiKey && state.settings.aiEndpoint && state.audioBlob) {
       try {
+        const est = estimateAiTranscribeSec(state.audioBlob, els.audioPlayer);
+        countdown.startFixed(
+          est,
+          "AI 音频转文字中",
+          `按约 ${formatClock(est)} 估算，实际可能略有偏差`
+        );
         toast("正在通过 AI 转录音频…");
         const endpoint = state.settings.aiEndpoint.replace(/\/$/, "");
         const form = new FormData();
@@ -704,9 +821,11 @@
         els.transcript.value = (els.transcript.value + "\n" + (data.text || "")).trim();
         if (!els.noteTitle.value) els.noteTitle.value = state.audioName || "音频转写";
         applyTemplate();
+        countdown.finish("AI 转录完成");
         toast("AI 转录完成");
         return;
       } catch (e) {
+        countdown.stop();
         toast("AI 转录失败，尝试播放听写：" + e.message);
       }
     }
@@ -733,6 +852,14 @@
       }
     };
     try {
+      // 等 metadata 以拿到 duration
+      if (!Number.isFinite(player.duration) || player.duration === Infinity) {
+        await new Promise((resolve) => {
+          player.onloadedmetadata = resolve;
+          setTimeout(resolve, 1200);
+        });
+      }
+      countdown.startAudio(player, "播放听写中 · 转录倒计时");
       rec.start();
       await player.play();
       toast("正在播放并实时听写…");
@@ -741,8 +868,10 @@
       });
       rec.stop();
       applyTemplate();
+      countdown.finish("听写完成");
       toast("播放听写结束");
     } catch (e) {
+      countdown.stop();
       try { rec.stop(); } catch { /* ignore */ }
       toast("播放听写失败：" + e.message);
     }
@@ -863,6 +992,12 @@
       "2078873748446011394";
     if (!projectId) return toast("请选择或填写 projectId / chatId");
     try {
+      const est = estimateCloudTranscribeSec(90, 3);
+      countdown.startFixed(
+        est,
+        "同步 TicNote 并自动转写",
+        "正在拉取文件并触发转写，倒计时为估算值"
+      );
       toast("正在同步项目并尝试自动转写…");
       const data = await api(
         "/api/ticnote/sync-project",
@@ -898,9 +1033,11 @@
       }
       renderProjectFiles(data.entries || []);
       if (data.entries?.[0]) openNote("tn_" + (data.entries[0].recordId || data.entries[0].fileId));
+      countdown.finish("同步完成");
       toast(`同步完成：${added} 个文件`);
       switchView("knowledge");
     } catch (e) {
+      countdown.stop();
       toast("同步失败：" + e.message);
     }
   }
@@ -926,6 +1063,8 @@
     if (!n?.recordId) return toast("当前条目不是 TicNote 文件");
     if (!state.session.token) return toast("请先连接");
     try {
+      const est = estimateCloudTranscribeSec(n.duration || 120, 1);
+      countdown.startFixed(est, "云端转写进行中", "轮询 TicNote 转写状态，显示预计剩余时间");
       if (n.fileId && n.isVoice) {
         await api("/api/ticnote/transcribe", authBody({ fileId: n.fileId, language: "zh", hasSpeakers: true }));
       }
@@ -941,12 +1080,100 @@
         n.dprSessionId = data.detail?.dprSessionId || n.dprSessionId;
         upsertNote(n);
         openNote(n.id);
+        countdown.finish("转写完成");
         toast("转写正文已更新");
       } else {
+        countdown.stop();
         toast("仍无正文，可能仍在处理或需要 VIP");
       }
     } catch (e) {
+      countdown.stop();
       toast("拉取失败：" + e.message);
+    }
+  }
+
+  function studioPublicBase() {
+    // 优先当前打开的网页地址，保证书签剪藏能回到同一站点
+    if (location.protocol.startsWith("http") && !/127\.0\.0\.1|localhost/.test(location.host)) {
+      return location.origin + location.pathname.replace(/index\.html?$/i, "").replace(/\/?$/, "/");
+    }
+    return PUBLIC_STUDIO_URL;
+  }
+
+  function buildBookmarklet() {
+    const target = studioPublicBase();
+    // 书签：抓取标题+正文，经 hash 传给 Studio
+    const code =
+      "javascript:(function(){try{var t=document.title||'网页剪藏';var x=(document.body&&(document.body.innerText||document.body.textContent)||'').replace(/\\s+/g,' ').trim().slice(0,18000);var u=location.href;var p=btoa(unescape(encodeURIComponent(JSON.stringify({title:t,text:x,url:u,ts:Date.now()}))));var w=open('" +
+      target +
+      "#clip='+encodeURIComponent(p),'_blank');if(!w){location.href='" +
+      target +
+      "#clip='+encodeURIComponent(p);}}catch(e){alert('剪藏失败: '+e.message);}})();";
+    return code;
+  }
+
+  function setupBookmarklet() {
+    if (!els.bookmarkletLink) return;
+    const code = buildBookmarklet();
+    els.bookmarkletLink.setAttribute("href", code);
+    els.bookmarkletLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      toast("请把此按钮拖到书签栏，而不是点击");
+    });
+    const btnCopy = $("btnCopyBookmarklet");
+    if (btnCopy) {
+      btnCopy.addEventListener("click", async () => {
+        await navigator.clipboard.writeText(code);
+        toast("书签代码已复制，到浏览器「添加书签」里粘贴到网址栏");
+      });
+    }
+    const btnHelp = $("btnShowBookmarkHelp");
+    if (btnHelp) {
+      btnHelp.addEventListener("click", () => {
+        alert(
+          "用法：\n1. 显示浏览器书签栏\n2. 把绿色「剪进 TicNote Studio」拖进书签栏\n3. 打开任意文章页，点该书签\n4. 会打开 Studio 网页版并自动入库\n\n网页版地址：\n" +
+            PUBLIC_STUDIO_URL
+        );
+      });
+    }
+  }
+
+  function importClipFromLocation() {
+    const hash = location.hash || "";
+    if (!hash.includes("clip=")) return;
+    try {
+      const raw = decodeURIComponent(hash.split("clip=")[1] || "");
+      const json = decodeURIComponent(escape(atob(raw)));
+      const data = JSON.parse(json);
+      const title = (data.title || "网页剪藏").trim();
+      const text = (data.text || "").trim();
+      const url = data.url || "";
+      if (!text) {
+        toast("剪藏内容为空");
+        return;
+      }
+      els.noteTitle.value = title;
+      els.transcript.value = text;
+      if (url) els.webUrl.value = url;
+      state.activeId = null;
+      const note = {
+        id: uid(),
+        title,
+        text,
+        source: "web",
+        tags: ["网页", "书签剪藏"],
+        url,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      state.activeId = note.id;
+      upsertNote(note);
+      applyTemplate();
+      switchView("capture");
+      history.replaceState(null, "", location.pathname + location.search);
+      toast("已从网页剪藏导入");
+    } catch (e) {
+      toast("剪藏解析失败：" + e.message);
     }
   }
 
@@ -1283,7 +1510,9 @@
     renderAgents();
     renderTimeline();
     bind();
+    setupBookmarklet();
     switchView("capture");
+    importClipFromLocation();
     // 探测本地代理
     fetch(proxy() + "/api/health")
       .then((r) => (r.ok ? r.json() : null))

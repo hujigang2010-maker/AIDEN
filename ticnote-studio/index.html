@@ -389,6 +389,71 @@
       line-height: 1.5;
       padding: .5rem 0;
     }
+    .countdown {
+      position: sticky;
+      top: .5rem;
+      z-index: 20;
+      margin-bottom: .75rem;
+      padding: .85rem 1rem;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(11,79,74,.95), rgba(20,55,70,.92));
+      color: #eef7f5;
+      box-shadow: var(--shadow);
+      animation: rise .3s ease;
+    }
+    .countdown-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: .75rem;
+      margin-bottom: .55rem;
+      font-size: .9rem;
+    }
+    .countdown-top strong {
+      font-family: var(--display);
+      font-size: 1.35rem;
+      letter-spacing: .02em;
+      font-variant-numeric: tabular-nums;
+    }
+    .countdown-track {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      overflow: hidden;
+    }
+    .countdown-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #d4a24a, #f0e2c0);
+      transition: width .35s linear;
+    }
+    .bookmarklet-box {
+      border: 1px dashed rgba(15,118,110,.35);
+      background: rgba(15,118,110,.06);
+      border-radius: 14px;
+      padding: .85rem;
+      display: grid;
+      gap: .55rem;
+    }
+    .bookmarklet-box a.bm {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: .65rem 1rem;
+      border-radius: 999px;
+      background: var(--teal);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: .9rem;
+      cursor: grab;
+    }
+    .bookmarklet-box code {
+      font-size: .75rem;
+      word-break: break-all;
+      color: var(--muted);
+    }
     @keyframes rise {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: none; }
@@ -448,12 +513,20 @@
       <main class="panel">
         <div class="panel-hd">
           <h2 id="mainTitle">采集与转写</h2>
-          <div class="row">
-            <button type="button" class="ghost" id="btnSaveNote">保存到知识库</button>
-            <button type="button" class="amber" id="btnAudio2Text">🎧 音频转文字</button>
+            <div class="row">
+              <button type="button" class="ghost" id="btnSaveNote">保存到知识库</button>
+              <button type="button" class="amber" id="btnAudio2Text">🎧 音频转文字</button>
+            </div>
           </div>
-        </div>
-        <div class="panel-bd">
+          <div class="panel-bd">
+          <div id="countdownBar" class="countdown hidden" aria-live="polite">
+            <div class="countdown-top">
+              <span id="countdownLabel">转录进行中</span>
+              <strong id="countdownTime">--:--</strong>
+            </div>
+            <div class="countdown-track"><div class="countdown-fill" id="countdownFill"></div></div>
+            <div id="countdownHint" style="margin-top:.45rem;font-size:.78rem;opacity:.85;">预计剩余时间会随进度更新</div>
+          </div>
           <!-- 采集视图 -->
           <section id="view-capture" class="stack">
             <div class="hero-capture">
@@ -484,6 +557,15 @@
               <div class="row">
                 <input id="webUrl" placeholder="https://…" style="flex:1" />
                 <button type="button" class="teal" id="btnFetchWeb">抓取网页</button>
+              </div>
+            </div>
+            <div class="bookmarklet-box">
+              <strong style="font-size:.9rem;">书签小工具 · 任意网页一键剪藏</strong>
+              <p class="empty" style="margin:0;">把下面按钮拖到浏览器书签栏；之后在任意文章页点一下，正文会送进本知识库。</p>
+              <a class="bm" id="bookmarkletLink" href="#">✂ 剪进 TicNote Studio</a>
+              <div class="row">
+                <button type="button" class="ghost" id="btnCopyBookmarklet">复制书签代码</button>
+                <button type="button" class="ghost" id="btnShowBookmarkHelp">用法</button>
               </div>
             </div>
 
