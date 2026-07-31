@@ -300,19 +300,32 @@ def build_basic(doc):
 
 def build_expertise_and_resume(doc):
     add_heading_line(doc, "三、业务专长")
-    exp = doc.add_table(rows=2, cols=2)
+    exp = doc.add_table(rows=3, cols=2)
     exp.style = "Table Grid"
-    set_col_widths(exp, [3.5, 12.5])
+    set_col_widths(exp, [3.8, 12.2])
     label_cell(exp.cell(0, 0), "业务分类")
     label_cell(exp.cell(0, 1), "专长详情")
-    value_cell(exp.cell(1, 0), "应用经济学\n（兼土木工程）", align=WD_ALIGN_PARAGRAPH.CENTER, size=9)
+    # 两栏均衡：均以“办活动/搭平台”为主线，各配职务抓手与代表性活动
+    value_cell(exp.cell(1, 0), "1. 服务科创企业", align=WD_ALIGN_PARAGRAPH.CENTER, size=9)
     value_cell(
         exp.cell(1, 1),
-        "不动产投资拓展与特殊资产业务（募投管退）；住房政策与租赁市场研究；城市更新与产城融合；"
-        "商业综合体/物流地产/冷链产业园落地；股权收并购、法院拍卖及不良资产处置；政企协同与资源整合。",
+        "擅长策划组织科创交流与产业对接类活动，能统筹选题、嘉宾邀请、现场主持与多方协同。"
+        "以杨浦区科技企业联合会执行会长身份，参与“北欧创新国际会客厅”揭牌及中欧科创合作交流；"
+        "主办/协办人工智能商业化等主题峰会，主持圆桌对话，推动科创企业、投资机构与产业资源对接。"
+        "兼任科技企业专业评审专家，服务企业成长与资源匹配。",
         size=9,
     )
-    exp.rows[1].height = Cm(2.2)
+    value_cell(exp.cell(2, 0), "2. 不动产业务\n协同发展", align=WD_ALIGN_PARAGRAPH.CENTER, size=9)
+    value_cell(
+        exp.cell(2, 1),
+        "擅长组织不动产与住房政策领域论坛、闭门研讨及战略合作仪式，具备会务统筹与跨界协调能力。"
+        "以复旦大学住房政策研究中心、复旦MBA不动产资产管理协会秘书长身份，主持海外不动产战略布局主题分享，"
+        "参与全球新经济增长引擎峰会圆桌交流，出席工商联房地产商会资产管理分会成立大会并参与战略合作仪式。"
+        "结合不动产投资拓展实务经验，促进学界、企业与政府部门对话合作。",
+        size=9,
+    )
+    exp.rows[1].height = Cm(2.6)
+    exp.rows[2].height = Cm(2.6)
 
     add_heading_line(doc, "四、简历（学习简历 + 工作简历）")
     resume_lines = [
