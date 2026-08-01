@@ -1,0 +1,2267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TicNote Studio · 网页版</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #14201f;
+      --muted: #5a6b69;
+      --paper: #f3f6f4;
+      --panel: rgba(255, 255, 255, 0.78);
+      --line: rgba(20, 32, 31, 0.1);
+      --teal: #0f766e;
+      --teal-deep: #0b4f4a;
+      --amber: #c9842f;
+      --rose: #b54a4a;
+      --sky: #2f6f9f;
+      --shadow: 0 18px 50px rgba(15, 40, 36, 0.12);
+      --radius: 18px;
+      --font: "Sora", "PingFang SC", "Noto Sans SC", sans-serif;
+      --display: "Fraunces", "Songti SC", serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: var(--font);
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(15, 118, 110, 0.18), transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, rgba(201, 132, 47, 0.14), transparent 50%),
+        linear-gradient(180deg, #e8efec 0%, var(--paper) 42%, #eef3f1 100%);
+      background-attachment: fixed;
+    }
+    button, input, select, textarea { font: inherit; }
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 0.65rem 1rem;
+      cursor: pointer;
+      background: var(--ink);
+      color: #fff;
+      transition: transform .15s ease, opacity .15s ease, background .15s ease;
+    }
+    button:hover { transform: translateY(-1px); }
+    button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+    button.ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+    button.teal { background: linear-gradient(135deg, var(--teal), var(--teal-deep)); }
+    button.amber { background: linear-gradient(135deg, #d4923a, #a66a1d); }
+    button.sky { background: linear-gradient(135deg, #3a84b8, var(--sky)); }
+    .app {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 1.25rem;
+      display: grid;
+      gap: 1rem;
+    }
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 4px);
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      animation: rise .55s ease both;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+    }
+    .logo {
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      display: grid; place-items: center;
+      color: #fff;
+      font-family: var(--display);
+      font-weight: 700;
+      background: linear-gradient(145deg, var(--teal), #163a38);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.15);
+    }
+    .brand h1 {
+      margin: 0;
+      font-family: var(--display);
+      font-size: 1.45rem;
+      letter-spacing: -.02em;
+      line-height: 1.1;
+    }
+    .brand p { margin: .15rem 0 0; color: var(--muted); font-size: .86rem; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: .55rem; align-items: center; }
+    .status-pill {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .35rem .7rem;
+      border-radius: 999px;
+      background: rgba(15,118,110,.1);
+      color: var(--teal-deep);
+      font-size: .8rem;
+      font-weight: 600;
+    }
+    .status-pill.offline { background: rgba(181,74,74,.1); color: var(--rose); }
+    .status-pill.ok { background: rgba(15,118,110,.14); }
+    .nav {
+      display: flex; flex-wrap: wrap; gap: .45rem;
+      padding: .35rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,.55);
+      border: 1px solid var(--line);
+    }
+    .nav button {
+      background: transparent;
+      color: var(--muted);
+      padding: .55rem 1rem;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .nav button.active {
+      background: var(--ink);
+      color: #fff;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 300px 1fr 340px;
+      gap: 1rem;
+      min-height: calc(100vh - 140px);
+    }
+    @media (max-width: 1180px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      animation: rise .65s ease both;
+    }
+    .panel:nth-child(2) { animation-delay: .05s; }
+    .panel:nth-child(3) { animation-delay: .1s; }
+    .panel-hd {
+      padding: 1rem 1.1rem .7rem;
+      border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between; gap: .5rem;
+    }
+    .panel-hd h2 {
+      margin: 0;
+      font-size: .95rem;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .panel-bd { padding: 1rem 1.1rem 1.2rem; overflow: auto; flex: 1; }
+    .stack { display: grid; gap: .75rem; }
+    .field label {
+      display: block;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: .35rem;
+    }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.85);
+      border-radius: 12px;
+      padding: .7rem .85rem;
+      color: var(--ink);
+      outline: none;
+    }
+    .field textarea { min-height: 120px; resize: vertical; line-height: 1.55; }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: rgba(15,118,110,.45);
+      box-shadow: 0 0 0 3px rgba(15,118,110,.12);
+    }
+    .row { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .timeline { display: grid; gap: .65rem; }
+    .day-group h3 {
+      margin: .4rem 0 .35rem;
+      font-size: .78rem;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .kb-item {
+      width: 100%;
+      text-align: left;
+      background: rgba(255,255,255,.72);
+      color: var(--ink);
+      border: 1px solid transparent;
+      padding: .75rem .85rem;
+      border-radius: 14px;
+      box-shadow: none;
+    }
+    .kb-item:hover, .kb-item.active {
+      border-color: rgba(15,118,110,.35);
+      background: #fff;
+    }
+    .kb-item .t { font-weight: 600; font-size: .92rem; margin-bottom: .2rem; }
+    .kb-item .m { color: var(--muted); font-size: .78rem; display: flex; gap: .45rem; flex-wrap: wrap; }
+    .tag {
+      display: inline-flex;
+      padding: .12rem .45rem;
+      border-radius: 999px;
+      background: rgba(15,118,110,.1);
+      color: var(--teal-deep);
+      font-size: .72rem;
+      font-weight: 600;
+    }
+    .tag.voice { background: rgba(47,111,159,.12); color: var(--sky); }
+    .tag.web { background: rgba(201,132,47,.14); color: #8a5a16; }
+    .hero-capture {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      padding: 1.15rem 1.2rem;
+      color: #eef7f5;
+      background:
+        linear-gradient(135deg, rgba(11,79,74,.92), rgba(20,55,70,.88)),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-capture::after {
+      content: "";
+      position: absolute;
+      right: -30px; top: -40px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,132,47,.35), transparent 70%);
+      animation: pulse 4.5s ease-in-out infinite;
+    }
+    .hero-capture h3 {
+      position: relative;
+      margin: 0 0 .35rem;
+      font-family: var(--display);
+      font-size: 1.45rem;
+      font-weight: 700;
+    }
+    .hero-capture p { position: relative; margin: 0 0 .9rem; opacity: .85; font-size: .9rem; max-width: 42ch; }
+    .mic-btn {
+      position: relative;
+      min-width: 148px;
+      background: #fff;
+      color: var(--teal-deep);
+      font-weight: 700;
+    }
+    .mic-btn.recording {
+      background: var(--rose);
+      color: #fff;
+      animation: pulse .9s ease-in-out infinite;
+    }
+    .templates {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .45rem;
+    }
+    @media (max-width: 720px) { .templates { grid-template-columns: repeat(2, 1fr); } }
+    .tpl {
+      background: rgba(255,255,255,.8);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      font-size: .82rem;
+      font-weight: 600;
+      padding: .65rem .4rem;
+    }
+    .tpl.active {
+      background: var(--teal);
+      color: #fff;
+      border-color: transparent;
+    }
+    .output {
+      white-space: pre-wrap;
+      line-height: 1.65;
+      min-height: 220px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1rem;
+      font-size: .92rem;
+    }
+    .chat {
+      display: flex;
+      flex-direction: column;
+      gap: .65rem;
+      min-height: 260px;
+      max-height: 420px;
+      overflow: auto;
+      padding: .2rem;
+    }
+    .bubble {
+      max-width: 95%;
+      padding: .7rem .85rem;
+      border-radius: 14px;
+      font-size: .88rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+    .bubble.user {
+      align-self: flex-end;
+      background: var(--ink);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+    .bubble.bot {
+      align-self: flex-start;
+      background: rgba(255,255,255,.9);
+      border: 1px solid var(--line);
+      border-bottom-left-radius: 4px;
+    }
+    .agent-card {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.8);
+      border-radius: 14px;
+      padding: .85rem;
+      display: grid;
+      gap: .45rem;
+    }
+    .agent-card h4 { margin: 0; font-size: .95rem; }
+    .agent-card p { margin: 0; color: var(--muted); font-size: .8rem; line-height: 1.45; }
+    .toast {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 50;
+      background: var(--ink);
+      color: #fff;
+      padding: .75rem 1rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: .25s ease;
+      max-width: min(360px, calc(100vw - 2rem));
+      font-size: .88rem;
+    }
+    .toast.show { opacity: 1; transform: none; }
+    .modal-mask {
+      position: fixed; inset: 0; z-index: 40;
+      background: rgba(10, 20, 18, .45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-mask.show { display: flex; }
+    .modal {
+      width: min(560px, 100%);
+      background: #f7faf8;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 1.2rem;
+      animation: rise .35s ease;
+    }
+    .modal h3 {
+      margin: 0 0 .35rem;
+      font-family: var(--display);
+      font-size: 1.35rem;
+    }
+    .modal .hint { color: var(--muted); font-size: .86rem; margin: 0 0 1rem; line-height: 1.5; }
+    .hidden { display: none !important; }
+    .view { display: none; }
+    .view.active { display: contents; }
+    #mindmapSvgWrap {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: .5rem;
+      overflow: auto;
+      max-height: 280px;
+    }
+    #mindmapSvgWrap svg { width: 100%; height: auto; display: block; }
+    .empty {
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.5;
+      padding: .5rem 0;
+    }
+    .countdown {
+      position: sticky;
+      top: .5rem;
+      z-index: 20;
+      margin-bottom: .75rem;
+      padding: .85rem 1rem;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(11,79,74,.95), rgba(20,55,70,.92));
+      color: #eef7f5;
+      box-shadow: var(--shadow);
+      animation: rise .3s ease;
+    }
+    .countdown-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: .75rem;
+      margin-bottom: .55rem;
+      font-size: .9rem;
+    }
+    .countdown-top strong {
+      font-family: var(--display);
+      font-size: 1.35rem;
+      letter-spacing: .02em;
+      font-variant-numeric: tabular-nums;
+    }
+    .countdown-track {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      overflow: hidden;
+    }
+    .countdown-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #d4a24a, #f0e2c0);
+      transition: width .35s linear;
+    }
+    .bookmarklet-box {
+      border: 1px dashed rgba(15,118,110,.35);
+      background: rgba(15,118,110,.06);
+      border-radius: 14px;
+      padding: .85rem;
+      display: grid;
+      gap: .55rem;
+    }
+    .bookmarklet-box a.bm {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: .65rem 1rem;
+      border-radius: 999px;
+      background: var(--teal);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: .9rem;
+      cursor: grab;
+    }
+    .bookmarklet-box code {
+      font-size: .75rem;
+      word-break: break-all;
+      color: var(--muted);
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.03); opacity: .92; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">TN</div>
+        <div>
+          <h1>TicNote Studio</h1>
+          <p>语音转写 · 知识库时间线 · 智能体问答</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <span id="connStatus" class="status-pill offline">未连接 TicNote</span>
+        <nav class="nav" id="mainNav">
+          <button type="button" data-view="capture" class="active">采集</button>
+          <button type="button" data-view="knowledge">知识库</button>
+          <button type="button" data-view="agents">智能体</button>
+          <button type="button" data-view="ask">提问/翻译</button>
+        </nav>
+        <button type="button" class="ghost" id="btnSettings">⚙︎ 设置</button>
+        <button type="button" class="sky" id="btnExportAll">📦 导出全部</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- 左：时间线 -->
+      <aside class="panel">
+        <div class="panel-hd">
+          <h2>知识库时间线</h2>
+          <button type="button" class="ghost" id="btnRefreshKb" title="刷新">↻</button>
+        </div>
+        <div class="panel-bd stack">
+          <div class="row">
+            <button type="button" class="teal" id="btnSyncTicnote" style="flex:1">同步 TicNote</button>
+            <button type="button" class="ghost" id="btnLoadSample">示例</button>
+          </div>
+          <div class="field">
+            <label>按项目 / 关键词筛选</label>
+            <input id="kbFilter" placeholder="搜索标题或正文…" />
+          </div>
+          <div id="timeline" class="timeline">
+            <div class="empty">还没有条目。录音、导入网页，或同步 TicNote 项目后会出现在这里。</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 中：主工作区 -->
+      <main class="panel">
+        <div class="panel-hd">
+          <h2 id="mainTitle">采集与转写</h2>
+            <div class="row">
+              <button type="button" class="ghost" id="btnSaveNote">保存到知识库</button>
+              <button type="button" class="amber" id="btnAudio2Text">🎧 音频转文字</button>
+            </div>
+          </div>
+          <div class="panel-bd">
+          <div id="countdownBar" class="countdown hidden" aria-live="polite">
+            <div class="countdown-top">
+              <span id="countdownLabel">转录进行中</span>
+              <strong id="countdownTime">--:--</strong>
+            </div>
+            <div class="countdown-track"><div class="countdown-fill" id="countdownFill"></div></div>
+            <div id="countdownHint" style="margin-top:.45rem;font-size:.78rem;opacity:.85;">预计剩余时间会随进度更新</div>
+          </div>
+          <!-- 采集视图 -->
+          <section id="view-capture" class="stack">
+            <div class="hero-capture">
+              <h3>TicNote Studio</h3>
+              <p>实时听写、上传音频、导入网页或同步 TicNote 云端文件，一键整理成总结、思维导图、顿悟与播客稿。</p>
+              <div class="row">
+                <button type="button" class="mic-btn" id="btnMic">🎙 开始录音转写</button>
+                <label class="ghost" style="display:inline-flex;align-items:center;gap:.4rem;padding:.65rem 1rem;border-radius:12px;border:1px solid rgba(255,255,255,.25);cursor:pointer;color:#fff;">
+                  上传音频
+                  <input type="file" id="audioFile" accept="audio/*,video/*" hidden />
+                </label>
+                <select id="langSelect" style="border:0;border-radius:12px;padding:.65rem .8rem;">
+                  <option value="zh-CN">中文</option>
+                  <option value="en-US">English</option>
+                  <option value="ja-JP">日本語</option>
+                  <option value="ko-KR">한국어</option>
+                  <option value="fr-FR">Français</option>
+                  <option value="de-DE">Deutsch</option>
+                  <option value="es-ES">Español</option>
+                  <option value="ru-RU">Русский</option>
+                </select>
+              </div>
+              <div id="audioMeta" class="hidden" style="margin-top:.8rem;position:relative;font-size:.85rem;opacity:.9;"></div>
+            </div>
+
+            <div class="field">
+              <label>网页内容转化（粘贴 URL 或正文）</label>
+              <div class="row">
+                <input id="webUrl" placeholder="https://…" style="flex:1" />
+                <button type="button" class="teal" id="btnFetchWeb">抓取网页</button>
+              </div>
+            </div>
+            <div class="bookmarklet-box">
+              <strong style="font-size:.9rem;">书签小工具 · 任意网页一键剪藏</strong>
+              <p class="empty" style="margin:0;">把下面按钮拖到浏览器书签栏；之后在任意文章页点一下，正文会送进本知识库。</p>
+              <a class="bm" id="bookmarkletLink" href="#">✂ 剪进 TicNote Studio</a>
+              <div class="row">
+                <button type="button" class="ghost" id="btnCopyBookmarklet">复制书签代码</button>
+                <button type="button" class="ghost" id="btnShowBookmarkHelp">用法</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>标题</label>
+              <input id="noteTitle" placeholder="例如：周一产品评审会" />
+            </div>
+            <div class="field">
+              <label>转录 / 原文（可编辑）</label>
+              <textarea id="transcript" placeholder="点击麦克风开始实时转写，或粘贴文本、导入网页…"></textarea>
+            </div>
+
+            <div>
+              <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:.55rem;">
+                <strong style="font-size:.9rem;">整理模板</strong>
+                <div class="row">
+                  <button type="button" class="ghost" id="btnCopyOut">复制</button>
+                  <button type="button" class="ghost" id="btnExportMd">导出 Markdown</button>
+                  <button type="button" class="ghost" id="btnExportSvg">导出 SVG</button>
+                </div>
+              </div>
+              <div class="templates" id="tplBar">
+                <button type="button" class="tpl active" data-tpl="summary">总结</button>
+                <button type="button" class="tpl" data-tpl="mindmap">思维导图</button>
+                <button type="button" class="tpl" data-tpl="aha">顿悟摘录</button>
+                <button type="button" class="tpl" data-tpl="research">深度研究</button>
+                <button type="button" class="tpl" data-tpl="podcast">播客节目稿</button>
+                <button type="button" class="tpl" data-tpl="translate">翻译</button>
+              </div>
+            </div>
+            <div id="mindmapSvgWrap" class="hidden"></div>
+            <div id="output" class="output">选择模板后，这里会显示整理结果。</div>
+            <div class="field hidden" id="translateOpts">
+              <label>翻译目标语言</label>
+              <select id="translateLang">
+                <option value="en">English</option>
+                <option value="zh">中文</option>
+                <option value="ja">日本語</option>
+                <option value="ko">한국어</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+              </select>
+            </div>
+          </section>
+
+          <!-- 知识库视图 -->
+          <section id="view-knowledge" class="stack hidden">
+            <div class="hero-capture">
+              <h3>每日沉淀</h3>
+              <p>把录音笔、网页剪藏与 TicNote 云端文件汇成一条时间线，随时回看、再整理、再提问。</p>
+            </div>
+            <div class="field">
+              <label>当前条目详情</label>
+              <div id="kbDetail" class="output">从左侧时间线选择一条记录。</div>
+            </div>
+            <div class="row">
+              <button type="button" class="teal" id="btnOpenInCapture">在采集区打开</button>
+              <button type="button" class="ghost" id="btnDeleteNote">删除条目</button>
+              <button type="button" class="amber" id="btnPullTranscribe">拉取/触发转写</button>
+            </div>
+          </section>
+
+          <!-- 智能体视图 -->
+          <section id="view-agents" class="stack hidden">
+            <div class="hero-capture">
+              <h3>连接智能体</h3>
+              <p>用本地整理智能体处理知识库，或把条目送回 TicNote Deep Research / Shadow 能力。</p>
+            </div>
+            <div class="stack" id="agentList"></div>
+          </section>
+
+          <!-- 提问视图 -->
+          <section id="view-ask" class="stack hidden">
+            <div class="hero-capture">
+              <h3>实时提问与翻译</h3>
+              <p>针对当前文稿或整库内容追问要点；也可一键翻译段落。接上 AI 端点或 TicNote 后效果更好。</p>
+            </div>
+            <div class="row">
+              <label style="display:flex;align-items:center;gap:.4rem;font-size:.86rem;">
+                <input type="radio" name="askScope" value="current" checked /> 当前文稿
+              </label>
+              <label style="display:flex;align-items:center;gap:.4rem;font-size:.86rem;">
+                <input type="radio" name="askScope" value="kb" /> 整个知识库
+              </label>
+            </div>
+            <div id="chatBox" class="chat">
+              <div class="bubble bot">你好。问我「今天有哪些待办？」「把第二段译成英文」之类即可。</div>
+            </div>
+            <div class="row">
+              <input id="askInput" placeholder="输入问题或「翻译成英文：…」" style="flex:1;border:1px solid var(--line);border-radius:12px;padding:.7rem .85rem;" />
+              <button type="button" class="teal" id="btnAsk">发送</button>
+              <button type="button" class="ghost" id="btnQuickTranslate">翻译当前文稿</button>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <!-- 右：TicNote 连接 -->
+      <aside class="panel">
+        <div class="panel-hd">
+          <h2>TicNote 连接</h2>
+        </div>
+        <div class="panel-bd stack">
+          <div class="field">
+            <label>AppKey（仅存本机）</label>
+            <input id="appkey" type="password" placeholder="tncn_sk_… 或 tnovs_sk_…" autocomplete="off" />
+          </div>
+          <div class="row">
+            <button type="button" class="teal" id="btnConnect" style="flex:1">连接</button>
+            <button type="button" class="ghost" id="btnDisconnect">断开</button>
+          </div>
+          <p class="empty" style="margin:0;">
+            AppKey 需在
+            <a href="https://www.ticnote.cn" target="_blank" rel="noopener">ticnote.cn</a>
+            个人中心「TicNote Key」自行创建。本工具无法代你生成官方密钥。
+          </p>
+          <div class="field">
+            <label>项目（chatId / projectId）</label>
+            <select id="projectSelect">
+              <option value="">先连接以加载项目列表</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>或直接粘贴 chatId / projectId</label>
+            <input id="projectIdInput" placeholder="如 2078873748446011394" />
+          </div>
+          <div class="row">
+            <button type="button" class="amber" id="btnSyncProject" style="flex:1">同步并自动转写</button>
+          </div>
+          <div id="projectFiles" class="timeline"></div>
+          <div class="field">
+            <label>服务地址（本地代理）</label>
+            <input id="proxyBase" value="" placeholder="默认当前站点" />
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="modal-mask" id="settingsModal">
+    <div class="modal">
+      <h3>设置</h3>
+      <p class="hint">可选接入 OpenAI 兼容接口，用于高质量模板重写、音频文件转录与知识库问答。密钥只保存在浏览器本地。</p>
+      <div class="stack">
+        <div class="field">
+          <label>AI Base URL</label>
+          <input id="aiEndpoint" placeholder="https://api.openai.com/v1" />
+        </div>
+        <div class="field">
+          <label>API Key</label>
+          <input id="aiKey" type="password" placeholder="sk-…" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label>模型</label>
+          <input id="aiModel" placeholder="gpt-4o-mini" />
+        </div>
+        <div class="row">
+          <button type="button" class="teal" id="btnSaveSettings">保存</button>
+          <button type="button" class="ghost" id="btnCloseSettings">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <audio id="audioPlayer" class="hidden"></audio>
+  <script>
+/* TicNote Studio — 本地知识库 + 转写模板 + TicNote API 同步 */
+(() => {
+  "use strict";
+
+  const STORAGE = {
+    kb: "tn_studio_kb_v1",
+    settings: "tn_studio_settings_v1",
+    session: "tn_studio_session_v1",
+  };
+
+  /**
+   * 备用入口（仅当当前不是 http 打开时使用）。
+   * 注意：jsDelivr/raw 会以 text/plain 打开，请勿分享那些链接。
+   */
+  const PUBLIC_STUDIO_URL = "https://htmlpreview.github.io/?https://github.com/hujigang2010-maker/AIDEN/blob/gh-pages/ticnote-studio/index.html";
+
+  const AGENTS = [
+    {
+      id: "summarizer",
+      name: "纪要官",
+      desc: "提炼一句话摘要、核心要点与行动项，适合会后同步。",
+      tpl: "summary",
+    },
+    {
+      id: "mindmapper",
+      name: "结构官",
+      desc: "把长文拆成层级主题，生成可导出的思维导图。",
+      tpl: "mindmap",
+    },
+    {
+      id: "aha",
+      name: "顿悟官",
+      desc: "抓洞见、金句与待办，适合访谈与灵感录音。",
+      tpl: "aha",
+    },
+    {
+      id: "researcher",
+      name: "研究员",
+      desc: "主题、发现、概念与延伸问题；可对接 TicNote Deep Research。",
+      tpl: "research",
+      ticnote: true,
+    },
+    {
+      id: "podcaster",
+      name: "播客制片",
+      desc: "分角色对话稿 + Show Notes，方便二次分发。",
+      tpl: "podcast",
+    },
+    {
+      id: "translator",
+      name: "翻译官",
+      desc: "整篇或多语对照翻译，服务跨境会议与网页剪藏。",
+      tpl: "translate",
+    },
+  ];
+
+  const CN_STOP = new Set([
+    "的", "了", "是", "在", "和", "与", "及", "或", "而", "被", "把", "让", "向", "给",
+    "一个", "没有", "可以", "因为", "所以", "但是", "然后", "如果", "这个", "那个",
+    "我们", "你们", "他们", "以及", "进行", "通过", "关于", "什么", "怎么", "如何",
+    "就是", "还是", "不是", "已经", "可能", "需要", "时候", "现在", "今天", "一些",
+    "自己", "这样", "那样", "其实", "认为", "觉得", "知道", "开始", "问题", "内容",
+    "他们", "她们", "它们", "其中", "以上", "如下", "例如", "比如", "等等",
+  ]);
+
+  const EN_STOP = new Set(
+    "the a an and or but if in on at to for of as is are was were be been being this that these those it its we you they he she them our your their with from by into about over after before not no yes do does did done have has had can could should would will just so than then also more most other into such only own same too very".split(
+      " "
+    )
+  );
+
+  // ─── DOM ───
+  const $ = (id) => document.getElementById(id);
+  const els = {
+    connStatus: $("connStatus"),
+    mainNav: $("mainNav"),
+    mainTitle: $("mainTitle"),
+    timeline: $("timeline"),
+    kbFilter: $("kbFilter"),
+    transcript: $("transcript"),
+    noteTitle: $("noteTitle"),
+    output: $("output"),
+    mindmapSvgWrap: $("mindmapSvgWrap"),
+    tplBar: $("tplBar"),
+    translateOpts: $("translateOpts"),
+    translateLang: $("translateLang"),
+    langSelect: $("langSelect"),
+    btnMic: $("btnMic"),
+    audioFile: $("audioFile"),
+    audioMeta: $("audioMeta"),
+    audioPlayer: $("audioPlayer"),
+    btnAudio2Text: $("btnAudio2Text"),
+    btnExportAll: $("btnExportAll"),
+    btnSaveNote: $("btnSaveNote"),
+    btnSyncTicnote: $("btnSyncTicnote"),
+    btnSyncProject: $("btnSyncProject"),
+    btnLoadSample: $("btnLoadSample"),
+    btnRefreshKb: $("btnRefreshKb"),
+    btnConnect: $("btnConnect"),
+    btnDisconnect: $("btnDisconnect"),
+    appkey: $("appkey"),
+    projectSelect: $("projectSelect"),
+    projectIdInput: $("projectIdInput"),
+    projectFiles: $("projectFiles"),
+    proxyBase: $("proxyBase"),
+    webUrl: $("webUrl"),
+    btnFetchWeb: $("btnFetchWeb"),
+    chatBox: $("chatBox"),
+    askInput: $("askInput"),
+    btnAsk: $("btnAsk"),
+    btnQuickTranslate: $("btnQuickTranslate"),
+    agentList: $("agentList"),
+    kbDetail: $("kbDetail"),
+    toast: $("toast"),
+    settingsModal: $("settingsModal"),
+    aiEndpoint: $("aiEndpoint"),
+    aiKey: $("aiKey"),
+    aiModel: $("aiModel"),
+    countdownBar: $("countdownBar"),
+    countdownLabel: $("countdownLabel"),
+    countdownTime: $("countdownTime"),
+    countdownFill: $("countdownFill"),
+    countdownHint: $("countdownHint"),
+    bookmarkletLink: $("bookmarkletLink"),
+  };
+
+  const state = {
+    view: "capture",
+    tpl: "summary",
+    kb: [],
+    activeId: null,
+    recognizing: false,
+    recognition: null,
+    audioBlob: null,
+    audioName: "",
+    session: { token: "", appkey: "", baseUrl: "", projects: [] },
+    settings: { aiEndpoint: "", aiKey: "", aiModel: "gpt-4o-mini" },
+    lastSvg: "",
+  };
+
+  // ─── utils ───
+  function toast(msg) {
+    els.toast.textContent = msg;
+    els.toast.classList.add("show");
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => els.toast.classList.remove("show"), 2600);
+  }
+
+  function formatClock(sec) {
+    sec = Math.max(0, Math.ceil(sec || 0));
+    const m = String(Math.floor(sec / 60)).padStart(2, "0");
+    const s = String(sec % 60).padStart(2, "0");
+    return `${m}:${s}`;
+  }
+
+  /** 转录倒计时：支持按总时长推进，或绑定 audio 元素剩余时间 */
+  const countdown = {
+    timer: null,
+    mode: null,
+    startedAt: 0,
+    totalSec: 0,
+    audioEl: null,
+    stop() {
+      if (this.timer) clearInterval(this.timer);
+      this.timer = null;
+      this.mode = null;
+      this.audioEl = null;
+      if (els.countdownBar) els.countdownBar.classList.add("hidden");
+    },
+    show(label, hint) {
+      if (!els.countdownBar) return;
+      els.countdownBar.classList.remove("hidden");
+      els.countdownLabel.textContent = label || "转录进行中";
+      if (els.countdownHint) els.countdownHint.textContent = hint || "预计剩余时间会随进度更新";
+    },
+    paint(remainSec, totalSec) {
+      const total = Math.max(1, totalSec || this.totalSec || 1);
+      const remain = Math.max(0, remainSec);
+      const done = Math.min(1, (total - remain) / total);
+      els.countdownTime.textContent = formatClock(remain);
+      els.countdownFill.style.width = `${Math.round(done * 100)}%`;
+    },
+    /** 固定总时长倒计时（AI 估算 / TicNote 轮询） */
+    startFixed(totalSec, label, hint) {
+      this.stop();
+      this.mode = "fixed";
+      this.totalSec = Math.max(5, totalSec);
+      this.startedAt = Date.now();
+      this.show(label, hint);
+      this.paint(this.totalSec, this.totalSec);
+      this.timer = setInterval(() => {
+        const elapsed = (Date.now() - this.startedAt) / 1000;
+        const remain = Math.max(0, this.totalSec - elapsed);
+        this.paint(remain, this.totalSec);
+        if (remain <= 0) {
+          els.countdownLabel.textContent = "即将完成…";
+        }
+      }, 250);
+    },
+    /** 跟随音频播放剩余时间 */
+    startAudio(audioEl, label) {
+      this.stop();
+      this.mode = "audio";
+      this.audioEl = audioEl;
+      this.show(label || "播放听写中", "按音频剩余时长估算转录结束时间");
+      const tick = () => {
+        const d = audioEl.duration;
+        const c = audioEl.currentTime || 0;
+        if (!Number.isFinite(d) || d <= 0) {
+          els.countdownTime.textContent = "--:--";
+          els.countdownFill.style.width = "0%";
+          return;
+        }
+        this.totalSec = d;
+        this.paint(d - c, d);
+      };
+      tick();
+      this.timer = setInterval(tick, 250);
+    },
+    finish(msg) {
+      if (els.countdownBar && !els.countdownBar.classList.contains("hidden")) {
+        els.countdownLabel.textContent = msg || "转录完成";
+        els.countdownTime.textContent = "00:00";
+        els.countdownFill.style.width = "100%";
+      }
+      clearTimeout(this._hide);
+      this._hide = setTimeout(() => this.stop(), 1600);
+    },
+  };
+
+  function estimateAiTranscribeSec(file, audioEl) {
+    let dur = audioEl && Number.isFinite(audioEl.duration) ? audioEl.duration : 0;
+    if (!dur && file && file.size) {
+      // 粗估：约 128kbps → 字节/16 ≈ 秒
+      dur = file.size / 16000;
+    }
+    dur = Math.max(20, Math.min(dur || 60, 3600));
+    // 云端转写通常快于实时，按 0.35x 估算，最少 15 秒
+    return Math.max(15, Math.round(dur * 0.35));
+  }
+
+  function estimateCloudTranscribeSec(durationSec, fileCount) {
+    const per = durationSec && durationSec > 0 ? durationSec * 0.4 : 45;
+    const n = Math.max(1, fileCount || 1);
+    return Math.max(20, Math.round(Math.min(per, 180) * Math.min(n, 5) * 0.6 + 15));
+  }
+
+  function uid() {
+    return "n_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+  }
+
+  function loadJSON(key, fallback) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function saveJSON(key, val) {
+    localStorage.setItem(key, JSON.stringify(val));
+  }
+
+  function proxy() {
+    const v = (els.proxyBase.value || "").trim();
+    if (v) return v.replace(/\/$/, "");
+    if (location.protocol.startsWith("http")) return location.origin;
+    return "http://127.0.0.1:8765";
+  }
+
+  async function api(path, body) {
+    const res = await fetch(proxy() + path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body || {}),
+    });
+    let data;
+    try {
+      data = await res.json();
+    } catch {
+      throw new Error("服务无响应，请先运行 python3 server.py");
+    }
+    if (!res.ok || data.ok === false) {
+      const err = data.error;
+      const msg =
+        typeof err === "string"
+          ? err
+          : err?.msg || err?.message || JSON.stringify(err || data);
+      throw new Error(msg || "请求失败");
+    }
+    return data;
+  }
+
+  function download(filename, content, type = "text/plain;charset=utf-8") {
+    const blob = content instanceof Blob ? content : new Blob([content], { type });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+  function todayKey(d = new Date()) {
+    return d.toISOString().slice(0, 10);
+  }
+
+  function formatTime(iso) {
+    if (!iso) return "";
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return String(iso);
+    return d.toLocaleString("zh-CN", { hour12: false });
+  }
+
+  // ─── text analytics / templates ───
+  function splitSentences(text) {
+    return text
+      .replace(/\s+/g, " ")
+      .split(/(?<=[。！？!?；;\n])/)
+      .map((s) => s.trim())
+      .filter((s) => s.length >= 6);
+  }
+
+  function extractKeywords(text, limit = 8) {
+    const isHans = /[\u4e00-\u9fff]/.test(text);
+    const freq = new Map();
+    if (isHans) {
+      const cleaned = text.replace(/[^\u4e00-\u9fffA-Za-z0-9]+/g, " ");
+      for (let n = 4; n >= 2; n--) {
+        for (let i = 0; i <= cleaned.length - n; i++) {
+          const w = cleaned.slice(i, i + n);
+          if (w.length !== n || /\s/.test(w)) continue;
+          if (CN_STOP.has(w)) continue;
+          if (/^[A-Za-z0-9]+$/.test(w) && w.length < 3) continue;
+          freq.set(w, (freq.get(w) || 0) + 1);
+        }
+      }
+    } else {
+      for (const w of text.toLowerCase().match(/[a-z][a-z\-']{2,}/g) || []) {
+        if (EN_STOP.has(w)) continue;
+        freq.set(w, (freq.get(w) || 0) + 1);
+      }
+    }
+    // 先按长度再按频次，避免短词抢占「时间管理」这类长短语
+    // 二字词提高阈值，减少「做一」「哪些」类噪声
+    const ranked = [...freq.entries()]
+      .filter(([w, c]) => (w.length >= 3 ? c >= 2 : c >= 3))
+      .sort((a, b) => b[0].length - a[0].length || b[1] - a[1]);
+
+    const picked = [];
+    for (const [w] of ranked) {
+      if (picked.some((p) => p.includes(w) || w.includes(p))) continue;
+      picked.push(w);
+      if (picked.length >= limit) break;
+    }
+    return picked;
+  }
+
+  function buildMindmapTree(text) {
+    const sents = splitSentences(text);
+    const kws = extractKeywords(text, 6);
+    const title = (els.noteTitle.value || "未命名主题").trim();
+    const children = kws.map((k) => {
+      const related = sents.filter((s) => s.includes(k)).slice(0, 3);
+      return {
+        name: k,
+        children: (related.length ? related : sents.slice(0, 2)).map((s) => ({
+          name: s.length > 36 ? s.slice(0, 36) + "…" : s,
+        })),
+      };
+    });
+    if (!children.length) {
+      return {
+        name: title,
+        children: sents.slice(0, 5).map((s) => ({
+          name: s.length > 40 ? s.slice(0, 40) + "…" : s,
+        })),
+      };
+    }
+    return { name: title, children };
+  }
+
+  function renderMindmapSvg(tree) {
+    const W = 900;
+    const H = 520;
+    const cx = 140;
+    const cy = H / 2;
+    const branches = tree.children || [];
+    const n = Math.max(branches.length, 1);
+    let paths = "";
+    let labels = "";
+    branches.forEach((b, i) => {
+      const t = n === 1 ? 0.5 : i / (n - 1);
+      const ang = -Math.PI / 2.6 + t * (Math.PI * 1.15);
+      const x1 = cx + Math.cos(ang) * 180;
+      const y1 = cy + Math.sin(ang) * 170;
+      paths += `<path d="M${cx},${cy} Q${cx + 90},${cy} ${x1},${y1}" fill="none" stroke="#0f766e" stroke-width="2.2" opacity=".75"/>`;
+      labels += `<circle cx="${x1}" cy="${y1}" r="8" fill="#0f766e"/><text x="${x1 + 14}" y="${y1 + 5}" font-size="14" font-family="Sora,sans-serif" fill="#14201f">${escapeXml(b.name)}</text>`;
+      (b.children || []).slice(0, 3).forEach((c, j) => {
+        const x2 = x1 + 160;
+        const y2 = y1 - 28 + j * 28;
+        paths += `<path d="M${x1},${y1} C${x1 + 50},${y1} ${x2 - 40},${y2} ${x2},${y2}" fill="none" stroke="#c9842f" stroke-width="1.4" opacity=".7"/>`;
+        labels += `<text x="${x2 + 6}" y="${y2 + 4}" font-size="12" font-family="Sora,sans-serif" fill="#5a6b69">${escapeXml(c.name)}</text>`;
+      });
+    });
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+  <rect width="100%" height="100%" fill="#f7faf8"/>
+  <circle cx="${cx}" cy="${cy}" r="46" fill="#0b4f4a"/>
+  <text x="${cx}" y="${cy + 5}" text-anchor="middle" fill="#fff" font-size="13" font-family="Fraunces,serif">${escapeXml(tree.name.slice(0, 12))}</text>
+  ${paths}${labels}
+</svg>`;
+  }
+
+  function escapeXml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function tplSummary(text) {
+    const sents = splitSentences(text);
+    const kws = extractKeywords(text);
+    const one = sents[0] || text.slice(0, 80);
+    const points = sents.slice(0, 6).map((s, i) => `${i + 1}. ${s}`);
+    return [
+      "## 总结",
+      "",
+      "**一句话概括**",
+      one,
+      "",
+      "**核心要点**",
+      ...(points.length ? points : ["- （文本过短）"]),
+      "",
+      "**关键词**",
+      kws.length ? kws.map((k) => `\`${k}\``).join(" · ") : "（暂无重复关键词）",
+    ].join("\n");
+  }
+
+  function tplMindmap(text) {
+    const tree = buildMindmapTree(text);
+    state.lastSvg = renderMindmapSvg(tree);
+    const lines = [`## 思维导图`, "", `- ${tree.name}`];
+    for (const c of tree.children || []) {
+      lines.push(`  - ${c.name}`);
+      for (const g of c.children || []) lines.push(`    - ${g.name}`);
+    }
+    return lines.join("\n");
+  }
+
+  function tplAha(text) {
+    const sents = splitSentences(text);
+    const insights = sents.filter((s) => /因为|所以|关键|本质|其实|发现|原来|意味着|导致|如果/.test(s)).slice(0, 5);
+    const quotes = [...sents].sort((a, b) => a.length - b.length).slice(0, 4);
+    const actions = sents.filter((s) => /要|应该|需要|下一步|准备|计划|马上|记得|别忘|行动/.test(s)).slice(0, 5);
+    return [
+      "## 顿悟摘录",
+      "",
+      "### 洞见",
+      ...(insights.length ? insights.map((s) => `- ${s}`) : ["- （未识别到明显洞见句，可补充原文）"]),
+      "",
+      "### 金句",
+      ...(quotes.map((s) => `> ${s}`)),
+      "",
+      "### 行动项",
+      ...(actions.length ? actions.map((s) => `- [ ] ${s}`) : ["- [ ] 复盘本次内容并列出 3 个下一步"]),
+    ].join("\n");
+  }
+
+  function tplResearch(text) {
+    const sents = splitSentences(text);
+    const kws = extractKeywords(text, 8);
+    const title = els.noteTitle.value.trim() || kws[0] || "研究主题";
+    return [
+      "## 深度研究报告",
+      "",
+      `**主题**：${title}`,
+      "",
+      "### 核心发现",
+      ...sents.slice(0, 5).map((s) => `- ${s}`),
+      "",
+      "### 关键概念",
+      ...(kws.length ? kws.map((k) => `- ${k}`) : ["- （待补充）"]),
+      "",
+      "### 引用线索",
+      ...sents.slice(0, 3).map((s) => `- 「${s}」`),
+      "",
+      "### 延伸问题",
+      `- ${title} 的边界条件是什么？`,
+      `- 有哪些反例或风险？`,
+      `- 下一步最值得验证的假设是什么？`,
+    ].join("\n");
+  }
+
+  function tplPodcast(text) {
+    const sents = splitSentences(text);
+    const chunks = [];
+    for (let i = 0; i < sents.length; i += 2) {
+      chunks.push(sents.slice(i, i + 2));
+    }
+    const lines = [
+      "## 播客节目稿",
+      "",
+      `**节目名**：${els.noteTitle.value.trim() || "TicNote 速记场"}`,
+      "",
+      "### 对话",
+    ];
+    let t = 0;
+    chunks.slice(0, 10).forEach((pair, idx) => {
+      const mm = String(Math.floor(t / 60)).padStart(2, "0");
+      const ss = String(t % 60).padStart(2, "0");
+      const host = idx % 2 === 0 ? "主持人" : "嘉宾";
+      lines.push(`**[${mm}:${ss}] ${host}**：${pair.join(" ")}`);
+      t += 18 + Math.min(40, pair.join(" ").length / 4);
+    });
+    lines.push("", "### Show Notes");
+    extractKeywords(text, 6).forEach((k) => lines.push(`- ${k}`));
+    return lines.join("\n");
+  }
+
+  const DICT = {
+    en: {
+      时间: "time",
+      管理: "management",
+      注意力: "attention",
+      会议: "meeting",
+      总结: "summary",
+      行动: "action",
+      问题: "question",
+      今天: "today",
+      我们: "we",
+      需要: "need",
+      可以: "can",
+      重要: "important",
+      研究: "research",
+      播客: "podcast",
+    },
+    ja: { 时间: "時間", 管理: "管理", 注意力: "注意力", 会议: "会議", 总结: "まとめ" },
+    ko: { 时间: "시간", 管理: "관리", 注意力: "집중력", 会议: "회의", 总结: "요약" },
+    fr: { 时间: "temps", 管理: "gestion", 注意力: "attention", 会议: "réunion", 总结: "résumé" },
+    de: { 时间: "Zeit", 管理: "Management", 注意力: "Aufmerksamkeit", 会议: "Meeting", 总结: "Zusammenfassung" },
+    zh: {},
+  };
+
+  function tplTranslate(text, lang) {
+    if (lang === "zh") {
+      return ["## 翻译（中文）", "", text].join("\n");
+    }
+    const dict = DICT[lang] || DICT.en;
+    let out = text;
+    Object.keys(dict)
+      .sort((a, b) => b.length - a.length)
+      .forEach((k) => {
+        out = out.split(k).join(dict[k]);
+      });
+    const note =
+      state.settings.aiKey
+        ? "（已配置 AI，可在设置后点模板再次生成以使用模型翻译）"
+        : "（本地词典粗译；配置 AI 或使用 TicNote 翻译可获更高质量）";
+    return [`## 翻译（${lang}）`, "", out, "", `_${note}_`].join("\n");
+  }
+
+  function applyTemplate() {
+    const text = els.transcript.value.trim();
+    if (!text) {
+      els.output.textContent = "请先录入或同步一段文本。";
+      els.mindmapSvgWrap.classList.add("hidden");
+      return;
+    }
+    els.translateOpts.classList.toggle("hidden", state.tpl !== "translate");
+    let md = "";
+    if (state.tpl === "summary") md = tplSummary(text);
+    else if (state.tpl === "mindmap") md = tplMindmap(text);
+    else if (state.tpl === "aha") md = tplAha(text);
+    else if (state.tpl === "research") md = tplResearch(text);
+    else if (state.tpl === "podcast") md = tplPodcast(text);
+    else if (state.tpl === "translate") md = tplTranslate(text, els.translateLang.value);
+
+    els.output.textContent = md;
+    if (state.tpl === "mindmap" && state.lastSvg) {
+      els.mindmapSvgWrap.classList.remove("hidden");
+      els.mindmapSvgWrap.innerHTML = state.lastSvg;
+    } else {
+      els.mindmapSvgWrap.classList.add("hidden");
+    }
+  }
+
+  async function applyTemplateAI() {
+    const text = els.transcript.value.trim();
+    if (!text || !state.settings.aiKey || !state.settings.aiEndpoint) {
+      applyTemplate();
+      return;
+    }
+    const prompts = {
+      summary: "请用中文输出：一句话概括、核心要点列表、关键词。",
+      mindmap: "请用中文输出层级 Markdown 思维导图（- 缩进）。",
+      aha: "请提取洞见、金句、行动项（checkbox）。",
+      research: "请输出深度研究报告：主题、核心发现、关键概念、引用、延伸问题。",
+      podcast: "请写成双人播客对话稿，带时间轴与 Show Notes。",
+      translate: `请翻译为 ${els.translateLang.value}，保持段落结构。`,
+    };
+    try {
+      toast("AI 正在整理…");
+      const data = await api("/api/ai/chat", {
+        endpoint: state.settings.aiEndpoint,
+        apiKey: state.settings.aiKey,
+        model: state.settings.aiModel,
+        messages: [
+          { role: "system", content: "你是 TicNote 风格的会议与知识整理助手，输出简洁 Markdown。" },
+          { role: "user", content: `${prompts[state.tpl]}\n\n原文：\n${text.slice(0, 12000)}` },
+        ],
+      });
+      els.output.textContent = data.content;
+      if (state.tpl === "mindmap") {
+        state.lastSvg = renderMindmapSvg(buildMindmapTree(text));
+        els.mindmapSvgWrap.classList.remove("hidden");
+        els.mindmapSvgWrap.innerHTML = state.lastSvg;
+      }
+    } catch (e) {
+      toast("AI 失败，改用本地模板：" + e.message);
+      applyTemplate();
+    }
+  }
+
+  // ─── knowledge base ───
+  function persistKb() {
+    saveJSON(STORAGE.kb, state.kb);
+  }
+
+  function upsertNote(note) {
+    const idx = state.kb.findIndex((n) => n.id === note.id);
+    if (idx >= 0) state.kb[idx] = note;
+    else state.kb.unshift(note);
+    state.kb.sort((a, b) => (b.updatedAt || "").localeCompare(a.updatedAt || ""));
+    persistKb();
+    renderTimeline();
+  }
+
+  function currentNotePayload() {
+    return {
+      id: state.activeId || uid(),
+      title: els.noteTitle.value.trim() || "未命名笔记",
+      text: els.transcript.value.trim(),
+      source: "local",
+      tags: ["本地"],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+  }
+
+  function saveCurrentNote() {
+    const note = currentNotePayload();
+    if (!note.text) return toast("没有可保存的内容");
+    const existing = state.kb.find((n) => n.id === note.id);
+    if (existing) note.createdAt = existing.createdAt;
+    note.templates = {
+      summary: tplSummary(note.text),
+      mindmap: tplMindmap(note.text),
+      aha: tplAha(note.text),
+      research: tplResearch(note.text),
+      podcast: tplPodcast(note.text),
+    };
+    state.activeId = note.id;
+    upsertNote(note);
+    toast("已保存到知识库");
+  }
+
+  function renderTimeline() {
+    const q = (els.kbFilter.value || "").trim().toLowerCase();
+    const items = state.kb.filter((n) => {
+      if (!q) return true;
+      return (
+        (n.title || "").toLowerCase().includes(q) ||
+        (n.text || "").toLowerCase().includes(q) ||
+        (n.source || "").toLowerCase().includes(q)
+      );
+    });
+    if (!items.length) {
+      els.timeline.innerHTML = `<div class="empty">没有匹配的条目。</div>`;
+      return;
+    }
+    const groups = new Map();
+    for (const n of items) {
+      const day = (n.updatedAt || n.createdAt || "").slice(0, 10) || todayKey();
+      if (!groups.has(day)) groups.set(day, []);
+      groups.get(day).push(n);
+    }
+    const days = [...groups.keys()].sort((a, b) => b.localeCompare(a));
+    els.timeline.innerHTML = days
+      .map((day) => {
+        const cards = groups
+          .get(day)
+          .map((n) => {
+            const tag =
+              n.source === "ticnote"
+                ? `<span class="tag voice">TicNote</span>`
+                : n.source === "web"
+                  ? `<span class="tag web">网页</span>`
+                  : n.source === "audio"
+                    ? `<span class="tag voice">音频</span>`
+                    : `<span class="tag">本地</span>`;
+            return `<button type="button" class="kb-item ${n.id === state.activeId ? "active" : ""}" data-id="${n.id}">
+              <div class="t">${escapeXml(n.title || "未命名")}</div>
+              <div class="m">${tag}<span>${formatTime(n.updatedAt)}</span><span>${(n.text || "").length} 字</span></div>
+            </button>`;
+          })
+          .join("");
+        return `<div class="day-group"><h3>${day}</h3>${cards}</div>`;
+      })
+      .join("");
+  }
+
+  function openNote(id) {
+    const n = state.kb.find((x) => x.id === id);
+    if (!n) return;
+    state.activeId = id;
+    els.noteTitle.value = n.title || "";
+    els.transcript.value = n.text || "";
+    els.kbDetail.textContent = [
+      `标题：${n.title}`,
+      `来源：${n.source || "-"}`,
+      `更新：${formatTime(n.updatedAt)}`,
+      n.recordId ? `recordId：${n.recordId}` : "",
+      n.projectId ? `projectId：${n.projectId}` : "",
+      "",
+      (n.text || "").slice(0, 4000),
+    ]
+      .filter(Boolean)
+      .join("\n");
+    renderTimeline();
+    applyTemplate();
+  }
+
+  // ─── speech ───
+  function getRecognition() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) return null;
+    const rec = new SR();
+    rec.continuous = true;
+    rec.interimResults = true;
+    rec.lang = els.langSelect.value;
+    return rec;
+  }
+
+  function toggleMic() {
+    if (state.recognizing) {
+      state.recognition?.stop();
+      state.recognizing = false;
+      els.btnMic.classList.remove("recording");
+      els.btnMic.textContent = "🎙 开始录音转写";
+      toast("已停止听写");
+      return;
+    }
+    const rec = getRecognition();
+    if (!rec) return toast("当前浏览器不支持语音识别，请用 Chrome / Edge");
+    state.recognition = rec;
+    let base = els.transcript.value;
+    if (base && !base.endsWith("\n")) base += "\n";
+    rec.onresult = (ev) => {
+      let interim = "";
+      let final = "";
+      for (let i = ev.resultIndex; i < ev.results.length; i++) {
+        const t = ev.results[i][0].transcript;
+        if (ev.results[i].isFinal) final += t;
+        else interim += t;
+      }
+      if (final) {
+        base += final + ( /[。！？.!?]$/.test(final) ? "" : "。" );
+        els.transcript.value = base;
+        applyTemplate();
+      } else {
+        els.transcript.value = base + interim;
+      }
+    };
+    rec.onerror = (e) => {
+      toast("识别错误：" + (e.error || "unknown"));
+      state.recognizing = false;
+      els.btnMic.classList.remove("recording");
+      els.btnMic.textContent = "🎙 开始录音转写";
+    };
+    rec.onend = () => {
+      if (state.recognizing) {
+        try { rec.start(); } catch { /* ignore */ }
+      }
+    };
+    rec.start();
+    state.recognizing = true;
+    els.btnMic.classList.add("recording");
+    els.btnMic.textContent = "⏹ 停止";
+    toast("正在听写…");
+  }
+
+  async function audioToText() {
+    if (!state.audioBlob && !els.audioPlayer.src) {
+      return toast("请先上传音频文件");
+    }
+    // AI whisper-compatible path
+    if (state.settings.aiKey && state.settings.aiEndpoint && state.audioBlob) {
+      try {
+        const est = estimateAiTranscribeSec(state.audioBlob, els.audioPlayer);
+        countdown.startFixed(
+          est,
+          "AI 音频转文字中",
+          `按约 ${formatClock(est)} 估算，实际可能略有偏差`
+        );
+        toast("正在通过 AI 转录音频…");
+        const endpoint = state.settings.aiEndpoint.replace(/\/$/, "");
+        const form = new FormData();
+        form.append("file", state.audioBlob, state.audioName || "audio.webm");
+        form.append("model", "whisper-1");
+        form.append("language", els.langSelect.value.slice(0, 2));
+        const res = await fetch(endpoint + "/audio/transcriptions", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + state.settings.aiKey },
+          body: form,
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error?.message || "转录失败");
+        els.transcript.value = (els.transcript.value + "\n" + (data.text || "")).trim();
+        if (!els.noteTitle.value) els.noteTitle.value = state.audioName || "音频转写";
+        applyTemplate();
+        countdown.finish("AI 转录完成");
+        toast("AI 转录完成");
+        return;
+      } catch (e) {
+        countdown.stop();
+        toast("AI 转录失败，尝试播放听写：" + e.message);
+      }
+    }
+    // play-through + Web Speech
+    const rec = getRecognition();
+    if (!rec) return toast("无法听写：请用 Chrome/Edge，或配置 AI 端点");
+    const player = els.audioPlayer;
+    if (!player.src && state.audioBlob) {
+      player.src = URL.createObjectURL(state.audioBlob);
+    }
+    let base = els.transcript.value;
+    if (base && !base.endsWith("\n")) base += "\n";
+    rec.continuous = true;
+    rec.interimResults = true;
+    rec.lang = els.langSelect.value;
+    rec.onresult = (ev) => {
+      let final = "";
+      for (let i = ev.resultIndex; i < ev.results.length; i++) {
+        if (ev.results[i].isFinal) final += ev.results[i][0].transcript;
+      }
+      if (final) {
+        base += final + "。";
+        els.transcript.value = base;
+      }
+    };
+    try {
+      // 等 metadata 以拿到 duration
+      if (!Number.isFinite(player.duration) || player.duration === Infinity) {
+        await new Promise((resolve) => {
+          player.onloadedmetadata = resolve;
+          setTimeout(resolve, 1200);
+        });
+      }
+      countdown.startAudio(player, "播放听写中 · 转录倒计时");
+      rec.start();
+      await player.play();
+      toast("正在播放并实时听写…");
+      await new Promise((resolve) => {
+        player.onended = resolve;
+      });
+      rec.stop();
+      applyTemplate();
+      countdown.finish("听写完成");
+      toast("播放听写结束");
+    } catch (e) {
+      countdown.stop();
+      try { rec.stop(); } catch { /* ignore */ }
+      toast("播放听写失败：" + e.message);
+    }
+  }
+
+  // ─── export ───
+  function exportAll() {
+    const text = els.transcript.value.trim();
+    if (!text) return toast("没有可导出的内容");
+    const title = els.noteTitle.value.trim() || "TicNote笔记";
+    const safe = title.replace(/[\\/:*?"<>|]/g, "_").slice(0, 40);
+    const md = [
+      `# ${title}`,
+      "",
+      `> 由 TicNote Studio 导出 · ${new Date().toLocaleString("zh-CN")}`,
+      "",
+      tplSummary(text),
+      "",
+      tplMindmap(text),
+      "",
+      tplAha(text),
+      "",
+      tplResearch(text),
+      "",
+      tplPodcast(text),
+      "",
+      "## 转录原文",
+      "",
+      text,
+    ].join("\n");
+    download(`${safe}-完整笔记.md`, md, "text/markdown;charset=utf-8");
+    if (!state.lastSvg) state.lastSvg = renderMindmapSvg(buildMindmapTree(text));
+    download(`${safe}-思维导图.svg`, state.lastSvg, "image/svg+xml;charset=utf-8");
+    download(`${safe}-转录原文.txt`, text);
+    toast("已导出 Markdown / SVG / 原文");
+  }
+
+  // ─── TicNote sync ───
+  function setConnected(ok) {
+    els.connStatus.textContent = ok ? "已连接 TicNote" : "未连接 TicNote";
+    els.connStatus.classList.toggle("offline", !ok);
+    els.connStatus.classList.toggle("ok", ok);
+  }
+
+  async function connectTicnote() {
+    const appkey = els.appkey.value.trim();
+    if (!appkey) return toast("请填写 AppKey");
+    try {
+      toast("正在登录…");
+      const data = await api("/api/ticnote/login", { appkey });
+      state.session = {
+        token: data.token,
+        appkey,
+        baseUrl: data.base_url,
+        projects: [],
+      };
+      saveJSON(STORAGE.session, { appkey, token: data.token, baseUrl: data.base_url });
+      setConnected(true);
+      await loadProjects();
+      toast("连接成功");
+    } catch (e) {
+      setConnected(false);
+      toast("连接失败：" + e.message);
+    }
+  }
+
+  function disconnectTicnote() {
+    state.session = { token: "", appkey: "", baseUrl: "", projects: [] };
+    localStorage.removeItem(STORAGE.session);
+    setConnected(false);
+    els.projectSelect.innerHTML = `<option value="">先连接以加载项目列表</option>`;
+    els.projectFiles.innerHTML = "";
+    toast("已断开");
+  }
+
+  async function loadProjects() {
+    const data = await api("/api/ticnote/projects", {
+      appkey: state.session.appkey,
+      token: state.session.token,
+    });
+    state.session.projects = data.projects || [];
+    const opts = ['<option value="">选择项目…</option>'];
+    for (const p of state.session.projects) {
+      const val = p.projectId || p.chatId;
+      opts.push(
+        `<option value="${escapeXml(String(val))}" data-chat="${escapeXml(String(p.chatId || ""))}">${escapeXml(p.name)}（${p.fileNum || 0}）</option>`
+      );
+    }
+    els.projectSelect.innerHTML = opts.join("");
+    // 预填用户提到的 chatId
+    const hint = "2078873748446011394";
+    if (!els.projectIdInput.value) {
+      const hit = state.session.projects.find(
+        (p) => String(p.chatId) === hint || String(p.projectId) === hint
+      );
+      if (hit) {
+        els.projectSelect.value = String(hit.projectId || hit.chatId);
+        els.projectIdInput.value = String(hit.projectId || hit.chatId);
+      } else {
+        els.projectIdInput.placeholder = hint;
+      }
+    }
+  }
+
+  function authBody(extra) {
+    return {
+      appkey: state.session.appkey,
+      token: state.session.token,
+      ...extra,
+    };
+  }
+
+  async function syncProject() {
+    if (!state.session.token) return toast("请先连接 TicNote");
+    const projectId =
+      els.projectIdInput.value.trim() ||
+      els.projectSelect.value.trim() ||
+      "2078873748446011394";
+    if (!projectId) return toast("请选择或填写 projectId / chatId");
+    try {
+      const est = estimateCloudTranscribeSec(90, 3);
+      countdown.startFixed(
+        est,
+        "同步 TicNote 并自动转写",
+        "正在拉取文件并触发转写，倒计时为估算值"
+      );
+      toast("正在同步项目并尝试自动转写…");
+      const data = await api(
+        "/api/ticnote/sync-project",
+        authBody({ projectId, chatId: projectId, autoTranscribe: true, language: "zh", limit: 30 })
+      );
+      let added = 0;
+      for (const e of data.entries || []) {
+        if (!e.text && !e.summary) {
+          // 仍入库占位
+        }
+        const id = "tn_" + (e.recordId || e.fileId || uid());
+        const note = {
+          id,
+          title: e.name || "TicNote 文件",
+          text: e.text || e.summary || "（尚无转写正文，可稍后「拉取/触发转写」）",
+          source: "ticnote",
+          tags: ["TicNote", e.isVoice ? "音频" : "文档"],
+          recordId: e.recordId,
+          fileId: e.fileId,
+          projectId: e.projectId,
+          transcribeId: e.transcribeId,
+          dprSessionId: e.dprSessionId,
+          isVoice: e.isVoice,
+          createdAt: e.updatedAt || new Date().toISOString(),
+          updatedAt: e.updatedAt || new Date().toISOString(),
+        };
+        const prev = state.kb.find((n) => n.id === id);
+        if (prev && prev.text && prev.text.length > note.text.length) {
+          note.text = prev.text;
+        }
+        upsertNote(note);
+        added++;
+      }
+      renderProjectFiles(data.entries || []);
+      if (data.entries?.[0]) openNote("tn_" + (data.entries[0].recordId || data.entries[0].fileId));
+      countdown.finish("同步完成");
+      toast(`同步完成：${added} 个文件`);
+      switchView("knowledge");
+    } catch (e) {
+      countdown.stop();
+      toast("同步失败：" + e.message);
+    }
+  }
+
+  function renderProjectFiles(entries) {
+    if (!entries.length) {
+      els.projectFiles.innerHTML = `<div class="empty">项目为空或无权访问。</div>`;
+      return;
+    }
+    els.projectFiles.innerHTML = entries
+      .map((e) => {
+        const st = e.text ? "已有正文" : e.transcodeStatus || "待转写";
+        return `<button type="button" class="kb-item" data-record="${escapeXml(String(e.recordId || ""))}" data-file="${escapeXml(String(e.fileId || ""))}">
+          <div class="t">${escapeXml(e.name || "文件")}</div>
+          <div class="m"><span class="tag ${e.isVoice ? "voice" : ""}">${e.isVoice ? "音频" : "文档"}</span><span>${escapeXml(String(st))}</span></div>
+        </button>`;
+      })
+      .join("");
+  }
+
+  async function pullTranscribeActive() {
+    const n = state.kb.find((x) => x.id === state.activeId);
+    if (!n?.recordId) return toast("当前条目不是 TicNote 文件");
+    if (!state.session.token) return toast("请先连接");
+    try {
+      const est = estimateCloudTranscribeSec(n.duration || 120, 1);
+      countdown.startFixed(est, "云端转写进行中", "轮询 TicNote 转写状态，显示预计剩余时间");
+      if (n.fileId && n.isVoice) {
+        await api("/api/ticnote/transcribe", authBody({ fileId: n.fileId, language: "zh", hasSpeakers: true }));
+      }
+      toast("正在拉取详情…");
+      const data = await api(
+        "/api/ticnote/file-detail",
+        authBody({ recordId: n.recordId, poll: true, timeout: 90, interval: 4 })
+      );
+      if (data.text) {
+        n.text = data.text;
+        n.updatedAt = new Date().toISOString();
+        n.transcribeId = data.detail?.transcribeId || n.transcribeId;
+        n.dprSessionId = data.detail?.dprSessionId || n.dprSessionId;
+        upsertNote(n);
+        openNote(n.id);
+        countdown.finish("转写完成");
+        toast("转写正文已更新");
+      } else {
+        countdown.stop();
+        toast("仍无正文，可能仍在处理或需要 VIP");
+      }
+    } catch (e) {
+      countdown.stop();
+      toast("拉取失败：" + e.message);
+    }
+  }
+
+  function studioPublicBase() {
+    // 优先当前打开的网页地址，保证书签剪藏能回到同一站点
+    if (location.protocol.startsWith("http") && !/127\.0\.0\.1|localhost/.test(location.host)) {
+      return location.origin + location.pathname.replace(/index\.html?$/i, "").replace(/\/?$/, "/");
+    }
+    return PUBLIC_STUDIO_URL;
+  }
+
+  function buildBookmarklet() {
+    const target = studioPublicBase();
+    // 书签：抓取标题+正文，经 hash 传给 Studio
+    const code =
+      "javascript:(function(){try{var t=document.title||'网页剪藏';var x=(document.body&&(document.body.innerText||document.body.textContent)||'').replace(/\\s+/g,' ').trim().slice(0,18000);var u=location.href;var p=btoa(unescape(encodeURIComponent(JSON.stringify({title:t,text:x,url:u,ts:Date.now()}))));var w=open('" +
+      target +
+      "#clip='+encodeURIComponent(p),'_blank');if(!w){location.href='" +
+      target +
+      "#clip='+encodeURIComponent(p);}}catch(e){alert('剪藏失败: '+e.message);}})();";
+    return code;
+  }
+
+  function setupBookmarklet() {
+    if (!els.bookmarkletLink) return;
+    const code = buildBookmarklet();
+    els.bookmarkletLink.setAttribute("href", code);
+    els.bookmarkletLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      toast("请把此按钮拖到书签栏，而不是点击");
+    });
+    const btnCopy = $("btnCopyBookmarklet");
+    if (btnCopy) {
+      btnCopy.addEventListener("click", async () => {
+        await navigator.clipboard.writeText(code);
+        toast("书签代码已复制，到浏览器「添加书签」里粘贴到网址栏");
+      });
+    }
+    const btnHelp = $("btnShowBookmarkHelp");
+    if (btnHelp) {
+      btnHelp.addEventListener("click", () => {
+        alert(
+          "用法：\n1. 显示浏览器书签栏\n2. 把绿色「剪进 TicNote Studio」拖进书签栏\n3. 打开任意文章页，点该书签\n4. 会打开 Studio 网页版并自动入库\n\n网页版地址：\n" +
+            PUBLIC_STUDIO_URL
+        );
+      });
+    }
+  }
+
+  function importClipFromLocation() {
+    const hash = location.hash || "";
+    if (!hash.includes("clip=")) return;
+    try {
+      const raw = decodeURIComponent(hash.split("clip=")[1] || "");
+      const json = decodeURIComponent(escape(atob(raw)));
+      const data = JSON.parse(json);
+      const title = (data.title || "网页剪藏").trim();
+      const text = (data.text || "").trim();
+      const url = data.url || "";
+      if (!text) {
+        toast("剪藏内容为空");
+        return;
+      }
+      els.noteTitle.value = title;
+      els.transcript.value = text;
+      if (url) els.webUrl.value = url;
+      state.activeId = null;
+      const note = {
+        id: uid(),
+        title,
+        text,
+        source: "web",
+        tags: ["网页", "书签剪藏"],
+        url,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      state.activeId = note.id;
+      upsertNote(note);
+      applyTemplate();
+      switchView("capture");
+      history.replaceState(null, "", location.pathname + location.search);
+      toast("已从网页剪藏导入");
+    } catch (e) {
+      toast("剪藏解析失败：" + e.message);
+    }
+  }
+
+  // ─── web clip ───
+  async function fetchWeb() {
+    const url = els.webUrl.value.trim();
+    if (!url) return toast("请输入网址");
+    try {
+      toast("抓取网页中…");
+      const data = await api("/api/fetch-url", { url });
+      els.noteTitle.value = data.title || url;
+      els.transcript.value = data.text || "";
+      state.activeId = null;
+      applyTemplate();
+      const note = {
+        id: uid(),
+        title: data.title || url,
+        text: data.text || "",
+        source: "web",
+        tags: ["网页"],
+        url,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      state.activeId = note.id;
+      upsertNote(note);
+      toast("网页已转入知识库");
+    } catch (e) {
+      toast("抓取失败：" + e.message);
+    }
+  }
+
+  // ─── ask / agents ───
+  function addBubble(role, text) {
+    const div = document.createElement("div");
+    div.className = "bubble " + (role === "user" ? "user" : "bot");
+    div.textContent = text;
+    els.chatBox.appendChild(div);
+    els.chatBox.scrollTop = els.chatBox.scrollHeight;
+  }
+
+  function scopeText() {
+    const scope = document.querySelector('input[name="askScope"]:checked')?.value || "current";
+    if (scope === "kb") {
+      return state.kb
+        .slice(0, 20)
+        .map((n) => `【${n.title}】\n${(n.text || "").slice(0, 800)}`)
+        .join("\n\n");
+    }
+    return els.transcript.value.trim();
+  }
+
+  function localAnswer(question, context) {
+    const q = question.trim();
+    if (/翻译|译成|translate/i.test(q)) {
+      const lang = /英|en/i.test(q) ? "en" : /日|ja/i.test(q) ? "ja" : /韩|ko/i.test(q) ? "ko" : "en";
+      const target = q.split(/[:：]/).slice(1).join(":") || context.slice(0, 1200);
+      return tplTranslate(target.trim(), lang).replace(/^## 翻译[^\n]*\n+/, "");
+    }
+    if (/待办|行动|todo/i.test(q)) {
+      return tplAha(context).split("### 行动项")[1]?.trim() || "暂无行动项";
+    }
+    if (/总结|概括|摘要/i.test(q)) return tplSummary(context);
+    if (/关键词/i.test(q)) return extractKeywords(context).join("、") || "暂无";
+    const sents = splitSentences(context);
+    const hits = sents.filter((s) => q.split(/\s+/).some((w) => w.length > 1 && s.includes(w)));
+    if (hits.length) return "相关片段：\n" + hits.slice(0, 5).map((s) => "• " + s).join("\n");
+    return (
+      "基于当前范围的快速回答：\n" +
+      tplSummary(context).split("\n").slice(0, 12).join("\n") +
+      "\n\n（配置 AI 端点或使用 TicNote Deep Research 可获得更深回答）"
+    );
+  }
+
+  async function ask() {
+    const q = els.askInput.value.trim();
+    if (!q) return;
+    const ctx = scopeText();
+    if (!ctx) return toast("没有可供提问的内容");
+    addBubble("user", q);
+    els.askInput.value = "";
+    if (state.settings.aiKey && state.settings.aiEndpoint) {
+      try {
+        const data = await api("/api/ai/chat", {
+          endpoint: state.settings.aiEndpoint,
+          apiKey: state.settings.aiKey,
+          model: state.settings.aiModel,
+          messages: [
+            {
+              role: "system",
+              content: "你是 TicNote Studio 助手。根据给定资料回答，不知道就说不知道。用简体中文。",
+            },
+            { role: "user", content: `资料：\n${ctx.slice(0, 14000)}\n\n问题：${q}` },
+          ],
+        });
+        addBubble("bot", data.content);
+        return;
+      } catch (e) {
+        addBubble("bot", "AI 调用失败，改用本地回答。\n" + localAnswer(q, ctx));
+        return;
+      }
+    }
+    addBubble("bot", localAnswer(q, ctx));
+  }
+
+  function renderAgents() {
+    els.agentList.innerHTML = AGENTS.map(
+      (a) => `<div class="agent-card" data-agent="${a.id}">
+        <h4>${a.name}</h4>
+        <p>${a.desc}</p>
+        <div class="row">
+          <button type="button" class="teal" data-run="${a.id}">用当前文稿运行</button>
+          ${a.ticnote ? `<button type="button" class="amber" data-deep="${a.id}">TicNote 深研</button>` : ""}
+        </div>
+      </div>`
+    ).join("");
+  }
+
+  async function runAgent(id) {
+    const agent = AGENTS.find((a) => a.id === id);
+    if (!agent) return;
+    state.tpl = agent.tpl;
+    [...els.tplBar.querySelectorAll(".tpl")].forEach((b) =>
+      b.classList.toggle("active", b.dataset.tpl === state.tpl)
+    );
+    switchView("capture");
+    if (state.settings.aiKey) await applyTemplateAI();
+    else applyTemplate();
+    toast(`智能体「${agent.name}」已生成`);
+  }
+
+  async function runDeepResearch() {
+    const n = state.kb.find((x) => x.id === state.activeId);
+    if (!state.session.token) return toast("请先连接 TicNote");
+    if (!n?.recordId && !n?.dprSessionId) return toast("请先打开一条 TicNote 同步条目");
+    const question =
+      prompt("输入深研问题", `分析「${n.title}」的核心观点与行动建议`) || "";
+    if (!question.trim()) return;
+    try {
+      toast("已提交 Deep Research…");
+      const data = await api(
+        "/api/ticnote/deep-research",
+        authBody({
+          recordId: n.recordId,
+          sessionId: n.dprSessionId,
+          question: question.trim(),
+        })
+      );
+      addBubble("bot", "Deep Research 已提交：\n" + JSON.stringify(data.data, null, 2));
+      switchView("ask");
+      toast("已提交到 TicNote");
+    } catch (e) {
+      toast("深研失败：" + e.message);
+    }
+  }
+
+  // ─── views ───
+  function switchView(name) {
+    state.view = name;
+    [...els.mainNav.querySelectorAll("button")].forEach((b) =>
+      b.classList.toggle("active", b.dataset.view === name)
+    );
+    ["capture", "knowledge", "agents", "ask"].forEach((v) => {
+      const el = document.getElementById("view-" + v);
+      if (!el) return;
+      el.classList.toggle("hidden", v !== name);
+    });
+    const titles = {
+      capture: "采集与转写",
+      knowledge: "知识库详情",
+      agents: "智能体",
+      ask: "提问与翻译",
+    };
+    els.mainTitle.textContent = titles[name] || "";
+  }
+
+  function loadSample() {
+    els.noteTitle.value = "注意力与时间管理工作坊";
+    els.transcript.value = [
+      "今天想聊聊时间管理与注意力。很多人以为时间管理就是把日程排满，其实核心是注意力管理。",
+      "如果你早上最清醒的两小时被会议占满，那么深度工作会被迫挤到晚上，效率会明显下降。",
+      "一个可行方法是：每天保护一段九十分钟的专注块，关闭通知，只做一件高价值的事。",
+      "会议方面，会前写清决策问题，会中只讨论阻塞点，会后立刻写下行动项和负责人。",
+      "最后，每周五做一次复盘：哪些事情真正推进了目标，哪些只是忙碌的幻觉。",
+    ].join("");
+    state.activeId = null;
+    applyTemplate();
+    saveCurrentNote();
+    toast("已载入示例");
+  }
+
+  // ─── events ───
+  function bind() {
+    els.mainNav.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-view]");
+      if (btn) switchView(btn.dataset.view);
+    });
+    els.tplBar.addEventListener("click", (e) => {
+      const btn = e.target.closest(".tpl");
+      if (!btn) return;
+      state.tpl = btn.dataset.tpl;
+      [...els.tplBar.querySelectorAll(".tpl")].forEach((b) =>
+        b.classList.toggle("active", b === btn)
+      );
+      if (state.settings.aiKey && (state.tpl === "translate" || state.tpl === "research")) {
+        applyTemplateAI();
+      } else applyTemplate();
+    });
+    els.transcript.addEventListener("input", () => applyTemplate());
+    els.translateLang.addEventListener("change", () => applyTemplate());
+    els.kbFilter.addEventListener("input", renderTimeline);
+    els.timeline.addEventListener("click", (e) => {
+      const item = e.target.closest(".kb-item[data-id]");
+      if (item) {
+        openNote(item.dataset.id);
+        if (state.view === "capture") applyTemplate();
+        else switchView("knowledge");
+      }
+    });
+    els.btnMic.addEventListener("click", toggleMic);
+    els.btnAudio2Text.addEventListener("click", audioToText);
+    els.btnExportAll.addEventListener("click", exportAll);
+    els.btnSaveNote.addEventListener("click", saveCurrentNote);
+    els.btnLoadSample.addEventListener("click", loadSample);
+    els.btnRefreshKb.addEventListener("click", renderTimeline);
+    els.btnConnect.addEventListener("click", connectTicnote);
+    els.btnDisconnect.addEventListener("click", disconnectTicnote);
+    els.btnSyncTicnote.addEventListener("click", () => {
+      if (!state.session.token) {
+        $("settingsModal");
+        toast("请先在右侧填写 AppKey 并连接");
+        return;
+      }
+      syncProject();
+    });
+    els.btnSyncProject.addEventListener("click", syncProject);
+    els.projectSelect.addEventListener("change", () => {
+      els.projectIdInput.value = els.projectSelect.value;
+    });
+    els.btnFetchWeb.addEventListener("click", fetchWeb);
+    els.btnAsk.addEventListener("click", ask);
+    els.askInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") ask();
+    });
+    els.btnQuickTranslate.addEventListener("click", () => {
+      state.tpl = "translate";
+      [...els.tplBar.querySelectorAll(".tpl")].forEach((b) =>
+        b.classList.toggle("active", b.dataset.tpl === "translate")
+      );
+      switchView("capture");
+      applyTemplate();
+      addBubble("bot", els.output.textContent);
+      switchView("ask");
+    });
+    els.audioFile.addEventListener("change", () => {
+      const f = els.audioFile.files?.[0];
+      if (!f) return;
+      state.audioBlob = f;
+      state.audioName = f.name;
+      els.audioPlayer.src = URL.createObjectURL(f);
+      els.audioMeta.classList.remove("hidden");
+      els.audioMeta.textContent = `已选：${f.name}（${Math.round(f.size / 1024)} KB）→ 点「音频转文字」`;
+      els.btnAudio2Text.classList.remove("hidden");
+      if (!els.noteTitle.value) els.noteTitle.value = f.name.replace(/\.[^.]+$/, "");
+      toast("音频已就绪");
+    });
+    $("btnCopyOut").addEventListener("click", async () => {
+      await navigator.clipboard.writeText(els.output.textContent);
+      toast("已复制");
+    });
+    $("btnExportMd").addEventListener("click", () => {
+      const title = els.noteTitle.value.trim() || "note";
+      download(`${title}.md`, els.output.textContent, "text/markdown;charset=utf-8");
+    });
+    $("btnExportSvg").addEventListener("click", () => {
+      if (!state.lastSvg) applyTemplate();
+      if (!state.lastSvg) return toast("请先生成思维导图");
+      download("mindmap.svg", state.lastSvg, "image/svg+xml;charset=utf-8");
+    });
+    $("btnOpenInCapture").addEventListener("click", () => switchView("capture"));
+    $("btnDeleteNote").addEventListener("click", () => {
+      if (!state.activeId) return;
+      state.kb = state.kb.filter((n) => n.id !== state.activeId);
+      state.activeId = null;
+      persistKb();
+      renderTimeline();
+      els.kbDetail.textContent = "已删除。";
+      toast("已删除");
+    });
+    $("btnPullTranscribe").addEventListener("click", pullTranscribeActive);
+    els.agentList.addEventListener("click", (e) => {
+      const run = e.target.closest("[data-run]");
+      const deep = e.target.closest("[data-deep]");
+      if (run) runAgent(run.dataset.run);
+      if (deep) runDeepResearch();
+    });
+    $("btnSettings").addEventListener("click", () => els.settingsModal.classList.add("show"));
+    $("btnCloseSettings").addEventListener("click", () => els.settingsModal.classList.remove("show"));
+    $("btnSaveSettings").addEventListener("click", () => {
+      state.settings = {
+        aiEndpoint: els.aiEndpoint.value.trim(),
+        aiKey: els.aiKey.value.trim(),
+        aiModel: els.aiModel.value.trim() || "gpt-4o-mini",
+      };
+      saveJSON(STORAGE.settings, state.settings);
+      els.settingsModal.classList.remove("show");
+      toast("设置已保存");
+    });
+    els.projectFiles.addEventListener("click", (e) => {
+      const item = e.target.closest(".kb-item[data-record]");
+      if (!item) return;
+      const id = "tn_" + item.dataset.record;
+      if (state.kb.some((n) => n.id === id)) openNote(id);
+      else toast("请先点「同步并自动转写」入库");
+    });
+  }
+
+  function init() {
+    state.kb = loadJSON(STORAGE.kb, []);
+    state.settings = { ...state.settings, ...loadJSON(STORAGE.settings, {}) };
+    els.aiEndpoint.value = state.settings.aiEndpoint || "";
+    els.aiKey.value = state.settings.aiKey || "";
+    els.aiModel.value = state.settings.aiModel || "gpt-4o-mini";
+    const sess = loadJSON(STORAGE.session, null);
+    if (sess?.token && sess?.appkey) {
+      state.session = { ...state.session, ...sess, projects: [] };
+      els.appkey.value = sess.appkey;
+      setConnected(true);
+      loadProjects().catch(() => setConnected(false));
+    }
+    // 预填用户链接中的 chatId
+    els.projectIdInput.value = els.projectIdInput.value || "";
+    els.projectIdInput.placeholder = "2078873748446011394";
+    renderAgents();
+    renderTimeline();
+    bind();
+    setupBookmarklet();
+    switchView("capture");
+    importClipFromLocation();
+    // 探测本地代理
+    fetch(proxy() + "/api/health")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d?.ok) toast("本地服务已就绪");
+      })
+      .catch(() => {
+        /* 允许纯本地离线使用 */
+      });
+  }
+
+  init();
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TicNote Studio · 录音转写与知识库</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #14201f;
+      --muted: #5a6b69;
+      --paper: #f3f6f4;
+      --panel: rgba(255, 255, 255, 0.78);
+      --line: rgba(20, 32, 31, 0.1);
+      --teal: #0f766e;
+      --teal-deep: #0b4f4a;
+      --amber: #c9842f;
+      --rose: #b54a4a;
+      --sky: #2f6f9f;
+      --shadow: 0 18px 50px rgba(15, 40, 36, 0.12);
+      --radius: 18px;
+      --font: "Sora", "PingFang SC", "Noto Sans SC", sans-serif;
+      --display: "Fraunces", "Songti SC", serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: var(--font);
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(15, 118, 110, 0.18), transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, rgba(201, 132, 47, 0.14), transparent 50%),
+        linear-gradient(180deg, #e8efec 0%, var(--paper) 42%, #eef3f1 100%);
+      background-attachment: fixed;
+    }
+    button, input, select, textarea { font: inherit; }
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 0.65rem 1rem;
+      cursor: pointer;
+      background: var(--ink);
+      color: #fff;
+      transition: transform .15s ease, opacity .15s ease, background .15s ease;
+    }
+    button:hover { transform: translateY(-1px); }
+    button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+    button.ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+    button.teal { background: linear-gradient(135deg, var(--teal), var(--teal-deep)); }
+    button.amber { background: linear-gradient(135deg, #d4923a, #a66a1d); }
+    button.sky { background: linear-gradient(135deg, #3a84b8, var(--sky)); }
+    .app {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 1.25rem;
+      display: grid;
+      gap: 1rem;
+    }
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 4px);
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      animation: rise .55s ease both;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+    }
+    .logo {
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      display: grid; place-items: center;
+      color: #fff;
+      font-family: var(--display);
+      font-weight: 700;
+      background: linear-gradient(145deg, var(--teal), #163a38);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.15);
+    }
+    .brand h1 {
+      margin: 0;
+      font-family: var(--display);
+      font-size: 1.45rem;
+      letter-spacing: -.02em;
+      line-height: 1.1;
+    }
+    .brand p { margin: .15rem 0 0; color: var(--muted); font-size: .86rem; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: .55rem; align-items: center; }
+    .status-pill {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .35rem .7rem;
+      border-radius: 999px;
+      background: rgba(15,118,110,.1);
+      color: var(--teal-deep);
+      font-size: .8rem;
+      font-weight: 600;
+    }
+    .status-pill.offline { background: rgba(181,74,74,.1); color: var(--rose); }
+    .status-pill.ok { background: rgba(15,118,110,.14); }
+    .nav {
+      display: flex; flex-wrap: wrap; gap: .45rem;
+      padding: .35rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,.55);
+      border: 1px solid var(--line);
+    }
+    .nav button {
+      background: transparent;
+      color: var(--muted);
+      padding: .55rem 1rem;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .nav button.active {
+      background: var(--ink);
+      color: #fff;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 300px 1fr 340px;
+      gap: 1rem;
+      min-height: calc(100vh - 140px);
+    }
+    @media (max-width: 1180px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      animation: rise .65s ease both;
+    }
+    .panel:nth-child(2) { animation-delay: .05s; }
+    .panel:nth-child(3) { animation-delay: .1s; }
+    .panel-hd {
+      padding: 1rem 1.1rem .7rem;
+      border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between; gap: .5rem;
+    }
+    .panel-hd h2 {
+      margin: 0;
+      font-size: .95rem;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .panel-bd { padding: 1rem 1.1rem 1.2rem; overflow: auto; flex: 1; }
+    .stack { display: grid; gap: .75rem; }
+    .field label {
+      display: block;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: .35rem;
+    }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.85);
+      border-radius: 12px;
+      padding: .7rem .85rem;
+      color: var(--ink);
+      outline: none;
+    }
+    .field textarea { min-height: 120px; resize: vertical; line-height: 1.55; }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: rgba(15,118,110,.45);
+      box-shadow: 0 0 0 3px rgba(15,118,110,.12);
+    }
+    .row { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .timeline { display: grid; gap: .65rem; }
+    .day-group h3 {
+      margin: .4rem 0 .35rem;
+      font-size: .78rem;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .kb-item {
+      width: 100%;
+      text-align: left;
+      background: rgba(255,255,255,.72);
+      color: var(--ink);
+      border: 1px solid transparent;
+      padding: .75rem .85rem;
+      border-radius: 14px;
+      box-shadow: none;
+    }
+    .kb-item:hover, .kb-item.active {
+      border-color: rgba(15,118,110,.35);
+      background: #fff;
+    }
+    .kb-item .t { font-weight: 600; font-size: .92rem; margin-bottom: .2rem; }
+    .kb-item .m { color: var(--muted); font-size: .78rem; display: flex; gap: .45rem; flex-wrap: wrap; }
+    .tag {
+      display: inline-flex;
+      padding: .12rem .45rem;
+      border-radius: 999px;
+      background: rgba(15,118,110,.1);
+      color: var(--teal-deep);
+      font-size: .72rem;
+      font-weight: 600;
+    }
+    .tag.voice { background: rgba(47,111,159,.12); color: var(--sky); }
+    .tag.web { background: rgba(201,132,47,.14); color: #8a5a16; }
+    .hero-capture {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      padding: 1.15rem 1.2rem;
+      color: #eef7f5;
+      background:
+        linear-gradient(135deg, rgba(11,79,74,.92), rgba(20,55,70,.88)),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-capture::after {
+      content: "";
+      position: absolute;
+      right: -30px; top: -40px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,132,47,.35), transparent 70%);
+      animation: pulse 4.5s ease-in-out infinite;
+    }
+    .hero-capture h3 {
+      position: relative;
+      margin: 0 0 .35rem;
+      font-family: var(--display);
+      font-size: 1.45rem;
+      font-weight: 700;
+    }
+    .hero-capture p { position: relative; margin: 0 0 .9rem; opacity: .85; font-size: .9rem; max-width: 42ch; }
+    .mic-btn {
+      position: relative;
+      min-width: 148px;
+      background: #fff;
+      color: var(--teal-deep);
+      font-weight: 700;
+    }
+    .mic-btn.recording {
+      background: var(--rose);
+      color: #fff;
+      animation: pulse .9s ease-in-out infinite;
+    }
+    .templates {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .45rem;
+    }
+    @media (max-width: 720px) { .templates { grid-template-columns: repeat(2, 1fr); } }
+    .tpl {
+      background: rgba(255,255,255,.8);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      font-size: .82rem;
+      font-weight: 600;
+      padding: .65rem .4rem;
+    }
+    .tpl.active {
+      background: var(--teal);
+      color: #fff;
+      border-color: transparent;
+    }
+    .output {
+      white-space: pre-wrap;
+      line-height: 1.65;
+      min-height: 220px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1rem;
+      font-size: .92rem;
+    }
+    .chat {
+      display: flex;
+      flex-direction: column;
+      gap: .65rem;
+      min-height: 260px;
+      max-height: 420px;
+      overflow: auto;
+      padding: .2rem;
+    }
+    .bubble {
+      max-width: 95%;
+      padding: .7rem .85rem;
+      border-radius: 14px;
+      font-size: .88rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+    .bubble.user {
+      align-self: flex-end;
+      background: var(--ink);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+    .bubble.bot {
+      align-self: flex-start;
+      background: rgba(255,255,255,.9);
+      border: 1px solid var(--line);
+      border-bottom-left-radius: 4px;
+    }
+    .agent-card {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.8);
+      border-radius: 14px;
+      padding: .85rem;
+      display: grid;
+      gap: .45rem;
+    }
+    .agent-card h4 { margin: 0; font-size: .95rem; }
+    .agent-card p { margin: 0; color: var(--muted); font-size: .8rem; line-height: 1.45; }
+    .toast {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 50;
+      background: var(--ink);
+      color: #fff;
+      padding: .75rem 1rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: .25s ease;
+      max-width: min(360px, calc(100vw - 2rem));
+      font-size: .88rem;
+    }
+    .toast.show { opacity: 1; transform: none; }
+    .modal-mask {
+      position: fixed; inset: 0; z-index: 40;
+      background: rgba(10, 20, 18, .45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-mask.show { display: flex; }
+    .modal {
+      width: min(560px, 100%);
+      background: #f7faf8;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 1.2rem;
+      animation: rise .35s ease;
+    }
+    .modal h3 {
+      margin: 0 0 .35rem;
+      font-family: var(--display);
+      font-size: 1.35rem;
+    }
+    .modal .hint { color: var(--muted); font-size: .86rem; margin: 0 0 1rem; line-height: 1.5; }
+    .hidden { display: none !important; }
+    .view { display: none; }
+    .view.active { display: contents; }
+    #mindmapSvgWrap {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: .5rem;
+      overflow: auto;
+      max-height: 280px;
+    }
+    #mindmapSvgWrap svg { width: 100%; height: auto; display: block; }
+    .empty {
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.5;
+      padding: .5rem 0;
+    }
+    .countdown {
+      position: sticky;
+      top: .5rem;
+      z-index: 20;
+      margin-bottom: .75rem;
+      padding: .85rem 1rem;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(11,79,74,.95), rgba(20,55,70,.92));
+      color: #eef7f5;
+      box-shadow: var(--shadow);
+      animation: rise .3s ease;
+    }
+    .countdown-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: .75rem;
+      margin-bottom: .55rem;
+      font-size: .9rem;
+    }
+    .countdown-top strong {
+      font-family: var(--display);
+      font-size: 1.35rem;
+      letter-spacing: .02em;
+      font-variant-numeric: tabular-nums;
+    }
+    .countdown-track {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      overflow: hidden;
+    }
+    .countdown-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #d4a24a, #f0e2c0);
+      transition: width .35s linear;
+    }
+    .bookmarklet-box {
+      border: 1px dashed rgba(15,118,110,.35);
+      background: rgba(15,118,110,.06);
+      border-radius: 14px;
+      padding: .85rem;
+      display: grid;
+      gap: .55rem;
+    }
+    .bookmarklet-box a.bm {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: .65rem 1rem;
+      border-radius: 999px;
+      background: var(--teal);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: .9rem;
+      cursor: grab;
+    }
+    .bookmarklet-box code {
+      font-size: .75rem;
+      word-break: break-all;
+      color: var(--muted);
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.03); opacity: .92; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">TN</div>
+        <div>
+          <h1>TicNote Studio</h1>
+          <p>语音转写 · 知识库时间线 · 智能体问答</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <span id="connStatus" class="status-pill offline">未连接 TicNote</span>
+        <nav class="nav" id="mainNav">
+          <button type="button" data-view="capture" class="active">采集</button>
+          <button type="button" data-view="knowledge">知识库</button>
+          <button type="button" data-view="agents">智能体</button>
+          <button type="button" data-view="ask">提问/翻译</button>
+        </nav>
+        <button type="button" class="ghost" id="btnSettings">⚙︎ 设置</button>
+        <button type="button" class="sky" id="btnExportAll">📦 导出全部</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- 左：时间线 -->
+      <aside class="panel">
+        <div class="panel-hd">
+          <h2>知识库时间线</h2>
+          <button type="button" class="ghost" id="btnRefreshKb" title="刷新">↻</button>
+        </div>
+        <div class="panel-bd stack">
+          <div class="row">
+            <button type="button" class="teal" id="btnSyncTicnote" style="flex:1">同步 TicNote</button>
+            <button type="button" class="ghost" id="btnLoadSample">示例</button>
+          </div>
+          <div class="field">
+            <label>按项目 / 关键词筛选</label>
+            <input id="kbFilter" placeholder="搜索标题或正文…" />
+          </div>
+          <div id="timeline" class="timeline">
+            <div class="empty">还没有条目。录音、导入网页，或同步 TicNote 项目后会出现在这里。</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 中：主工作区 -->
+      <main class="panel">
+        <div class="panel-hd">
+          <h2 id="mainTitle">采集与转写</h2>
+            <div class="row">
+              <button type="button" class="ghost" id="btnSaveNote">保存到知识库</button>
+              <button type="button" class="amber" id="btnAudio2Text">🎧 音频转文字</button>
+            </div>
+          </div>
+          <div class="panel-bd">
+          <div id="countdownBar" class="countdown hidden" aria-live="polite">
+            <div class="countdown-top">
+              <span id="countdownLabel">转录进行中</span>
+              <strong id="countdownTime">--:--</strong>
+            </div>
+            <div class="countdown-track"><div class="countdown-fill" id="countdownFill"></div></div>
+            <div id="countdownHint" style="margin-top:.45rem;font-size:.78rem;opacity:.85;">预计剩余时间会随进度更新</div>
+          </div>
+          <!-- 采集视图 -->
+          <section id="view-capture" class="stack">
+            <div class="hero-capture">
+              <h3>TicNote Studio</h3>
+              <p>实时听写、上传音频、导入网页或同步 TicNote 云端文件，一键整理成总结、思维导图、顿悟与播客稿。</p>
+              <div class="row">
+                <button type="button" class="mic-btn" id="btnMic">🎙 开始录音转写</button>
+                <label class="ghost" style="display:inline-flex;align-items:center;gap:.4rem;padding:.65rem 1rem;border-radius:12px;border:1px solid rgba(255,255,255,.25);cursor:pointer;color:#fff;">
+                  上传音频
+                  <input type="file" id="audioFile" accept="audio/*,video/*" hidden />
+                </label>
+                <select id="langSelect" style="border:0;border-radius:12px;padding:.65rem .8rem;">
+                  <option value="zh-CN">中文</option>
+                  <option value="en-US">English</option>
+                  <option value="ja-JP">日本語</option>
+                  <option value="ko-KR">한국어</option>
+                  <option value="fr-FR">Français</option>
+                  <option value="de-DE">Deutsch</option>
+                  <option value="es-ES">Español</option>
+                  <option value="ru-RU">Русский</option>
+                </select>
+              </div>
+              <div id="audioMeta" class="hidden" style="margin-top:.8rem;position:relative;font-size:.85rem;opacity:.9;"></div>
+            </div>
+
+            <div class="field">
+              <label>网页内容转化（粘贴 URL 或正文）</label>
+              <div class="row">
+                <input id="webUrl" placeholder="https://…" style="flex:1" />
+                <button type="button" class="teal" id="btnFetchWeb">抓取网页</button>
+              </div>
+            </div>
+            <div class="bookmarklet-box">
+              <strong style="font-size:.9rem;">书签小工具 · 任意网页一键剪藏</strong>
+              <p class="empty" style="margin:0;">把下面按钮拖到浏览器书签栏；之后在任意文章页点一下，正文会送进本知识库。</p>
+              <a class="bm" id="bookmarkletLink" href="#">✂ 剪进 TicNote Studio</a>
+              <div class="row">
+                <button type="button" class="ghost" id="btnCopyBookmarklet">复制书签代码</button>
+                <button type="button" class="ghost" id="btnShowBookmarkHelp">用法</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>标题</label>
+              <input id="noteTitle" placeholder="例如：周一产品评审会" />
+            </div>
+            <div class="field">
+              <label>转录 / 原文（可编辑）</label>
+              <textarea id="transcript" placeholder="点击麦克风开始实时转写，或粘贴文本、导入网页…"></textarea>
+            </div>
+
+            <div>
+              <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:.55rem;">
+                <strong style="font-size:.9rem;">整理模板</strong>
+                <div class="row">
+                  <button type="button" class="ghost" id="btnCopyOut">复制</button>
+                  <button type="button" class="ghost" id="btnExportMd">导出 Markdown</button>
+                  <button type="button" class="ghost" id="btnExportSvg">导出 SVG</button>
+                </div>
+              </div>
+              <div class="templates" id="tplBar">
+                <button type="button" class="tpl active" data-tpl="summary">总结</button>
+                <button type="button" class="tpl" data-tpl="mindmap">思维导图</button>
+                <button type="button" class="tpl" data-tpl="aha">顿悟摘录</button>
+                <button type="button" class="tpl" data-tpl="research">深度研究</button>
+                <button type="button" class="tpl" data-tpl="podcast">播客节目稿</button>
+                <button type="button" class="tpl" data-tpl="translate">翻译</button>
+              </div>
+            </div>
+            <div id="mindmapSvgWrap" class="hidden"></div>
+            <div id="output" class="output">选择模板后，这里会显示整理结果。</div>
+            <div class="field hidden" id="translateOpts">
+              <label>翻译目标语言</label>
+              <select id="translateLang">
+                <option value="en">English</option>
+                <option value="zh">中文</option>
+                <option value="ja">日本語</option>
+                <option value="ko">한국어</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+              </select>
+            </div>
+          </section>
+
+          <!-- 知识库视图 -->
+          <section id="view-knowledge" class="stack hidden">
+            <div class="hero-capture">
+              <h3>每日沉淀</h3>
+              <p>把录音笔、网页剪藏与 TicNote 云端文件汇成一条时间线，随时回看、再整理、再提问。</p>
+            </div>
+            <div class="field">
+              <label>当前条目详情</label>
+              <div id="kbDetail" class="output">从左侧时间线选择一条记录。</div>
+            </div>
+            <div class="row">
+              <button type="button" class="teal" id="btnOpenInCapture">在采集区打开</button>
+              <button type="button" class="ghost" id="btnDeleteNote">删除条目</button>
+              <button type="button" class="amber" id="btnPullTranscribe">拉取/触发转写</button>
+            </div>
+          </section>
+
+          <!-- 智能体视图 -->
+          <section id="view-agents" class="stack hidden">
+            <div class="hero-capture">
+              <h3>连接智能体</h3>
+              <p>用本地整理智能体处理知识库，或把条目送回 TicNote Deep Research / Shadow 能力。</p>
+            </div>
+            <div class="stack" id="agentList"></div>
+          </section>
+
+          <!-- 提问视图 -->
+          <section id="view-ask" class="stack hidden">
+            <div class="hero-capture">
+              <h3>实时提问与翻译</h3>
+              <p>针对当前文稿或整库内容追问要点；也可一键翻译段落。接上 AI 端点或 TicNote 后效果更好。</p>
+            </div>
+            <div class="row">
+              <label style="display:flex;align-items:center;gap:.4rem;font-size:.86rem;">
+                <input type="radio" name="askScope" value="current" checked /> 当前文稿
+              </label>
+              <label style="display:flex;align-items:center;gap:.4rem;font-size:.86rem;">
+                <input type="radio" name="askScope" value="kb" /> 整个知识库
+              </label>
+            </div>
+            <div id="chatBox" class="chat">
+              <div class="bubble bot">你好。问我「今天有哪些待办？」「把第二段译成英文」之类即可。</div>
+            </div>
+            <div class="row">
+              <input id="askInput" placeholder="输入问题或「翻译成英文：…」" style="flex:1;border:1px solid var(--line);border-radius:12px;padding:.7rem .85rem;" />
+              <button type="button" class="teal" id="btnAsk">发送</button>
+              <button type="button" class="ghost" id="btnQuickTranslate">翻译当前文稿</button>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <!-- 右：TicNote 连接 -->
+      <aside class="panel">
+        <div class="panel-hd">
+          <h2>TicNote 连接</h2>
+        </div>
+        <div class="panel-bd stack">
+          <div class="field">
+            <label>AppKey（仅存本机）</label>
+            <input id="appkey" type="password" placeholder="tncn_sk_… 或 tnovs_sk_…" autocomplete="off" />
+          </div>
+          <div class="row">
+            <button type="button" class="teal" id="btnConnect" style="flex:1">连接</button>
+            <button type="button" class="ghost" id="btnDisconnect">断开</button>
+          </div>
+          <p class="empty" style="margin:0;">
+            AppKey 需在
+            <a href="https://www.ticnote.cn" target="_blank" rel="noopener">ticnote.cn</a>
+            个人中心「TicNote Key」自行创建。本工具无法代你生成官方密钥。
+          </p>
+          <div class="field">
+            <label>项目（chatId / projectId）</label>
+            <select id="projectSelect">
+              <option value="">先连接以加载项目列表</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>或直接粘贴 chatId / projectId</label>
+            <input id="projectIdInput" placeholder="如 2078873748446011394" />
+          </div>
+          <div class="row">
+            <button type="button" class="amber" id="btnSyncProject" style="flex:1">同步并自动转写</button>
+          </div>
+          <div id="projectFiles" class="timeline"></div>
+          <div class="field">
+            <label>服务地址（本地代理）</label>
+            <input id="proxyBase" value="" placeholder="默认当前站点" />
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="modal-mask" id="settingsModal">
+    <div class="modal">
+      <h3>设置</h3>
+      <p class="hint">可选接入 OpenAI 兼容接口，用于高质量模板重写、音频文件转录与知识库问答。密钥只保存在浏览器本地。</p>
+      <div class="stack">
+        <div class="field">
+          <label>AI Base URL</label>
+          <input id="aiEndpoint" placeholder="https://api.openai.com/v1" />
+        </div>
+        <div class="field">
+          <label>API Key</label>
+          <input id="aiKey" type="password" placeholder="sk-…" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label>模型</label>
+          <input id="aiModel" placeholder="gpt-4o-mini" />
+        </div>
+        <div class="row">
+          <button type="button" class="teal" id="btnSaveSettings">保存</button>
+          <button type="button" class="ghost" id="btnCloseSettings">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <audio id="audioPlayer" class="hidden"></audio>
+  <script src="./app.js"></script>
+</body>
+</html>

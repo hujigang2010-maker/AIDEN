@@ -1,0 +1,8 @@
+
+# TicNote 本地凭证（勿提交）
+.ticnote/
+*.appkey
+.env.ticnote
+
+__pycache__/
+*.pyc
