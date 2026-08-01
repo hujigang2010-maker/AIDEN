@@ -3,3 +3,6 @@
 .ticnote/
 *.appkey
 .env.ticnote
+
+__pycache__/
+*.pyc
