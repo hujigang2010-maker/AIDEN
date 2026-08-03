@@ -1,0 +1,99 @@
+{
+  "code": 1,
+  "data": {
+    "E": [
+      {
+        "name": "E",
+        "name_zh": "E 区",
+        "name_en": "E All"
+      },
+      {
+        "name": "E3",
+        "name_zh": "E3",
+        "name_en": "E3"
+      },
+      {
+        "name": "E4",
+        "name_zh": "E4",
+        "name_en": "E4"
+      },
+      {
+        "name": "E5",
+        "name_zh": "E5",
+        "name_en": "E5"
+      },
+      {
+        "name": "E6",
+        "name_zh": "E6",
+        "name_en": "E6"
+      },
+      {
+        "name": "E7",
+        "name_zh": "E7",
+        "name_en": "E7"
+      }
+    ],
+    "N": [
+      {
+        "name": "N",
+        "name_zh": "N 区",
+        "name_en": "N All"
+      },
+      {
+        "name": "N1",
+        "name_zh": "N1",
+        "name_en": "N1"
+      },
+      {
+        "name": "N2",
+        "name_zh": "N2",
+        "name_en": "N2"
+      },
+      {
+        "name": "N3",
+        "name_zh": "N3",
+        "name_en": "N3"
+      },
+      {
+        "name": "N4",
+        "name_zh": "N4",
+        "name_en": "N4"
+      },
+      {
+        "name": "N5",
+        "name_zh": "N5",
+        "name_en": "N5"
+      }
+    ],
+    "W": [
+      {
+        "name": "W",
+        "name_zh": "W 区",
+        "name_en": "W All"
+      },
+      {
+        "name": "W3",
+        "name_zh": "W3",
+        "name_en": "W3"
+      },
+      {
+        "name": "W4",
+        "name_zh": "W4",
+        "name_en": "W4"
+      },
+      {
+        "name": "W5",
+        "name_zh": "W5",
+        "name_en": "W5"
+      }
+    ],
+    "赞助商": [
+      {
+        "name": "赞助商",
+        "name_zh": "赞助商",
+        "name_en": "Sponsor"
+      }
+    ]
+  },
+  "message": ""
+}
