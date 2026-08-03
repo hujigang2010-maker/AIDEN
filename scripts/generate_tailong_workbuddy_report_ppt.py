@@ -156,10 +156,10 @@ def build_ppt(output_path: Path) -> None:
         Inches(0.8),
         Inches(3.75),
         Inches(11.5),
-        Inches(1.1),
-        "两轮洽谈后，双方已明确以「积分商城兑换 + 开户赠送AI权益」为主要合作方向；\n"
-        "建议原则同意推进，1,500万元仅为方案框架，先合规审查与小范围试点，再分阶段采购。",
-        size=16,
+        Inches(1.3),
+        "主方向：积分商城兑换 + 开户赠送AI权益；同步补充「行员采购 + 行外采购」双轨份额，\n"
+        "并研究联名信用卡。建议原则同意推进，1,500万元仅为方案框架，先合规审查与小范围试点。",
+        size=15,
         color=LIGHT,
     )
     add_text(
@@ -178,7 +178,7 @@ def build_ppt(output_path: Path) -> None:
         Inches(6.2),
         Inches(11.5),
         Inches(0.35),
-        "状态分层：已达成共识｜初步方案｜尚待确认",
+        "三条主线：行外客户｜行内员工｜联名信用卡　　状态：已达成共识｜初步方案｜尚待确认",
         size=13,
         color=GRAY,
     )
@@ -186,67 +186,101 @@ def build_ppt(output_path: Path) -> None:
     # ========== 第2页：合作方向与模式 ==========
     s = prs.slides.add_slide(blank)
     add_rect(s, 0, 0, SW, SH, WHITE)
-    header(s, "一、合作方向与拟议模式", "服务中小微企业 · 纳入客户权益体系 · 助力新增对公客户")
+    header(s, "一、合作方向与拟议模式", "行外客户权益 + 行内员工份额 + 联名信用卡")
 
-    # 背景要点条
-    add_round(s, Inches(0.45), Inches(1.2), Inches(12.4), Inches(0.85), SOFT)
-    add_text(
-        s,
-        Inches(0.7),
-        Inches(1.35),
-        Inches(12.0),
-        Inches(0.55),
-        "背景：上海经营约16年、近100万客户，传统产品同质化明显；需引入贴近企业经营的非金融增值服务，提高开户吸引力与存量黏性。\n"
-        "对方：WorkBuddy 为企业级AI应用及技能平台（约2.8万家企业客户，企业版日活超10万），适合中小微低成本体验入口。",
-        size=12,
-        color=DARK,
-    )
+    # 三条主线标题行
+    tracks = [
+        (NAVY, GOLD, "行外客户（已达成共识）", "积分商城兑换 · 开户/拜访赠礼 · 联合推广"),
+        (SOFT, NAVY, "行内员工（初步方案）", "办公提效系统/小程序 · 员工AI福利发放"),
+        (SOFT, NAVY, "联名信用卡（尚待确认）", "泰隆银行 × WorkBuddy 联名卡获客"),
+    ]
+    for i, (bg, title_c, title, sub) in enumerate(tracks):
+        x = Inches(0.4 + i * 4.25)
+        add_round(s, x, Inches(1.2), Inches(4.05), Inches(1.15), bg)
+        add_text(s, x + Inches(0.2), Inches(1.35), Inches(3.65), Inches(0.4), title, size=14, bold=True, color=title_c if bg != NAVY else GOLD)
+        add_text(
+            s,
+            x + Inches(0.2),
+            Inches(1.8),
+            Inches(3.65),
+            Inches(0.4),
+            sub,
+            size=11,
+            color=WHITE if bg == NAVY else DARK,
+        )
 
     cards = [
-        ("已达成共识", "积分商城兑换", "集中采购账号/额度/权益\n上架积分商城兑换或购买\n丰富积分消耗场景"),
-        ("已达成共识", "开户/拜访赠礼", "以AI账号或额度替代部分\n实物礼品；兑换码自助激活\n提升拜访体验与开户转化"),
-        ("初步方案", "联合推广", "依托130余网点与客户经理\n面向制造业、商贸等客群试点\n腾讯负责产品与技术支持"),
-        ("后续延伸", "平台专区等", "开设泰隆银行专区\n联合开发行业AI技能\n与开户/结算/代发结合"),
+        ("行外", "积分商城 / 开户赠礼", "集中采购上架兑换；开户拜访以AI权益替代部分实物礼品；兑换码自助激活"),
+        ("行内①", "办公提效系统/小程序", "与WorkBuddy联手打造内部办公提效工具，覆盖起草、纪要、知识检索等场景"),
+        ("行内②", "员工AI福利发放", "以福利形式向行员发放账号/额度，提升个人AI使用能力；单独预留员工份额"),
+        ("对外", "联名信用卡", "原则同意研究联名卡方案，AI权益绑定办卡激活与消费，扩大零售获客"),
     ]
     for i, (tag, title, body) in enumerate(cards):
-        x = Inches(0.45 + i * 3.2)
-        y = Inches(2.3)
-        add_round(s, x, y, Inches(3.0), Inches(4.2), NAVY if i < 2 else SOFT)
-        tag_color = GOLD if i < 2 else (NAVY if i == 2 else GRAY)
-        title_color = WHITE if i < 2 else NAVY
-        body_color = LIGHT if i < 2 else DARK
-        add_text(s, x + Inches(0.2), y + Inches(0.25), Inches(2.6), Inches(0.35), tag, size=12, bold=True, color=tag_color)
-        add_text(s, x + Inches(0.2), y + Inches(0.7), Inches(2.6), Inches(0.7), title, size=20, bold=True, color=title_color)
-        add_text(s, x + Inches(0.2), y + Inches(1.6), Inches(2.6), Inches(2.2), body, size=13, color=body_color)
+        x = Inches(0.4 + (i % 4) * 3.2)
+        y = Inches(2.6)
+        dark = i == 0
+        add_round(s, x, y, Inches(3.05), Inches(4.0), NAVY if dark else SOFT)
+        add_text(
+            s,
+            x + Inches(0.18),
+            y + Inches(0.25),
+            Inches(2.7),
+            Inches(0.35),
+            tag,
+            size=12,
+            bold=True,
+            color=GOLD if dark else NAVY,
+        )
+        add_text(
+            s,
+            x + Inches(0.18),
+            y + Inches(0.7),
+            Inches(2.7),
+            Inches(0.9),
+            title,
+            size=18,
+            bold=True,
+            color=WHITE if dark else NAVY,
+        )
+        add_text(
+            s,
+            x + Inches(0.18),
+            y + Inches(1.8),
+            Inches(2.7),
+            Inches(1.9),
+            body,
+            size=13,
+            color=LIGHT if dark else DARK,
+        )
     footer(s, 2)
 
     # ========== 第3页：采购框架与预期价值 ==========
     s = prs.slides.add_slide(blank)
     add_rect(s, 0, 0, SW, SH, WHITE)
-    header(s, "二、采购方案设想与预期价值", "1,500万元为测算框架，非采购承诺；首期建议300万/500万两档论证")
+    header(s, "二、采购方案设想与预期价值", "行员采购 + 行外采购双轨；1,500万为测算框架，非采购承诺")
 
     # 左：采购框架
     add_round(s, Inches(0.45), Inches(1.25), Inches(6.3), Inches(5.5), SOFT)
     add_text(s, Inches(0.7), Inches(1.45), Inches(5.8), Inches(0.4), "采购框架（初步方案）", size=18, bold=True, color=NAVY)
     metrics = [
-        ("最高约1,500万", "总体方案设计上限"),
-        ("三阶段 × 约500万", "按阶段推进与验收"),
-        ("首期300–500万", "待报价与试点测算"),
+        ("最高约1,500万", "总体方案设计上限；三阶段×约500万"),
+        ("首期300–500万", "明确行外/行员份额比例后再审批"),
+        ("双轨拆分核算", "行外：客户权益；行员：提效+福利"),
     ]
     for i, (big, small) in enumerate(metrics):
-        y = Inches(2.05 + i * 1.05)
-        add_round(s, Inches(0.75), y, Inches(5.7), Inches(0.9), WHITE)
-        add_rect(s, Inches(0.75), y, Inches(0.12), Inches(0.9), GOLD)
-        add_text(s, Inches(1.1), y + Inches(0.12), Inches(5.1), Inches(0.4), big, size=18, bold=True, color=NAVY)
-        add_text(s, Inches(1.1), y + Inches(0.5), Inches(5.1), Inches(0.3), small, size=12, color=GRAY)
+        y = Inches(2.0 + i * 1.0)
+        add_round(s, Inches(0.75), y, Inches(5.7), Inches(0.88), WHITE)
+        add_rect(s, Inches(0.75), y, Inches(0.12), Inches(0.88), GOLD)
+        add_text(s, Inches(1.1), y + Inches(0.1), Inches(5.1), Inches(0.35), big, size=17, bold=True, color=NAVY)
+        add_text(s, Inches(1.1), y + Inches(0.48), Inches(5.1), Inches(0.3), small, size=12, color=GRAY)
 
     add_text(
         s,
         Inches(0.75),
-        Inches(5.35),
+        Inches(5.2),
         Inches(5.7),
-        Inches(1.1),
-        "尚待腾讯提供：账号/License/Token数量、有效期、\n阶梯折扣、未激活处理、扩容续费退款、付款与验收。",
+        Inches(1.3),
+        "尚待腾讯提供：行外/行员可分配数量、有效期、阶梯折扣、\n未激活处理、付款验收；另需内部系统开发范围及联名卡权益包。",
         size=12,
         color=DARK,
     )
@@ -256,94 +290,122 @@ def build_ppt(output_path: Path) -> None:
     add_text(s, Inches(7.3), Inches(1.45), Inches(5.3), Inches(0.4), "预期价值", size=18, bold=True, color=GOLD)
     values = [
         "带动新增对公客户：差异化开户/拜访权益",
-        "提升存量客户黏性：触达老板/财务关键人",
-        "促进积分活跃：补充企业服务类权益",
+        "提升存量客户黏性与积分活跃",
         "带动结算与资金沉淀：商城/续费走我行账户",
-        "塑造科技服务品牌：金融+经营赋能形象",
+        "提升行内办公效率与员工AI能力",
+        "联名信用卡获客与品牌曝光",
+        "塑造“金融+经营赋能”科技服务品牌",
     ]
-    add_bullets(s, Inches(7.3), Inches(2.1), Inches(5.3), Inches(4.0), values, size=14, color=WHITE, bullet_color=GOLD, spacing=1.55)
+    add_bullets(s, Inches(7.3), Inches(2.05), Inches(5.3), Inches(4.3), values, size=13, color=WHITE, bullet_color=GOLD, spacing=1.45)
     footer(s, 3)
 
     # ========== 第4页：风险与共识 ==========
     s = prs.slides.add_slide(blank)
     add_rect(s, 0, 0, SW, SH, WHITE)
-    header(s, "三、风险事项与初步共识", "合规、采购、技术、结算仍待确认；优先推进两类场景")
+    header(s, "三、风险事项与共识分层", "外部客户优先；行内提效与联名卡须专项论证")
 
     # 左侧风险
     add_text(s, Inches(0.5), Inches(1.2), Inches(6.2), Inches(0.35), "尚待确认 · 主要风险", size=16, bold=True, color=ACCENT_RED)
     risks = [
-        ("安全合规", "公有云SaaS不接行内网，但仍需审查数据隔离、访问权限、日志与责任机制；首期仅用于外部客户权益"),
-        ("采购成本", "缺兑换/激活/使用/转化数据，忌一次性大额采购；建议分期交付与效果验收"),
-        ("技术交付", "批量兑换码、自助注册激活、分组与续费等需完整流程测试"),
-        ("结算税务", "商城主体、发票与资金链路需财务/法务确认"),
-        ("宣传口径", "联合品牌与效果表述须授权并经宣传审核"),
+        ("安全合规", "行外SaaS需审查数据隔离与权限；行内系统/小程序合规要求更高，须专项评估"),
+        ("采购成本", "缺兑换/激活/使用数据，忌一次性大额采购；行外与行员份额分账核算"),
+        ("技术交付", "兑换码自助激活、内部系统对接、员工发放流程均需完整测试"),
+        ("联名信用卡", "卡种准入、权益兑付、分润与品牌授权尚待信用卡中心论证"),
+        ("宣传口径", "联合品牌/联名卡表述须授权并经宣传与卡中心审核"),
     ]
     for i, (t, d) in enumerate(risks):
-        y = Inches(1.6 + i * 0.95)
-        add_round(s, Inches(0.45), y, Inches(6.3), Inches(0.85), SOFT)
-        add_text(s, Inches(0.65), y + Inches(0.1), Inches(5.9), Inches(0.3), t, size=13, bold=True, color=NAVY)
-        add_text(s, Inches(0.65), y + Inches(0.4), Inches(5.9), Inches(0.4), d, size=11, color=DARK)
+        y = Inches(1.55 + i * 0.95)
+        add_round(s, Inches(0.45), y, Inches(6.3), Inches(0.88), SOFT)
+        add_text(s, Inches(0.65), y + Inches(0.1), Inches(5.9), Inches(0.28), t, size=13, bold=True, color=NAVY)
+        add_text(s, Inches(0.65), y + Inches(0.4), Inches(5.9), Inches(0.42), d, size=11, color=DARK)
 
     # 右侧共识
-    add_text(s, Inches(7.1), Inches(1.2), Inches(5.7), Inches(0.35), "已达成共识（两轮谈判）", size=16, bold=True, color=NAVY)
-    add_round(s, Inches(7.0), Inches(1.6), Inches(5.85), Inches(5.15), SOFT)
+    add_text(s, Inches(7.1), Inches(1.2), Inches(5.7), Inches(0.35), "共识 / 补充方案分层", size=16, bold=True, color=NAVY)
+    add_round(s, Inches(7.0), Inches(1.55), Inches(5.85), Inches(5.2), SOFT)
+    add_text(s, Inches(7.25), Inches(1.7), Inches(5.4), Inches(0.3), "已达成共识", size=13, bold=True, color=GOLD)
     consensus = [
-        "优先推进：积分商城兑换 + 开户赠礼",
-        "采用兑换码/License，客户自助激活",
-        "暂不印实体卡，后续再定电子/纸质形式",
-        "按季度或半年度套餐及阶梯价设计",
-        "腾讯提交完整产品及商务方案",
-        "8月5日下午与分行领导进一步沟通",
-        "上海先行试点，效果好再扩围",
+        "优先：积分商城兑换 + 开户赠礼",
+        "兑换码/License 客户自助激活",
+        "套餐与阶梯价；腾讯交完整方案",
+        "8/5与分行领导沟通；上海试点",
     ]
-    add_bullets(s, Inches(7.3), Inches(1.9), Inches(5.4), Inches(4.6), consensus, size=14, color=DARK, spacing=1.45)
+    add_bullets(s, Inches(7.25), Inches(2.05), Inches(5.4), Inches(2.0), consensus, size=12, color=DARK, spacing=1.3)
+    add_text(s, Inches(7.25), Inches(4.15), Inches(5.4), Inches(0.3), "初步方案（本次补充）", size=13, bold=True, color=NAVY)
+    prelim = [
+        "单列员工份额：行员采购+行外采购",
+        "行内：办公提效系统/小程序",
+        "行内：员工AI福利发放",
+        "对外：研究联名信用卡方案",
+    ]
+    add_bullets(s, Inches(7.25), Inches(4.5), Inches(5.4), Inches(2.0), prelim, size=12, color=DARK, spacing=1.3)
     footer(s, 4)
 
     # ========== 第5页：请示事项与下一步 ==========
     s = prs.slides.add_slide(blank)
     add_rect(s, 0, 0, SW, SH, WHITE)
-    header(s, "四、建议请示事项与下一步", "原则同意立项论证 · 授权继续谈判 · 先试点后扩量")
+    header(s, "四、建议请示事项与下一步", "原则同意推进 · 补充员工份额 · 研究联名卡 · 先试点后扩量")
 
     decisions = [
-        ("01", "原则同意继续推进", "作为中小微增值服务创新方向继续论证"),
+        ("01", "原则同意继续推进", "客户增值服务 + 行内数字化提效继续论证"),
         ("02", "同意上海地区试点", "选定网点/客群，设定兑换激活获客指标"),
-        ("03", "启动跨部门评估", "公司金融、权益、科技、合规、法务、财务、采购"),
-        ("04", "授权继续商务谈判", "1,500万为测算框架；首期金额另行审批"),
+        ("03", "补充员工采购份额", "行员采购+行外采购；福利可先行，系统须评估"),
+        ("04", "研究联名信用卡", "授权卡中心论证，不作为立即发卡承诺"),
+        ("05", "跨部门评估+继续谈判", "1,500万为测算框架；首期金额另行审批"),
     ]
-    for i, (num, title, desc) in enumerate(decisions):
-        x = Inches(0.45 + (i % 2) * 6.4)
-        y = Inches(1.25 + (i // 2) * 1.55)
-        add_round(s, x, y, Inches(6.15), Inches(1.4), SOFT)
-        add_round(s, x + Inches(0.2), y + Inches(0.3), Inches(0.8), Inches(0.8), NAVY)
+    # 前4项2x2，第5项通栏
+    for i, (num, title, desc) in enumerate(decisions[:4]):
+        x = Inches(0.4 + (i % 2) * 6.45)
+        y = Inches(1.2 + (i // 2) * 1.35)
+        add_round(s, x, y, Inches(6.2), Inches(1.2), SOFT)
+        add_round(s, x + Inches(0.15), y + Inches(0.2), Inches(0.7), Inches(0.75), NAVY)
         add_text(
             s,
-            x + Inches(0.2),
-            y + Inches(0.3),
-            Inches(0.8),
-            Inches(0.8),
+            x + Inches(0.15),
+            y + Inches(0.2),
+            Inches(0.7),
+            Inches(0.75),
             num,
-            size=18,
+            size=16,
             bold=True,
             color=GOLD,
             align=PP_ALIGN.CENTER,
             anchor=MSO_ANCHOR.MIDDLE,
         )
-        add_text(s, x + Inches(1.2), y + Inches(0.3), Inches(4.7), Inches(0.45), title, size=16, bold=True, color=NAVY)
-        add_text(s, x + Inches(1.2), y + Inches(0.75), Inches(4.7), Inches(0.45), desc, size=12, color=DARK)
+        add_text(s, x + Inches(1.05), y + Inches(0.22), Inches(4.9), Inches(0.4), title, size=15, bold=True, color=NAVY)
+        add_text(s, x + Inches(1.05), y + Inches(0.65), Inches(4.9), Inches(0.4), desc, size=12, color=DARK)
 
-    # 底部结论条
-    add_round(s, Inches(0.45), Inches(4.5), Inches(12.4), Inches(2.2), NAVY)
-    add_text(s, Inches(0.75), Inches(4.7), Inches(11.8), Inches(0.35), "汇报结论 / 下一步", size=14, bold=True, color=GOLD)
+    num, title, desc = decisions[4]
+    add_round(s, Inches(0.4), Inches(3.95), Inches(12.5), Inches(0.95), SOFT)
+    add_round(s, Inches(0.55), Inches(4.05), Inches(0.7), Inches(0.75), NAVY)
     add_text(
         s,
+        Inches(0.55),
+        Inches(4.05),
+        Inches(0.7),
         Inches(0.75),
-        Inches(5.15),
-        Inches(11.8),
-        Inches(1.3),
-        "建议行长原则同意立项论证并授权继续谈判，先试点、后扩量，以实际客户转化和使用效果作为后续采购依据。\n"
-        "下一步：① 8/5前腾讯提交完整方案　② 明确300万/500万两档权益　③ 完成兑换激活全流程演示\n"
-        "　　　　④ 启动法务合规科技财务采购预审　⑤ 设计试点方案与量化指标　⑥ 达标后再启动二三阶段采购",
-        size=13,
+        num,
+        size=16,
+        bold=True,
+        color=GOLD,
+        align=PP_ALIGN.CENTER,
+        anchor=MSO_ANCHOR.MIDDLE,
+    )
+    add_text(s, Inches(1.45), Inches(4.1), Inches(11.2), Inches(0.35), title, size=15, bold=True, color=NAVY)
+    add_text(s, Inches(1.45), Inches(4.5), Inches(11.2), Inches(0.35), desc, size=12, color=DARK)
+
+    # 底部结论条
+    add_round(s, Inches(0.4), Inches(5.1), Inches(12.5), Inches(1.7), NAVY)
+    add_text(s, Inches(0.7), Inches(5.25), Inches(11.9), Inches(0.3), "汇报结论 / 下一步", size=13, bold=True, color=GOLD)
+    add_text(
+        s,
+        Inches(0.7),
+        Inches(5.6),
+        Inches(11.9),
+        Inches(1.0),
+        "建议原则同意立项论证并授权继续谈判，同步论证员工份额与联名信用卡；先试点、后扩量。\n"
+        "下一步：① 8/5前腾讯交完整方案（含行外/行员份额）　② 300万/500万两档　③ 兑换激活演示\n"
+        "　　　　④ 内部系统合规边界　⑤ 联名卡预研　⑥ 跨部门预审与试点指标　⑦ 达标后再扩量采购",
+        size=12,
         color=WHITE,
     )
     footer(s, 5)
