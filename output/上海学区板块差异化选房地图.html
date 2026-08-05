@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>上海学区板块差异化选房地图</title>
+<style>
+  :root {
+    --ink: #0f172a;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --teal: #0f766e;
+    --teal-soft: #ccfbf1;
+    --serif: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", serif;
+    --sans: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    color: var(--ink);
+    background:
+      radial-gradient(1200px 600px at 10% -10%, #ccfbf1 0%, transparent 55%),
+      radial-gradient(900px 500px at 100% 0%, #e0f2fe 0%, transparent 50%),
+      linear-gradient(180deg, #f0fdfa 0%, var(--bg) 40%, #f8fafc 100%);
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 32px 20px 64px; }
+  header.hero {
+    padding: 28px 0 8px;
+    animation: rise .7s ease both;
+  }
+  .eyebrow {
+    color: var(--teal);
+    font-weight: 600;
+    letter-spacing: .08em;
+    font-size: 13px;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.25;
+    margin: 8px 0 12px;
+  }
+  .lead {
+    max-width: 720px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0 0 20px;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+  .chip {
+    background: var(--card);
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .chip strong { color: var(--teal); }
+  .grid-stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin: 18px 0 28px;
+  }
+  @media (max-width: 800px) {
+    .grid-stats { grid-template-columns: repeat(2, 1fr); }
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 12px;
+    text-align: center;
+    animation: rise .6s ease both;
+  }
+  .stat .n { font-size: 28px; font-weight: 700; color: var(--teal); font-family: var(--serif); }
+  .stat .l { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  section {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 1px 0 rgba(15, 23, 42, .03);
+    animation: rise .75s ease both;
+  }
+  section h2 {
+    font-family: var(--serif);
+    font-size: 22px;
+    margin: 0 0 6px;
+  }
+  section .sub { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+  .mark-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .mark-card {
+    background: var(--bg);
+    border-left: 4px solid var(--c);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: var(--bg);
+  }
+  .mark-card b { color: var(--c); }
+  .mark-card span { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  ul.logic { margin: 0; padding-left: 18px; }
+  ul.logic li { margin: 8px 0; line-height: 1.6; color: #334155; font-size: 14px; }
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  input, select {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 9px 12px;
+    font: inherit;
+    background: #fff;
+  }
+  input { min-width: 200px; flex: 1; }
+  .btn {
+    border: none;
+    background: var(--teal);
+    color: #fff;
+    border-radius: 10px;
+    padding: 9px 14px;
+    cursor: pointer;
+    font: inherit;
+  }
+  .btn.secondary { background: #fff; color: var(--teal); border: 1px solid var(--teal); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th, td {
+    border-bottom: 1px solid var(--line);
+    padding: 10px 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    position: sticky;
+    top: 0;
+    background: #f0fdfa;
+    color: var(--teal);
+    font-weight: 600;
+    z-index: 1;
+  }
+  .table-scroll { overflow: auto; max-height: 560px; border: 1px solid var(--line); border-radius: 12px; }
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .tag[data-m="★优选锁定"] { background: #ccfbf1; color: #0f766e; }
+  .tag[data-m="☆次优关注"] { background: #dbeafe; color: #1d4ed8; }
+  .tag[data-m="○可观察"] { background: #fef9c3; color: #a16207; }
+  .tag[data-m="△条件不符"] { background: #ffedd5; color: #c2410c; }
+  .tag[data-m="✕策略排除"] { background: #fee2e2; color: #b91c1c; }
+  .score {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--teal);
+  }
+  .pick {
+    display: grid;
+    gap: 12px;
+  }
+  .pick-card {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #ffffff, #f0fdfa);
+    display: grid;
+    grid-template-columns: 88px 1fr auto;
+    gap: 12px;
+    align-items: start;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .pick-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(15,118,110,.08); }
+  .rank {
+    font-family: var(--serif);
+    font-size: 34px;
+    color: var(--teal);
+    line-height: 1;
+  }
+  .pick-card h3 { margin: 0 0 4px; font-size: 16px; }
+  .pick-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+  .meta { font-size: 12px; color: #475569; margin-top: 6px; }
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 24px;
+    line-height: 1.6;
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">SHANGHAI SCHOOL-DISTRICT MAP</div>
+    <h1>上海学区板块差异化选房地图</h1>
+    <p class="lead">
+      按纪要思路：跳出「人口导入=资产增值」惯性，优先找<strong>人口空心化、老上海人聚集、学位相对宽松</strong>的老板块；
+      避开嘉定/松江/闵行大部分/浦东大部分等高竞争导入区。下表给出标记与本轮入选结果。
+    </p>
+    <div class="chips">
+      <span class="chip">样本板块 <strong>60</strong></span>
+      <span class="chip">本轮入选 <strong>12</strong></span>
+      <span class="chip">核心推荐 <strong>潍坊 · 黄浦老城 · 杨浦滨江/鞍山</strong></span>
+    </div>
+    <div class="grid-stats"><div class="stat"><div class="n">7</div><div class="l">★优选锁定</div></div><div class="stat"><div class="n">5</div><div class="l">☆次优关注</div></div><div class="stat"><div class="n">19</div><div class="l">○可观察</div></div><div class="stat"><div class="n">2</div><div class="l">△条件不符</div></div><div class="stat"><div class="n">27</div><div class="l">✕策略排除</div></div></div>
+  </header>
+
+  <section>
+    <h2>本轮入选看房清单</h2>
+    <p class="sub">按策略契合分排序。建议顺序：潍坊新村 → 杨浦鞍山/滨江 → 黄浦老板块 → 虹口观察盘。</p>
+    <div class="pick" id="picks"></div>
+  </section>
+
+  <section>
+    <h2>标记图例</h2>
+    <p class="sub">五档标记直接对应纪要中的保留 / 排除 / 年限不符判断。</p>
+    <div class="mark-grid"><div class="mark-card" style="--c:#0F766E;--bg:#CCFBF1"><b>★优选锁定</b><span>人口空心化 / 老上海人聚集，升学竞争相对可控，纪要明确推荐</span></div><div class="mark-card" style="--c:#1D4ED8;--bg:#DBEAFE"><b>☆次优关注</b><span>部分符合空心化或老城区特征，可作小学阶段备选或后续置换观察</span></div><div class="mark-card" style="--c:#A16207;--bg:#FEF9C3"><b>○可观察</b><span>资源尚可，但人口导入或竞争压力不低，需个案核验对口与年限</span></div><div class="mark-card" style="--c:#C2410C;--bg:#FFEDD5"><b>△条件不符</b><span>学区质量尚可，但户籍年限/总价/一步到位要求与当前时间线不匹配</span></div><div class="mark-card" style="--c:#B91C1C;--bg:#FEE2E2"><b>✕策略排除</b><span>新上海人导入集中、适龄人口堆积，升学卷度高，纪要建议去掉</span></div></div>
+  </section>
+
+  <section>
+    <h2>纪要决策框架</h2>
+    <ul class="logic"><li><strong>核心目标</strong> — 购房目的是获得优质上学资格，而非房产增值投资。</li><li><strong>升学难点</strong> — 上海高考本科率约88%（对比山东约33.6%），核心难点在初中升高中；优先布局小学+初中。</li><li><strong>板块原则</strong> — 优先人口空心化区域（居住人口 < 学校配套容量）；避开新上海人集中、孩子扎堆出生的新区。</li><li><strong>排除范围</strong> — 去掉嘉定、松江、闵行（大部分）、浦东（大部分）；九亭属高竞争早期段位。</li><li><strong>保留范围</strong> — 黄浦、杨浦滨江（及鞍山等老板块）、浦东陆家嘴潍坊新村（明珠小学，世纪大道南侧，崂山一村–十村，约200–300万）。</li><li><strong>学段策略</strong> — 不必一步到位买「双优」学区；可先解决小学，小学结束后再置换初中学区。</li><li><strong>年限红线</strong> — 徐汇/闵行复旦附属九年一贯需户籍房产一致且提前约3年；明年入学不符，不推荐。</li><li><strong>房价周期</strong> — 长周期多数板块仍偏弱；上学需求与投资时机可能冲突，需家庭自行取舍。</li></ul>
+  </section>
+
+  <section>
+    <h2>全市板块筛选台</h2>
+    <p class="sub">可按标记、区、关键词过滤；「是否入选」表示本轮是否纳入看房清单。</p>
+    <div class="toolbar">
+      <input id="q" placeholder="搜索板块 / 学校 / 区…" />
+      <select id="markFilter">
+        <option value="">全部标记</option>
+        <option value="★优选锁定">★优选锁定</option><option value="☆次优关注">☆次优关注</option><option value="○可观察">○可观察</option><option value="△条件不符">△条件不符</option><option value="✕策略排除">✕策略排除</option>
+      </select>
+      <select id="selFilter">
+        <option value="">全部</option>
+        <option value="是">仅入选</option>
+        <option value="否">未入选</option>
+      </select>
+      <button class="btn" id="resetBtn" type="button">重置</button>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>标记</th><th>入选</th><th>区</th><th>板块</th><th>小学/学区</th>
+            <th>初中路径</th><th>竞争</th><th>空心化</th><th>契合分</th><th>总价带</th><th>说明</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>十六区策略总览</h2>
+    <p class="sub">先选区、再选板块。黄浦 / 杨浦优先；闵行 / 宝山 / 嘉定 / 松江 / 青浦主线排除。</p>
+    <div class="table-scroll" style="max-height:420px">
+      <table>
+        <thead>
+          <tr>
+            <th>标记</th><th>区</th><th>对口类型</th><th>人口画像</th>
+            <th>区内竞争</th><th>本区保护</th><th>中考压力</th><th>策略结论</th>
+          </tr>
+        </thead>
+        <tbody><tr><td><span class='tag' data-m='★优选锁定'>★优选锁定</span></td><td>黄浦</td><td>学籍对口</td><td>老城区，常住人口相对少，老龄化明显</td><td>低</td><td>强</td><td>相对友好（录取率较高）</td><td>核心优选区：人口与学位匹配更接近「空心化」</td></tr><tr><td><span class='tag' data-m='★优选锁定'>★优选锁定</span></td><td>杨浦</td><td>学籍对口</td><td>老工业区转型，滨江有更新，鞍山等老小区存量大</td><td>中低</td><td>强</td><td>中等</td><td>滨江及老板块可挖「学校在、人口出」机会</td></tr><tr><td><span class='tag' data-m='☆次优关注'>☆次优关注</span></td><td>虹口</td><td>学籍对口</td><td>老城区为主，北外滩更新中</td><td>中低</td><td>较强</td><td>中等</td><td>部分老板块可观察，整体次于黄浦</td></tr><tr><td><span class='tag' data-m='○可观察'>○可观察</span></td><td>静安</td><td>户籍/学籍混合特征强</td><td>核心区+大宁等导入并存</td><td>中</td><td>强</td><td>中等偏卷</td><td>优质但总价高，性价比与空心化特征一般</td></tr><tr><td><span class='tag' data-m='○可观察'>○可观察</span></td><td>长宁</td><td>学籍+派位</td><td>古北等外籍/高收入导入，北新泾有老小区</td><td>中</td><td>较强</td><td>中等</td><td>公办均衡，但非纪要主推空心化路径</td></tr><tr><td><span class='tag' data-m='△条件不符'>△条件不符</span></td><td>徐汇</td><td>学籍+派位</td><td>衡复/滨江优质，华泾等有导入</td><td>中高</td><td>中等</td><td>顶尖资源强但竞争也强</td><td>复旦附属九年一贯等质量好，但年限与总价不匹配明年入学</td></tr><tr><td><span class='tag' data-m='○可观察'>○可观察</span></td><td>普陀</td><td>学籍对口</td><td>真如/桃浦等有人口导入</td><td>中</td><td>中等</td><td>中等</td><td>部分老板块可观察，整体非首选</td></tr><tr><td><span class='tag' data-m='○可观察'>○可观察</span></td><td>浦东</td><td>户籍对口</td><td>人口体量全市最大，新上海人导入极多</td><td>高（多数板块）</td><td>较强</td><td>分化极大</td><td>仅保留陆家嘴潍坊等少数老板块；其余多数排除</td></tr><tr><td><span class='tag' data-m='✕策略排除'>✕策略排除</span></td><td>闵行</td><td>户籍对口</td><td>新上海人高度集中，适龄儿童多</td><td>极高</td><td>弱（民办开放）</td><td>高</td><td>纪要：去掉大部分；九年一贯年限也不达标</td></tr><tr><td><span class='tag' data-m='✕策略排除'>✕策略排除</span></td><td>宝山</td><td>户籍对口</td><td>人口多，教育资源相对滞后</td><td>高</td><td>中等</td><td>高</td><td>新人口集中、竞争大，纪要明确避开</td></tr><tr><td><span class='tag' data-m='✕策略排除'>✕策略排除</span></td><td>嘉定</td><td>户籍对口</td><td>新城导入强，户籍净流入高</td><td>高</td><td>尚可</td><td>高</td><td>纪要：去掉嘉定；年限预警趋严</td></tr><tr><td><span class='tag' data-m='✕策略排除'>✕策略排除</span></td><td>松江</td><td>户籍对口</td><td>九亭等早期导入极强</td><td>极高（九亭尤甚）</td><td>弱</td><td>高</td><td>纪要：去掉松江；九亭属高竞争早期段位</td></tr><tr><td><span class='tag' data-m='✕策略排除'>✕策略排除</span></td><td>青浦</td><td>户籍对口</td><td>赵巷/徐泾等高端导入</td><td>高</td><td>中等</td><td>中高</td><td>人口导入型，非空心化路径</td></tr><tr><td><span class='tag' data-m='○可观察'>○可观察</span></td><td>奉贤</td><td>户籍对口</td><td>南桥等有导入，整体密度低于近郊热门</td><td>中</td><td>中等</td><td>中等</td><td>通勤与资源一般，非本次学区主线</td></tr><tr><td><span class='tag' data-m='○可观察'>○可观察</span></td><td>金山</td><td>户籍对口</td><td>人口相对少</td><td>较低</td><td>中等</td><td>较低</td><td>竞争小但优质公办与通勤弱，非本次目标</td></tr><tr><td><span class='tag' data-m='○可观察'>○可观察</span></td><td>崇明</td><td>户籍对口</td><td>人口流出为主</td><td>低</td><td>中等</td><td>低</td><td>空心化极端，但升学资源与通勤不适合主城区就业家庭</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    本页为决策辅助材料，对口学校、入户年限、五年一户等以各区教育局当年文件为准。<br/>
+    同步交付：<code>output/上海学区板块差异化选房地图.xlsx</code>
+  </footer>
+</div>
+<script>
+const DATA = [{"mark": "★优选锁定", "selected": "是", "district": "黄浦", "plate": "老西门/蓬莱", "primary": "蓬莱路第二小学等", "middle": "学籍对口公办初中", "pop": "老上海人为主，老龄化", "competition": 2, "hollow": 5, "score": 100, "price": "250-450", "policy": "核验当年对口与人户一致", "reason": "老城区典型空心化特征，公办均衡，竞争相对可控"}, {"mark": "★优选锁定", "selected": "是", "district": "黄浦", "plate": "打浦桥", "primary": "卢湾二中心等", "middle": "学籍对口+区内初中", "pop": "老小区+局部更新", "competition": 2, "hollow": 5, "score": 100, "price": "280-500", "policy": "核验入户截止与人户一致", "reason": "人口少于学位紧张度低，符合「学校在、人口出」"}, {"mark": "★优选锁定", "selected": "是", "district": "黄浦", "plate": "五里桥", "primary": "区属公办小学群", "middle": "学籍对口", "pop": "老公房为主", "competition": 2, "hollow": 5, "score": 100, "price": "220-400", "policy": "核验对口表", "reason": "总价更友好的黄浦入口，适合先解决小学"}, {"mark": "★优选锁定", "selected": "是", "district": "黄浦", "plate": "豫园/小东门", "primary": "实验小学等周边", "middle": "学籍对口", "pop": "老城区居住人口下降", "competition": 2, "hollow": 4, "score": 96, "price": "250-480", "policy": "核验对口", "reason": "老板块，竞争低于近郊导入区"}, {"mark": "☆次优关注", "selected": "是", "district": "黄浦", "plate": "人民广场/南京东路", "primary": "区属优质公办", "middle": "学籍对口", "pop": "商业占比高，带娃家庭密度低", "competition": 2, "hollow": 4, "score": 96, "price": "300-600", "policy": "总价偏高需精选小户型", "reason": "居住属性弱、适龄密度低，策略契合"}, {"mark": "★优选锁定", "selected": "是", "district": "杨浦", "plate": "杨浦滨江", "primary": "定海/滨江规划校群", "middle": "九年一贯及滨江新校规划", "pop": "更新中，原住民流出+局部导入", "competition": 2, "hollow": 4, "score": 96, "price": "300-700", "policy": "关注新校招生政策落地进度", "reason": "纪要点名符合空心化特征；需盯学校兑现"}, {"mark": "★优选锁定", "selected": "是", "district": "杨浦", "plate": "鞍山/四平", "primary": "鞍山等一梯队公办小学", "middle": "杨浦优质公办初中链", "pop": "老公房存量极大，年轻带娃家庭少", "competition": 2, "hollow": 5, "score": 100, "price": "180-350", "policy": "核验对口与年限", "reason": "「学校强、房子旧、人口出」典型，低总价挂户逻辑"}, {"mark": "☆次优关注", "selected": "是", "district": "杨浦", "plate": "黄兴公园/延吉", "primary": "区属公办小学", "middle": "学籍对口", "pop": "老小区为主", "competition": 3, "hollow": 4, "score": 86, "price": "200-380", "policy": "核验对口", "reason": "次于鞍山但同属老杨浦逻辑"}, {"mark": "○可观察", "selected": "否", "district": "杨浦", "plate": "五角场", "primary": "大学城周边公办/民办", "middle": "公民办并存", "pop": "高校+年轻租住导入", "competition": 3, "hollow": 3, "score": 74, "price": "280-550", "policy": "民办与公办路径分开评估", "reason": "导入人口多于纯老破小板块，降一档"}, {"mark": "○可观察", "selected": "否", "district": "杨浦", "plate": "中原", "primary": "区属公办", "middle": "学籍对口", "pop": "成熟居住区，适龄中等", "competition": 3, "hollow": 3, "score": 74, "price": "220-400", "policy": "核验对口", "reason": "中性板块，非空心化极值"}, {"mark": "★优选锁定", "selected": "是", "district": "浦东", "plate": "潍坊新村（陆家嘴南）", "primary": "明珠小学 / 浦师附小", "middle": "东昌南校 / 洋泾菊园潍坊校区等", "pop": "老上海人为主，租客少本地生娃", "competition": 2, "hollow": 5, "score": 100, "price": "200-300", "policy": "关注五年一户与入户预警；优先世纪大道南侧", "reason": "纪要明确推荐；崂山一村至十村可筛；核心入选结果"}, {"mark": "☆次优关注", "selected": "是", "district": "浦东", "plate": "塘桥", "primary": "塘桥周边公办", "middle": "洋泾/建平等路径分化", "pop": "老小区+局部改善", "competition": 3, "hollow": 3, "score": 74, "price": "250-450", "policy": "核验对口分组", "reason": "毗邻潍坊，可作观察，竞争高于潍坊老破小"}, {"mark": "○可观察", "selected": "否", "district": "浦东", "plate": "洋泾", "primary": "洋泾系小学", "middle": "洋泾中学等", "pop": "成熟居住，适龄不少", "competition": 3, "hollow": 3, "score": 74, "price": "280-500", "policy": "核验年限", "reason": "资源好但非空心化主线"}, {"mark": "○可观察", "selected": "否", "district": "浦东", "plate": "陆家嘴金融城核心", "primary": "少量对口小学", "middle": "优质初中周边", "pop": "商务为主，住宅少", "competition": 2, "hollow": 3, "score": 84, "price": "400-900+", "policy": "总价高", "reason": "居住供给少，挂户性价比不如潍坊南侧"}, {"mark": "✕策略排除", "selected": "否", "district": "浦东", "plate": "花木/世纪公园", "primary": "建平系等", "middle": "建平等", "pop": "改善型+适龄家庭集中", "competition": 4, "hollow": 2, "score": 52, "price": "400-800", "policy": "年限普遍不低", "reason": "人口导入与改善家庭集中，卷度高"}, {"mark": "✕策略排除", "selected": "否", "district": "浦东", "plate": "张江", "primary": "张江周边公办/实验", "middle": "张江/中芯等路径", "pop": "高新人才新上海人高度集中", "competition": 5, "hollow": 1, "score": 30, "price": "350-700", "policy": "热门户口年限紧", "reason": "典型新人口堆叠，纪要：浦东大部分去掉"}, {"mark": "✕策略排除", "selected": "否", "district": "浦东", "plate": "金桥", "primary": "金桥公办群", "middle": "区内初中", "pop": "产业导入家庭多", "competition": 4, "hollow": 2, "score": 52, "price": "280-500", "policy": "核验对口", "reason": "导入型，非空心化"}, {"mark": "✕策略排除", "selected": "否", "district": "浦东", "plate": "三林/御桥", "primary": "御桥小学等", "middle": "区内初中", "pop": "新盘+年轻家庭", "competition": 5, "hollow": 1, "score": 30, "price": "250-450", "policy": "部分学校年限不降反升", "reason": "适龄堆积，竞争加剧"}, {"mark": "✕策略排除", "selected": "否", "district": "浦东", "plate": "周浦/康桥", "primary": "周浦公办", "middle": "区内", "pop": "近郊导入", "competition": 4, "hollow": 1, "score": 40, "price": "180-350", "policy": "核验", "reason": "人口导入型外围"}, {"mark": "✕策略排除", "selected": "否", "district": "浦东", "plate": "川沙/唐镇", "primary": "川沙公办", "middle": "区内", "pop": "新城导入", "competition": 4, "hollow": 1, "score": 40, "price": "200-400", "policy": "核验", "reason": "纪要排除浦东大部分"}, {"mark": "✕策略排除", "selected": "否", "district": "浦东", "plate": "临港", "primary": "临港新建校", "middle": "区内", "pop": "政策导入青年", "competition": 4, "hollow": 1, "score": 40, "price": "150-350", "policy": "新校兑现不确定", "reason": "远郊导入，非本次主线"}, {"mark": "✕策略排除", "selected": "否", "district": "浦东", "plate": "北蔡", "primary": "北蔡公办", "middle": "区内", "pop": "成熟+局部导入", "competition": 4, "hollow": 2, "score": 52, "price": "250-450", "policy": "核验", "reason": "竞争不低，非优选"}, {"mark": "○可观察", "selected": "否", "district": "徐汇", "plate": "衡复/徐家汇", "primary": "区属一梯队小学", "middle": "华育/世外/南模等路径", "pop": "优质改善家庭集中", "competition": 4, "hollow": 2, "score": 52, "price": "500-1200+", "policy": "总价高、竞争强", "reason": "资源顶尖但与「降竞争」目标相反"}, {"mark": "○可观察", "selected": "否", "district": "徐汇", "plate": "徐汇滨江", "primary": "滨江配套校", "middle": "徐汇优质初中圈", "pop": "高端改善", "competition": 3, "hollow": 2, "score": 62, "price": "600-1500+", "policy": "房价少数仍坚挺", "reason": "投资属性强，非低竞争挂户路径"}, {"mark": "△条件不符", "selected": "否", "district": "徐汇", "plate": "复旦附属九年一贯（徐汇相关）", "primary": "复旦附属九年一贯", "middle": "小初一贯", "pop": "学区溢价明显", "competition": 3, "hollow": 2, "score": 62, "price": "高", "policy": "户籍房产一致且需提前约3年落户", "reason": "质量不错，但明年入学年限不达标 → 不推荐"}, {"mark": "○可观察", "selected": "否", "district": "徐汇", "plate": "华泾/漕河泾", "primary": "区属公办", "middle": "徐汇路径", "pop": "产业导入+居住", "competition": 4, "hollow": 2, "score": 52, "price": "300-600", "policy": "核验", "reason": "导入压力高于老黄浦"}, {"mark": "✕策略排除", "selected": "否", "district": "闵行", "plate": "莘庄", "primary": "莘庄镇小等", "middle": "上宝等民办强区路径", "pop": "新上海人高度集中", "competition": 5, "hollow": 1, "score": 30, "price": "250-500", "policy": "区内区外双卷", "reason": "纪要：去掉闵行大部分"}, {"mark": "✕策略排除", "selected": "否", "district": "闵行", "plate": "七宝", "primary": "七宝实验等", "middle": "文来/上闵外等", "pop": "改善+鸡娃家庭集中", "competition": 5, "hollow": 1, "score": 30, "price": "300-600", "policy": "竞争极高", "reason": "高竞争代表板块"}, {"mark": "✕策略排除", "selected": "否", "district": "闵行", "plate": "古美/梅陇", "primary": "区属公办", "middle": "闵行路径", "pop": "成熟导入居住区", "competition": 5, "hollow": 1, "score": 30, "price": "280-500", "policy": "核验", "reason": "适龄密度高"}, {"mark": "✕策略排除", "selected": "否", "district": "闵行", "plate": "颛桥/浦江", "primary": "区属公办", "middle": "闵行路径", "pop": "近郊导入", "competition": 4, "hollow": 1, "score": 40, "price": "200-400", "policy": "核验", "reason": "导入型"}, {"mark": "△条件不符", "selected": "否", "district": "闵行", "plate": "复旦附属九年一贯（闵行）", "primary": "复旦附属九年一贯", "middle": "小初一贯", "pop": "学区溢价", "competition": 3, "hollow": 2, "score": 62, "price": "高", "policy": "户籍房产一致+提前约3年", "reason": "纪要点名：明年上小学不符合条件"}, {"mark": "✕策略排除", "selected": "否", "district": "闵行", "plate": "华漕", "primary": "华漕公办", "middle": "闵行路径", "pop": "虹桥枢纽导入", "competition": 4, "hollow": 1, "score": 40, "price": "220-450", "policy": "核验", "reason": "非空心化"}, {"mark": "✕策略排除", "selected": "否", "district": "松江", "plate": "九亭", "primary": "九亭小学等", "middle": "松江初中/民办", "pop": "早期新上海人堆叠样板", "competition": 5, "hollow": 1, "score": 30, "price": "200-400", "policy": "卷度极高", "reason": "纪要点名：高竞争早期段位，不推荐"}, {"mark": "✕策略排除", "selected": "否", "district": "松江", "plate": "泗泾", "primary": "泗泾公办", "middle": "松江路径", "pop": "导入居住", "competition": 5, "hollow": 1, "score": 30, "price": "180-350", "policy": "核验", "reason": "去掉松江"}, {"mark": "✕策略排除", "selected": "否", "district": "松江", "plate": "松江新城", "primary": "实验小学等", "middle": "松江路径", "pop": "新城导入", "competition": 4, "hollow": 1, "score": 40, "price": "180-400", "policy": "核验", "reason": "去掉松江"}, {"mark": "✕策略排除", "selected": "否", "district": "松江", "plate": "新桥", "primary": "新桥公办", "middle": "松江路径", "pop": "导入", "competition": 4, "hollow": 1, "score": 40, "price": "150-300", "policy": "核验", "reason": "去掉松江"}, {"mark": "✕策略排除", "selected": "否", "district": "嘉定", "plate": "嘉定新城", "primary": "普通小学等热门校", "middle": "嘉定华二等", "pop": "户籍净流入高", "competition": 5, "hollow": 1, "score": 30, "price": "200-450", "policy": "入户年限预警趋严", "reason": "纪要：去掉嘉定"}, {"mark": "✕策略排除", "selected": "否", "district": "嘉定", "plate": "南翔", "primary": "南翔公办", "middle": "嘉定路径", "pop": "轨交导入", "competition": 4, "hollow": 1, "score": 40, "price": "220-450", "policy": "核验", "reason": "去掉嘉定"}, {"mark": "✕策略排除", "selected": "否", "district": "嘉定", "plate": "江桥", "primary": "江桥公办", "middle": "嘉定路径", "pop": "近郊导入", "competition": 4, "hollow": 1, "score": 40, "price": "180-350", "policy": "核验", "reason": "去掉嘉定"}, {"mark": "✕策略排除", "selected": "否", "district": "嘉定", "plate": "安亭/马陆", "primary": "安亭公办", "middle": "嘉定路径", "pop": "产业导入", "competition": 4, "hollow": 1, "score": 40, "price": "150-320", "policy": "核验", "reason": "去掉嘉定"}, {"mark": "✕策略排除", "selected": "否", "district": "宝山", "plate": "顾村", "primary": "顾村公办", "middle": "宝山路径", "pop": "大型社区导入", "competition": 5, "hollow": 1, "score": 30, "price": "180-350", "policy": "核验", "reason": "纪要避开新人口集中区"}, {"mark": "✕策略排除", "selected": "否", "district": "宝山", "plate": "共康/高境", "primary": "区属公办", "middle": "宝山路径", "pop": "近市区导入", "competition": 4, "hollow": 2, "score": 52, "price": "220-400", "policy": "核验", "reason": "人口压力大、资源相对紧"}, {"mark": "○可观察", "selected": "否", "district": "宝山", "plate": "淞宝/吴淞", "primary": "区属公办", "middle": "宝山路径", "pop": "老工业居住+更新", "competition": 3, "hollow": 3, "score": 74, "price": "180-350", "policy": "核验", "reason": "略好于顾村，但仍非空心化优选"}, {"mark": "✕策略排除", "selected": "否", "district": "宝山", "plate": "罗店/大场", "primary": "区属公办", "middle": "宝山路径", "pop": "外围导入", "competition": 4, "hollow": 1, "score": 40, "price": "150-300", "policy": "核验", "reason": "排除"}, {"mark": "☆次优关注", "selected": "是", "district": "虹口", "plate": "北外滩", "primary": "虹口公办小学", "middle": "学籍对口", "pop": "更新中，原住民结构变化", "competition": 3, "hollow": 3, "score": 74, "price": "300-700", "policy": "核验对口", "reason": "可作黄浦外溢观察"}, {"mark": "☆次优关注", "selected": "是", "district": "虹口", "plate": "四川北路/临平路", "primary": "区属公办", "middle": "学籍对口", "pop": "老城区", "competition": 2, "hollow": 4, "score": 96, "price": "220-400", "policy": "核验", "reason": "老虹口空心化特征，次优"}, {"mark": "○可观察", "selected": "否", "district": "静安", "plate": "南京西路/静安寺", "primary": "一梯队公办", "middle": "静安优质路径", "pop": "核心区高总价", "competition": 3, "hollow": 2, "score": 62, "price": "500-1200+", "policy": "总价门槛高", "reason": "资源好但非低竞争低总价路径"}, {"mark": "○可观察", "selected": "否", "district": "静安", "plate": "大宁", "primary": "大宁公办", "middle": "静安路径", "pop": "改善导入", "competition": 4, "hollow": 2, "score": 52, "price": "350-650", "policy": "核验", "reason": "导入特征强于空心化"}, {"mark": "○可观察", "selected": "否", "district": "长宁", "plate": "中山公园", "primary": "长宁公办", "middle": "学籍+派位", "pop": "成熟居住", "competition": 3, "hollow": 3, "score": 74, "price": "350-650", "policy": "核验派位规则", "reason": "均衡但非纪要主推"}, {"mark": "○可观察", "selected": "否", "district": "长宁", "plate": "古北", "primary": "国际社区周边公办", "middle": "长宁路径", "pop": "外籍/高收入", "competition": 3, "hollow": 2, "score": 62, "price": "400-900", "policy": "居住属性强", "reason": "非国内升学空心化主线"}, {"mark": "○可观察", "selected": "否", "district": "长宁", "plate": "北新泾", "primary": "区属公办", "middle": "长宁路径", "pop": "老公房较多", "competition": 3, "hollow": 3, "score": 74, "price": "220-400", "policy": "核验", "reason": "可个案看，非首选"}, {"mark": "○可观察", "selected": "否", "district": "普陀", "plate": "真如", "primary": "真如公办", "middle": "学籍对口", "pop": "副中心导入", "competition": 4, "hollow": 2, "score": 52, "price": "250-450", "policy": "核验", "reason": "导入压力"}, {"mark": "○可观察", "selected": "否", "district": "普陀", "plate": "长风/武宁", "primary": "区属公办", "middle": "普陀路径", "pop": "成熟+局部改善", "competition": 3, "hollow": 3, "score": 74, "price": "280-500", "policy": "核验", "reason": "中性"}, {"mark": "○可观察", "selected": "否", "district": "普陀", "plate": "桃浦", "primary": "桃浦公办", "middle": "普陀路径", "pop": "更新导入", "competition": 4, "hollow": 2, "score": 52, "price": "200-380", "policy": "核验", "reason": "导入型"}, {"mark": "✕策略排除", "selected": "否", "district": "青浦", "plate": "徐泾", "primary": "徐泾公办", "middle": "青浦路径", "pop": "虹桥商务导入", "competition": 4, "hollow": 1, "score": 40, "price": "250-500", "policy": "核验", "reason": "高端导入，排除主线"}, {"mark": "✕策略排除", "selected": "否", "district": "青浦", "plate": "赵巷", "primary": "赵巷公办", "middle": "青浦路径", "pop": "改善别墅盘导入", "competition": 4, "hollow": 1, "score": 40, "price": "300-800+", "policy": "核验", "reason": "非空心化挂户逻辑"}, {"mark": "✕策略排除", "selected": "否", "district": "青浦", "plate": "青浦新城", "primary": "区属公办", "middle": "青浦路径", "pop": "新城导入", "competition": 4, "hollow": 1, "score": 40, "price": "150-350", "policy": "核验", "reason": "排除主线"}, {"mark": "○可观察", "selected": "否", "district": "奉贤", "plate": "南桥", "primary": "南桥公办", "middle": "奉贤路径", "pop": "新城中心", "competition": 3, "hollow": 2, "score": 62, "price": "120-280", "policy": "通勤远", "reason": "竞争一般但偏离主城区就业与优质初中圈"}, {"mark": "○可观察", "selected": "否", "district": "金山", "plate": "石化/山阳", "primary": "金山公办", "middle": "金山路径", "pop": "人口相对少", "competition": 2, "hollow": 3, "score": 84, "price": "80-200", "policy": "通勤远", "reason": "空心但资源与通勤不匹配目标"}, {"mark": "○可观察", "selected": "否", "district": "崇明", "plate": "城桥", "primary": "崇明公办", "middle": "崇明路径", "pop": "人口流出", "competition": 1, "hollow": 4, "score": 100, "price": "60-180", "policy": "通勤极远", "reason": "极端空心化，不适合多数家庭"}];
+const SELECTED = [{"mark": "★优选锁定", "selected": "是", "district": "杨浦", "plate": "鞍山/四平", "primary": "鞍山等一梯队公办小学", "middle": "杨浦优质公办初中链", "pop": "老公房存量极大，年轻带娃家庭少", "competition": 2, "hollow": 5, "score": 100, "price": "180-350", "policy": "核验对口与年限", "reason": "「学校强、房子旧、人口出」典型，低总价挂户逻辑"}, {"mark": "★优选锁定", "selected": "是", "district": "浦东", "plate": "潍坊新村（陆家嘴南）", "primary": "明珠小学 / 浦师附小", "middle": "东昌南校 / 洋泾菊园潍坊校区等", "pop": "老上海人为主，租客少本地生娃", "competition": 2, "hollow": 5, "score": 100, "price": "200-300", "policy": "关注五年一户与入户预警；优先世纪大道南侧", "reason": "纪要明确推荐；崂山一村至十村可筛；核心入选结果"}, {"mark": "★优选锁定", "selected": "是", "district": "黄浦", "plate": "五里桥", "primary": "区属公办小学群", "middle": "学籍对口", "pop": "老公房为主", "competition": 2, "hollow": 5, "score": 100, "price": "220-400", "policy": "核验对口表", "reason": "总价更友好的黄浦入口，适合先解决小学"}, {"mark": "★优选锁定", "selected": "是", "district": "黄浦", "plate": "打浦桥", "primary": "卢湾二中心等", "middle": "学籍对口+区内初中", "pop": "老小区+局部更新", "competition": 2, "hollow": 5, "score": 100, "price": "280-500", "policy": "核验入户截止与人户一致", "reason": "人口少于学位紧张度低，符合「学校在、人口出」"}, {"mark": "★优选锁定", "selected": "是", "district": "黄浦", "plate": "老西门/蓬莱", "primary": "蓬莱路第二小学等", "middle": "学籍对口公办初中", "pop": "老上海人为主，老龄化", "competition": 2, "hollow": 5, "score": 100, "price": "250-450", "policy": "核验当年对口与人户一致", "reason": "老城区典型空心化特征，公办均衡，竞争相对可控"}, {"mark": "★优选锁定", "selected": "是", "district": "杨浦", "plate": "杨浦滨江", "primary": "定海/滨江规划校群", "middle": "九年一贯及滨江新校规划", "pop": "更新中，原住民流出+局部导入", "competition": 2, "hollow": 4, "score": 96, "price": "300-700", "policy": "关注新校招生政策落地进度", "reason": "纪要点名符合空心化特征；需盯学校兑现"}, {"mark": "☆次优关注", "selected": "是", "district": "虹口", "plate": "四川北路/临平路", "primary": "区属公办", "middle": "学籍对口", "pop": "老城区", "competition": 2, "hollow": 4, "score": 96, "price": "220-400", "policy": "核验", "reason": "老虹口空心化特征，次优"}, {"mark": "☆次优关注", "selected": "是", "district": "黄浦", "plate": "人民广场/南京东路", "primary": "区属优质公办", "middle": "学籍对口", "pop": "商业占比高，带娃家庭密度低", "competition": 2, "hollow": 4, "score": 96, "price": "300-600", "policy": "总价偏高需精选小户型", "reason": "居住属性弱、适龄密度低，策略契合"}, {"mark": "★优选锁定", "selected": "是", "district": "黄浦", "plate": "豫园/小东门", "primary": "实验小学等周边", "middle": "学籍对口", "pop": "老城区居住人口下降", "competition": 2, "hollow": 4, "score": 96, "price": "250-480", "policy": "核验对口", "reason": "老板块，竞争低于近郊导入区"}, {"mark": "☆次优关注", "selected": "是", "district": "杨浦", "plate": "黄兴公园/延吉", "primary": "区属公办小学", "middle": "学籍对口", "pop": "老小区为主", "competition": 3, "hollow": 4, "score": 86, "price": "200-380", "policy": "核验对口", "reason": "次于鞍山但同属老杨浦逻辑"}, {"mark": "☆次优关注", "selected": "是", "district": "浦东", "plate": "塘桥", "primary": "塘桥周边公办", "middle": "洋泾/建平等路径分化", "pop": "老小区+局部改善", "competition": 3, "hollow": 3, "score": 74, "price": "250-450", "policy": "核验对口分组", "reason": "毗邻潍坊，可作观察，竞争高于潍坊老破小"}, {"mark": "☆次优关注", "selected": "是", "district": "虹口", "plate": "北外滩", "primary": "虹口公办小学", "middle": "学籍对口", "pop": "更新中，原住民结构变化", "competition": 3, "hollow": 3, "score": 74, "price": "300-700", "policy": "核验对口", "reason": "可作黄浦外溢观察"}];
+
+function renderPicks() {
+  const root = document.getElementById('picks');
+  root.innerHTML = SELECTED.map((r, i) => `
+    <article class="pick-card">
+      <div class="rank">${String(i+1).padStart(2,'0')}</div>
+      <div>
+        <h3>${r.district} · ${r.plate}</h3>
+        <p>${r.reason}</p>
+        <div class="meta">小学：${r.primary} ｜ 初中：${r.middle} ｜ 总价带：${r.price}万 ｜ ${r.policy}</div>
+      </div>
+      <div>
+        <span class="tag" data-m="${r.mark}">${r.mark}</span>
+        <div class="score" style="margin-top:8px;text-align:right">${r.score}</div>
+      </div>
+    </article>
+  `).join('');
+}
+
+function renderTable() {
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  const mark = document.getElementById('markFilter').value;
+  const sel = document.getElementById('selFilter').value;
+  const rows = DATA.filter(r => {
+    if (mark && r.mark !== mark) return false;
+    if (sel && r.selected !== sel) return false;
+    if (!q) return true;
+    const blob = [r.district, r.plate, r.primary, r.middle, r.reason, r.pop].join(' ').toLowerCase();
+    return blob.includes(q);
+  });
+  document.getElementById('tbody').innerHTML = rows.map(r => `
+    <tr>
+      <td><span class="tag" data-m="${r.mark}">${r.mark}</span></td>
+      <td>${r.selected}</td>
+      <td>${r.district}</td>
+      <td>${r.plate}</td>
+      <td>${r.primary}</td>
+      <td>${r.middle}</td>
+      <td>${r.competition}</td>
+      <td>${r.hollow}</td>
+      <td class="score">${r.score}</td>
+      <td>${r.price}</td>
+      <td>${r.reason}</td>
+    </tr>
+  `).join('');
+}
+
+document.getElementById('q').addEventListener('input', renderTable);
+document.getElementById('markFilter').addEventListener('change', renderTable);
+document.getElementById('selFilter').addEventListener('change', renderTable);
+document.getElementById('resetBtn').addEventListener('click', () => {
+  document.getElementById('q').value = '';
+  document.getElementById('markFilter').value = '';
+  document.getElementById('selFilter').value = '';
+  renderTable();
+});
+
+renderPicks();
+renderTable();
+</script>
+</body>
+</html>
