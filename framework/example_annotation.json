@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "source_text_id": "example-chinese-folk-marriage",
+  "primary_function": "F2_relational_explanation",
+  "secondary_functions": ["F4_moral_constraint", "F1_psychological_compensation"],
+  "culture_frame": "chinese_folk",
+  "culture_frame_note": null,
+  "narrative_device": ["yuanfen_affinity", "karmic_debt"],
+  "beneficiary": ["dyad", "family"],
+  "legitimacy_claim": ["personal_intuition"],
+  "evidence_spans": [
+    {
+      "quote": "你们上辈子是冤家，这辈子才会吵个不停，把债还清就好了。",
+      "supports": ["primary_function", "narrative_device", "beneficiary"]
+    },
+    {
+      "quote": "别再作孽，来世还要见面的。",
+      "supports": ["secondary_functions", "narrative_device"]
+    }
+  ],
+  "risk_flags": ["coercive_framing"],
+  "cross_cultural_note": "若改写为西方新时代语汇，可能从「冤家还债」漂向「灵魂契约/课题」，F4 减弱、F1 增强。",
+  "function_weights_heuristic": {
+    "F1": 0.35,
+    "F2": 0.85,
+    "F3": 0.1,
+    "F4": 0.55
+  },
+  "summary": "这段汉传民间婚姻叙事以「冤家—还债」解释夫妻冲突（F2 为主），并以「来世还要见面」施加道德压力（F4）。同时把当下争吵意义化，带有轻度心理补偿（F1）。存在用超验剧本劝对方忍耐的操控风险。"
+}

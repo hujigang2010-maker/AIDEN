@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aiden.local/schemas/pln-f/v1.json",
+  "title": "PLN-F Past-Life Narrative Functional Analysis",
+  "description": "前世叙事功能分析框架（PLN-F）v1.0 的结构化输出 Schema。用于标注、模型输出约束与跨文化对照。不做真伪裁决。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "primary_function",
+    "secondary_functions",
+    "culture_frame",
+    "narrative_device",
+    "beneficiary",
+    "legitimacy_claim",
+    "evidence_spans",
+    "risk_flags",
+    "summary"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "source_text_id": {
+      "type": ["string", "null"],
+      "description": "可选：语料 ID 或 URL"
+    },
+    "primary_function": {
+      "type": "string",
+      "enum": ["F1_psychological_compensation", "F2_relational_explanation", "F3_identity_construction", "F4_moral_constraint"],
+      "description": "主功能（单选）"
+    },
+    "secondary_functions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["F1_psychological_compensation", "F2_relational_explanation", "F3_identity_construction", "F4_moral_constraint"]
+      },
+      "uniqueItems": true,
+      "description": "辅功能（多选，可空；不得与 primary 重复）"
+    },
+    "culture_frame": {
+      "type": "string",
+      "enum": [
+        "indic_doctrinal",
+        "chinese_folk",
+        "tibetan_institutional",
+        "japanese_popular",
+        "western_new_age",
+        "african_ancestral",
+        "syncretic",
+        "other"
+      ]
+    },
+    "culture_frame_note": {
+      "type": ["string", "null"],
+      "description": "当 culture_frame=other/syncretic 时的补充说明"
+    },
+    "narrative_device": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "karma_vipaka",
+          "yuanfen_affinity",
+          "karmic_debt",
+          "soulmate_twin_flame",
+          "mission_calling",
+          "hypnotic_regression",
+          "dream_vision",
+          "tulku_reincarnation",
+          "ancestral_return",
+          "merit_demerit",
+          "elite_past_self",
+          "unfinished_lesson",
+          "other"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "beneficiary": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": ["self", "dyad", "family", "community", "institution"]
+      },
+      "uniqueItems": true
+    },
+    "legitimacy_claim": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "scripture",
+          "religious_authority",
+          "institutional_recognition",
+          "hypnosis_therapist",
+          "dream_or_omen",
+          "genealogy",
+          "platform_influencer",
+          "personal_intuition",
+          "other"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "evidence_spans": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["quote", "supports"],
+        "properties": {
+          "quote": {
+            "type": "string",
+            "minLength": 1,
+            "description": "原文摘录"
+          },
+          "supports": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "primary_function",
+                "secondary_functions",
+                "culture_frame",
+                "narrative_device",
+                "beneficiary",
+                "legitimacy_claim",
+                "risk_flags"
+              ]
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "historical_appropriation",
+          "coercive_framing",
+          "anxiety_marketing",
+          "elite_inflation",
+          "authority_abuse",
+          "vulnerable_targeting",
+          "none"
+        ]
+      },
+      "uniqueItems": true,
+      "description": "若无风险，使用 [\"none\"]"
+    },
+    "cross_cultural_note": {
+      "type": ["string", "null"],
+      "description": "换文化框架时功能权重可能如何漂移"
+    },
+    "function_weights_heuristic": {
+      "type": "object",
+      "description": "可选：分析者对该文本四维强度的 0–1 估计",
+      "additionalProperties": false,
+      "properties": {
+        "F1": { "type": "number", "minimum": 0, "maximum": 1 },
+        "F2": { "type": "number", "minimum": 0, "maximum": 1 },
+        "F3": { "type": "number", "minimum": 0, "maximum": 1 },
+        "F4": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "2–4 句中文功能画像，不做真伪判断"
+    }
+  }
+}
