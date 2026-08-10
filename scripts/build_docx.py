@@ -12,7 +12,7 @@ import content as C
 
 OUT = Path(__file__).resolve().parent.parent / "deliverables"
 OUT.mkdir(parents=True, exist_ok=True)
-OUT_FILE = OUT / "上海AI博物馆_会议纪要与可执行方案.docx"
+OUT_FILE = OUT / "上海人工智能产业展馆_会议纪要与可执行方案.docx"
 
 NAVY = (0x0B, 0x3D, 0x5C)
 TEAL = (0x0F, 0x7A, 0x6E)
@@ -191,7 +191,7 @@ def build():
     add_h(doc, "一、项目定位与差异化", level=2)
     add_p(
         doc,
-        "定位：建设人工智能产业相关的常设展示与配套服务空间，以可签约企业展位、"
+        "定位：建设产业科技主题的常设展示与配套服务空间，以可签约企业展位、"
         "可核验应用案例和研学服务为主，并探索与城市重大展会的会后延伸合作。"
         "一期控制可运营面积与预算，验证后再评估扩展或对外输出。",
     )
@@ -281,7 +281,7 @@ def build():
     add_table(doc, C.CONTENT_LAYERS[0], C.CONTENT_LAYERS[1:])
     add_bullets(doc, [
         "内容以可签约展位与可授权案例为主，不堆砌概念演示，不预设不可控传播事项。",
-        "陈胜补充海外授权线索；国内头部企业多数在沪，适合集中拜访谈展位。",
+        "陈晟补充海外授权线索；国内头部企业多数在沪，适合集中拜访谈展位。",
         "涉外与品牌使用先法务预审，再制作物料。",
     ])
 
@@ -299,7 +299,7 @@ def build():
     add_table(doc, C.RISKS[0], C.RISKS[1:])
     add_p(doc, "建议立即执行的下一步：", bold=True)
     add_bullets(doc, [
-        "陈胜发送极简文字材料，并补充海外授权可行性清单。",
+        "陈晟发送极简文字材料，并补充海外授权可行性清单。",
         "胡继刚以本套 Word / PPT / Excel 形成可外发路演包。",
         "陈红苗并行推进：创智汇与复兴岛租约比选、潜在赞助沟通、教育渠道对接。",
         "指定专人梳理扶持基金窗口表，专项按保守到账写入预算。",
@@ -313,7 +313,7 @@ def build():
     )
     add_p(
         doc,
-        "配套文件：上海AI博物馆_可执行落地方案.pptx　｜　上海AI博物馆_投资盈利政策落地表.xlsx",
+        "配套文件：上海人工智能产业展馆_可执行落地方案.pptx　｜　上海人工智能产业展馆_投资盈利政策落地表.xlsx",
         align=WD_ALIGN_PARAGRAPH.CENTER, color=GREY, size=9,
     )
 

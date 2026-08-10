@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""生成 Excel：上海AI博物馆投资 / 盈利 / 政策落地表。"""
+"""生成 Excel：上海人工智能产业展馆投资 / 盈利 / 政策落地表。"""
 from pathlib import Path
 
 from openpyxl import Workbook
@@ -11,7 +11,7 @@ import content as C
 
 OUT = Path(__file__).resolve().parent.parent / "deliverables"
 OUT.mkdir(parents=True, exist_ok=True)
-OUT_FILE = OUT / "上海AI博物馆_投资盈利政策落地表.xlsx"
+OUT_FILE = OUT / "上海人工智能产业展馆_投资盈利政策落地表.xlsx"
 
 PRIMARY = "0B3D5C"
 ACCENT = "0F7A6E"
@@ -102,7 +102,7 @@ def sheet_dashboard(wb):
     banner(ws, 4, "一、项目一句话", 8, PRIMARY)
     ws.merge_cells("A5:H5")
     ws["A5"] = (
-        "多方合作建设人工智能产业相关常设展馆与配套服务空间："
+        "多方合作建设产业科技主题常设展馆与配套服务空间："
         "以租金优惠/装修共担、赞助展位、专项补贴与运营公司启动金完成开办；"
         "以空间经营、研学服务、展位赞助实现可持续收入。"
     )
@@ -262,7 +262,7 @@ def sheet_content(wb):
 
 def sheet_org(wb):
     ws = wb.create_sheet("07_组织分工")
-    big_title(ws, "E", "组织角色", "陈胜 · 胡继刚 · 陈红苗")
+    big_title(ws, "E", "组织角色", "陈晟 · 胡继刚 · 陈红苗")
     header_row(ws, 4, C.ORG_ROLES[0] + ["联系人", "状态"])
     for i, row in enumerate(C.ORG_ROLES[1:], 5):
         write_row(ws, i, row + ["", "未开始"])
@@ -295,7 +295,7 @@ def sheet_tracker(wb):
         ["中国科协/地方科协", "社团合作", "E", "", "", "", "正式文件", "备忘录材料", "未开始", "已有初步沟通"],
         ["区政府/科创委", "政策资金", "D", "", "", "", "入库与补贴", "专项申报", "未开始", ""],
         ["在沪科技企业", "展位合作", "C", "", "", "", "展位权益", "集中拜访", "未开始", ""],
-        ["海外授权线索", "内容授权", "G", "陈胜", "", "", "授权可行性", "线索清单", "未开始", ""],
+        ["海外授权线索", "内容授权", "G", "陈晟", "", "", "授权可行性", "线索清单", "未开始", ""],
         ["教育/研学渠道", "B端客群", "D", "陈红苗", "", "", "基地目录", "课程备案", "未开始", ""],
     ]
     for i, row in enumerate(seeds, 5):
