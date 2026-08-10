@@ -102,8 +102,9 @@ def sheet_dashboard(wb):
     banner(ws, 4, "一、项目一句话", 8, PRIMARY)
     ws.merge_cells("A5:H5")
     ws["A5"] = (
-        "科协牵头、多主体出资建设「AI全产业链博物馆」，项目方轻资产运营："
-        "用场地免租+设备配套+赞助捐赠完成建设，用租金/研学/孵化/模板输出/海外内容实现盈利。"
+        "多方合作建设人工智能产业相关常设展馆与配套服务空间："
+        "以租金优惠/装修共担、赞助展位、专项补贴与运营公司启动金完成开办；"
+        "以空间经营、研学服务、展位赞助实现可持续收入。"
     )
     ws["A5"].alignment = Alignment(wrap_text=True, vertical="center")
     ws["A5"].font = Font(name="微软雅黑", size=11, color=DARK)
@@ -229,7 +230,7 @@ def sheet_policy(wb):
 
 def sheet_site(wb):
     ws = wb.create_sheet("05_场地候选")
-    big_title(ws, "G", "场地候选与谈判要点", "谈判核心：免租10–20年 + 约5000万设备装修")
+    big_title(ws, "G", "场地候选与谈判要点", "谈判核心：租期与租金阶梯、装修分摊、退出条款")
     header_row(ws, 4, C.SITE_CANDIDATES[0] + ["谈判状态"])
     for i, row in enumerate(C.SITE_CANDIDATES[1:], 5):
         write_row(ws, i, row + ["未开始"])
@@ -237,10 +238,10 @@ def sheet_site(wb):
     add_status_dv(ws, "G", 5, 4 + len(C.SITE_CANDIDATES[1:]))
     banner(ws, 8, "谈判话术要点（内部）", 7, ACCENT)
     tips = [
-        "对场地方：盘活闲置 + 高层考察场景 + 剩余面积招商优先/租金分成",
-        "对区政府：WAIC会后365天政绩 + 研学指标 + 科创名片",
-        "对资方：科创考核故事 + AI历史席位（比广告好立项）",
-        "红线：建设期项目方尽量零出资本金；先封闭场地与设备资金再画施工图",
+        "对场地方：物业去化 + 可租面积分成 + 合理租金阶梯/装修期减免（写进租约）",
+        "对区平台：科普/研学场景 + 重点项目申报材料，专项未批不计入必达资金",
+        "对赞助方：可报价权益包 + 可验收露出，合同约定合作期限",
+        "红线：开办资金须覆盖预算；不以超长期零租金或大额无偿出资作为立项前提",
     ]
     for i, t in enumerate(tips, 9):
         write_row(ws, i, [t])
@@ -248,20 +249,20 @@ def sheet_site(wb):
     set_widths(ws, [20, 16, 36, 28, 32, 28, 12])
 
 
-def sheet_exhibit(wb):
-    ws = wb.create_sheet("06_展陈资源")
-    big_title(ws, "F", "展陈分层与资源对接", "美方理论 / 中方应用")
-    header_row(ws, 4, C.EXHIBIT_LAYERS[0] + ["对接负责人", "状态"])
-    for i, row in enumerate(C.EXHIBIT_LAYERS[1:], 5):
+def sheet_content(wb):
+    ws = wb.create_sheet("06_内容资源")
+    big_title(ws, "F", "内容结构与资源对接", "可签约 / 可授权 / 可更新")
+    header_row(ws, 4, C.CONTENT_LAYERS[0] + ["对接负责人", "状态"])
+    for i, row in enumerate(C.CONTENT_LAYERS[1:], 5):
         write_row(ws, i, row + ["", "未开始"])
         ws.row_dimensions[i].height = 40
-    add_status_dv(ws, "F", 5, 4 + len(C.EXHIBIT_LAYERS[1:]))
+    add_status_dv(ws, "F", 5, 4 + len(C.CONTENT_LAYERS[1:]))
     set_widths(ws, [20, 40, 36, 28, 14, 12])
 
 
 def sheet_org(wb):
     ws = wb.create_sheet("07_组织分工")
-    big_title(ws, "E", "组织角色", "中美双团队推进")
+    big_title(ws, "E", "组织角色", "陈胜 · 胡继刚 · 陈红苗")
     header_row(ws, 4, C.ORG_ROLES[0] + ["联系人", "状态"])
     for i, row in enumerate(C.ORG_ROLES[1:], 5):
         write_row(ws, i, row + ["", "未开始"])
@@ -271,7 +272,7 @@ def sheet_org(wb):
 
 def sheet_risks(wb):
     ws = wb.create_sheet("08_风险台账")
-    big_title(ws, "F", "风险与缓释", "谈判与预算为当前最高优先级风险")
+    big_title(ws, "F", "风险与缓释", "租金条款与开办资金闭环为当前最高优先级")
     header_row(ws, 4, C.RISKS[0] + ["责任人", "状态"])
     for i, row in enumerate(C.RISKS[1:], 5):
         write_row(ws, i, row + ["", "未开始"])
@@ -288,14 +289,14 @@ def sheet_tracker(wb):
         "意向度(高/中/低)", "卡点", "下一步", "状态", "备注",
     ])
     seeds = [
-        ["华润相关主体", "主赞助/场地", "B / A", "", "", "", "同学通道材料", "一页纸权益包", "未开始", ""],
-        ["杨浦科创集团/中建四局", "场地方", "A", "", "", "", "免租+5000万", "创智汇路演", "未开始", "3300㎡一期"],
-        ["复兴岛主管单位", "场地方", "A", "", "", "", "产权与改造", "踏勘", "未开始", ""],
-        ["中国科协", "主管/专项", "E", "", "", "", "正式文件", "汇报材料", "未开始", "已初步沟通"],
-        ["区政府/科创委", "政策资金", "D", "", "", "", "入库与补贴", "重点项目申报", "未开始", ""],
-        ["头部大模型企业（沪）", "金牌赞助", "C", "", "", "", "展席权益", "集中拜访", "未开始", ""],
-        ["曾达", "生态合作", "C/G", "", "", "", "角色定义", "邀约", "未开始", ""],
-        ["海外科技企业", "内容授权", "G", "", "", "", "接受度/合规", "陈院长清单", "未开始", ""],
+        ["华润相关主体", "主赞助/战略", "B", "", "", "", "立项对齐", "一页纸权益包", "未开始", ""],
+        ["杨浦科创集团/中建四局", "场地方", "A", "", "", "", "租金与装修分摊", "创智汇路演", "未开始", "3300㎡一期"],
+        ["复兴岛主管单位", "场地方", "A", "", "", "", "产权与改造估算", "踏勘", "未开始", ""],
+        ["中国科协/地方科协", "社团合作", "E", "", "", "", "正式文件", "备忘录材料", "未开始", "已有初步沟通"],
+        ["区政府/科创委", "政策资金", "D", "", "", "", "入库与补贴", "专项申报", "未开始", ""],
+        ["在沪科技企业", "展位合作", "C", "", "", "", "展位权益", "集中拜访", "未开始", ""],
+        ["海外授权线索", "内容授权", "G", "陈胜", "", "", "授权可行性", "线索清单", "未开始", ""],
+        ["教育/研学渠道", "B端客群", "D", "陈红苗", "", "", "基地目录", "课程备案", "未开始", ""],
     ]
     for i, row in enumerate(seeds, 5):
         write_row(ws, i, row)
@@ -311,7 +312,7 @@ def build():
     sheet_profit(wb)
     sheet_policy(wb)
     sheet_site(wb)
-    sheet_exhibit(wb)
+    sheet_content(wb)
     sheet_org(wb)
     sheet_risks(wb)
     sheet_tracker(wb)

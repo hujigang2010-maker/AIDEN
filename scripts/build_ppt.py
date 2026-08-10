@@ -163,11 +163,11 @@ def build():
     add_text(s, Inches(0.9), Inches(4.2), Inches(11.5), Inches(0.8),
              [
                  "基于两场会议笔记整理（2026-08-08 / 2026-08-10）",
-                 "对标美国计算机历史博物馆 · WAIC会后365天常态化平台",
+                 "参与人：陈胜 · 胡继刚 · 陈红苗  |  V1.1 务实修订稿",
              ],
              size=13, color=MINT)
     add_text(s, Inches(0.9), Inches(6.3), Inches(11), Inches(0.4),
-             f"{C.VERSION} 讨论稿  |  {C.DATE_STR}  |  供场地 / 资方 / 科协路演使用",
+             f"{C.VERSION} 讨论稿  |  {C.DATE_STR}  |  供场地 / 资方 / 主管部门路演使用",
              size=11, color=GREY)
 
     # 2 目录
@@ -181,7 +181,7 @@ def build():
         "05  盈利逻辑与六条收入线（重点）",
         "06  政策性支持与扶持资金匹配（重点）",
         "07  场地候选与空间经济模型",
-        "08  展陈分层与资源地图",
+        "08  内容结构与资源对接",
         "09  组织分工与90天推进节奏",
         "10  风险清单与下一步待办",
     ]
@@ -195,51 +195,51 @@ def build():
              C.MEETING_SUMMARY, size=12, color=INK)
     make_card(s, Inches(0.5), Inches(2.15), Inches(4.0), Inches(4.5),
               "场次一 · 08-08", [
-                  "教育部认证 + 研学切入",
-                  "一二层信息化展馆",
-                  "三层结构：算力/应用/移动AI",
-                  "华润等赞助商思路",
-                  "海外账号反向变现",
-                  "运营周期 5–10 年",
+                  "教育研学切入",
+                  "一期可控面积试点",
+                  "算力 / 模型 / 行业应用",
+                  "赞助与战略合作思路",
+                  "内容运营需合规授权",
+                  "参与：陈胜等",
               ])
     make_card(s, Inches(4.7), Inches(2.15), Inches(4.0), Inches(4.5),
               "场次二 · 08-10", [
-                  "陈院长提出完整方案",
-                  "免租10–20年+约5000万设备",
+                  "陈胜提出整体框架",
+                  "租金优惠+装修共担（可谈）",
                   "创智汇 / 复兴岛候选",
-                  "科协牵头抢IP",
-                  "租金+孵化+模板输出",
-                  "胡老师整理可展示版本",
+                  "科协等社团合作路径",
+                  "租金+研学+展位赞助",
+                  "胡继刚整理、陈红苗对接",
               ], accent=NAVY)
     make_card(s, Inches(8.9), Inches(2.15), Inches(3.9), Inches(4.5),
               "本方案核心关注", C.CORE_CONCERNS, accent=AMBER)
 
     # 4 定位
     s, p = new()
-    slide_header(s, "项目定位与差异化", "名称IP × 全产业链 × 会后365天", p, TOTAL)
+    slide_header(s, "项目定位与差异化", "常设展陈 × 研学服务 × 空间经营", p, TOTAL)
     make_card(s, Inches(0.5), Inches(1.4), Inches(6.0), Inches(2.4),
               "一句话定位", [
-                  "世界人工智能大会闭幕后的常态化AI展示与孵化平台",
-                  "覆盖芯片—应用—具身全链，串联历史与最新成果",
-                  "做成可向其他城市复制的标准模板",
+                  "人工智能产业相关的常设展示与配套服务空间",
+                  "内容以可签约展位与可核验应用案例为主",
+                  "一期小步验证，再谈扩展与对外输出",
               ])
     make_card(s, Inches(6.7), Inches(1.4), Inches(6.0), Inches(2.4),
               "与现有展厅差异", C.DIFFERENTIATION, accent=NAVY)
     make_table(
         s, Inches(0.5), Inches(4.0), Inches(12.3), Inches(2.6),
-        ["维度", "现有机器人展厅", "本项目AI博物馆"],
+        ["维度", "现有科技/机器人展厅", "本项目（目标）"],
         [
-            ["范围", "机器人为主", "AI全产业链+历史溯源"],
-            ["功能", "交易与展示", "展示+研学认证+孵化投资+模板输出"],
-            ["内容", "国内产业为主", "中美对照 + 硅谷实时连线"],
-            ["组织", "企业/园区主导", "科协牵头 + 多主体共建"],
+            ["范围", "单一品类展示居多", "基础设施+模型工具+行业应用"],
+            ["功能", "展示/交易为主", "展示+研学服务+配套空间经营"],
+            ["内容", "临展或固定陈列", "企业展位合同+定期更新机制"],
+            ["组织", "企业或园区单方主导", "运营公司+赞助+物业多方共建"],
         ],
         font_size=11,
     )
 
     # 5 投资原则+路径总览
     s, p = new()
-    slide_header(s, "投资总原则：不自有资金站上制高点", "多主体分担 · 分层组合 · 用IP换长期权益", p, TOTAL)
+    slide_header(s, "投资总原则：可组合、可核算、可退出", "租金共担 · 赞助分层 · 专项与启动金闭环", p, TOTAL)
     add_text(s, Inches(0.5), Inches(1.35), Inches(12.3), Inches(0.7),
              C.INVEST_PRINCIPLE, size=12, color=INK)
     rows = []
@@ -255,17 +255,20 @@ def build():
 
     # 6 投资路径细节（P0）
     s, p = new()
-    slide_header(s, "投资方怎么投：P0 四条主路径", "场地钱、主赞助、政府基金、科协专项先闭环", p, TOTAL)
-    p0 = [x for x in C.INVEST_PATHS if x["优先级"] == "P0"]
+    slide_header(s, "投资方怎么投：P0 四条主路径", "物业共担、主赞助、政府专项、启动资金先闭环", p, TOTAL)
+    p0 = [x for x in C.INVEST_PATHS if x["优先级"] == "P0"][:4]
     positions = [
         (0.4, 1.35), (6.75, 1.35), (0.4, 4.2), (6.75, 4.2),
     ]
     for (left, top), it in zip(positions, p0):
+        how = it["出资方式"]
+        if len(how) > 42:
+            how = how[:40] + "…"
         make_card(
             s, Inches(left), Inches(top), Inches(6.1), Inches(2.6),
             it["路径"],
             [
-                f"怎么出：{it['出资方式']}",
+                f"怎么出：{how}",
                 f"谁来出：{it['出资方画像']}",
                 f"回报：{it['回报机制']}",
                 f"动作：{it['落地动作']}",
@@ -274,7 +277,7 @@ def build():
 
     # 7 赞助层级
     s, p = new()
-    slide_header(s, "赞助层级与资方回报设计", "把「历史席位」产品化，方便企业立项", p, TOTAL)
+    slide_header(s, "赞助层级与资方回报设计", "权益可报价、可立项、可验收", p, TOTAL)
     headers = C.SPONSOR_TIERS[0]
     rows = C.SPONSOR_TIERS[1:]
     make_table(s, Inches(0.4), Inches(1.4), Inches(12.5), Inches(3.6),
@@ -282,16 +285,16 @@ def build():
     add_bullets(
         s, Inches(0.5), Inches(5.2), Inches(12), Inches(1.6),
         [
-            "华润路径：对齐其科创投入与向上汇报需求，同学通道 + 董事会材料双轨推进",
-            "头部AI企业：捐赠换「行业历史席位」，比纯广告投放更易内部批准",
-            "场地方：免租+设备出资，换政绩场景、物业去化与租金/招商分成",
+            "战略赞助：对齐对方科创合作KPI，准备一页纸权益包与立项叙述",
+            "企业展位：建设费+年度更新，合同约定露出与撤展及合作期限",
+            "场地方：租金阶梯优惠/装修共担，换物业去化与可租面积分成",
         ],
         size=13,
     )
 
     # 8 盈利
     s, p = new()
-    slide_header(s, "盈利逻辑：展馆不靠卖票养活，靠IP经营赚钱", C.PROFIT_LOGIC[:60] + "…", p, TOTAL)
+    slide_header(s, "盈利逻辑：空间经营 + 服务 + 赞助", C.PROFIT_LOGIC[:58] + "…", p, TOTAL)
     make_table(
         s, Inches(0.35), Inches(1.35), Inches(12.6), Inches(5.5),
         ["收入线", "稳态占比", "启动条件", "里程碑"],
@@ -304,7 +307,7 @@ def build():
 
     # 9 政策
     s, p = new()
-    slide_header(s, "政策性支持怎么落地", "研学强制要求 × 科协牵头 × 扶持基金 × 闲置物业", p, TOTAL)
+    slide_header(s, "政策性支持怎么落地", "研学基地 × 社团合作 × 扶持基金 × 物业支持", p, TOTAL)
     make_table(
         s, Inches(0.3), Inches(1.35), Inches(12.7), Inches(5.5),
         ["政策/抓手", "对项目价值", "落地步骤", "责任方"],
@@ -326,14 +329,14 @@ def build():
     )
     add_text(
         s, Inches(0.5), Inches(5.8), Inches(12.3), Inches(0.9),
-        "执行口诀：先签场地框架（免租+配套资金）→ 同步科协名义 → 再按窗口填报专项；"
-        "现金资助是加法，场地与设备封闭才是项目能否开工的充要条件。",
+        "执行口诀：先谈清租约与装修分摊 → 锁定启动金与主赞助 → 再按窗口申报专项；"
+        "专项按保守到账比例入预算，未批复前不计入必达资金。",
         size=13, bold=True, color=TEAL_DEEP,
     )
 
     # 11 场地
     s, p = new()
-    slide_header(s, "场地候选与空间经济模型", "6000–10000㎡总盘 · 约2000㎡展陈 · 其余经营反哺", p, TOTAL)
+    slide_header(s, "场地候选与空间经济模型", "一期可控面积试点 · 租金共担 · 测算后再扩", p, TOTAL)
     make_table(
         s, Inches(0.3), Inches(1.35), Inches(12.7), Inches(2.8),
         C.SITE_CANDIDATES[0],
@@ -347,21 +350,21 @@ def build():
         font_size=10,
     )
 
-    # 12 展陈
+    # 12 内容结构（已去掉具身等展示性堆砌）
     s, p = new()
-    slide_header(s, "展陈分层与资源地图", "美方理论前沿 · 中方产业应用 · 实时更新", p, TOTAL)
+    slide_header(s, "内容结构与资源对接", "可签约、可授权、可更新 —— 不堆概念演示", p, TOTAL)
     make_table(
-        s, Inches(0.4), Inches(1.4), Inches(12.5), Inches(3.5),
-        C.EXHIBIT_LAYERS[0],
-        C.EXHIBIT_LAYERS[1:],
+        s, Inches(0.4), Inches(1.4), Inches(12.5), Inches(3.2),
+        C.CONTENT_LAYERS[0],
+        C.CONTENT_LAYERS[1:],
         font_size=11,
     )
     add_bullets(
-        s, Inches(0.5), Inches(5.2), Inches(12), Inches(1.6),
+        s, Inches(0.5), Inches(4.9), Inches(12), Inches(1.8),
         [
-            "已筛美国核心展品约前20项；国内优先头部有收入企业",
-            "陈院长可对接谷歌等资源；可联动李飞飞等海外人物直播",
-            "国内头部大模型企业多数注册在上海，集中拜访效率高",
+            "展品与案例以合同/授权为前提，未签约不写入开业必保清单",
+            "陈胜补充海外授权线索；国内头部企业集中在沪，适合批量谈展位",
+            "涉外内容先做法务预审，不预设名人直播等不可控事项",
         ],
         size=13,
     )
