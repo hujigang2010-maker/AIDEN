@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""生成 PPT：上海人工智能产业展馆可执行落地方案（侧重投资 / 盈利 / 政策）。"""
+"""生成 PPT：上海人工智能产业展馆 · 对外汇报版。"""
 from pathlib import Path
 
 from pptx import Presentation
@@ -13,9 +13,8 @@ import content as C
 
 OUT = Path(__file__).resolve().parent.parent / "deliverables"
 OUT.mkdir(parents=True, exist_ok=True)
-OUT_FILE = OUT / "上海人工智能产业展馆_可执行落地方案.pptx"
+OUT_FILE = OUT / "上海人工智能产业展馆_对外汇报方案.pptx"
 
-# 青绿+海军蓝（机构/科创，避免紫白套路）
 NAVY = RGBColor(0x0B, 0x3D, 0x5C)
 TEAL = RGBColor(0x0F, 0x7A, 0x6E)
 TEAL_DEEP = RGBColor(0x0A, 0x4F, 0x48)
@@ -25,7 +24,6 @@ INK = RGBColor(0x1A, 0x2B, 0x2E)
 GREY = RGBColor(0x5C, 0x6B, 0x70)
 WHITE = RGBColor(0xFF, 0xFF, 0xFF)
 AMBER = RGBColor(0xC4, 0x7B, 0x2D)
-RED = RGBColor(0xA6, 0x3D, 0x2F)
 
 
 def set_font(run, name="微软雅黑", size=18, bold=False, color=INK):
@@ -55,10 +53,8 @@ def add_text(slide, left, top, width, height, text, size=18, bold=False,
     tb = slide.shapes.add_textbox(left, top, width, height)
     tf = tb.text_frame
     tf.word_wrap = True
-    tf.margin_left = Emu(0)
-    tf.margin_right = Emu(0)
-    tf.margin_top = Emu(0)
-    tf.margin_bottom = Emu(0)
+    for m in ("margin_left", "margin_right", "margin_top", "margin_bottom"):
+        setattr(tf, m, Emu(0))
     tf.vertical_anchor = anchor
     if isinstance(text, str):
         text = [text]
@@ -77,7 +73,7 @@ def add_bullets(slide, left, top, width, height, items, size=13, color=INK, bull
     tf.word_wrap = True
     for i, it in enumerate(items):
         p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
-        p.line_spacing = 1.2
+        p.line_spacing = 1.15
         run = p.add_run()
         run.text = f"{bullet}  {it}"
         set_font(run, size=size, color=color)
@@ -97,7 +93,7 @@ def slide_header(slide, title, subtitle=None, page_no=None, total=None):
                  f"{page_no} / {total}", size=10, color=GREY, align=PP_ALIGN.RIGHT)
 
 
-def make_card(slide, left, top, width, height, title, body_items, accent=TEAL):
+def make_card(slide, left, top, width, height, title, body_items, accent=TEAL, body_size=11):
     add_rect(slide, left, top, width, height, fill=SAND)
     add_rect(slide, left, top, Inches(0.07), height, fill=accent)
     add_text(slide, left + Inches(0.18), top + Inches(0.08),
@@ -105,7 +101,7 @@ def make_card(slide, left, top, width, height, title, body_items, accent=TEAL):
              title, size=13, bold=True, color=accent)
     add_bullets(slide, left + Inches(0.18), top + Inches(0.45),
                 width - Inches(0.28), height - Inches(0.5),
-                body_items, size=11)
+                body_items, size=body_size)
 
 
 def make_table(slide, left, top, width, height, headers, rows, font_size=10):
@@ -133,7 +129,7 @@ def make_table(slide, left, top, width, height, headers, rows, font_size=10):
             p = tf.paragraphs[0]
             r = p.add_run()
             r.text = str(val)
-            set_font(r, size=font_size - 1, color=INK)
+            set_font(r, size=max(font_size - 1, 8), color=INK)
     return table
 
 
@@ -142,7 +138,7 @@ def build():
     prs.slide_width = Inches(13.333)
     prs.slide_height = Inches(7.5)
     blank = prs.slide_layouts[6]
-    TOTAL = 14
+    TOTAL = 16
     page = [0]
 
     def new():
@@ -153,254 +149,211 @@ def build():
     s, _ = new()
     add_rect(s, Inches(0), Inches(0), Inches(13.333), Inches(7.5), fill=NAVY)
     add_rect(s, Inches(0), Inches(0), Inches(0.18), Inches(7.5), fill=TEAL)
-    add_text(s, Inches(0.9), Inches(1.6), Inches(11), Inches(0.4),
-             "工作会议纪要 → 可执行落地方案", size=14, color=MINT)
-    add_text(s, Inches(0.9), Inches(2.1), Inches(11.5), Inches(1.0),
-             C.PROJECT, size=32, bold=True, color=WHITE)
-    add_text(s, Inches(0.9), Inches(3.3), Inches(11.5), Inches(0.5),
-             "核心聚焦：投资方怎么投 · 项目怎么赚 · 政策怎么落地",
-             size=18, bold=True, color=AMBER)
-    add_text(s, Inches(0.9), Inches(4.2), Inches(11.5), Inches(0.8),
+    add_text(s, Inches(0.9), Inches(1.5), Inches(11), Inches(0.4),
+             "对外汇报方案", size=14, color=MINT)
+    add_text(s, Inches(0.9), Inches(2.0), Inches(11.5), Inches(1.0),
+             C.PROJECT, size=30, bold=True, color=WHITE)
+    add_text(s, Inches(0.9), Inches(3.2), Inches(11.5), Inches(0.6),
+             f"样板对标：{C.BENCHMARK}", size=14, color=AMBER)
+    add_text(s, Inches(0.9), Inches(4.0), Inches(11.5), Inches(0.8),
              [
-                 "基于两场会议笔记整理（2026-08-08 / 2026-08-10）",
-                 "参与人：陈晟 · 胡继刚 · 陈红苗  |  V1.2 修订稿",
-             ],
-             size=13, color=MINT)
+                 "租金与装修产业生态分摊  ·  多元盈利结构  ·  支持单位协同",
+                 "汇报人团队：陈晟 · 胡继刚 · 陈红苗",
+             ], size=13, color=MINT)
     add_text(s, Inches(0.9), Inches(6.3), Inches(11), Inches(0.4),
-             f"{C.VERSION} 讨论稿  |  {C.DATE_STR}  |  供场地 / 资方 / 主管部门路演使用",
+             f"{C.VERSION}  |  {C.DATE_STR}  |  供合作方 / 主管部门 / 支持单位汇报",
              size=11, color=GREY)
 
     # 2 目录
     s, p = new()
-    slide_header(s, "目录", "先对齐共识，再谈投、赚、政策", p, TOTAL)
+    slide_header(s, "目录", "对外汇报结构", p, TOTAL)
     toc = [
-        "01  双场会议纪要要点与核心关注",
-        "02  项目定位与差异化",
-        "03  投资总原则与七条出资路径（重点）",
-        "04  赞助层级与资方回报设计（重点）",
-        "05  盈利逻辑与六条收入线（重点）",
-        "06  政策性支持与扶持资金匹配（重点）",
-        "07  场地候选与空间经济模型",
-        "08  内容结构与资源对接",
-        "09  组织分工与90天推进节奏",
-        "10  风险清单与下一步待办",
+        "01  项目概要与核心议题",
+        "02  对标 CHM：一对一深化",
+        "03  上海落地定位",
+        "04  租金的产业生态逻辑（重点）",
+        "05  装修费的分层共担（重点）",
+        "06  投资与赞助结构",
+        "07  支持单位",
+        "08  多元盈利模式",
+        "09  政策与资金匹配",
+        "10  选址、内容、节奏与下一步",
     ]
-    add_bullets(s, Inches(1.2), Inches(1.6), Inches(10), Inches(5.2),
+    add_bullets(s, Inches(1.2), Inches(1.55), Inches(10), Inches(5.2),
                 toc, size=16, bullet="▸")
 
-    # 3 纪要
+    # 3 概要（无场次）
     s, p = new()
-    slide_header(s, "双场会议纪要要点", "场次一讨论定方向 · 场次二工作会议定推进", p, TOTAL)
-    add_text(s, Inches(0.5), Inches(1.35), Inches(12.3), Inches(0.7),
-             C.MEETING_SUMMARY, size=12, color=INK)
-    make_card(s, Inches(0.5), Inches(2.15), Inches(4.0), Inches(4.5),
-              "场次一 · 08-08", [
-                  "教育研学切入",
-                  "一期可控面积试点",
-                  "算力 / 模型 / 行业应用",
-                  "赞助与战略合作思路",
-                  "内容运营需合规授权",
-                  "参与：陈晟等",
+    slide_header(s, "项目概要与核心议题", "对外共识摘要", p, TOTAL)
+    add_text(s, Inches(0.5), Inches(1.35), Inches(12.3), Inches(1.0),
+             C.EXEC_SUMMARY, size=12, color=INK)
+    make_card(s, Inches(0.5), Inches(2.5), Inches(4.0), Inches(4.2),
+              "定位共识", [
+                  "常设展馆，非临展",
+                  "对标加州 CHM 样板",
+                  "叙事主线 + 展位年更",
+                  "研学与公众双客群",
               ])
-    make_card(s, Inches(4.7), Inches(2.15), Inches(4.0), Inches(4.5),
-              "场次二 · 08-10", [
-                  "陈晟提出整体框架",
-                  "租金优惠+装修共担（可谈）",
-                  "创智汇 / 复兴岛候选",
-                  "科协等社团合作路径",
-                  "租金+研学+展位赞助",
-                  "胡继刚整理、陈红苗对接",
+    make_card(s, Inches(4.7), Inches(2.5), Inches(4.0), Inches(4.2),
+              "经营共识", [
+                  "先筹后建",
+                  "租金阶梯 + 装修分层",
+                  "启动金必须闭环",
+                  "门票不作主收入",
               ], accent=NAVY)
-    make_card(s, Inches(8.9), Inches(2.15), Inches(3.9), Inches(4.5),
-              "本方案核心关注", C.CORE_CONCERNS, accent=AMBER)
+    make_card(s, Inches(8.9), Inches(2.5), Inches(3.9), Inches(4.2),
+              "本汇报核心关注", C.CORE_CONCERNS, accent=AMBER)
 
-    # 4 定位
+    # 4 CHM 画像
     s, p = new()
-    slide_header(s, "项目定位与差异化", "常设展陈 × 研学服务 × 空间经营", p, TOTAL)
-    make_card(s, Inches(0.5), Inches(1.4), Inches(6.0), Inches(2.4),
-              "一句话定位", [
-                  "产业科技常设展示与配套服务空间",
-                  "内容以可签约展位与可核验应用案例为主",
-                  "一期小步验证，再谈扩展与对外输出",
-              ])
-    make_card(s, Inches(6.7), Inches(1.4), Inches(6.0), Inches(2.4),
-              "与现有展厅差异", C.DIFFERENTIATION, accent=NAVY)
+    slide_header(s, "样板馆画像：计算机历史博物馆（加州山景城）", C.BENCHMARK, p, TOTAL)
+    rows = [[k, v] for k, v in C.CHM_PROFILE.items()]
+    make_table(s, Inches(0.4), Inches(1.35), Inches(12.5), Inches(5.5),
+               ["维度", "CHM 要点"], rows, font_size=11)
+
+    # 5 一对一对照
+    s, p = new()
+    slide_header(s, "一对一深化：CHM → 上海方案", "学机制，不适配处做本土化", p, TOTAL)
     make_table(
-        s, Inches(0.5), Inches(4.0), Inches(12.3), Inches(2.6),
-        ["维度", "现有科技展厅", "本项目（目标）"],
-        [
-            ["范围", "单一品类展示居多", "基础设施+软件工具+行业应用"],
-            ["功能", "展示/交易为主", "展示+研学服务+配套空间经营"],
-            ["内容", "临展或固定陈列", "企业展位合同+定期更新机制"],
-            ["组织", "企业或园区单方主导", "运营公司+赞助+物业多方共建"],
-        ],
-        font_size=11,
+        s, Inches(0.25), Inches(1.25), Inches(12.8), Inches(5.7),
+        C.CHM_COMPARE[0], C.CHM_COMPARE[1:], font_size=9,
     )
 
-    # 5 投资原则+路径总览
+    # 6 本土化要点
     s, p = new()
-    slide_header(s, "投资总原则：可组合、可核算、可退出", "租金共担 · 赞助分层 · 专项与启动金闭环", p, TOTAL)
-    add_text(s, Inches(0.5), Inches(1.35), Inches(12.3), Inches(0.7),
-             C.INVEST_PRINCIPLE, size=12, color=INK)
-    rows = []
-    for it in C.INVEST_PATHS:
-        rows.append([it["路径"], it["出资方式"][:28] + "…", it["优先级"]])
-    make_table(
-        s, Inches(0.5), Inches(2.2), Inches(12.3), Inches(4.6),
-        ["出资路径", "出资方式（摘要）", "优先级"],
-        [[r[0], r[1].replace("…", ""), r[2]] for r in
-         [[it["路径"], it["出资方式"], it["优先级"]] for it in C.INVEST_PATHS]],
-        font_size=10,
-    )
+    slide_header(s, "上海落地定位", "承接 CHM 方法，适配国内产业与回款结构", p, TOTAL)
+    add_bullets(s, Inches(0.6), Inches(1.4), Inches(12), Inches(2.8),
+                C.CHM_LOCALIZE, size=14)
+    make_card(s, Inches(0.5), Inches(4.3), Inches(12.3), Inches(2.3),
+              "差异化要点", C.DIFFERENTIATION, accent=TEAL)
 
-    # 6 投资路径细节（P0）
+    # 7 租金
     s, p = new()
-    slide_header(s, "投资方怎么投：P0 四条主路径", "物业共担、主赞助、政府专项、启动资金先闭环", p, TOTAL)
-    p0 = [x for x in C.INVEST_PATHS if x["优先级"] == "P0"][:4]
-    positions = [
-        (0.4, 1.35), (6.75, 1.35), (0.4, 4.2), (6.75, 4.2),
-    ]
-    for (left, top), it in zip(positions, p0):
-        how = it["出资方式"]
-        if len(how) > 42:
-            how = how[:40] + "…"
-        make_card(
-            s, Inches(left), Inches(top), Inches(6.1), Inches(2.6),
-            it["路径"],
-            [
-                f"怎么出：{how}",
-                f"谁来出：{it['出资方画像']}",
-                f"回报：{it['回报机制']}",
-                f"动作：{it['落地动作']}",
-            ],
-        )
-
-    # 7 赞助层级
-    s, p = new()
-    slide_header(s, "赞助层级与资方回报设计", "权益可报价、可立项、可验收", p, TOTAL)
-    headers = C.SPONSOR_TIERS[0]
-    rows = C.SPONSOR_TIERS[1:]
-    make_table(s, Inches(0.4), Inches(1.4), Inches(12.5), Inches(3.6),
-               headers, rows, font_size=11)
-    add_bullets(
-        s, Inches(0.5), Inches(5.2), Inches(12), Inches(1.6),
-        [
-            "战略赞助：对齐对方科创合作KPI，准备一页纸权益包与立项叙述",
-            "企业展位：建设费+年度更新，合同约定露出与撤展及合作期限",
-            "场地方：租金阶梯优惠/装修共担，换物业去化与可租面积分成",
-        ],
-        size=13,
-    )
-
-    # 8 盈利
-    s, p = new()
-    slide_header(s, "盈利逻辑：空间经营 + 服务 + 赞助", C.PROFIT_LOGIC[:58] + "…", p, TOTAL)
-    make_table(
-        s, Inches(0.35), Inches(1.35), Inches(12.6), Inches(5.5),
-        ["收入线", "稳态占比", "启动条件", "里程碑"],
-        [
-            [r["收入线"], r["目标占比(稳态)"], r["启动条件"], r["里程碑"]]
-            for r in C.REVENUE_STREAMS
-        ],
-        font_size=10,
-    )
-
-    # 9 政策
-    s, p = new()
-    slide_header(s, "政策性支持怎么落地", "研学基地 × 社团合作 × 扶持基金 × 物业支持", p, TOTAL)
+    slide_header(s, "租金：产业生态里的四级结构（重点）", C.RENT_ECOLOGY[:48] + "…", p, TOTAL)
     make_table(
         s, Inches(0.3), Inches(1.35), Inches(12.7), Inches(5.5),
+        ["层级", "逻辑", "谁承担", "谈判点"],
+        [[x["层级"], x["逻辑"], x["谁承担"], x["谈判点"]] for x in C.RENT_LAYERS],
+        font_size=10,
+    )
+
+    # 8 装修
+    s, p = new()
+    slide_header(s, "装修费：壳装 / 馆装 / 专项装三层共担（重点）", C.FITOUT_ECOLOGY[:48] + "…", p, TOTAL)
+    make_table(
+        s, Inches(0.3), Inches(1.3), Inches(12.7), Inches(3.6),
+        ["科目", "典型内容", "建议承担", "回收方式"],
+        [[x["科目"], x["典型内容"], x["建议承担"], x["回收方式"]] for x in C.FITOUT_LAYERS],
+        font_size=10,
+    )
+    add_text(s, Inches(0.5), Inches(5.1), Inches(12.3), Inches(0.35),
+             "落地步骤（先测算，再谈判，后开工）", size=13, bold=True, color=TEAL)
+    add_bullets(
+        s, Inches(0.5), Inches(5.45), Inches(12.3), Inches(1.4),
+        [f"{r[0]}. {r[1]} → {r[2]}" for r in C.RENT_FITOUT_PLAYBOOK[1:]],
+        size=11,
+    )
+
+    # 9 投资
+    s, p = new()
+    slide_header(s, "投资与赞助结构", C.INVEST_PRINCIPLE[:50] + "…", p, TOTAL)
+    make_table(
+        s, Inches(0.3), Inches(1.3), Inches(12.7), Inches(5.6),
+        ["路径", "出资方式", "回报机制", "优先级"],
+        [[it["路径"], it["出资方式"], it["回报机制"], it["优先级"]] for it in C.INVEST_PATHS],
+        font_size=9,
+    )
+
+    # 10 支持单位
+    s, p = new()
+    slide_header(s, "支持单位", "智库 + 市级/区级产业网络协同", p, TOTAL)
+    make_table(
+        s, Inches(0.3), Inches(1.3), Inches(12.7), Inches(4.2),
+        C.SUPPORT_ORG_ROLES[0], C.SUPPORT_ORG_ROLES[1:], font_size=11,
+    )
+    add_bullets(
+        s, Inches(0.5), Inches(5.7), Inches(12.3), Inches(1.2),
+        [
+            "拟以合作备忘录明确：联合课题、会员企业对接、活动联办、品牌互挂",
+            "支持单位不替代运营主体出资义务，重点降低获客、策展与政企沟通成本",
+        ],
+        size=12,
+    )
+
+    # 11 盈利1
+    s, p = new()
+    slide_header(s, "多元盈利模式（上）", C.PROFIT_LOGIC[:52] + "…", p, TOTAL)
+    make_table(
+        s, Inches(0.25), Inches(1.25), Inches(12.8), Inches(5.7),
+        ["收入线", "描述", "延伸玩法", "占比"],
+        [
+            [r["收入线"], r["描述"], r["想象力延伸"], r["占比"]]
+            for r in C.REVENUE_STREAMS[:5]
+        ],
+        font_size=9,
+    )
+
+    # 12 盈利2
+    s, p = new()
+    slide_header(s, "多元盈利模式（下）", "内容、定制、场景、数据与后期输出", p, TOTAL)
+    make_table(
+        s, Inches(0.25), Inches(1.25), Inches(12.8), Inches(5.7),
+        ["收入线", "描述", "延伸玩法", "占比"],
+        [
+            [r["收入线"], r["描述"], r["想象力延伸"], r["占比"]]
+            for r in C.REVENUE_STREAMS[5:]
+        ],
+        font_size=9,
+    )
+
+    # 13 政策
+    s, p = new()
+    slide_header(s, "政策与资金匹配", "批复与合同说话，专项保守入账", p, TOTAL)
+    make_table(
+        s, Inches(0.3), Inches(1.3), Inches(12.7), Inches(5.6),
         ["政策/抓手", "对项目价值", "落地步骤", "责任方"],
         [
             [x["政策/抓手"], x["对项目价值"], x["落地步骤"], x["责任方"]]
             for x in C.POLICY_SUPPORT
         ],
-        font_size=9,
-    )
-
-    # 10 扶持资金匹配
-    s, p = new()
-    slide_header(s, "扶持基金与资金类型匹配表", "申报窗口与用途一一对应，避免「有政策无材料」", p, TOTAL)
-    make_table(
-        s, Inches(0.4), Inches(1.4), Inches(12.5), Inches(4.2),
-        C.POLICY_FUND_MATCH[0],
-        C.POLICY_FUND_MATCH[1:],
-        font_size=11,
-    )
-    add_text(
-        s, Inches(0.5), Inches(5.8), Inches(12.3), Inches(0.9),
-        "执行口诀：先谈清租约与装修分摊 → 锁定启动金与主赞助 → 再按窗口申报专项；"
-        "专项按保守到账比例入预算，未批复前不计入必达资金。",
-        size=13, bold=True, color=TEAL_DEEP,
-    )
-
-    # 11 场地
-    s, p = new()
-    slide_header(s, "场地候选与空间经济模型", "一期可控面积试点 · 租金共担 · 测算后再扩", p, TOTAL)
-    make_table(
-        s, Inches(0.3), Inches(1.35), Inches(12.7), Inches(2.8),
-        C.SITE_CANDIDATES[0],
-        C.SITE_CANDIDATES[1:],
-        font_size=10,
-    )
-    make_table(
-        s, Inches(0.3), Inches(4.4), Inches(12.7), Inches(2.5),
-        C.UNIT_ECONOMICS[0],
-        C.UNIT_ECONOMICS[1:],
         font_size=10,
     )
 
-    # 12 内容结构（已去掉具身等展示性堆砌）
+    # 14 选址+内容
     s, p = new()
-    slide_header(s, "内容结构与资源对接", "可签约、可授权、可更新 —— 不堆概念演示", p, TOTAL)
+    slide_header(s, "选址与内容结构", "一期可控 · 对标 CHM 常设+轮换", p, TOTAL)
     make_table(
-        s, Inches(0.4), Inches(1.4), Inches(12.5), Inches(3.2),
-        C.CONTENT_LAYERS[0],
-        C.CONTENT_LAYERS[1:],
-        font_size=11,
+        s, Inches(0.3), Inches(1.25), Inches(12.7), Inches(2.6),
+        C.SITE_CANDIDATES[0], C.SITE_CANDIDATES[1:], font_size=9,
     )
-    add_bullets(
-        s, Inches(0.5), Inches(4.9), Inches(12), Inches(1.8),
-        [
-            "展品与案例以合同/授权为前提，未签约不写入开业必保清单",
-            "陈晟补充海外授权线索；国内头部企业集中在沪，适合批量谈展位",
-            "涉外内容先做法务预审，不预设名人直播等不可控事项",
-        ],
-        size=13,
+    make_table(
+        s, Inches(0.3), Inches(4.05), Inches(12.7), Inches(2.8),
+        C.CONTENT_LAYERS[0], C.CONTENT_LAYERS[1:], font_size=9,
     )
 
-    # 13 节奏
+    # 15 节奏
     s, p = new()
-    slide_header(s, "组织分工与推进节奏", "先框架预算，再动线施工图", p, TOTAL)
+    slide_header(s, "组织分工与推进节奏", "先测算与对标，再谈判与闭环，后建设", p, TOTAL)
     make_table(
-        s, Inches(0.3), Inches(1.3), Inches(6.2), Inches(3.5),
-        C.ORG_ROLES[0],
-        C.ORG_ROLES[1:],
-        font_size=9,
+        s, Inches(0.3), Inches(1.25), Inches(6.1), Inches(3.6),
+        C.ORG_ROLES[0], C.ORG_ROLES[1:], font_size=9,
     )
     make_table(
-        s, Inches(6.7), Inches(1.3), Inches(6.2), Inches(5.4),
-        C.ROADMAP[0],
-        C.ROADMAP[1:],
-        font_size=9,
+        s, Inches(6.6), Inches(1.25), Inches(6.4), Inches(5.5),
+        C.ROADMAP[0], C.ROADMAP[1:], font_size=9,
     )
 
-    # 14 风险与待办
+    # 16 下一步
     s, p = new()
-    slide_header(s, "风险清单与下一步待办", "谈判与预算是当前最大阻塞点", p, TOTAL)
+    slide_header(s, "风险要点与下一步", "对外协同清单", p, TOTAL)
     make_table(
-        s, Inches(0.3), Inches(1.3), Inches(12.7), Inches(3.2),
-        C.RISKS[0],
-        C.RISKS[1:],
-        font_size=9,
+        s, Inches(0.3), Inches(1.25), Inches(12.7), Inches(3.0),
+        C.RISKS[0], C.RISKS[1:], font_size=9,
     )
-    add_text(s, Inches(0.45), Inches(4.65), Inches(12), Inches(0.35),
-             "会后待办（摘自纪要）", size=14, bold=True, color=TEAL)
-    add_bullets(
-        s, Inches(0.5), Inches(5.05), Inches(12.3), Inches(1.8),
-        [f"{r[0]}：{r[1]}（{r[2]} / {r[3]}）" for r in C.TODOS],
-        size=11,
-    )
+    add_text(s, Inches(0.45), Inches(4.4), Inches(12), Inches(0.35),
+             "建议下一步", size=14, bold=True, color=TEAL)
+    add_bullets(s, Inches(0.5), Inches(4.8), Inches(12.3), Inches(2.0),
+                C.NEXT_STEPS, size=12)
 
     prs.save(OUT_FILE)
     print(f"已生成: {OUT_FILE}")
