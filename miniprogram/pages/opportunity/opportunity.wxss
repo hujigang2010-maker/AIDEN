@@ -1,5 +1,5 @@
 .banner {
-  background: linear-gradient(135deg, #123f55, #0b7584);
+  background: linear-gradient(135deg, #330662, #57068c 60%, #8900e1);
   color: #fff;
 }
 .banner .muted, .banner .link { color: rgba(255,255,255,.88); }

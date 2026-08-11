@@ -1,6 +1,6 @@
 .hero {
   padding: 56rpx 40rpx;
-  background: linear-gradient(145deg, #1a4558, #123f55 55%, #a17c4c);
+  background: linear-gradient(145deg, #220337, #57068c 55%, #c5a572);
   color: #fff;
 }
 

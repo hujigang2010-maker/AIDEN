@@ -27,7 +27,7 @@
 }
 
 .mini-btn {
-  background: var(--primary);
+  background: linear-gradient(135deg, #330662, #57068c);
   color: #fff;
   padding: 12rpx 28rpx;
   border-radius: 999rpx;

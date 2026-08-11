@@ -1,14 +1,15 @@
-/** app.wxss — 复旦蓝 + 青绿，克制学术气质 */
+/** app.wxss — NYU Violet 气质：高大上紫调 */
 page {
-  --primary: #123f55;
-  --teal: #0b7584;
-  --gold: #a17c4c;
-  --bg: #f3f6f8;
+  --primary: #57068c;
+  --teal: #8900e1;
+  --gold: #c5a572;
+  --bg: #f5f1f8;
   --card: #ffffff;
-  --text: #1c2b33;
-  --muted: #5a6f7a;
-  --line: #d8e1e6;
+  --text: #1c1226;
+  --muted: #6b6178;
+  --line: #e4dcec;
   --danger: #c0392b;
+  --violet-deep: #330662;
   background: var(--bg);
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC",
@@ -78,7 +79,7 @@ page {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #123f55, #0b7584);
+  background: linear-gradient(135deg, #330662, #57068c 55%, #8900e1);
   color: #fff;
   border-radius: 999rpx;
   text-align: center;

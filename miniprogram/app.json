@@ -12,15 +12,15 @@
     "pages/archive/archive"
   ],
   "window": {
-    "navigationBarBackgroundColor": "#123F55",
+    "navigationBarBackgroundColor": "#57068C",
     "navigationBarTitleText": "复旦链接",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#F3F6F8",
+    "backgroundColor": "#F5F1F8",
     "backgroundTextStyle": "dark"
   },
   "tabBar": {
-    "color": "#5A6F7A",
-    "selectedColor": "#123F55",
+    "color": "#6B6178",
+    "selectedColor": "#57068C",
     "backgroundColor": "#FFFFFF",
     "borderStyle": "black",
     "list": [

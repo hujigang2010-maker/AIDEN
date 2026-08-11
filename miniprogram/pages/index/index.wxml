@@ -55,5 +55,15 @@
       <view class="feed-title">{{item.title}}</view>
       <view class="muted">{{item.summary}}</view>
     </view>
+
+    <view class="section-title"><text class="h">中心公开新闻</text></view>
+    <view class="card feed" wx:for="{{newsList}}" wx:key="id" bindtap="onFeedTap" data-ref="{{item.id}}">
+      <view class="row-top">
+        <text class="tag tag-teal">{{item.tag}}</text>
+        <text class="muted">{{item.date}}</text>
+      </view>
+      <view class="feed-title">{{item.title}}</view>
+      <view class="muted">{{item.summary}}</view>
+    </view>
   </view>
 </view>
