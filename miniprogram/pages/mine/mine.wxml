@@ -1,0 +1,42 @@
+<view class="container">
+  <view class="profile card">
+    <view class="name">{{center.name}}</view>
+    <view class="muted">登录后可同步报名、订单与电子票（演示版本地保存）</view>
+  </view>
+
+  <view class="section-title"><text class="h">收费入口</text></view>
+  <view class="card pay-card" wx:for="{{plans}}" wx:key="id">
+    <view class="plan-name">{{item.name}}</view>
+    <view class="muted">{{item.desc}}</view>
+    <view class="plan-row" wx:if="{{item.custom}}">
+      <text>支持金额 ¥</text>
+      <input class="amount" type="digit" value="{{customAmount}}" bindinput="onAmountInput" />
+      <view class="mini-btn" data-plan="{{item}}" bindtap="buyMember">支持</view>
+    </view>
+    <view class="plan-row" wx:else>
+      <text class="price">¥{{item.price}} / 年</text>
+      <view class="mini-btn" data-plan="{{item}}" bindtap="buyMember">开通</view>
+    </view>
+  </view>
+
+  <view class="section-title">
+    <text class="h">我的订单</text>
+    <text class="more" bindtap="goEvents">去报名</text>
+  </view>
+  <view class="card" wx:if="{{orders.length === 0}}">
+    <view class="muted">暂无订单。可在活动详情选择票种完成演示支付。</view>
+  </view>
+  <view class="card order" wx:for="{{orders}}" wx:key="id">
+    <view class="order-title">{{item.title}}</view>
+    <view class="muted">{{item.ticketName}} · {{item.createdAt}}</view>
+    <view class="plan-row">
+      <text class="price">¥{{item.price}}</text>
+      <text class="tag tag-teal">{{item.status}}</text>
+    </view>
+  </view>
+
+  <view class="links">
+    <view class="link-item" bindtap="goAbout">关于中心</view>
+    <view class="link-item" bindtap="contact">联系我们</view>
+  </view>
+</view>

@@ -1,0 +1,54 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/events/events",
+    "pages/archive/archive",
+    "pages/mine/mine",
+    "pages/event-detail/event-detail",
+    "pages/pay/pay",
+    "pages/exhibit/exhibit",
+    "pages/about/about"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#123F55",
+    "navigationBarTitleText": "住房政策研究中心",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F3F6F8",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#5A6F7A",
+    "selectedColor": "#123F55",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tab-home.png",
+        "selectedIconPath": "images/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/events/events",
+        "text": "活动",
+        "iconPath": "images/tab-events.png",
+        "selectedIconPath": "images/tab-events-active.png"
+      },
+      {
+        "pagePath": "pages/archive/archive",
+        "text": "回顾",
+        "iconPath": "images/tab-archive.png",
+        "selectedIconPath": "images/tab-archive-active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/tab-mine.png",
+        "selectedIconPath": "images/tab-mine-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

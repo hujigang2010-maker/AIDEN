@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>复旦大学住房政策研究中心 · 小程序演示</title>
+  <style>
+    :root {
+      --primary: #123f55;
+      --teal: #0b7584;
+      --gold: #a17c4c;
+      --bg: #e8eef1;
+      --card: #fff;
+      --text: #1c2b33;
+      --muted: #5a6f7a;
+      --danger: #c0392b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "PingFang SC", "Noto Sans SC", "Source Han Sans SC", sans-serif;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(11,117,132,.18), transparent 50%),
+        radial-gradient(ellipse at 90% 10%, rgba(161,124,76,.16), transparent 45%),
+        linear-gradient(180deg, #d9e4ea, var(--bg));
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 20px 60px; }
+    .intro h1 { margin: 0 0 8px; font-size: 28px; color: var(--primary); }
+    .intro p { margin: 0 0 8px; color: var(--muted); line-height: 1.6; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 28px; }
+    .badge {
+      font-size: 12px; padding: 4px 10px; border-radius: 999px;
+      background: rgba(18,63,85,.08); color: var(--primary);
+    }
+    .layout { display: grid; grid-template-columns: 360px 1fr; gap: 28px; align-items: start; }
+    @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
+    .phone {
+      width: 360px; max-width: 100%;
+      border-radius: 36px; overflow: hidden;
+      border: 10px solid #1a2a33;
+      box-shadow: 0 30px 60px rgba(18,63,85,.22);
+      background: #f3f6f8;
+      position: sticky; top: 20px;
+    }
+    .status { height: 28px; background: #123f55; color: #fff; font-size: 11px;
+      display: flex; align-items: center; justify-content: center; letter-spacing: 1px; }
+    .screen { height: 640px; overflow: auto; position: relative; padding-bottom: 64px; }
+    .tabbar {
+      position: absolute; left: 0; right: 0; bottom: 0; height: 56px;
+      background: #fff; border-top: 1px solid #d8e1e6;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+    }
+    .tab { border: 0; background: transparent; color: #5a6f7a; font-size: 11px; padding-top: 8px; cursor: pointer; }
+    .tab.on { color: var(--primary); font-weight: 700; }
+    .hero {
+      padding: 28px 18px 22px;
+      background: linear-gradient(160deg, #0d2f40, #123f55 42%, #0b7584);
+      color: #fff;
+    }
+    .hero .brand { font-size: 22px; font-weight: 700; line-height: 1.35; }
+    .hero .motto { margin-top: 8px; opacity: .9; font-size: 13px; }
+    .hero .actions { display: flex; gap: 8px; margin-top: 16px; }
+    .btn {
+      flex: 1; text-align: center; border-radius: 999px; padding: 10px 0;
+      font-size: 13px; font-weight: 600; border: 0; cursor: pointer;
+    }
+    .btn.light { background: #fff; color: var(--primary); }
+    .btn.ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.65); }
+    .btn.primary { background: linear-gradient(135deg, #123f55, #0b7584); color: #fff; width: 100%; }
+    .pad { padding: 12px 14px 20px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .entry { background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 4px 14px rgba(18,63,85,.05); cursor: pointer; }
+    .entry b { display: block; color: var(--primary); font-size: 14px; }
+    .entry span { color: var(--muted); font-size: 11px; }
+    .entry.hot { border: 1px solid rgba(192,57,43,.25); background: linear-gradient(#fff, #fff7f6); }
+    .h { margin: 16px 0 8px; font-size: 15px; font-weight: 700; color: var(--primary); display: flex; justify-content: space-between; }
+    .card { background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 8px; box-shadow: 0 4px 14px rgba(18,63,85,.04); cursor: pointer; }
+    .card .t { font-weight: 700; margin: 6px 0; font-size: 14px; }
+    .muted { color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .tags { display: flex; justify-content: space-between; gap: 6px; }
+    .tag { font-size: 11px; padding: 2px 7px; border-radius: 4px; }
+    .tag.teal { background: rgba(11,117,132,.12); color: var(--teal); }
+    .tag.paid { background: rgba(192,57,43,.1); color: var(--danger); }
+    .tag.free { background: rgba(30,122,74,.12); color: #1e7a4a; }
+    .tag.gold { background: rgba(161,124,76,.15); color: var(--gold); }
+    .price { color: var(--danger); font-weight: 700; font-size: 13px; }
+    .chips { display: flex; gap: 6px; overflow: auto; padding-bottom: 4px; }
+    .chip { white-space: nowrap; border: 1px solid #d8e1e6; background: #fff; border-radius: 999px; padding: 6px 12px; font-size: 12px; cursor: pointer; }
+    .chip.on { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .panel { display: none; }
+    .panel.on { display: block; }
+    .side .block {
+      background: rgba(255,255,255,.88); border-radius: 16px; padding: 18px 20px;
+      margin-bottom: 14px; border: 1px solid rgba(18,63,85,.08);
+    }
+    .side h2 { margin: 0 0 10px; font-size: 16px; color: var(--primary); }
+    .side ul { margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.7; font-size: 14px; }
+    .side code { background: #eef3f6; padding: 1px 6px; border-radius: 4px; font-size: 12px; }
+    .modal {
+      position: absolute; inset: 28px 0 56px; background: rgba(12,24,32,.45);
+      display: none; align-items: flex-end; justify-content: center; padding: 12px;
+    }
+    .modal.on { display: flex; }
+    .sheet { width: 100%; background: #fff; border-radius: 16px; padding: 16px; }
+    .sheet h3 { margin: 0 0 8px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="intro">
+      <h1>复旦大学住房政策研究中心小程序</h1>
+      <p>参照管院校友平台：以<strong>活动</strong>为枢纽，覆盖未来议程、活动回顾与主题展示，并提供清晰<strong>收费入口</strong>（票务 / 培训 / 会员 / 支持中心）。</p>
+      <div class="badges">
+        <span class="badge">对标：复旦管院校友平台</span>
+        <span class="badge">能力映射：管理学院 + EE 教育中心</span>
+        <span class="badge">交付：Excel 功能蓝图 + 微信小程序工程</span>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div class="phone" id="phone">
+        <div class="status">住房政策研究中心</div>
+        <div class="screen">
+          <div class="panel on" id="tab-home">
+            <div class="hero">
+              <div style="opacity:.75;font-size:11px;letter-spacing:2px">FUDAN · HPRC</div>
+              <div class="brand">复旦大学住房政策研究中心</div>
+              <div class="motto">以活动连接学术与实践</div>
+              <div class="actions">
+                <button class="btn light" onclick="showTab('events')">浏览活动</button>
+                <button class="btn ghost" onclick="openAbout()">关于中心</button>
+              </div>
+            </div>
+            <div class="pad">
+              <div class="grid">
+                <div class="entry" onclick="showTab('events')"><b>活动报名</b><span>论坛 · 沙龙 · 参访</span></div>
+                <div class="entry" onclick="showTab('archive')"><b>活动回顾</b><span>纪要 · 相册 · 实录</span></div>
+                <div class="entry" onclick="openExhibit()"><b>主题展览</b><span>线上策展展示</span></div>
+                <div class="entry hot" onclick="showTab('mine')"><b>收费入口</b><span>票务 · 培训 · 支持</span></div>
+              </div>
+              <div class="h">即将开始</div>
+              <div class="card" onclick="openEvent(0)">
+                <div class="tags"><span class="tag teal">主题论坛</span><span class="tag paid">收费</span></div>
+                <div class="t">保障性住房高质量发展路径论坛</div>
+                <div class="muted">2026.09.18 · 复旦大学李达三楼</div>
+                <div style="display:flex;justify-content:space-between;margin-top:8px">
+                  <span class="tag teal">报名中</span><span class="price">¥199 起</span>
+                </div>
+              </div>
+              <div class="card" onclick="openEvent(1)">
+                <div class="tags"><span class="tag teal">政策沙龙</span><span class="tag free">免费</span></div>
+                <div class="t">租赁住房条例落地观察沙龙</div>
+                <div class="muted">2026.08.28 · 杨浦</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" id="tab-events">
+            <div class="pad">
+              <div class="chips" id="filters"></div>
+              <div id="event-list" style="margin-top:10px"></div>
+            </div>
+          </div>
+
+          <div class="panel" id="tab-archive">
+            <div class="pad">
+              <div class="card" style="background:linear-gradient(135deg,#123f55,#0b7584);color:#fff" onclick="openExhibit()">
+                <span class="tag gold">主题展览</span>
+                <div class="t" style="color:#fff">安居有方 · 住房保障主题展</div>
+                <div class="muted" style="color:rgba(255,255,255,.85)">进入线上展 →</div>
+              </div>
+              <div class="h">活动回顾</div>
+              <div class="card"><span class="tag teal">论坛回顾</span><div class="t">上海住房政策未来展望与改进分析</div><div class="muted">学界与业界围绕保障与市场两端展开讨论。</div></div>
+              <div class="card"><span class="tag teal">活动相册</span><div class="t">中心揭牌仪式影像回顾</div><div class="muted">记录揭牌与各界嘉宾莅临。</div></div>
+              <div class="card"><span class="tag teal">实录摘要</span><div class="t">城市更新中的居住公平圆桌纪要</div><div class="muted">从空间、社会与政策三维理解居住公平。</div></div>
+            </div>
+          </div>
+
+          <div class="panel" id="tab-mine">
+            <div class="pad">
+              <div class="card"><div class="t">收费入口</div><div class="muted">对标校友捐赠支付 + EE 课程招生</div></div>
+              <div class="card">
+                <div class="t">中心之友 · 年度会员</div>
+                <div class="muted">优先报名、资料包、部分回放畅看</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+                  <span class="price">¥365 / 年</span>
+                  <button class="btn primary" style="flex:none;padding:8px 16px" onclick="pay('中心之友年费',365)">开通</button>
+                </div>
+              </div>
+              <div class="card">
+                <div class="t">支持中心</div>
+                <div class="muted">支持论坛、青年学者与公共展览</div>
+                <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
+                  <span>¥</span>
+                  <input id="supportAmt" value="100" style="flex:1;padding:8px;border:1px solid #d8e1e6;border-radius:8px" />
+                  <button class="btn primary" style="flex:none;padding:8px 16px" onclick="paySupport()">支持</button>
+                </div>
+              </div>
+              <div class="h">我的订单 <span class="muted" style="font-weight:400" id="orderCount">0</span></div>
+              <div id="orders"><div class="card muted">暂无订单</div></div>
+            </div>
+          </div>
+
+          <div class="modal" id="modal">
+            <div class="sheet" id="sheet"></div>
+          </div>
+        </div>
+        <div class="tabbar">
+          <button class="tab on" data-tab="home" onclick="showTab('home')">首页</button>
+          <button class="tab" data-tab="events" onclick="showTab('events')">活动</button>
+          <button class="tab" data-tab="archive" onclick="showTab('archive')">回顾</button>
+          <button class="tab" data-tab="mine" onclick="showTab('mine')">我的</button>
+        </div>
+      </div>
+
+      <div class="side">
+        <div class="block">
+          <h2>产品定位</h2>
+          <ul>
+            <li>不是纯「研究成果库」，而是<strong>活动型平台</strong></li>
+            <li>三条主线：未来活动 · 活动回顾 · 成果/主题展示</li>
+            <li>必须可见的收费：报名费、培训、会员、支持中心</li>
+          </ul>
+        </div>
+        <div class="block">
+          <h2>Excel 蓝图工作表</h2>
+          <ul>
+            <li><code>01 管理学院职能清单</code></li>
+            <li><code>02 教育中心EE职能</code></li>
+            <li><code>03 校友小程序对标</code></li>
+            <li><code>04 住房中心功能规划</code></li>
+            <li><code>06 收费入口设计</code> / <code>09 职能映射总表</code></li>
+          </ul>
+        </div>
+        <div class="block">
+          <h2>本地预览微信工程</h2>
+          <ul>
+            <li>用微信开发者工具打开仓库内 <code>miniprogram/</code></li>
+            <li>AppID 可用测试号；支付为演示弹窗，不产生真实扣款</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const events = [
+      { type: '主题论坛', title: '保障性住房高质量发展路径论坛', date: '2026.09.18 · 李达三楼', paid: true, price: 199, summary: '讨论保障房供给、融资与社区治理。', tickets: [
+        { name: '标准票', price: 199 }, { name: '学生票', price: 99 }, { name: 'VIP 席', price: 680 }
+      ]},
+      { type: '政策沙龙', title: '租赁住房条例落地观察沙龙', date: '2026.08.28 · 杨浦', paid: false, price: 0, summary: '小型闭门沙龙，名额审核。', tickets: [{ name: '免费票', price: 0 }] },
+      { type: '专题培训', title: '住房政策公开课 · 第 1 期', date: '2026.10.11 · 管理学院', paid: true, price: 6800, summary: '对标 EE 公开课，面向干部与管理者。', tickets: [
+        { name: '全款学费', price: 6800 }, { name: '报名定金', price: 1000 }
+      ]},
+      { type: '实地参访', title: '保障性租赁住房社区参访', date: '2026.09.05', paid: true, price: 128, summary: '走进运营现场理解筹集与服务。', tickets: [{ name: '参访票', price: 128 }] }
+    ];
+    let filter = '全部';
+    let orders = JSON.parse(localStorage.getItem('hprc_demo_orders') || '[]');
+    let selectedTicket = 0;
+
+    function showTab(name) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+      document.getElementById('tab-' + name).classList.add('on');
+      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.tab === name));
+      document.getElementById('modal').classList.remove('on');
+      if (name === 'events') renderEvents();
+      if (name === 'mine') renderOrders();
+    }
+
+    function renderEvents() {
+      const filters = ['全部', '主题论坛', '政策沙龙', '专题培训', '实地参访'];
+      document.getElementById('filters').innerHTML = filters.map(f =>
+        `<button class="chip ${f===filter?'on':''}" onclick="setFilter('${f}')">${f}</button>`
+      ).join('');
+      const list = events.filter(e => filter === '全部' || e.type === filter);
+      document.getElementById('event-list').innerHTML = list.map((e, i) => {
+        const idx = events.indexOf(e);
+        return `<div class="card" onclick="openEvent(${idx})">
+          <div class="tags"><span class="tag teal">${e.type}</span>
+          <span class="tag ${e.paid?'paid':'free'}">${e.paid ? '¥'+e.price+' 起' : '免费'}</span></div>
+          <div class="t">${e.title}</div>
+          <div class="muted">${e.date}</div>
+          <div class="muted">${e.summary}</div>
+        </div>`;
+      }).join('');
+    }
+
+    function setFilter(f) { filter = f; renderEvents(); }
+
+    function openEvent(i) {
+      selectedTicket = 0;
+      const e = events[i];
+      const sheet = document.getElementById('sheet');
+      sheet.innerHTML = `
+        <h3>${e.title}</h3>
+        <div class="muted">${e.date}</div>
+        <p class="muted">${e.summary}</p>
+        <div class="h">选择票种</div>
+        ${e.tickets.map((t, idx) => `
+          <div class="card" id="tk${idx}" onclick="selectTicket(${idx}, ${i})" style="${idx===0?'border:1px solid #0b7584':''}">
+            <div class="t">${t.name}</div>
+            <div class="price">${t.price>0?'¥'+t.price:'免费'}</div>
+          </div>`).join('')}
+        <button class="btn primary" onclick="confirmPay(${i})">${e.tickets[0].price>0?'确认报名并支付':'确认免费报名'}</button>
+        <button class="btn" style="margin-top:8px;background:#eee" onclick="closeModal()">关闭</button>`;
+      document.getElementById('modal').classList.add('on');
+    }
+
+    function selectTicket(idx, eventIdx) {
+      selectedTicket = idx;
+      const e = events[eventIdx];
+      e.tickets.forEach((_, i) => {
+        const el = document.getElementById('tk' + i);
+        if (el) el.style.border = i === idx ? '1px solid #0b7584' : 'none';
+      });
+      const btn = document.querySelector('#sheet .btn.primary');
+      if (btn) btn.textContent = e.tickets[idx].price > 0 ? '确认报名并支付' : '确认免费报名';
+    }
+
+    function confirmPay(i) {
+      const e = events[i];
+      const t = e.tickets[selectedTicket];
+      pay(e.title + ' · ' + t.name, t.price);
+    }
+
+    function pay(title, price) {
+      const ok = confirm(price > 0 ? `模拟微信支付 ¥${price}\n（演示，不会真实扣款）` : '确认提交免费报名？');
+      if (!ok) return;
+      orders.unshift({ title, price, time: new Date().toLocaleString(), status: price > 0 ? '已支付（演示）' : '已报名（演示）' });
+      localStorage.setItem('hprc_demo_orders', JSON.stringify(orders));
+      closeModal();
+      showTab('mine');
+    }
+
+    function paySupport() {
+      const n = Number(document.getElementById('supportAmt').value);
+      if (!n || n <= 0) return alert('请输入金额');
+      pay('支持中心', n);
+    }
+
+    function renderOrders() {
+      document.getElementById('orderCount').textContent = orders.length ? `（${orders.length}）` : '';
+      document.getElementById('orders').innerHTML = orders.length
+        ? orders.map(o => `<div class="card"><div class="t">${o.title}</div><div class="muted">${o.time}</div>
+            <div style="display:flex;justify-content:space-between;margin-top:8px"><span class="price">${o.price>0?'¥'+o.price:'免费'}</span><span class="tag teal">${o.status}</span></div></div>`).join('')
+        : '<div class="card muted">暂无订单</div>';
+    }
+
+    function openExhibit() {
+      document.getElementById('sheet').innerHTML = `
+        <h3>安居有方 · 住房保障主题展</h3>
+        <p class="muted">以时间线与案例墙，呈现中国住房保障制度演进与地方实践。</p>
+        <div class="card"><div class="t">缘起</div><div class="muted">从住房民生关切理解保障体系。</div></div>
+        <div class="card"><div class="t">制度演进</div><div class="muted">经适房、公租房、保租房到配售型保障房。</div></div>
+        <div class="card"><div class="t">地方实践</div><div class="muted">典型城市筹集、分配与运营路径。</div></div>
+        <div class="card"><div class="t">研究回应</div><div class="muted">中心成果如何服务政策评估。</div></div>
+        <button class="btn" style="background:#eee;width:100%" onclick="closeModal()">关闭</button>`;
+      document.getElementById('modal').classList.add('on');
+    }
+
+    function openAbout() {
+      document.getElementById('sheet').innerHTML = `
+        <h3>关于中心</h3>
+        <p class="muted">挂靠复旦大学管理学院，坚持学术性、中立性、公益性。工作内容包括科学研究、公共服务与人才培养。</p>
+        <div class="muted">邮箱：hprc@fudan.edu.cn<br/>地址：上海市杨浦区国顺路 670 号</div>
+        <button class="btn" style="background:#eee;width:100%;margin-top:12px" onclick="closeModal()">关闭</button>`;
+      document.getElementById('modal').classList.add('on');
+    }
+
+    function closeModal() { document.getElementById('modal').classList.remove('on'); }
+
+    renderEvents();
+    renderOrders();
+  </script>
+</body>
+</html>

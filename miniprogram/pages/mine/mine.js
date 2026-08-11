@@ -1,0 +1,47 @@
+const data = require("../../utils/data");
+
+Page({
+  data: {
+    center: data.center,
+    plans: data.memberPlans,
+    orders: [],
+    customAmount: "100"
+  },
+  onShow() {
+    const app = getApp();
+    this.setData({ orders: app.globalData.orders || [] });
+  },
+  onAmountInput(e) {
+    this.setData({ customAmount: e.detail.value });
+  },
+  buyMember(e) {
+    const plan = e.currentTarget.dataset.plan;
+    if (plan.custom) {
+      const amount = Number(this.data.customAmount);
+      if (!amount || amount <= 0) {
+        wx.showToast({ title: "请输入金额", icon: "none" });
+        return;
+      }
+      wx.navigateTo({
+        url: `/pages/pay/pay?type=support&title=${encodeURIComponent(plan.name)}&price=${amount}`
+      });
+      return;
+    }
+    wx.navigateTo({
+      url: `/pages/pay/pay?type=member&title=${encodeURIComponent(plan.name)}&price=${plan.price}`
+    });
+  },
+  goEvents() {
+    wx.switchTab({ url: "/pages/events/events" });
+  },
+  goAbout() {
+    wx.navigateTo({ url: "/pages/about/about" });
+  },
+  contact() {
+    wx.showModal({
+      title: "联系中心",
+      content: `${data.center.email}\n${data.center.address}`,
+      showCancel: false
+    });
+  }
+});

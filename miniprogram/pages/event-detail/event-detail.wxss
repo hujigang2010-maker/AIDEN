@@ -1,0 +1,54 @@
+.head .title {
+  margin: 16rpx 0 10rpx;
+  font-size: 36rpx;
+  font-weight: 700;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.summary {
+  margin-top: 16rpx;
+  color: var(--muted);
+}
+
+.agenda {
+  display: flex;
+  gap: 20rpx;
+  padding: 14rpx 0;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.agenda:last-child {
+  border-bottom: none;
+}
+
+.time {
+  width: 140rpx;
+  color: var(--teal);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.ticket.on {
+  border: 2rpx solid var(--teal);
+  background: rgba(11, 117, 132, 0.06);
+}
+
+.ticket-name {
+  font-weight: 650;
+  margin-bottom: 6rpx;
+}
+
+.ticket .price {
+  margin-top: 12rpx;
+}
+
+.footer {
+  position: sticky;
+  bottom: 0;
+  padding: 20rpx 0 12rpx;
+  background: linear-gradient(180deg, rgba(243, 246, 248, 0), #f3f6f8 30%);
+}

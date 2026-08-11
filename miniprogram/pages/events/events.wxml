@@ -1,0 +1,23 @@
+<view class="container">
+  <scroll-view scroll-x class="filters" enable-flex>
+    <view
+      class="chip {{active === item ? 'on' : ''}}"
+      wx:for="{{filters}}"
+      wx:key="*this"
+      data-name="{{item}}"
+      bindtap="onFilter"
+    >{{item}}</view>
+  </scroll-view>
+
+  <view class="card" wx:for="{{list}}" wx:key="id" bindtap="onOpen" data-id="{{item.id}}">
+    <view class="top">
+      <text class="tag tag-teal">{{item.type}}</text>
+      <text class="tag {{item.paid ? 'tag-paid' : 'tag-free'}}">{{item.paid ? '¥' + item.priceFrom + ' 起' : '免费'}}</text>
+    </view>
+    <view class="title">{{item.title}}</view>
+    <view class="muted">{{item.date}} · {{item.time}}</view>
+    <view class="muted">{{item.place}}</view>
+    <view class="summary">{{item.summary}}</view>
+    <view class="cta">{{item.status}} · 查看详情</view>
+  </view>
+</view>

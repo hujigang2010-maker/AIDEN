@@ -1,0 +1,107 @@
+/** app.wxss — 复旦蓝 + 青绿，克制学术气质 */
+page {
+  --primary: #123f55;
+  --teal: #0b7584;
+  --gold: #a17c4c;
+  --bg: #f3f6f8;
+  --card: #ffffff;
+  --text: #1c2b33;
+  --muted: #5a6f7a;
+  --line: #d8e1e6;
+  --danger: #c0392b;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC",
+    "Helvetica Neue", sans-serif;
+  font-size: 28rpx;
+  line-height: 1.55;
+}
+
+.container {
+  padding: 24rpx 28rpx 48rpx;
+  box-sizing: border-box;
+}
+
+.section-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 36rpx 0 20rpx;
+}
+
+.section-title .h {
+  font-size: 34rpx;
+  font-weight: 650;
+  color: var(--primary);
+  letter-spacing: 1rpx;
+}
+
+.section-title .more {
+  font-size: 24rpx;
+  color: var(--teal);
+}
+
+.card {
+  background: var(--card);
+  border-radius: 16rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 8rpx 24rpx rgba(18, 63, 85, 0.04);
+}
+
+.tag {
+  display: inline-block;
+  padding: 4rpx 14rpx;
+  border-radius: 6rpx;
+  font-size: 22rpx;
+  line-height: 1.4;
+}
+
+.tag-teal {
+  background: rgba(11, 117, 132, 0.12);
+  color: var(--teal);
+}
+
+.tag-gold {
+  background: rgba(161, 124, 76, 0.15);
+  color: var(--gold);
+}
+
+.tag-free {
+  background: rgba(30, 122, 74, 0.12);
+  color: #1e7a4a;
+}
+
+.tag-paid {
+  background: rgba(192, 57, 43, 0.1);
+  color: var(--danger);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #123f55, #0b7584);
+  color: #fff;
+  border-radius: 999rpx;
+  text-align: center;
+  padding: 22rpx 0;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.btn-ghost {
+  border: 2rpx solid var(--primary);
+  color: var(--primary);
+  border-radius: 999rpx;
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 24rpx;
+}
+
+.price {
+  color: var(--danger);
+  font-weight: 650;
+}

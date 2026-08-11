@@ -1,0 +1,48 @@
+.filters {
+  white-space: nowrap;
+  margin-bottom: 12rpx;
+  display: flex;
+  gap: 12rpx;
+}
+
+.chip {
+  display: inline-block;
+  padding: 12rpx 24rpx;
+  border-radius: 999rpx;
+  background: #fff;
+  color: var(--muted);
+  font-size: 24rpx;
+  margin-right: 12rpx;
+  border: 1rpx solid var(--line);
+}
+
+.chip.on {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  margin: 14rpx 0 8rpx;
+  font-size: 32rpx;
+  font-weight: 650;
+}
+
+.summary {
+  margin-top: 12rpx;
+  color: var(--muted);
+  font-size: 26rpx;
+}
+
+.cta {
+  margin-top: 18rpx;
+  color: var(--teal);
+  font-size: 26rpx;
+  font-weight: 600;
+}

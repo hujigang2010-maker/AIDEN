@@ -1,0 +1,32 @@
+.banner {
+  background: linear-gradient(135deg, #123f55, #0b7584);
+  color: #fff;
+}
+
+.banner .muted,
+.banner .link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.banner .title {
+  margin: 12rpx 0;
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.link {
+  margin-top: 18rpx;
+  font-weight: 600;
+}
+
+.title {
+  margin: 12rpx 0 6rpx;
+  font-size: 30rpx;
+  font-weight: 650;
+}
+
+.summary {
+  margin-top: 10rpx;
+  color: var(--muted);
+  font-size: 26rpx;
+}

@@ -1,0 +1,21 @@
+<view class="container">
+  <view class="card">
+    <view class="name">{{center.name}}</view>
+    <view class="en">{{center.en}}</view>
+    <view class="principles">
+      <text class="tag tag-teal" wx:for="{{center.principles}}" wx:key="*this">{{item}}</text>
+    </view>
+    <view class="about">{{center.about}}</view>
+  </view>
+
+  <view class="section-title"><text class="h">研究方向</text></view>
+  <view class="card">
+    <view class="dir" wx:for="{{center.directions}}" wx:key="*this">· {{item}}</view>
+  </view>
+
+  <view class="section-title"><text class="h">联系我们</text></view>
+  <view class="card">
+    <view>邮箱：{{center.email}}</view>
+    <view class="muted" style="margin-top:8rpx">地址：{{center.address}}</view>
+  </view>
+</view>

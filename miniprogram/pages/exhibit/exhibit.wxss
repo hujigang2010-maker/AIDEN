@@ -1,0 +1,35 @@
+.hero {
+  padding: 56rpx 40rpx;
+  background: linear-gradient(145deg, #1a4558, #123f55 55%, #a17c4c);
+  color: #fff;
+}
+
+.sub {
+  font-size: 22rpx;
+  letter-spacing: 3rpx;
+  opacity: 0.8;
+}
+
+.title {
+  margin-top: 12rpx;
+  font-size: 40rpx;
+  font-weight: 700;
+}
+
+.desc {
+  margin-top: 14rpx;
+  opacity: 0.9;
+  font-size: 26rpx;
+}
+
+.sec-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 10rpx;
+}
+
+.sec-body {
+  color: var(--muted);
+  font-size: 28rpx;
+}
