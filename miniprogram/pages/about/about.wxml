@@ -3,14 +3,22 @@
     <view class="name">{{platform.fullName}}</view>
     <view class="en">{{platform.motto}}</view>
     <view class="principles">
-      <text class="tag tag-teal" wx:for="{{platform.principles}}" wx:key="*this">{{item}}</text>
+      <text class="tag tag-teal" wx:for="{{platform.values}}" wx:key="*this">{{item}}</text>
     </view>
     <view class="about">{{platform.about}}</view>
     <view class="sponsor">{{platform.sponsorNote}}</view>
   </view>
-  <view class="section-title"><text class="h">联系平台</text></view>
+
+  <view class="section-title"><text class="h">愿景</text></view>
+  <view class="card muted">{{platform.vision}}</view>
+
+  <view class="section-title"><text class="h">使命</text></view>
+  <view class="card muted">{{platform.mission}}</view>
+
+  <view class="section-title"><text class="h">联系我们</text></view>
   <view class="card">
     <view>邮箱：{{platform.email}}</view>
     <view class="muted" style="margin-top:8rpx">地址：{{platform.address}}</view>
+    <view class="muted" style="margin-top:8rpx">{{platform.consultTip}}</view>
   </view>
 </view>

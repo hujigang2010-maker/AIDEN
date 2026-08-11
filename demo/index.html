@@ -1,309 +1,193 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <title>复旦链接 · 开放协作平台</title>
-  <style>
-    :root { --primary:#57068c; --teal:#8900e1; --gold:#c5a572; --bg:#efe8f5; --muted:#6b6178; --danger:#c0392b; }
-    * { box-sizing: border-box; }
-    body { margin:0; font-family:"PingFang SC","Noto Sans SC",sans-serif;
-      background: radial-gradient(ellipse at 20% 0%, rgba(87,6,140,.20), transparent 50%),
-                  radial-gradient(ellipse at 90% 10%, rgba(197,165,114,.18), transparent 45%),
-                  linear-gradient(180deg,#e8dff0,var(--bg));
-      color:#1c2b33; min-height:100vh; }
-    .wrap { max-width:1100px; margin:0 auto; padding:32px 20px 60px; }
-    .intro h1 { margin:0 0 8px; font-size:28px; color:var(--primary); }
-    .intro p { margin:0 0 8px; color:var(--muted); line-height:1.6; }
-    .badges { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 28px; }
-    .badge { font-size:12px; padding:4px 10px; border-radius:999px; background:rgba(18,63,85,.08); color:var(--primary); }
-    .layout { display:grid; grid-template-columns:360px 1fr; gap:28px; align-items:start; }
-    @media (max-width:860px){ .layout{grid-template-columns:1fr;} }
-    .phone { width:360px; max-width:100%; border-radius:36px; overflow:hidden; border:10px solid #1a2a33;
-      box-shadow:0 30px 60px rgba(18,63,85,.22); background:#f3f6f8; position:sticky; top:20px; }
-    .status { height:28px; background:#57068c; color:#fff; font-size:11px; display:flex; align-items:center; justify-content:center; letter-spacing:1px; }
-    .screen { height:640px; overflow:auto; position:relative; padding-bottom:64px; }
-    .tabbar { position:absolute; left:0; right:0; bottom:0; height:56px; background:#fff; border-top:1px solid #d8e1e6; display:grid; grid-template-columns:repeat(4,1fr); }
-    .tab { border:0; background:transparent; color:#5a6f7a; font-size:11px; padding-top:8px; cursor:pointer; }
-    .tab.on { color:var(--primary); font-weight:700; }
-    .hero { padding:28px 18px 22px; background:linear-gradient(160deg,#220337,#330662 40%,#57068c 75%,#8900e1); color:#fff; }
-    .hero .brand { font-size:20px; font-weight:700; line-height:1.35; }
-    .hero .motto { margin-top:8px; opacity:.9; font-size:13px; }
-    .hero .sponsor { margin-top:6px; opacity:.7; font-size:11px; }
-    .hero .actions { display:flex; gap:8px; margin-top:16px; }
-    .btn { flex:1; text-align:center; border-radius:999px; padding:10px 0; font-size:13px; font-weight:600; border:0; cursor:pointer; }
-    .btn.light { background:#fff; color:var(--primary); }
-    .btn.ghost { background:transparent; color:#fff; border:1px solid rgba(255,255,255,.65); }
-    .btn.primary { background:linear-gradient(135deg,#330662,#57068c 55%,#8900e1); color:#fff; width:100%; }
-    .pad { padding:12px 14px 20px; }
-    .grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-    .entry { background:#fff; border-radius:12px; padding:12px; box-shadow:0 4px 14px rgba(18,63,85,.05); cursor:pointer; }
-    .entry b { display:block; color:var(--primary); font-size:14px; }
-    .entry span { color:var(--muted); font-size:11px; }
-    .entry.hot { border:1px solid rgba(192,57,43,.25); background:linear-gradient(#fff,#fff7f6); }
-    .h { margin:16px 0 8px; font-size:15px; font-weight:700; color:var(--primary); display:flex; justify-content:space-between; }
-    .card { background:#fff; border-radius:12px; padding:12px; margin-bottom:8px; box-shadow:0 4px 14px rgba(18,63,85,.04); cursor:pointer; }
-    .card .t { font-weight:700; margin:6px 0; font-size:14px; }
-    .muted { color:var(--muted); font-size:12px; line-height:1.5; }
-    .tags { display:flex; justify-content:space-between; gap:6px; }
-    .tag { font-size:11px; padding:2px 7px; border-radius:4px; }
-    .tag.teal { background:rgba(11,117,132,.12); color:var(--teal); }
-    .tag.paid { background:rgba(192,57,43,.1); color:var(--danger); }
-    .tag.free { background:rgba(30,122,74,.12); color:#1e7a4a; }
-    .tag.gold { background:rgba(161,124,76,.15); color:var(--gold); }
-    .price { color:var(--danger); font-weight:700; font-size:13px; }
-    .panel { display:none; } .panel.on { display:block; }
-    .side .block { background:rgba(255,255,255,.88); border-radius:16px; padding:18px 20px; margin-bottom:14px; border:1px solid rgba(18,63,85,.08); }
-    .side h2 { margin:0 0 10px; font-size:16px; color:var(--primary); }
-    .side ul { margin:0; padding-left:18px; color:var(--muted); line-height:1.7; font-size:14px; }
-    .side code { background:#eef3f6; padding:1px 6px; border-radius:4px; font-size:12px; }
-    .modal { position:absolute; inset:28px 0 56px; background:rgba(12,24,32,.45); display:none; align-items:flex-end; justify-content:center; padding:12px; }
-    .modal.on { display:flex; }
-    .sheet { width:100%; background:#fff; border-radius:16px; padding:16px; max-height:90%; overflow:auto; }
-    .sheet h3 { margin:0 0 8px; }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>复旦链接 · NYU Violet</title>
+<style>
+:root{
+  --violet:#57068C; --deep:#330662; --bright:#8900E1; --soft:#A78BC4;
+  --wash:#F0E6F8; --gold:#C5A572; --text:#1A0A2E; --muted:#5C3D7A;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"PingFang SC","Noto Sans SC",sans-serif;color:var(--text);
+background:radial-gradient(ellipse at 15% 0%,rgba(137,0,225,.25),transparent 45%),
+radial-gradient(ellipse at 90% 5%,rgba(197,165,114,.2),transparent 40%),
+linear-gradient(180deg,#e4d0f5,var(--wash));min-height:100vh}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 18px 56px}
+h1{margin:0 0 8px;color:var(--violet);font-size:28px}
+.lead{color:var(--muted);line-height:1.6;margin:0 0 18px}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;background:rgba(87,6,140,.12);color:var(--violet);font-size:12px;margin:0 6px 6px 0}
+.layout{display:grid;grid-template-columns:360px 1fr;gap:24px}
+@media(max-width:860px){.layout{grid-template-columns:1fr}}
+.phone{width:360px;max-width:100%;border-radius:36px;overflow:hidden;border:10px solid #2a0844;
+box-shadow:0 28px 60px rgba(87,6,140,.35);background:var(--wash);position:sticky;top:16px}
+.status{height:28px;background:var(--violet);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;letter-spacing:1px;font-weight:600}
+.screen{height:640px;overflow:auto;position:relative;padding-bottom:56px}
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:56px;background:#fff;border-top:1px solid #dcc8ec;display:grid;grid-template-columns:repeat(4,1fr)}
+.tab{border:0;background:0;color:var(--soft);font-size:11px;cursor:pointer;padding-top:8px}
+.tab.on{color:var(--violet);font-weight:700}
+.hero{padding:26px 16px 20px;background:linear-gradient(160deg,#220337,#330662 35%,#57068c 70%,#8900e1);color:#fff}
+.brand{font-size:20px;font-weight:700;line-height:1.35}
+.motto{margin-top:8px;font-size:14px;font-weight:600}
+.sub{margin-top:4px;font-size:12px;opacity:.85}
+.actions{display:flex;gap:8px;margin-top:14px}
+.btn{flex:1;border:0;border-radius:999px;padding:10px 0;font-size:13px;font-weight:650;cursor:pointer}
+.btn.light{background:#fff;color:var(--violet)}
+.btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.75)}
+.btn.primary{background:linear-gradient(135deg,#330662,#57068c,#8900e1);color:#fff;width:100%;box-shadow:0 8px 20px rgba(87,6,140,.35)}
+.pad{padding:12px 14px 18px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.entry{background:#fff;border-radius:12px;padding:12px;border:1px solid rgba(87,6,140,.12);cursor:pointer;box-shadow:0 6px 16px rgba(87,6,140,.1)}
+.entry b{display:block;color:var(--violet);font-size:14px}
+.entry span{color:var(--muted);font-size:11px}
+.h{margin:14px 0 8px;font-size:15px;font-weight:700;color:var(--violet);display:flex;justify-content:space-between}
+.card{background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid rgba(87,6,140,.08);box-shadow:0 6px 16px rgba(87,6,140,.08);cursor:pointer}
+.t{font-weight:700;margin:6px 0;font-size:14px;color:var(--text)}
+.muted{color:var(--muted);font-size:12px;line-height:1.5}
+.tag{font-size:11px;padding:2px 7px;border-radius:4px;background:rgba(87,6,140,.12);color:var(--violet)}
+.tag.gold{background:rgba(197,165,114,.22);color:#8a6a32}
+.price{color:#b83280;font-weight:700}
+.panel{display:none}.panel.on{display:block}
+.side .block{background:rgba(255,255,255,.92);border-radius:16px;padding:16px 18px;margin-bottom:12px;border:1px solid rgba(87,6,140,.12)}
+.side h2{margin:0 0 8px;font-size:16px;color:var(--violet)}
+.side ul{margin:0;padding-left:18px;color:var(--muted);line-height:1.7;font-size:14px}
+.side code{background:#efe0fa;padding:1px 6px;border-radius:4px;color:var(--violet);font-size:12px}
+.modal{position:absolute;inset:28px 0 56px;background:rgba(34,3,55,.45);display:none;align-items:flex-end;padding:12px}
+.modal.on{display:flex}
+.sheet{width:100%;background:#fff;border-radius:16px;padding:16px;max-height:92%;overflow:auto}
+.swatch{display:flex;gap:8px;margin-top:8px}
+.swatch i{width:36px;height:36px;border-radius:8px;display:block;border:1px solid rgba(0,0,0,.08)}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="intro">
-      <h1>复旦链接 · 开放协作平台</h1>
-      <p>先搭平台，再链接<strong>活动</strong>、<strong>产业机会</strong>（AI / 具身智能 / ChinaJoy）与<strong>国际对接</strong>；发起可追溯至住房政策研究中心，但不被其字面束缚。</p>
-      <div class="badges">
-        <span class="badge">产品名：复旦链接</span>
-        <span class="badge">发起主体脚注可追溯</span>
-        <span class="badge">领事馆：姓名可检索 · 无直接联系方式</span>
+<div class="wrap">
+  <h1>复旦链接 · 开放协作平台</h1>
+  <p class="lead">主色严格使用 <strong>NYU Violet #57068C</strong>（不再用灰）。板块模式对齐教育中心：公开课程、定制培训、活动报名、平台新闻、关于我们。</p>
+  <span class="badge">#57068C NYU Violet</span>
+  <span class="badge">#8900E1 亮紫</span>
+  <span class="badge">#330662 深紫</span>
+  <span class="badge">教育中心板块模式</span>
+  <div class="layout" style="margin-top:18px">
+    <div class="phone">
+      <div class="status">复旦链接 · #57068C</div>
+      <div class="screen">
+        <div class="panel on" id="tab-home">
+          <div class="hero">
+            <div style="opacity:.8;font-size:11px;letter-spacing:2px">FUDAN LINK · NYU VIOLET</div>
+            <div class="brand">复旦链接 · 开放协作平台</div>
+            <div class="motto">找到适合你的学习与协作项目</div>
+            <div class="sub">公开课程 · 定制培训 · 活动报名 · 平台新闻</div>
+            <div class="actions">
+              <button class="btn light" onclick="showTab('courses')">找到课程</button>
+              <button class="btn ghost" onclick="openAbout()">关于我们</button>
+            </div>
+          </div>
+          <div class="pad">
+            <div class="grid">
+              <div class="entry" onclick="showTab('courses')"><b>公开课程</b><span>个人发展 · 专题研修</span></div>
+              <div class="entry" onclick="openCustomize()"><b>定制培训</b><span>企业/政府量身方案</span></div>
+              <div class="entry" onclick="showTab('events')"><b>活动报名</b><span>论坛 · 产业日</span></div>
+              <div class="entry" onclick="showTab('courses')"><b>在线学习</b><span>回放 · 微课</span></div>
+            </div>
+            <div class="h">推荐课程</div>
+            <div class="card" onclick="openCourse(0)"><span class="tag">公开课程</span><div class="t">城市与安居公开研修 · 第 1 期</div><div class="muted">开班 2026年10月 · 6天</div><div class="price">¥6800</div></div>
+            <div class="card" onclick="openCourse(1)"><span class="tag">公开课程</span><div class="t">人工智能产业观察研修 · 第 1 期</div><div class="muted">开班 2026年9月 · 4天</div><div class="price">¥4800</div></div>
+            <div class="h">平台新闻</div>
+            <div class="card" onclick="openNews(0)"><span class="tag gold">揭牌成立</span><div class="t">住房政策研究中心正式揭牌</div><div class="muted">2009.08.29 · 光华楼</div></div>
+          </div>
+        </div>
+        <div class="panel" id="tab-courses"><div class="pad" id="course-list"></div></div>
+        <div class="panel" id="tab-events"><div class="pad" id="event-list"></div></div>
+        <div class="panel" id="tab-mine"><div class="pad">
+          <div class="card"><div class="t">收费入口</div><div class="muted">课程学费/定金 · 活动票 · 会员 · 支持平台</div></div>
+          <div class="card"><div class="t">复旦链接 · 年度会员</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><span class="price">¥365/年</span><button class="btn primary" style="flex:none;padding:8px 14px;width:auto" onclick="pay('会员',365)">开通</button></div></div>
+          <div class="card" onclick="openCustomize()"><div class="t">定制培训意向 →</div><div class="muted">七步流程对齐教育中心定制课</div></div>
+          <div id="orders"><div class="card muted">暂无订单</div></div>
+        </div></div>
+        <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+      </div>
+      <div class="tabbar">
+        <button class="tab on" data-tab="home" onclick="showTab('home')">首页</button>
+        <button class="tab" data-tab="courses" onclick="showTab('courses')">课程</button>
+        <button class="tab" data-tab="events" onclick="showTab('events')">活动</button>
+        <button class="tab" data-tab="mine" onclick="showTab('mine')">我的</button>
       </div>
     </div>
-    <div class="layout">
-      <div class="phone">
-        <div class="status">复旦链接</div>
-        <div class="screen">
-          <div class="panel on" id="tab-home">
-            <div class="hero">
-              <div style="opacity:.75;font-size:11px;letter-spacing:2px">FUDAN LINK</div>
-              <div class="brand">复旦链接 · 开放协作平台</div>
-              <div class="motto">先搭平台，再链接活动、产业与世界</div>
-              <div class="sponsor">由复旦大学住房政策研究中心发起运营</div>
-              <div class="actions">
-                <button class="btn light" onclick="showTab('events')">浏览活动</button>
-                <button class="btn ghost" onclick="openAbout()">关于平台</button>
-              </div>
-            </div>
-            <div class="pad">
-              <div class="grid">
-                <div class="entry" onclick="showTab('events')"><b>活动报名</b><span>论坛 · 沙龙 · 产业日</span></div>
-                <div class="entry" onclick="showTab('opp')"><b>产业机会</b><span>AI · 具身 · 展会</span></div>
-                <div class="entry" onclick="openConsulates()"><b>国际对接</b><span>驻沪领事名录</span></div>
-                <div class="entry hot" onclick="showTab('mine')"><b>收费入口</b><span>票务 · 会员 · 支持</span></div>
-              </div>
-              <div class="h">即将开始</div>
-              <div class="card" onclick="openEvent(0)">
-                <div class="tags"><span class="tag teal">开放协作专项</span><span class="tag paid">收费</span></div>
-                <div class="t">城市安居与高质量发展论坛</div>
-                <div class="muted">2026.09.18 · 杨浦</div>
-                <div style="display:flex;justify-content:space-between;margin-top:8px"><span class="tag teal">报名中</span><span class="price">¥199 起</span></div>
-              </div>
-              <div class="card" onclick="openEvent(1)">
-                <div class="tags"><span class="tag teal">产业日</span><span class="tag paid">收费</span></div>
-                <div class="t">人工智能 × 具身智能 产业对接日</div>
-                <div class="muted">2026.09.12 · 创客场景</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="panel" id="tab-events">
-            <div class="pad">
-              <div id="event-list"></div>
-            </div>
-          </div>
-
-          <div class="panel" id="tab-opp">
-            <div class="pad">
-              <div class="card" style="background:linear-gradient(135deg,#330662,#57068c 55%,#8900e1);color:#fff" onclick="openConsulates()">
-                <span class="tag gold">国际对接</span>
-                <div class="t" style="color:#fff">驻沪领事检索名录</div>
-                <div class="muted" style="color:rgba(255,255,255,.85)">姓名可检索 · 无电话邮箱 →</div>
-              </div>
-              <div class="h">产业机会墙</div>
-              <div id="opp-list"></div>
-            </div>
-          </div>
-
-          <div class="panel" id="tab-mine">
-            <div class="pad">
-              <div class="card"><div class="t">收费入口</div><div class="muted">活动票 · 公开研修 · 平台会员 · 支持平台</div></div>
-              <div class="card">
-                <div class="t">复旦链接 · 年度会员</div>
-                <div class="muted">优先报名、资料包、部分回放</div>
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
-                  <span class="price">¥365 / 年</span>
-                  <button class="btn primary" style="flex:none;padding:8px 16px" onclick="pay('复旦链接会员',365)">开通</button>
-                </div>
-              </div>
-              <div class="card">
-                <div class="t">支持平台</div>
-                <div class="muted">支持公共活动与主题展览</div>
-                <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
-                  <span>¥</span>
-                  <input id="supportAmt" value="100" style="flex:1;padding:8px;border:1px solid #d8e1e6;border-radius:8px" />
-                  <button class="btn primary" style="flex:none;padding:8px 16px" onclick="paySupport()">支持</button>
-                </div>
-              </div>
-              <div class="h">我的订单 <span class="muted" style="font-weight:400" id="orderCount"></span></div>
-              <div id="orders"><div class="card muted">暂无订单</div></div>
-            </div>
-          </div>
-
-          <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+    <div class="side">
+      <div class="block">
+        <h2>颜色（不应再是灰色）</h2>
+        <div class="swatch">
+          <i style="background:#57068C" title="#57068C"></i>
+          <i style="background:#8900E1"></i>
+          <i style="background:#330662"></i>
+          <i style="background:#F0E6F8"></i>
+          <i style="background:#A78BC4"></i>
         </div>
-        <div class="tabbar">
-          <button class="tab on" data-tab="home" onclick="showTab('home')">首页</button>
-          <button class="tab" data-tab="events" onclick="showTab('events')">活动</button>
-          <button class="tab" data-tab="opp" onclick="showTab('opp')">机会</button>
-          <button class="tab" data-tab="mine" onclick="showTab('mine')">我的</button>
-        </div>
+        <ul style="margin-top:10px">
+          <li>主色 <code>#57068C</code> NYU Violet</li>
+          <li>未选中 Tab 用浅紫 <code>#A78BC4</code>，不用中性灰</li>
+          <li>页面底 <code>#F0E6F8</code> 浅紫，不是灰底</li>
+        </ul>
       </div>
-
-      <div class="side">
-        <div class="block">
-          <h2>改版要点</h2>
-          <ul>
-            <li>删除管院 / 校友中心表述</li>
-            <li>对外品牌改为「复旦链接」；中心仅作可追溯脚注</li>
-            <li>机会墙：AI、具身智能、ChinaJoy、领事名录</li>
-          </ul>
-        </div>
-        <div class="block">
-          <h2>Excel 工作表</h2>
-          <ul>
-            <li><code>01 平台能力清单</code></li>
-            <li><code>02 产业与机会生态</code></li>
-            <li><code>09 驻沪领事馆名录</code>（姓名 · 无联系方式）</li>
-            <li><code>10 命名与表述规范</code></li>
-          </ul>
-        </div>
-        <div class="block">
-          <h2>下载</h2>
-          <ul>
-            <li><a href="https://github.com/hujigang2010-maker/AIDEN/raw/cursor/fudan-hprc-activity-platform-14f7/output/%E5%A4%8D%E6%97%A6%E9%93%BE%E6%8E%A5%E5%BC%80%E6%94%BE%E5%8D%8F%E4%BD%9C%E5%B9%B3%E5%8F%B0-%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%8A%9F%E8%83%BD%E8%93%9D%E5%9B%BE.xlsx">Excel 功能蓝图</a></li>
-          </ul>
-        </div>
+      <div class="block">
+        <h2>教育中心板块映射</h2>
+        <ul>
+          <li>公开课程 → 课程 Tab</li>
+          <li>定制课程 → 定制培训页（七步）</li>
+          <li>在线教育 → 在线学习筛选</li>
+          <li>活动报名 → 活动 Tab</li>
+          <li>EE 新闻 → 平台新闻</li>
+          <li>关于我们 → 愿景/使命/价值观</li>
+        </ul>
+      </div>
+      <div class="block">
+        <h2>Excel 下载</h2>
+        <ul>
+          <li><a href="https://github.com/hujigang2010-maker/AIDEN/raw/cursor/fudan-hprc-activity-platform-14f7/output/%E5%A4%8D%E6%97%A6%E9%93%BE%E6%8E%A5%E5%BC%80%E6%94%BE%E5%8D%8F%E4%BD%9C%E5%B9%B3%E5%8F%B0-%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%8A%9F%E8%83%BD%E8%93%9D%E5%9B%BE.xlsx">功能蓝图 Excel</a></li>
+        </ul>
       </div>
     </div>
   </div>
-  <script>
-    const events = [
-      { type:'开放协作专项', title:'城市安居与高质量发展论坛', date:'2026.09.18 · 杨浦', paid:true, price:199, summary:'政策、学界与产业共同讨论城市安居路径。', tickets:[{name:'标准票',price:199},{name:'学生票',price:99},{name:'VIP 席',price:680}] },
-      { type:'产业日', title:'人工智能 × 具身智能 产业对接日', date:'2026.09.12', paid:true, price:128, summary:'路演、体验层与对接席。', tickets:[{name:'参会票',price:128},{name:'对接席',price:980}] },
-      { type:'出海专题', title:'出海开放协作 · 国别商务沙龙', date:'2026.09.28', paid:false, price:0, summary:'审核制免费；可预习驻沪领事名录。', tickets:[{name:'审核制免费票',price:0}] },
-      { type:'公开研修', title:'城市与产业公开研修 · 第 1 期', date:'2026.10.11', paid:true, price:6800, summary:'城市治理、产业机会与国际对接模块。', tickets:[{name:'全款学费',price:6800},{name:'报名定金',price:1000}] }
-    ];
-    const opps = [
-      { track:'人工智能', title:'大模型与智算协作位', orgs:'优刻得、智谱 AI、道客网络等（示例）' },
-      { track:'具身智能', title:'人形机器人与外骨骼场景', orgs:'苏度、卓益得、傲鲨、清宝引擎等（示例）' },
-      { track:'ChinaJoy', title:'数字娱乐生态对接', orgs:'ChinaJoy / CDEC / AI 未来生态大会伙伴' },
-      { track:'科创载体', title:'创客岛与园区通道', orgs:'全球创客岛、云基地、科创园区' }
-    ];
-    const consulates = [
-      { country:'美国', head:'王汉', search:'美国驻上海总领事 王汉' },
-      { country:'日本', head:'冈田胜', search:'日本驻上海总领事 冈田胜' },
-      { country:'德国', head:'李德仁', search:'德国驻上海总领事 李德仁' },
-      { country:'新加坡', head:'陈子勤', search:'新加坡驻上海总领事 陈子勤' },
-      { country:'韩国', head:'金英俊', search:'韩国驻上海总领事 金英俊' },
-      { country:'泰国', head:'陈佩恩', search:'泰国驻上海总领事 陈佩恩' },
-      { country:'斐济', head:'陈玉茹', search:'斐济驻上海总领事 陈玉茹', note:'驻沪领团团长' },
-      { country:'越南', head:'陈辉雄', search:'越南驻上海总领事 陈辉雄' },
-      { country:'印尼', head:'邯伯盼', search:'印度尼西亚驻上海总领事' },
-      { country:'马来西亚', head:'沙哈菲兹·沙哈里斯', search:'马来西亚驻上海总领事' },
-      { country:'英国', head:'（请公开检索现任馆长）', search:'英国驻上海总领事' },
-      { country:'法国', head:'（请公开检索现任馆长）', search:'法国驻上海总领事' }
-    ];
-    let selectedTicket = 0;
-    let orders = JSON.parse(localStorage.getItem('fudan_link_orders') || '[]');
-
-    function showTab(name) {
-      document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
-      document.getElementById('tab-' + name).classList.add('on');
-      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.tab === name));
-      closeModal();
-      if (name === 'events') renderEvents();
-      if (name === 'opp') renderOpp();
-      if (name === 'mine') renderOrders();
-    }
-    function renderEvents() {
-      document.getElementById('event-list').innerHTML = events.map((e,i) => `
-        <div class="card" onclick="openEvent(${i})">
-          <div class="tags"><span class="tag teal">${e.type}</span>
-          <span class="tag ${e.paid?'paid':'free'}">${e.paid?'¥'+e.price+' 起':'免费'}</span></div>
-          <div class="t">${e.title}</div>
-          <div class="muted">${e.date}<br>${e.summary}</div>
-        </div>`).join('');
-    }
-    function renderOpp() {
-      document.getElementById('opp-list').innerHTML = opps.map(o => `
-        <div class="card"><span class="tag teal">${o.track}</span>
-        <div class="t">${o.title}</div><div class="muted">${o.orgs}</div></div>`).join('');
-    }
-    function openEvent(i) {
-      selectedTicket = 0;
-      const e = events[i];
-      document.getElementById('sheet').innerHTML = `
-        <h3>${e.title}</h3>
-        <div class="muted">${e.date}</div>
-        <p class="muted">${e.summary}</p>
-        <div class="h">选择票种</div>
-        ${e.tickets.map((t,idx)=>`<div class="card" id="tk${idx}" onclick="selectTicket(${idx},${i})" style="${idx===0?'border:1px solid #57068c':''}">
-          <div class="t">${t.name}</div><div class="price">${t.price>0?'¥'+t.price:'免费'}</div></div>`).join('')}
-        <button class="btn primary" onclick="confirmPay(${i})">${e.tickets[0].price>0?'确认报名并支付':'确认免费报名'}</button>
-        <button class="btn" style="margin-top:8px;background:#eee;width:100%" onclick="closeModal()">关闭</button>`;
-      document.getElementById('modal').classList.add('on');
-    }
-    function selectTicket(idx, eventIdx) {
-      selectedTicket = idx;
-      const e = events[eventIdx];
-      e.tickets.forEach((_,i)=>{ const el=document.getElementById('tk'+i); if(el) el.style.border = i===idx?'1px solid #57068c':'none'; });
-      const btn=document.querySelector('#sheet .btn.primary');
-      if(btn) btn.textContent = e.tickets[idx].price>0?'确认报名并支付':'确认免费报名';
-    }
-    function confirmPay(i){ const e=events[i], t=e.tickets[selectedTicket]; pay(e.title+' · '+t.name, t.price); }
-    function pay(title, price){
-      if(!confirm(price>0?`模拟微信支付 ¥${price}\n（演示，不会真实扣款）`:'确认提交免费报名？')) return;
-      orders.unshift({ title, price, time:new Date().toLocaleString(), status: price>0?'已支付（演示）':'已报名（演示）' });
-      localStorage.setItem('fudan_link_orders', JSON.stringify(orders));
-      closeModal(); showTab('mine');
-    }
-    function paySupport(){ const n=Number(document.getElementById('supportAmt').value); if(!n||n<=0) return alert('请输入金额'); pay('支持平台', n); }
-    function renderOrders(){
-      document.getElementById('orderCount').textContent = orders.length?`（${orders.length}）`:'';
-      document.getElementById('orders').innerHTML = orders.length
-        ? orders.map(o=>`<div class="card"><div class="t">${o.title}</div><div class="muted">${o.time}</div>
-            <div style="display:flex;justify-content:space-between;margin-top:8px"><span class="price">${o.price>0?'¥'+o.price:'免费'}</span><span class="tag teal">${o.status}</span></div></div>`).join('')
-        : '<div class="card muted">暂无订单</div>';
-    }
-    function openConsulates(){
-      document.getElementById('sheet').innerHTML = `
-        <h3>驻沪领事检索名录</h3>
-        <p class="muted">仅提供负责人姓名与检索关键词，不提供电话/邮箱。点击条目可复制检索词。</p>
-        ${consulates.map(c=>`<div class="card" onclick="copySearch('${c.search.replace(/'/g,"\\'")}')">
-          <div class="t">${c.country} · ${c.head}</div>
-          <div class="muted">检索：${c.search}${c.note?' · '+c.note:''}</div>
-        </div>`).join('')}
-        <button class="btn" style="background:#eee;width:100%" onclick="closeModal()">关闭</button>`;
-      document.getElementById('modal').classList.add('on');
-    }
-    function copySearch(text){
-      navigator.clipboard.writeText(text).then(()=>alert('已复制检索词：\\n'+text)).catch(()=>prompt('请复制检索词', text));
-    }
-    function openAbout(){
-      document.getElementById('sheet').innerHTML = `
-        <h3>关于平台</h3>
-        <p class="muted">复旦链接是开放协作底座：活动、产业机会与国际对接。住房与城市议题是垂直之一，但不束缚平台边界。</p>
-        <div class="muted">发起主体（可追溯）：复旦大学住房政策研究中心</div>
-        <button class="btn" style="background:#eee;width:100%;margin-top:12px" onclick="closeModal()">关闭</button>`;
-      document.getElementById('modal').classList.add('on');
-    }
-    function closeModal(){ document.getElementById('modal').classList.remove('on'); }
-    renderEvents(); renderOpp(); renderOrders();
-  </script>
+</div>
+<script>
+const courses=[
+ {title:'城市与安居公开研修 · 第 1 期',start:'2026年10月',dur:'6天',price:6800,cat:'公开课程'},
+ {title:'人工智能产业观察研修 · 第 1 期',start:'2026年9月',dur:'4天',price:4800,cat:'公开课程'},
+ {title:'具身智能与场景实训营',start:'2026年11月',dur:'3天',price:3980,cat:'公开课程'},
+ {title:'住房政策前沿微课包',start:'随时开课',dur:'录播',price:199,cat:'在线学习'}
+];
+const events=[
+ {title:'城市安居与高质量发展论坛',date:'2026.09.18',price:199},
+ {title:'人工智能 × 具身智能 产业对接日',date:'2026.09.12',price:128},
+ {title:'出海开放协作 · 国别商务沙龙',date:'2026.09.28',price:0}
+];
+const news=[{title:'住房政策研究中心正式揭牌',date:'2009.08.29',s:'光华楼揭牌；学术性、中立性、公益性',q:'复旦大学住房政策研究中心 揭牌'}];
+let orders=JSON.parse(localStorage.getItem('fl_orders_v22')||'[]');
+function showTab(n){
+ document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+ document.getElementById('tab-'+n).classList.add('on');
+ document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.tab===n));
+ closeModal();
+ if(n==='courses') renderCourses();
+ if(n==='events') renderEvents();
+ if(n==='mine') renderOrders();
+}
+function renderCourses(){
+ document.getElementById('course-list').innerHTML='<div class="h">公开课程</div>'+courses.map((c,i)=>`<div class="card" onclick="openCourse(${i})"><span class="tag">${c.cat}</span><div class="t">${c.title}</div><div class="muted">开班 ${c.start} · ${c.dur}</div><div class="price">¥${c.price}</div></div>`).join('');
+}
+function renderEvents(){
+ document.getElementById('event-list').innerHTML=events.map((e,i)=>`<div class="card" onclick="openEvent(${i})"><div class="t">${e.title}</div><div class="muted">${e.date}</div><div class="price">${e.price?('¥'+e.price):'免费'}</div></div>`).join('');
+}
+function openCourse(i){const c=courses[i];document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">${c.title}</h3><div class="muted">开班 ${c.start} · ${c.dur}</div><p class="muted">对齐教育中心公开课：了解详情 → 定金/全款报名。</p><button class="btn primary" onclick="pay('${c.title}',${c.price})">报名 ¥${c.price}</button><button class="btn" style="width:100%;margin-top:8px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
+function openEvent(i){const e=events[i];document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">${e.title}</h3><div class="muted">${e.date}</div><button class="btn primary" style="margin-top:12px" onclick="pay('${e.title}',${e.price})">${e.price?'支付 ¥'+e.price:'确认报名'}</button><button class="btn" style="width:100%;margin-top:8px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
+function openNews(i){const n=news[i];document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">${n.title}</h3><div class="muted">${n.date}</div><p class="muted">${n.s}</p><button class="btn primary" onclick="navigator.clipboard.writeText('${n.q}');alert('已复制检索词')">复制检索词</button><button class="btn" style="width:100%;margin-top:8px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
+function openCustomize(){document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">定制培训 · 七步流程</h3><ol class="muted" style="padding-left:18px;line-height:1.8"><li>初步沟通</li><li>需求分析</li><li>方案优化</li><li>签订协议</li><li>师资开发</li><li>实施评估</li><li>回访反馈</li></ol><p class="muted">线索收集，大额不对端内闭环。</p><button class="btn" style="width:100%;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
+function openAbout(){document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">关于我们</h3><p class="muted">愿景：世界级开放协作与研修服务。<br/>使命：连接课程、活动、产业与国际对接。<br/>价值观：开放、专业、好奇、敏捷、协作。</p><div class="muted">发起主体：复旦大学住房政策研究中心</div><button class="btn" style="width:100%;margin-top:12px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
+function pay(title,price){if(!confirm(price>0?`模拟支付 ¥${price}（演示）`:'确认报名？'))return;orders.unshift({title,price,time:new Date().toLocaleString()});localStorage.setItem('fl_orders_v22',JSON.stringify(orders));closeModal();showTab('mine');}
+function renderOrders(){document.getElementById('orders').innerHTML=orders.length?orders.map(o=>`<div class="card"><div class="t">${o.title}</div><div class="muted">${o.time}</div><div class="price">${o.price>0?'¥'+o.price:'免费'}</div></div>`).join(''):'<div class="card muted">暂无订单</div>';}
+function closeModal(){document.getElementById('modal').classList.remove('on')}
+renderCourses();renderEvents();renderOrders();
+</script>
 </body>
 </html>

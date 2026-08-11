@@ -8,8 +8,7 @@ Page({
     customAmount: "100"
   },
   onShow() {
-    const app = getApp();
-    this.setData({ orders: app.globalData.orders || [] });
+    this.setData({ orders: getApp().globalData.orders || [] });
   },
   onAmountInput(e) {
     this.setData({ customAmount: e.detail.value });
@@ -31,14 +30,23 @@ Page({
       url: `/pages/pay/pay?type=member&title=${encodeURIComponent(plan.name)}&price=${plan.price}`
     });
   },
-  goEvents() {
-    wx.switchTab({ url: "/pages/events/events" });
+  goCourses() {
+    wx.switchTab({ url: "/pages/courses/courses" });
+  },
+  goCustomize() {
+    wx.navigateTo({ url: "/pages/customize/customize" });
   },
   goAbout() {
     wx.navigateTo({ url: "/pages/about/about" });
   },
   goConsulates() {
     wx.navigateTo({ url: "/pages/consulates/consulates" });
+  },
+  goOpp() {
+    wx.navigateTo({ url: "/pages/opportunity/opportunity" });
+  },
+  goNews() {
+    wx.navigateTo({ url: "/pages/news/news" });
   },
   contact() {
     wx.showModal({

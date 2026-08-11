@@ -1,20 +1,21 @@
 <view class="page">
   <view class="hero">
     <view class="hero-glow"></view>
-    <view class="eyebrow">FUDAN LINK</view>
+    <view class="eyebrow">FUDAN LINK · NYU VIOLET</view>
     <view class="brand">{{platform.fullName}}</view>
     <view class="motto">{{platform.motto}}</view>
+    <view class="sub">{{platform.subtitle}}</view>
     <view class="sponsor">{{platform.sponsorNote}}</view>
     <view class="hero-actions">
-      <view class="btn-primary hero-btn" bindtap="onEntryTap" data-item="{{quickEntries[0]}}">浏览活动</view>
-      <view class="btn-outline" bindtap="goAbout">关于平台</view>
+      <view class="btn-primary hero-btn" bindtap="goCourses">找到课程</view>
+      <view class="btn-outline" bindtap="goAbout">关于我们</view>
     </view>
   </view>
 
   <view class="container">
     <view class="entries">
       <view
-        class="entry {{item.highlight ? 'entry-hot' : ''}}"
+        class="entry"
         wx:for="{{quickEntries}}"
         wx:key="id"
         bindtap="onEntryTap"
@@ -26,43 +27,42 @@
     </view>
 
     <view class="section-title">
-      <text class="h">即将开始</text>
-      <text class="more" bindtap="onEntryTap" data-item="{{quickEntries[0]}}">全部活动</text>
+      <text class="h">推荐课程</text>
+      <text class="more" bindtap="goCourses">全部课程</text>
     </view>
-    <view
-      class="card event-card"
-      wx:for="{{upcoming}}"
-      wx:key="id"
-      bindtap="onEventTap"
-      data-id="{{item.id}}"
-    >
+    <view class="card" wx:for="{{featured}}" wx:key="id" data-id="{{item.id}}" bindtap="openCourse">
+      <text class="tag tag-teal">{{item.category}}</text>
+      <view class="event-title">{{item.title}}</view>
+      <view class="muted">开班 {{item.start}} · {{item.duration}}</view>
+      <view class="row-bottom">
+        <text class="price">¥{{item.price}}</text>
+        <text class="status">了解详情</text>
+      </view>
+    </view>
+
+    <view class="section-title">
+      <text class="h">活动报名</text>
+      <text class="more" bindtap="goEvents">更多活动</text>
+    </view>
+    <view class="card" wx:for="{{upcoming}}" wx:key="id" data-id="{{item.id}}" bindtap="openEvent">
       <view class="row-top">
         <text class="tag tag-teal">{{item.type}}</text>
         <text class="tag {{item.paid ? 'tag-paid' : 'tag-free'}}">{{item.paid ? '收费' : '免费'}}</text>
       </view>
       <view class="event-title">{{item.title}}</view>
-      <view class="muted">{{item.date}} · {{item.time}} · {{item.place}}</view>
-      <view class="row-bottom">
-        <text class="status">{{item.status}}</text>
-        <text class="price" wx:if="{{item.paid}}">¥{{item.priceFrom}} 起</text>
-        <text class="price free" wx:else>免费报名</text>
-      </view>
+      <view class="muted">{{item.date}} · {{item.place}}</view>
     </view>
 
-    <view class="section-title"><text class="h">平台动态</text></view>
-    <view class="card feed" wx:for="{{feeds}}" wx:key="title" bindtap="onFeedTap" data-ref="{{item.ref}}">
-      <text class="tag tag-gold">{{item.type}}</text>
-      <view class="feed-title">{{item.title}}</view>
-      <view class="muted">{{item.summary}}</view>
+    <view class="section-title">
+      <text class="h">平台新闻</text>
+      <text class="more" bindtap="goNews">全部</text>
     </view>
-
-    <view class="section-title"><text class="h">中心公开新闻</text></view>
-    <view class="card feed" wx:for="{{newsList}}" wx:key="id" bindtap="onFeedTap" data-ref="{{item.id}}">
+    <view class="card" wx:for="{{newsList}}" wx:key="id" data-id="{{item.id}}" bindtap="openNews">
       <view class="row-top">
-        <text class="tag tag-teal">{{item.tag}}</text>
+        <text class="tag tag-gold">{{item.tag}}</text>
         <text class="muted">{{item.date}}</text>
       </view>
-      <view class="feed-title">{{item.title}}</view>
+      <view class="event-title">{{item.title}}</view>
       <view class="muted">{{item.summary}}</view>
     </view>
   </view>

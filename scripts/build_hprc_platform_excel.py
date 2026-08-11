@@ -23,15 +23,15 @@ OUT = (
     / "复旦链接开放协作平台-小程序功能蓝图.xlsx"
 )
 
-PRIMARY = "57068C"  # NYU Violet
-TEAL = "8900E1"     # 亮紫强调
+PRIMARY = "57068C"  # NYU Violet — 必须高饱和，避免灰感
+TEAL = "8900E1"     # 亮紫强调（非青绿）
 GOLD = "C5A572"
-LIGHT = "F5F1F8"
+LIGHT = "F0E6F8"    # 浅紫底，不是灰
 WHITE = "FFFFFF"
-DARK = "1C1226"
-GREY = "6B6178"
-GREEN = "1E7A4A"
-ROW_ALT = "EFE8F5"
+DARK = "1A0A2E"
+GREY = "5C3D7A"     # 紫灰文案色，避免中性灰
+GREEN = "57068C"
+ROW_ALT = "E8D8F5"
 
 
 def thin():
@@ -101,9 +101,10 @@ OVERVIEW = [
     ["命名原则", "专项活动/栏目用平台语言（如「开放协作专项」「产业机会」「国际对接」），避免一切内容都挂「住房政策研究中心」名义"],
     ["核心能力", "活动发布与回顾 · 主题展示 · 收费报名 · 产业机会墙 · 驻沪领事检索名录"],
     ["用户画像", "学者与政策研究者、产业与科技企业、出海与招商团队、活动参与者、合作机构"],
-    ["Tab 结构", "首页｜活动｜机会｜我的（回顾/展览并入活动与机会）"],
-    ["收费入口", "活动票、研修/工作坊、平台会员、支持平台、增值对接包"],
-    ["版本", "V2.1 · 2026-08 · NYU Violet 视觉 · 补充中心公开新闻"],
+    ["Tab 结构", "首页｜课程｜活动｜我的（对齐教育中心：公开课/活动报名/新闻/关于）"],
+    ["教育中心模式映射", "公开课程→课程Tab；定制课程→定制培训页；在线教育→在线学习筛选；活动报名→活动Tab；EE新闻→平台新闻；关于我们→愿景使命价值观"],
+    ["收费入口", "活动票、公开课学费/定金、平台会员、支持平台、增值对接包"],
+    ["版本", "V2.2 · 2026-08 · NYU Violet 强化 · 教育中心板块模式"],
 ]
 
 # 平台自身能力（不再写管院职能）
@@ -167,15 +168,18 @@ MODULES = [
 ]
 
 IA_PAGES = [
-    ["Tab", "pages/index/index", "首页", "品牌、入口、即将开始、动态"],
-    ["Tab", "pages/events/events", "活动", "列表/筛选；含回顾入口"],
-    ["Tab", "pages/opportunity/opportunity", "机会", "AI/具身/ChinaJoy/领事名录入口"],
-    ["Tab", "pages/mine/mine", "我的", "会员、支持、订单、关于"],
+    ["Tab", "pages/index/index", "首页", "找到课程、推荐课程、活动报名、平台新闻"],
+    ["Tab", "pages/courses/courses", "课程", "公开课程 / 在线学习（教育中心公开课模式）"],
+    ["Tab", "pages/events/events", "活动", "活动列表与报名"],
+    ["Tab", "pages/mine/mine", "我的", "会员、订单、定制入口、关于"],
+    ["子页", "pages/course-detail/course-detail", "课程详情", "开班/学制/模块/定金与全款"],
+    ["子页", "pages/customize/customize", "定制培训", "七步流程 + 意向表"],
     ["子页", "pages/event-detail/event-detail", "活动详情", "议程、票种、报名"],
     ["子页", "pages/pay/pay", "确认支付", "演示支付"],
-    ["子页", "pages/exhibit/exhibit", "主题展览", "线上策展"],
-    ["子页", "pages/consulates/consulates", "驻沪领事馆", "名录：国家+负责人姓名"],
-    ["子页", "pages/about/about", "关于平台", "发起主体与原则"],
+    ["子页", "pages/news/news", "平台新闻", "中心公开新闻精选"],
+    ["子页", "pages/consulates/consulates", "驻沪领事馆", "姓名检索"],
+    ["子页", "pages/opportunity/opportunity", "产业机会", "AI/具身/ChinaJoy"],
+    ["子页", "pages/about/about", "关于我们", "愿景使命价值观"],
 ]
 
 PAY_DESIGN = [

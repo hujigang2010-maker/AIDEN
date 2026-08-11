@@ -1,0 +1,3 @@
+.tip { margin-bottom: 8rpx; }
+.row { display: flex; justify-content: space-between; align-items: center; }
+.title { margin: 12rpx 0 8rpx; font-size: 30rpx; font-weight: 700; color: var(--primary); }

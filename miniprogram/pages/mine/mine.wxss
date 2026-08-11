@@ -21,7 +21,7 @@
 
 .amount {
   flex: 1;
-  background: var(--bg);
+  background: var(--primary-wash);
   padding: 12rpx 16rpx;
   border-radius: 10rpx;
 }

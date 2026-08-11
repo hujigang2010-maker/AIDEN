@@ -1,13 +1,17 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/courses/courses",
     "pages/events/events",
-    "pages/opportunity/opportunity",
     "pages/mine/mine",
+    "pages/course-detail/course-detail",
+    "pages/customize/customize",
     "pages/event-detail/event-detail",
     "pages/pay/pay",
+    "pages/news/news",
     "pages/exhibit/exhibit",
     "pages/consulates/consulates",
+    "pages/opportunity/opportunity",
     "pages/about/about",
     "pages/archive/archive"
   ],
@@ -15,11 +19,11 @@
     "navigationBarBackgroundColor": "#57068C",
     "navigationBarTitleText": "复旦链接",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#F5F1F8",
+    "backgroundColor": "#F0E6F8",
     "backgroundTextStyle": "dark"
   },
   "tabBar": {
-    "color": "#6B6178",
+    "color": "#A78BC4",
     "selectedColor": "#57068C",
     "backgroundColor": "#FFFFFF",
     "borderStyle": "black",
@@ -31,16 +35,16 @@
         "selectedIconPath": "images/tab-home-active.png"
       },
       {
+        "pagePath": "pages/courses/courses",
+        "text": "课程",
+        "iconPath": "images/tab-course.png",
+        "selectedIconPath": "images/tab-course-active.png"
+      },
+      {
         "pagePath": "pages/events/events",
         "text": "活动",
         "iconPath": "images/tab-events.png",
         "selectedIconPath": "images/tab-events-active.png"
-      },
-      {
-        "pagePath": "pages/opportunity/opportunity",
-        "text": "机会",
-        "iconPath": "images/tab-opportunity.png",
-        "selectedIconPath": "images/tab-opportunity-active.png"
       },
       {
         "pagePath": "pages/mine/mine",

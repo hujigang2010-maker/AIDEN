@@ -1,0 +1,25 @@
+<view class="container">
+  <view class="card hero-card">
+    <view class="title">定制培训</view>
+    <view class="muted">满足不同行业、不同发展阶段、不同规模的组织成长需求。流程对齐教育中心「定制课程」七步法。</view>
+  </view>
+
+  <view class="section-title"><text class="h">定制流程</text></view>
+  <view class="card">
+    <view class="step" wx:for="{{steps}}" wx:key="*this">
+      <text class="num">{{index + 1}}</text>
+      <text class="txt">{{item}}</text>
+    </view>
+  </view>
+
+  <view class="section-title"><text class="h">提交意向</text></view>
+  <view class="card form">
+    <view class="label">组织名称</view>
+    <input placeholder="企业 / 政府 / 园区" data-key="org" bindinput="onInput" />
+    <view class="label">学习需求</view>
+    <textarea placeholder="例如：住房保障干部研修 / AI 产业观察 / 出海预习" data-key="need" bindinput="onInput" />
+    <view class="label">联系人与手机</view>
+    <input placeholder="姓名 + 手机号" data-key="contact" bindinput="onInput" />
+    <view class="btn-primary" style="margin-top:24rpx" bindtap="submit">提交定制意向</view>
+  </view>
+</view>
