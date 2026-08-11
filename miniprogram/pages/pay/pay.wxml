@@ -11,7 +11,7 @@
 
   <view class="card tip">
     <view class="label">收费入口说明</view>
-    <view class="muted">对标管院校友平台捐赠支付与 EE 课程招生：活动票、培训学费/定金、会员年费、支持中心均可由此闭环。正式环境接入微信支付商户号与退款规则。</view>
+    <view class="muted">复旦链接平台支持活动票、公开研修学费/定金、平台会员与支持平台等收费路径。正式环境接入微信支付商户号与退款规则。本页为演示，不会真实扣款。</view>
   </view>
 
   <view class="btn-primary" bindtap="submit">{{price > 0 ? '微信支付（演示）' : '确认报名'}}</view>

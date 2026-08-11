@@ -1,7 +1,7 @@
 <view class="container">
   <view class="profile card">
-    <view class="name">{{center.name}}</view>
-    <view class="muted">登录后可同步报名、订单与电子票（演示版本地保存）</view>
+    <view class="name">{{platform.fullName}}</view>
+    <view class="muted">{{platform.sponsorNote}} · 登录后可同步报名与订单（演示版本地保存）</view>
   </view>
 
   <view class="section-title"><text class="h">收费入口</text></view>
@@ -36,7 +36,8 @@
   </view>
 
   <view class="links">
-    <view class="link-item" bindtap="goAbout">关于中心</view>
+    <view class="link-item" bindtap="goConsulates">驻沪领事检索名录</view>
+    <view class="link-item" bindtap="goAbout">关于平台</view>
     <view class="link-item" bindtap="contact">联系我们</view>
   </view>
 </view>

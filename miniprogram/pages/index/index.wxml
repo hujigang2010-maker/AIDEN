@@ -1,12 +1,13 @@
 <view class="page">
   <view class="hero">
     <view class="hero-glow"></view>
-    <view class="eyebrow">FUDAN · HPRC</view>
-    <view class="brand">{{center.name}}</view>
-    <view class="motto">{{center.motto}}</view>
+    <view class="eyebrow">FUDAN LINK</view>
+    <view class="brand">{{platform.fullName}}</view>
+    <view class="motto">{{platform.motto}}</view>
+    <view class="sponsor">{{platform.sponsorNote}}</view>
     <view class="hero-actions">
       <view class="btn-primary hero-btn" bindtap="onEntryTap" data-item="{{quickEntries[0]}}">浏览活动</view>
-      <view class="btn-outline" bindtap="goAbout">关于中心</view>
+      <view class="btn-outline" bindtap="goAbout">关于平台</view>
     </view>
   </view>
 
@@ -48,16 +49,8 @@
       </view>
     </view>
 
-    <view class="section-title">
-      <text class="h">中心动态</text>
-    </view>
-    <view
-      class="card feed"
-      wx:for="{{feeds}}"
-      wx:key="title"
-      bindtap="onFeedTap"
-      data-ref="{{item.ref}}"
-    >
+    <view class="section-title"><text class="h">平台动态</text></view>
+    <view class="card feed" wx:for="{{feeds}}" wx:key="title" bindtap="onFeedTap" data-ref="{{item.ref}}">
       <text class="tag tag-gold">{{item.type}}</text>
       <view class="feed-title">{{item.title}}</view>
       <view class="muted">{{item.summary}}</view>

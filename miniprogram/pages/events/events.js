@@ -2,7 +2,7 @@ const data = require("../../utils/data");
 
 Page({
   data: {
-    filters: ["全部", "主题论坛", "政策沙龙", "专题培训", "实地参访"],
+    filters: ["全部", "开放协作专项", "产业日", "出海专题", "公开研修"],
     active: "全部",
     list: data.events
   },

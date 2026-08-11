@@ -1,7 +1,7 @@
 App({
   globalData: {
-    brand: "复旦大学住房政策研究中心",
-    motto: "以活动连接学术与实践",
+    brand: "复旦链接 · 开放协作平台",
+    motto: "先搭平台，再链接活动、产业与世界",
     orders: []
   },
   onLaunch() {

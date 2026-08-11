@@ -2,16 +2,18 @@
   "pages": [
     "pages/index/index",
     "pages/events/events",
-    "pages/archive/archive",
+    "pages/opportunity/opportunity",
     "pages/mine/mine",
     "pages/event-detail/event-detail",
     "pages/pay/pay",
     "pages/exhibit/exhibit",
-    "pages/about/about"
+    "pages/consulates/consulates",
+    "pages/about/about",
+    "pages/archive/archive"
   ],
   "window": {
     "navigationBarBackgroundColor": "#123F55",
-    "navigationBarTitleText": "住房政策研究中心",
+    "navigationBarTitleText": "复旦链接",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#F3F6F8",
     "backgroundTextStyle": "dark"
@@ -35,10 +37,10 @@
         "selectedIconPath": "images/tab-events-active.png"
       },
       {
-        "pagePath": "pages/archive/archive",
-        "text": "回顾",
-        "iconPath": "images/tab-archive.png",
-        "selectedIconPath": "images/tab-archive-active.png"
+        "pagePath": "pages/opportunity/opportunity",
+        "text": "机会",
+        "iconPath": "images/tab-opportunity.png",
+        "selectedIconPath": "images/tab-opportunity-active.png"
       },
       {
         "pagePath": "pages/mine/mine",

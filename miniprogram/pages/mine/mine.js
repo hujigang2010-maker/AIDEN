@@ -2,7 +2,7 @@ const data = require("../../utils/data");
 
 Page({
   data: {
-    center: data.center,
+    platform: data.platform,
     plans: data.memberPlans,
     orders: [],
     customAmount: "100"
@@ -37,10 +37,13 @@ Page({
   goAbout() {
     wx.navigateTo({ url: "/pages/about/about" });
   },
+  goConsulates() {
+    wx.navigateTo({ url: "/pages/consulates/consulates" });
+  },
   contact() {
     wx.showModal({
-      title: "联系中心",
-      content: `${data.center.email}\n${data.center.address}`,
+      title: "联系平台",
+      content: `${data.platform.email}\n${data.platform.address}\n${data.platform.sponsorNote}`,
       showCancel: false
     });
   }
