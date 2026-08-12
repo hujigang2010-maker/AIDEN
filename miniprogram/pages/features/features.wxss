@@ -1,0 +1,36 @@
+.intro-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 10rpx;
+}
+
+.feat {
+  margin-bottom: 16rpx;
+}
+
+.feat-title {
+  font-size: 30rpx;
+  font-weight: 650;
+  color: var(--text);
+}
+
+.land {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: var(--primary);
+  line-height: 1.5;
+}
+
+.value-row {
+  margin-top: 12rpx;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  font-size: 22rpx;
+  color: var(--muted);
+}
+
+.footer {
+  padding: 12rpx 0 32rpx;
+}

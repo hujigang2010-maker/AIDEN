@@ -63,11 +63,12 @@ box-shadow:0 28px 60px rgba(87,6,140,.35);background:var(--wash);position:sticky
 <body>
 <div class="wrap">
   <h1>复旦链接 · 开放协作平台</h1>
-  <p class="lead">主色严格使用 <strong>NYU Violet #57068C</strong>（不再用灰）。板块模式对齐教育中心：公开课程、定制培训、活动报名、平台新闻、关于我们。</p>
+  <p class="lead">主色严格使用 <strong>NYU Violet #57068C</strong>。板块对齐教育中心；活动运营吸收互动吧全链路能力（轻松办活动、多票种、海报裂变、验票签到等），品牌仍用复旦链接。</p>
   <span class="badge">#57068C NYU Violet</span>
   <span class="badge">#8900E1 亮紫</span>
   <span class="badge">#330662 深紫</span>
-  <span class="badge">教育中心板块模式</span>
+  <span class="badge">教育中心板块</span>
+  <span class="badge">互动吧能力吸收</span>
   <div class="layout" style="margin-top:18px">
     <div class="phone">
       <div class="status">复旦链接 · #57068C</div>
@@ -90,6 +91,13 @@ box-shadow:0 28px 60px rgba(87,6,140,.35);background:var(--wash);position:sticky
               <div class="entry" onclick="showTab('events')"><b>活动报名</b><span>论坛 · 产业日</span></div>
               <div class="entry" onclick="showTab('courses')"><b>在线学习</b><span>回放 · 微课</span></div>
             </div>
+            <div class="h">活动能力 <span style="font-weight:500;font-size:12px;color:var(--soft);cursor:pointer" onclick="openFeatures()">全部 →</span></div>
+            <div class="grid">
+              <div class="entry" onclick="openFeatures()"><b>轻松办活动</b><span>模板发布专业页</span></div>
+              <div class="entry" onclick="openFeatures()"><b>海报邀请函</b><span>一键生成传播</span></div>
+              <div class="entry" onclick="openFeatures()"><b>多票种售票</b><span>收费报名闭环</span></div>
+              <div class="entry" onclick="openFeatures()"><b>验票签到</b><span>电子票核销</span></div>
+            </div>
             <div class="h">推荐课程</div>
             <div class="card" onclick="openCourse(0)"><span class="tag">公开课程</span><div class="t">城市与安居公开研修 · 第 1 期</div><div class="muted">开班 2026年10月 · 6天</div><div class="price">¥6800</div></div>
             <div class="card" onclick="openCourse(1)"><span class="tag">公开课程</span><div class="t">人工智能产业观察研修 · 第 1 期</div><div class="muted">开班 2026年9月 · 4天</div><div class="price">¥4800</div></div>
@@ -102,6 +110,7 @@ box-shadow:0 28px 60px rgba(87,6,140,.35);background:var(--wash);position:sticky
         <div class="panel" id="tab-mine"><div class="pad">
           <div class="card"><div class="t">收费入口</div><div class="muted">课程学费/定金 · 活动票 · 会员 · 支持平台</div></div>
           <div class="card"><div class="t">复旦链接 · 年度会员</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><span class="price">¥365/年</span><button class="btn primary" style="flex:none;padding:8px 14px;width:auto" onclick="pay('会员',365)">开通</button></div></div>
+          <div class="card" onclick="openFeatures()"><div class="t">活动能力（互动吧优点） →</div><div class="muted">轻松办活动 · 海报 · 售票 · 签到 · 裂变</div></div>
           <div class="card" onclick="openCustomize()"><div class="t">定制培训意向 →</div><div class="muted">七步流程对齐教育中心定制课</div></div>
           <div id="orders"><div class="card muted">暂无订单</div></div>
         </div></div>
@@ -142,6 +151,17 @@ box-shadow:0 28px 60px rgba(87,6,140,.35);background:var(--wash);position:sticky
         </ul>
       </div>
       <div class="block">
+        <h2>互动吧能力吸收</h2>
+        <ul>
+          <li>轻松办活动 / 海报邀请函</li>
+          <li>多票种售票 / 验票签到</li>
+          <li>裂变传播 / 到场提醒</li>
+          <li>现场互动 / 渠道统计</li>
+          <li>私域沉淀 / 交易保障</li>
+          <li>对外品牌：复旦链接（不挂互动吧名义）</li>
+        </ul>
+      </div>
+      <div class="block">
         <h2>Excel 下载</h2>
         <ul>
           <li><a href="https://github.com/hujigang2010-maker/AIDEN/raw/cursor/fudan-hprc-activity-platform-14f7/output/%E5%A4%8D%E6%97%A6%E9%93%BE%E6%8E%A5%E5%BC%80%E6%94%BE%E5%8D%8F%E4%BD%9C%E5%B9%B3%E5%8F%B0-%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%8A%9F%E8%83%BD%E8%93%9D%E5%9B%BE.xlsx">功能蓝图 Excel</a></li>
@@ -158,12 +178,24 @@ const courses=[
  {title:'住房政策前沿微课包',start:'随时开课',dur:'录播',price:199,cat:'在线学习'}
 ];
 const events=[
- {title:'城市安居与高质量发展论坛',date:'2026.09.18',price:199},
- {title:'人工智能 × 具身智能 产业对接日',date:'2026.09.12',price:128},
- {title:'出海开放协作 · 国别商务沙龙',date:'2026.09.28',price:0}
+ {title:'城市安居与高质量发展论坛',date:'2026.09.18',price:199,tickets:[{n:'标准票',p:199},{n:'学生票',p:99},{n:'VIP 席',p:680}]},
+ {title:'人工智能 × 具身智能 产业对接日',date:'2026.09.12',price:128,tickets:[{n:'参会票',p:128},{n:'对接席',p:980}]},
+ {title:'出海开放协作 · 国别商务沙龙',date:'2026.09.28',price:0,tickets:[{n:'审核制免费票',p:0}]}
+];
+const features=[
+ {t:'轻松办活动',d:'模板化发布专业活动页'},
+ {t:'海报与邀请函',d:'一键生成，利于朋友圈'},
+ {t:'裂变传播',d:'分享路径与召集官码'},
+ {t:'多票种售票',d:'免费/学生/标准/VIP'},
+ {t:'验票核销签到',d:'电子票 + 扫码入场'},
+ {t:'渠道统计',d:'看清每条来源价值'},
+ {t:'到场提醒',d:'订阅消息提高到场率'},
+ {t:'现场互动',d:'签到墙 / 抽奖 / 投票'},
+ {t:'私域沉淀',d:'报名后社群与会员复购'},
+ {t:'交易保障',d:'退改规则与订单可查'}
 ];
 const news=[{title:'住房政策研究中心正式揭牌',date:'2009.08.29',s:'光华楼揭牌；学术性、中立性、公益性',q:'复旦大学住房政策研究中心 揭牌'}];
-let orders=JSON.parse(localStorage.getItem('fl_orders_v22')||'[]');
+let orders=JSON.parse(localStorage.getItem('fl_orders_v23')||'[]');
 function showTab(n){
  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
  document.getElementById('tab-'+n).classList.add('on');
@@ -180,12 +212,30 @@ function renderEvents(){
  document.getElementById('event-list').innerHTML=events.map((e,i)=>`<div class="card" onclick="openEvent(${i})"><div class="t">${e.title}</div><div class="muted">${e.date}</div><div class="price">${e.price?('¥'+e.price):'免费'}</div></div>`).join('');
 }
 function openCourse(i){const c=courses[i];document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">${c.title}</h3><div class="muted">开班 ${c.start} · ${c.dur}</div><p class="muted">对齐教育中心公开课：了解详情 → 定金/全款报名。</p><button class="btn primary" onclick="pay('${c.title}',${c.price})">报名 ¥${c.price}</button><button class="btn" style="width:100%;margin-top:8px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
-function openEvent(i){const e=events[i];document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">${e.title}</h3><div class="muted">${e.date}</div><button class="btn primary" style="margin-top:12px" onclick="pay('${e.title}',${e.price})">${e.price?'支付 ¥'+e.price:'确认报名'}</button><button class="btn" style="width:100%;margin-top:8px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
+function openEvent(i){
+ const e=events[i];
+ const tickets=e.tickets.map(t=>`<div class="card" style="cursor:default"><div class="t">${t.n}</div><div class="price">${t.p?('¥'+t.p):'免费'}</div></div>`).join('');
+ document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">${e.title}</h3><div class="muted">${e.date}</div>
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0">
+  <button class="btn" style="background:#efe0fa;color:var(--violet)" onclick="alert('已生成海报草稿（演示）')">生成海报</button>
+  <button class="btn" style="background:#efe0fa;color:var(--violet)" onclick="navigator.clipboard.writeText('/pages/event-detail?from=invite');alert('已复制分享路径')">分享裂变</button>
+  <button class="btn" style="background:#efe0fa;color:var(--violet)" onclick="alert('电子票核销码：FL-DEMO')">电子票</button>
+  <button class="btn" style="background:#efe0fa;color:var(--violet)" onclick="alert('现场互动：签到墙/抽奖（演示）')">现场互动</button>
+ </div>
+ <div class="h">票种</div>${tickets}
+ <button class="btn primary" style="margin-top:8px" onclick="pay('${e.title}',${e.price})">${e.price?'支付 ¥'+e.price:'确认报名'}</button>
+ <button class="btn" style="width:100%;margin-top:8px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;
+ document.getElementById('modal').classList.add('on');
+}
+function openFeatures(){
+ document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">活动能力（互动吧优点吸收）</h3><p class="muted">品牌仍用复旦链接，不对外挂互动吧名义。</p>`+features.map(f=>`<div class="card" style="cursor:default"><div class="t">${f.t}</div><div class="muted">${f.d}</div></div>`).join('')+`<button class="btn" style="width:100%;margin-top:8px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;
+ document.getElementById('modal').classList.add('on');
+}
 function openNews(i){const n=news[i];document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">${n.title}</h3><div class="muted">${n.date}</div><p class="muted">${n.s}</p><button class="btn primary" onclick="navigator.clipboard.writeText('${n.q}');alert('已复制检索词')">复制检索词</button><button class="btn" style="width:100%;margin-top:8px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
 function openCustomize(){document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">定制培训 · 七步流程</h3><ol class="muted" style="padding-left:18px;line-height:1.8"><li>初步沟通</li><li>需求分析</li><li>方案优化</li><li>签订协议</li><li>师资开发</li><li>实施评估</li><li>回访反馈</li></ol><p class="muted">线索收集，大额不对端内闭环。</p><button class="btn" style="width:100%;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
-function openAbout(){document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">关于我们</h3><p class="muted">愿景：世界级开放协作与研修服务。<br/>使命：连接课程、活动、产业与国际对接。<br/>价值观：开放、专业、好奇、敏捷、协作。</p><div class="muted">发起主体：复旦大学住房政策研究中心</div><button class="btn" style="width:100%;margin-top:12px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
-function pay(title,price){if(!confirm(price>0?`模拟支付 ¥${price}（演示）`:'确认报名？'))return;orders.unshift({title,price,time:new Date().toLocaleString()});localStorage.setItem('fl_orders_v22',JSON.stringify(orders));closeModal();showTab('mine');}
-function renderOrders(){document.getElementById('orders').innerHTML=orders.length?orders.map(o=>`<div class="card"><div class="t">${o.title}</div><div class="muted">${o.time}</div><div class="price">${o.price>0?'¥'+o.price:'免费'}</div></div>`).join(''):'<div class="card muted">暂无订单</div>';}
+function openAbout(){document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">关于我们</h3><p class="muted">愿景：世界级开放协作与研修服务。<br/>使命：连接课程、活动、产业与国际对接。<br/>价值观：开放、专业、好奇、敏捷、协作。</p><div class="muted">发起主体：复旦大学住房政策研究中心</div><button class="btn primary" style="margin-top:10px" onclick="openFeatures()">查看活动能力</button><button class="btn" style="width:100%;margin-top:8px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
+function pay(title,price){if(!confirm(price>0?`模拟支付 ¥${price}（演示）`:'确认报名？'))return;orders.unshift({title,price,time:new Date().toLocaleString()});localStorage.setItem('fl_orders_v23',JSON.stringify(orders));closeModal();showTab('mine');}
+function renderOrders(){document.getElementById('orders').innerHTML=orders.length?orders.map(o=>`<div class="card"><div class="t">${o.title}</div><div class="muted">${o.time} · 电子票可核销（演示）</div><div class="price">${o.price>0?'¥'+o.price:'免费'}</div></div>`).join(''):'<div class="card muted">暂无订单 / 票夹</div>';}
 function closeModal(){document.getElementById('modal').classList.remove('on')}
 renderCourses();renderEvents();renderOrders();
 </script>

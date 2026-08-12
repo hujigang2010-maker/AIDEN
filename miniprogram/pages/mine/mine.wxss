@@ -34,6 +34,12 @@
   font-size: 24rpx;
 }
 
+.ticket-btn {
+  margin-top: 16rpx;
+  display: inline-block;
+  text-align: center;
+}
+
 .order-title {
   font-weight: 650;
   margin-bottom: 6rpx;

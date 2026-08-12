@@ -5,6 +5,7 @@ Page({
     platform: data.platform,
     quickEntries: data.quickEntries,
     featured: data.courses.filter((c) => c.category === "公开课程").slice(0, 3),
+    featurePreview: data.activityFeatures.slice(0, 4),
     newsList: data.newsList.slice(0, 3),
     upcoming: data.events.slice(0, 2)
   },
@@ -48,5 +49,8 @@ Page({
   },
   goAbout() {
     wx.navigateTo({ url: "/pages/about/about" });
+  },
+  goFeatures() {
+    wx.navigateTo({ url: "/pages/features/features" });
   }
 });

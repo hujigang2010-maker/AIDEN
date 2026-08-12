@@ -123,3 +123,37 @@
   color: var(--primary-bright);
   font-weight: 650;
 }
+
+.feat-scroll {
+  display: flex;
+  gap: 16rpx;
+  overflow-x: auto;
+  padding-bottom: 8rpx;
+  margin-bottom: 8rpx;
+}
+
+.feat-chip {
+  flex: 0 0 280rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 22rpx;
+  border: 1rpx solid rgba(87, 6, 140, 0.12);
+  box-shadow: 0 8rpx 24rpx rgba(87, 6, 140, 0.08);
+}
+
+.feat-chip-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.feat-chip-desc {
+  margin-top: 10rpx;
+  font-size: 22rpx;
+  color: var(--muted);
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

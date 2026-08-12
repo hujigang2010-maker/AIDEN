@@ -10,6 +10,13 @@
     <view class="summary">{{event.summary}}</view>
   </view>
 
+  <view class="tools">
+    <view class="tool" bindtap="onPoster">生成海报</view>
+    <view class="tool" bindtap="onShare">分享裂变</view>
+    <view class="tool" bindtap="onTicket">电子票</view>
+    <view class="tool" bindtap="onLive">现场互动</view>
+  </view>
+
   <view class="section-title"><text class="h">议程</text></view>
   <view class="card">
     <view class="agenda" wx:for="{{event.agenda}}" wx:key="time">
@@ -29,6 +36,11 @@
     <view class="ticket-name">{{item.name}}</view>
     <view class="muted">{{item.desc}}</view>
     <view class="price">{{item.price > 0 ? '¥' + item.price : '免费'}}</view>
+  </view>
+
+  <view class="card tip-card">
+    <view class="tip-title">交易保障</view>
+    <view class="muted">退改规则公示 · 订单可查 · 可申请发票（演示）。报名成功后可在「我的」查看票夹与到场提醒入口。</view>
   </view>
 
   <view class="footer">

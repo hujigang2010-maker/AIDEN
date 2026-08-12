@@ -1,7 +1,7 @@
 <view class="container">
   <view class="profile card">
     <view class="name">{{platform.fullName}}</view>
-    <view class="muted">{{platform.sponsorNote}} · 板块对齐教育中心：课程 / 定制 / 活动 / 会员</view>
+    <view class="muted">{{platform.sponsorNote}} · 活动能力学互动吧全链路</view>
   </view>
 
   <view class="section-title"><text class="h">收费入口</text></view>
@@ -20,11 +20,11 @@
   </view>
 
   <view class="section-title">
-    <text class="h">我的订单</text>
-    <text class="more" bindtap="goCourses">去选课</text>
+    <text class="h">我的票夹 / 订单</text>
+    <text class="more" bindtap="goEvents">去报名</text>
   </view>
   <view class="card" wx:if="{{orders.length === 0}}">
-    <view class="muted">暂无订单。可在公开课程或活动详情完成演示支付。</view>
+    <view class="muted">暂无电子票。报名后可在此查看核销码、到场提醒入口（演示）。</view>
   </view>
   <view class="card order" wx:for="{{orders}}" wx:key="id">
     <view class="order-title">{{item.title}}</view>
@@ -33,9 +33,11 @@
       <text class="price">¥{{item.price}}</text>
       <text class="tag tag-teal">{{item.status}}</text>
     </view>
+    <view class="mini-btn ticket-btn" data-item="{{item}}" bindtap="showTicket">查看电子票</view>
   </view>
 
   <view class="links">
+    <view class="link-item" bindtap="goFeatures">活动能力（互动吧优点吸收）</view>
     <view class="link-item" bindtap="goCustomize">定制培训意向</view>
     <view class="link-item" bindtap="goNews">平台新闻</view>
     <view class="link-item" bindtap="goOpp">产业机会墙</view>

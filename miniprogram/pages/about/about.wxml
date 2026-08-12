@@ -15,6 +15,14 @@
   <view class="section-title"><text class="h">使命</text></view>
   <view class="card muted">{{platform.mission}}</view>
 
+  <view class="section-title">
+    <text class="h">活动能力</text>
+    <text class="more" bindtap="goFeatures">查看全部</text>
+  </view>
+  <view class="card">
+    <view class="muted">吸收互动吧「轻松办活动 → 售票签到 → 裂变传播 → 私域沉淀」全链路；对外品牌仍是复旦链接。</view>
+  </view>
+
   <view class="section-title"><text class="h">联系我们</text></view>
   <view class="card">
     <view>邮箱：{{platform.email}}</view>

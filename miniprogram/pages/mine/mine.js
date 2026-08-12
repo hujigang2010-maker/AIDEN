@@ -33,6 +33,21 @@ Page({
   goCourses() {
     wx.switchTab({ url: "/pages/courses/courses" });
   },
+  goEvents() {
+    wx.switchTab({ url: "/pages/events/events" });
+  },
+  goFeatures() {
+    wx.navigateTo({ url: "/pages/features/features" });
+  },
+  showTicket(e) {
+    const item = e.currentTarget.dataset.item;
+    if (!item) return;
+    wx.showModal({
+      title: "电子票（演示）",
+      content: `${item.title}\n${item.ticketName}\n核销码：FL-${(item.id || "DEMO").toString().slice(-6).toUpperCase()}\n到场前将推送提醒（规划）。`,
+      showCancel: false
+    });
+  },
   goCustomize() {
     wx.navigateTo({ url: "/pages/customize/customize" });
   },

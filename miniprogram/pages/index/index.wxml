@@ -27,6 +27,17 @@
     </view>
 
     <view class="section-title">
+      <text class="h">活动能力</text>
+      <text class="more" bindtap="goFeatures">全部优点</text>
+    </view>
+    <view class="feat-scroll">
+      <view class="feat-chip" wx:for="{{featurePreview}}" wx:key="id" bindtap="goFeatures">
+        <view class="feat-chip-title">{{item.title}}</view>
+        <view class="feat-chip-desc">{{item.tip}}</view>
+      </view>
+    </view>
+
+    <view class="section-title">
       <text class="h">推荐课程</text>
       <text class="more" bindtap="goCourses">全部课程</text>
     </view>
