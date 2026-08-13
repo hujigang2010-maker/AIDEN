@@ -30,14 +30,30 @@ Page({
       url: `/pages/pay/pay?type=member&title=${encodeURIComponent(plan.name)}&price=${plan.price}`
     });
   },
+  updateProfile() {
+    wx.showModal({
+      title: "更新资料（演示）",
+      content: "对标校友中心「更新我的信息」：姓名、单位、城市、兴趣标签。正式环境对接登录与审核。",
+      showCancel: false
+    });
+  },
+  goOrgs() {
+    wx.navigateTo({ url: "/pages/orgs/orgs" });
+  },
+  goServices() {
+    wx.switchTab({ url: "/pages/services/services" });
+  },
   goCourses() {
-    wx.switchTab({ url: "/pages/courses/courses" });
+    wx.navigateTo({ url: "/pages/courses/courses" });
   },
   goEvents() {
     wx.switchTab({ url: "/pages/events/events" });
   },
   goFeatures() {
     wx.navigateTo({ url: "/pages/features/features" });
+  },
+  goStories() {
+    wx.navigateTo({ url: "/pages/stories/stories" });
   },
   showTicket(e) {
     const item = e.currentTarget.dataset.item;

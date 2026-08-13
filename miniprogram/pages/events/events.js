@@ -2,9 +2,10 @@ const data = require("../../utils/data");
 
 Page({
   data: {
-    filters: ["全部", "开放协作专项", "产业日", "出海专题", "公开研修"],
+    filters: ["全部", "论坛沙龙", "产业日", "出海专题", "联谊聚会"],
     active: "全部",
-    list: data.events
+    list: data.events,
+    tip: "活动主轴叠加互动吧：多票种售票、海报邀请函、电子票签到、现场互动。"
   },
   onFilter(e) {
     const active = e.currentTarget.dataset.name;

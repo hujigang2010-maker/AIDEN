@@ -1,7 +1,7 @@
 <view class="container">
   <view class="intro card">
-    <view class="intro-title">找到适合你的课程</view>
-    <view class="muted">参照教育中心公开课模式：开班时间 · 学制 · 了解详情 · 报名支付</view>
+    <view class="intro-title">终身学习</view>
+    <view class="muted">对标管院校友中心「终身学习」：公开课程 · 在线干货 · 定制培训</view>
     <view class="btn-ghost custom-btn" bindtap="goCustomize">企业/政府定制培训 →</view>
   </view>
 

@@ -3,11 +3,10 @@ const data = require("../../utils/data");
 Page({
   data: {
     platform: data.platform,
-    quickEntries: data.quickEntries,
-    featured: data.courses.filter((c) => c.category === "公开课程").slice(0, 3),
-    featurePreview: data.activityFeatures.slice(0, 4),
-    newsList: data.newsList.slice(0, 3),
-    upcoming: data.events.slice(0, 2)
+    serviceGrid: data.serviceGrid,
+    featured: data.courses.filter((c) => c.category === "公开课程").slice(0, 2),
+    newsList: data.newsList.slice(0, 2),
+    upcoming: data.events.slice(0, 3)
   },
   onEntryTap(e) {
     const item = e.currentTarget.dataset.item;
@@ -42,15 +41,15 @@ Page({
     wx.navigateTo({ url: "/pages/news/news" });
   },
   goCourses() {
-    wx.switchTab({ url: "/pages/courses/courses" });
+    wx.navigateTo({ url: "/pages/courses/courses" });
   },
   goEvents() {
     wx.switchTab({ url: "/pages/events/events" });
   },
+  goServices() {
+    wx.switchTab({ url: "/pages/services/services" });
+  },
   goAbout() {
     wx.navigateTo({ url: "/pages/about/about" });
-  },
-  goFeatures() {
-    wx.navigateTo({ url: "/pages/features/features" });
   }
 });

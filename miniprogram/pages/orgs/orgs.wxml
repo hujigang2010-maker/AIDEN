@@ -1,0 +1,14 @@
+<view class="container">
+  <view class="card">
+    <view class="muted">{{tip}}</view>
+  </view>
+  <view class="card" wx:for="{{list}}" wx:key="id">
+    <view class="row-top">
+      <text class="tag tag-teal">{{item.type}}</text>
+      <text class="muted">{{item.members}}</text>
+    </view>
+    <view class="title">{{item.title}}</view>
+    <view class="muted">{{item.summary}}</view>
+    <view class="btn-join" data-item="{{item}}" bindtap="onJoin">申请加入</view>
+  </view>
+</view>

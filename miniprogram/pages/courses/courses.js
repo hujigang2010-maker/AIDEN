@@ -6,8 +6,10 @@ Page({
     active: "全部",
     list: data.courses
   },
-  onShow() {
-    // 支持从首页「在线学习」带 tab 参数的简易处理
+  onLoad(query) {
+    if (query && query.tab === "online") {
+      this.onFilter({ currentTarget: { dataset: { name: "在线学习" } } });
+    }
   },
   onFilter(e) {
     const active = e.currentTarget.dataset.name;

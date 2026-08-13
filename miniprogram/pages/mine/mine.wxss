@@ -34,6 +34,18 @@
   font-size: 24rpx;
 }
 
+.mini-btn.ghost {
+  background: #fff;
+  color: var(--primary);
+  border: 1rpx solid rgba(87, 6, 140, 0.35);
+}
+
+.profile-actions {
+  margin-top: 18rpx;
+  display: flex;
+  gap: 12rpx;
+}
+
 .ticket-btn {
   margin-top: 16rpx;
   display: inline-block;

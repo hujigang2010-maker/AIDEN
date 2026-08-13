@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="card">
+    <view class="muted">{{tip}}</view>
+  </view>
+  <view class="card" wx:for="{{list}}" wx:key="id" data-item="{{item}}" bindtap="onOpen">
+    <view class="row-top">
+      <text class="tag tag-gold">{{item.kind}}</text>
+      <text class="muted">{{item.date}}</text>
+    </view>
+    <view class="title">{{item.title}}</view>
+    <view class="muted">{{item.summary}}</view>
+  </view>
+</view>

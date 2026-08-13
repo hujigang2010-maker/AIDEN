@@ -1,7 +1,11 @@
 <view class="container">
   <view class="profile card">
     <view class="name">{{platform.fullName}}</view>
-    <view class="muted">{{platform.sponsorNote}} · 活动能力学互动吧全链路</view>
+    <view class="muted">对标校友中心「我的」：资料 · 票夹 · 组织 · 会员 · 支持</view>
+    <view class="profile-actions">
+      <view class="mini-btn" bindtap="updateProfile">更新资料</view>
+      <view class="mini-btn ghost" bindtap="goOrgs">我的组织</view>
+    </view>
   </view>
 
   <view class="section-title"><text class="h">收费入口</text></view>
@@ -37,7 +41,10 @@
   </view>
 
   <view class="links">
-    <view class="link-item" bindtap="goFeatures">活动能力（互动吧优点吸收）</view>
+    <view class="link-item" bindtap="goServices">服务大厅</view>
+    <view class="link-item" bindtap="goCourses">终身学习</view>
+    <view class="link-item" bindtap="goFeatures">活动能力（互动吧优点）</view>
+    <view class="link-item" bindtap="goStories">平台风采</view>
     <view class="link-item" bindtap="goCustomize">定制培训意向</view>
     <view class="link-item" bindtap="goNews">平台新闻</view>
     <view class="link-item" bindtap="goOpp">产业机会墙</view>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>复旦链接 · NYU Violet</title>
+<title>复旦链接 · V2.4</title>
 <style>
 :root{
   --violet:#57068C; --deep:#330662; --bright:#8900E1; --soft:#A78BC4;
@@ -37,11 +37,15 @@ box-shadow:0 28px 60px rgba(87,6,140,.35);background:var(--wash);position:sticky
 .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.75)}
 .btn.primary{background:linear-gradient(135deg,#330662,#57068c,#8900e1);color:#fff;width:100%;box-shadow:0 8px 20px rgba(87,6,140,.35)}
 .pad{padding:12px 14px 18px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g{background:#fff;border-radius:10px;padding:10px 6px;text-align:center;border:1px solid rgba(87,6,140,.12);cursor:pointer;box-shadow:0 4px 12px rgba(87,6,140,.08)}
+.g b{display:block;color:var(--violet);font-size:11px}
+.g span{color:var(--muted);font-size:9px}
 .entry{background:#fff;border-radius:12px;padding:12px;border:1px solid rgba(87,6,140,.12);cursor:pointer;box-shadow:0 6px 16px rgba(87,6,140,.1)}
 .entry b{display:block;color:var(--violet);font-size:14px}
 .entry span{color:var(--muted);font-size:11px}
-.h{margin:14px 0 8px;font-size:15px;font-weight:700;color:var(--violet);display:flex;justify-content:space-between}
+.h{margin:14px 0 8px;font-size:15px;font-weight:700;color:var(--violet);display:flex;justify-content:space-between;align-items:center}
 .card{background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid rgba(87,6,140,.08);box-shadow:0 6px 16px rgba(87,6,140,.08);cursor:pointer}
 .t{font-weight:700;margin:6px 0;font-size:14px;color:var(--text)}
 .muted{color:var(--muted);font-size:12px;line-height:1.5}
@@ -58,107 +62,103 @@ box-shadow:0 28px 60px rgba(87,6,140,.35);background:var(--wash);position:sticky
 .sheet{width:100%;background:#fff;border-radius:16px;padding:16px;max-height:92%;overflow:auto}
 .swatch{display:flex;gap:8px;margin-top:8px}
 .swatch i{width:36px;height:36px;border-radius:8px;display:block;border:1px solid rgba(0,0,0,.08)}
+.chip{display:inline-block;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid #dcc8ec;color:var(--soft);font-size:12px;margin:0 6px 8px 0;cursor:pointer}
+.chip.on{background:var(--violet);color:#fff;border-color:var(--violet)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>复旦链接 · 开放协作平台</h1>
-  <p class="lead">主色严格使用 <strong>NYU Violet #57068C</strong>。板块对齐教育中心；活动运营吸收互动吧全链路能力（轻松办活动、多票种、海报裂变、验票签到等），品牌仍用复旦链接。</p>
-  <span class="badge">#57068C NYU Violet</span>
-  <span class="badge">#8900E1 亮紫</span>
-  <span class="badge">#330662 深紫</span>
-  <span class="badge">教育中心板块</span>
-  <span class="badge">互动吧能力吸收</span>
+  <p class="lead"><strong>主骨架</strong>：复旦大学小程序服务宫格 + 管院校友中心栏目；<strong>活动能力</strong>：互动吧全链路。品牌仍用复旦链接。</p>
+  <span class="badge">Tab：首页｜服务｜活动｜我的</span>
+  <span class="badge">对标 eHall</span>
+  <span class="badge">对标校友中心</span>
+  <span class="badge">叠加互动吧</span>
   <div class="layout" style="margin-top:18px">
     <div class="phone">
-      <div class="status">复旦链接 · #57068C</div>
+      <div class="status">复旦链接 · V2.4</div>
       <div class="screen">
         <div class="panel on" id="tab-home">
           <div class="hero">
-            <div style="opacity:.8;font-size:11px;letter-spacing:2px">FUDAN LINK · NYU VIOLET</div>
+            <div style="opacity:.8;font-size:11px;letter-spacing:2px">FUDAN LINK · 服务 · 组织 · 活动</div>
             <div class="brand">复旦链接 · 开放协作平台</div>
-            <div class="motto">找到适合你的学习与协作项目</div>
-            <div class="sub">公开课程 · 定制培训 · 活动报名 · 平台新闻</div>
+            <div class="motto">连接人 · 活动 · 学习 · 机会</div>
+            <div class="sub">复旦校园服务骨架 + 校友中心栏目 + 互动吧活动能力</div>
             <div class="actions">
-              <button class="btn light" onclick="showTab('courses')">找到课程</button>
-              <button class="btn ghost" onclick="openAbout()">关于我们</button>
+              <button class="btn light" onclick="showTab('services')">进入服务</button>
+              <button class="btn ghost" onclick="showTab('events')">活动报名</button>
             </div>
           </div>
           <div class="pad">
-            <div class="grid">
-              <div class="entry" onclick="showTab('courses')"><b>公开课程</b><span>个人发展 · 专题研修</span></div>
-              <div class="entry" onclick="openCustomize()"><b>定制培训</b><span>企业/政府量身方案</span></div>
-              <div class="entry" onclick="showTab('events')"><b>活动报名</b><span>论坛 · 产业日</span></div>
-              <div class="entry" onclick="showTab('courses')"><b>在线学习</b><span>回放 · 微课</span></div>
+            <div class="h">常用服务</div>
+            <div class="grid4">
+              <div class="g" onclick="showTab('events')"><b>活动报名</b><span>多票种</span></div>
+              <div class="g" onclick="openCourses()"><b>终身学习</b><span>公开课</span></div>
+              <div class="g" onclick="openOrgs()"><b>协作组织</b><span>联络处</span></div>
+              <div class="g" onclick="openOpp()"><b>产业机会</b><span>AI·具身</span></div>
+              <div class="g" onclick="openConsul()"><b>国际对接</b><span>领事检索</span></div>
+              <div class="g" onclick="openStories()"><b>平台风采</b><span>故事</span></div>
+              <div class="g" onclick="showTab('mine')"><b>支持平台</b><span>会员</span></div>
+              <div class="g" onclick="openFeatures()"><b>活动能力</b><span>互动吧</span></div>
             </div>
-            <div class="h">活动能力 <span style="font-weight:500;font-size:12px;color:var(--soft);cursor:pointer" onclick="openFeatures()">全部 →</span></div>
-            <div class="grid">
-              <div class="entry" onclick="openFeatures()"><b>轻松办活动</b><span>模板发布专业页</span></div>
-              <div class="entry" onclick="openFeatures()"><b>海报邀请函</b><span>一键生成传播</span></div>
-              <div class="entry" onclick="openFeatures()"><b>多票种售票</b><span>收费报名闭环</span></div>
-              <div class="entry" onclick="openFeatures()"><b>验票签到</b><span>电子票核销</span></div>
-            </div>
-            <div class="h">推荐课程</div>
-            <div class="card" onclick="openCourse(0)"><span class="tag">公开课程</span><div class="t">城市与安居公开研修 · 第 1 期</div><div class="muted">开班 2026年10月 · 6天</div><div class="price">¥6800</div></div>
-            <div class="card" onclick="openCourse(1)"><span class="tag">公开课程</span><div class="t">人工智能产业观察研修 · 第 1 期</div><div class="muted">开班 2026年9月 · 4天</div><div class="price">¥4800</div></div>
-            <div class="h">平台新闻</div>
+            <div class="h">资讯速递</div>
             <div class="card" onclick="openNews(0)"><span class="tag gold">揭牌成立</span><div class="t">住房政策研究中心正式揭牌</div><div class="muted">2009.08.29 · 光华楼</div></div>
+            <div class="h">近期活动</div>
+            <div class="card" onclick="openEvent(0)"><span class="tag">论坛沙龙</span><div class="t">城市安居与高质量发展论坛</div><div class="muted">2026.09.18 · 多票种·海报·电子票</div></div>
+            <div class="card" onclick="openEvent(3)"><span class="tag">联谊聚会</span><div class="t">公开研修改友返场日</div><div class="muted">对标返校日 · 叠加验票签到</div></div>
           </div>
         </div>
-        <div class="panel" id="tab-courses"><div class="pad" id="course-list"></div></div>
+        <div class="panel" id="tab-services"><div class="pad" id="svc-list"></div></div>
         <div class="panel" id="tab-events"><div class="pad" id="event-list"></div></div>
         <div class="panel" id="tab-mine"><div class="pad">
-          <div class="card"><div class="t">收费入口</div><div class="muted">课程学费/定金 · 活动票 · 会员 · 支持平台</div></div>
+          <div class="card" style="cursor:default"><div class="t">我的</div><div class="muted">对标校友中心：资料 · 组织 · 票夹 · 会员 · 支持</div>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="btn primary" style="padding:8px 12px" onclick="alert('更新资料（演示）')">更新资料</button>
+              <button class="btn" style="background:#efe0fa;color:var(--violet);padding:8px 12px" onclick="openOrgs()">我的组织</button>
+            </div>
+          </div>
           <div class="card"><div class="t">复旦链接 · 年度会员</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><span class="price">¥365/年</span><button class="btn primary" style="flex:none;padding:8px 14px;width:auto" onclick="pay('会员',365)">开通</button></div></div>
-          <div class="card" onclick="openFeatures()"><div class="t">活动能力（互动吧优点） →</div><div class="muted">轻松办活动 · 海报 · 售票 · 签到 · 裂变</div></div>
-          <div class="card" onclick="openCustomize()"><div class="t">定制培训意向 →</div><div class="muted">七步流程对齐教育中心定制课</div></div>
-          <div id="orders"><div class="card muted">暂无订单</div></div>
+          <div class="card" onclick="openFeatures()"><div class="t">活动能力 →</div><div class="muted">互动吧优点吸收</div></div>
+          <div class="card" onclick="openCourses()"><div class="t">终身学习 →</div></div>
+          <div id="orders"><div class="card muted">暂无票夹</div></div>
         </div></div>
         <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
       </div>
       <div class="tabbar">
         <button class="tab on" data-tab="home" onclick="showTab('home')">首页</button>
-        <button class="tab" data-tab="courses" onclick="showTab('courses')">课程</button>
+        <button class="tab" data-tab="services" onclick="showTab('services')">服务</button>
         <button class="tab" data-tab="events" onclick="showTab('events')">活动</button>
         <button class="tab" data-tab="mine" onclick="showTab('mine')">我的</button>
       </div>
     </div>
     <div class="side">
       <div class="block">
-        <h2>颜色（不应再是灰色）</h2>
+        <h2>产品公式</h2>
+        <ul>
+          <li>复旦 eHall 服务宫格</li>
+          <li>+ 管院校友中心栏目</li>
+          <li>+ 互动吧活动能力</li>
+          <li>= <strong>复旦链接</strong></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h2>三源对标</h2>
+        <ul>
+          <li><b>复旦大学小程序</b>：服务宫格、个人中心</li>
+          <li><b>管院校友中心</b>：组织/活动/学习/风采/支持</li>
+          <li><b>互动吧</b>：售票、海报、签到、裂变、现场互动</li>
+        </ul>
+      </div>
+      <div class="block">
+        <h2>颜色</h2>
         <div class="swatch">
-          <i style="background:#57068C" title="#57068C"></i>
+          <i style="background:#57068C"></i>
           <i style="background:#8900E1"></i>
           <i style="background:#330662"></i>
           <i style="background:#F0E6F8"></i>
-          <i style="background:#A78BC4"></i>
         </div>
         <ul style="margin-top:10px">
           <li>主色 <code>#57068C</code> NYU Violet</li>
-          <li>未选中 Tab 用浅紫 <code>#A78BC4</code>，不用中性灰</li>
-          <li>页面底 <code>#F0E6F8</code> 浅紫，不是灰底</li>
-        </ul>
-      </div>
-      <div class="block">
-        <h2>教育中心板块映射</h2>
-        <ul>
-          <li>公开课程 → 课程 Tab</li>
-          <li>定制课程 → 定制培训页（七步）</li>
-          <li>在线教育 → 在线学习筛选</li>
-          <li>活动报名 → 活动 Tab</li>
-          <li>EE 新闻 → 平台新闻</li>
-          <li>关于我们 → 愿景/使命/价值观</li>
-        </ul>
-      </div>
-      <div class="block">
-        <h2>互动吧能力吸收</h2>
-        <ul>
-          <li>轻松办活动 / 海报邀请函</li>
-          <li>多票种售票 / 验票签到</li>
-          <li>裂变传播 / 到场提醒</li>
-          <li>现场互动 / 渠道统计</li>
-          <li>私域沉淀 / 交易保障</li>
-          <li>对外品牌：复旦链接（不挂互动吧名义）</li>
         </ul>
       </div>
       <div class="block">
@@ -178,9 +178,10 @@ const courses=[
  {title:'住房政策前沿微课包',start:'随时开课',dur:'录播',price:199,cat:'在线学习'}
 ];
 const events=[
- {title:'城市安居与高质量发展论坛',date:'2026.09.18',price:199,tickets:[{n:'标准票',p:199},{n:'学生票',p:99},{n:'VIP 席',p:680}]},
- {title:'人工智能 × 具身智能 产业对接日',date:'2026.09.12',price:128,tickets:[{n:'参会票',p:128},{n:'对接席',p:980}]},
- {title:'出海开放协作 · 国别商务沙龙',date:'2026.09.28',price:0,tickets:[{n:'审核制免费票',p:0}]}
+ {title:'城市安居与高质量发展论坛',date:'2026.09.18',type:'论坛沙龙',price:199,tickets:[{n:'标准票',p:199},{n:'学生票',p:99},{n:'VIP 席',p:680}]},
+ {title:'人工智能 × 具身智能 产业对接日',date:'2026.09.12',type:'产业日',price:128,tickets:[{n:'参会票',p:128},{n:'对接席',p:980}]},
+ {title:'出海开放协作 · 国别商务沙龙',date:'2026.09.28',type:'出海专题',price:0,tickets:[{n:'审核制免费票',p:0}]},
+ {title:'公开研修改友返场日',date:'2026.10.18',type:'联谊聚会',price:68,tickets:[{n:'校友票',p:68},{n:'家属票',p:98}]}
 ];
 const features=[
  {t:'轻松办活动',d:'模板化发布专业活动页'},
@@ -194,29 +195,61 @@ const features=[
  {t:'私域沉淀',d:'报名后社群与会员复购'},
  {t:'交易保障',d:'退改规则与订单可查'}
 ];
+const svcGroups=[
+ {t:'协作组织',items:['地方协作联络处','专题社群 / 俱乐部','项目同学会']},
+ {t:'终身学习',items:['公开课程','在线学习 / 干货','定制培训']},
+ {t:'职业与产业机会',items:['产业机会墙','驻沪领事检索','对接席 / 增值包']},
+ {t:'风采与展示',items:['平台故事与喜讯','主题展览','活动回顾']},
+ {t:'活动与支持',items:['活动报名（互动吧）','活动能力说明','支持平台 / 会员','关于我们']}
+];
 const news=[{title:'住房政策研究中心正式揭牌',date:'2009.08.29',s:'光华楼揭牌；学术性、中立性、公益性',q:'复旦大学住房政策研究中心 揭牌'}];
-let orders=JSON.parse(localStorage.getItem('fl_orders_v23')||'[]');
+let orders=JSON.parse(localStorage.getItem('fl_orders_v24')||'[]');
+let eventFilter='全部';
 function showTab(n){
  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
  document.getElementById('tab-'+n).classList.add('on');
  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.tab===n));
  closeModal();
- if(n==='courses') renderCourses();
+ if(n==='services') renderServices();
  if(n==='events') renderEvents();
  if(n==='mine') renderOrders();
 }
-function renderCourses(){
- document.getElementById('course-list').innerHTML='<div class="h">公开课程</div>'+courses.map((c,i)=>`<div class="card" onclick="openCourse(${i})"><span class="tag">${c.cat}</span><div class="t">${c.title}</div><div class="muted">开班 ${c.start} · ${c.dur}</div><div class="price">¥${c.price}</div></div>`).join('');
+function renderServices(){
+ document.getElementById('svc-list').innerHTML='<div class="card" style="cursor:default"><div class="t">服务大厅</div><div class="muted">对标 eHall 入口 + 校友中心栏目</div></div>'+
+  svcGroups.map(g=>`<div class="h">${g.t}</div>`+g.items.map(i=>`<div class="card" onclick="routeSvc('${i}')"><div class="t">${i}</div></div>`).join('')).join('');
+}
+function routeSvc(name){
+ if(name.includes('活动报名')||name.includes('对接席')) showTab('events');
+ else if(name.includes('公开')||name.includes('在线')||name.includes('定制')) openCourses();
+ else if(name.includes('组织')||name.includes('联络')||name.includes('社群')||name.includes('同学')) openOrgs();
+ else if(name.includes('机会')) openOpp();
+ else if(name.includes('领事')) openConsul();
+ else if(name.includes('故事')||name.includes('风采')) openStories();
+ else if(name.includes('能力')) openFeatures();
+ else if(name.includes('支持')||name.includes('会员')) showTab('mine');
+ else if(name.includes('关于')) openAbout();
+ else if(name.includes('展览')||name.includes('回顾')) openStories();
+ else alert(name+'（演示）');
 }
 function renderEvents(){
- document.getElementById('event-list').innerHTML=events.map((e,i)=>`<div class="card" onclick="openEvent(${i})"><div class="t">${e.title}</div><div class="muted">${e.date}</div><div class="price">${e.price?('¥'+e.price):'免费'}</div></div>`).join('');
+ const filters=['全部','论坛沙龙','产业日','出海专题','联谊聚会'];
+ const chips=filters.map(f=>`<span class="chip ${eventFilter===f?'on':''}" onclick="eventFilter='${f}';renderEvents()">${f}</span>`).join('');
+ const list=events.filter(e=>eventFilter==='全部'||e.type===eventFilter);
+ document.getElementById('event-list').innerHTML=`<div class="muted" style="margin-bottom:8px">叠加互动吧：多票种 · 海报 · 电子票 · 现场互动</div>${chips}`+
+  list.map((e,i)=>`<div class="card" onclick="openEvent(${events.indexOf(e)})"><span class="tag">${e.type}</span><div class="t">${e.title}</div><div class="muted">${e.date}</div><div class="price">${e.price?('¥'+e.price+' 起'):'免费'}</div></div>`).join('');
 }
-function openCourse(i){const c=courses[i];document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">${c.title}</h3><div class="muted">开班 ${c.start} · ${c.dur}</div><p class="muted">对齐教育中心公开课：了解详情 → 定金/全款报名。</p><button class="btn primary" onclick="pay('${c.title}',${c.price})">报名 ¥${c.price}</button><button class="btn" style="width:100%;margin-top:8px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
+function openCourses(){
+ document.getElementById('sheet').innerHTML='<h3 style="margin:0 0 8px;color:var(--violet)">终身学习</h3><p class="muted">对标校友中心「终身学习」</p>'+
+  courses.map((c,i)=>`<div class="card" onclick="openCourse(${i})"><span class="tag">${c.cat}</span><div class="t">${c.title}</div><div class="price">¥${c.price}</div></div>`).join('')+
+  `<button class="btn" style="width:100%;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;
+ document.getElementById('modal').classList.add('on');
+}
+function openCourse(i){const c=courses[i];document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">${c.title}</h3><div class="muted">开班 ${c.start} · ${c.dur}</div><button class="btn primary" onclick="pay('${c.title}',${c.price})">报名 ¥${c.price}</button><button class="btn" style="width:100%;margin-top:8px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
 function openEvent(i){
  const e=events[i];
  const tickets=e.tickets.map(t=>`<div class="card" style="cursor:default"><div class="t">${t.n}</div><div class="price">${t.p?('¥'+t.p):'免费'}</div></div>`).join('');
- document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">${e.title}</h3><div class="muted">${e.date}</div>
- <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0">
+ document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">${e.title}</h3><div class="muted">${e.type} · ${e.date}</div>
+ <div class="grid2" style="margin:12px 0">
   <button class="btn" style="background:#efe0fa;color:var(--violet)" onclick="alert('已生成海报草稿（演示）')">生成海报</button>
   <button class="btn" style="background:#efe0fa;color:var(--violet)" onclick="navigator.clipboard.writeText('/pages/event-detail?from=invite');alert('已复制分享路径')">分享裂变</button>
   <button class="btn" style="background:#efe0fa;color:var(--violet)" onclick="alert('电子票核销码：FL-DEMO')">电子票</button>
@@ -228,16 +261,32 @@ function openEvent(i){
  document.getElementById('modal').classList.add('on');
 }
 function openFeatures(){
- document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">活动能力（互动吧优点吸收）</h3><p class="muted">品牌仍用复旦链接，不对外挂互动吧名义。</p>`+features.map(f=>`<div class="card" style="cursor:default"><div class="t">${f.t}</div><div class="muted">${f.d}</div></div>`).join('')+`<button class="btn" style="width:100%;margin-top:8px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;
+ document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">活动能力（互动吧）</h3><p class="muted">能力吸收；品牌仍用复旦链接。</p>`+features.map(f=>`<div class="card" style="cursor:default"><div class="t">${f.t}</div><div class="muted">${f.d}</div></div>`).join('')+`<button class="btn" style="width:100%;margin-top:8px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;
  document.getElementById('modal').classList.add('on');
 }
+function openOrgs(){
+ document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">协作组织</h3><p class="muted">对标校友中心「地方联络处 / 俱乐部 / 同学会」</p>
+ <div class="card" style="cursor:default"><div class="t">上海协作联络处</div><div class="muted">线下聚会与信息同步</div></div>
+ <div class="card" style="cursor:default"><div class="t">安居与城市更新社群</div><div class="muted">专题沙龙</div></div>
+ <div class="card" style="cursor:default"><div class="t">公开研修同学会</div><div class="muted">返场日与班级聚会</div></div>
+ <button class="btn" style="width:100%;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;
+ document.getElementById('modal').classList.add('on');
+}
+function openStories(){
+ document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">平台风采</h3><p class="muted">对标校友故事 / 喜讯 / 观点</p>
+ <div class="card" style="cursor:default"><span class="tag gold">平台故事</span><div class="t">从论坛到产业日</div></div>
+ <div class="card" style="cursor:default"><span class="tag gold">喜讯</span><div class="t">第二期公开研修结业</div></div>
+ <button class="btn" style="width:100%;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;
+ document.getElementById('modal').classList.add('on');
+}
+function openOpp(){document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">产业机会</h3><div class="card" style="cursor:default"><div class="t">大模型与智算</div></div><div class="card" style="cursor:default"><div class="t">具身智能场景</div></div><div class="card" style="cursor:default"><div class="t">ChinaJoy / 数字娱乐</div></div><button class="btn" style="width:100%;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
+function openConsul(){document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">驻沪领事检索</h3><p class="muted">仅姓名与检索词，无电话邮箱</p><div class="card" style="cursor:default"><div class="t">美国 · 王汉</div><div class="muted">检索：美国驻上海总领事 王汉</div></div><button class="btn" style="width:100%;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
 function openNews(i){const n=news[i];document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">${n.title}</h3><div class="muted">${n.date}</div><p class="muted">${n.s}</p><button class="btn primary" onclick="navigator.clipboard.writeText('${n.q}');alert('已复制检索词')">复制检索词</button><button class="btn" style="width:100%;margin-top:8px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
-function openCustomize(){document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">定制培训 · 七步流程</h3><ol class="muted" style="padding-left:18px;line-height:1.8"><li>初步沟通</li><li>需求分析</li><li>方案优化</li><li>签订协议</li><li>师资开发</li><li>实施评估</li><li>回访反馈</li></ol><p class="muted">线索收集，大额不对端内闭环。</p><button class="btn" style="width:100%;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
-function openAbout(){document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">关于我们</h3><p class="muted">愿景：世界级开放协作与研修服务。<br/>使命：连接课程、活动、产业与国际对接。<br/>价值观：开放、专业、好奇、敏捷、协作。</p><div class="muted">发起主体：复旦大学住房政策研究中心</div><button class="btn primary" style="margin-top:10px" onclick="openFeatures()">查看活动能力</button><button class="btn" style="width:100%;margin-top:8px;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
-function pay(title,price){if(!confirm(price>0?`模拟支付 ¥${price}（演示）`:'确认报名？'))return;orders.unshift({title,price,time:new Date().toLocaleString()});localStorage.setItem('fl_orders_v23',JSON.stringify(orders));closeModal();showTab('mine');}
-function renderOrders(){document.getElementById('orders').innerHTML=orders.length?orders.map(o=>`<div class="card"><div class="t">${o.title}</div><div class="muted">${o.time} · 电子票可核销（演示）</div><div class="price">${o.price>0?'¥'+o.price:'免费'}</div></div>`).join(''):'<div class="card muted">暂无订单 / 票夹</div>';}
+function openAbout(){document.getElementById('sheet').innerHTML=`<h3 style="margin:0 0 8px;color:var(--violet)">关于我们</h3><p class="muted">主骨架：复旦大学小程序 + 管院校友中心<br/>活动能力：互动吧<br/>品牌：复旦链接<br/>发起：住房政策研究中心</p><button class="btn" style="width:100%;background:#efe0fa;color:var(--violet)" onclick="closeModal()">关闭</button>`;document.getElementById('modal').classList.add('on');}
+function pay(title,price){if(!confirm(price>0?`模拟支付 ¥${price}（演示）`:'确认报名？'))return;orders.unshift({title,price,time:new Date().toLocaleString()});localStorage.setItem('fl_orders_v24',JSON.stringify(orders));closeModal();showTab('mine');}
+function renderOrders(){document.getElementById('orders').innerHTML=orders.length?orders.map(o=>`<div class="card"><div class="t">${o.title}</div><div class="muted">${o.time} · 电子票可核销</div><div class="price">${o.price>0?'¥'+o.price:'免费'}</div></div>`).join(''):'<div class="card muted">暂无票夹 / 订单</div>';}
 function closeModal(){document.getElementById('modal').classList.remove('on')}
-renderCourses();renderEvents();renderOrders();
+renderServices();renderEvents();renderOrders();
 </script>
 </body>
 </html>

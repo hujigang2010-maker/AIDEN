@@ -1,4 +1,7 @@
 <view class="container">
+  <view class="card tip">
+    <view class="muted">{{tip}}</view>
+  </view>
   <scroll-view scroll-x class="filters" enable-flex>
     <view
       class="chip {{active === item ? 'on' : ''}}"
@@ -18,6 +21,6 @@
     <view class="muted">{{item.date}} · {{item.time}}</view>
     <view class="muted">{{item.place}}</view>
     <view class="summary">{{item.summary}}</view>
-    <view class="cta">{{item.status}} · 查看详情</view>
+    <view class="cta">{{item.status}} · 选票 / 海报 / 电子票</view>
   </view>
 </view>

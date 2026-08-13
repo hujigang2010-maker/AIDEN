@@ -1,13 +1,16 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/courses/courses",
+    "pages/services/services",
     "pages/events/events",
     "pages/mine/mine",
+    "pages/courses/courses",
     "pages/course-detail/course-detail",
     "pages/customize/customize",
     "pages/event-detail/event-detail",
     "pages/features/features",
+    "pages/orgs/orgs",
+    "pages/stories/stories",
     "pages/pay/pay",
     "pages/news/news",
     "pages/exhibit/exhibit",
@@ -36,8 +39,8 @@
         "selectedIconPath": "images/tab-home-active.png"
       },
       {
-        "pagePath": "pages/courses/courses",
-        "text": "课程",
+        "pagePath": "pages/services/services",
+        "text": "服务",
         "iconPath": "images/tab-course.png",
         "selectedIconPath": "images/tab-course-active.png"
       },

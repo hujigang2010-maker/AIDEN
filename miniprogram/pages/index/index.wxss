@@ -84,6 +84,35 @@
   margin-top: -8rpx;
 }
 
+.grid8 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 12rpx;
+}
+
+.grid-item {
+  background: #fff;
+  border-radius: 14rpx;
+  padding: 18rpx 10rpx;
+  text-align: center;
+  border: 1rpx solid rgba(87, 6, 140, 0.12);
+  box-shadow: 0 6rpx 16rpx rgba(87, 6, 140, 0.08);
+  min-height: 120rpx;
+}
+
+.grid-title {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.grid-desc {
+  margin-top: 6rpx;
+  font-size: 18rpx;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
 .entry {
   background: #fff;
   border-radius: 16rpx;
@@ -156,4 +185,8 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.status {
+  margin-top: 10rpx;
 }
