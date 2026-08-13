@@ -1,0 +1,13 @@
+<view class="page" wx:if="{{exhibit}}">
+  <view class="hero">
+    <view class="sub">{{exhibit.subtitle}}</view>
+    <view class="title">{{exhibit.title}}</view>
+    <view class="desc">{{exhibit.summary}}</view>
+  </view>
+  <view class="container">
+    <view class="card section" wx:for="{{exhibit.sections}}" wx:key="title">
+      <view class="sec-title">{{item.title}}</view>
+      <view class="sec-body">{{item.body}}</view>
+    </view>
+  </view>
+</view>

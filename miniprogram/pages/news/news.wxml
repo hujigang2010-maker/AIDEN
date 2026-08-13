@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="card tip muted">以下为住房政策研究中心相关公开报道精选，点击可复制检索词查阅原文。</view>
+  <view class="card" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="open">
+    <view class="row">
+      <text class="tag tag-gold">{{item.tag}}</text>
+      <text class="muted">{{item.date}}</text>
+    </view>
+    <view class="title">{{item.title}}</view>
+    <view class="muted">{{item.summary}}</view>
+  </view>
+</view>

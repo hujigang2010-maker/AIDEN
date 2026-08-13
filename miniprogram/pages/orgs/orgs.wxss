@@ -1,0 +1,22 @@
+.row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  margin: 12rpx 0 8rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.btn-join {
+  margin-top: 18rpx;
+  display: inline-block;
+  padding: 12rpx 28rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(135deg, #330662, #57068c);
+  color: #fff;
+  font-size: 24rpx;
+}

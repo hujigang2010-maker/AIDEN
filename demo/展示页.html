@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>复旦链接 · 功能对照与展示</title>
+<style>
+  :root{
+    --violet:#57068C; --deep:#330662; --bright:#8900E1; --soft:#A78BC4;
+    --wash:#F0E6F8; --gold:#C5A572; --text:#1A0A2E; --muted:#5C3D7A; --line:#dcc8ec;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;color:var(--text);font-family:"PingFang SC","Noto Sans SC","Source Han Sans SC",sans-serif;
+    background:
+      radial-gradient(ellipse at 10% -10%, rgba(137,0,225,.28), transparent 42%),
+      radial-gradient(ellipse at 95% 0%, rgba(197,165,114,.22), transparent 38%),
+      linear-gradient(180deg,#e8d4f6 0%, var(--wash) 28%, #f7f0fc 100%);
+    min-height:100vh;
+  }
+  a{color:var(--bright);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .top{
+    position:sticky;top:0;z-index:20;backdrop-filter:blur(10px);
+    background:rgba(34,3,55,.88);color:#fff;border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .top-inner{max-width:1100px;margin:0 auto;padding:12px 18px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .logo{font-weight:700;letter-spacing:.5px}
+  .nav{display:flex;gap:14px;flex-wrap:wrap;font-size:14px}
+  .nav a{color:rgba(255,255,255,.88)}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    border:0;border-radius:999px;padding:10px 18px;font-weight:650;cursor:pointer;font-size:14px;
+  }
+  .btn-light{background:#fff;color:var(--violet)}
+  .btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.65)}
+  .btn-primary{background:linear-gradient(135deg,#330662,#57068c,#8900e1);color:#fff;box-shadow:0 10px 24px rgba(87,6,140,.28)}
+  .wrap{max-width:1100px;margin:0 auto;padding:28px 18px 72px}
+  .hero{
+    padding:42px 28px 36px;border-radius:24px;color:#fff;margin-bottom:28px;
+    background:linear-gradient(155deg,#220337 0%, #330662 34%, #57068c 68%, #8900e1 100%);
+    box-shadow:0 28px 60px rgba(87,6,140,.28);position:relative;overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;right:-60px;top:-40px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(197,165,114,.45),transparent 70%);
+  }
+  .eyebrow{opacity:.8;font-size:12px;letter-spacing:2px;margin-bottom:10px}
+  .hero h1{margin:0;font-size:clamp(28px,4vw,40px);line-height:1.25;max-width:16em;position:relative}
+  .hero p{margin:14px 0 0;max-width:40em;opacity:.92;line-height:1.7;position:relative}
+  .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;position:relative}
+  .formula{
+    display:grid;grid-template-columns:repeat(5,auto);gap:8px;align-items:center;justify-content:start;
+    margin-top:22px;position:relative;flex-wrap:wrap;
+  }
+  @media(max-width:720px){.formula{grid-template-columns:1fr;}}
+  .pill{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);padding:8px 12px;border-radius:12px;font-size:13px}
+  .plus,.eq{opacity:.7;text-align:center;font-weight:700}
+  .section{margin:36px 0}
+  .section h2{margin:0 0 8px;color:var(--violet);font-size:24px}
+  .section .desc{margin:0 0 16px;color:var(--muted);line-height:1.6}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:860px){.cards{grid-template-columns:1fr}}
+  .card{
+    background:rgba(255,255,255,.92);border:1px solid rgba(87,6,140,.1);border-radius:16px;padding:18px;
+    box-shadow:0 10px 28px rgba(87,6,140,.08);
+  }
+  .card h3{margin:0 0 8px;color:var(--violet);font-size:17px}
+  .card p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+  .table-wrap{
+    overflow:auto;border-radius:16px;border:1px solid rgba(87,6,140,.12);
+    background:#fff;box-shadow:0 12px 30px rgba(87,6,140,.08);
+  }
+  table{width:100%;border-collapse:collapse;min-width:720px}
+  th,td{padding:12px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);font-size:14px;line-height:1.55}
+  th{background:var(--violet);color:#fff;font-weight:650;position:sticky;top:0}
+  tr:nth-child(even) td{background:#f7effc}
+  td:first-child{font-weight:650;color:var(--deep);white-space:nowrap}
+  .tag{display:inline-block;padding:2px 8px;border-radius:999px;background:rgba(87,6,140,.1);color:var(--violet);font-size:12px;font-weight:650}
+  .tag.gold{background:rgba(197,165,114,.22);color:#8a6a32}
+  .tag.p0{background:rgba(87,6,140,.16);color:var(--violet)}
+  .tag.p1{background:rgba(137,0,225,.12);color:#6b00b3}
+  .tag.p2{background:rgba(197,165,114,.25);color:#8a6a32}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+  .tab-chip{background:#fff;border:1px solid rgba(87,6,140,.18);color:var(--violet);padding:8px 14px;border-radius:999px;font-weight:700}
+  .links{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .foot{margin-top:40px;color:var(--muted);font-size:13px;line-height:1.7}
+  .phone-link{display:inline-flex;align-items:center;gap:8px}
+</style>
+</head>
+<body>
+  <div class="top">
+    <div class="top-inner">
+      <div class="logo">复旦链接 · 开放协作平台</div>
+      <div class="nav">
+        <a href="集合版.html" style="font-weight:800;color:#fff">打开 V3.0 集合版 →</a>
+        <a href="#formula">产品公式</a>
+        <a href="#map">三源对标</a>
+        <a href="index.html">小程序演示</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="hero" id="top">
+      <div class="eyebrow">FUDAN LINK · NYU VIOLET #57068C</div>
+      <h1>复旦链接<br/>功能对照与展示页</h1>
+      <p>完整集合（历次需求 + 优质内容）请打开 <a href="集合版.html" style="color:#fff;font-weight:800;text-decoration:underline">V3.0 集合版</a>。本页保留核心对照表。对外品牌统一为「复旦链接」。</p>
+      <div class="hero-actions">
+        <a class="btn btn-light" href="集合版.html">打开集合版网页</a>
+        <a class="btn btn-ghost" href="https://github.com/hujigang2010-maker/AIDEN/raw/cursor/fudan-hprc-activity-platform-14f7/output/%E5%A4%8D%E6%97%A6%E9%93%BE%E6%8E%A5-%E9%9B%86%E5%90%88%E7%89%88.xlsx">下载集合版 Excel</a>
+        <a class="btn btn-ghost" href="https://github.com/hujigang2010-maker/AIDEN/raw/cursor/fudan-hprc-activity-platform-14f7/output/%E5%A4%8D%E6%97%A6%E9%93%BE%E6%8E%A5-%E5%8A%9F%E8%83%BD%E5%AF%B9%E7%85%A7%E8%A1%A8.xlsx">下载功能对照表 Excel</a>
+        <a class="btn btn-ghost" href="https://github.com/hujigang2010-maker/AIDEN/raw/cursor/fudan-hprc-activity-platform-14f7/output/%E5%A4%8D%E6%97%A6%E9%93%BE%E6%8E%A5%E5%BC%80%E6%94%BE%E5%8D%8F%E4%BD%9C%E5%B9%B3%E5%8F%B0-%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%8A%9F%E8%83%BD%E8%93%9D%E5%9B%BE.xlsx">下载完整功能蓝图</a>
+        <a class="btn btn-ghost phone-link" href="index.html">打开小程序网页演示 →</a>
+      </div>
+      <div class="formula" id="formula">
+        <div class="pill">复旦大学小程序<br/>服务宫格</div>
+        <div class="plus">+</div>
+        <div class="pill">管院校友中心<br/>组织/活动/学习/风采</div>
+        <div class="plus">+</div>
+        <div class="pill">互动吧<br/>售票·海报·签到</div>
+        <div class="eq">=</div>
+        <div class="pill" style="background:rgba(197,165,114,.28);border-color:rgba(197,165,114,.5)"><strong>复旦链接</strong></div>
+      </div>
+      <div class="tabs">
+        <span class="tab-chip">首页</span>
+        <span class="tab-chip">服务</span>
+        <span class="tab-chip">活动</span>
+        <span class="tab-chip">我的</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>三块能力一眼看懂</h2>
+      <p class="desc">结构可对标，品牌不挪用。</p>
+      <div class="cards">
+        <div class="card">
+          <h3>① 复旦大学小程序</h3>
+          <p>借服务宫格、办事入口、个人中心闭环 → 落地为首页八宫格、服务 Tab、我的票夹/资料。</p>
+        </div>
+        <div class="card">
+          <h3>② 管院校友中心</h3>
+          <p>借组织、活动、终身学习、职业发展、风采、支持、关于 → 落地为协作组织、活动、课程、机会、风采、支持平台。</p>
+        </div>
+        <div class="card">
+          <h3>③ 互动吧</h3>
+          <p>借轻松办活动、多票种、海报裂变、验票签到、现场互动 → 落地为活动详情工具条与票夹核销。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="map">
+      <h2>表 1 · 三源对标总表</h2>
+      <p class="desc">主功能从哪里来，落到小程序哪里去。</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>对标来源</th><th>借什么（主功能）</th><th>复旦链接落地</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>复旦大学小程序（eHall）</td>
+              <td>服务宫格、办事/查询入口、个人中心</td>
+              <td>首页八宫格 + 服务 Tab + 我的</td>
+              <td>降低找功能成本</td>
+            </tr>
+            <tr>
+              <td>管院校友中心小程序</td>
+              <td>组织 / 活动 / 终身学习 / 职业发展 / 风采 / 支持 / 关于</td>
+              <td>协作组织、活动、课程、机会、风采、支持平台</td>
+              <td>主栏目骨架</td>
+            </tr>
+            <tr>
+              <td>互动吧</td>
+              <td>轻松办活动、海报、多票种、验票、裂变、现场互动、私域</td>
+              <td>活动详情工具条 + 票夹 + 活动能力页</td>
+              <td>活动运营全链路</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="ia">
+      <h2>表 2 · Tab 与关键页面</h2>
+      <p class="desc">信息架构一览。</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>层级</th><th>页面</th><th>职责</th><th>对标来源</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Tab</td><td>首页</td><td>服务宫格 + 资讯 + 近期活动 + 终身学习</td><td>eHall + 校友中心</td></tr>
+            <tr><td>Tab</td><td>服务</td><td>栏目大厅：组织 / 学习 / 机会 / 风采 / 支持</td><td>校友中心</td></tr>
+            <tr><td>Tab</td><td>活动</td><td>列表筛选 + 互动吧能力提示</td><td>校友活动 + 互动吧</td></tr>
+            <tr><td>Tab</td><td>我的</td><td>资料、组织、票夹、会员、支持</td><td>校友中心我的</td></tr>
+            <tr><td>子页</td><td>终身学习 / 课程详情</td><td>公开课、在线、定制</td><td>校友终身学习</td></tr>
+            <tr><td>子页</td><td>活动详情</td><td>议程、多票种、海报、电子票、现场互动</td><td>互动吧</td></tr>
+            <tr><td>子页</td><td>协作组织</td><td>联络处 / 社群 / 同学会</td><td>校友组织</td></tr>
+            <tr><td>子页</td><td>平台风采</td><td>故事 / 喜讯 / 观点</td><td>校友风采</td></tr>
+            <tr><td>子页</td><td>产业机会 / 领事检索</td><td>AI·具身·展会；姓名检索（无电话邮箱）</td><td>职业发展延伸</td></tr>
+            <tr><td>子页</td><td>活动能力</td><td>互动吧十大优点说明</td><td>互动吧</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="hdb">
+      <h2>表 3 · 互动吧能力落地</h2>
+      <p class="desc">活动型能力叠加；对外品牌仍用复旦链接。</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>特色优点</th><th>要点</th><th>落地方式</th><th>优先级</th><th>价值</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>轻松办活动</td><td>模板化发专业活动页</td><td>论坛/沙龙/产业日/出海/联谊模板</td><td><span class="tag p0">P0</span></td><td>降运营门槛</td></tr>
+            <tr><td>海报/邀请函</td><td>一键生成传播物料</td><td>活动详情「生成海报」</td><td><span class="tag p1">P1</span></td><td>社交传播</td></tr>
+            <tr><td>裂变传播</td><td>分享与召集官</td><td>复制路径 / 召集官码演示</td><td><span class="tag p1">P1</span></td><td>获客</td></tr>
+            <tr><td>多票种售票</td><td>免费/学生/标准/VIP</td><td>活动详情选票 + 支付演示</td><td><span class="tag p0">P0</span></td><td>收费闭环</td></tr>
+            <tr><td>验票签到</td><td>电子票核销</td><td>我的票夹 + 核销码</td><td><span class="tag p1">P1</span></td><td>到场效率</td></tr>
+            <tr><td>渠道统计</td><td>来源可复盘</td><td>运营后台（规划）</td><td><span class="tag p1">P1</span></td><td>投放复盘</td></tr>
+            <tr><td>到场提醒</td><td>提高到场率</td><td>订阅消息（规划）</td><td><span class="tag p1">P1</span></td><td>降爽约</td></tr>
+            <tr><td>现场互动</td><td>签到墙/抽奖/投票</td><td>活动详情演示入口</td><td><span class="tag p2">P2</span></td><td>现场氛围</td></tr>
+            <tr><td>私域沉淀</td><td>获客→社群→复购</td><td>报名引导 + 会员</td><td><span class="tag p1">P1</span></td><td>人脉资产</td></tr>
+            <tr><td>交易保障</td><td>退改/订单/发票</td><td>规则公示 + 订单可查</td><td><span class="tag p1">P1</span></td><td>报名安心</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="pay">
+      <h2>表 4 · 收费入口</h2>
+      <p class="desc">演示环境为模拟支付。</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>收费类型</th><th>典型场景</th><th>价格示意</th><th>触点</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>活动报名费</td><td>论坛 / 产业日 / 联谊</td><td>免费 / ¥68–¥1,280</td><td>活动详情</td></tr>
+            <tr><td>公开课学费/定金</td><td>研修与实训营</td><td>¥99–¥6,800+</td><td>课程详情</td></tr>
+            <tr><td>平台会员</td><td>优先报名与资料</td><td>¥365 / 年</td><td>我的</td></tr>
+            <tr><td>支持平台</td><td>支持公共活动与展览</td><td>任意金额</td><td>我的</td></tr>
+            <tr><td>增值对接包</td><td>一对一对接席</td><td>按档报价</td><td>活动 / 机会</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="links">
+        <a class="btn btn-primary" href="https://github.com/hujigang2010-maker/AIDEN/raw/cursor/fudan-hprc-activity-platform-14f7/output/%E5%A4%8D%E6%97%A6%E9%93%BE%E6%8E%A5-%E5%8A%9F%E8%83%BD%E5%AF%B9%E7%85%A7%E8%A1%A8.xlsx">下载本页表格 Excel</a>
+        <a class="btn btn-primary" style="background:#fff;color:var(--violet);border:1px solid rgba(87,6,140,.25);box-shadow:none" href="index.html">进入小程序网页演示</a>
+      </div>
+    </section>
+
+    <div class="foot">
+      发起主体：复旦大学住房政策研究中心（脚注可追溯） · 视觉主色 NYU Violet <span class="tag">#57068C</span><br/>
+      完整蓝图 Excel 与小程序源码见分支 <code>cursor/fudan-hprc-activity-platform-14f7</code> ·
+      <a href="https://github.com/hujigang2010-maker/AIDEN/pull/82">Pull Request #82</a>
+    </div>
+  </div>
+</body>
+</html>

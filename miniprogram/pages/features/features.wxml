@@ -1,0 +1,23 @@
+<view class="container">
+  <view class="intro card">
+    <view class="intro-title">复旦链接 · 活动能力</view>
+    <view class="muted">{{note}}</view>
+  </view>
+
+  <view class="card feat" wx:for="{{features}}" wx:key="id">
+    <view class="row-top">
+      <text class="feat-title">{{item.title}}</text>
+      <text class="tag {{item.priority === 'P0' ? 'tag-teal' : (item.priority === 'P2' ? 'tag-gold' : 'tag-paid')}}">{{item.priority}}</text>
+    </view>
+    <view class="muted">{{item.tip}}</view>
+    <view class="land">落地：{{item.land}}</view>
+    <view class="value-row">
+      <text>主办方：{{item.host}}</text>
+      <text wx:if="{{item.guest !== '—'}}">参与者：{{item.guest}}</text>
+    </view>
+  </view>
+
+  <view class="footer">
+    <view class="btn-primary" bindtap="goEvents">去看活动报名</view>
+  </view>
+</view>

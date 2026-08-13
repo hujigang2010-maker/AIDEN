@@ -1,0 +1,28 @@
+<view class="container">
+  <view class="intro card">
+    <view class="intro-title">终身学习</view>
+    <view class="muted">对标管院校友中心「终身学习」：公开课程 · 在线干货 · 定制培训</view>
+    <view class="btn-ghost custom-btn" bindtap="goCustomize">企业/政府定制培训 →</view>
+  </view>
+
+  <scroll-view scroll-x class="filters" enable-flex>
+    <view
+      class="chip {{active === item ? 'on' : ''}}"
+      wx:for="{{filters}}"
+      wx:key="*this"
+      data-name="{{item}}"
+      bindtap="onFilter"
+    >{{item}}</view>
+  </scroll-view>
+
+  <view class="card course" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="openCourse">
+    <text class="tag tag-teal">{{item.category}}</text>
+    <view class="title">{{item.title}}</view>
+    <view class="tagline">{{item.tagline}}</view>
+    <view class="meta muted">开班：{{item.start}}｜学制：{{item.duration}}｜课时：{{item.hours}}</view>
+    <view class="row">
+      <text class="price">¥{{item.price}}{{item.deposit ? ' 起' : ''}}</text>
+      <text class="cta">了解详情</text>
+    </view>
+  </view>
+</view>

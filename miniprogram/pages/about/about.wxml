@@ -1,0 +1,39 @@
+<view class="container">
+  <view class="card">
+    <view class="name">{{platform.fullName}}</view>
+    <view class="en">{{platform.motto}}</view>
+    <view class="principles">
+      <text class="tag tag-teal" wx:for="{{platform.values}}" wx:key="*this">{{item}}</text>
+    </view>
+    <view class="about">{{platform.about}}</view>
+    <view class="sponsor">{{platform.sponsorNote}}</view>
+  </view>
+
+  <view class="section-title"><text class="h">愿景</text></view>
+  <view class="card muted">{{platform.vision}}</view>
+
+  <view class="section-title"><text class="h">使命</text></view>
+  <view class="card muted">{{platform.mission}}</view>
+
+  <view class="section-title">
+    <text class="h">产品对标</text>
+  </view>
+  <view class="card">
+    <view class="muted">主骨架：复旦大学小程序服务入口 + 管院校友中心栏目；活动能力：互动吧全链路。品牌：复旦链接。</view>
+  </view>
+
+  <view class="section-title">
+    <text class="h">活动能力</text>
+    <text class="more" bindtap="goFeatures">查看全部</text>
+  </view>
+  <view class="card">
+    <view class="muted">吸收互动吧「轻松办活动 → 售票签到 → 裂变传播 → 私域沉淀」；对外品牌仍是复旦链接。</view>
+  </view>
+
+  <view class="section-title"><text class="h">联系我们</text></view>
+  <view class="card">
+    <view>邮箱：{{platform.email}}</view>
+    <view class="muted" style="margin-top:8rpx">地址：{{platform.address}}</view>
+    <view class="muted" style="margin-top:8rpx">{{platform.consultTip}}</view>
+  </view>
+</view>

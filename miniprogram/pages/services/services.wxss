@@ -1,0 +1,27 @@
+.banner-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 8rpx;
+}
+
+.more-ref {
+  font-size: 20rpx;
+  color: var(--muted);
+  max-width: 420rpx;
+  text-align: right;
+}
+
+.link-card {
+  margin-bottom: 12rpx;
+}
+
+.svc-title {
+  font-weight: 650;
+  color: var(--primary);
+  margin-bottom: 6rpx;
+}
+
+.group {
+  margin-bottom: 8rpx;
+}

@@ -1,0 +1,21 @@
+<view class="container" wx:if="{{course}}">
+  <view class="card">
+    <text class="tag tag-teal">{{course.category}}</text>
+    <view class="title">{{course.title}}</view>
+    <view class="tagline">{{course.tagline}}</view>
+    <view class="muted">开班时间：{{course.start}}</view>
+    <view class="muted">课程学制：{{course.duration}}</view>
+    <view class="muted">总课时：{{course.hours}}</view>
+    <view class="summary">{{course.summary}}</view>
+  </view>
+
+  <view class="section-title"><text class="h">课程模块</text></view>
+  <view class="card">
+    <view class="mod" wx:for="{{course.modules}}" wx:key="*this">· {{item}}</view>
+  </view>
+
+  <view class="footer">
+    <view class="btn-ghost half" wx:if="{{course.deposit}}" bindtap="enrollDeposit">定金 ¥{{course.deposit}}</view>
+    <view class="btn-primary {{course.deposit ? 'half' : ''}}" bindtap="enrollFull">报名 ¥{{course.price}}</view>
+  </view>
+</view>

@@ -1,0 +1,24 @@
+<view class="container">
+  <view class="banner card">
+    <view class="banner-title">服务大厅</view>
+    <view class="muted">结构对标复旦 eHall 服务入口 + 管院校友中心栏目；活动能力叠加互动吧。</view>
+  </view>
+
+  <view wx:for="{{groups}}" wx:key="id" class="group">
+    <view class="section-title">
+      <text class="h">{{item.title}}</text>
+      <text class="more-ref">{{item.ref}}</text>
+    </view>
+    <view
+      class="card link-card"
+      wx:for="{{item.items}}"
+      wx:for-item="svc"
+      wx:key="title"
+      data-item="{{svc}}"
+      bindtap="onOpen"
+    >
+      <view class="svc-title">{{svc.title}}</view>
+      <view class="muted">{{svc.desc}}</view>
+    </view>
+  </view>
+</view>

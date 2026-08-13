@@ -1,0 +1,27 @@
+.title {
+  margin: 16rpx 0 10rpx;
+  font-size: 36rpx;
+  font-weight: 700;
+}
+.tagline {
+  color: var(--muted);
+  margin-bottom: 16rpx;
+}
+.summary {
+  margin-top: 20rpx;
+  color: var(--muted);
+}
+.mod {
+  padding: 12rpx 0;
+  border-bottom: 1rpx solid var(--line);
+}
+.mod:last-child { border-bottom: none; }
+.footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  gap: 16rpx;
+  padding: 20rpx 0 12rpx;
+  background: linear-gradient(180deg, rgba(240,230,248,0), #f0e6f8 30%);
+}
+.half { flex: 1; }

@@ -1,0 +1,38 @@
+.name {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.en {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: var(--muted);
+}
+
+.principles {
+  margin: 18rpx 0;
+  display: flex;
+  gap: 12rpx;
+  flex-wrap: wrap;
+}
+
+.about {
+  color: var(--muted);
+  font-size: 28rpx;
+}
+
+.sponsor {
+  margin-top: 16rpx;
+  font-size: 22rpx;
+  color: var(--gold);
+}
+
+.dir {
+  padding: 10rpx 0;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.dir:last-child {
+  border-bottom: none;
+}

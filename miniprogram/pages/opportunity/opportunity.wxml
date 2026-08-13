@@ -1,0 +1,26 @@
+<view class="container">
+  <view class="banner card" bindtap="openConsulates">
+    <view class="tag tag-gold">国际对接</view>
+    <view class="title">驻沪领事检索名录</view>
+    <view class="muted">提供国家与负责人姓名；点击可复制公开检索关键词。不提供电话/邮箱。</view>
+    <view class="link">进入名录 →</view>
+  </view>
+
+  <view class="section-title"><text class="h">产业机会墙</text></view>
+  <view class="card" wx:for="{{list}}" wx:key="id" data-item="{{item}}" bindtap="openItem">
+    <text class="tag tag-teal">{{item.track}}</text>
+    <view class="title">{{item.title}}</view>
+    <view class="muted">{{item.orgs}}</view>
+    <view class="action">{{item.action}}</view>
+  </view>
+
+  <view class="section-title">
+    <text class="h">回顾与展示</text>
+    <text class="more" bindtap="openExhibit">主题展</text>
+  </view>
+  <view class="card" wx:for="{{archives}}" wx:key="id">
+    <text class="tag tag-gold">{{item.type}}</text>
+    <view class="title">{{item.title}}</view>
+    <view class="muted">{{item.summary}}</view>
+  </view>
+</view>

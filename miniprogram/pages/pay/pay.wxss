@@ -1,0 +1,25 @@
+.label {
+  font-size: 24rpx;
+  color: var(--muted);
+  margin-bottom: 10rpx;
+}
+
+.title {
+  font-size: 34rpx;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+}
+
+.amount-row {
+  margin-top: 28rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 30rpx;
+}
+
+.tip {
+  margin-bottom: 32rpx;
+}

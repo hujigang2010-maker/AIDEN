@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="card tip">{{tip}}</view>
+  <view class="card" wx:for="{{list}}" wx:key="country" data-item="{{item}}" bindtap="onCopy">
+    <view class="row">
+      <text class="country">{{item.country}}</text>
+      <text class="tag tag-teal">{{item.type}}</text>
+    </view>
+    <view class="head">负责人：{{item.head}}</view>
+    <view class="muted">{{item.area}}</view>
+    <view class="note" wx:if="{{item.note}}">{{item.note}}</view>
+    <view class="search">点击复制检索：{{item.search}}</view>
+  </view>
+</view>

@@ -1,0 +1,64 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/services/services",
+    "pages/events/events",
+    "pages/mine/mine",
+    "pages/courses/courses",
+    "pages/course-detail/course-detail",
+    "pages/customize/customize",
+    "pages/event-detail/event-detail",
+    "pages/features/features",
+    "pages/orgs/orgs",
+    "pages/stories/stories",
+    "pages/pay/pay",
+    "pages/news/news",
+    "pages/exhibit/exhibit",
+    "pages/consulates/consulates",
+    "pages/opportunity/opportunity",
+    "pages/about/about",
+    "pages/archive/archive"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#57068C",
+    "navigationBarTitleText": "复旦链接",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F0E6F8",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#A78BC4",
+    "selectedColor": "#57068C",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tab-home.png",
+        "selectedIconPath": "images/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/services/services",
+        "text": "服务",
+        "iconPath": "images/tab-course.png",
+        "selectedIconPath": "images/tab-course-active.png"
+      },
+      {
+        "pagePath": "pages/events/events",
+        "text": "活动",
+        "iconPath": "images/tab-events.png",
+        "selectedIconPath": "images/tab-events-active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/tab-mine.png",
+        "selectedIconPath": "images/tab-mine-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

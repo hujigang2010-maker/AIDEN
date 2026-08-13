@@ -1,0 +1,71 @@
+.profile .name {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 8rpx;
+}
+
+.plan-name {
+  font-size: 30rpx;
+  font-weight: 650;
+  margin-bottom: 8rpx;
+}
+
+.plan-row {
+  margin-top: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.amount {
+  flex: 1;
+  background: var(--primary-wash);
+  padding: 12rpx 16rpx;
+  border-radius: 10rpx;
+}
+
+.mini-btn {
+  background: linear-gradient(135deg, #330662, #57068c);
+  color: #fff;
+  padding: 12rpx 28rpx;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+}
+
+.mini-btn.ghost {
+  background: #fff;
+  color: var(--primary);
+  border: 1rpx solid rgba(87, 6, 140, 0.35);
+}
+
+.profile-actions {
+  margin-top: 18rpx;
+  display: flex;
+  gap: 12rpx;
+}
+
+.ticket-btn {
+  margin-top: 16rpx;
+  display: inline-block;
+  text-align: center;
+}
+
+.order-title {
+  font-weight: 650;
+  margin-bottom: 6rpx;
+}
+
+.links {
+  margin-top: 24rpx;
+}
+
+.link-item {
+  background: #fff;
+  padding: 28rpx;
+  border-radius: 12rpx;
+  margin-bottom: 12rpx;
+  color: var(--primary);
+  font-weight: 600;
+}

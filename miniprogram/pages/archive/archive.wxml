@@ -1,0 +1,16 @@
+<view class="container">
+  <view class="banner card" bindtap="openExhibit">
+    <view class="tag tag-gold">主题展览</view>
+    <view class="title">{{exhibit.title}}</view>
+    <view class="muted">{{exhibit.summary}}</view>
+    <view class="link">进入线上展 →</view>
+  </view>
+
+  <view class="section-title"><text class="h">活动回顾</text></view>
+  <view class="card" wx:for="{{archives}}" wx:key="id" data-id="{{item.id}}" bindtap="openArchive">
+    <text class="tag tag-teal">{{item.type}}</text>
+    <view class="title">{{item.title}}</view>
+    <view class="muted">{{item.date}}</view>
+    <view class="summary">{{item.summary}}</view>
+  </view>
+</view>

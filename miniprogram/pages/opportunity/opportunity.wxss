@@ -1,0 +1,9 @@
+.banner {
+  background: linear-gradient(135deg, #330662, #57068c 60%, #8900e1);
+  color: #fff;
+}
+.banner .muted, .banner .link { color: rgba(255,255,255,.88); }
+.banner .title { margin: 12rpx 0; font-size: 34rpx; font-weight: 700; color: #fff; }
+.link { margin-top: 16rpx; font-weight: 600; }
+.title { margin: 12rpx 0 6rpx; font-size: 30rpx; font-weight: 650; }
+.action { margin-top: 10rpx; color: var(--teal); font-size: 24rpx; }
