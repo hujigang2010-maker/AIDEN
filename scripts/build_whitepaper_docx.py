@@ -131,6 +131,16 @@ while i < len(lines):
         i += 1
         continue
 
+    # 三级标题
+    if line.startswith("### "):
+        p = doc.add_paragraph()
+        p.paragraph_format.space_before = Pt(10)
+        p.paragraph_format.space_after = Pt(6)
+        set_font(p.add_run(line[4:].strip()), cn="黑体", en="Arial", size=13,
+                 bold=True, color=BLUE)
+        i += 1
+        continue
+
     # 二级标题
     if line.startswith("## "):
         p = doc.add_paragraph()

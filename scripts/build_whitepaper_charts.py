@@ -15,11 +15,22 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
 # ---------- 全局样式 ----------
-for f in ["/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
-          "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"]:
-    font_manager.fontManager.addfont(f)
+FONT_CANDIDATES = [
+    "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+    "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
+    "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc",
+    "/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf",
+]
+FONT_FAMILY = "WenQuanYi Micro Hei"
+for f in FONT_CANDIDATES:
+    if os.path.exists(f):
+        font_manager.fontManager.addfont(f)
+        if "NotoSansCJK" in f:
+            FONT_FAMILY = "Noto Sans CJK SC"
+        elif "wqy" in f:
+            FONT_FAMILY = "WenQuanYi Micro Hei"
 plt.rcParams.update({
-    "font.family": "Noto Sans CJK SC",
+    "font.family": FONT_FAMILY,
     "axes.unicode_minus": False,
     "figure.dpi": 150,
     "savefig.dpi": 150,
@@ -451,5 +462,187 @@ ax.set_title("图 14  传统园区与 AI 原生园区能力体系对比（示意
 ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.06), ncol=2)
 note(fig, "说明：本图为课题组基于 WAIC2026 调研形成的概念评估框架（5 分制示意），非实测数据")
 save(fig, "chart14_park_radar.png")
+
+# ============ 图15 展馆×行业：空间分区即产业地图 ============
+halls = ["世博展览馆", "张江科学会堂", "西岸国际会展中心", "世博中心"]
+inds = ["机器人与智能硬件", "算力·芯片·基础设施", "大模型与生成式AI",
+        "行业AI应用", "AI技术与算法", "企业服务与营销", "机构与平台"]
+hall_data = {
+    "世博展览馆": [216, 135, 108, 90, 63, 66, 45],
+    "张江科学会堂": [3, 80, 3, 5, 10, 10, 3],
+    "西岸国际会展中心": [12, 3, 22, 12, 6, 4, 4],
+    "世博中心": [2, 8, 4, 6, 10, 6, 15],
+}
+fig, ax = plt.subplots(figsize=(10.2, 5.2))
+x = np.arange(len(halls))
+bottom = np.zeros(len(halls))
+colors15 = ["#C8102E", "#0E4E9B", "#2E7CC3", "#3AA17E", "#E8734A",
+            "#8B6BB8", "#8A93A3"]
+for i, ind in enumerate(inds):
+    vals = [hall_data[h][i] for h in halls]
+    ax.bar(x, vals, bottom=bottom, color=colors15[i], width=0.58, label=ind)
+    bottom += np.array(vals)
+ax.set_xticks(x, ["世博展览馆\n733 家", "张江科学会堂\n114 家",
+                  "西岸会展中心\n63 家", "世博中心\n52 家"])
+ax.set_ylabel("参展商家数")
+ax.set_title("图 15  展馆 × 行业：产业内容决定空间分区")
+ax.legend(loc="upper right", fontsize=8.5)
+ax.spines[["top", "right"]].set_visible(False)
+note(fig, "数据来源：WAIC2026 全量资源整合总表·参展商库（963 家按展馆归并；智能网联汽车因样本量小并入未单列）")
+save(fig, "chart15_hall_industry.png")
+
+# ============ 图16 沪京粤浙产业分工 ============
+regions = ["上海", "北京", "广东", "浙江"]
+# 机器人 / 算力 / 大模型
+r_robot = [58, 30, 50, 40]
+r_compute = [54, 47, 46, 18]
+r_model = [57, 31, 9, 9]
+fig, ax = plt.subplots(figsize=(9.2, 4.8))
+x = np.arange(len(regions))
+w = 0.25
+ax.bar(x - w, r_robot, w, color=RED, label="机器人与智能硬件")
+ax.bar(x, r_compute, w, color=BLUE, label="算力·芯片·基础设施")
+ax.bar(x + w, r_model, w, color="#3AA17E", label="大模型与生成式AI")
+for xs, vs in [(x - w, r_robot), (x, r_compute), (x + w, r_model)]:
+    for xx, v in zip(xs, vs):
+        ax.text(xx, v + 0.8, str(v), ha="center", fontsize=9)
+ax.set_xticks(x, ["上海（275 家）", "北京（193 家）", "广东（141 家）", "浙江（97 家）"])
+ax.set_ylabel("参展商家数")
+ax.set_title("图 16  国内四极产业分工：上海均衡、北京算力、广东硬件、浙江机器人")
+ax.legend(loc="upper right")
+ax.spines[["top", "right"]].set_visible(False)
+note(fig, "数据来源：WAIC2026 全量资源整合总表·参展商库（按注册地归并；上海含上海市，广东含深圳/广州，浙江含杭州）")
+save(fig, "chart16_regional_mix.png")
+
+# ============ 图17 行业AI应用垂直分布 ============
+verts = [("医疗健康/生物医药", 26), ("能源/电力/工业", 18),
+         ("金融科技/支付", 15), ("智慧城市/政务", 15),
+         ("文旅/文娱/游戏", 12), ("教育科技", 11),
+         ("零售/电商/消费", 8), ("农业/食品科技", 5),
+         ("物流/供应链", 4)]
+fig, ax = plt.subplots(figsize=(9, 4.8))
+names = [v[0] for v in verts][::-1]
+vals = [v[1] for v in verts][::-1]
+bars = ax.barh(names, vals, color=BLUE, height=0.62)
+bars[-1].set_color(RED)
+for b, v in zip(bars, vals):
+    ax.text(b.get_width() + 0.3, b.get_y() + b.get_height() / 2,
+            f"{v} 家", va="center", fontsize=10)
+ax.set_xlim(0, 32)
+ax.set_title("图 17  行业 AI 应用垂直分布：医疗领先，物流与农业仍是空白带")
+ax.spines[["top", "right"]].set_visible(False)
+note(fig, "数据来源：WAIC2026 全量资源整合总表·行业统计（行业AI应用大类共 114 家）")
+save(fig, "chart17_vertical_apps.png")
+
+# ============ 图18 跨展会供应链外延 ============
+xex = [("2026 无人机参展商", 1138), ("无人机名片合集", 534),
+       ("华南国际工业博览会", 431), ("中国物流装备展", 380),
+       ("上海国际传感器会展", 340), ("小电机磁性材料名单", 211),
+       ("物联网智能传感器展", 192), ("深圳人工智能会展", 153),
+       ("2026 人工智能眼镜展", 69)]
+fig, ax = plt.subplots(figsize=(9, 4.8))
+names = [x[0] for x in xex][::-1]
+vals = [x[1] for x in xex][::-1]
+bars = ax.barh(names, vals, color=BLUE, height=0.62)
+for b, v in zip(bars, vals):
+    ax.text(b.get_width() + 8, b.get_y() + b.get_height() / 2,
+            str(v), va="center", fontsize=10)
+ax.set_xlim(0, 1350)
+ax.set_title("图 18  跨展会名录：AI 产业的硬件供应链外延（去重前）")
+ax.spines[["top", "right"]].set_visible(False)
+note(fig, "数据来源：WAIC2026 全量资源整合总表·跨展会名录统计（联系人已去重并入品牌主库）")
+save(fig, "chart18_cross_expo.png")
+
+# ============ 图19 杨浦园区产业构成 ============
+yp_ind = [("在线新经济", 65, 825), ("AI/大模型", 58, 1238),
+          ("设计创意", 54, 861), ("专精特新制造服务", 50, 856),
+          ("检验检测/科技服务", 47, 1222), ("科技金融", 46, 734)]
+fig, ax = plt.subplots(figsize=(9.2, 4.6))
+names = [p[0] for p in yp_ind][::-1]
+cnts = [p[1] for p in yp_ind][::-1]
+areas = [p[2] for p in yp_ind][::-1]
+colors = [RED if n == "AI/大模型" else BLUE for n in names]
+bars = ax.barh(names, cnts, color=colors, height=0.58)
+for b, v, a in zip(bars, cnts, areas):
+    ax.text(b.get_width() + 0.6, b.get_y() + b.get_height() / 2,
+            f"{v} 家 · 户均 {a:.0f}㎡", va="center", fontsize=10)
+ax.set_xlim(0, 88)
+ax.set_title("图 19  杨浦产业园区入驻结构：AI/大模型户均面积最大（1238㎡）")
+ax.spines[["top", "right"]].set_visible(False)
+note(fig, "数据来源：本中心《上海商务楼宇与产业园区市场报告·杨浦区》样本口径（入驻企业样本 320 家）")
+save(fig, "chart19_yangpu_industry.png")
+
+# ============ 图20 杨浦板块租金与空置 ============
+plates = [("大创智", 4.88, 17.9, 24), ("五角场商圈", 4.80, 16.5, 7),
+          ("新江湾", 4.48, 17.7, 5), ("同济周边", 4.09, 18.0, 0),
+          ("杨浦滨江", 4.01, 15.4, 8), ("内环商务", 3.51, 18.0, 7),
+          ("国定路高校带", 3.21, 16.3, 7), ("外环", 2.94, 11.4, 0),
+          ("滨江东延伸", 2.87, 12.9, 0)]
+fig, ax = plt.subplots(figsize=(9.4, 5.4))
+xs = [p[1] for p in plates]
+ys = [p[2] for p in plates]
+ss = [max(80, p[3] * 18) for p in plates]
+ax.scatter(xs, ys, s=ss, c=[RED if p[3] >= 8 else BLUE for p in plates],
+           alpha=0.85, edgecolors="white", linewidths=0.7)
+offsets = {
+    "大创智": (8, 8), "五角场商圈": (-72, -18), "新江湾": (8, 6),
+    "同济周边": (8, -14), "杨浦滨江": (8, 6), "内环商务": (8, 6),
+    "国定路高校带": (8, 6), "外环": (8, -16), "滨江东延伸": (8, 6),
+}
+for p in plates:
+    dx, dy = offsets.get(p[0], (5, 5))
+    ax.annotate(f"{p[0]}（AI {p[3]}家）", (p[1], p[2]), fontsize=8,
+                xytext=(dx, dy), textcoords="offset points", color="#333")
+ax.set_xlabel("成交租金（元/㎡·天）")
+ax.set_ylabel("空置率（%）")
+ax.set_title("图 20  杨浦板块：租金梯度与 AI 企业集聚（气泡大小≈AI 企业数）")
+ax.spines[["top", "right"]].set_visible(False)
+note(fig, "数据来源：本中心杨浦区办公园区市场报告；大创智以 24 家 AI/大模型企业成为区内最显著的 AI 集聚板块")
+save(fig, "chart20_yangpu_plates.png")
+
+# ============ 图21 世博展馆展位结构 ============
+booths = [("H4 创新创投", 301), ("H3 具身智能", 162),
+          ("H1 大模型/Agent", 150), ("H2 算力基建", 98),
+          ("其他展位", 252)]
+fig, ax = plt.subplots(figsize=(8.8, 4.2))
+names = [b[0] for b in booths]
+vals = [b[1] for b in booths]
+colors = [RED, "#C8102E", BLUE, "#2E7CC3", GRAY]
+# H3 and H4 red-ish - actually H4 is largest so maybe blue with H3 red
+colors = [BLUE, RED, "#2E7CC3", "#5FA8DC", GRAY]
+bars = ax.bar(names, vals, color=colors, width=0.58)
+for b, v in zip(bars, vals):
+    ax.text(b.get_x() + b.get_width() / 2, v + 6, f"{v} 家",
+            ha="center", fontsize=10)
+ax.set_ylim(0, 360)
+ax.set_title("图 21  世博展览馆展位结构：创投与具身智能占据最大物理面积")
+ax.spines[["top", "right"]].set_visible(False)
+note(fig, "数据来源：WAIC2026 全量资源整合总表·参展商库展位号前缀归类（H1–H4 为世博展览馆主展区）")
+save(fig, "chart21_booth_halls.png")
+
+# ============ 图22 中美欧产业路径对照（示意评分） ============
+dims2 = ["前沿模型", "性价比", "硬件/具身", "场景落地", "治理标准", "产业空间供给"]
+cn = [4.2, 4.8, 4.7, 4.5, 3.6, 4.6]
+us = [4.8, 2.8, 3.2, 3.5, 3.4, 3.3]
+eu = [3.6, 3.0, 2.8, 3.2, 4.8, 3.4]
+angles = np.linspace(0, 2 * np.pi, len(dims2), endpoint=False).tolist()
+angles += angles[:1]
+fig, ax = plt.subplots(figsize=(7.4, 6.6), subplot_kw=dict(polar=True))
+for vals_, color, label in [(cn, RED, "中国路径"),
+                            (us, BLUE, "美国路径"),
+                            (eu, GRAY, "欧洲路径")]:
+    v = vals_ + vals_[:1]
+    ax.plot(angles, v, color=color, linewidth=2, label=label)
+    ax.fill(angles, v, color=color, alpha=0.12)
+ax.set_xticks(angles[:-1])
+ax.set_xticklabels(dims2, fontsize=11)
+ax.set_ylim(0, 5)
+ax.set_yticks([1, 2, 3, 4, 5])
+ax.set_yticklabels(["1", "2", "3", "4", "5"], fontsize=8, color=GRAY)
+ax.set_title("图 22  中美欧人工智能产业路径对照（示意）",
+             pad=30, fontsize=14, fontweight="bold")
+ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.06), ncol=3)
+note(fig, "说明：5 分制示意框架，综合 WAIC 产业结构、XSCT 定价与公开治理进展；非单一指标实测")
+save(fig, "chart22_cn_us_eu.png")
 
 print("all charts done")
