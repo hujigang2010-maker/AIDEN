@@ -23,4 +23,4 @@ python3 scripts/generate_wangdefeng_proposal.py      # 对外版 + 内部版
 python3 scripts/generate_external_outputs.py         # 对外完整版 + 一页纸
 ```
 
-依赖：`python-docx`。
+依赖：`python-docx`。完整版票价按一线城市 2.5–3 小时公开讲座设计：299 / 399 / **499** / 699 / 999，主力 499 元，预计平均实收 500–530 元。
