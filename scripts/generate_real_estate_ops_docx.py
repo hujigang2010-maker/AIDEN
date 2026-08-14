@@ -78,11 +78,10 @@ def body(doc, text, *, after=8):
 
 
 def h1(doc, text):
-    p = doc.add_paragraph()
+    p = doc.add_heading(text, level=1)
     _set_spacing(p, before=16, after=10, line=1.2)
-    run = p.add_run(text)
-    set_run_font(run, size=18, bold=True, color=NAVY, name_cn="黑体", name_en="Arial")
-    # 底边线
+    for run in p.runs:
+        set_run_font(run, size=18, bold=True, color=NAVY, name_cn="黑体", name_en="Arial")
     pPr = p._p.get_or_add_pPr()
     pBdr = OxmlElement("w:pBdr")
     bottom = OxmlElement("w:bottom")
@@ -96,18 +95,18 @@ def h1(doc, text):
 
 
 def h2(doc, text):
-    p = doc.add_paragraph()
+    p = doc.add_heading(text, level=2)
     _set_spacing(p, before=12, after=6, line=1.2)
-    run = p.add_run(text)
-    set_run_font(run, size=14, bold=True, color=NAVY, name_cn="黑体", name_en="Arial")
+    for run in p.runs:
+        set_run_font(run, size=14, bold=True, color=NAVY, name_cn="黑体", name_en="Arial")
     return p
 
 
 def h3(doc, text):
-    p = doc.add_paragraph()
+    p = doc.add_heading(text, level=3)
     _set_spacing(p, before=8, after=4, line=1.2)
-    run = p.add_run(text)
-    set_run_font(run, size=12.5, bold=True, color=GOLD, name_cn="黑体", name_en="Arial")
+    for run in p.runs:
+        set_run_font(run, size=12.5, bold=True, color=GOLD, name_cn="黑体", name_en="Arial")
     return p
 
 
@@ -244,6 +243,7 @@ def setup_doc():
     sec.header_distance = Cm(1.2)
     sec.footer_distance = Cm(1.2)
 
+    sec.different_first_page_header_footer = True
     header = sec.header
     header.is_linked_to_previous = False
     hp = header.paragraphs[0]
@@ -256,6 +256,14 @@ def setup_doc():
     fp = footer.paragraphs[0]
     fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
     add_page_number(fp)
+
+    # 封面不显示页眉
+    fh = sec.first_page_header
+    fh.is_linked_to_previous = False
+    fh.paragraphs[0].text = ""
+    ff = sec.first_page_footer
+    ff.is_linked_to_previous = False
+    ff.paragraphs[0].text = ""
     return doc
 
 
