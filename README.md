@@ -1,9 +1,19 @@
-# AIDEN
+# 住房即服务：医疗、养老与生产效率提升的 2030 展望
 
-AIDEN 是一个多任务工作区。`main` 分支存放共享配置；具体应用和文档交付物位于各自的 `cursor/*` 功能分支。
+本分支交付河南大学住房政策研究中心白皮书，从住房与社区空间出发，结合 2025—2026 年政策和最新科技进展，展望 2030 年的医疗服务、养老服务与生产效率提升服务。
 
-## 显示语言
+## 生成
 
-本仓库默认使用**简体中文**。首次打开项目时，请安装推荐的中文语言包，并在命令面板中选择 **Configure Display Language → 中文(简体)**，然后重启 Cursor。
+```bash
+python3 -m pip install python-docx matplotlib pillow
+python3 scripts/build_charts.py
+python3 scripts/build_whitepaper.py
+python3 scripts/verify_whitepaper.py
+```
 
-更多说明见 [AGENTS.md](./AGENTS.md)。
+输出文件：
+
+- `dist/河南大学住房政策研究中心_住房即服务_医疗养老与提效服务2030展望白皮书.docx`
+- `whitepaper/assets/charts/` 配图
+
+资料核对见 `source/资料摘编.md`。
