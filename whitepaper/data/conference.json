@@ -1,0 +1,28 @@
+{
+  "event": {
+    "official_cn": "2026 Google 开发者大会",
+    "official_en": "Google I/O Connect China 2026",
+    "theme": "从灵感火花到产品跨海出圈",
+    "tagline": "智体新境",
+    "dates": "2026-08-12/13",
+    "venue": "上海世博中心",
+    "district": "浦东新区",
+    "attendees_approx": 2000,
+    "tracks": ["AI", "Chrome", "Cloud", "Android"],
+    "registration_open": "2026-07-14"
+  },
+  "io_2026": {
+    "dates": "2026-05",
+    "theme": "Welcome to the agentic Gemini era",
+    "monthly_tokens": "3.2 quadrillion",
+    "monthly_developers": 8500000,
+    "gemini_app_mau": 900000000,
+    "ai_mode_mau": 1000000000,
+    "ai_overviews_mau": 2500000000
+  },
+  "io_connect_tour_2026": [
+    {"city": "柏林", "en": "Berlin", "role": "欧洲开发者枢纽"},
+    {"city": "班加罗尔", "en": "Bengaluru", "role": "南亚开发者枢纽"},
+    {"city": "上海", "en": "Shanghai", "role": "中国与亚太接口"}
+  ]
+}

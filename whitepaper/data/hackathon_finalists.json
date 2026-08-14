@@ -1,0 +1,30 @@
+{
+  "event": "Gemma 4 Hackathon | 2026",
+  "core_model": "Gemma 4",
+  "semi_finals": "2026-06-13 北京 / 上海 / 深圳 Google 办公室",
+  "finals": "2026 Google I/O Connect China 现场路演",
+  "award_support": "最高约 20 万美元资源支持",
+  "tracks": [
+    {"name": "Track A · AI Agent", "focus": "多步规划、工具调用、原生函数调用"},
+    {"name": "Track B · Multimodal", "focus": "视觉、音频与语言一体化"},
+    {"name": "Track C · Edge AI", "focus": "手机、树莓派与嵌入式离线部署"},
+    {"name": "Track D · AI for Social Good", "focus": "无障碍、气候、公共卫生、教育公平"}
+  ],
+  "finalists": [
+    {"team": "地理空间智能", "project": "GIS Data Agent", "category": "空间智能"},
+    {"team": "妙妙爱学习", "project": "时间规划小助手", "category": "教育"},
+    {"team": "得法团队", "project": "MedSchema Agent", "category": "医疗健康"},
+    {"team": "晓话AI", "project": "Munk AI", "category": "通用应用"},
+    {"team": "OOtira Team", "project": "Privacy-First AI Closet Copilot", "category": "端侧隐私"},
+    {"team": "躺平别动队", "project": "乐学", "category": "教育"},
+    {"team": "enactflow", "project": "attractor", "category": "通用应用"},
+    {"team": "PandaaX", "project": "守护犀 · EdgeMind", "category": "端侧隐私"},
+    {"team": "SWL", "project": "iPot智能盆栽", "category": "端侧隐私"},
+    {"team": "妙手回春", "project": "FirstAid Copilot", "category": "医疗健康"},
+    {"team": "AI for HER", "project": "AI for HER", "category": "社会公益"},
+    {"team": "AI向善", "project": "视频偏见智能检测", "category": "社会公益"},
+    {"team": "Elva", "project": "Elva 老白 · 老人AI声导伴侣", "category": "适老化"},
+    {"team": "KnifShield", "project": "SafeVoice Agent", "category": "适老化"},
+    {"team": "TerraVineVox", "project": "VoxShield", "category": "适老化"}
+  ]
+}
