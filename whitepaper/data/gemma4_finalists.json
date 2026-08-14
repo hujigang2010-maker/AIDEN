@@ -1,0 +1,27 @@
+{
+  "source": "https://hackathon.googdg.cn/",
+  "captured": "2026-08",
+  "tracks": [
+    {"id": "A", "name": "AI Agent", "focus": "多步规划、工具调用、原生函数调用"},
+    {"id": "B", "name": "Multimodal", "focus": "视觉、音频、语言融合体验"},
+    {"id": "C", "name": "Edge AI", "focus": "端侧离线部署与真机演示"},
+    {"id": "D", "name": "AI for Social Good", "focus": "无障碍、气候、公共卫生、教育公平"}
+  ],
+  "finalists": [
+    {"team": "地理空间智能", "project": "GIS Data Agent", "scene": "地理空间", "track_guess": "A"},
+    {"team": "妙妙爱学习", "project": "时间规划小助手", "scene": "教育", "track_guess": "A"},
+    {"team": "得法团队", "project": "MedSchema Agent：专病指标清洗与质控智能体", "scene": "医疗", "track_guess": "A"},
+    {"team": "晓话AI", "project": "Munk AI", "scene": "通用助手", "track_guess": "B"},
+    {"team": "OOtira Team", "project": "OOtira — Privacy-First AI Closet Copilot", "scene": "端侧隐私", "track_guess": "C"},
+    {"team": "躺平别动队", "project": "乐学", "scene": "教育", "track_guess": "A"},
+    {"team": "enactflow", "project": "attractor", "scene": "通用助手", "track_guess": "A"},
+    {"team": "PandaaX", "project": "守护犀 · EdgeMind", "scene": "端侧隐私", "track_guess": "C"},
+    {"team": "SWL", "project": "iPot智能盆栽", "scene": "生活硬件", "track_guess": "C"},
+    {"team": "妙手回春", "project": "FirstAid Copilot", "scene": "医疗", "track_guess": "A"},
+    {"team": "AI for HER", "project": "AI for HER", "scene": "社会向善", "track_guess": "D"},
+    {"team": "AI向善", "project": "视频偏见智能检测与包容引导", "scene": "社会向善", "track_guess": "D"},
+    {"team": "Elva", "project": "Elva 老白 - 老人AI声导伴侣", "scene": "养老", "track_guess": "D"},
+    {"team": "KnifShield", "project": "SafeVoice Agent：老年人防诈语音智能体", "scene": "养老", "track_guess": "D"},
+    {"team": "TerraVineVox", "project": "VoxShield — AI 声纹守护者", "scene": "养老", "track_guess": "D"}
+  ]
+}

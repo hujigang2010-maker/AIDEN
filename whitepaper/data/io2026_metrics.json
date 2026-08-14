@@ -1,0 +1,14 @@
+{
+  "source": "https://blog.google/innovation-and-ai/sundar-pichai-io-2026/",
+  "date": "2026-05-19",
+  "metrics": [
+    {"name": "月处理 Token", "value": 3.2, "unit": "千万亿", "note": "较上年约 7 倍"},
+    {"name": "每月活跃开发者", "value": 850, "unit": "万", "note": "基于 Google 模型构建应用"},
+    {"name": "API Token 吞吐", "value": 190, "unit": "亿/分钟", "note": "模型 API"},
+    {"name": "超万亿 Token 云客户", "value": 375, "unit": "家", "note": "过去 12 个月"},
+    {"name": "Gemini App MAU", "value": 9, "unit": "亿", "note": "一年内翻倍有余"},
+    {"name": "Search AI Overviews MAU", "value": 25, "unit": "亿", "note": "生成式搜索"},
+    {"name": "Search AI Mode MAU", "value": 10, "unit": "亿", "note": "一年内突破"},
+    {"name": "年度资本开支预期", "value": 1850, "unit": "亿美元中值", "note": "约 1800—1900 亿，即 180—190 billion 美元"}
+  ]
+}
