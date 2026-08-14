@@ -8,7 +8,7 @@ from pptx.enum.text import PP_ALIGN
 from pptx.util import Emu, Inches, Pt
 
 OUT = "/workspace/whitepaper/WAIC2026人工智能产业空间白皮书-简报.pptx"
-LOGO = "/workspace/whitepaper/assets/logo_fudan_hprc.png"
+LOGO = "/workspace/whitepaper/assets/brand/logo_rchp_print.png"
 CHARTS = "/workspace/whitepaper/assets/charts"
 BLUE = RGBColor(0x0E, 0x4E, 0x9B)
 RED = RGBColor(0xC8, 0x10, 0x2E)

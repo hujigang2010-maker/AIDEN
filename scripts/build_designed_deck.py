@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageEnhance
 W, H = 1920, 1080
 PHOTO = "/workspace/whitepaper/assets/photos"
 CHART = "/workspace/whitepaper/assets/charts"
-LOGO = "/workspace/whitepaper/assets/logo_fudan_hprc.png"
+LOGO = "/workspace/whitepaper/assets/brand/logo_rchp_dark.png"
 OUT = "/workspace/whitepaper/assets/slides"
 PPTX = "/workspace/whitepaper/WAIC2026人工智能产业空间白皮书-精排版.pptx"
 DL = "/workspace/whitepaper/下载版本"
@@ -162,7 +162,7 @@ def slide_cover():
     im = darken(cover_fill(f"{PHOTO}/photo_cover_lujiazui.png"), 0.62)
     im = gradient_bottom(im, 520, 230)
     d = ImageDraw.Draw(im)
-    put_logo(im, (56, 48), 560, plate=True)
+    put_logo(im, (56, 48), 640, plate=False)
     rect(d, [56, 430, 220, 438], GOLD)
     text(d, (56, 470), "中心研究文稿 · 第二号", font(FONT_R, 28), WHITE)
     text(d, (56, 530), "WAIC2026", font(FONT_B, 86), WHITE)
@@ -176,7 +176,7 @@ def slide_close():
     im = darken(cover_fill(f"{PHOTO}/photo_night_skyline.png"), 0.5)
     im = gradient_bottom(im, 700, 240)
     d = ImageDraw.Draw(im)
-    put_logo(im, (56, 48), 520, plate=True)
+    put_logo(im, (56, 48), 600, plate=False)
     rect(d, [56, 430, 180, 438], GOLD)
     text(d, (56, 500), "空间将成为 AI 时代", font(FONT_B, 56), WHITE)
     text(d, (56, 580), "最诚实的计分板", font(FONT_B, 72), WHITE)

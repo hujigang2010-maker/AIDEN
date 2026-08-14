@@ -11,7 +11,9 @@ from docx import Document
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
-from docx.shared import Cm, Pt, RGBColor
+from docx.enum.section import WD_ORIENT
+from docx.oxml import OxmlElement
+from docx.shared import Cm, Emu, Mm, Pt, RGBColor
 
 BASE = "/workspace/whitepaper"
 MD = os.path.join(BASE, "WAIC2026人工智能产业空间白皮书.md")
@@ -54,17 +56,64 @@ def add_rich(par, text, size=12, cn="宋体", color=None, base_bold=False):
                      color=color)
 
 
+LOGO_PRINT = os.path.join(BASE, "assets/brand/logo_rchp_print.png")
+LOGO_MARK = os.path.join(BASE, "assets/brand/logo_rchp_mark.png")
+
+
+def set_a4(section):
+    section.page_width = Mm(210)
+    section.page_height = Mm(297)
+    section.orientation = WD_ORIENT.PORTRAIT
+
+
+def add_page_number(paragraph):
+    run = paragraph.add_run()
+    fld1 = OxmlElement("w:fldChar")
+    fld1.set(qn("w:fldCharType"), "begin")
+    instr = OxmlElement("w:instrText")
+    instr.set(qn("xml:space"), "preserve")
+    instr.text = " PAGE "
+    fld2 = OxmlElement("w:fldChar")
+    fld2.set(qn("w:fldCharType"), "end")
+    run._r.append(fld1)
+    run._r.append(instr)
+    run._r.append(fld2)
+
+
 doc = Document()
 sec = doc.sections[0]
-sec.top_margin, sec.bottom_margin = Cm(2.6), Cm(2.6)
-sec.left_margin, sec.right_margin = Cm(3.0), Cm(3.0)
+set_a4(sec)
+sec.top_margin, sec.bottom_margin = Cm(2.4), Cm(2.2)
+sec.left_margin, sec.right_margin = Cm(2.4), Cm(2.4)
+sec.header_distance = Cm(1.0)
+sec.footer_distance = Cm(1.0)
+
+header = sec.header
+header.is_linked_to_previous = False
+hp = header.paragraphs[0]
+hp.alignment = WD_ALIGN_PARAGRAPH.LEFT
+hp.add_run().add_picture(LOGO_MARK, width=Cm(5.6))
+run = hp.add_run("    中心研究文稿 · 第二号  FDU-HPRC-WP-2026-02")
+set_font(run, cn="黑体", size=9, color=GRAY)
+
+footer = sec.footer
+fp = footer.paragraphs[0]
+fp.alignment = WD_ALIGN_PARAGRAPH.LEFT
+set_font(fp.add_run("复旦大学住房政策研究中心  ·  WAIC2026 人工智能产业空间白皮书    "),
+         cn="宋体", size=9, color=GRAY)
+add_page_number(fp)
+
+sec.different_first_page_header_footer = True
+sec.first_page_header.is_linked_to_previous = False
+sec.first_page_footer.is_linked_to_previous = False
+sec.first_page_header.paragraphs[0].text = ""
+sec.first_page_footer.paragraphs[0].text = ""
 
 # ---------------- 封面 ----------------
 p = doc.add_paragraph()
 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-p.paragraph_format.space_before = Pt(30)
-p.add_run().add_picture(os.path.join(BASE, "assets/logo_fudan_hprc.png"),
-                        width=Cm(13.5))
+p.paragraph_format.space_before = Pt(18)
+p.add_run().add_picture(LOGO_PRINT, width=Cm(14.2))
 
 p = doc.add_paragraph()
 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
