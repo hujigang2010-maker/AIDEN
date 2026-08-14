@@ -1,9 +1,13 @@
-# AIDEN
+# 房地产项目开发运营一线实务问答
 
-AIDEN 是一个多任务工作区。`main` 分支存放共享配置；具体应用和文档交付物位于各自的 `cursor/*` 功能分支。
+本分支交付一份面向投资/运营口径的 Word 文稿，回答项目公司结构、现金流、税务预缴与清算、表外合营联营、拿地测算、去化降价，以及对华润、中海、建发、金茂、绿城、滨江、越秀、保利、招商蛇口的管理与销售比较。
 
-## 显示语言
+## 生成
 
-本仓库默认使用**简体中文**。首次打开项目时，请安装推荐的中文语言包，并在命令面板中选择 **Configure Display Language → 中文(简体)**，然后重启 Cursor。
+```bash
+python3 scripts/generate_real_estate_ops_docx.py
+```
 
-更多说明见 [AGENTS.md](./AGENTS.md)。
+输出：`deliverables/房地产项目开发运营一线实务问答.docx`
+
+依赖：`python-docx`（环境通常已预装；若缺失则 `pip install python-docx`）。
