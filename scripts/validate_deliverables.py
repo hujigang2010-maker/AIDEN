@@ -49,11 +49,23 @@ def ppt_text(path: Path) -> str:
     return "\n".join(chunks)
 
 
+def pdf_text(path: Path) -> str:
+    try:
+        from pypdf import PdfReader
+    except ImportError:
+        return ""
+    reader = PdfReader(str(path))
+    return "\n".join(page.extract_text() or "" for page in reader.pages)
+
+
 def main() -> None:
     docx = OUT / "青岛红枫路交通事故_伤情与处理备忘录_20260817.docx"
     xlsx = OUT / "青岛红枫路交通事故_伤情伤残与行动表_20260817.xlsx"
     pptx = OUT / "青岛红枫路交通事故_伤情与伤残简报_20260817.pptx"
-    for p in (docx, xlsx, pptx):
+    comm_docx = OUT / "青岛红枫路交通事故_肇事方沟通方案与体检分析_20260817.docx"
+    comm_pdf = OUT / "青岛红枫路交通事故_肇事方沟通方案与体检分析_20260817.pdf"
+    comm_xlsx = OUT / "青岛红枫路交通事故_肇事方沟通流程表_20260817.xlsx"
+    for p in (docx, xlsx, pptx, comm_docx, comm_pdf, comm_xlsx):
         assert p.exists() and p.stat().st_size > 2000, p
 
     text = docx_text(docx)
@@ -80,6 +92,27 @@ def main() -> None:
     ptext = ppt_text(pptx)
     for k in ("伤残尚未鉴定", "胫骨远端", "禁止说"):
         assert k in ptext.replace("\n", "") or k in ptext, k
+
+    ctext = docx_text(comm_docx)
+    print("沟通方案 DOCX 字符", len(ctext), "字节", comm_docx.stat().st_size)
+    for k in ("胫骨远端", "腓骨近端", "跟骨骨刺", "开场", "律师函", "方案甲", "12", "人民医院", "美团"):
+        assert k in ctext, f"沟通方案 Word 缺少：{k}"
+    assert "不要请诉讼律师" in ctext or "现在不要请诉讼律师" in ctext
+
+    cwb = load_workbook(comm_xlsx)
+    print("沟通流程 XLSX 工作表", cwb.sheetnames)
+    for n in ("怎么用", "12步沟通顺序", "对方一句话怎么接", "律师决策", "三套方案", "影像三份对照"):
+        assert n in cwb.sheetnames, n
+    flow = cwb["12步沟通顺序"]
+    flow_text = "\n".join(str(c.value or "") for row in flow.iter_rows(max_row=16) for c in row)
+    assert "未开始" in flow_text and "肇事女骑手" in flow_text
+
+    ptext_c = pdf_text(comm_pdf)
+    print("沟通方案 PDF 抽取字符", len(ptext_c), "字节", comm_pdf.stat().st_size)
+    assert comm_pdf.stat().st_size > 8000
+    if ptext_c:
+        for k in ("胫骨远端", "方案甲", "律师", "开场", "10008056847", "胡继刚"):
+            assert k in ptext_c.replace(" ", ""), f"沟通方案 PDF 缺少：{k}"
 
     print("校验通过")
 
