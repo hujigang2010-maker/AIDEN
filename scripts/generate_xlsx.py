@@ -17,6 +17,7 @@ from content import (
     CT_REPORTS,
     DISABILITY,
     HOSPITAL_TRACK,
+    HOSPITAL_CHOICE,
     INJURY_NOT_THIS_ACCIDENT,
     INJURY_THIS_ACCIDENT,
     QINGXIAN,
@@ -218,13 +219,20 @@ def build_workbook(output_path: Path) -> None:
         ["家属口径", HOSPITAL_TRACK["family_rule"], "采用；向保险报医院全称"],
         ["别的三甲", HOSPITAL_TRACK["other_sanjia"], "不另找山大体系外三甲碰运气"],
         ["今天目标", HOSPITAL_TRACK["goal"], "手续打通 + 美团险确认二甲"],
-        ["明确不做", "\n".join(HOSPITAL_TRACK["not_do"]), "装病、绕考核、代扮、人社局评残、混医保，全部停"],
+        ["医院怎么选", HOSPITAL_CHOICE["headline"], "不另找三甲；不默认留二甲"],
+        ["首选齐鲁", HOSPITAL_CHOICE["why_qilu"], HOSPITAL_CHOICE["why_qilu_hard"]],
+        ["不另找三甲", HOSPITAL_CHOICE["why_not_other"], "只有保险书面指定才动"],
+        ["不默认留二甲", HOSPITAL_CHOICE["why_not_default_erji"], "先问美团险，先办入院号"],
     ]
+    for title, body in HOSPITAL_CHOICE["tree"]:
+        rows.append([title, body, ""])
+    rows.append(["对赛主任原话", HOSPITAL_CHOICE["ask_sai"], "不闹、不装病"])
     for i, row in enumerate(rows, 3):
         for c, val in enumerate(row, 1):
             ws.cell(i, c, val)
-        ws.row_dimensions[i].height = 52
-    style_rows(ws, 3, 13, 3)
+        ws.row_dimensions[i].height = 48
+    last = 2 + len(rows)
+    style_rows(ws, 3, last, 3)
     widths(ws, [16, 55, 40])
     freeze(ws)
 

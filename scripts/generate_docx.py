@@ -19,6 +19,7 @@ from content import (
     DATE_LABEL,
     DISABILITY,
     HOSPITAL_TRACK,
+    HOSPITAL_CHOICE,
     INJURY_NOT_THIS_ACCIDENT,
     INJURY_THIS_ACCIDENT,
     MONEY,
@@ -279,6 +280,18 @@ def build_document(output_path: Path) -> None:
     for item in HOSPITAL_TRACK["not_do"]:
         _bullet(doc, item)
     _body(doc, "云影像已经证明：手术是在齐鲁医院（三甲）手足与显微重建外科做的。这是对理赔最有利的治疗起点。后面无论转去哪，都要能说清「为什么转、转到哪一级、是否连续治疗」。朋友把「人社局伤残补助」和交通事故评残混在一起，不采用。")
+
+    _heading(doc, "医院怎么选：回齐鲁、留人民医院，还是另找三甲", 2)
+    _add_paragraph(doc, HOSPITAL_CHOICE["headline"], bold=True, color=RED, space_after=8)
+    _bullet(doc, HOSPITAL_CHOICE["why_qilu"], bold_prefix="为何首选齐鲁：")
+    _bullet(doc, HOSPITAL_CHOICE["why_qilu_hard"], bold_prefix="为何回齐鲁很难：")
+    _bullet(doc, HOSPITAL_CHOICE["why_not_other"], bold_prefix="为何不另找三甲：")
+    _bullet(doc, HOSPITAL_CHOICE["why_not_default_erji"], bold_prefix="为何不能默认留二甲：")
+    _heading(doc, "决策树", 2)
+    for title, body in HOSPITAL_CHOICE["tree"]:
+        _bullet(doc, body, bold_prefix=title + "：")
+    _heading(doc, "对赛主任可以原话说", 2)
+    _body(doc, HOSPITAL_CHOICE["ask_sai"])
 
     _heading(doc, "八、钱从哪里来")
     _bullet(doc, MONEY["paid_family_816"], bold_prefix="已垫付（待发票核对）：")
