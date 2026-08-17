@@ -264,11 +264,16 @@ def build_document(output_path: Path) -> None:
 
     _heading(doc, "七、转院报销：人已到人民医院，手续还卡住")
     _add_paragraph(doc, HOSPITAL_TRACK["now"], bold=True, color=RED, space_after=8)
+    _bullet(doc, HOSPITAL_TRACK["how_moved"], bold_prefix="怎么转出来的：")
+    _bullet(doc, HOSPITAL_TRACK["not_rehab"], bold_prefix="不是康复期：")
     _body(doc, HOSPITAL_TRACK["core_conflict"])
+    _bullet(doc, HOSPITAL_TRACK["two_tracks"], bold_prefix="两条报销：")
+    _bullet(doc, HOSPITAL_TRACK["no_motor_insurer"], bold_prefix="找哪家保险：")
     _bullet(doc, HOSPITAL_TRACK["settle_rule"], bold_prefix="结算铁律：")
     _bullet(doc, HOSPITAL_TRACK["police_on_erji"], bold_prefix="交警对二甲：")
     _bullet(doc, HOSPITAL_TRACK["friend_on_erji"], bold_prefix="朋友咨询（仅参考）：")
     _bullet(doc, HOSPITAL_TRACK["family_rule"], bold_prefix="家属会后口径（采用）：")
+    _bullet(doc, HOSPITAL_TRACK["other_sanjia"], bold_prefix="别的三甲：")
     _bullet(doc, HOSPITAL_TRACK["goal"], bold_prefix="今天怎么做：")
     _heading(doc, "这次咨询里明确不做的事", 2)
     for item in HOSPITAL_TRACK["not_do"]:

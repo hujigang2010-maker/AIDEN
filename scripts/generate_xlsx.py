@@ -202,25 +202,29 @@ def build_workbook(output_path: Path) -> None:
 
     # 4 转院报销
     ws = wb.create_sheet("转院报销")
-    write_title(ws, "人已到人民医院，齐鲁出院未办。二甲能不能报，保险公司说了算。", 3)
+    write_title(ws, "人已到人民医院，齐鲁出院未办。医保能报 ≠ 美团险能报。", 3)
     headers = ["事项", "目前事实", "怎么处理"]
     for i, h in enumerate(headers, 1):
         ws.cell(2, i, h)
     style_header(ws, 2, 3)
     rows = [
         ["当前卡住", HOSPITAL_TRACK["now"], "当天办齐鲁出院结算，再办人民医院入院"],
-        ["结算规则", HOSPITAL_TRACK["settle_rule"], "带齐证件和押金票，出院部和科室分开催"],
+        ["怎么转出来的", HOSPITAL_TRACK["how_moved"], "父亲好说话才同意；主治强硬，不指望找关系留床"],
+        ["不是康复期", HOSPITAL_TRACK["not_rehab"], "术后两天，软组织仍肿，不能按康复期处理"],
+        ["两条报销", HOSPITAL_TRACK["two_tracks"], "医保和美团险分开问"],
+        ["找哪家保险", HOSPITAL_TRACK["no_motor_insurer"], "问交警/骑手/站点要美团平台险，不在认定单上找交强险"],
+        ["结算规则", HOSPITAL_TRACK["settle_rule"], "带齐证件和押金票"],
         ["朋友怎么说", HOSPITAL_TRACK["friend_on_erji"], "仅参考，不能当保单"],
-        ["家属口径", HOSPITAL_TRACK["family_rule"], "采用这一条"],
-        ["交警口径", HOSPITAL_TRACK["police_on_erji"], "留痕，不把交警口头当保险确认"],
-        ["今天目标", HOSPITAL_TRACK["goal"], "手续打通 + 保险确认二甲"],
-        ["明确不做", "\n".join(HOSPITAL_TRACK["not_do"]), "装病、绕考核、代扮、人社局评残，全部停"],
+        ["家属口径", HOSPITAL_TRACK["family_rule"], "采用；向保险报医院全称"],
+        ["别的三甲", HOSPITAL_TRACK["other_sanjia"], "不另找山大体系外三甲碰运气"],
+        ["今天目标", HOSPITAL_TRACK["goal"], "手续打通 + 美团险确认二甲"],
+        ["明确不做", "\n".join(HOSPITAL_TRACK["not_do"]), "装病、绕考核、代扮、人社局评残、混医保，全部停"],
     ]
     for i, row in enumerate(rows, 3):
         for c, val in enumerate(row, 1):
             ws.cell(i, c, val)
-        ws.row_dimensions[i].height = 56
-    style_rows(ws, 3, 9, 3)
+        ws.row_dimensions[i].height = 52
+    style_rows(ws, 3, 13, 3)
     widths(ws, [16, 55, 40])
     freeze(ws)
 
