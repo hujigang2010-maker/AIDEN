@@ -21,6 +21,8 @@ MUST = [
     "伤残尚未",
     "内外固定",
     "跟骨骨刺",
+    "人民医院",
+    "保险公司",
 ]
 
 
@@ -59,7 +61,7 @@ def main() -> None:
     wb = load_workbook(xlsx)
     sheets = wb.sheetnames
     print("XLSX 工作表", sheets)
-    need = ["伤情鉴定", "伤残情况", "外伤与退变对照", "费用台账", "72小时待办", "沟通口径卡", "责任与程序"]
+    need = ["伤情鉴定", "伤残情况", "外伤与退变对照", "转院报销", "费用台账", "72小时待办", "沟通口径卡", "责任与程序"]
     for n in need:
         assert n in sheets, n
     ws = wb["伤情鉴定"]

@@ -16,6 +16,7 @@ from content import (
     CLOUD_FILM,
     CT_REPORTS,
     DISABILITY,
+    HOSPITAL_TRACK,
     INJURY_NOT_THIS_ACCIDENT,
     INJURY_THIS_ACCIDENT,
     QINGXIAN,
@@ -166,7 +167,7 @@ def build_workbook(output_path: Path) -> None:
         ws.cell(i, 1, i - 10)
         ws.cell(i, 2, item)
         ws.merge_cells(start_row=i, start_column=2, end_row=i, end_column=3)
-    style_rows(ws, 11, 14, 3)
+    style_rows(ws, 11, 15, 3)
     widths(ws, [18, 70, 36])
     for r in range(3, 9):
         ws.row_dimensions[r].height = 48
@@ -199,7 +200,31 @@ def build_workbook(output_path: Path) -> None:
     widths(ws, [18, 55, 55])
     freeze(ws)
 
-    # 4 费用台账
+    # 4 转院报销
+    ws = wb.create_sheet("转院报销")
+    write_title(ws, "人已到人民医院，齐鲁出院未办。二甲能不能报，保险公司说了算。", 3)
+    headers = ["事项", "目前事实", "怎么处理"]
+    for i, h in enumerate(headers, 1):
+        ws.cell(2, i, h)
+    style_header(ws, 2, 3)
+    rows = [
+        ["当前卡住", HOSPITAL_TRACK["now"], "当天办齐鲁出院结算，再办人民医院入院"],
+        ["结算规则", HOSPITAL_TRACK["settle_rule"], "带齐证件和押金票，出院部和科室分开催"],
+        ["朋友怎么说", HOSPITAL_TRACK["friend_on_erji"], "仅参考，不能当保单"],
+        ["家属口径", HOSPITAL_TRACK["family_rule"], "采用这一条"],
+        ["交警口径", HOSPITAL_TRACK["police_on_erji"], "留痕，不把交警口头当保险确认"],
+        ["今天目标", HOSPITAL_TRACK["goal"], "手续打通 + 保险确认二甲"],
+        ["明确不做", "\n".join(HOSPITAL_TRACK["not_do"]), "装病、绕考核、代扮、人社局评残，全部停"],
+    ]
+    for i, row in enumerate(rows, 3):
+        for c, val in enumerate(row, 1):
+            ws.cell(i, c, val)
+        ws.row_dimensions[i].height = 56
+    style_rows(ws, 3, 9, 3)
+    widths(ws, [16, 55, 40])
+    freeze(ws)
+
+    # 5 费用台账
     ws = wb.create_sheet("费用台账")
     write_title(ws, "用发票重做台账。8月15日「约7万」和8月16日「不到3.5万」冲突，对外前必须核死。", 8)
     headers = ["日期", "项目", "金额（元）", "已付/未付", "付款人", "有无发票", "票据号", "备注"]
@@ -215,7 +240,7 @@ def build_workbook(output_path: Path) -> None:
         ["", "药品（院内）", "", "已付待核", "家属", "待贴", "", ""],
         ["", "护工费", "", "已付待核", "家属", "待贴", "", "不确定项，必须合同+发票"],
         ["", "护理耗材（垫、便盆等）", "", "已付待核", "家属", "待贴", "", ""],
-        ["", "专业转运/救护车", "", "未发生或待核", "", "待贴", "", "责任方承担，不自掏不留票"],
+        ["2026-08-17", "转院救护车", 160, "已付待核", "家属", "待贴", "", "预估150，实收160，必须发票"],
         ["", "雇主垫付（通话口径）", 20000, "待核是否属实", "货主?", "待核", "", "8/15口述，未与3.5万口径对上"],
         ["", "未结工钱（通话口径）", 5000, "未付", "货主", "无", "", "不要直接冲抵事故赔偿"],
         ["", "责任方已付", 0, "未付", "骑手/美团", "无", "", "截至8/16通话称一分未付"],
@@ -242,7 +267,7 @@ def build_workbook(output_path: Path) -> None:
 
     # 5 待办
     ws = wb.create_sheet("72小时待办")
-    write_title(ws, "本周只办治疗不断档、证据固定、保险进群。不谈残级。", 5)
+    write_title(ws, "今天先打通出院入院，并向保险公司确认二甲。不谈残级。", 5)
     headers = ["序号", "谁", "做什么", "为什么", "状态"]
     for i, h in enumerate(headers, 1):
         ws.cell(2, i, h)
@@ -273,6 +298,7 @@ def build_workbook(output_path: Path) -> None:
         ("对交警", TALKING_POINTS["to_police"]),
         ("对骑手/平台", TALKING_POINTS["to_rider"]),
         ("对医院", TALKING_POINTS["to_hospital"]),
+        ("对保险公司", TALKING_POINTS["to_insurer"]),
         ("绝对不要说", TALKING_POINTS["do_not_say"]),
     ]
     for title, items in mapping:
@@ -313,7 +339,7 @@ def build_workbook(output_path: Path) -> None:
 
     # 8 录音索引
     ws = wb.create_sheet("录音来源")
-    write_title(ws, "得到大脑 10 份录音。与 CT 冲突的以 CT 为准。", 4)
+    write_title(ws, "得到大脑 11 份录音。与 CT 冲突的以 CT 为准；二甲报销以保险公司为准。", 4)
     headers = ["日期", "标题", "时长", "本表如何使用"]
     for i, h in enumerate(headers, 1):
         ws.cell(2, i, h)
@@ -323,7 +349,7 @@ def build_workbook(output_path: Path) -> None:
         ws.cell(i, 2, c["title"])
         ws.cell(i, 3, c["mins"])
         ws.cell(i, 4, c["use"])
-    style_rows(ws, 3, 12, 4)
+    style_rows(ws, 3, 13, 4)
     widths(ws, [14, 36, 10, 50])
     freeze(ws)
 

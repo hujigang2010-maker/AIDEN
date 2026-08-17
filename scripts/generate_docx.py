@@ -184,7 +184,7 @@ def build_document(output_path: Path) -> None:
 
     _add_paragraph(doc, TITLE, font=HEADING_FONT, size=18, bold=True, alignment=WD_ALIGN_PARAGRAPH.CENTER, space_after=6, line_spacing=1.3, color=ACCENT)
     _add_paragraph(doc, SUBTITLE, font=HEADING_FONT, size=11, alignment=WD_ALIGN_PARAGRAPH.CENTER, space_after=4, line_spacing=1.3, color=MUTED)
-    _add_paragraph(doc, DATE_LABEL + "  ·  材料：得到大脑通话 10 份 + 齐鲁医院云影像 3 份 CT", font=CHINESE_FONT, size=10.5, alignment=WD_ALIGN_PARAGRAPH.CENTER, space_after=12, color=MUTED)
+    _add_paragraph(doc, DATE_LABEL + "  ·  材料：得到大脑通话 11 份 + 齐鲁医院云影像 3 份 CT", font=CHINESE_FONT, size=10.5, alignment=WD_ALIGN_PARAGRAPH.CENTER, space_after=12, color=MUTED)
 
     _heading(doc, "一、先把三句话钉死")
     for item in CONCLUSION_BULLETS:
@@ -262,18 +262,25 @@ def build_document(output_path: Path) -> None:
     _bullet(doc, PROCEDURES["after_letter"], bold_prefix="认定书之后：")
     _body(doc, "内部判断：一般程序几乎改变不了责任范围，却可能把无牌上路、无证驾驶的处罚打到己方。优先协商+简易，但签约前必须问清美团平台保险在该责任比例下能否赔医疗费和日后伤残。保险覆盖不足的部分再决定是否起诉，而不是先把车扣一个多月。")
 
-    _heading(doc, "七、医院与转院")
+    _heading(doc, "七、转院报销：人已到人民医院，手续还卡住")
+    _add_paragraph(doc, HOSPITAL_TRACK["now"], bold=True, color=RED, space_after=8)
     _body(doc, HOSPITAL_TRACK["core_conflict"])
     _bullet(doc, HOSPITAL_TRACK["settle_rule"], bold_prefix="结算铁律：")
     _bullet(doc, HOSPITAL_TRACK["police_on_erji"], bold_prefix="交警对二甲：")
-    _bullet(doc, HOSPITAL_TRACK["goal"], bold_prefix="目标：")
-    _body(doc, "云影像已经证明：手术是在齐鲁医院（三甲）手足与显微重建外科做的。这是对理赔最有利的治疗起点。后面无论转去哪，都要能说清「为什么转、转到哪一级、是否连续治疗」。")
+    _bullet(doc, HOSPITAL_TRACK["friend_on_erji"], bold_prefix="朋友咨询（仅参考）：")
+    _bullet(doc, HOSPITAL_TRACK["family_rule"], bold_prefix="家属会后口径（采用）：")
+    _bullet(doc, HOSPITAL_TRACK["goal"], bold_prefix="今天怎么做：")
+    _heading(doc, "这次咨询里明确不做的事", 2)
+    for item in HOSPITAL_TRACK["not_do"]:
+        _bullet(doc, item)
+    _body(doc, "云影像已经证明：手术是在齐鲁医院（三甲）手足与显微重建外科做的。这是对理赔最有利的治疗起点。后面无论转去哪，都要能说清「为什么转、转到哪一级、是否连续治疗」。朋友把「人社局伤残补助」和交通事故评残混在一起，不采用。")
 
     _heading(doc, "八、钱从哪里来")
     _bullet(doc, MONEY["paid_family_816"], bold_prefix="已垫付（待发票核对）：")
     _bullet(doc, MONEY["paid_815_conflict"], bold_prefix="冲突口径：")
     _bullet(doc, MONEY["insurance"], bold_prefix="保险：")
     _bullet(doc, MONEY["claims_split"], bold_prefix="项目：")
+    _bullet(doc, MONEY["ambulance"], bold_prefix="救护车：")
     _body(doc, "8 月 15 日通话还提到伤者事发时在为货主干活、雇主在场，可能同时存在雇佣/工伤线索。是否另案主张，由律师看劳动关系证据后决定，不要和交通事故赔偿混成一笔糊涂账。")
 
     _heading(doc, "九、72 小时动作")
@@ -285,6 +292,7 @@ def build_document(output_path: Path) -> None:
         ("对交警", TALKING_POINTS["to_police"]),
         ("对骑手/平台", TALKING_POINTS["to_rider"]),
         ("对医院", TALKING_POINTS["to_hospital"]),
+        ("对保险公司", TALKING_POINTS["to_insurer"]),
         ("绝对不要说", TALKING_POINTS["do_not_say"]),
     ):
         _heading(doc, title, 2)
@@ -301,7 +309,7 @@ def build_document(output_path: Path) -> None:
         _bullet(doc, item)
 
     _heading(doc, "十三、使用限制")
-    _body(doc, "本文根据 2026 年 8 月 15–17 日通话整理，并核对用户提供的齐鲁医院云影像检查列表。影像所见和诊断摘自医院已审核报告原文。伤残部分只说明「尚未鉴定、现在不能定级」，不构成评残意见。赔偿金额、责任比例以交警认定书、保险合同和法院/鉴定机构为准。重新生成：python3 scripts/build_all.py")
+    _body(doc, "本文根据 2026 年 8 月 15–17 日通话整理，并核对用户提供的齐鲁医院云影像检查列表。影像所见和诊断摘自医院已审核报告原文。伤残部分只说明「尚未鉴定、现在不能定级」，不构成评残意见。二甲报销以保险公司确认为准，不以朋友咨询为准。赔偿金额、责任比例以交警认定书、保险合同和法院/鉴定机构为准。重新生成：python3 scripts/build_all.py")
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     doc.save(str(output_path))
