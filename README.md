@@ -25,7 +25,23 @@
 python3 scripts/build_all.py
 ```
 
-依赖：`python-docx`、`python-pptx`、`openpyxl`。
+## 网页总览（思维树）
+
+进入 `web/` 后安装并启动：
+
+```bash
+cd web
+npm install
+npm run dev
+```
+
+浏览器打开 `http://localhost:5173/`。三个页签：
+
+1. **思维树**：点树枝看「做什么 / 怎么推进 / 会得到什么」
+2. **每周做什么**：第 1 周到评残
+3. **会得到什么**：过程结果、钱从谁出、甲乙丙三种结局
+
+构建静态页：`npm run build`，产物在 `web/dist/`。
 
 ## 使用限制
 
