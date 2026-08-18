@@ -12,6 +12,7 @@ from content import (
     ACCIDENT,
     ACTIONS_72H,
     ASR_CORRECTIONS,
+    BOSS,
     CALLS,
     CLOUD_FILM,
     CT_REPORTS,
@@ -291,7 +292,7 @@ def build_workbook(output_path: Path) -> None:
         ws.cell(i, 4, a["why"])
         ws.cell(i, 5, "未完成")
         ws.row_dimensions[i].height = 36
-    style_rows(ws, 3, 8, 5)
+    style_rows(ws, 3, 10, 5)
     dv = DataValidation(type="list", formula1='"未完成,进行中,已完成,律师跟进"', allow_blank=False)
     dv.add("E3:E20")
     ws.add_data_validation(dv)
@@ -340,12 +341,15 @@ def build_workbook(output_path: Path) -> None:
         ["简易程序", "不审资质，快出认定书", "可谈，但先确认平台保险能赔"],
         ["一般程序", "鉴定约一个多月；无牌/可能无证要处罚", "除非保险拒赔或对方不谈，否则不主动升级"],
         ["交警赔钱", "只出认定书，不参与金额", "金额找保险和法院，别逼交警"],
+        ["刘孝春身份", BOSS["who"], "车主/接受劳务方，不是工伤单位"],
+        ["不替美团补", BOSS["not_meituan"], "骑手责任范围内的缺口仍找平台险和骑手"],
+        ["可主张己方份", BOSS["yes_own_side"], "无牌+灯坏交人使用，车主有过错线索；先留证据不发函"],
     ]
     for i, row in enumerate(rows, 3):
         for c, val in enumerate(row, 1):
             ws.cell(i, c, val)
         ws.row_dimensions[i].height = 48
-    style_rows(ws, 3, 10, 3)
+    style_rows(ws, 3, 13, 3)
     widths(ws, [16, 55, 40])
     freeze(ws)
 

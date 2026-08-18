@@ -201,7 +201,7 @@ def build_ppt(output_path: Path) -> None:
     # 6 责任
     s = prs.slides.add_slide(blank)
     header(s, "交警视频排除全责", "市北区 · 红枫路汽车市场外抚顺路 · 监控已调取")
-    card(s, Inches(0.45), Inches(1.25), Inches(6.1), Inches(2.5), "三轮车（伤者）", "• 交警认定属机动车，无正规号牌\n• 转向灯失灵\n• 掉头先右靠再大弧度左拐", accent=AMBER, title_color=AMBER)
+    card(s, Inches(0.45), Inches(1.25), Inches(6.1), Inches(2.5), "三轮车（伤者）", "• 交警认定属机动车，无正规号牌（市场内部牌）\n• 车主刘孝春，转向灯失灵仍交人使用\n• 掉头先右靠再大弧度左拐；当时在为刘家卸货", accent=AMBER, title_color=AMBER)
     card(s, Inches(6.75), Inches(1.25), Inches(6.1), Inches(2.5), "美团二轮（女骑手）", "• 未保持安全车距\n• 后方视野更好，有条件规避\n• 无交强险，靠平台保险", accent=NAVY)
     add_round(s, Inches(0.45), Inches(4.0), Inches(12.4), Inches(2.7), LIGHT)
     add_text(s, Inches(0.7), Inches(4.15), Inches(12), Inches(0.35), "可能结果只有两种", size=14, bold=True, color=NAVY)
@@ -212,7 +212,7 @@ def build_ppt(output_path: Path) -> None:
     s = prs.slides.add_slide(blank)
     header(s, "程序和钱", "不要用一般程序去赌全责")
     card(s, Inches(0.45), Inches(1.25), Inches(6.1), Inches(5.5), "简易优先", "不审车辆手续和驾照，快出认定书。\n交警建议先协商走简易，避免己方无牌/可能无证被罚。\n\n前提：问清美团平台保险在该责任比例下能否赔医疗费和日后伤残。", accent=GREEN, title_color=GREEN)
-    card(s, Inches(6.75), Inches(1.25), Inches(6.1), Inches(5.5), "钱从保险来", "骑手个人偿付能力弱，交警已提醒判了也可能执行不到。\n\n先要：保单/工号、理赔窗口、是否必须认定书。\n费用两套口述（3.5万 / 7万）冲突，用发票重做台账。\n责任方截至 8月16日一分未付。", accent=RED, title_color=RED)
+    card(s, Inches(6.75), Inches(1.25), Inches(6.1), Inches(5.5), "钱从保险来", "骑手个人偿付能力弱，交警已提醒判了也可能执行不到。\n\n先要：保单/工号、理赔窗口、是否必须认定书。\n刘孝春不替美团补差额；己方份额和车主过错另计。\n责任方截至 8月16日一分未付。", accent=RED, title_color=RED)
     footer(s, 7)
 
     # 8 医院

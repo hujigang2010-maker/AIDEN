@@ -12,6 +12,7 @@ from content import (
     ACCIDENT,
     ACTIONS_72H,
     ASR_CORRECTIONS,
+    BOSS,
     CALLS,
     CLOUD_FILM,
     CONCLUSION_BULLETS,
@@ -198,6 +199,7 @@ def build_document(output_path: Path) -> None:
     _bullet(doc, PARTIES["family"])
     _bullet(doc, PARTIES["other"])
     _bullet(doc, PARTIES["police"])
+    _bullet(doc, PARTIES["boss"])
     _body(doc, "结论：伤残如果以后评得上，也只可能评在伤者胡某本人。家属、对接人、骑手都没有本次伤残材料。")
 
     _heading(doc, "三、伤情鉴定：以齐鲁医院 CT 为准，不以通话口述为准")
@@ -299,7 +301,15 @@ def build_document(output_path: Path) -> None:
     _bullet(doc, MONEY["insurance"], bold_prefix="保险：")
     _bullet(doc, MONEY["claims_split"], bold_prefix="项目：")
     _bullet(doc, MONEY["ambulance"], bold_prefix="救护车：")
-    _body(doc, "8 月 15 日通话还提到伤者事发时在为货主干活、雇主在场，可能同时存在雇佣/工伤线索。是否另案主张，由律师看劳动关系证据后决定，不要和交通事故赔偿混成一笔糊涂账。")
+    _heading(doc, "刘孝春：车主/劳务，不是替美团补差额的人", 2)
+    _bullet(doc, BOSS["who"], bold_prefix="身份：")
+    _bullet(doc, BOSS["facts"], bold_prefix="当天：")
+    _bullet(doc, BOSS["labor"], bold_prefix="有没有劳动合同：")
+    _bullet(doc, BOSS["traffic"], bold_prefix="交警怎么划：")
+    _bullet(doc, BOSS["owner"], bold_prefix="车主过错：")
+    _bullet(doc, BOSS["not_meituan"], bold_prefix="不替美团赔：")
+    _bullet(doc, BOSS["yes_own_side"], bold_prefix="可能分担哪一块：")
+    _bullet(doc, BOSS["now"], bold_prefix="现在怎么做：")
 
     _heading(doc, "九、72 小时动作")
     action_rows = [[a["who"], a["what"], a["why"]] for a in ACTIONS_72H]

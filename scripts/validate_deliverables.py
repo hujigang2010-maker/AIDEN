@@ -72,6 +72,8 @@ def main() -> None:
     print("DOCX 段落+表格字符", len(text), "文件字节", docx.stat().st_size)
     for k in MUST:
         assert k in text, f"Word 缺少：{k}"
+    assert "刘孝春" in text
+    assert "补差额" in text
 
     wb = load_workbook(xlsx)
     sheets = wb.sheetnames
@@ -120,7 +122,7 @@ def main() -> None:
         assert p.exists() and p.stat().st_size > 8000, p
         htext = p.read_text(encoding="utf-8")
         assert "<script" not in htext
-        for k in ("青岛红枫路", "胫骨远端", "人民医院", "10008056847", "美团"):
+        for k in ("青岛红枫路", "胫骨远端", "人民医院", "10008056847", "美团", "刘孝春"):
             assert k in htext, f"网页缺少：{k}"
     print("HTML 字节", html.stat().st_size)
 
