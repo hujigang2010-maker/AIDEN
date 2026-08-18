@@ -13,6 +13,8 @@ from content import (
     ACTIONS_72H,
     ASR_CORRECTIONS,
     BOSS,
+    BOSS_ITEMS,
+    BOSS_NOT,
     CALLS,
     CLOUD_FILM,
     CT_REPORTS,
@@ -351,6 +353,37 @@ def build_workbook(output_path: Path) -> None:
         ws.row_dimensions[i].height = 48
     style_rows(ws, 3, 13, 3)
     widths(ws, [16, 55, 40])
+    freeze(ws)
+
+    # 7b 刘孝春分担
+    ws = wb.create_sheet("刘孝春分担清单")
+    write_title(ws, "30%是己方缺口不是刘的固定比例。未结工钱100%由刘付，其余进总损失后再切。", 5)
+    headers = ["项目", "现在能否主张", "计算口径", "刘孝春怎么担", "不要搞错"]
+    for i, h in enumerate(headers, 1):
+        ws.cell(2, i, h)
+    style_header(ws, 2, 5)
+    for i, x in enumerate(BOSS_ITEMS, 3):
+        ws.cell(i, 1, x["name"])
+        ws.cell(i, 2, x["now"])
+        ws.cell(i, 3, x["how"])
+        ws.cell(i, 4, x["liu"])
+        ws.cell(i, 5, x["no"])
+        ws.row_dimensions[i].height = 56
+    last_item = 2 + len(BOSS_ITEMS)
+    style_rows(ws, 3, last_item, 5)
+    r = last_item + 2
+    ws.cell(r, 1, "不应承担")
+    ws.cell(r, 1).font = body_font(True, RED)
+    r += 1
+    for item in BOSS_NOT:
+        ws.cell(r, 1, item)
+        ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=5)
+        ws.row_dimensions[r].height = 28
+        r += 1
+    ws.cell(r + 1, 1, BOSS["formula"])
+    ws.merge_cells(start_row=r + 1, start_column=1, end_row=r + 1, end_column=5)
+    ws.row_dimensions[r + 1].height = 48
+    widths(ws, [22, 22, 42, 42, 36])
     freeze(ws)
 
     # 8 录音索引

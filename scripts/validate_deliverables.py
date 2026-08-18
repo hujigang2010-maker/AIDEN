@@ -78,7 +78,7 @@ def main() -> None:
     wb = load_workbook(xlsx)
     sheets = wb.sheetnames
     print("XLSX 工作表", sheets)
-    need = ["伤情鉴定", "伤残情况", "外伤与退变对照", "转院报销", "费用台账", "72小时待办", "沟通口径卡", "责任与程序"]
+    need = ["伤情鉴定", "伤残情况", "外伤与退变对照", "转院报销", "费用台账", "72小时待办", "沟通口径卡", "责任与程序", "刘孝春分担清单"]
     for n in need:
         assert n in sheets, n
     ws = wb["伤情鉴定"]
@@ -109,6 +109,10 @@ def main() -> None:
     flow_text = "\n".join(str(c.value or "") for row in flow.iter_rows(max_row=16) for c in row)
     assert "未开始" in flow_text and "肇事女骑手" in flow_text
 
+    boss_ws = wb["刘孝春分担清单"]
+    boss_text = "\n".join(str(c.value or "") for row in boss_ws.iter_rows(max_row=20) for c in row)
+    assert "护理费" in boss_text and "误工费" in boss_text and "未结工钱" in boss_text
+
     ptext_c = pdf_text(comm_pdf)
     print("沟通方案 PDF 抽取字符", len(ptext_c), "字节", comm_pdf.stat().st_size)
     assert comm_pdf.stat().st_size > 8000
@@ -122,7 +126,7 @@ def main() -> None:
         assert p.exists() and p.stat().st_size > 8000, p
         htext = p.read_text(encoding="utf-8")
         assert "<script" not in htext
-        for k in ("青岛红枫路", "胫骨远端", "人民医院", "10008056847", "美团", "刘孝春"):
+        for k in ("青岛红枫路", "胫骨远端", "人民医院", "10008056847", "美团", "刘孝春", "护理费"):
             assert k in htext, f"网页缺少：{k}"
     print("HTML 字节", html.stat().st_size)
 

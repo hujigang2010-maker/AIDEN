@@ -13,6 +13,8 @@ from content import (
     ACTIONS_72H,
     ASR_CORRECTIONS,
     BOSS,
+    BOSS_ITEMS,
+    BOSS_NOT,
     CALLS,
     CLOUD_FILM,
     CONCLUSION_BULLETS,
@@ -310,6 +312,14 @@ def build_document(output_path: Path) -> None:
     _bullet(doc, BOSS["not_meituan"], bold_prefix="不替美团赔：")
     _bullet(doc, BOSS["yes_own_side"], bold_prefix="可能分担哪一块：")
     _bullet(doc, BOSS["now"], bold_prefix="现在怎么做：")
+    _bullet(doc, BOSS["ratio"], bold_prefix="30% 怎么理解：")
+    _bullet(doc, BOSS["formula"], bold_prefix="怎么切：")
+    _heading(doc, "刘孝春应当分担的项目清单", 2)
+    item_rows = [[x["name"], x["now"], x["how"], x["liu"], x["no"]] for x in BOSS_ITEMS]
+    _table(doc, ["项目", "现在能否主张", "计算口径", "刘孝春怎么担", "不要搞错"], item_rows)
+    _heading(doc, "刘孝春不应承担的", 2)
+    for item in BOSS_NOT:
+        _bullet(doc, item)
 
     _heading(doc, "九、72 小时动作")
     action_rows = [[a["who"], a["what"], a["why"]] for a in ACTIONS_72H]
