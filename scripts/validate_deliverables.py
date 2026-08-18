@@ -114,6 +114,16 @@ def main() -> None:
         for k in ("胫骨远端", "方案甲", "律师", "开场", "10008056847", "胡继刚"):
             assert k in ptext_c.replace(" ", ""), f"沟通方案 PDF 缺少：{k}"
 
+    html = OUT / "hongfeng-guide.html"
+    html_cn = OUT / "青岛红枫路交通事故_处理总览.html"
+    for p in (html, html_cn):
+        assert p.exists() and p.stat().st_size > 8000, p
+        htext = p.read_text(encoding="utf-8")
+        assert "<script" not in htext
+        for k in ("青岛红枫路", "胫骨远端", "人民医院", "10008056847", "美团"):
+            assert k in htext, f"网页缺少：{k}"
+    print("HTML 字节", html.stat().st_size)
+
     print("校验通过")
 
 

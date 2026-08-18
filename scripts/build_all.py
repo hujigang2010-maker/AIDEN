@@ -7,6 +7,7 @@ from generate_comm_docx import build_comm_document
 from generate_comm_pdf import build_comm_pdf
 from generate_comm_xlsx import build_comm_workbook
 from generate_docx import build_document
+from generate_guide_html import main as build_guide_html
 from generate_pptx import build_ppt
 from generate_xlsx import build_workbook
 
@@ -28,6 +29,7 @@ def main() -> None:
     build_comm_document(comm_docx)
     build_comm_pdf(comm_pdf)
     build_comm_workbook(comm_xlsx)
+    build_guide_html()
     print(f"已生成：\n  {docx}\n  {xlsx}\n  {pptx}\n  {comm_docx}\n  {comm_pdf}\n  {comm_xlsx}")
 
 
