@@ -21,6 +21,7 @@ export default function App() {
     collectIds(TREE, s, 0);
     s.add("weeks");
     s.add("hospital");
+    s.add("injury-care");
     return s;
   }, []);
   const [open, setOpen] = useState<Set<string>>(initialOpen);

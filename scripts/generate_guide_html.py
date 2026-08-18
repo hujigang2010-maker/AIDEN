@@ -68,7 +68,7 @@ def tree_node(n: dict, open_ids: set[str], depth: int = 0) -> str:
 
 
 def collect_open(n: dict, open_ids: set[str], depth: int = 0) -> None:
-    if depth <= 1 or n["id"] in {"weeks", "hospital"}:
+    if depth <= 1 or n["id"] in {"weeks", "hospital", "injury-care"}:
         open_ids.add(n["id"])
     for c in n.get("children") or []:
         collect_open(c, open_ids, depth + 1)
