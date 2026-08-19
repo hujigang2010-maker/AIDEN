@@ -78,13 +78,20 @@ def main() -> None:
     assert "乔刘记商贸" in text
     assert "驾驶资格" in text
     assert "不是借款" in text
+    assert "总赔偿数额" in text
+    assert "雇员受害" in text
+    assert "不要去人社局" in text or "不去人社局" in text
 
     wb = load_workbook(xlsx)
     sheets = wb.sheetnames
     print("XLSX 工作表", sheets)
-    need = ["伤情鉴定", "伤残情况", "外伤与退变对照", "转院报销", "费用台账", "72小时待办", "沟通口径卡", "责任与程序", "刘孝春分担清单", "法律关系提醒", "待补充信息"]
+    need = ["办理顺序", "伤情鉴定", "伤残情况", "外伤与退变对照", "转院报销", "费用台账", "72小时待办", "沟通口径卡", "责任与程序", "刘孝春分担清单", "法律关系提醒", "待补充信息"]
     for n in need:
         assert n in sheets, n
+    stage_ws = wb["办理顺序"]
+    stage_text = "\n".join(str(c.value or "") for row in stage_ws.iter_rows(max_row=16) for c in row)
+    assert "总赔偿数额" in stage_text
+    assert "监控" in stage_text and "用工" in stage_text
     ws = wb["伤情鉴定"]
     joined = "\n".join(str(c.value or "") for row in ws.iter_rows(max_row=8) for c in row)
     assert "10008056847" in joined and "10008059257" in joined
@@ -130,7 +137,7 @@ def main() -> None:
         assert p.exists() and p.stat().st_size > 8000, p
         htext = p.read_text(encoding="utf-8")
         assert "<script" not in htext
-        for k in ("青岛红枫路", "胫骨远端", "人民医院", "10008056847", "美团", "刘孝春", "护理费", "还缺", "护栏开口", "乔刘记", "尚未出具"):
+        for k in ("青岛红枫路", "胫骨远端", "人民医院", "10008056847", "美团", "刘孝春", "护理费", "还缺", "护栏开口", "乔刘记", "尚未出具", "总赔偿数额"):
             assert k in htext, f"网页缺少：{k}"
     print("HTML 字节", html.stat().st_size)
 
@@ -154,6 +161,12 @@ def main() -> None:
     atxt = ans.read_text(encoding="utf-8")
     for k in ("尚未出具", "乔刘记商贸", "不是借款", "抚顺路与哈尔滨路"):
         assert k in atxt, f"家属答复缺少：{k}"
+
+    stage_md = OUT / "现阶段办理顺序_紧急程度.md"
+    assert stage_md.exists() and stage_md.stat().st_size > 3000, stage_md
+    stage_md_text = stage_md.read_text(encoding="utf-8")
+    for k in ("总赔偿数额", "紧急", "书面责任认定", "人社局", "雇员受害", "怎么办理"):
+        assert k in stage_md_text, f"办理顺序手册缺少：{k}"
 
     kimi = OUT / "事故3D复原_Kimi提示词.md"
     kimi_text = kimi.read_text(encoding="utf-8")

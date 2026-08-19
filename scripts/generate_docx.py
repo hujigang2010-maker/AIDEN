@@ -32,6 +32,9 @@ from content import (
     PROCEDURES,
     QINGXIAN,
     SOURCE_PACK,
+    STAGE_FORBID,
+    STAGE_PRINCIPLE,
+    STAGE_STEPS,
     SUBTITLE,
     TALKING_POINTS,
     TITLE,
@@ -197,6 +200,22 @@ def build_document(output_path: Path) -> None:
     for item in CONCLUSION_BULLETS:
         _bullet(doc, item)
     _body(doc, "这份备忘录只做事实整理和行动清单。它不是医学鉴定书，也不是律师意见书。伤残等级必须由有资质的司法鉴定机构在治疗终结后出具。")
+
+    _heading(doc, "现阶段办理顺序：先证据，后总账")
+    _add_paragraph(doc, STAGE_PRINCIPLE, bold=True, color=RED, space_after=8)
+    _heading(doc, "贯穿禁止", 2)
+    for item in STAGE_FORBID:
+        _bullet(doc, item, color=RED)
+    _heading(doc, "分步清单（紧急程度）", 2)
+    stage_rows = [
+        [s["id"], s["urgency"], s["when"], s["name"], s["who"], s["done"]]
+        for s in STAGE_STEPS
+    ]
+    _table(doc, ["序号", "缓急", "时限", "事项", "谁来办", "完成标志"], stage_rows)
+    _heading(doc, "每一项怎么办理", 2)
+    for s in STAGE_STEPS:
+        _bullet(doc, s["how"], bold_prefix=f"{s['id']} {s['name']}（{s['urgency']}）：")
+        _add_paragraph(doc, "为什么现在做：" + s["why"], size=10.5, color=MUTED, space_after=6, first_line_indent=0.37)
 
     _heading(doc, "二、谁受伤：只有 64 岁男性胡某")
     _body(doc, f"医院：{CLOUD_FILM['hospital']}。云影像患者信息：{CLOUD_FILM['patient_display']} / {CLOUD_FILM['sex']} / {CLOUD_FILM['age']}岁。三份已审核 CT 的检查号分别为 10008056847（右小腿）、10008056848（右足）、10008059257（术后右踝）。")

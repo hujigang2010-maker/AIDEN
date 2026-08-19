@@ -22,6 +22,7 @@ export default function App() {
     s.add("weeks");
     s.add("hospital");
     s.add("injury-care");
+    s.add("stage");
     return s;
   }, []);
   const [open, setOpen] = useState<Set<string>>(initialOpen);

@@ -26,6 +26,9 @@ from content import (
     INJURY_THIS_ACCIDENT,
     LEGAL_REMINDER,
     QINGXIAN,
+    STAGE_FORBID,
+    STAGE_PRINCIPLE,
+    STAGE_STEPS,
     TALKING_POINTS,
 )
 
@@ -116,9 +119,54 @@ def write_title(ws, text, cols):
 def build_workbook(output_path: Path) -> None:
     wb = Workbook()
 
-    # 1 伤情鉴定
+    # 0 办理顺序
     ws = wb.active
-    ws.title = "伤情鉴定"
+    ws.title = "办理顺序"
+    write_title(ws, "现阶段不谈总赔偿数额。先固定监控和用工证据，取得书面认定，确认保险与医院资格，核清费用；鉴定后再算。", 7)
+    headers = ["序号", "缓急", "时限", "事项", "谁来办", "怎么办理", "完成标志"]
+    for i, h in enumerate(headers, 1):
+        ws.cell(2, i, h)
+    style_header(ws, 2, 7)
+    urgency_color = {
+        "贯穿禁止": RED,
+        "紧急": RED,
+        "急": "B57A2A",
+        "中": NAVY,
+        "后": GREEN,
+    }
+    for i, s in enumerate(STAGE_STEPS, 3):
+        ws.cell(i, 1, s["id"])
+        ws.cell(i, 2, s["urgency"])
+        ws.cell(i, 3, s["when"])
+        ws.cell(i, 4, s["name"])
+        ws.cell(i, 5, s["who"])
+        ws.cell(i, 6, s["how"])
+        ws.cell(i, 7, s["done"])
+        ws.row_dimensions[i].height = 72
+    last_step = 2 + len(STAGE_STEPS)
+    style_rows(ws, 3, last_step, 7)
+    for i, s in enumerate(STAGE_STEPS, 3):
+        ws.cell(i, 2).font = body_font(True, urgency_color.get(s["urgency"], NAVY))
+    r = last_step + 2
+    ws.cell(r, 1, "贯穿禁止")
+    ws.cell(r, 1).font = body_font(True, RED)
+    ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=7)
+    for item in STAGE_FORBID:
+        r += 1
+        ws.cell(r, 1, item)
+        ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=7)
+        ws.row_dimensions[r].height = 28
+        ws.cell(r, 1).font = body_font(True, RED)
+    r += 2
+    ws.cell(r, 1, STAGE_PRINCIPLE)
+    ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=7)
+    ws.row_dimensions[r].height = 48
+    ws.cell(r, 1).font = body_font(True, RED)
+    widths(ws, [10, 12, 22, 22, 28, 55, 36])
+    freeze(ws)
+
+    # 1 伤情鉴定
+    ws = wb.create_sheet("伤情鉴定")
     write_title(ws, "齐鲁医院云影像 · 谁受伤、伤了什么（2026-08-17 核对）", 6)
     headers = ["日期", "检查号", "项目 / 科室", "影像所见（报告原文）", "影像诊断（报告原文）", "本次事故？"]
     for i, h in enumerate(headers, 1):
@@ -284,7 +332,7 @@ def build_workbook(output_path: Path) -> None:
 
     # 5 待办
     ws = wb.create_sheet("72小时待办")
-    write_title(ws, "今天先打通出院入院，并向保险公司确认二甲。不谈残级。", 5)
+    write_title(ws, "本周紧急事项执行清单。不谈总赔偿数额、不谈残级。", 5)
     headers = ["序号", "谁", "做什么", "为什么", "状态"]
     for i, h in enumerate(headers, 1):
         ws.cell(2, i, h)
