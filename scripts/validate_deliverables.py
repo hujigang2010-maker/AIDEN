@@ -194,7 +194,7 @@ def main() -> None:
     lawyer_pdf = OUT / "青岛抚顺路和哈尔滨路路口交通事故_给律师的完整经过说明_20260819.pdf"
     assert lawyer_md.exists() and lawyer_md.stat().st_size > 3000, lawyer_md
     ltxt = lawyer_md.read_text(encoding="utf-8")
-    for k in ("完整经过", "抚顺路和哈尔滨路路口", "抚顺路批发市场", "脚踏板", "10008056847", "尚未出具", "乔刘记商贸", "4 万元", "不是律师函", "胡志远", "0001519455", "开放性", "VSD"):
+    for k in ("完整经过", "抚顺路和哈尔滨路路口", "抚顺路批发市场", "脚踏板", "10008056847", "尚未出具", "乔刘记商贸", "4 万元", "不是律师函", "胡志远", "0001519455", "开放性", "VSD", "病历图文"):
         assert k in ltxt, f"律师经过说明缺少：{k}"
     assert "红枫路" not in ltxt, "律师经过说明不得再出现红枫路"
     assert lawyer_docx.exists() and lawyer_docx.stat().st_size > 4000, lawyer_docx
@@ -213,6 +213,22 @@ def main() -> None:
     chart_md = OUT / "齐鲁医院_胡志远病例摘录_2026-08-19.md"
     assert chart_pdf.exists() and chart_pdf.stat().st_size > 100_000, chart_pdf
     assert chart_md.exists() and "0001519455" in chart_md.read_text(encoding="utf-8")
+
+    illu_docx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_给律师的病历图文_20260819.docx"
+    illu_pdf = OUT / "青岛抚顺路和哈尔滨路路口交通事故_给律师的病历图文_20260819.pdf"
+    photo_dir = OUT / "chart-photos"
+    photos = sorted(photo_dir.glob("*.jpg"))
+    assert illu_docx.exists() and illu_docx.stat().st_size > 200_000, illu_docx
+    assert illu_pdf.exists() and illu_pdf.stat().st_size > 200_000, illu_pdf
+    assert len(photos) >= 7, f"chart-photos 只有 {len(photos)} 张"
+    itxt = docx_text(illu_docx)
+    for k in ("胡志远", "出院记录", "不是律师函", "开放性", "抚顺路和哈尔滨路路口", "19:01", "VSD"):
+        assert k in itxt, f"病历图文 Word 缺少：{k}"
+    assert "红枫路" not in itxt, "病历图文 Word 不得再出现红枫路"
+    with zipfile.ZipFile(illu_docx) as zf:
+        media = [n for n in zf.namelist() if n.startswith("word/media/")]
+        assert len(media) >= 7, f"Word 内嵌图片只有 {len(media)} 张"
+    print("病历图文 DOCX 字节", illu_docx.stat().st_size, "PDF 字节", illu_pdf.stat().st_size, "抽出照片", len(photos))
 
     kimi = OUT / "事故3D复原_Kimi提示词.md"
     kimi_text = kimi.read_text(encoding="utf-8")

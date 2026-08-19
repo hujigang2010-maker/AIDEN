@@ -14,6 +14,11 @@ from generate_lawyer_brief import build_pdf as build_lawyer_pdf
 from generate_lawyer_brief import DOCX_NAME as LAWYER_DOCX
 from generate_lawyer_brief import MD_NAME as LAWYER_MD
 from generate_lawyer_brief import PDF_NAME as LAWYER_PDF
+from generate_lawyer_illustrated import DOCX_NAME as LAWYER_ILLU_DOCX
+from generate_lawyer_illustrated import PDF_NAME as LAWYER_ILLU_PDF
+from generate_lawyer_illustrated import build_document as build_lawyer_illustrated
+from generate_lawyer_illustrated import build_pdf as build_lawyer_illustrated_pdf
+from generate_lawyer_illustrated import extract_photos
 from generate_pptx import build_ppt
 from generate_xlsx import build_workbook
 
@@ -38,11 +43,19 @@ def main() -> None:
     lawyer_md = OUT / LAWYER_MD
     lawyer_docx = OUT / LAWYER_DOCX
     lawyer_pdf = OUT / LAWYER_PDF
+    lawyer_illu_docx = OUT / LAWYER_ILLU_DOCX
+    lawyer_illu_pdf = OUT / LAWYER_ILLU_PDF
     build_lawyer_md(lawyer_md)
     build_lawyer_brief(lawyer_docx)
     build_lawyer_pdf(lawyer_pdf)
+    extract_photos()
+    build_lawyer_illustrated(lawyer_illu_docx)
+    build_lawyer_illustrated_pdf(lawyer_illu_pdf)
     build_guide_html()
-    print(f"已生成：\n  {docx}\n  {xlsx}\n  {pptx}\n  {comm_docx}\n  {comm_pdf}\n  {comm_xlsx}\n  {lawyer_md}\n  {lawyer_docx}\n  {lawyer_pdf}")
+    print(
+        f"已生成：\n  {docx}\n  {xlsx}\n  {pptx}\n  {comm_docx}\n  {comm_pdf}\n  {comm_xlsx}\n"
+        f"  {lawyer_md}\n  {lawyer_docx}\n  {lawyer_pdf}\n  {lawyer_illu_docx}\n  {lawyer_illu_pdf}"
+    )
 
 
 if __name__ == "__main__":
