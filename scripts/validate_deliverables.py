@@ -184,6 +184,17 @@ def main() -> None:
     for k in ("总赔偿数额", "紧急", "书面责任认定", "人社局", "雇员受害", "怎么办理"):
         assert k in stage_md_text, f"办理顺序手册缺少：{k}"
 
+    lawyer_md = OUT / "给律师的事故完整经过说明_2026-08-19.md"
+    lawyer_docx = OUT / "青岛红枫路交通事故_给律师的完整经过说明_20260819.docx"
+    assert lawyer_md.exists() and lawyer_md.stat().st_size > 3000, lawyer_md
+    ltxt = lawyer_md.read_text(encoding="utf-8")
+    for k in ("完整经过", "抚顺路批发市场", "脚踏板", "10008056847", "尚未出具", "乔刘记商贸", "4 万元", "不是律师函"):
+        assert k in ltxt, f"律师经过说明缺少：{k}"
+    assert lawyer_docx.exists() and lawyer_docx.stat().st_size > 4000, lawyer_docx
+    ldoc = docx_text(lawyer_docx)
+    for k in ("完整经过", "内外固定", "刘孝春", "简易", "民法典"):
+        assert k in ldoc, f"律师经过 Word 缺少：{k}"
+
     kimi = OUT / "事故3D复原_Kimi提示词.md"
     kimi_text = kimi.read_text(encoding="utf-8")
     assert "待用" in kimi_text and "护栏开口" in kimi_text
