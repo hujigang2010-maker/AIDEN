@@ -19,6 +19,12 @@ from generate_lawyer_illustrated import PDF_NAME as LAWYER_ILLU_PDF
 from generate_lawyer_illustrated import build_document as build_lawyer_illustrated
 from generate_lawyer_illustrated import build_pdf as build_lawyer_illustrated_pdf
 from generate_lawyer_illustrated import extract_photos
+from generate_liu_note import DOCX_NAME as LIU_DOCX
+from generate_liu_note import MD_NAME as LIU_MD
+from generate_liu_note import PDF_NAME as LIU_PDF
+from generate_liu_note import build_document as build_liu_note
+from generate_liu_note import build_markdown as build_liu_md
+from generate_liu_note import build_pdf as build_liu_pdf
 from generate_pptx import build_ppt
 from generate_xlsx import build_workbook
 
@@ -51,10 +57,17 @@ def main() -> None:
     extract_photos()
     build_lawyer_illustrated(lawyer_illu_docx)
     build_lawyer_illustrated_pdf(lawyer_illu_pdf)
+    liu_md = OUT / LIU_MD
+    liu_docx = OUT / LIU_DOCX
+    liu_pdf = OUT / LIU_PDF
+    build_liu_md(liu_md)
+    build_liu_note(liu_docx)
+    build_liu_pdf(liu_pdf)
     build_guide_html()
     print(
         f"已生成：\n  {docx}\n  {xlsx}\n  {pptx}\n  {comm_docx}\n  {comm_pdf}\n  {comm_xlsx}\n"
-        f"  {lawyer_md}\n  {lawyer_docx}\n  {lawyer_pdf}\n  {lawyer_illu_docx}\n  {lawyer_illu_pdf}"
+        f"  {lawyer_md}\n  {lawyer_docx}\n  {lawyer_pdf}\n  {lawyer_illu_docx}\n  {lawyer_illu_pdf}\n"
+        f"  {liu_md}\n  {liu_docx}\n  {liu_pdf}"
     )
 
 

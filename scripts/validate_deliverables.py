@@ -243,6 +243,32 @@ def main() -> None:
     mp4 = OUT / "事故3D复原_示范动画.mp4"
     assert mp4.exists() and mp4.stat().st_size > 50_000, mp4
 
+    liu_md = OUT / "给刘孝春的垫付欠薪与护理说明_2026-08-19.md"
+    liu_docx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_给刘孝春的垫付与护理说明_20260819.docx"
+    liu_pdf = OUT / "青岛抚顺路和哈尔滨路路口交通事故_给刘孝春的垫付与护理说明_20260819.pdf"
+    assert liu_md.exists() and liu_md.stat().st_size > 2000, liu_md
+    lmd = liu_md.read_text(encoding="utf-8")
+    for k in ("不是借款", "不是了结", "一对一", "不是律师函", "抚顺路和哈尔滨路路口", "不冲抵", "不代美团"):
+        assert k in lmd, f"给刘说明 Markdown 缺少：{k}"
+    assert "家属自留" in lmd and "不要打印给刘" in lmd
+    assert "红枫路" not in lmd
+    assert liu_docx.exists() and liu_docx.stat().st_size > 4000, liu_docx
+    ldoc = docx_text(liu_docx)
+    for k in ("不是借款", "不是了结", "一对一", "不是律师函", "抚顺路和哈尔滨路路口", "不冲抵未结工钱", "不代美团"):
+        assert k in ldoc, f"给刘说明 Word 缺少：{k}"
+    assert "红枫路" not in ldoc
+    assert "30% 全包" not in ldoc and "30%全包" not in ldoc
+    assert "70%" not in ldoc and "30%" not in ldoc
+    assert "家属自留" not in ldoc
+    assert liu_pdf.exists() and liu_pdf.stat().st_size > 8000, liu_pdf
+    lp_liu = pdf_text(liu_pdf)
+    if lp_liu:
+        compact = lp_liu.replace(" ", "")
+        for k in ("不是借款", "一对一", "不是律师函", "抚顺路和哈尔滨路路口"):
+            assert k in compact, f"给刘说明 PDF 缺少：{k}"
+        assert "红枫路" not in lp_liu
+        assert "30%全包" not in compact and "家属自留" not in lp_liu
+
     assert "护栏开口" in text
     assert "待用" in text or "护栏" in text
 
