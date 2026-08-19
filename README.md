@@ -32,6 +32,7 @@
 | `deliverables/胡志远病例文件.pdf` | 齐鲁急诊病历、出院记录、腕带、处方、三份 CT 纸质件 |
 | `deliverables/齐鲁医院_胡志远病例摘录_2026-08-19.md` | 上份 PDF 的结构化摘录 |
 | `deliverables/事故3D复原_Kimi提示词.md` | 3D 复原提示词（**待用**，本次不生成视频） |
+| `deliverables/事故现场复盘_Seedance2.5提示词.md` | 即梦/豆包 Seedance 2.5 现场全程复盘提示词（**待用**，不是证据、不是律师函） |
 | `deliverables/事故3D复原_示范动画.mp4` | 示意图动画（**待用**，等原视频再做写实） |
 
 重新生成：

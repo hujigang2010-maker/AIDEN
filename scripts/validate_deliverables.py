@@ -233,6 +233,12 @@ def main() -> None:
     kimi = OUT / "事故3D复原_Kimi提示词.md"
     kimi_text = kimi.read_text(encoding="utf-8")
     assert "待用" in kimi_text and "护栏开口" in kimi_text
+    seedance = OUT / "事故现场复盘_Seedance2.5提示词.md"
+    assert seedance.exists() and seedance.stat().st_size > 3000, seedance
+    stext = seedance.read_text(encoding="utf-8")
+    for k in ("Seedance 2.5", "待用", "抚顺路和哈尔滨路路口", "护栏开口", "脚踏板", "不是律师函", "非原始视频", "1 号门"):
+        assert k in stext, f"Seedance 提示词缺少：{k}"
+    assert "红枫路" not in stext
     mp4 = OUT / "事故3D复原_示范动画.mp4"
     assert mp4.exists() and mp4.stat().st_size > 50_000, mp4
 
