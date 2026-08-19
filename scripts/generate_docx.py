@@ -10,7 +10,6 @@ from docx.shared import Cm, Pt, RGBColor
 
 from content import (
     ACCIDENT,
-    ACTIONS_72H,
     ASR_CORRECTIONS,
     BOSS,
     BOSS_ITEMS,
@@ -24,6 +23,9 @@ from content import (
     DISABILITY,
     HOSPITAL_TRACK,
     HOSPITAL_CHOICE,
+    ACCIDENT_FOUR,
+    TRANSFER_THREE,
+    NOW_EIGHT,
     INJURY_NOT_THIS_ACCIDENT,
     INJURY_THIS_ACCIDENT,
     LEGAL_REMINDER,
@@ -217,6 +219,18 @@ def build_document(output_path: Path) -> None:
         _bullet(doc, s["how"], bold_prefix=f"{s['id']} {s['name']}（{s['urgency']}）：")
         _add_paragraph(doc, "为什么现在做：" + s["why"], size=10.5, color=MUTED, space_after=6, first_line_indent=0.37)
 
+    _heading(doc, "沟通记录去重：转院三点、事故四条、立即八事")
+    _body(doc, "17 份转写里，转院和报销类大量重复。读原件只为核对细节；对外和行动只看下面这三块。")
+    _heading(doc, "转院与保险：核心只三点", 2)
+    for t in TRANSFER_THREE:
+        _bullet(doc, t["how"] + "完成标志：" + t["done"], bold_prefix=f"{t['n']}. {t['what']}：")
+    _heading(doc, "事故经过、责任与对方沟通", 2)
+    for a in ACCIDENT_FOUR:
+        _bullet(doc, a["text"], bold_prefix=a["title"] + "：")
+    _heading(doc, "立即八事", 2)
+    eight_rows = [[str(x["n"]), x["who"], x["what"], x["why"]] for x in NOW_EIGHT]
+    _table(doc, ["序号", "谁", "做什么", "为什么"], eight_rows)
+
     _heading(doc, "二、谁受伤：只有 64 岁男性胡某")
     _body(doc, f"医院：{CLOUD_FILM['hospital']}。云影像患者信息：{CLOUD_FILM['patient_display']} / {CLOUD_FILM['sex']} / {CLOUD_FILM['age']}岁。三份已审核 CT 的检查号分别为 10008056847（右小腿）、10008056848（右足）、10008059257（术后右踝）。")
     _bullet(doc, PARTIES["injured"])
@@ -352,9 +366,8 @@ def build_document(output_path: Path) -> None:
     gap_rows = [[g["cat"], g["have"], g["need"], g["who"], g["u"]] for g in GAPS]
     _table(doc, ["类别", "已经掌握", "还缺什么", "找谁要", "缓急"], gap_rows)
 
-    _heading(doc, "九、72 小时动作")
-    action_rows = [[a["who"], a["what"], a["why"]] for a in ACTIONS_72H]
-    _table(doc, ["谁", "做什么", "为什么"], action_rows)
+    _heading(doc, "九、立即八事")
+    _body(doc, "与前文「沟通记录去重」中的立即八事为同一张表，此处不重复。转院类录音不再逐份展开。")
 
     _heading(doc, "十、口径卡")
     for title, items in (

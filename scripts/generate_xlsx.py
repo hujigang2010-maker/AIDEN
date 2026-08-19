@@ -10,7 +10,6 @@ from openpyxl.worksheet.datavalidation import DataValidation
 
 from content import (
     ACCIDENT,
-    ACTIONS_72H,
     ASR_CORRECTIONS,
     BOSS,
     BOSS_ITEMS,
@@ -22,6 +21,9 @@ from content import (
     DISABILITY,
     HOSPITAL_TRACK,
     HOSPITAL_CHOICE,
+    ACCIDENT_FOUR,
+    TRANSFER_THREE,
+    NOW_EIGHT,
     INJURY_NOT_THIS_ACCIDENT,
     INJURY_THIS_ACCIDENT,
     LEGAL_REMINDER,
@@ -163,6 +165,39 @@ def build_workbook(output_path: Path) -> None:
     ws.row_dimensions[r].height = 48
     ws.cell(r, 1).font = body_font(True, RED)
     widths(ws, [10, 12, 22, 22, 28, 55, 36])
+    freeze(ws)
+
+    # 0b 材料核心
+    ws = wb.create_sheet("材料核心", 1)
+    write_title(ws, "17 份转写去重：转院只三点，事故四条，立即八事。费用按 4 万元逐笔核。", 4)
+    headers = ["块", "序号", "事项", "怎么做 / 口径"]
+    for i, h in enumerate(headers, 1):
+        ws.cell(2, i, h)
+    style_header(ws, 2, 4)
+    r = 3
+    for t in TRANSFER_THREE:
+        ws.cell(r, 1, "转院三点")
+        ws.cell(r, 2, t["n"])
+        ws.cell(r, 3, t["what"])
+        ws.cell(r, 4, t["how"] + " 完成：" + t["done"])
+        ws.row_dimensions[r].height = 56
+        r += 1
+    for a in ACCIDENT_FOUR:
+        ws.cell(r, 1, "事故四条")
+        ws.cell(r, 2, a["title"])
+        ws.cell(r, 3, a["text"])
+        ws.cell(r, 4, "早期全责不作对外口径；认定书未出；70/30 是内部设想")
+        ws.row_dimensions[r].height = 56
+        r += 1
+    for x in NOW_EIGHT:
+        ws.cell(r, 1, "立即八事")
+        ws.cell(r, 2, x["n"])
+        ws.cell(r, 3, x["what"])
+        ws.cell(r, 4, x["who"] + "。" + x["why"])
+        ws.row_dimensions[r].height = 56
+        r += 1
+    style_rows(ws, 3, r - 1, 4)
+    widths(ws, [12, 16, 48, 55])
     freeze(ws)
 
     # 1 伤情鉴定
@@ -332,23 +367,23 @@ def build_workbook(output_path: Path) -> None:
 
     # 5 待办
     ws = wb.create_sheet("72小时待办")
-    write_title(ws, "本周紧急事项执行清单。不谈总赔偿数额、不谈残级。", 5)
+    write_title(ws, "立即八事。转院录音只看三点。费用按 4 万元逐笔核。不谈总赔偿数额。", 5)
     headers = ["序号", "谁", "做什么", "为什么", "状态"]
     for i, h in enumerate(headers, 1):
         ws.cell(2, i, h)
     style_header(ws, 2, 5)
-    for i, a in enumerate(ACTIONS_72H, 3):
-        ws.cell(i, 1, i - 2)
+    for i, a in enumerate(NOW_EIGHT, 3):
+        ws.cell(i, 1, a["n"])
         ws.cell(i, 2, a["who"])
         ws.cell(i, 3, a["what"])
         ws.cell(i, 4, a["why"])
         ws.cell(i, 5, "未完成")
-        ws.row_dimensions[i].height = 36
+        ws.row_dimensions[i].height = 52
     style_rows(ws, 3, 10, 5)
     dv = DataValidation(type="list", formula1='"未完成,进行中,已完成,律师跟进"', allow_blank=False)
     dv.add("E3:E20")
     ws.add_data_validation(dv)
-    widths(ws, [8, 18, 55, 36, 14])
+    widths(ws, [8, 22, 58, 40, 14])
     freeze(ws)
 
     # 6 口径

@@ -81,17 +81,25 @@ def main() -> None:
     assert "总赔偿数额" in text
     assert "雇员受害" in text
     assert "不要去人社局" in text or "不去人社局" in text
+    assert "逐笔核清" in text or "4 万元" in text
+    assert "原医院结算" in text
 
     wb = load_workbook(xlsx)
     sheets = wb.sheetnames
     print("XLSX 工作表", sheets)
-    need = ["办理顺序", "伤情鉴定", "伤残情况", "外伤与退变对照", "转院报销", "费用台账", "72小时待办", "沟通口径卡", "责任与程序", "刘孝春分担清单", "法律关系提醒", "待补充信息"]
+    need = ["办理顺序", "材料核心", "伤情鉴定", "伤残情况", "外伤与退变对照", "转院报销", "费用台账", "72小时待办", "沟通口径卡", "责任与程序", "刘孝春分担清单", "法律关系提醒", "待补充信息"]
     for n in need:
         assert n in sheets, n
     stage_ws = wb["办理顺序"]
     stage_text = "\n".join(str(c.value or "") for row in stage_ws.iter_rows(max_row=16) for c in row)
     assert "总赔偿数额" in stage_text
     assert "监控" in stage_text and "用工" in stage_text
+    core_ws = wb["材料核心"]
+    core_sheet = "\n".join(str(c.value or "") for row in core_ws.iter_rows(max_row=20) for c in row)
+    assert "原医院结算" in core_sheet and "4 万元" in core_sheet
+    todo_ws = wb["72小时待办"]
+    todo_text = "\n".join(str(c.value or "") for row in todo_ws.iter_rows(max_row=12) for c in row)
+    assert "4 万元" in todo_text and "书面事故认定书" in todo_text
     ws = wb["伤情鉴定"]
     joined = "\n".join(str(c.value or "") for row in ws.iter_rows(max_row=8) for c in row)
     assert "10008056847" in joined and "10008059257" in joined
@@ -137,14 +145,14 @@ def main() -> None:
         assert p.exists() and p.stat().st_size > 8000, p
         htext = p.read_text(encoding="utf-8")
         assert "<script" not in htext
-        for k in ("青岛红枫路", "胫骨远端", "人民医院", "10008056847", "美团", "刘孝春", "护理费", "还缺", "护栏开口", "乔刘记", "尚未出具", "总赔偿数额"):
+        for k in ("青岛红枫路", "胫骨远端", "人民医院", "10008056847", "美团", "刘孝春", "护理费", "还缺", "护栏开口", "乔刘记", "尚未出具", "总赔偿数额", "4 万元"):
             assert k in htext, f"网页缺少：{k}"
     print("HTML 字节", html.stat().st_size)
 
     asr_md = OUT / "交通事故材料整理_2026-08-19.md"
     assert asr_md.exists() and asr_md.stat().st_size > 8000, asr_md
     asr_text = asr_md.read_text(encoding="utf-8")
-    for k in ("护栏开口", "录音转写", "刘小春", "九级"):
+    for k in ("护栏开口", "录音转写", "刘小春", "九级", "4 万元", "原医院结算"):
         assert k in asr_text, f"8/19 整理稿缺少：{k}"
 
     corpus = OUT / "沟通记录合集-2026年8月15日至18日.md"
@@ -161,6 +169,12 @@ def main() -> None:
     atxt = ans.read_text(encoding="utf-8")
     for k in ("尚未出具", "乔刘记商贸", "不是借款", "抚顺路与哈尔滨路"):
         assert k in atxt, f"家属答复缺少：{k}"
+
+    core_md = OUT / "材料核心归结_立即八事.md"
+    assert core_md.exists() and core_md.stat().st_size > 1500, core_md
+    core_text = core_md.read_text(encoding="utf-8")
+    for k in ("原医院结算", "书面责任认定", "4 万元", "用工责任", "伤残鉴定"):
+        assert k in core_text, f"材料核心归结缺少：{k}"
 
     stage_md = OUT / "现阶段办理顺序_紧急程度.md"
     assert stage_md.exists() and stage_md.stat().st_size > 3000, stage_md
