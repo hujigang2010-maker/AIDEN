@@ -15,6 +15,7 @@ from content import (
     BOSS,
     BOSS_ITEMS,
     BOSS_NOT,
+    GAPS,
     CALLS,
     CLOUD_FILM,
     CT_REPORTS,
@@ -384,6 +385,24 @@ def build_workbook(output_path: Path) -> None:
     ws.merge_cells(start_row=r + 1, start_column=1, end_row=r + 1, end_column=5)
     ws.row_dimensions[r + 1].height = 48
     widths(ws, [22, 22, 42, 42, 36])
+    freeze(ws)
+
+    # 7c 待补充信息
+    ws = wb.create_sheet("待补充信息")
+    write_title(ws, "这条消息若没有新事实，按本表补。补齐后发文字即可写入材料。", 5)
+    headers = ["类别", "已经掌握", "还缺什么", "找谁要", "缓急"]
+    for i, h in enumerate(headers, 1):
+        ws.cell(2, i, h)
+    style_header(ws, 2, 5)
+    for i, g in enumerate(GAPS, 3):
+        ws.cell(i, 1, g["cat"])
+        ws.cell(i, 2, g["have"])
+        ws.cell(i, 3, g["need"])
+        ws.cell(i, 4, g["who"])
+        ws.cell(i, 5, g["u"])
+        ws.row_dimensions[i].height = 48
+    style_rows(ws, 3, 2 + len(GAPS), 5)
+    widths(ws, [16, 42, 48, 28, 14])
     freeze(ws)
 
     # 8 录音索引

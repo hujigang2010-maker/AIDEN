@@ -15,6 +15,7 @@ from content import (
     BOSS,
     BOSS_ITEMS,
     BOSS_NOT,
+    GAPS,
     CALLS,
     CLOUD_FILM,
     CONCLUSION_BULLETS,
@@ -320,6 +321,10 @@ def build_document(output_path: Path) -> None:
     _heading(doc, "刘孝春不应承担的", 2)
     for item in BOSS_NOT:
         _bullet(doc, item)
+    _heading(doc, "待补充信息（请直接补事实）", 2)
+    _body(doc, "下列空白没有就不要编进 3D 或对外口径。有新事实发文字即可写入。")
+    gap_rows = [[g["cat"], g["have"], g["need"], g["who"], g["u"]] for g in GAPS]
+    _table(doc, ["类别", "已经掌握", "还缺什么", "找谁要", "缓急"], gap_rows)
 
     _heading(doc, "九、72 小时动作")
     action_rows = [[a["who"], a["what"], a["why"]] for a in ACTIONS_72H]
