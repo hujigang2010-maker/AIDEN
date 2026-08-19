@@ -219,14 +219,17 @@ def build_document(output_path: Path) -> None:
         _add_paragraph(doc, "为什么现在做：" + s["why"], size=10.5, color=MUTED, space_after=6, first_line_indent=0.37)
 
     _heading(doc, "沟通记录去重：转院三点、事故四条、立即八事")
-    _body(doc, "17 份转写里，转院和报销类大量重复。读原件只为核对细节；对外和行动只看下面这三块。")
+    _body(doc, "这些材料大量重复。读原件只为核对细节；对外和行动只看下面原文清单。")
     _heading(doc, "转院与保险：核心只三点", 2)
     for t in TRANSFER_THREE:
-        _bullet(doc, t["how"] + "完成标志：" + t["done"], bold_prefix=f"{t['n']}. {t['what']}：")
+        _bullet(doc, t["what"], bold_prefix=f"{t['n']}. ")
     _heading(doc, "事故经过、责任与对方沟通", 2)
     for a in ACCIDENT_FOUR:
-        _bullet(doc, a["text"], bold_prefix=a["title"] + "：")
+        _bullet(doc, a["text"])
     _heading(doc, "立即八事", 2)
+    for x in NOW_EIGHT:
+        _bullet(doc, x["what"], bold_prefix=f"{x['n']}. ")
+    _heading(doc, "八事：谁来办、为什么", 2)
     eight_rows = [[str(x["n"]), x["who"], x["what"], x["why"]] for x in NOW_EIGHT]
     _table(doc, ["序号", "谁", "做什么", "为什么"], eight_rows)
 

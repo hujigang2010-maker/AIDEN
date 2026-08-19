@@ -185,7 +185,7 @@ def build_workbook(output_path: Path) -> None:
         ws.cell(r, 1, "事故四条")
         ws.cell(r, 2, a["title"])
         ws.cell(r, 3, a["text"])
-        ws.cell(r, 4, "早期全责不作对外口径；认定书未出；70/30 是内部设想")
+        ws.cell(r, 4, a.get("note") or "")
         ws.row_dimensions[r].height = 56
         r += 1
     for x in NOW_EIGHT:
