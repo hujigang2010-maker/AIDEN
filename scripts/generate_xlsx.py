@@ -24,6 +24,7 @@ from content import (
     HOSPITAL_CHOICE,
     INJURY_NOT_THIS_ACCIDENT,
     INJURY_THIS_ACCIDENT,
+    LEGAL_REMINDER,
     QINGXIAN,
     TALKING_POINTS,
 )
@@ -213,7 +214,7 @@ def build_workbook(output_path: Path) -> None:
         ws.cell(2, i, h)
     style_header(ws, 2, 3)
     rows = [
-        ["当前卡住", HOSPITAL_TRACK["now"], "当天办齐鲁出院结算，再办人民医院入院"],
+        ["当前卡住", HOSPITAL_TRACK["now"], "要书面比例和住院号；可以暂留人民医院"],
         ["怎么转出来的", HOSPITAL_TRACK["how_moved"], "父亲好说话才同意；主治强硬，不指望找关系留床"],
         ["不是康复期", HOSPITAL_TRACK["not_rehab"], "术后两天，软组织仍肿，不能按康复期处理"],
         ["两条报销", HOSPITAL_TRACK["two_tracks"], "医保和美团险分开问"],
@@ -242,7 +243,7 @@ def build_workbook(output_path: Path) -> None:
 
     # 5 费用台账
     ws = wb.create_sheet("费用台账")
-    write_title(ws, "用发票重做台账。8月15日「约7万」和8月16日「不到3.5万」冲突，对外前必须核死。", 8)
+    write_title(ws, "用发票分清：用工方垫付现金 3 万，费用口径确认 4 万。对外只报对上票的数。", 8)
     headers = ["日期", "项目", "金额（元）", "已付/未付", "付款人", "有无发票", "票据号", "备注"]
     for i, h in enumerate(headers, 1):
         ws.cell(2, i, h)
@@ -252,14 +253,14 @@ def build_workbook(output_path: Path) -> None:
         ["2026-08-14", "急诊右足CT（10008056848）", "", "已付待核", "家属", "待贴", "", "齐鲁医院"],
         ["2026-08-15", "住院右踝CT术后复查（10008059257）", "", "已付待核", "家属", "待贴", "", "手足与显微重建外科"],
         ["2026-08-15", "右踝骨折内外固定手术", "", "已付待核", "家属", "待贴", "", "以手术记录为准"],
-        ["", "住院押金/预缴", "", "已付待核", "家属", "待贴", "", "8/16口径累计不到35000，须对账单"],
-        ["", "药品（院内）", "", "已付待核", "家属", "待贴", "", ""],
-        ["", "护工费", "", "已付待核", "家属", "待贴", "", "24小时一对一，合同+发票；按责比例报，不是全额。家属自己陪护无票"],
+        ["", "住院押金/预缴", "", "已付待核", "家属", "待贴", "", "费用口径确认 4 万，须对账单"],
+        ["", "药品（院内）", "", "已付待核", "家属", "待贴", "", "医保范围内用药，保险可赔、比例待定"],
+        ["", "护工费", "", "已付待核", "家属", "待贴", "", "24小时一对一，合同+发票；按责比例报"],
         ["", "护理耗材（垫、便盆等）", "", "已付待核", "家属", "待贴", "", ""],
         ["2026-08-17", "转院救护车", 160, "已付待核", "家属", "待贴", "", "预估150，实收160，必须发票"],
-        ["", "雇主垫付（通话口径）", 20000, "待核是否属实", "货主?", "待核", "", "8/15口述，未与3.5万口径对上"],
-        ["", "未结工钱（通话口径）", 5000, "未付", "货主", "无", "", "不要直接冲抵事故赔偿"],
-        ["", "责任方已付", 0, "未付", "骑手/美团", "无", "", "截至8/16通话称一分未付"],
+        ["", "用工方垫付现金", 30000, "已付待写收据", "乔刘记商贸/刘孝春", "收据", "", "写明垫付不是借款、不是了结、不冲抵欠薪"],
+        ["", "未结工钱", 5000, "未付", "刘孝春", "欠条", "", "另写一张，不乘 30%，不和 3 万垫付混"],
+        ["", "责任方已付（美团侧）", 0, "待拉群", "骑手/平台险", "无", "", "保单和限额待骑手拉群"],
     ]
     for i, row in enumerate(presets, 3):
         for c, val in enumerate(row, 1):
@@ -330,29 +331,30 @@ def build_workbook(output_path: Path) -> None:
 
     # 7 责任路径
     ws = wb.create_sheet("责任与程序")
-    write_title(ws, "交警视频已排除全责。程序选择不要赌全责。", 3)
+    write_title(ws, "认定书尚未出具。简易或一般由律师看监控后定。", 3)
     headers = ["事项", "交警口径", "家属对策"]
     for i, h in enumerate(headers, 1):
         ws.cell(2, i, h)
     style_header(ws, 2, 3)
     rows = [
-        ["地点", ACCIDENT["place"], "材料里写抚顺路市政道路，不要写成市场内部"],
+        ["地点", ACCIDENT["place"], "对外用抚顺路与哈尔滨路交叉口，以认定书为准"],
         ["过程", ACCIDENT["process"], "以监控为准，不补充猜测"],
         ["三轮过错", "；".join(ACCIDENT["tri_faults"]), "承认监控里看得到的问题，不争口头全责"],
-        ["骑手过错", "；".join(ACCIDENT["rider_faults"]), "要求主责，保底同等"],
-        ["责任范围", ACCIDENT["police_range"], "停止使用「对方全责」"],
-        ["简易程序", "不审资质，快出认定书", "可谈，但先确认平台保险能赔"],
-        ["一般程序", "鉴定约一个多月；无牌/可能无证要处罚", "除非保险拒赔或对方不谈，否则不主动升级"],
+        ["骑手过错", "；".join(ACCIDENT["rider_faults"]), "要求主责，保底同等；待认定书"],
+        ["责任范围", ACCIDENT["police_range"], "认定书未出；停止使用「对方全责」"],
+        ["简易程序", "不审资质，快出认定书", "可以谈，是否走由律师定"],
+        ["一般程序", "无青岛市号牌仍有风险；驾驶人有证，无证风险下降", "律师看完监控再选，家属不拍板"],
+        ["驾驶资格", "家属确认具备驾驶资格证书", "内部留证，不要主动交给一般程序扩查"],
         ["交警赔钱", "只出认定书，不参与金额", "金额找保险和法院，别逼交警"],
-        ["刘孝春身份", BOSS["who"], "车主/接受劳务方，不是工伤单位"],
+        ["刘孝春身份", BOSS["who"], "乔刘记商贸；雇佣无合同；工伤排除"],
         ["不替美团补", BOSS["not_meituan"], "骑手责任范围内的缺口仍找平台险和骑手"],
-        ["可主张己方份", BOSS["yes_own_side"], "无牌+灯坏交人使用，车主有过错线索；先留证据不发函"],
+        ["可主张己方份", BOSS["yes_own_side"], "无牌+灯坏交人使用；3万垫付先写收据"],
     ]
     for i, row in enumerate(rows, 3):
         for c, val in enumerate(row, 1):
             ws.cell(i, c, val)
         ws.row_dimensions[i].height = 48
-    style_rows(ws, 3, 13, 3)
+    style_rows(ws, 3, 14, 3)
     widths(ws, [16, 55, 40])
     freeze(ws)
 
@@ -385,6 +387,21 @@ def build_workbook(output_path: Path) -> None:
     ws.merge_cells(start_row=r + 1, start_column=1, end_row=r + 1, end_column=5)
     ws.row_dimensions[r + 1].height = 48
     widths(ws, [22, 22, 42, 42, 36])
+    freeze(ws)
+
+    # 7b2 法律关系提醒
+    ws = wb.create_sheet("法律关系提醒")
+    write_title(ws, "不必等法院先确认雇佣关系。垫付和欠薪必须写清性质。", 2)
+    headers = ["序号", "提醒"]
+    for i, h in enumerate(headers, 1):
+        ws.cell(2, i, h)
+    style_header(ws, 2, 2)
+    for i, item in enumerate(LEGAL_REMINDER, 3):
+        ws.cell(i, 1, i - 2)
+        ws.cell(i, 2, item)
+        ws.row_dimensions[i].height = 36
+    style_rows(ws, 3, 2 + len(LEGAL_REMINDER), 2)
+    widths(ws, [8, 100])
     freeze(ws)
 
     # 7c 待补充信息

@@ -26,6 +26,7 @@ from content import (
     HOSPITAL_CHOICE,
     INJURY_NOT_THIS_ACCIDENT,
     INJURY_THIS_ACCIDENT,
+    LEGAL_REMINDER,
     MONEY,
     PARTIES,
     PROCEDURES,
@@ -265,9 +266,10 @@ def build_document(output_path: Path) -> None:
     _heading(doc, "六、简易程序还是一般程序")
     _bullet(doc, PROCEDURES["simple"], bold_prefix="简易：")
     _bullet(doc, PROCEDURES["general"], bold_prefix="一般：")
-    _bullet(doc, PROCEDURES["police_advice"], bold_prefix="交警建议：")
-    _bullet(doc, PROCEDURES["after_letter"], bold_prefix="认定书之后：")
-    _body(doc, "内部判断：一般程序几乎改变不了责任范围，却可能把无牌上路、无证驾驶的处罚打到己方。优先协商+简易，但签约前必须问清美团平台保险在该责任比例下能否赔医疗费和日后伤残。保险覆盖不足的部分再决定是否起诉，而不是先把车扣一个多月。")
+    _bullet(doc, PROCEDURES["police_advice"], bold_prefix="本次怎么选：")
+    _bullet(doc, PROCEDURES["license"], bold_prefix="驾驶资格：")
+    _bullet(doc, PROCEDURES["after_letter"], bold_prefix="认定书：")
+    _body(doc, "同意任何责任比例或程序之前，必须让处理交通事故的本地律师先看监控和车辆材料。有驾驶证后，一般程序的无证风险下降；无青岛市号牌的风险仍在。家属不自己拍板走简易。")
 
     _heading(doc, "七、转院报销：人已到人民医院，手续还卡住")
     _add_paragraph(doc, HOSPITAL_TRACK["now"], bold=True, color=RED, space_after=8)
@@ -300,11 +302,15 @@ def build_document(output_path: Path) -> None:
     _body(doc, HOSPITAL_CHOICE["ask_sai"])
 
     _heading(doc, "八、钱从哪里来")
-    _bullet(doc, MONEY["paid_family_816"], bold_prefix="已垫付（待发票核对）：")
-    _bullet(doc, MONEY["paid_815_conflict"], bold_prefix="冲突口径：")
+    _bullet(doc, MONEY["paid_family_816"], bold_prefix="费用口径：")
+    _bullet(doc, MONEY["paid_815_conflict"], bold_prefix="垫付现金：")
+    _bullet(doc, MONEY["pad_receipt"], bold_prefix="收据怎么写：")
     _bullet(doc, MONEY["insurance"], bold_prefix="保险：")
     _bullet(doc, MONEY["claims_split"], bold_prefix="项目：")
     _bullet(doc, MONEY["ambulance"], bold_prefix="救护车：")
+    _heading(doc, "法律关系提醒：不必先经法院确认才生效", 2)
+    for item in LEGAL_REMINDER:
+        _bullet(doc, item)
     _heading(doc, "刘孝春：车主/劳务，不是替美团补差额的人", 2)
     _bullet(doc, BOSS["who"], bold_prefix="身份：")
     _bullet(doc, BOSS["facts"], bold_prefix="当天：")

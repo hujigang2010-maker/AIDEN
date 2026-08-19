@@ -74,11 +74,15 @@ def main() -> None:
         assert k in text, f"Word 缺少：{k}"
     assert "刘孝春" in text
     assert "补差额" in text
+    assert "尚未出具" in text
+    assert "乔刘记商贸" in text
+    assert "驾驶资格" in text
+    assert "不是借款" in text
 
     wb = load_workbook(xlsx)
     sheets = wb.sheetnames
     print("XLSX 工作表", sheets)
-    need = ["伤情鉴定", "伤残情况", "外伤与退变对照", "转院报销", "费用台账", "72小时待办", "沟通口径卡", "责任与程序", "刘孝春分担清单", "待补充信息"]
+    need = ["伤情鉴定", "伤残情况", "外伤与退变对照", "转院报销", "费用台账", "72小时待办", "沟通口径卡", "责任与程序", "刘孝春分担清单", "法律关系提醒", "待补充信息"]
     for n in need:
         assert n in sheets, n
     ws = wb["伤情鉴定"]
@@ -126,7 +130,7 @@ def main() -> None:
         assert p.exists() and p.stat().st_size > 8000, p
         htext = p.read_text(encoding="utf-8")
         assert "<script" not in htext
-        for k in ("青岛红枫路", "胫骨远端", "人民医院", "10008056847", "美团", "刘孝春", "护理费", "还缺", "护栏开口", "33 床"):
+        for k in ("青岛红枫路", "胫骨远端", "人民医院", "10008056847", "美团", "刘孝春", "护理费", "还缺", "护栏开口", "乔刘记", "尚未出具"):
             assert k in htext, f"网页缺少：{k}"
     print("HTML 字节", html.stat().st_size)
 
@@ -145,8 +149,11 @@ def main() -> None:
         assert k in gtext, f"口径对照缺少：{k}"
     assert "拆成多起事故是错的" in corpus.read_text(encoding="utf-8")[:2000]
 
-    assert "1 号门" in text or "1号门" in text
-    assert "33 床" in text or "33床" in text
+    ans = OUT / "待确认事项_家属答复_2026-08-19.md"
+    assert ans.exists() and ans.stat().st_size > 2000, ans
+    atxt = ans.read_text(encoding="utf-8")
+    for k in ("尚未出具", "乔刘记商贸", "不是借款", "抚顺路与哈尔滨路"):
+        assert k in atxt, f"家属答复缺少：{k}"
 
     kimi = OUT / "事故3D复原_Kimi提示词.md"
     kimi_text = kimi.read_text(encoding="utf-8")
