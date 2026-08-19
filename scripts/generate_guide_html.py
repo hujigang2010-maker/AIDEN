@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "deliverables"
 OUTS = [
     OUT_DIR / "hongfeng-guide.html",
-    OUT_DIR / "青岛红枫路交通事故_处理总览.html",
+    OUT_DIR / "青岛抚顺路和哈尔滨路路口交通事故_处理总览.html",
 ]
 WEB = ROOT / "web"
 
@@ -224,7 +224,7 @@ def main() -> None:
     data = load_data()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     html_text = build(data)
-    assert "青岛红枫路" in html_text
+    assert "青岛抚顺路和哈尔滨路路口" in html_text
     assert "<script" not in html_text
     assert "胫骨远端" in html_text
     assert "人民医院" in html_text

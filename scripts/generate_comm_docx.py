@@ -284,5 +284,5 @@ def build_comm_document(output_path: Path) -> None:
 
 
 if __name__ == "__main__":
-    out = Path(__file__).resolve().parent.parent / "deliverables" / "青岛红枫路交通事故_肇事方沟通方案与体检分析_20260817.docx"
+    out = Path(__file__).resolve().parent.parent / "deliverables" / "青岛抚顺路和哈尔滨路路口交通事故_肇事方沟通方案与体检分析_20260817.docx"
     build_comm_document(out)

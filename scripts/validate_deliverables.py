@@ -59,12 +59,12 @@ def pdf_text(path: Path) -> str:
 
 
 def main() -> None:
-    docx = OUT / "青岛红枫路交通事故_伤情与处理备忘录_20260817.docx"
-    xlsx = OUT / "青岛红枫路交通事故_伤情伤残与行动表_20260817.xlsx"
-    pptx = OUT / "青岛红枫路交通事故_伤情与伤残简报_20260817.pptx"
-    comm_docx = OUT / "青岛红枫路交通事故_肇事方沟通方案与体检分析_20260817.docx"
-    comm_pdf = OUT / "青岛红枫路交通事故_肇事方沟通方案与体检分析_20260817.pdf"
-    comm_xlsx = OUT / "青岛红枫路交通事故_肇事方沟通流程表_20260817.xlsx"
+    docx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_伤情与处理备忘录_20260817.docx"
+    xlsx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_伤情伤残与行动表_20260817.xlsx"
+    pptx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_伤情与伤残简报_20260817.pptx"
+    comm_docx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_肇事方沟通方案与体检分析_20260817.docx"
+    comm_pdf = OUT / "青岛抚顺路和哈尔滨路路口交通事故_肇事方沟通方案与体检分析_20260817.pdf"
+    comm_xlsx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_肇事方沟通流程表_20260817.xlsx"
     for p in (docx, xlsx, pptx, comm_docx, comm_pdf, comm_xlsx):
         assert p.exists() and p.stat().st_size > 2000, p
 
@@ -142,12 +142,13 @@ def main() -> None:
             assert k in ptext_c.replace(" ", ""), f"沟通方案 PDF 缺少：{k}"
 
     html = OUT / "hongfeng-guide.html"
-    html_cn = OUT / "青岛红枫路交通事故_处理总览.html"
+    html_cn = OUT / "青岛抚顺路和哈尔滨路路口交通事故_处理总览.html"
     for p in (html, html_cn):
         assert p.exists() and p.stat().st_size > 8000, p
         htext = p.read_text(encoding="utf-8")
         assert "<script" not in htext
-        for k in ("青岛红枫路", "胫骨远端", "人民医院", "10008056847", "美团", "刘孝春", "护理费", "还缺", "护栏开口", "乔刘记", "尚未出具", "总赔偿数额", "4 万元"):
+        assert "红枫路" not in htext, f"网页仍有红枫路：{p}"
+        for k in ("青岛抚顺路和哈尔滨路路口", "胫骨远端", "人民医院", "10008056847", "美团", "刘孝春", "护理费", "还缺", "护栏开口", "乔刘记", "尚未出具", "总赔偿数额", "4 万元"):
             assert k in htext, f"网页缺少：{k}"
     print("HTML 字节", html.stat().st_size)
 
@@ -169,7 +170,7 @@ def main() -> None:
     ans = OUT / "待确认事项_家属答复_2026-08-19.md"
     assert ans.exists() and ans.stat().st_size > 2000, ans
     atxt = ans.read_text(encoding="utf-8")
-    for k in ("尚未出具", "乔刘记商贸", "不是借款", "抚顺路与哈尔滨路"):
+    for k in ("尚未出具", "乔刘记商贸", "不是借款", "抚顺路和哈尔滨路路口"):
         assert k in atxt, f"家属答复缺少：{k}"
 
     core_md = OUT / "材料核心归结_立即八事.md"
@@ -185,21 +186,24 @@ def main() -> None:
         assert k in stage_md_text, f"办理顺序手册缺少：{k}"
 
     lawyer_md = OUT / "给律师的事故完整经过说明_2026-08-19.md"
-    lawyer_docx = OUT / "青岛红枫路交通事故_给律师的完整经过说明_20260819.docx"
-    lawyer_pdf = OUT / "青岛红枫路交通事故_给律师的完整经过说明_20260819.pdf"
+    lawyer_docx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_给律师的完整经过说明_20260819.docx"
+    lawyer_pdf = OUT / "青岛抚顺路和哈尔滨路路口交通事故_给律师的完整经过说明_20260819.pdf"
     assert lawyer_md.exists() and lawyer_md.stat().st_size > 3000, lawyer_md
     ltxt = lawyer_md.read_text(encoding="utf-8")
-    for k in ("完整经过", "抚顺路批发市场", "脚踏板", "10008056847", "尚未出具", "乔刘记商贸", "4 万元", "不是律师函"):
+    for k in ("完整经过", "抚顺路和哈尔滨路路口", "抚顺路批发市场", "脚踏板", "10008056847", "尚未出具", "乔刘记商贸", "4 万元", "不是律师函"):
         assert k in ltxt, f"律师经过说明缺少：{k}"
+    assert "红枫路" not in ltxt, "律师经过说明不得再出现红枫路"
     assert lawyer_docx.exists() and lawyer_docx.stat().st_size > 4000, lawyer_docx
     ldoc = docx_text(lawyer_docx)
-    for k in ("完整经过", "内外固定", "刘孝春", "简易", "民法典"):
+    for k in ("完整经过", "内外固定", "刘孝春", "简易", "民法典", "抚顺路和哈尔滨路路口"):
         assert k in ldoc, f"律师经过 Word 缺少：{k}"
+    assert "红枫路" not in ldoc, "律师经过 Word 不得再出现红枫路"
     assert lawyer_pdf.exists() and lawyer_pdf.stat().st_size > 8000, lawyer_pdf
     lp = pdf_text(lawyer_pdf)
     if lp:
-        for k in ("完整经过", "抚顺路", "刘孝春", "内外固定"):
+        for k in ("完整经过", "抚顺路和哈尔滨路路口", "刘孝春", "内外固定"):
             assert k in lp.replace(" ", ""), f"律师经过 PDF 缺少：{k}"
+        assert "红枫路" not in lp, "律师经过 PDF 不得再出现红枫路"
 
     kimi = OUT / "事故3D复原_Kimi提示词.md"
     kimi_text = kimi.read_text(encoding="utf-8")

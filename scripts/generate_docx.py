@@ -384,4 +384,4 @@ def build_document(output_path: Path) -> None:
 
 if __name__ == "__main__":
     root = Path(__file__).resolve().parents[1]
-    build_document(root / "deliverables" / "青岛红枫路交通事故_伤情与处理备忘录_20260817.docx")
+    build_document(root / "deliverables" / "青岛抚顺路和哈尔滨路路口交通事故_伤情与处理备忘录_20260817.docx")

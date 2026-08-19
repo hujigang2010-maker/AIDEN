@@ -24,7 +24,7 @@ AMBER = RGBColor(0xB5, 0x7A, 0x2A)
 SOFT = RGBColor(0xE8, 0xEE, 0xF5)
 
 FONT = "Microsoft YaHei"
-FOOTER_TEXT = "青岛红枫路交通事故 · 内部材料 · 底稿 08-17 补充 08-19 · 伤残尚未鉴定"
+FOOTER_TEXT = "青岛抚顺路和哈尔滨路路口交通事故 · 内部材料 · 底稿 08-17 补充 08-19 · 伤残尚未鉴定"
 TOTAL = 10
 SW = Inches(13.333)
 SH = Inches(7.5)
@@ -132,7 +132,7 @@ def build_ppt(output_path: Path) -> None:
     add_rect(s, 0, 0, SW, SH, NAVY_DARK)
     add_rect(s, 0, 0, Inches(0.18), SH, GOLD)
     add_text(s, Inches(0.7), Inches(1.6), Inches(12), Inches(0.4), "山东大学齐鲁医院（青岛）云影像  ×  得到大脑通话整理", size=14, color=GOLD)
-    add_text(s, Inches(0.7), Inches(2.1), Inches(12), Inches(1.3), "红枫路交通事故\n伤情鉴定与伤残情况", size=36, bold=True, color=WHITE)
+    add_text(s, Inches(0.7), Inches(2.1), Inches(12), Inches(1.3), "抚顺路和哈尔滨路路口交通事故\n伤情鉴定与伤残情况", size=36, bold=True, color=WHITE)
     add_text(s, Inches(0.7), Inches(4.5), Inches(12), Inches(0.9), "伤者：胡某 · 男 · 64岁\n结论：影像已定性，伤残尚未鉴定，现在不能报残级", size=18, color=LIGHT)
     add_text(s, Inches(0.7), Inches(6.6), Inches(12), Inches(0.3), "内部决策简报  ·  2026年8月17日", size=12, color=GRAY)
 
@@ -202,7 +202,7 @@ def build_ppt(output_path: Path) -> None:
 
     # 6 责任
     s = prs.slides.add_slide(blank)
-    header(s, "交警视频排除全责", "抚顺路批发市场 · 抚顺路与哈尔滨路交叉口 · 认定书尚未出具")
+    header(s, "交警视频排除全责", "抚顺路批发市场 · 抚顺路和哈尔滨路路口 · 认定书尚未出具")
     card(s, Inches(0.45), Inches(1.25), Inches(6.1), Inches(2.5), "三轮车（伤者）", "• 货运三轮，可能被认定机动车\n• 仅抚顺路批发市场内部牌，无青岛市号牌\n• 驾驶人有驾驶资格证书；左转向灯失灵\n• 护栏开口借道，先右再左大弧度", accent=AMBER, title_color=AMBER)
     card(s, Inches(6.75), Inches(1.25), Inches(6.1), Inches(2.5), "美团二轮（女骑手）", "• 未保持安全车距\n• 后方视野更好，有条件规避\n• 无交强险，靠平台保险", accent=NAVY)
     add_round(s, Inches(0.45), Inches(4.0), Inches(12.4), Inches(2.7), LIGHT)
@@ -275,4 +275,4 @@ def build_ppt(output_path: Path) -> None:
 
 if __name__ == "__main__":
     root = Path(__file__).resolve().parents[1]
-    build_ppt(root / "deliverables" / "青岛红枫路交通事故_伤情与伤残简报_20260817.pptx")
+    build_ppt(root / "deliverables" / "青岛抚顺路和哈尔滨路路口交通事故_伤情与伤残简报_20260817.pptx")

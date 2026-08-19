@@ -85,7 +85,7 @@ def build_comm_workbook(output_path: Path) -> None:
         ws0.cell(r, 1).font = body_font(bold=True, color=NAVY)
         ws0.cell(r, 1).fill = fill("F8F1E9")
     widths(ws0, [22, 100])
-    _page(ws0, "青岛红枫路事故 · 沟通流程")
+    _page(ws0, "青岛抚顺路和哈尔滨路路口事故 · 沟通流程")
 
     # —— 12 步 ——
     ws = wb.create_sheet("12步沟通顺序", 1)
@@ -278,5 +278,5 @@ def build_comm_workbook(output_path: Path) -> None:
 
 
 if __name__ == "__main__":
-    out = Path(__file__).resolve().parent.parent / "deliverables" / "青岛红枫路交通事故_肇事方沟通流程表_20260817.xlsx"
+    out = Path(__file__).resolve().parent.parent / "deliverables" / "青岛抚顺路和哈尔滨路路口交通事故_肇事方沟通流程表_20260817.xlsx"
     build_comm_workbook(out)

@@ -212,7 +212,7 @@ def _header_footer(canvas, doc):
     canvas.rect(0, A4[1] - 12 * mm, A4[0], 12 * mm, fill=1, stroke=0)
     canvas.setFillColor(white)
     canvas.setFont("CN", 8)
-    canvas.drawString(18 * mm, A4[1] - 8 * mm, "青岛红枫路交通事故 · 肇事方沟通方案 · 内部使用")
+    canvas.drawString(18 * mm, A4[1] - 8 * mm, "青岛抚顺路和哈尔滨路路口交通事故 · 肇事方沟通方案 · 内部使用")
     canvas.setFillColor(GOLD)
     canvas.rect(0, 0, A4[0], 10 * mm, fill=1, stroke=0)
     canvas.setFillColor(NAVY)
@@ -444,5 +444,5 @@ def build_comm_pdf(output_path: Path) -> None:
 
 
 if __name__ == "__main__":
-    out = Path(__file__).resolve().parent.parent / "deliverables" / "青岛红枫路交通事故_肇事方沟通方案与体检分析_20260817.pdf"
+    out = Path(__file__).resolve().parent.parent / "deliverables" / "青岛抚顺路和哈尔滨路路口交通事故_肇事方沟通方案与体检分析_20260817.pdf"
     build_comm_pdf(out)

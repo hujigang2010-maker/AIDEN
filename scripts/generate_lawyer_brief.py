@@ -27,8 +27,8 @@ MUTED = RGBColor(0x5C, 0x6B, 0x7A)
 RED = RGBColor(0xA6, 0x3D, 0x2F)
 
 MD_NAME = "给律师的事故完整经过说明_2026-08-19.md"
-DOCX_NAME = "青岛红枫路交通事故_给律师的完整经过说明_20260819.docx"
-PDF_NAME = "青岛红枫路交通事故_给律师的完整经过说明_20260819.pdf"
+DOCX_NAME = "青岛抚顺路和哈尔滨路路口交通事故_给律师的完整经过说明_20260819.docx"
+PDF_NAME = "青岛抚顺路和哈尔滨路路口交通事故_给律师的完整经过说明_20260819.pdf"
 
 
 def _set_run_font(run, font_name: str, size: float, bold: bool = False, color: RGBColor | None = None) -> None:
@@ -225,7 +225,7 @@ def _header_footer(canvas, doc):
     canvas.rect(0, A4[1] - 12 * mm, A4[0], 12 * mm, fill=1, stroke=0)
     canvas.setFillColor(white)
     canvas.setFont("CN", 8)
-    canvas.drawString(18 * mm, A4[1] - 8 * mm, "青岛红枫路交通事故 · 给律师的完整经过说明 · 内部阅卷")
+    canvas.drawString(18 * mm, A4[1] - 8 * mm, "青岛抚顺路和哈尔滨路路口交通事故 · 给律师的完整经过说明 · 内部阅卷")
     canvas.setFillColor(HexColor("#C4A35A"))
     canvas.rect(0, 0, A4[0], 10 * mm, fill=1, stroke=0)
     canvas.setFillColor(HexColor("#0B2F5B"))

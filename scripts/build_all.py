@@ -23,12 +23,12 @@ OUT = ROOT / "deliverables"
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    docx = OUT / "青岛红枫路交通事故_伤情与处理备忘录_20260817.docx"
-    xlsx = OUT / "青岛红枫路交通事故_伤情伤残与行动表_20260817.xlsx"
-    pptx = OUT / "青岛红枫路交通事故_伤情与伤残简报_20260817.pptx"
-    comm_docx = OUT / "青岛红枫路交通事故_肇事方沟通方案与体检分析_20260817.docx"
-    comm_pdf = OUT / "青岛红枫路交通事故_肇事方沟通方案与体检分析_20260817.pdf"
-    comm_xlsx = OUT / "青岛红枫路交通事故_肇事方沟通流程表_20260817.xlsx"
+    docx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_伤情与处理备忘录_20260817.docx"
+    xlsx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_伤情伤残与行动表_20260817.xlsx"
+    pptx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_伤情与伤残简报_20260817.pptx"
+    comm_docx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_肇事方沟通方案与体检分析_20260817.docx"
+    comm_pdf = OUT / "青岛抚顺路和哈尔滨路路口交通事故_肇事方沟通方案与体检分析_20260817.pdf"
+    comm_xlsx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_肇事方沟通流程表_20260817.xlsx"
     build_document(docx)
     build_workbook(xlsx)
     build_ppt(pptx)

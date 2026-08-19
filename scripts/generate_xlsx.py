@@ -411,7 +411,7 @@ def build_workbook(output_path: Path) -> None:
         ws.cell(2, i, h)
     style_header(ws, 2, 3)
     rows = [
-        ["地点", ACCIDENT["place"], "对外用抚顺路与哈尔滨路交叉口，以认定书为准"],
+        ["地点", ACCIDENT["place"], "对外用抚顺路和哈尔滨路路口，以认定书为准"],
         ["过程", ACCIDENT["process"], "以监控为准，不补充猜测"],
         ["三轮过错", "；".join(ACCIDENT["tri_faults"]), "承认监控里看得到的问题，不争口头全责"],
         ["骑手过错", "；".join(ACCIDENT["rider_faults"]), "要求主责，保底同等；待认定书"],
@@ -532,4 +532,4 @@ def build_workbook(output_path: Path) -> None:
 
 if __name__ == "__main__":
     root = Path(__file__).resolve().parents[1]
-    build_workbook(root / "deliverables" / "青岛红枫路交通事故_伤情伤残与行动表_20260817.xlsx")
+    build_workbook(root / "deliverables" / "青岛抚顺路和哈尔滨路路口交通事故_伤情伤残与行动表_20260817.xlsx")
