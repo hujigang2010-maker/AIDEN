@@ -20,7 +20,6 @@ from content import (
     CT_REPORTS,
     DISABILITY,
     HOSPITAL_TRACK,
-    HOSPITAL_CHOICE,
     ACCIDENT_FOUR,
     TRANSFER_THREE,
     NOW_EIGHT,
@@ -291,37 +290,29 @@ def build_workbook(output_path: Path) -> None:
 
     # 4 转院报销
     ws = wb.create_sheet("转院报销")
-    write_title(ws, "人已到人民医院，齐鲁出院未办。医保能报 ≠ 美团险能报。", 3)
-    headers = ["事项", "目前事实", "怎么处理"]
+    write_title(ws, "转院录音大量重复。核心只三点：原医院结算、新医院入院、承保公司书面确认二甲。", 3)
+    headers = ["序号", "事项", "怎么做 / 完成标志"]
     for i, h in enumerate(headers, 1):
         ws.cell(2, i, h)
     style_header(ws, 2, 3)
     rows = [
-        ["当前卡住", HOSPITAL_TRACK["now"], "要书面比例和住院号；可以暂留人民医院"],
-        ["怎么转出来的", HOSPITAL_TRACK["how_moved"], "父亲好说话才同意；主治强硬，不指望找关系留床"],
-        ["不是康复期", HOSPITAL_TRACK["not_rehab"], "术后两天，软组织仍肿，不能按康复期处理"],
-        ["两条报销", HOSPITAL_TRACK["two_tracks"], "医保和美团险分开问"],
-        ["找哪家保险", HOSPITAL_TRACK["no_motor_insurer"], "问交警/骑手/站点要美团平台险，不在认定单上找交强险"],
-        ["结算规则", HOSPITAL_TRACK["settle_rule"], "带齐证件和押金票"],
-        ["朋友怎么说", HOSPITAL_TRACK["friend_on_erji"], "仅参考，不能当保单"],
-        ["家属口径", HOSPITAL_TRACK["family_rule"], "采用；向保险报医院全称"],
-        ["别的三甲", HOSPITAL_TRACK["other_sanjia"], "不另找山大体系外三甲碰运气"],
-        ["今天目标", HOSPITAL_TRACK["goal"], "手续打通 + 美团险确认二甲"],
-        ["医院怎么选", HOSPITAL_CHOICE["headline"], "不另找三甲；不默认留二甲"],
-        ["首选齐鲁", HOSPITAL_CHOICE["why_qilu"], HOSPITAL_CHOICE["why_qilu_hard"]],
-        ["不另找三甲", HOSPITAL_CHOICE["why_not_other"], "只有保险书面指定才动"],
-        ["不默认留二甲", HOSPITAL_CHOICE["why_not_default_erji"], "先问美团险，先办入院号"],
+        [t["n"], t["what"], t["how"] + " 完成：" + t["done"]]
+        for t in TRANSFER_THREE
     ]
-    for title, body in HOSPITAL_CHOICE["tree"]:
-        rows.append([title, body, ""])
-    rows.append(["对赛主任原话", HOSPITAL_CHOICE["ask_sai"], "不闹、不装病"])
+    rows += [
+        ["补", "结算铁律", HOSPITAL_TRACK["settle_rule"]],
+        ["补", "找哪家保险", HOSPITAL_TRACK["no_motor_insurer"]],
+        ["补", "家属口径", HOSPITAL_TRACK["family_rule"]],
+        ["补", "不是康复期", HOSPITAL_TRACK["not_rehab"]],
+        ["禁", "不要另找三甲", HOSPITAL_TRACK["other_sanjia"]],
+    ]
     for i, row in enumerate(rows, 3):
         for c, val in enumerate(row, 1):
             ws.cell(i, c, val)
-        ws.row_dimensions[i].height = 48
+        ws.row_dimensions[i].height = 52
     last = 2 + len(rows)
     style_rows(ws, 3, last, 3)
-    widths(ws, [16, 55, 40])
+    widths(ws, [8, 28, 70])
     freeze(ws)
 
     # 5 费用台账

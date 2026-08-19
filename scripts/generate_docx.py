@@ -22,7 +22,6 @@ from content import (
     DATE_LABEL,
     DISABILITY,
     HOSPITAL_TRACK,
-    HOSPITAL_CHOICE,
     ACCIDENT_FOUR,
     TRANSFER_THREE,
     NOW_EIGHT,
@@ -304,35 +303,17 @@ def build_document(output_path: Path) -> None:
     _bullet(doc, PROCEDURES["after_letter"], bold_prefix="认定书：")
     _body(doc, "同意任何责任比例或程序之前，必须让处理交通事故的本地律师先看监控和车辆材料。有驾驶证后，一般程序的无证风险下降；无青岛市号牌的风险仍在。家属不自己拍板走简易。")
 
-    _heading(doc, "七、转院报销：人已到人民医院，手续还卡住")
-    _add_paragraph(doc, HOSPITAL_TRACK["now"], bold=True, color=RED, space_after=8)
-    _bullet(doc, HOSPITAL_TRACK["how_moved"], bold_prefix="怎么转出来的：")
-    _bullet(doc, HOSPITAL_TRACK["not_rehab"], bold_prefix="不是康复期：")
-    _body(doc, HOSPITAL_TRACK["core_conflict"])
-    _bullet(doc, HOSPITAL_TRACK["two_tracks"], bold_prefix="两条报销：")
-    _bullet(doc, HOSPITAL_TRACK["no_motor_insurer"], bold_prefix="找哪家保险：")
+    _heading(doc, "七、转院与保险：核心只三点")
+    _body(doc, "转院、报销类录音大量重复。读原件只为核对细节；行动只看这三点。人已到市北区人民医院，家属确认可以赔、比例待定。")
+    for t in TRANSFER_THREE:
+        _bullet(doc, t["how"] + "完成标志：" + t["done"], bold_prefix=f"{t['n']}. {t['what']}：")
     _bullet(doc, HOSPITAL_TRACK["settle_rule"], bold_prefix="结算铁律：")
-    _bullet(doc, HOSPITAL_TRACK["police_on_erji"], bold_prefix="交警对二甲：")
-    _bullet(doc, HOSPITAL_TRACK["friend_on_erji"], bold_prefix="朋友咨询（仅参考）：")
-    _bullet(doc, HOSPITAL_TRACK["family_rule"], bold_prefix="家属会后口径（采用）：")
-    _bullet(doc, HOSPITAL_TRACK["other_sanjia"], bold_prefix="别的三甲：")
-    _bullet(doc, HOSPITAL_TRACK["goal"], bold_prefix="今天怎么做：")
-    _heading(doc, "这次咨询里明确不做的事", 2)
+    _bullet(doc, HOSPITAL_TRACK["no_motor_insurer"], bold_prefix="找哪家保险：")
+    _bullet(doc, HOSPITAL_TRACK["family_rule"], bold_prefix="家属口径：")
+    _heading(doc, "明确不做", 2)
     for item in HOSPITAL_TRACK["not_do"]:
         _bullet(doc, item)
-    _body(doc, "云影像已经证明：手术是在齐鲁医院（三甲）手足与显微重建外科做的。这是对理赔最有利的治疗起点。后面无论转去哪，都要能说清「为什么转、转到哪一级、是否连续治疗」。朋友把「人社局伤残补助」和交通事故评残混在一起，不采用。")
-
-    _heading(doc, "医院怎么选：回齐鲁、留人民医院，还是另找三甲", 2)
-    _add_paragraph(doc, HOSPITAL_CHOICE["headline"], bold=True, color=RED, space_after=8)
-    _bullet(doc, HOSPITAL_CHOICE["why_qilu"], bold_prefix="为何首选齐鲁：")
-    _bullet(doc, HOSPITAL_CHOICE["why_qilu_hard"], bold_prefix="为何回齐鲁很难：")
-    _bullet(doc, HOSPITAL_CHOICE["why_not_other"], bold_prefix="为何不另找三甲：")
-    _bullet(doc, HOSPITAL_CHOICE["why_not_default_erji"], bold_prefix="为何不能默认留二甲：")
-    _heading(doc, "决策树", 2)
-    for title, body in HOSPITAL_CHOICE["tree"]:
-        _bullet(doc, body, bold_prefix=title + "：")
-    _heading(doc, "对赛主任可以原话说", 2)
-    _body(doc, HOSPITAL_CHOICE["ask_sai"])
+    _body(doc, "手术在齐鲁三甲手足与显微重建外科完成。不要另找其他三甲碰运气。医院分叉细节不再展开，见立即八事第 3、4 条。")
 
     _heading(doc, "八、钱从哪里来")
     _bullet(doc, MONEY["paid_family_816"], bold_prefix="费用口径：")

@@ -25,7 +25,7 @@ MUST = [
     "保险公司",
     "美团",
     "康复期",
-    "首选",
+    "原医院结算",
 ]
 
 
@@ -83,6 +83,8 @@ def main() -> None:
     assert "不要去人社局" in text or "不去人社局" in text
     assert "逐笔核清" in text or "4 万元" in text
     assert "原医院结算" in text
+    assert "工伤或用工" in text
+    assert "立即八事" in text
 
     wb = load_workbook(xlsx)
     sheets = wb.sheetnames
@@ -173,7 +175,7 @@ def main() -> None:
     core_md = OUT / "材料核心归结_立即八事.md"
     assert core_md.exists() and core_md.stat().st_size > 1500, core_md
     core_text = core_md.read_text(encoding="utf-8")
-    for k in ("原医院结算", "书面责任认定", "4 万元", "用工责任", "伤残鉴定"):
+    for k in ("原医院结算", "书面责任认定", "4 万元", "用工责任", "伤残鉴定", "工伤或用工"):
         assert k in core_text, f"材料核心归结缺少：{k}"
 
     stage_md = OUT / "现阶段办理顺序_紧急程度.md"

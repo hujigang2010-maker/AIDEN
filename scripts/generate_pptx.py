@@ -3,6 +3,8 @@
 
 from pathlib import Path
 
+from content import NOW_EIGHT, TRANSFER_THREE
+
 from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_SHAPE
@@ -215,47 +217,38 @@ def build_ppt(output_path: Path) -> None:
     card(s, Inches(6.75), Inches(1.25), Inches(6.1), Inches(5.5), "钱从保险来", "骑手个人偿付能力弱，交警已提醒判了也可能执行不到。\n\n先要：保单/工号、理赔窗口、是否必须认定书。\n刘孝春不替美团补差额；己方份额和车主过错另计。\n责任方截至 8月16日一分未付。", accent=RED, title_color=RED)
     footer(s, 7)
 
-    # 8 医院
+    # 8 转院三点
     s = prs.slides.add_slide(blank)
-    header(s, "医院怎么选", "不转其他三甲。首选齐鲁，次选人民医院，前提是保险认、住院号办成")
+    header(s, "转院与保险：核心只三点", "这些材料大量重复。不另找三甲。费用按 4 万元核清")
+    accents = (GREEN, NAVY, AMBER)
+    for i, t in enumerate(TRANSFER_THREE):
+        x = Inches(0.45) + Inches(4.2) * i
+        card(
+            s,
+            x,
+            Inches(1.25),
+            Inches(4.0),
+            Inches(5.5),
+            f"{t['n']}. {t['what']}",
+            t["how"] + "\n\n完成：" + t["done"],
+            accent=accents[i],
+            title_color=accents[i],
+        )
+    footer(s, 8)
+
+    # 9 立即八事
+    s = prs.slides.add_slide(blank)
+    header(s, "立即八事", "律师看完监控再定程序。现在不谈总赔偿数额、不定残级")
     add_bullets(
         s,
         Inches(0.55),
-        Inches(1.25),
+        Inches(1.2),
         Inches(12.2),
-        Inches(5.6),
-        [
-            "今天：办齐鲁出院，结束没有住院号的空窗。同时问赛主任能否收回；问美团险认不认人民医院。",
-            "齐鲁能收回 → 回齐鲁。手术组在、三甲、交警口径、病历连续。这是首选。",
-            "齐鲁收不回 + 美团险确认可赔 → 暂留市北区人民医院。赛主任查房要落实。发热、伤口、外固定异常立刻回三甲。",
-            "美团险不认人民医院 → 不要留。请保险对接三甲，家属不自己满城找床。",
-            "其他三甲：末选。外固定再搬一次风险大，别人也难收一个月占床。",
-            "对赛主任：术后两天不是康复期，二甲还办不了入院。要么收回，要么马上办完出院。不闹、不装病。",
-        ],
-        size=15,
-        spacing=1.18,
+        Inches(5.7),
+        [f"{x['n']}. {x['what']}" for x in NOW_EIGHT],
+        size=14,
+        spacing=1.12,
     )
-    footer(s, 8)
-
-    # 9 本周
-    s = prs.slides.add_slide(blank)
-    header(s, "本周先办这些", "转院只看三点。费用核 4 万元。现在不谈总赔偿数额")
-    items = [
-        ("1", "问齐鲁收回", "出院结算 + 问赛主任：术后两天能否收回"),
-        ("2", "问美团险", "报全称：市北区人民医院抚顺路院区"),
-        ("3", "存病历发票", "三份 CT、手术记录、费用明细"),
-        ("4", "公对公留痕", "交警电话给赛主任，不换号不代扮"),
-        ("5", "保险进群", "本周见到骑手，平台和保险进群"),
-        ("6", "只谈已发生费用", "不谈总赔偿数额，不报残级，不签了结"),
-    ]
-    for i, (num, title, body) in enumerate(items):
-        col = i % 3
-        row = i // 3
-        x = Inches(0.45) + Inches(4.2) * col
-        y = Inches(1.25) + Inches(2.75) * row
-        add_round(s, x, y, Inches(4.0), Inches(2.5), LIGHT)
-        add_text(s, x + Inches(0.25), y + Inches(0.25), Inches(3.5), Inches(0.45), f"{num}  {title}", size=18, bold=True, color=NAVY)
-        add_text(s, x + Inches(0.25), y + Inches(0.9), Inches(3.5), Inches(1.3), body, size=14, color=DARK)
     footer(s, 9)
 
     # 10 不要说
