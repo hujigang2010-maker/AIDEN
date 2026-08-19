@@ -201,7 +201,7 @@ def build_workbook(output_path: Path) -> None:
         ws.cell(i, 2, wrong)
         ws.cell(i, 3, right)
         ws.row_dimensions[i].height = 40
-    style_rows(ws, 3, 8, 3)
+    style_rows(ws, 3, 4 + len(ASR_CORRECTIONS), 3)
     widths(ws, [18, 55, 55])
     freeze(ws)
 
@@ -389,7 +389,7 @@ def build_workbook(output_path: Path) -> None:
 
     # 7c 待补充信息
     ws = wb.create_sheet("待补充信息")
-    write_title(ws, "这条消息若没有新事实，按本表补。补齐后发文字即可写入材料。", 5)
+    write_title(ws, "8/19 补充后仍缺的事实。没有就不要编进 3D 或对外口径。3D 视频留作待用。", 5)
     headers = ["类别", "已经掌握", "还缺什么", "找谁要", "缓急"]
     for i, h in enumerate(headers, 1):
         ws.cell(2, i, h)
@@ -407,7 +407,7 @@ def build_workbook(output_path: Path) -> None:
 
     # 8 录音索引
     ws = wb.create_sheet("录音来源")
-    write_title(ws, "得到大脑 11 份录音。与 CT 冲突的以 CT 为准；二甲报销以保险公司为准。", 4)
+    write_title(ws, f"得到大脑转写 {len(CALLS)} 条索引。与 CT 冲突的以 CT 为准。录音≠认定书。3D 视频留作待用。", 4)
     headers = ["日期", "标题", "时长", "本表如何使用"]
     for i, h in enumerate(headers, 1):
         ws.cell(2, i, h)
@@ -417,7 +417,7 @@ def build_workbook(output_path: Path) -> None:
         ws.cell(i, 2, c["title"])
         ws.cell(i, 3, c["mins"])
         ws.cell(i, 4, c["use"])
-    style_rows(ws, 3, 13, 4)
+    style_rows(ws, 3, 2 + len(CALLS), 4)
     widths(ws, [14, 36, 10, 50])
     freeze(ws)
 

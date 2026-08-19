@@ -30,6 +30,7 @@ from content import (
     PARTIES,
     PROCEDURES,
     QINGXIAN,
+    SOURCE_PACK,
     SUBTITLE,
     TALKING_POINTS,
     TITLE,
@@ -189,7 +190,7 @@ def build_document(output_path: Path) -> None:
 
     _add_paragraph(doc, TITLE, font=HEADING_FONT, size=18, bold=True, alignment=WD_ALIGN_PARAGRAPH.CENTER, space_after=6, line_spacing=1.3, color=ACCENT)
     _add_paragraph(doc, SUBTITLE, font=HEADING_FONT, size=11, alignment=WD_ALIGN_PARAGRAPH.CENTER, space_after=4, line_spacing=1.3, color=MUTED)
-    _add_paragraph(doc, DATE_LABEL + "  ·  材料：得到大脑通话 11 份 + 齐鲁医院云影像 3 份 CT", font=CHINESE_FONT, size=10.5, alignment=WD_ALIGN_PARAGRAPH.CENTER, space_after=12, color=MUTED)
+    _add_paragraph(doc, DATE_LABEL + "  ·  材料：得到大脑 17 份转写（16 份相关）+ 齐鲁医院云影像 3 份 CT", font=CHINESE_FONT, size=10.5, alignment=WD_ALIGN_PARAGRAPH.CENTER, space_after=12, color=MUTED)
 
     _heading(doc, "一、先把三句话钉死")
     for item in CONCLUSION_BULLETS:
@@ -346,13 +347,14 @@ def build_document(output_path: Path) -> None:
     call_rows = [[c["date"], c["title"], c["mins"], c["use"]] for c in CALLS]
     _table(doc, ["日期", "录音标题", "时长", "本备忘录如何使用"], call_rows)
     _body(doc, "得到大脑转写有口误和串台。凡与齐鲁医院已审核 CT 冲突的，一律以 CT 为准；凡与交警监控结论冲突的，一律以交警为准。")
+    _body(doc, f"{SOURCE_PACK['asr_date']} 另归档《{SOURCE_PACK['asr_file']}》。{SOURCE_PACK['asr_note']}{SOURCE_PACK['video_status']}")
 
     _heading(doc, "十二、" + QINGXIAN["title"])
     for item in QINGXIAN["points"]:
         _bullet(doc, item)
 
     _heading(doc, "十三、使用限制")
-    _body(doc, "本文根据 2026 年 8 月 15–17 日通话整理，并核对用户提供的齐鲁医院云影像检查列表。影像所见和诊断摘自医院已审核报告原文。伤残部分只说明「尚未鉴定、现在不能定级」，不构成评残意见。二甲报销以保险公司确认为准，不以朋友咨询为准。赔偿金额、责任比例以交警认定书、保险合同和法院/鉴定机构为准。重新生成：python3 scripts/build_all.py")
+    _body(doc, "本文根据 2026 年 8 月 15–19 日通话及转写整理，并核对用户提供的齐鲁医院云影像检查列表。影像所见和诊断摘自医院已审核报告原文。伤残部分只说明「尚未鉴定、现在不能定级」，不构成评残意见。二甲报销以保险公司确认为准，不以朋友咨询为准。赔偿金额、责任比例以交警认定书、保险合同和法院/鉴定机构为准。重新生成：python3 scripts/build_all.py。3D 复原视频本次不重做，留作待用。")
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     doc.save(str(output_path))

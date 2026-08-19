@@ -126,9 +126,24 @@ def main() -> None:
         assert p.exists() and p.stat().st_size > 8000, p
         htext = p.read_text(encoding="utf-8")
         assert "<script" not in htext
-        for k in ("青岛红枫路", "胫骨远端", "人民医院", "10008056847", "美团", "刘孝春", "护理费", "还缺"):
+        for k in ("青岛红枫路", "胫骨远端", "人民医院", "10008056847", "美团", "刘孝春", "护理费", "还缺", "护栏开口"):
             assert k in htext, f"网页缺少：{k}"
     print("HTML 字节", html.stat().st_size)
+
+    asr_md = OUT / "交通事故材料整理_2026-08-19.md"
+    assert asr_md.exists() and asr_md.stat().st_size > 8000, asr_md
+    asr_text = asr_md.read_text(encoding="utf-8")
+    for k in ("护栏开口", "录音转写", "刘小春", "九级"):
+        assert k in asr_text, f"8/19 整理稿缺少：{k}"
+
+    kimi = OUT / "事故3D复原_Kimi提示词.md"
+    kimi_text = kimi.read_text(encoding="utf-8")
+    assert "待用" in kimi_text and "护栏开口" in kimi_text
+    mp4 = OUT / "事故3D复原_示范动画.mp4"
+    assert mp4.exists() and mp4.stat().st_size > 50_000, mp4
+
+    assert "护栏开口" in text
+    assert "待用" in text or "护栏" in text
 
     print("校验通过")
 

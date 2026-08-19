@@ -22,7 +22,7 @@ AMBER = RGBColor(0xB5, 0x7A, 0x2A)
 SOFT = RGBColor(0xE8, 0xEE, 0xF5)
 
 FONT = "Microsoft YaHei"
-FOOTER_TEXT = "青岛红枫路交通事故 · 内部材料 · 2026-08-17 · 伤残尚未鉴定"
+FOOTER_TEXT = "青岛红枫路交通事故 · 内部材料 · 底稿 08-17 补充 08-19 · 伤残尚未鉴定"
 TOTAL = 10
 SW = Inches(13.333)
 SH = Inches(7.5)
@@ -200,8 +200,8 @@ def build_ppt(output_path: Path) -> None:
 
     # 6 责任
     s = prs.slides.add_slide(blank)
-    header(s, "交警视频排除全责", "市北区 · 红枫路汽车市场外抚顺路 · 监控已调取")
-    card(s, Inches(0.45), Inches(1.25), Inches(6.1), Inches(2.5), "三轮车（伤者）", "• 交警认定属机动车，无正规号牌（市场内部牌）\n• 车主刘孝春，转向灯失灵仍交人使用\n• 掉头先右靠再大弧度左拐；当时在为刘家卸货", accent=AMBER, title_color=AMBER)
+    header(s, "交警视频排除全责", "市北区 · 批发市场外市政道路护栏开口附近 · 地址以交警文书为准")
+    card(s, Inches(0.45), Inches(1.25), Inches(6.1), Inches(2.5), "三轮车（伤者）", "• 交警认定属机动车，无正规号牌（市场内部牌）\n• 车主刘孝春，转向灯失灵仍交人使用\n• 护栏开口先借道再大弧度左拐；当时在为刘家卸货", accent=AMBER, title_color=AMBER)
     card(s, Inches(6.75), Inches(1.25), Inches(6.1), Inches(2.5), "美团二轮（女骑手）", "• 未保持安全车距\n• 后方视野更好，有条件规避\n• 无交强险，靠平台保险", accent=NAVY)
     add_round(s, Inches(0.45), Inches(4.0), Inches(12.4), Inches(2.7), LIGHT)
     add_text(s, Inches(0.7), Inches(4.15), Inches(12), Inches(0.35), "可能结果只有两种", size=14, bold=True, color=NAVY)
