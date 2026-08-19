@@ -26,6 +26,7 @@ from content import (
     INJURY_NOT_THIS_ACCIDENT,
     INJURY_THIS_ACCIDENT,
     LEGAL_REMINDER,
+    QILU_CHART,
     QINGXIAN,
     STAGE_FORBID,
     STAGE_PRINCIPLE,
@@ -201,7 +202,7 @@ def build_workbook(output_path: Path) -> None:
 
     # 1 伤情鉴定
     ws = wb.create_sheet("伤情鉴定")
-    write_title(ws, "齐鲁医院云影像 · 谁受伤、伤了什么（2026-08-17 核对）", 6)
+    write_title(ws, "齐鲁医院云影像 + 出院记录 · 谁受伤、伤了什么（2026-08-19 核对病历）", 6)
     headers = ["日期", "检查号", "项目 / 科室", "影像所见（报告原文）", "影像诊断（报告原文）", "本次事故？"]
     for i, h in enumerate(headers, 1):
         ws.cell(2, i, h)
@@ -218,11 +219,12 @@ def build_workbook(output_path: Path) -> None:
         else:
             ws.cell(i, 6).font = body_font(True, RED)
     style_rows(ws, 3, 5, 6)
-    ws.cell(7, 1, f"患者：{CLOUD_FILM['patient_display']} / {CLOUD_FILM['sex']} / {CLOUD_FILM['age']}岁　　医院：{CLOUD_FILM['hospital']}")
+    ws.cell(7, 1, f"患者：{QILU_CHART['name']} / {QILU_CHART['sex']} / {QILU_CHART['age']}　　门诊号 {QILU_CHART['outpatient_no']}　　住院号 {QILU_CHART['inpatient_no']}　　{QILU_CHART['ward']} {QILU_CHART['bed']}床")
     ws.merge_cells("A7:F7")
     ws.cell(7, 1).font = body_font(True)
-    ws.cell(8, 1, CLOUD_FILM["disclaimer"] + " 这是影像诊断，不是伤残鉴定。")
+    ws.cell(8, 1, f"手术：{QILU_CHART['surgery_time']} {QILU_CHART['surgery']}。出院诊断：{'；'.join(QILU_CHART['dx'][:4])}。{CLOUD_FILM['disclaimer']}")
     ws.merge_cells("A8:F8")
+    ws.row_dimensions[8].height = 48
     widths(ws, [14, 16, 28, 42, 36, 22])
     ws.row_dimensions[3].height = 72
     ws.row_dimensions[4].height = 56
@@ -323,10 +325,11 @@ def build_workbook(output_path: Path) -> None:
         ws.cell(2, i, h)
     style_header(ws, 2, 8)
     presets = [
-        ["2026-08-14", "急诊右小腿CT（10008056847）", "", "已付待核", "家属", "待贴", "", "齐鲁医院"],
-        ["2026-08-14", "急诊右足CT（10008056848）", "", "已付待核", "家属", "待贴", "", "齐鲁医院"],
-        ["2026-08-15", "住院右踝CT术后复查（10008059257）", "", "已付待核", "家属", "待贴", "", "手足与显微重建外科"],
-        ["2026-08-15", "右踝骨折内外固定手术", "", "已付待核", "家属", "待贴", "", "以手术记录为准"],
+        ["2026-08-14", "破伤风人免疫球蛋白 250iu 肌注", 270, "已付待核", "家属", "待贴", "", "急诊处方，医师甄洪岩"],
+        ["2026-08-14", "急诊右小腿CT（10008056847）", "", "已付待核", "家属", "待贴", "", "齐鲁医院 13:02"],
+        ["2026-08-14", "急诊右足CT（10008056848）", "", "已付待核", "家属", "待贴", "", "齐鲁医院 13:02"],
+        ["2026-08-14 19:01", "右踝骨折脱位切开复位内外固定+韧带缝合+清创+VSD", "", "已付待核", "家属", "待贴", "", "出院记录已载术式；植入物编码仍缺"],
+        ["2026-08-15", "住院右踝CT术后复查（10008059257）", "", "已付待核", "家属", "待贴", "", "手足与显微重建外科 33 床"],
         ["", "住院押金/预缴", "", "已付待核", "家属", "待贴", "", "费用口径确认 4 万，须对账单"],
         ["", "药品（院内）", "", "已付待核", "家属", "待贴", "", "医保范围内用药，保险可赔、比例待定"],
         ["", "护工费", "", "已付待核", "家属", "待贴", "", "24小时一对一，合同+发票；按责比例报"],
@@ -340,12 +343,12 @@ def build_workbook(output_path: Path) -> None:
         for c, val in enumerate(row, 1):
             ws.cell(i, c, val)
         ws.cell(i, 3).number_format = "#,##0.00"
-    style_rows(ws, 3, 14, 8)
-    ws.cell(16, 1, "合计（仅填写了数字的行）")
-    ws.cell(16, 3, "=SUM(C3:C14)")
-    ws.cell(16, 3).number_format = "#,##0.00"
-    ws.cell(16, 1).font = body_font(True)
-    ws.cell(16, 3).font = body_font(True, RED)
+    style_rows(ws, 3, 15, 8)
+    ws.cell(17, 1, "合计（仅填写了数字的行）")
+    ws.cell(17, 3, "=SUM(C3:C15)")
+    ws.cell(17, 3).number_format = "#,##0.00"
+    ws.cell(17, 1).font = body_font(True)
+    ws.cell(17, 3).font = body_font(True, RED)
     dv = DataValidation(type="list", formula1='"已付,未付,已付待核,未发生或待核"', allow_blank=True)
     dv.add("D3:D30")
     ws.add_data_validation(dv)

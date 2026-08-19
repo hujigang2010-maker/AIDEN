@@ -28,6 +28,7 @@ from content import (
     INJURY_NOT_THIS_ACCIDENT,
     INJURY_THIS_ACCIDENT,
     LEGAL_REMINDER,
+    QILU_CHART,
     MONEY,
     PARTIES,
     PROCEDURES,
@@ -233,16 +234,16 @@ def build_document(output_path: Path) -> None:
     eight_rows = [[str(x["n"]), x["who"], x["what"], x["why"]] for x in NOW_EIGHT]
     _table(doc, ["序号", "谁", "做什么", "为什么"], eight_rows)
 
-    _heading(doc, "二、谁受伤：只有 64 岁男性胡某")
-    _body(doc, f"医院：{CLOUD_FILM['hospital']}。云影像患者信息：{CLOUD_FILM['patient_display']} / {CLOUD_FILM['sex']} / {CLOUD_FILM['age']}岁。三份已审核 CT 的检查号分别为 10008056847（右小腿）、10008056848（右足）、10008059257（术后右踝）。")
+    _heading(doc, "二、谁受伤：只有 64 岁男性胡志远（病历名）")
+    _body(doc, f"医院：{CLOUD_FILM['hospital']}。病历姓名：{QILU_CHART['name']}；云影像脱敏：胡**；{QILU_CHART['sex']} / {QILU_CHART['age']}。门诊号 {QILU_CHART['outpatient_no']}，住院号 {QILU_CHART['inpatient_no']}，{QILU_CHART['ward']} {QILU_CHART['bed']} 床。三份已审核 CT 的检查号分别为 10008056847（右小腿）、10008056848（右足）、10008059257（术后右踝）。")
     _bullet(doc, PARTIES["injured"])
     _bullet(doc, PARTIES["family"])
     _bullet(doc, PARTIES["other"])
     _bullet(doc, PARTIES["police"])
     _bullet(doc, PARTIES["boss"])
-    _body(doc, "结论：伤残如果以后评得上，也只可能评在伤者胡某本人。家属、对接人、骑手都没有本次伤残材料。")
+    _body(doc, "结论：伤残如果以后评得上，也只可能评在伤者胡志远本人。家属、对接人、骑手都没有本次伤残材料。")
 
-    _heading(doc, "三、伤情鉴定：以齐鲁医院 CT 为准，不以通话口述为准")
+    _heading(doc, "三、伤情鉴定：以齐鲁医院 CT 和出院记录为准，不以通话口述为准")
     _body(doc, CLOUD_FILM["source_note"] + CLOUD_FILM["disclaimer"])
     _heading(doc, "（一）本次交通事故造成的损伤", 2)
     for item in INJURY_THIS_ACCIDENT:
@@ -269,6 +270,24 @@ def build_document(output_path: Path) -> None:
         rows,
     )
 
+    _heading(doc, "（三点五）纸质病历：出院记录与急诊病历", 2)
+    _body(doc, f"来源：{QILU_CHART['file']}。{QILU_CHART['time_window']}")
+    _bullet(doc, f"{QILU_CHART['er_time']} {QILU_CHART['er_dept']}就诊。主诉：{QILU_CHART['chief_er']}。生命体征：{QILU_CHART['vitals']}。{QILU_CHART['consult']}", bold_prefix="急诊：")
+    _bullet(doc, QILU_CHART["tetanus"], bold_prefix="破伤风：")
+    _bullet(doc, f"{QILU_CHART['admit']} 入院，{QILU_CHART['discharge']} 出院，住院 {QILU_CHART['days']}。入院主诉：{QILU_CHART['chief_in']}。", bold_prefix="住院：")
+    _bullet(doc, QILU_CHART["exam_in"], bold_prefix="入院查体：")
+    _heading(doc, "出院诊断（入院、出院相同）", 3)
+    for d in QILU_CHART["dx"]:
+        color = GREEN if "既往" in d else RED
+        _bullet(doc, d, color=color)
+    _bullet(doc, f"{QILU_CHART['surgery_time']} {QILU_CHART['surgery']}", bold_prefix="手术：")
+    _bullet(doc, f"{QILU_CHART['out_status']}；{QILU_CHART['fix']}", bold_prefix="出院时：")
+    for m in QILU_CHART["meds"]:
+        _bullet(doc, m, bold_prefix="带药：")
+    for a in QILU_CHART["advice"]:
+        _bullet(doc, a)
+    _body(doc, QILU_CHART["signer"] + " " + QILU_CHART["copy_note"])
+
     _heading(doc, "（四）通话口述必须立刻改口的地方", 2)
     for wrong, right in ASR_CORRECTIONS:
         _bullet(doc, right, bold_prefix=wrong + " → ")
@@ -283,7 +302,7 @@ def build_document(output_path: Path) -> None:
     _heading(doc, "评残前只做准备、不报价", 2)
     for item in DISABILITY["prep"]:
         _bullet(doc, item)
-    _body(doc, "医学含义（给家属内部看，不要拿去跟骑手谈级数）：这是右踝关节骨折合并半脱位，加上胫骨远端、腓骨近端骨折，已经手术内外固定。属于较重的下肢创伤。治疗终结后如果踝关节活动明显受限、行走距离或负重受影响，通常具备启动评残的医学基础。残级高低看日后功能，不看急诊片子有多碎。右足骨刺不要塞进评残申请。")
+    _body(doc, "医学含义（给家属内部看，不要拿去跟骑手谈级数）：出院记录是右开放性踝关节骨折脱位，合并韧带断裂、皮肤坏死、清创和 VSD，加上胫骨远端、腓骨近端骨折，已内外固定。属于较重的下肢开放伤。治疗终结后如果踝关节活动明显受限、行走距离或负重受影响，通常具备启动评残的医学基础。残级高低看日后功能，不看急诊片子有多碎。高血压、糖尿病和右足骨刺不要塞进评残申请。现在仍禁止对外报残级或总赔偿数额。")
 
     _heading(doc, "五、事故与责任：听交警视频，不听「全责」口述")
     _bullet(doc, ACCIDENT["place"], bold_prefix="地点：")

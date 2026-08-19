@@ -133,14 +133,14 @@ def build_ppt(output_path: Path) -> None:
     add_rect(s, 0, 0, Inches(0.18), SH, GOLD)
     add_text(s, Inches(0.7), Inches(1.6), Inches(12), Inches(0.4), "山东大学齐鲁医院（青岛）云影像  ×  得到大脑通话整理", size=14, color=GOLD)
     add_text(s, Inches(0.7), Inches(2.1), Inches(12), Inches(1.3), "抚顺路和哈尔滨路路口交通事故\n伤情鉴定与伤残情况", size=36, bold=True, color=WHITE)
-    add_text(s, Inches(0.7), Inches(4.5), Inches(12), Inches(0.9), "伤者：胡某 · 男 · 64岁\n结论：影像已定性，伤残尚未鉴定，现在不能报残级", size=18, color=LIGHT)
+    add_text(s, Inches(0.7), Inches(4.5), Inches(12), Inches(0.9), "伤者：胡志远 · 男 · 64岁\n结论：出院记录已定性开放伤，伤残尚未鉴定，现在不能报残级", size=18, color=LIGHT)
     add_text(s, Inches(0.7), Inches(6.6), Inches(12), Inches(0.3), "内部决策简报  ·  2026年8月17日", size=12, color=GRAY)
 
     # 2 三句话
     s = prs.slides.add_slide(blank)
     header(s, "先看结论", "病例链接打开后，只需要记住这三句")
-    card(s, Inches(0.45), Inches(1.25), Inches(4.0), Inches(5.5), "1. 谁受伤", "只有 64 岁男性胡某。\n\n三份 CT 都是他的：\n右小腿、右足、术后右踝。\n\n家属胡继刚是对接人，不是伤者。\n骑手没有本次伤残材料。", accent=GOLD)
-    card(s, Inches(4.65), Inches(1.25), Inches(4.0), Inches(5.5), "2. 伤了什么", "本次外伤（急诊 CT）：\n• 右胫骨远端骨折，移位\n• 右腓骨近端骨折，移位\n• 右踝关节半脱位\n• 距骨内缘、外踝撕脱骨折\n\n8月15日已做内外固定，\n复查固定在位、位线可。", accent=RED, title_color=RED)
+    card(s, Inches(0.45), Inches(1.25), Inches(4.0), Inches(5.5), "1. 谁受伤", "只有 64 岁男性胡志远。\n\n病历、腕带、出院记录同名。\n住院号 0001519455，33 床。\n\n家属胡继刚是对接人，不是伤者。\n骑手没有本次伤残材料。", accent=GOLD)
+    card(s, Inches(4.65), Inches(1.25), Inches(4.0), Inches(5.5), "2. 伤了什么", "出院诊断（比 CT 更重）：\n• 右开放性踝关节骨折\n• 右开放性踝关节脱位\n• 韧带断裂、皮肤坏死\n• 胫骨远端、腓骨近端骨折\n\n8月14日 19:01 手术：\n内外固定+清创+VSD。", accent=RED, title_color=RED)
     card(s, Inches(8.85), Inches(1.25), Inches(4.0), Inches(5.5), "3. 谁伤残", "现在：谁都还没有伤残等级。\n\nCT 是影像诊断，\n不是伤残鉴定书。\n\n评残要等治疗终结后，\n由司法鉴定机构做。\n现在对外禁止说「几级残」。", accent=AMBER, title_color=AMBER)
     footer(s, 2)
 
@@ -167,8 +167,8 @@ def build_ppt(output_path: Path) -> None:
     items = [
         ("不要再说", "右脚后跟粉碎性骨折", "右足 CT 无跟骨粉碎骨折，只有骨刺。粉碎在胫骨远端和踝关节。"),
         ("不要再说", "只是腓骨下段断了", "报告写腓骨近端骨折，另有外踝撕脱。两处都要记。"),
-        ("不要再说", "打了两根或四根钢钉", "术后 CT：内外固定在位。以手术记录为准。"),
-        ("不要再说", "8月15日已经出院", "当天住院 CT 在手足外科，仍在齐鲁术后复查。"),
+        ("不要再说", "打了两根或四根钢钉", "出院记录：外固定架及克氏针。根数以手术记录为准。"),
+        ("不要再说", "8月15日已经出院", "入院 8/14 14:14，出院 8/17 08:00。8/15 是术后 CT。"),
     ]
     for i, (tag, bad, good) in enumerate(items):
         y = Inches(1.2) + Inches(1.4) * i
@@ -188,12 +188,12 @@ def build_ppt(output_path: Path) -> None:
         Inches(12.2),
         Inches(5.5),
         [
-            "评谁：只评伤者胡某。别人没有残。",
+            "评谁：只评伤者胡志远。别人没有残。",
             "何时：治疗终结、临床相对稳定后。骨折内固定常见约伤后 3 个月以上，以鉴定机构书面要求为准。",
             "标准：道路交通事故用《人体损伤致残程度分级》。不要套工伤标准，不要用网上计算器报级。",
-            "评什么：右踝功能、行走能力。右足骨刺、退变删掉。",
+            "评什么：右踝开放伤后的功能、行走能力。骨刺、高血压、糖尿病删掉。",
             "现在对外：禁止说已经几级。面谈不锁总包死价。",
-            "医学内部判断：损伤较重，日后若踝关节明显受限，具备启动评残的基础；级数看功能，不看急诊片子。",
+            "医学内部判断：开放性骨折脱位+韧带+VSD，损伤较重；级数看功能，不看急诊片子。",
         ],
         size=16,
         spacing=1.25,

@@ -78,6 +78,10 @@ def main() -> None:
     assert "乔刘记商贸" in text
     assert "驾驶资格" in text
     assert "不是借款" in text
+    assert "胡志远" in text
+    assert "0001519455" in text
+    assert "开放性" in text
+    assert "VSD" in text
     assert "总赔偿数额" in text
     assert "雇员受害" in text
     assert "不要去人社局" in text or "不去人社局" in text
@@ -170,7 +174,7 @@ def main() -> None:
     ans = OUT / "待确认事项_家属答复_2026-08-19.md"
     assert ans.exists() and ans.stat().st_size > 2000, ans
     atxt = ans.read_text(encoding="utf-8")
-    for k in ("尚未出具", "乔刘记商贸", "不是借款", "抚顺路和哈尔滨路路口"):
+    for k in ("尚未出具", "乔刘记商贸", "不是借款", "抚顺路和哈尔滨路路口", "胡志远病例文件", "19:01"):
         assert k in atxt, f"家属答复缺少：{k}"
 
     core_md = OUT / "材料核心归结_立即八事.md"
@@ -190,20 +194,25 @@ def main() -> None:
     lawyer_pdf = OUT / "青岛抚顺路和哈尔滨路路口交通事故_给律师的完整经过说明_20260819.pdf"
     assert lawyer_md.exists() and lawyer_md.stat().st_size > 3000, lawyer_md
     ltxt = lawyer_md.read_text(encoding="utf-8")
-    for k in ("完整经过", "抚顺路和哈尔滨路路口", "抚顺路批发市场", "脚踏板", "10008056847", "尚未出具", "乔刘记商贸", "4 万元", "不是律师函"):
+    for k in ("完整经过", "抚顺路和哈尔滨路路口", "抚顺路批发市场", "脚踏板", "10008056847", "尚未出具", "乔刘记商贸", "4 万元", "不是律师函", "胡志远", "0001519455", "开放性", "VSD"):
         assert k in ltxt, f"律师经过说明缺少：{k}"
     assert "红枫路" not in ltxt, "律师经过说明不得再出现红枫路"
     assert lawyer_docx.exists() and lawyer_docx.stat().st_size > 4000, lawyer_docx
     ldoc = docx_text(lawyer_docx)
-    for k in ("完整经过", "内外固定", "刘孝春", "简易", "民法典", "抚顺路和哈尔滨路路口"):
+    for k in ("完整经过", "内外固定", "刘孝春", "简易", "民法典", "抚顺路和哈尔滨路路口", "胡志远", "19:01"):
         assert k in ldoc, f"律师经过 Word 缺少：{k}"
     assert "红枫路" not in ldoc, "律师经过 Word 不得再出现红枫路"
     assert lawyer_pdf.exists() and lawyer_pdf.stat().st_size > 8000, lawyer_pdf
     lp = pdf_text(lawyer_pdf)
     if lp:
-        for k in ("完整经过", "抚顺路和哈尔滨路路口", "刘孝春", "内外固定"):
+        for k in ("完整经过", "抚顺路和哈尔滨路路口", "刘孝春", "内外固定", "胡志远"):
             assert k in lp.replace(" ", ""), f"律师经过 PDF 缺少：{k}"
         assert "红枫路" not in lp, "律师经过 PDF 不得再出现红枫路"
+
+    chart_pdf = OUT / "胡志远病例文件.pdf"
+    chart_md = OUT / "齐鲁医院_胡志远病例摘录_2026-08-19.md"
+    assert chart_pdf.exists() and chart_pdf.stat().st_size > 100_000, chart_pdf
+    assert chart_md.exists() and "0001519455" in chart_md.read_text(encoding="utf-8")
 
     kimi = OUT / "事故3D复原_Kimi提示词.md"
     kimi_text = kimi.read_text(encoding="utf-8")
