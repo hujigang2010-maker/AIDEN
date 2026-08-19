@@ -200,8 +200,8 @@ def build_ppt(output_path: Path) -> None:
 
     # 6 责任
     s = prs.slides.add_slide(blank)
-    header(s, "交警视频排除全责", "市北区 · 批发市场外市政道路护栏开口附近 · 地址以交警文书为准")
-    card(s, Inches(0.45), Inches(1.25), Inches(6.1), Inches(2.5), "三轮车（伤者）", "• 交警认定属机动车，无正规号牌（市场内部牌）\n• 车主刘孝春，转向灯失灵仍交人使用\n• 护栏开口先借道再大弧度左拐；当时在为刘家卸货", accent=AMBER, title_color=AMBER)
+    header(s, "交警视频排除全责", "市北区 · 1号门斜坡护栏开口附近 · 地址以交警文书为准")
+    card(s, Inches(0.45), Inches(1.25), Inches(6.1), Inches(2.5), "三轮车（伤者）", "• 交警认定属机动车，无正规号牌（市场内部牌）\n• 车主刘孝春，转向灯和大灯都坏仍交人使用\n• 1号门护栏开口借道掉头；卸完第一趟回装第二趟", accent=AMBER, title_color=AMBER)
     card(s, Inches(6.75), Inches(1.25), Inches(6.1), Inches(2.5), "美团二轮（女骑手）", "• 未保持安全车距\n• 后方视野更好，有条件规避\n• 无交强险，靠平台保险", accent=NAVY)
     add_round(s, Inches(0.45), Inches(4.0), Inches(12.4), Inches(2.7), LIGHT)
     add_text(s, Inches(0.7), Inches(4.15), Inches(12), Inches(0.35), "可能结果只有两种", size=14, bold=True, color=NAVY)

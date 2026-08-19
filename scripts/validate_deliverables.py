@@ -126,7 +126,7 @@ def main() -> None:
         assert p.exists() and p.stat().st_size > 8000, p
         htext = p.read_text(encoding="utf-8")
         assert "<script" not in htext
-        for k in ("青岛红枫路", "胫骨远端", "人民医院", "10008056847", "美团", "刘孝春", "护理费", "还缺", "护栏开口"):
+        for k in ("青岛红枫路", "胫骨远端", "人民医院", "10008056847", "美团", "刘孝春", "护理费", "还缺", "护栏开口", "33 床"):
             assert k in htext, f"网页缺少：{k}"
     print("HTML 字节", html.stat().st_size)
 
@@ -135,6 +135,18 @@ def main() -> None:
     asr_text = asr_md.read_text(encoding="utf-8")
     for k in ("护栏开口", "录音转写", "刘小春", "九级"):
         assert k in asr_text, f"8/19 整理稿缺少：{k}"
+
+    corpus = OUT / "沟通记录合集-2026年8月15日至18日.md"
+    guide = OUT / "沟通记录合集_口径对照_2026-08-19.md"
+    assert corpus.exists() and corpus.stat().st_size > 100_000, corpus
+    assert guide.exists() and guide.stat().st_size > 3000, guide
+    gtext = guide.read_text(encoding="utf-8")
+    for k in ("同一起", "远洋", "33 床", "1 号门", "踏板", "1866"):
+        assert k in gtext, f"口径对照缺少：{k}"
+    assert "拆成多起事故是错的" in corpus.read_text(encoding="utf-8")[:2000]
+
+    assert "1 号门" in text or "1号门" in text
+    assert "33 床" in text or "33床" in text
 
     kimi = OUT / "事故3D复原_Kimi提示词.md"
     kimi_text = kimi.read_text(encoding="utf-8")

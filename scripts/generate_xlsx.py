@@ -418,7 +418,7 @@ def build_workbook(output_path: Path) -> None:
         ws.cell(i, 3, c["mins"])
         ws.cell(i, 4, c["use"])
     style_rows(ws, 3, 2 + len(CALLS), 4)
-    widths(ws, [14, 36, 10, 50])
+    widths(ws, [14, 48, 10, 55])
     freeze(ws)
 
     # 9 轻弦附录

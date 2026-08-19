@@ -190,7 +190,7 @@ def build_document(output_path: Path) -> None:
 
     _add_paragraph(doc, TITLE, font=HEADING_FONT, size=18, bold=True, alignment=WD_ALIGN_PARAGRAPH.CENTER, space_after=6, line_spacing=1.3, color=ACCENT)
     _add_paragraph(doc, SUBTITLE, font=HEADING_FONT, size=11, alignment=WD_ALIGN_PARAGRAPH.CENTER, space_after=4, line_spacing=1.3, color=MUTED)
-    _add_paragraph(doc, DATE_LABEL + "  ·  材料：得到大脑 17 份转写（16 份相关）+ 齐鲁医院云影像 3 份 CT", font=CHINESE_FONT, size=10.5, alignment=WD_ALIGN_PARAGRAPH.CENTER, space_after=12, color=MUTED)
+    _add_paragraph(doc, DATE_LABEL + "  ·  材料：17 份沟通记录原文合集 + 口径对照 + 齐鲁医院云影像 3 份 CT", font=CHINESE_FONT, size=10.5, alignment=WD_ALIGN_PARAGRAPH.CENTER, space_after=12, color=MUTED)
 
     _heading(doc, "一、先把三句话钉死")
     for item in CONCLUSION_BULLETS:
@@ -347,7 +347,7 @@ def build_document(output_path: Path) -> None:
     call_rows = [[c["date"], c["title"], c["mins"], c["use"]] for c in CALLS]
     _table(doc, ["日期", "录音标题", "时长", "本备忘录如何使用"], call_rows)
     _body(doc, "得到大脑转写有口误和串台。凡与齐鲁医院已审核 CT 冲突的，一律以 CT 为准；凡与交警监控结论冲突的，一律以交警为准。")
-    _body(doc, f"{SOURCE_PACK['asr_date']} 另归档《{SOURCE_PACK['asr_file']}》。{SOURCE_PACK['asr_note']}{SOURCE_PACK['video_status']}")
+    _body(doc, f"{SOURCE_PACK['asr_date']} 另归档《{SOURCE_PACK['asr_file']}》和《{SOURCE_PACK['asr_guide']}》。{SOURCE_PACK['asr_note']}{SOURCE_PACK['video_status']}")
 
     _heading(doc, "十二、" + QINGXIAN["title"])
     for item in QINGXIAN["points"]:
