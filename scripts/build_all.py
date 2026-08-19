@@ -10,8 +10,10 @@ from generate_docx import build_document
 from generate_guide_html import main as build_guide_html
 from generate_lawyer_brief import build_document as build_lawyer_brief
 from generate_lawyer_brief import build_markdown as build_lawyer_md
+from generate_lawyer_brief import build_pdf as build_lawyer_pdf
 from generate_lawyer_brief import DOCX_NAME as LAWYER_DOCX
 from generate_lawyer_brief import MD_NAME as LAWYER_MD
+from generate_lawyer_brief import PDF_NAME as LAWYER_PDF
 from generate_pptx import build_ppt
 from generate_xlsx import build_workbook
 
@@ -35,10 +37,12 @@ def main() -> None:
     build_comm_workbook(comm_xlsx)
     lawyer_md = OUT / LAWYER_MD
     lawyer_docx = OUT / LAWYER_DOCX
+    lawyer_pdf = OUT / LAWYER_PDF
     build_lawyer_md(lawyer_md)
     build_lawyer_brief(lawyer_docx)
+    build_lawyer_pdf(lawyer_pdf)
     build_guide_html()
-    print(f"已生成：\n  {docx}\n  {xlsx}\n  {pptx}\n  {comm_docx}\n  {comm_pdf}\n  {comm_xlsx}\n  {lawyer_md}\n  {lawyer_docx}")
+    print(f"已生成：\n  {docx}\n  {xlsx}\n  {pptx}\n  {comm_docx}\n  {comm_pdf}\n  {comm_xlsx}\n  {lawyer_md}\n  {lawyer_docx}\n  {lawyer_pdf}")
 
 
 if __name__ == "__main__":
