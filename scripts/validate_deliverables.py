@@ -269,6 +269,31 @@ def main() -> None:
         assert "红枫路" not in lp_liu
         assert "30%全包" not in compact and "家属自留" not in lp_liu
 
+    mom_md = OUT / "给妈妈跟刘孝春沟通的口径_2026-08-20.md"
+    mom_docx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_给妈妈跟刘孝春的接话卡_20260820.docx"
+    mom_pdf = OUT / "青岛抚顺路和哈尔滨路路口交通事故_给妈妈跟刘孝春的接话卡_20260820.pdf"
+    assert mom_md.exists() and mom_md.stat().st_size > 2500, mom_md
+    mtxt = mom_md.read_text(encoding="utf-8")
+    for k in ("家属自留", "不是借款", "不是了结", "一对一", "开场", "不要发给刘孝春", "抚顺路和哈尔滨路路口"):
+        assert k in mtxt, f"妈妈口径 Markdown 缺少：{k}"
+    assert "红枫路" not in mtxt
+    assert mom_docx.exists() and mom_docx.stat().st_size > 4000, mom_docx
+    mdoc = docx_text(mom_docx)
+    for k in ("不是借款", "不是了结", "一对一", "家属自留", "不要给刘孝春", "开场"):
+        assert k in mdoc, f"妈妈接话卡 Word 缺少：{k}"
+    assert "红枫路" not in mdoc
+    assert "30% 全包" not in mdoc and "30%全包" not in mdoc
+    assert "70%" not in mdoc and "30%" not in mdoc
+    assert "民法典" not in mdoc
+    assert mom_pdf.exists() and mom_pdf.stat().st_size > 8000, mom_pdf
+    mp = pdf_text(mom_pdf)
+    if mp:
+        compact_m = mp.replace(" ", "")
+        for k in ("不是借款", "一对一", "家属自留", "不要给刘孝春"):
+            assert k in compact_m, f"妈妈接话卡 PDF 缺少：{k}"
+        assert "红枫路" not in mp
+        assert "70%" not in mp and "30%" not in mp
+
     assert "护栏开口" in text
     assert "待用" in text or "护栏" in text
 

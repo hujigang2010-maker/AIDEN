@@ -25,6 +25,12 @@ from generate_liu_note import PDF_NAME as LIU_PDF
 from generate_liu_note import build_document as build_liu_note
 from generate_liu_note import build_markdown as build_liu_md
 from generate_liu_note import build_pdf as build_liu_pdf
+from generate_mom_liu_talk import DOCX_NAME as MOM_DOCX
+from generate_mom_liu_talk import MD_NAME as MOM_MD
+from generate_mom_liu_talk import PDF_NAME as MOM_PDF
+from generate_mom_liu_talk import build_document as build_mom_card
+from generate_mom_liu_talk import build_markdown as build_mom_md
+from generate_mom_liu_talk import build_pdf as build_mom_pdf
 from generate_pptx import build_ppt
 from generate_xlsx import build_workbook
 
@@ -63,11 +69,17 @@ def main() -> None:
     build_liu_md(liu_md)
     build_liu_note(liu_docx)
     build_liu_pdf(liu_pdf)
+    mom_md = OUT / MOM_MD
+    mom_docx = OUT / MOM_DOCX
+    mom_pdf = OUT / MOM_PDF
+    build_mom_md(mom_md)
+    build_mom_card(mom_docx)
+    build_mom_pdf(mom_pdf)
     build_guide_html()
     print(
         f"已生成：\n  {docx}\n  {xlsx}\n  {pptx}\n  {comm_docx}\n  {comm_pdf}\n  {comm_xlsx}\n"
         f"  {lawyer_md}\n  {lawyer_docx}\n  {lawyer_pdf}\n  {lawyer_illu_docx}\n  {lawyer_illu_pdf}\n"
-        f"  {liu_md}\n  {liu_docx}\n  {liu_pdf}"
+        f"  {liu_md}\n  {liu_docx}\n  {liu_pdf}\n  {mom_md}\n  {mom_docx}\n  {mom_pdf}"
     )
 
 
