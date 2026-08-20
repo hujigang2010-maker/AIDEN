@@ -1,9 +1,35 @@
-# AIDEN
+# AIDEN × 西电产学研课题介绍
 
-AIDEN 是一个多任务工作区。`main` 分支存放共享配置；具体应用和文档交付物位于各自的 `cursor/*` 功能分支。
+给西安电子科技大学老师与经过初筛的同学用的课题发布材料。十条题目都来自 AIDEN 仓库里**已经开工**的真实任务，供下周一正式发出后选题组队。
 
-## 显示语言
+## 交付物
 
-本仓库默认使用**简体中文**。首次打开项目时，请安装推荐的中文语言包，并在命令面板中选择 **Configure Display Language → 中文(简体)**，然后重启 Cursor。
+| 文件 | 用途 |
+|------|------|
+| `exports/AIDEN_西电产学研课题介绍.pptx` | 宣讲 15 分钟 |
+| `exports/AIDEN_西电产学研课题介绍.docx` | 完整分题说明，可细读、可剪贴 |
+| `exports/AIDEN_西电课题选题与编组表.xlsx` | 总览、技能、学生志愿、老师编组、时间表、群发短稿 |
+| `exports/微信群发布稿.txt`（同 `.md`） | 直接粘贴到学生群 |
+| `exports/课题一页总览.html` | 浏览器打开的一页总览 |
 
-更多说明见 [AGENTS.md](./AGENTS.md)。
+## 重新生成
+
+```bash
+python3 -m pip install python-pptx python-docx openpyxl
+python3 scripts/build_all.py
+python3 scripts/verify.py
+```
+
+依赖：`python-pptx`、`python-docx`、`openpyxl`。
+
+## 口径（不要改偏）
+
+- 只写已开工课题，不编「假实习」。
+- 进组是做事，不开空证明。
+- 远程为主，上海可短期驻场。
+- 编组由西电老师确认；AIDEN 侧不在学生群单独招生。
+- 计划发布日：2026-08-24（周一）。
+
+## 十条课题
+
+T01 MP Typer 排版引擎 · T02 复旦链接小程序 · T03 楼宇数据可视化 · T04 活动报名 MCP · T05 TicNote 知识工作室 · T06 企业 AI 文档工程 · T07 具身智能与产业空间 · T08 住房学区数据工具 · T09 AIDEN 多智能体工作流（主线） · T10 产业白皮书工作坊。
