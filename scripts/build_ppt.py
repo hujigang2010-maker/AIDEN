@@ -220,22 +220,21 @@ def build():
 
     # 14 下周一怎么发
     s, p = new_slide()
-    slide_header(s, "下周一建议这样发出去", "群里用短稿，宣讲用 PPT，细读用 Word，收表用 Excel", p, TOTAL)
+    slide_header(s, "下周一建议这样发出去", "四件套：Word · PPT · 选题表 · 发群一页稿", p, TOTAL)
     files = [
+        ["Word", "完整课题介绍，老师留底、同学细读"],
         ["PPT", "课堂或线上宣讲 15 分钟"],
-        ["Word", "老师留底、同学细读每题任务"],
-        ["Excel", "志愿、编组、技能、时间表"],
-        ["群发短稿", "直接粘贴到学生群"],
-        ["HTML", "浏览器打开的一页总览"],
+        ["选题表", "Excel：志愿、编组、技能"],
+        ["一页稿", "Markdown，直接粘贴学生群"],
     ]
     for i, (name, desc) in enumerate(files):
-        x = 0.45 + i * 2.55
-        add_rounded(s, Inches(x), Inches(1.6), Inches(2.4), Inches(3.3), fill=LIGHT)
-        add_rect(s, Inches(x), Inches(1.6), Inches(2.4), Inches(0.12), fill=GOLD)
-        add_text(s, Inches(x + 0.1), Inches(2.0), Inches(2.2), Inches(0.9),
-                 name, size=18, bold=True, color=PRIMARY, align=PP_ALIGN.CENTER)
-        add_text(s, Inches(x + 0.12), Inches(2.95), Inches(2.16), Inches(1.6),
-                 desc, size=13, color=DARK, align=PP_ALIGN.CENTER)
+        x = 0.7 + i * 3.15
+        add_rounded(s, Inches(x), Inches(1.6), Inches(2.95), Inches(3.3), fill=LIGHT)
+        add_rect(s, Inches(x), Inches(1.6), Inches(2.95), Inches(0.12), fill=GOLD)
+        add_text(s, Inches(x + 0.12), Inches(2.0), Inches(2.7), Inches(0.9),
+                 name, size=20, bold=True, color=PRIMARY, align=PP_ALIGN.CENTER)
+        add_text(s, Inches(x + 0.16), Inches(2.95), Inches(2.62), Inches(1.6),
+                 desc, size=14, color=DARK, align=PP_ALIGN.CENTER)
     add_text(s, Inches(0.55), Inches(5.15), Inches(12.2), Inches(1.6),
              [
                  C.WECHAT_CONTACT_NOTE,
@@ -271,7 +270,7 @@ def build():
     add_text(s, Inches(0.9), Inches(3.7), Inches(11.5), Inches(1.2),
              [
                  f"正式发布：{C.RELEASE_DATE}",
-                 "配套：PPT · Word · Excel 选题表 · 群发短稿 · HTML 一页总览",
+                 "配套：PPT · Word · Excel 选题表 · 发群一页稿（Markdown）",
              ],
              size=16, color=SOFT)
     add_text(s, Inches(0.9), Inches(5.4), Inches(11.5), Inches(0.8),

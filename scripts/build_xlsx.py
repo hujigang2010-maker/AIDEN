@@ -112,7 +112,7 @@ def build():
         ["选题意向", "学生填志愿，可复印多行", "学生"],
         ["项目组编组", "老师确认名单与组长", "老师"],
         ["时间表", "发布到结题节点", "只读"],
-        ["群发短稿", "可直接复制到微信群", "老师粘贴"],
+        ["发群一页稿", "可直接复制到学生群", "老师粘贴"],
     ]
     start = 4
     for i, row in enumerate(notes):
@@ -213,11 +213,12 @@ def build():
 
     # 6 群发短稿（纯文本，便于复制）
     ws = wb.create_sheet("群发短稿")
-    ws["A1"] = "微信群发布稿（全选 A 列复制）"
+    ws["A1"] = "发群一页稿（全选 A 列复制；正式稿见 Markdown 文件）"
     ws["A1"].font = font(bold=True, color=WHITE, size=14)
     ws["A1"].fill = fill(NAVY)
     ws.merge_cells("A1:B1")
-    lines = wechat_lines()
+    from build_wechat import render_txt
+    lines = render_txt().splitlines()
     for i, line in enumerate(lines, 3):
         ws.cell(i, 1, line)
         ws.cell(i, 1).alignment = align(wrap=True)
@@ -230,11 +231,6 @@ def build():
     wb.save(OUT_FILE)
     print(f"已生成 {OUT_FILE}")
     return OUT_FILE
-
-
-def wechat_lines():
-    from build_wechat import render_lines
-    return render_lines()
 
 
 if __name__ == "__main__":

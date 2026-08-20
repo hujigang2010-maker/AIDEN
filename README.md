@@ -6,11 +6,11 @@
 
 | 文件 | 用途 |
 |------|------|
+| `exports/AIDEN_西电产学研课题介绍.docx` | 完整课题介绍，老师留底、同学细读 |
 | `exports/AIDEN_西电产学研课题介绍.pptx` | 宣讲 15 分钟 |
-| `exports/AIDEN_西电产学研课题介绍.docx` | 完整分题说明，可细读、可剪贴 |
-| `exports/AIDEN_西电课题选题与编组表.xlsx` | 总览、技能、学生志愿、老师编组、时间表、群发短稿 |
-| `exports/微信群发布稿.txt`（同 `.md`） | 直接粘贴到学生群 |
-| `exports/课题一页总览.html` | 浏览器打开的一页总览 |
+| `exports/AIDEN_西电课题选题与编组表.xlsx` | 学生志愿、老师编组 |
+| `exports/AIDEN_西电课题_发群一页稿.md` | 可直接发群的一页稿（Markdown） |
+| `exports/AIDEN_西电课题_发群一页稿.txt` | 同上，纯文本，适合微信粘贴 |
 
 ## 重新生成
 

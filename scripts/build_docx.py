@@ -121,7 +121,7 @@ def build():
     add_h(doc, "一、写在前面", 1)
     for para in C.LETTER:
         add_p(doc, para, first_line=True)
-    add_p(doc, "本文是完整课题说明。若只需课堂上讲 15 分钟，请用配套 PPT；若要收志愿，请用配套 Excel；若要发学生群，请用《微信群发布稿》。")
+    add_p(doc, "本文是完整课题说明。若只需课堂上讲 15 分钟，请用配套 PPT；若要收志愿，请用配套 Excel；若要发学生群，请用发群一页稿（Markdown）。")
 
     add_h(doc, "二、我们是谁，课题从哪来", 1)
     for para in C.ABOUT:
@@ -200,10 +200,10 @@ def build():
 
     add_h(doc, "十一、发布时怎么用这套材料", 1)
     add_bullets(doc, [
-        "学生群：粘贴《微信群发布稿》，附 Excel 选题表。",
+        "学生群：粘贴发群一页稿（Markdown / 纯文本），附 Excel 选题表。",
         "宣讲会：用 PPT，控制在 15 分钟，细节让同学回去看 Word。",
         "老师留底：Word 全文 + Excel 编组。",
-        "浏览器预览：打开 HTML 一页总览。",
+        "学生群：粘贴发群一页稿（Markdown / 纯文本）。",
         C.WECHAT_CONTACT_NOTE,
         "AIDEN 侧不在学生群单独招生。编组由西电老师确认后，再拉各项目组工作群。",
     ])

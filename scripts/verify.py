@@ -21,9 +21,8 @@ FILES = [
     "AIDEN_西电产学研课题介绍.pptx",
     "AIDEN_西电产学研课题介绍.docx",
     "AIDEN_西电课题选题与编组表.xlsx",
-    "微信群发布稿.txt",
-    "微信群发布稿.md",
-    "课题一页总览.html",
+    "AIDEN_西电课题_发群一页稿.md",
+    "AIDEN_西电课题_发群一页稿.txt",
 ]
 
 
@@ -97,17 +96,17 @@ def main() -> None:
         fail("选题意向行数不足，学生没法填")
     ok("Excel 七张表、十条编号、选题意向可填")
 
-    wechat = (EXPORTS / "微信群发布稿.txt").read_text(encoding="utf-8")
-    html = (EXPORTS / "课题一页总览.html").read_text(encoding="utf-8")
-    for blob_name, blob in (("微信稿", wechat), ("HTML", html)):
+    md = (EXPORTS / "AIDEN_西电课题_发群一页稿.md").read_text(encoding="utf-8")
+    txt = (EXPORTS / "AIDEN_西电课题_发群一页稿.txt").read_text(encoding="utf-8")
+    for blob_name, blob in (("一页稿.md", md), ("一页稿.txt", txt)):
         for tid in ids:
             if tid not in blob:
                 fail(f"{blob_name} 未出现 {tid}")
         if "第一志愿" not in blob:
             fail(f"{blob_name} 未说明志愿填法")
-    if "<html" not in html.lower():
-        fail("HTML 结构不完整")
-    ok("微信稿与 HTML 含十条课题")
+    if not md.startswith("# "):
+        fail("一页稿 Markdown 缺少标题")
+    ok("发群一页稿（Markdown / 纯文本）含十条课题")
     print("全部校验通过")
 
 
