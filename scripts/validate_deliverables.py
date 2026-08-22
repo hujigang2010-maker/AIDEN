@@ -320,6 +320,13 @@ def main() -> None:
     assert "红枫路" not in ctxt
     assert "不先发" in ctxt or "不署名发律师函" in ctxt
 
+    digest = OUT / "全案整理_截至2026-08-22.md"
+    assert digest.exists() and digest.stat().st_size > 3000, digest
+    dtxt = digest.read_text(encoding="utf-8")
+    for k in ("抚顺路和哈尔滨路路口", "0001519455", "19:01", "尚未出具", "五句话", "300 元/天", "拉群", "再推迟", "杨浦", "不是律师函", "三十余年"):
+        assert k in dtxt, f"全案整理缺少：{k}"
+    assert "红枫路" not in dtxt
+
     assert "护栏开口" in text
     assert "待用" in text or "护栏" in text
 
