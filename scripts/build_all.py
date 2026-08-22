@@ -32,6 +32,10 @@ from generate_mom_liu_talk import build_document as build_mom_card
 from generate_mom_liu_talk import build_markdown as build_mom_md
 from generate_mom_liu_talk import build_pdf as build_mom_pdf
 from generate_pptx import build_ppt
+from generate_solution import DOCX_NAME as SOL_DOCX
+from generate_solution import XLSX_NAME as SOL_XLSX
+from generate_solution import build_document as build_solution_doc
+from generate_solution import build_workbook as build_solution_wb
 from generate_xlsx import build_workbook
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -75,11 +79,16 @@ def main() -> None:
     build_mom_md(mom_md)
     build_mom_card(mom_docx)
     build_mom_pdf(mom_pdf)
+    sol_docx = OUT / SOL_DOCX
+    sol_xlsx = OUT / SOL_XLSX
+    build_solution_doc(sol_docx)
+    build_solution_wb(sol_xlsx)
     build_guide_html()
     print(
         f"已生成：\n  {docx}\n  {xlsx}\n  {pptx}\n  {comm_docx}\n  {comm_pdf}\n  {comm_xlsx}\n"
         f"  {lawyer_md}\n  {lawyer_docx}\n  {lawyer_pdf}\n  {lawyer_illu_docx}\n  {lawyer_illu_pdf}\n"
-        f"  {liu_md}\n  {liu_docx}\n  {liu_pdf}\n  {mom_md}\n  {mom_docx}\n  {mom_pdf}"
+        f"  {liu_md}\n  {liu_docx}\n  {liu_pdf}\n  {mom_md}\n  {mom_docx}\n  {mom_pdf}\n"
+        f"  {sol_docx}\n  {sol_xlsx}"
     )
 
 

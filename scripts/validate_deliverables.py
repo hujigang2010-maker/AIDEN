@@ -327,6 +327,20 @@ def main() -> None:
         assert k in dtxt, f"全案整理缺少：{k}"
     assert "红枫路" not in dtxt
 
+    sol_docx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_完整解决方案_20260822.docx"
+    sol_xlsx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_赔付测算表_20260822.xlsx"
+    assert sol_docx.exists() and sol_docx.stat().st_size > 10000, sol_docx
+    stext_sol = docx_text(sol_docx)
+    for k in ("泰康", "残疾赔偿金", "二次住院", "欠薪", "理赔", "家属内部", "不是律师函", "71703"):
+        assert k in stext_sol, f"解决方案 Word 缺少：{k}"
+    assert "红枫路" not in stext_sol
+    swb = load_workbook(sol_xlsx)
+    for n in ("责任与赔付分担", "理赔流程时间线", "住院与治疗时长", "费用估算明细", "三情景总账", "泰康保单核对", "纪律"):
+        assert n in swb.sheetnames, n
+    tot_ws = swb["三情景总账"]
+    tot_text = "\n".join(str(c.value or "") for row in tot_ws.iter_rows(max_row=10) for c in row)
+    assert "十级" in tot_text and "九级" in tot_text and "欠薪" in tot_text
+
     assert "护栏开口" in text
     assert "待用" in text or "护栏" in text
 
