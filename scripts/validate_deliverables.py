@@ -294,6 +294,17 @@ def main() -> None:
         assert "红枫路" not in mp
         assert "70%" not in mp and "30%" not in mp
 
+    rider_md = OUT / "给美团骑手的跟进微信_2026-08-22.md"
+    assert rider_md.exists() and rider_md.stat().st_size > 800, rider_md
+    rtxt = rider_md.read_text(encoding="utf-8")
+    for k in ("拉群", "不是让你个人现在拿钱", "市北区人民医院", "不是律师函", "今天不谈一共赔多少"):
+        assert k in rtxt, f"骑手跟进微信缺少：{k}"
+    assert "红枫路" not in rtxt
+    copy = rtxt.split("## 请直接复制发出")[1].split("## 她若回了")[0]
+    assert "全责" not in copy
+    assert "律师函" not in copy
+    assert "不先发律师函" in rtxt
+
     assert "护栏开口" in text
     assert "待用" in text or "护栏" in text
 
