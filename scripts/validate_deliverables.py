@@ -305,6 +305,13 @@ def main() -> None:
     assert "律师函" not in copy
     assert "不先发律师函" in rtxt
 
+    itinerary = OUT / "胡继刚行程_长春上海青岛_2026-08-22.md"
+    assert itinerary.exists() and itinerary.stat().st_size > 1200, itinerary
+    itxt = itinerary.read_text(encoding="utf-8")
+    for k in ("长春", "一对一", "护理费", "误工费", "杨浦", "家属自留", "不要发给刘孝春"):
+        assert k in itxt, f"行程说明缺少：{k}"
+    assert "红枫路" not in itxt
+
     assert "护栏开口" in text
     assert "待用" in text or "护栏" in text
 
