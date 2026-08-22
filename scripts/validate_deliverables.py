@@ -124,7 +124,7 @@ def main() -> None:
     print("沟通方案 DOCX 字符", len(ctext), "字节", comm_docx.stat().st_size)
     for k in ("胫骨远端", "腓骨近端", "跟骨骨刺", "开场", "律师函", "方案甲", "12", "人民医院", "美团"):
         assert k in ctext, f"沟通方案 Word 缺少：{k}"
-    assert "不要请诉讼律师" in ctext or "现在不要请诉讼律师" in ctext
+    assert "不要请诉讼律师" in ctext or "现在不要请诉讼律师" in ctext or "不到场见骑手" in ctext or "不先发律师函" in ctext
 
     cwb = load_workbook(comm_xlsx)
     print("沟通流程 XLSX 工作表", cwb.sheetnames)
@@ -311,6 +311,14 @@ def main() -> None:
     for k in ("长春", "一对一", "护理费", "误工费", "杨浦", "家属自留", "不要发给刘孝春"):
         assert k in itxt, f"行程说明缺少：{k}"
     assert "红枫路" not in itxt
+
+    confirm = OUT / "家属确认_岳父律师与护工_2026-08-22.md"
+    assert confirm.exists() and confirm.stat().st_size > 1200, confirm
+    ctxt = confirm.read_text(encoding="utf-8")
+    for k in ("三十余年", "场外", "300", "一对一", "发票", "不是律师函", "不要发给"):
+        assert k in ctxt, f"岳父护工确认缺少：{k}"
+    assert "红枫路" not in ctxt
+    assert "不先发" in ctxt or "不署名发律师函" in ctxt
 
     assert "护栏开口" in text
     assert "待用" in text or "护栏" in text
