@@ -79,6 +79,17 @@ def find_chrome() -> str:
     raise FileNotFoundError("未找到 Google Chrome / Chromium，无法启动 Gemini 桌面端。")
 
 
+def extra_chrome_flags() -> list[str]:
+    """容器环境里 Chrome 沙箱通常不可用，需要补上与系统 Chrome 一致的启动参数。"""
+    flags = [item for item in os.environ.get("GEMINI_DESKTOP_CHROME_FLAGS", "").split() if item]
+    in_container = Path("/.dockerenv").exists() or Path("/run/.containerenv").exists()
+    if in_container:
+        for flag in ("--no-sandbox", "--disable-dev-shm-usage", "--password-store=basic"):
+            if flag not in flags:
+                flags.append(flag)
+    return flags
+
+
 def build_chrome_args(
     *,
     chrome: str,
@@ -95,6 +106,7 @@ def build_chrome_args(
         "--disable-features=TranslateUI,MediaRouter",
         "--disable-session-crashed-bubble",
         "--hide-crash-restore-bubble",
+        *extra_chrome_flags(),
         f"--app={start_url}",
     ]
     if extension_dir and extension_dir.is_dir():

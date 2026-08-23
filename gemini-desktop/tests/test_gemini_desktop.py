@@ -50,6 +50,9 @@ class ChromeArgsTests(unittest.TestCase):
         self.assertIn("accounts.google.com", app_url)
         self.assertIn("gemini.google.com", app_url)
         self.assertTrue(any(item.startswith("--load-extension=") for item in args))
+        if Path("/.dockerenv").exists():
+            self.assertIn("--no-sandbox", args)
+            self.assertIn("--disable-dev-shm-usage", args)
 
     def test_existing_cookies_open_gemini_directly(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
