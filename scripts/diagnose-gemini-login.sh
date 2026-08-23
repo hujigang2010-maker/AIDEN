@@ -45,6 +45,6 @@ fi
 
 echo
 echo "结论提示："
-echo "1. 上面三个地址都能返回 2xx/3xx，说明网络和 Google 授权入口可用。"
+echo "1. 上面三个地址只要标记为可达，就说明网络和 Google 授权入口可用（oauth2 GET 返回 404 也正常）。"
 echo "2. 旧包装器把 Gemini 放进 iframe，授权 cookie 写不回应用，会表现为一直无法登录。"
-echo "3. 请使用本仓库的顶层窗口客户端：npm run dev 或 scripts/launch-gemini.sh"
+echo "3. 请使用本仓库的顶层窗口客户端：./scripts/launch-gemini.sh"
