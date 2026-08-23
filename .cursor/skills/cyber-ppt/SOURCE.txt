@@ -1,0 +1,3 @@
+source: https://github.com/crazyykhllc-bit/CyberPPT
+commit: 980e5576565f0673c67ee41b01d20ed66cb8417c
+installed_as: .cursor/skills/cyber-ppt

@@ -28,6 +28,15 @@
 1. **`mp-typer` 网页应用**（分支 `cursor/wechat-mp-editor-b201`）：纯前端 React 19 + Vite SPA，用于生成微信公众号内联样式 HTML 的 Markdown 编辑器。无需后端、数据库或环境变量。
 2. **文档生成脚本**（大多数其他 `cursor/*` 分支）：使用 `python-pptx`、`python-docx`、`openpyxl`、`lxml` 的 Python 3 脚本，输出 PPTX/DOCX/XLSX/PNG 文件。这些是一次性批处理脚本，不是长期运行的服务。
 
+### CyberPPT Skill（咨询风格 PPT）
+
+仓库已安装 [CyberPPT](https://github.com/crazyykhllc-bit/CyberPPT) 项目级 Skill，路径为 `.cursor/skills/cyber-ppt/`。
+
+- 当用户要把文档、研究材料或业务数据做成**高密度、可编辑、咨询风格 PPTX** 时，必须先阅读 `.cursor/skills/cyber-ppt/SKILL.md`，并按其强制三阶段流程执行：资料分析 → 风格确认与蓝图 → 逐页还原 PPTX。
+- 正式 PPTX 生成使用 **PptxGenJS**，不要改用 `python-pptx` 出正式稿。
+- 质量检查可运行：`python3 .cursor/skills/cyber-ppt/scripts/validate_pptx.py`
+- 上游来源与提交见 `.cursor/skills/cyber-ppt/SOURCE.txt`。
+
 ### 网页应用（mp-typer）运行方式
 
 - 包管理器为 **npm**（存在 `package-lock.json`）。进入分支目录后先执行 `npm install`。
