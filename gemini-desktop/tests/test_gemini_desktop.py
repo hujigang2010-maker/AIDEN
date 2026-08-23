@@ -4,6 +4,9 @@
 from __future__ import annotations
 
 import json
+import os
+import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -95,6 +98,53 @@ class ExtensionAndInstallTests(unittest.TestCase):
             self.assertIn(str(paths["launcher"]), desktop)
             wrapper = paths["launcher"].read_text(encoding="utf-8")
             self.assertIn("gemini_desktop.py", wrapper)
+            self.assertIn("CANDIDATES", wrapper)
+            self.assertIn("$HOME/gemini-desktop/gemini_desktop.py", wrapper)
+
+
+class PathDiscoveryTests(unittest.TestCase):
+    def test_finds_nested_script_from_home_style_bin(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            home_style = Path(tmp) / "gemini-desktop"
+            nested = home_style / "gemini-desktop"
+            nested.mkdir(parents=True)
+            shutil.copy2(ROOT / "gemini_desktop.py", nested / "gemini_desktop.py")
+            found = gd.find_app_script(home_style / "bin")
+            self.assertTrue(gd.is_real_app_script(found))
+            self.assertEqual(found.resolve(), (nested / "gemini_desktop.py").resolve())
+
+    def test_wrapper_finds_missing_root_file_via_nested_package(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            home = Path(tmp)
+            package = home / "gemini-desktop" / "gemini-desktop"
+            package.mkdir(parents=True)
+            shutil.copy2(ROOT / "gemini_desktop.py", package / "gemini_desktop.py")
+            bin_dir = home / "gemini-desktop" / "bin"
+            gd.write_wrapper(bin_dir / "gemini-desktop")
+            env = os.environ.copy()
+            env["HOME"] = str(home)
+            result = subprocess.run(
+                [str(bin_dir / "gemini-desktop"), "--print-url", "--fix-login"],
+                check=False,
+                capture_output=True,
+                text=True,
+                env=env,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("accounts.google.com", result.stdout)
+
+    def test_missing_script_message(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            with mock.patch.object(gd, "app_script_candidates", return_value=[Path(tmp) / "nope.py"]):
+                with self.assertRaises(FileNotFoundError) as ctx:
+                    gd.find_app_script(Path(tmp))
+        self.assertIn("不要只复制", str(ctx.exception))
+
+    def test_chrome_candidates_include_mac_app(self) -> None:
+        self.assertIn(
+            "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+            gd.chrome_candidates(),
+        )
 
 
 class PrintUrlCliTests(unittest.TestCase):

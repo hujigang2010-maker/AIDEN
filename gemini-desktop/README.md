@@ -17,7 +17,10 @@ Chrome 窗口，会话没有回到桌面应用。
 
 ## 安装
 
-在仓库根目录执行：
+不要只复制 `bin/gemini-desktop`。主程序是 `gemini-desktop/gemini_desktop.py`，
+少了它就会报 `can't open file '.../gemini_desktop.py'`。
+
+在 AIDEN 仓库根目录执行：
 
 ```bash
 python3 gemini-desktop/gemini_desktop.py --install
@@ -29,7 +32,11 @@ python3 gemini-desktop/gemini_desktop.py --install
 bash gemini-desktop/install.sh
 ```
 
-安装后可从应用菜单或 Dock 打开 **Gemini 桌面端**。
+macOS 会把完整文件装到 `~/gemini-desktop`（并尽量在桌面放上「启动 Gemini 桌面端.command」）。
+若你把 AIDEN 克隆到了 `~/gemini-desktop`，根目录的 `gemini_desktop.py` 只是跳转入口，
+真正的主程序在 `~/gemini-desktop/gemini-desktop/gemini_desktop.py`。
+
+Linux 安装后可从应用菜单或 Dock 打开 **Gemini 桌面端**。
 
 ## 使用
 
