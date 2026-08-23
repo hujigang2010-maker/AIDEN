@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": {
+        "transform": {
+          "scheme": "https",
+          "host": "gemini.google.com"
+        }
+      }
+    },
+    "condition": {
+      "requestDomains": ["gemini.google"],
+      "resourceTypes": ["main_frame", "sub_frame"]
+    }
+  }
+]
