@@ -11,17 +11,23 @@
 
 本分支改成：
 
-1. **顶层窗口**直接打开 Gemini，不再 iframe
-2. 会话固定在 `persist:gemini` 分区，刷新后仍保持登录
-3. 登录弹窗留在**同一分区**，禁止把 OAuth 丢给系统浏览器
-4. 使用 Chrome 148 User-Agent，去掉 Electron 指纹，避免 Google 直接 403
+1. **默认用系统 Chrome `--app` 顶层窗口**打开 Gemini，登录发生在真实 Chrome 里
+2. 独立应用配置目录，不把授权丢到外部标签后再丢失会话
+3. Electron 备选路径同样改为顶层窗口 + `persist:gemini` + Chrome User-Agent
+4. Linux 云桌面补齐 `--disable-dev-shm-usage` 与 SwiftShader，避免空白窗口
 
 ## 运行
 
 ```bash
 npm install
 npm test
-npm run dev
+./scripts/launch-gemini.sh
+```
+
+强制走 Electron：
+
+```bash
+GEMINI_LAUNCHER=electron npm run dev
 ```
 
 Linux 桌面快捷方式：
@@ -30,8 +36,6 @@ Linux 桌面快捷方式：
 chmod +x scripts/*.sh
 ./scripts/install-desktop-shortcut.sh
 ```
-
-之后可从桌面图标或 `scripts/launch-gemini.sh` 启动。
 
 ## 诊断
 

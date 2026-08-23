@@ -9,6 +9,17 @@ import {
   sanitizeRequestHeaders,
   shouldReloadAfterAuthNavigation,
 } from './auth-policy';
+import { LINUX_CHROME_COMPAT_SWITCHES } from './chrome-flags';
+
+if (process.platform === 'linux') {
+  for (const [name, value] of LINUX_CHROME_COMPAT_SWITCHES) {
+    if (value === undefined) {
+      app.commandLine.appendSwitch(name);
+    } else {
+      app.commandLine.appendSwitch(name, value);
+    }
+  }
+}
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -90,6 +101,14 @@ function createMainWindow(): BrowserWindow {
   });
 
   attachAuthWindowPolicy(win);
+  win.webContents.on('did-fail-load', (_event, code, desc, url, isMainFrame) => {
+    if (isMainFrame) {
+      console.error(`主窗口加载失败 ${code} ${desc} ${url}`);
+    }
+  });
+  win.webContents.on('did-finish-load', () => {
+    console.log(`主窗口已加载: ${win.webContents.getURL()}`);
+  });
   void win.loadURL(GEMINI_APP_URL);
   return win;
 }

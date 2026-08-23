@@ -11,7 +11,11 @@ check_url() {
   local url="$2"
   local code
   code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 15 -A 'Mozilla/5.0' "${url}" || echo fail)"
-  printf '%-28s %s\n' "${name}" "${code}"
+  local reach="不可达"
+  if [[ "${code}" =~ ^[2345][0-9][0-9]$ ]]; then
+    reach="可达"
+  fi
+  printf '%-28s %s (%s)\n' "${name}" "${code}" "${reach}"
 }
 
 echo "-- 网络 --"
