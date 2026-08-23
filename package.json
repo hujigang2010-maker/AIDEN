@@ -1,0 +1,25 @@
+{
+  "name": "gemini-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Gemini 桌面端：顶层窗口登录，避免 iframe 授权成功后仍无法进入会话",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "npm run build && electron .",
+    "start": "electron .",
+    "test": "vitest run",
+    "lint": "tsc --noEmit -p tsconfig.json"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "electron": "^37.2.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}

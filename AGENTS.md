@@ -45,5 +45,13 @@
 ### 在 `main` 分支上运行其他分支的应用
 
 - 可使用链接工作树，例如：
-  `git worktree add /workspace/.worktree-mp-typer origin/cursor/wechat-mp-editor-b201`
+ `git worktree add /workspace/.worktree-mp-typer origin/cursor/wechat-mp-editor-b201`
 - 然后在该目录中执行 `npm install` 和 `npm run dev`。
+
+### Gemini 桌面端（分支 `cursor/gemini-desktop-login-fix-474b`）
+
+- 默认用系统 Chrome `--app` 顶层窗口打开 `https://gemini.google.com/app`。
+- 先执行 `npm install`，再 `npm test` 和 `./scripts/launch-gemini.sh`。
+- Electron 备选：`GEMINI_LAUNCHER=electron npm run dev`。
+- 登录必须在应用窗口内完成；不要把 OAuth 丢到外部浏览器。
+- Linux 快捷方式：`./scripts/install-desktop-shortcut.sh`。
