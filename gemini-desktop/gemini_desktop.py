@@ -24,14 +24,18 @@ GEMINI_APP_URL = "https://gemini.google.com/app?hl=zh-CN"
 ACCOUNTS_LOGIN_PATH = "https://accounts.google.com/ServiceLogin"
 BROKEN_HOST_HINT = "gemini.google/app"
 
+# 优先走真实二进制，避开 /usr/local/bin/google-chrome 这类会强行
+# --user-data-dir 并 --class=google-chrome 的包装脚本，否则独立配置和 Dock 图标都会失效。
 CHROME_CANDIDATES = (
-    "google-chrome",
+    "/opt/google/chrome/google-chrome",
+    "/usr/bin/google-chrome-stable",
+    "/usr/bin/google-chrome",
     "google-chrome-stable",
     "chromium-browser",
     "chromium",
-    "/opt/google/chrome/google-chrome",
-    "/usr/bin/google-chrome",
 )
+
+APP_WM_CLASS = "GeminiDesktop"
 
 
 def repo_root() -> Path:
@@ -74,8 +78,12 @@ def find_chrome() -> str:
         raise FileNotFoundError(f"GEMINI_DESKTOP_CHROME 不可执行: {override}")
     for name in CHROME_CANDIDATES:
         found = shutil.which(name) if "/" not in name else (name if Path(name).is_file() else None)
-        if found:
-            return found
+        if not found:
+            continue
+        resolved = str(Path(found).resolve())
+        if resolved == "/usr/local/bin/google-chrome":
+            continue
+        return found
     raise FileNotFoundError("未找到 Google Chrome / Chromium，无法启动 Gemini 桌面端。")
 
 
@@ -84,7 +92,13 @@ def extra_chrome_flags() -> list[str]:
     flags = [item for item in os.environ.get("GEMINI_DESKTOP_CHROME_FLAGS", "").split() if item]
     in_container = Path("/.dockerenv").exists() or Path("/run/.containerenv").exists()
     if in_container:
-        for flag in ("--no-sandbox", "--disable-dev-shm-usage", "--password-store=basic"):
+        for flag in (
+            "--no-sandbox",
+            "--disable-dev-shm-usage",
+            "--password-store=basic",
+            "--use-gl=angle",
+            "--use-angle=swiftshader-webgl",
+        ):
             if flag not in flags:
                 flags.append(flag)
     return flags
@@ -106,6 +120,7 @@ def build_chrome_args(
         "--disable-features=TranslateUI,MediaRouter",
         "--disable-session-crashed-bubble",
         "--hide-crash-restore-bubble",
+        f"--class={APP_WM_CLASS}",
         *extra_chrome_flags(),
         f"--app={start_url}",
     ]
@@ -183,7 +198,7 @@ Icon={icon_path}
 Terminal=false
 Categories=Network;WebBrowser;Utility;
 StartupNotify=true
-StartupWMClass=chrome-gemini.google.com__app
+StartupWMClass=GeminiDesktop
 """
     dest.write_text(content, encoding="utf-8")
     dest.chmod(dest.stat().st_mode | stat.S_IXUSR)

@@ -45,6 +45,7 @@ class ChromeArgsTests(unittest.TestCase):
         )
         self.assertEqual(args[0], "/opt/google/chrome/google-chrome")
         self.assertIn(f"--user-data-dir={profile}", args)
+        self.assertIn("--class=GeminiDesktop", args)
         self.assertTrue(any(item.startswith("--app=") for item in args))
         app_url = next(item.split("=", 1)[1] for item in args if item.startswith("--app="))
         self.assertIn("accounts.google.com", app_url)
@@ -53,6 +54,12 @@ class ChromeArgsTests(unittest.TestCase):
         if Path("/.dockerenv").exists():
             self.assertIn("--no-sandbox", args)
             self.assertIn("--disable-dev-shm-usage", args)
+
+    def test_find_chrome_skips_cloud_wrapper(self) -> None:
+        chrome = gd.find_chrome()
+        self.assertNotEqual(chrome, "/usr/local/bin/google-chrome")
+        if Path("/opt/google/chrome/google-chrome").is_file():
+            self.assertEqual(chrome, "/opt/google/chrome/google-chrome")
 
     def test_existing_cookies_open_gemini_directly(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
