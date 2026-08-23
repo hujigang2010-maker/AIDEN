@@ -50,7 +50,8 @@
 
 ### Gemini 桌面端（分支 `cursor/gemini-desktop-login-fix-474b`）
 
-- 纯 Electron 包装器，直接以顶层窗口打开 `https://gemini.google.com/app`。
-- 先执行 `npm install`，再 `npm test`、`npm run dev`。
+- 默认用系统 Chrome `--app` 顶层窗口打开 `https://gemini.google.com/app`。
+- 先执行 `npm install`，再 `npm test` 和 `./scripts/launch-gemini.sh`。
+- Electron 备选：`GEMINI_LAUNCHER=electron npm run dev`。
 - 登录必须在应用窗口内完成；不要把 OAuth 丢到外部浏览器。
 - Linux 快捷方式：`./scripts/install-desktop-shortcut.sh`。
