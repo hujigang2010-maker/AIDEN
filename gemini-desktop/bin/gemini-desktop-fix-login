@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+export GEMINI_DESKTOP_EXTRA_ARGS="--fix-login"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec "$ROOT/gemini-desktop" "$@"

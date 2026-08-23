@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+EXTRA="${GEMINI_DESKTOP_EXTRA_ARGS:-}"
+CANDIDATES=(
+  "$HERE/gemini_desktop.py"
+  "$HERE/../gemini_desktop.py"
+  "$HERE/../gemini-desktop/gemini_desktop.py"
+  "$HOME/gemini-desktop/gemini_desktop.py"
+  "$HOME/gemini-desktop/gemini-desktop/gemini_desktop.py"
+  "$HOME/.local/share/gemini-desktop/gemini_desktop.py"
+  "$HOME/Library/Application Support/gemini-desktop/gemini_desktop.py"
+)
+PY=""
+for c in "${CANDIDATES[@]}"; do
+  if [ -f "$c" ] && grep -q "GEMINI_APP_URL" "$c" 2>/dev/null; then
+    PY="$c"
+    break
+  fi
+done
+if [ -z "$PY" ]; then
+  for c in "${CANDIDATES[@]}"; do
+    if [ -f "$c" ]; then
+      PY="$c"
+      break
+    fi
+  done
+fi
+if [ -z "$PY" ]; then
+  echo "找不到 gemini_desktop.py。" >&2
+  echo "不要只复制 bin/ 启动脚本。请把仓库里的整个 gemini-desktop 目录放到 ~/gemini-desktop，" >&2
+  echo "或在 AIDEN 仓库执行：python3 gemini-desktop/gemini_desktop.py --install" >&2
+  exit 1
+fi
+if ! command -v python3 >/dev/null 2>&1; then
+  echo "需要 python3。" >&2
+  exit 1
+fi
+# shellcheck disable=SC2086
+exec python3 "$PY" $EXTRA "$@"

@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Gemini 桌面登录回跳修复",
+  "version": "1.0.0",
+  "description": "把错误的 gemini.google/app 回跳纠正为 gemini.google.com/app，避免授权成功后落到 404。",
+  "permissions": [
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "host_permissions": [
+    "*://gemini.google/*",
+    "*://*.gemini.google/*",
+    "*://gemini.google.com/*"
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "gemini_login_redirects",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  }
+}
