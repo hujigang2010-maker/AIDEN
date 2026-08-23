@@ -54,6 +54,7 @@ class ChromeArgsTests(unittest.TestCase):
         if Path("/.dockerenv").exists():
             self.assertIn("--no-sandbox", args)
             self.assertIn("--disable-dev-shm-usage", args)
+            self.assertIn("--test-type", args)
 
     def test_find_chrome_skips_cloud_wrapper(self) -> None:
         chrome = gd.find_chrome()

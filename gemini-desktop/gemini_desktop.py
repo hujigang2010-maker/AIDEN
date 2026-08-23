@@ -98,6 +98,7 @@ def extra_chrome_flags() -> list[str]:
             "--password-store=basic",
             "--use-gl=angle",
             "--use-angle=swiftshader-webgl",
+            "--test-type",
         ):
             if flag not in flags:
                 flags.append(flag)
