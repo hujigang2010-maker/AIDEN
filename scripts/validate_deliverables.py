@@ -362,6 +362,24 @@ def main() -> None:
         assert k in ptxt_poa, f"授权委托书缺少：{k}"
     assert "红枫路" not in ptxt_poa
 
+    diet_md = OUT / "给护工的无糖床头食谱_2026-08-29.md"
+    diet_docx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_给护工的无糖床头食谱_20260829.docx"
+    diet_pdf = OUT / "青岛抚顺路和哈尔滨路路口交通事故_给护工的无糖床头食谱_20260829.pdf"
+    assert diet_md.exists() and diet_md.stat().st_size > 800, diet_md
+    dtxt_diet = diet_md.read_text(encoding="utf-8")
+    for k in ("早餐", "午餐", "晚餐", "加餐", "无糖", "低血糖", "胡志远", "2000"):
+        assert k in dtxt_diet, f"床头食谱缺少：{k}"
+    assert "红枫路" not in dtxt_diet
+    assert diet_docx.exists() and diet_docx.stat().st_size > 5000, diet_docx
+    assert diet_pdf.exists() and diet_pdf.stat().st_size > 3000, diet_pdf
+    dtext_doc = docx_text(diet_docx)
+    for k in ("早餐", "午餐", "晚餐", "禁止", "葡萄糖"):
+        assert k in dtext_doc, f"床头食谱 Word 缺少：{k}"
+    dtext_pdf = pdf_text(diet_pdf)
+    if dtext_pdf:
+        for k in ("早餐", "低血糖", "护工"):
+            assert k in dtext_pdf, f"床头食谱 PDF 缺少：{k}"
+
     from pack_all import ZIP_NAME
 
     archive = OUT / ZIP_NAME
@@ -374,6 +392,8 @@ def main() -> None:
         "青岛抚顺路和哈尔滨路路口交通事故_完整解决方案_20260822.docx",
         "家庭执行方案_2026-08-29.md",
         "授权委托书_胡志远委托胡继刚_草稿.md",
+        "给护工的无糖床头食谱_2026-08-29.md",
+        "青岛抚顺路和哈尔滨路路口交通事故_给护工的无糖床头食谱_20260829.pdf",
         "压缩包目录说明.txt",
     ):
         assert must in names, f"压缩包缺少：{must}"

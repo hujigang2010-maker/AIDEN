@@ -6,6 +6,12 @@ from pathlib import Path
 from generate_comm_docx import build_comm_document
 from generate_comm_pdf import build_comm_pdf
 from generate_comm_xlsx import build_comm_workbook
+from generate_diet_chart import DOCX_NAME as DIET_DOCX
+from generate_diet_chart import MD_NAME as DIET_MD
+from generate_diet_chart import PDF_NAME as DIET_PDF
+from generate_diet_chart import build_document as build_diet_doc
+from generate_diet_chart import build_markdown as build_diet_md
+from generate_diet_chart import build_pdf as build_diet_pdf
 from generate_docx import build_document
 from generate_guide_html import main as build_guide_html
 from generate_lawyer_brief import build_document as build_lawyer_brief
@@ -84,13 +90,19 @@ def main() -> None:
     sol_xlsx = OUT / SOL_XLSX
     build_solution_doc(sol_docx)
     build_solution_wb(sol_xlsx)
+    diet_md = OUT / DIET_MD
+    diet_docx = OUT / DIET_DOCX
+    diet_pdf = OUT / DIET_PDF
+    build_diet_md(diet_md)
+    build_diet_doc(diet_docx)
+    build_diet_pdf(diet_pdf)
     build_guide_html()
     archive = build_zip()
     print(
         f"已生成：\n  {docx}\n  {xlsx}\n  {pptx}\n  {comm_docx}\n  {comm_pdf}\n  {comm_xlsx}\n"
         f"  {lawyer_md}\n  {lawyer_docx}\n  {lawyer_pdf}\n  {lawyer_illu_docx}\n  {lawyer_illu_pdf}\n"
         f"  {liu_md}\n  {liu_docx}\n  {liu_pdf}\n  {mom_md}\n  {mom_docx}\n  {mom_pdf}\n"
-        f"  {sol_docx}\n  {sol_xlsx}\n  {archive}"
+        f"  {sol_docx}\n  {sol_xlsx}\n  {diet_md}\n  {diet_docx}\n  {diet_pdf}\n  {archive}"
     )
 
 
