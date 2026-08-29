@@ -327,6 +327,13 @@ def main() -> None:
         assert k in dtxt, f"全案整理缺少：{k}"
     assert "红枫路" not in dtxt
 
+    pingan = OUT / "给平安理赔专员陈老师的回复_2026-08-29.md"
+    assert pingan.exists() and pingan.stat().st_size > 2000, pingan
+    ptxt_pa = pingan.read_text(encoding="utf-8")
+    for k in ("陈老师", "报案号", "市北区人民医院", "护理费", "不报总数", "泰康不向平安披露", "认定书尚未出具", "分割单"):
+        assert k in ptxt_pa, f"平安回复缺少：{k}"
+    assert "红枫路" not in ptxt_pa
+
     sol_docx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_完整解决方案_20260822.docx"
     sol_xlsx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_赔付测算表_20260822.xlsx"
     assert sol_docx.exists() and sol_docx.stat().st_size > 10000, sol_docx
