@@ -12,6 +12,12 @@ from generate_diet_chart import PDF_NAME as DIET_PDF
 from generate_diet_chart import build_document as build_diet_doc
 from generate_diet_chart import build_markdown as build_diet_md
 from generate_diet_chart import build_pdf as build_diet_pdf
+from generate_liaison_card import DOCX_NAME as LIAISON_DOCX
+from generate_liaison_card import MD_NAME as LIAISON_MD
+from generate_liaison_card import PDF_NAME as LIAISON_PDF
+from generate_liaison_card import build_document as build_liaison_doc
+from generate_liaison_card import build_markdown as build_liaison_md
+from generate_liaison_card import build_pdf as build_liaison_pdf
 from generate_docx import build_document
 from generate_guide_html import main as build_guide_html
 from generate_lawyer_brief import build_document as build_lawyer_brief
@@ -96,13 +102,20 @@ def main() -> None:
     build_diet_md(diet_md)
     build_diet_doc(diet_docx)
     build_diet_pdf(diet_pdf)
+    liaison_md = OUT / LIAISON_MD
+    liaison_docx = OUT / LIAISON_DOCX
+    liaison_pdf = OUT / LIAISON_PDF
+    build_liaison_md(liaison_md)
+    build_liaison_doc(liaison_docx)
+    build_liaison_pdf(liaison_pdf)
     build_guide_html()
     archive = build_zip()
     print(
         f"已生成：\n  {docx}\n  {xlsx}\n  {pptx}\n  {comm_docx}\n  {comm_pdf}\n  {comm_xlsx}\n"
         f"  {lawyer_md}\n  {lawyer_docx}\n  {lawyer_pdf}\n  {lawyer_illu_docx}\n  {lawyer_illu_pdf}\n"
         f"  {liu_md}\n  {liu_docx}\n  {liu_pdf}\n  {mom_md}\n  {mom_docx}\n  {mom_pdf}\n"
-        f"  {sol_docx}\n  {sol_xlsx}\n  {diet_md}\n  {diet_docx}\n  {diet_pdf}\n  {archive}"
+        f"  {sol_docx}\n  {sol_xlsx}\n  {diet_md}\n  {diet_docx}\n  {diet_pdf}\n"
+        f"  {liaison_md}\n  {liaison_docx}\n  {liaison_pdf}\n  {archive}"
     )
 
 

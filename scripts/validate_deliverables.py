@@ -380,6 +380,20 @@ def main() -> None:
         for k in ("早餐", "低血糖", "护工"):
             assert k in dtext_pdf, f"床头食谱 PDF 缺少：{k}"
 
+    liaison_md = OUT / "三方对接清单_交警平安美团_2026-08-29.md"
+    liaison_docx = OUT / "青岛抚顺路和哈尔滨路路口交通事故_三方对接清单_20260829.docx"
+    liaison_pdf = OUT / "青岛抚顺路和哈尔滨路路口交通事故_三方对接清单_20260829.pdf"
+    assert liaison_md.exists() and liaison_md.stat().st_size > 1500, liaison_md
+    ltxt = liaison_md.read_text(encoding="utf-8")
+    for k in ("陈师傅", "陈老师", "拉群", "认定书", "抚顺路和哈尔滨路路口", "不谈一共", "18929587336"):
+        assert k in ltxt, f"三方对接清单缺少：{k}"
+    assert "红枫路" not in ltxt
+    assert liaison_docx.exists() and liaison_docx.stat().st_size > 5000, liaison_docx
+    assert liaison_pdf.exists() and liaison_pdf.stat().st_size > 3000, liaison_pdf
+    ldoc = docx_text(liaison_docx)
+    for k in ("交警", "平安", "美团", "授权委托书"):
+        assert k in ldoc, f"三方对接清单 Word 缺少：{k}"
+
     from pack_all import ZIP_NAME
 
     archive = OUT / ZIP_NAME
@@ -394,6 +408,8 @@ def main() -> None:
         "授权委托书_胡志远委托胡继刚_草稿.md",
         "给护工的无糖床头食谱_2026-08-29.md",
         "青岛抚顺路和哈尔滨路路口交通事故_给护工的无糖床头食谱_20260829.pdf",
+        "三方对接清单_交警平安美团_2026-08-29.md",
+        "青岛抚顺路和哈尔滨路路口交通事故_三方对接清单_20260829.pdf",
         "压缩包目录说明.txt",
     ):
         assert must in names, f"压缩包缺少：{must}"
