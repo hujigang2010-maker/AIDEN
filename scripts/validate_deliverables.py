@@ -348,6 +348,37 @@ def main() -> None:
     tot_text = "\n".join(str(c.value or "") for row in tot_ws.iter_rows(max_row=10) for c in row)
     assert "十级" in tot_text and "九级" in tot_text and "欠薪" in tot_text
 
+    family = OUT / "家庭执行方案_2026-08-29.md"
+    assert family.exists() and family.stat().st_size > 1500, family
+    ftxt = family.read_text(encoding="utf-8")
+    for k in ("托班", "求职", "二次住院", "授权委托书", "再推迟", "家属内部"):
+        assert k in ftxt, f"家庭执行方案缺少：{k}"
+    assert "红枫路" not in ftxt
+
+    poa = OUT / "授权委托书_胡志远委托胡继刚_草稿.md"
+    assert poa.exists() and poa.stat().st_size > 400, poa
+    ptxt_poa = poa.read_text(encoding="utf-8")
+    for k in ("胡志远", "胡继刚", "抚顺路和哈尔滨路路口", "事故认定书"):
+        assert k in ptxt_poa, f"授权委托书缺少：{k}"
+    assert "红枫路" not in ptxt_poa
+
+    from pack_all import ZIP_NAME
+
+    archive = OUT / ZIP_NAME
+    assert archive.exists() and archive.stat().st_size > 1_000_000, archive
+    with zipfile.ZipFile(archive) as zf:
+        names = set(zf.namelist())
+    for must in (
+        "胡志远病例文件.pdf",
+        "chart-photos/01_住院腕带.jpg",
+        "青岛抚顺路和哈尔滨路路口交通事故_完整解决方案_20260822.docx",
+        "家庭执行方案_2026-08-29.md",
+        "授权委托书_胡志远委托胡继刚_草稿.md",
+        "压缩包目录说明.txt",
+    ):
+        assert must in names, f"压缩包缺少：{must}"
+    assert ZIP_NAME not in names
+
     assert "护栏开口" in text
     assert "待用" in text or "护栏" in text
 

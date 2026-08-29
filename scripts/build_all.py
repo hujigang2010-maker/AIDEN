@@ -37,6 +37,7 @@ from generate_solution import XLSX_NAME as SOL_XLSX
 from generate_solution import build_document as build_solution_doc
 from generate_solution import build_workbook as build_solution_wb
 from generate_xlsx import build_workbook
+from pack_all import build_zip
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "deliverables"
@@ -84,11 +85,12 @@ def main() -> None:
     build_solution_doc(sol_docx)
     build_solution_wb(sol_xlsx)
     build_guide_html()
+    archive = build_zip()
     print(
         f"已生成：\n  {docx}\n  {xlsx}\n  {pptx}\n  {comm_docx}\n  {comm_pdf}\n  {comm_xlsx}\n"
         f"  {lawyer_md}\n  {lawyer_docx}\n  {lawyer_pdf}\n  {lawyer_illu_docx}\n  {lawyer_illu_pdf}\n"
         f"  {liu_md}\n  {liu_docx}\n  {liu_pdf}\n  {mom_md}\n  {mom_docx}\n  {mom_pdf}\n"
-        f"  {sol_docx}\n  {sol_xlsx}"
+        f"  {sol_docx}\n  {sol_xlsx}\n  {archive}"
     )
 
 
