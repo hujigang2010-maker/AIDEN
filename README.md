@@ -14,14 +14,31 @@
 - 中文字体：WenQuanYi Micro Hei（系统默认）；如需替换为 PingFang/Source Han，编辑脚本顶部 `CN_FONT` 即可
 - 重新生成：`pip install python-pptx && python3 scripts/build_pptx.py`
 
+## 业态转型顾问材料（招什么）
+
+- [docs/advisory/00-业态转型建议.md](docs/advisory/00-业态转型建议.md) — 3 类业态 + 8 大案例
+- [docs/advisory/deck/冠松01楼-业态转型顾问材料.pptx](docs/advisory/deck/冠松01楼-业态转型顾问材料.pptx) — 18 页（给董事长看「招什么」）
+- 招商怎么落地、怎么付钱：见下一节 **招商委托**
+
+## 招商委托（给冠松签的 · 操盘方替业主招）
+
+> 这是和董事长对齐的主协议：**独家全案操盘，不是顾问咨询，也不是中介居间。**
+> 完成标准只有一条——生效租赁合同（盖章 + 保证金或首期租金到账）。
+
+- [docs/legal/05-合作协议-招商服务委托协议.docx](docs/legal/05-合作协议-招商服务委托协议.docx) — **招商服务委托协议**（独家 12 个月 · 红黄绿授权 · 启动费/月度费/成功佣金 · M6 杀招）
+- 生成脚本：[scripts/build_mandate_agreement.py](scripts/build_mandate_agreement.py)
+- 给董事长的一页纸：[docs/advisory/09-招商委托协议要点.md](docs/advisory/09-招商委托协议要点.md)
+- 11 页说明 PPT：[docs/advisory/deck/冠松01楼-招商委托说明.pptx](docs/advisory/deck/冠松01楼-招商委托说明.pptx)（脚本 [`scripts/build_mandate_pptx.py`](scripts/build_mandate_pptx.py)）
+
 ## 法务文档（Word · 草案口径）
 
-> 由 [`scripts/build_legal_docs.py`](scripts/build_legal_docs.py) 一键生成；签约前由法务最终定稿。
+> 01–04 由 [`scripts/build_legal_docs.py`](scripts/build_legal_docs.py) 生成（园区对外）；05 见上一节。签约前由法务最终定稿。
 
 - [docs/legal/01-合作协议-链主总部租赁合同.docx](docs/legal/01-合作协议-链主总部租赁合同.docx) — 链主总部租赁合同（甲档样张，17 章 + 5 附件）
 - [docs/legal/02-合作协议-中介居间服务协议.docx](docs/legal/02-合作协议-中介居间服务协议.docx) — 5 家中介通用居间协议
 - [docs/legal/03-合作协议-联合实验室共建协议.docx](docs/legal/03-合作协议-联合实验室共建协议.docx) — 3F 联合研发实验室共建（链主 + 我方）
 - [docs/legal/04-合作协议-政府专班合作备忘录.docx](docs/legal/04-合作协议-政府专班合作备忘录.docx) — 静安区政府 × 冠松集团 战略 MOU
+- [docs/legal/05-合作协议-招商服务委托协议.docx](docs/legal/05-合作协议-招商服务委托协议.docx) — **冠松委托操盘方招商**（对内主协议）
 
 ## 财务测算 Excel
 
