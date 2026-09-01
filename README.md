@@ -23,13 +23,15 @@
 
 ## 招商委托（给冠松签的 · 操盘方替业主招）
 
-> 这是和董事长对齐的主协议：**独家全案操盘，不是顾问咨询，也不是中介居间。**
-> 完成标准只有一条——生效租赁合同（盖章 + 保证金或首期租金到账）。
+> **会上只带两样：** 商务简版（收费确认栏可当场填）+ 6 页思路 PPT。
+> 05 号全稿放包里，点头后再走法务。完成标准：生效租赁合同。
 
-- [docs/legal/05-合作协议-招商服务委托协议.docx](docs/legal/05-合作协议-招商服务委托协议.docx) — **招商服务委托协议**（独家 12 个月 · 红黄绿授权 · 启动费/月度费/成功佣金 · M6 杀招）
-- 生成脚本：[scripts/build_mandate_agreement.py](scripts/build_mandate_agreement.py)
+- [docs/legal/05b-招商合作协议-商务简版.docx](docs/legal/05b-招商合作协议-商务简版.docx) — **会上主文件**（收费三笔账 + 12 个月 / 先 90 天 两种签法 + 确认栏）
+- [docs/advisory/deck/冠松01楼-招商合作-会上版.pptx](docs/advisory/deck/冠松01楼-招商合作-会上版.pptx) — **6 页**（听懂了 / 招谁怎么招 / 收费 / 签法 / 请定）
+- [docs/legal/05-合作协议-招商服务委托协议.docx](docs/legal/05-合作协议-招商服务委托协议.docx) — 法务全稿（19 条 + 5 附件，会上不翻）
+- 生成脚本：[`scripts/build_mandate_brief.py`](scripts/build_mandate_brief.py) · [`scripts/build_meeting_pptx.py`](scripts/build_meeting_pptx.py) · [`scripts/build_mandate_agreement.py`](scripts/build_mandate_agreement.py)
 - 给董事长的一页纸：[docs/advisory/09-招商委托协议要点.md](docs/advisory/09-招商委托协议要点.md)
-- 11 页说明 PPT：[docs/advisory/deck/冠松01楼-招商委托说明.pptx](docs/advisory/deck/冠松01楼-招商委托说明.pptx)（脚本 [`scripts/build_mandate_pptx.py`](scripts/build_mandate_pptx.py)）
+- 11 页细版说明（备查，会上不用）：[docs/advisory/deck/冠松01楼-招商委托说明.pptx](docs/advisory/deck/冠松01楼-招商委托说明.pptx)
 
 ## 法务文档（Word · 草案口径）
 
@@ -39,7 +41,8 @@
 - [docs/legal/02-合作协议-中介居间服务协议.docx](docs/legal/02-合作协议-中介居间服务协议.docx) — 5 家中介通用居间协议
 - [docs/legal/03-合作协议-联合实验室共建协议.docx](docs/legal/03-合作协议-联合实验室共建协议.docx) — 3F 联合研发实验室共建（链主 + 我方）
 - [docs/legal/04-合作协议-政府专班合作备忘录.docx](docs/legal/04-合作协议-政府专班合作备忘录.docx) — 静安区政府 × 冠松集团 战略 MOU
-- [docs/legal/05-合作协议-招商服务委托协议.docx](docs/legal/05-合作协议-招商服务委托协议.docx) — **冠松委托操盘方招商**（对内主协议）
+- [docs/legal/05b-招商合作协议-商务简版.docx](docs/legal/05b-招商合作协议-商务简版.docx) — **会上确认收费**（两种签法 + 确认栏）
+- [docs/legal/05-合作协议-招商服务委托协议.docx](docs/legal/05-合作协议-招商服务委托协议.docx) — **冠松委托操盘方招商**（法务全稿）
 
 ## 财务测算 Excel
 
