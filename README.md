@@ -18,6 +18,7 @@
 
 - [docs/advisory/00-业态转型建议.md](docs/advisory/00-业态转型建议.md) — 3 类业态 + 8 大案例
 - [docs/advisory/deck/冠松01楼-业态转型顾问材料.pptx](docs/advisory/deck/冠松01楼-业态转型顾问材料.pptx) — 18 页（给董事长看「招什么」）
+- 他到底要什么（8 月 5 日得到大脑口径）：[docs/advisory/10-他想要什么.md](docs/advisory/10-他想要什么.md)
 - 招商怎么落地、怎么付钱：见下一节 **招商委托**
 
 ## 招商委托（给冠松签的 · 操盘方替业主招）
