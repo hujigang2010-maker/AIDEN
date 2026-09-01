@@ -136,7 +136,7 @@ def add_chrome(slide, prs, *, page_no, label, title, subtitle=""):
                  subtitle, size=12, color=CLOUD, anchor=MSO_ANCHOR.MIDDLE)
     add_rect(slide, 0, sh - Emu(80000), sw, Emu(80000), fill=GOLD)
     add_text(slide, Inches(0.45), Inches(7.05), Inches(9.4), Inches(0.28),
-             "工作版 v1.1 · 可深化 · 收费口径勿改乱", size=10, color=GREY)
+             "工作版 v1.2 · 可深化 · 收费口径勿改乱", size=10, color=GREY)
     add_text(slide, Inches(11.3), Inches(7.05), Inches(1.6), Inches(0.28),
              f"{page_no} / 0", size=10, color=GREY, align=PP_ALIGN.RIGHT)
 
@@ -158,12 +158,12 @@ def build():
     add_rect(s, 0, 0, sw, sh, fill=NAVY)
     add_rect(s, 0, Inches(5.1), sw, Emu(28000), fill=GOLD)
     add_text(s, Inches(0.8), Inches(1.2), Inches(11.5), Inches(0.4),
-             "工作版 v1.1 · 给你继续改", size=16, bold=True, color=GOLD, italic=True)
+             "工作版 v1.2 · 给你继续改", size=16, bold=True, color=GOLD, italic=True)
     add_text(s, Inches(0.8), Inches(1.7), Inches(11.7), Inches(1.5),
              "01# 楼招商合作\n先干 90 天",
              size=40, bold=True, color=WHITE)
     add_text(s, Inches(0.8), Inches(3.5), Inches(11.7), Inches(0.7),
-             "包干 8 万 · 佣金跟中介同一把尺 · 招到盖章才算完",
+             "启动 15 万 + 月度 8 万 + 首年租金 8% · 四条柔化",
              size=18, color=CLOUD)
     add_text(s, Inches(0.8), Inches(5.5), Inches(11.7), Inches(0.8),
              "深化方向：带看照片 / 冠松供应商名录 / 闭门会名单 / 市北走看\n"
@@ -338,45 +338,44 @@ def build():
     # 9 收费对齐
     s = new_slide(prs)
     add_chrome(s, prs, page_no=9, label="收费",
-               title="月度和佣金为什么改",
-               subtitle="叠在一起高了。单独看「一个点佣金」并不高。")
+               title="原口径三笔账 · 四条柔化",
+               subtitle="方向不变：15 万 + 8 万/月 + 首年租金 8%。只减轻叠加。")
     add_table(
         s, Inches(0.35), Inches(1.2), Inches(12.6), Inches(3.7),
-        ["", "上一版（偏高）", "现在对齐"],
+        ["", "数字", "柔化"],
         [
-            ["90 天现金", "启动 15 万 + 月度 8×3 ≈ 39 万", "包干 8 万，不另收月度"],
-            ["成功佣金", "首年租金 8% / 12%（听着像切利润）", "首月净租金 100% / 锚定 150%（和中介同一尺）"],
-            ["中介单", "中介满佣 + 我们再拿 50%", "业主只付一套，中介约 70% + 我们约 30%"],
-            ["转正后月度", "8 万/月从进场就收", "第 91 天起 4 万/月；当月有佣金则抵扣"],
+            ["启动费", "15 万一次性", "含第一个月；全额抵扣成功佣金"],
+            ["月度", "8 万 / 月", "第 2 个月起付；当月有佣金则抵扣"],
+            ["成功佣金", "首年租金 8%", "扣税、物业、免租；链主不上浮到 12%"],
+            ["中介单 · 我们", "按 8% 的一半 = 4%", "不跟中介各收满额"],
         ],
         header_size=13, body_size=13,
-        col_widths=[Inches(2.2), Inches(5.3), Inches(5.1)],
+        col_widths=[Inches(2.4), Inches(3.6), Inches(6.6)],
     )
     add_rect(s, Inches(0.35), Inches(5.1), Inches(12.6), Inches(1.5), fill=NAVY)
     add_text(s, Inches(0.55), Inches(5.25), Inches(12.2), Inches(1.25),
-             "试跑 90 天若无人成交，业主只出 8 万。有成交，再按「一个点」付。\n"
-             "4,000 ㎡ 空一年，6.5 元/㎡·天，大约少收 949 万。",
+             "8% 扣免租后大约合 0.7 个月面租金，比纯中介一个点软。\n"
+             "试跑 90 天若无成交，现金约 15 + 16 = 31 万。达不到必须项可以不转正。",
              size=16, color=WHITE)
 
     # 10 佣金举例
     s = new_slide(prs)
     add_chrome(s, prs, page_no=10, label="举例",
                title="一单大概多少钱",
-               subtitle="首月不含税净租金 = 面积 × 日租金 × 30。免租不影响这个分子。")
+               subtitle="基数 = 面积 × 日租金 × 365 ×（12−免租月）/12。免租按 3 个月计。")
     add_table(
         s, Inches(0.4), Inches(1.2), Inches(12.5), Inches(3.55),
-        ["例子", "面积", "首月净租金", "我们自拓（100%）", "锚定（150%）"],
+        ["例子", "面积 / 日租", "首年现金租金", "我们自拓 8%", "中介单我们 4%"],
         [
-            ["腰部研发", "800 ㎡ × 6.5 元", "约 15.6 万", "15.6 万", "—"],
-            ["整层/锚定", "1,680 ㎡ × 5.8 元", "约 29.2 万", "—", "约 43.8 万"],
-            ["中介带来的腰部", "800 ㎡ × 6.5 元", "约 15.6 万", "业主仍付 15.6 万\n我们约 4.7 万", "—"],
+            ["腰部研发", "800 ㎡ × 6.5 元", "约 142 万", "约 11.4 万", "约 5.7 万"],
+            ["整层/锚定", "1,680 ㎡ × 5.8 元", "约 267 万", "约 21.3 万", "约 10.7 万"],
         ],
-        header_size=13, body_size=13,
-        col_widths=[Inches(2.4), Inches(2.4), Inches(2.3), Inches(2.7), Inches(2.7)],
+        header_size=13, body_size=14,
+        col_widths=[Inches(2.4), Inches(2.8), Inches(2.6), Inches(2.4), Inches(2.3)],
     )
     add_text(s, Inches(0.5), Inches(5.0), Inches(12.3), Inches(1.6),
-             "包干 8 万从第一笔成功佣金里抵扣。招到了，试跑费等于退回。\n"
-             "甲方自己带来的未报备客户，不付成功佣金。\n"
+             "启动费 15 万从第一笔成功佣金里抵扣。招到了，进场费等于预付佣金。\n"
+             "当月有佣金，当月 8 万月度从该笔抵扣。甲方自有未报备客户不付佣金。\n"
              "可深化：按他们心里的目标租金再做一列。",
              size=15, color=INK)
 
@@ -399,7 +398,7 @@ def build():
     add_rect(s, Inches(0.4), Inches(4.7), Inches(12.5), Inches(1.9), fill=CLOUD)
     add_text(s, Inches(0.6), Inches(4.9), Inches(12.1), Inches(1.6),
              "合同章始终在您手里。不承诺政府政策、落户、公寓。不收租户或中介回扣。\n"
-             "方案 B：先 90 天。方案 A：进场即 12 个月独家（第 91 天起月度 4 万）。\n"
+             "方案 B：先 90 天。方案 A：进场即 12 个月独家，月度 8 万从第 2 个月起。"
              "建议勾 B。",
              size=16, color=INK)
 
@@ -410,7 +409,7 @@ def build():
                subtitle="数字写在 05b 确认栏。全稿随后出，不改收费结构。")
     asks = [
         ("01", "签法", "建议 B：先 90 天。"),
-        ("02", "收费", "包干 8 万 · 首月 100% / 锚定 150% · 转正后月度 4 万可抵扣。"),
+        ("02", "收费", "启动 15 万 · 月度 8 万 · 首年租金 8%。链主不上浮。"),
         ("03", "人", "唯一对接人 + 红区谁拍板 + 绿区能否直接报。"),
         ("04", "名录", "请冠松提供 4S / 配件 / 保险供应商名单，作为种子库。"),
     ]
