@@ -56,37 +56,58 @@ def fill_cell(ws, coord, text, size=10, bold=False, align=WRAP):
     cell.border = THIN
 
 
+def resolve_src(name: str) -> Path:
+    aliases = {
+        "395_941A8859.JPG": ["v02_941A8859.JPG", "395_941A8859.JPG"],
+        "001_941A7663.JPG": ["p000_941A7663.JPG", "001_941A7663.JPG"],
+        "065_941A7794.JPG": ["p064_941A7794.JPG", "065_941A7794.JPG"],
+    }
+    names = aliases.get(name, [name])
+    dirs = [TMP / "greentown", TMP, PHOTO_DIR]
+    for n in names:
+        for d in dirs:
+            p = d / n
+            if p.exists() and p.stat().st_size > 2000:
+                return p
+    raise FileNotFoundError(name)
+
+
 def main():
     if not SRC.exists():
         raise SystemExit(f"missing template: {SRC}")
     PHOTO_DIR.mkdir(parents=True, exist_ok=True)
     THUMB.mkdir(parents=True, exist_ok=True)
 
-    # 主表 6 张 + 附图页
+    # 首页验收照片：全部为绿城 / 潮鸣 / 外滩潮鸣露出
     main_photos = [
-        ("p000_941A7663.JPG", "主背景板：晚宴冠名战略合作伙伴·绿城中国露出"),
-        ("p064_941A7794.JPG", "绿城·潮鸣外滩现场展位与物料"),
-        ("p080_941A7864.JPG", "主论坛：主办方代表致辞"),
-        ("p144_941A8048.JPG", "主会场全景（北外滩·一滴水）"),
-        ("v02_941A8859.JPG", "晚宴祝酒：大屏露出绿城中国·潮鸣外滩"),
-        ("v04_941A8762.JPG", "晚宴现场：宾客举杯与驻场演出"),
+        ("060_941A7785.JPG", "议程看板：【绿城·潮鸣】星耀北外滩——AI领袖定制晚宴"),
+        ("065_941A7794.JPG", "展位台卡「绿城·外滩潮鸣」+ 礼盒/VR 物料"),
+        ("068_941A7802.JPG", "江景露台背景板「绿城·潮鸣外滩」"),
+        ("074_941A7832.JPG", "主会场双屏底部露出「绿城·外滩潮鸣」"),
+        ("394_941A8857.JPG", "晚宴合影：宾客手持「绿城·潮鸣」礼盒"),
+        ("395_941A8859.JPG", "晚宴祝酒：大屏露出绿城中国·潮鸣外滩"),
+        ("071_941A7821.JPG", "主持人场：晚宴冠名战略合作伙伴·绿城中国"),
+        ("055_941A7777.JPG", "主背景板合影：晚宴冠名位「绿城中国」"),
+        ("388_941A8841.JPG", "晚宴桌卡露出「外滩·潮鸣」"),
     ]
     extra_photos = [
-        ("00_banner.jpg", "活动主视觉 KV（战略合作伙伴含绿城中国）"),
+        ("00_banner.jpg", "主视觉 KV：战略合作伙伴含绿城中国"),
+        ("001_941A7663.JPG", "主背景板全幅：晚宴冠名战略合作伙伴·绿城中国"),
+        ("075_941A7835.JPG", "讲台/大屏顶栏：绿城中国 + 潮鸣 logo"),
+        ("073_941A7829.JPG", "座席手提袋露出「外滩潮鸣」/绿城"),
+        ("077_941A7839.JPG", "主办致辞画面：大屏顶栏绿城中国 logo"),
+        ("056_941A7779.JPG", "主背景板合影（晚宴冠名位特写）"),
         ("p066_941A7798.JPG", "主背景板合影核验晚宴冠名位"),
-        ("p093_941A7905.JPG", "主论坛听众席与双屏演讲"),
-        ("p128_941A7978.JPG", "主旨演讲现场"),
-        ("v01_941A8878.JPG", "晚宴桌次互动与举杯"),
-        ("v05_941A8600.JPG", "主题演讲（晚宴前衔接场次）"),
-        ("p048_941A7767.JPG", "现场展区交流"),
-        ("p013_941A7690.JPG", "现场物料陈列"),
+        ("v04_941A8762.JPG", "晚宴现场举杯（潮鸣冠名晚宴）"),
+        ("v01_941A8878.JPG", "晚宴桌次互动"),
+        ("399_941A8881.JPG", "晚宴桌次：潮鸣场次桌卡/礼袋"),
+        ("p144_941A8048.JPG", "主会场全景（北外滩·一滴水）"),
+        ("p080_941A7864.JPG", "主论坛致辞（讲台合作伙伴 logo 带）"),
     ]
 
     copied = []
     for name, cap in main_photos + extra_photos:
-        src = TMP / name
-        if not src.exists():
-            raise SystemExit(f"missing photo: {src}")
+        src = resolve_src(name)
         dest = PHOTO_DIR / name
         dest.write_bytes(src.read_bytes())
         copied.append((dest, cap))
@@ -108,23 +129,26 @@ def main():
         ws,
         "B5",
         "「2026人工智能商业化落地与硬核投资破局峰会」于上海·北外滩·一滴水举办。"
-        "绿城·潮鸣外滩作为晚宴冠名战略合作伙伴，现场交付：晚宴冠名及专属权益、主会场露出、"
-        "专场项目参观邀约、宣发配合；共享现场展位；颁发“2026年度智慧人居新质资产领军企业 暨卓越战略合作伙伴”证书。",
+        "绿城中国 | 绿城·潮鸣外滩（物料亦作「绿城·外滩潮鸣」）作为晚宴冠名战略合作伙伴，"
+        "现场交付：晚宴冠名及专属权益、主会场/讲台/议程看板露出、专场项目参观邀约、宣发配合；"
+        "共享现场展位；颁发“2026年度智慧人居新质资产领军企业 暨卓越战略合作伙伴”证书。"
+        "晚宴场次对外名称为【绿城·潮鸣】星耀北外滩——AI领袖定制晚宴。",
         9,
         align=LEFT,
     )
     fill_cell(
         ws,
         "B13",
-        "现场已完成主背景板/讲台晚宴冠名露出、绿城·潮鸣外滩展位接待、主论坛及晚宴执行。"
-        "拍立享相册归档 425 张；全程录像见百度网盘「5.22」。效果良好，符合约定要求。",
+        "绿城露出已核验：主背景板「晚宴冠名战略合作伙伴·绿城中国」、议程看板「【绿城·潮鸣】星耀北外滩晚宴」、"
+        "展位台卡「绿城·外滩潮鸣」、江景背景板「绿城·潮鸣外滩」、主会场双屏「绿城·外滩潮鸣」、"
+        "晚宴大屏/桌卡/礼盒「潮鸣外滩」「绿城·潮鸣」。效果良好，符合约定要求。",
         10,
         align=LEFT,
     )
     fill_cell(
         ws,
         "B16",
-        "①本表嵌入现场照片，详见「现场照片」页；"
+        "①本表验收照片均为绿城/潮鸣露出；更多见「绿城·潮鸣外滩露出」页；"
         "②照片直播：live.pailixiang.com/album/a12523836160；"
         "③全程录像（百度网盘 5.22）提取码 8888；"
         "④费用清单（经办人签字）。",
@@ -134,21 +158,21 @@ def main():
     fill_cell(ws, "C17", "胡继刚\n13262607888\n（主办执行）", 10)
     fill_cell(ws, "C18", "（绿城营销负责人签字）", 10)
 
-    # 验收照片区加高，便于嵌图
-    ws.row_dimensions[6].height = 118
-    for r in range(7, 10):
-        ws.row_dimensions[r].height = 22
-    ws.row_dimensions[10].height = 118
-    ws.row_dimensions[11].height = 28
-    ws.row_dimensions[12].height = 28
+    # 验收照片区：3×3 绿城露出
+    ws.row_dimensions[6].height = 92
+    ws.row_dimensions[7].height = 8
+    ws.row_dimensions[8].height = 92
+    ws.row_dimensions[9].height = 8
+    ws.row_dimensions[10].height = 92
+    ws.row_dimensions[11].height = 8
+    ws.row_dimensions[12].height = 18
     ws.row_dimensions[16].height = 72
 
-    # 主表 2×3 照片
-    anchors = ["B6", "C6", "D6", "B10", "C10", "D10"]
-    sizes = [(210, 148)] * 6
-    for (src, cap), cell, (w, h) in zip(main_photos, anchors, sizes):
-        t = thumb(TMP / src, THUMB / f"main_{src}", max_w=420, max_h=300)
-        place_image(ws, t, cell, w, h)
+    anchors = ["B6", "C6", "D6", "B8", "C8", "D8", "B10", "C10", "D10"]
+    for (name, cap), cell in zip(main_photos, anchors):
+        src = resolve_src(name)
+        t = thumb(src, THUMB / f"main_{name}", max_w=420, max_h=300)
+        place_image(ws, t, cell, 200, 132)
 
     # 超链接说明行（不改表头结构，写在打印区外的注释行）
     ws["A20"] = "照片直播（拍立享）"
@@ -164,7 +188,8 @@ def main():
 
     # 第二页：现场照片
     ws2 = wb.create_sheet("现场照片")
-    ws2["A1"] = "绿城·潮鸣外滩 × 2026人工智能商业化落地峰会｜现场验收照片"
+    ws2.title = "绿城·潮鸣外滩露出"
+    ws2["A1"] = "绿城中国｜绿城·潮鸣外滩（外滩潮鸣）现场露出验收照片"
     ws2["A1"].font = Font(name="黑体", size=14, bold=True)
     ws2.merge_cells("A1:D1")
     ws2.row_dimensions[1].height = 28
@@ -193,7 +218,7 @@ def main():
             if i + j >= len(all_items):
                 break
             name, cap = all_items[i + j]
-            t = thumb(TMP / name, THUMB / f"sheet_{name}", max_w=520, max_h=390)
+            t = thumb(resolve_src(name), THUMB / f"sheet_{name}", max_w=520, max_h=390)
             place_image(ws2, t, f"{img_col}{row}", 280, 198)
             cell = ws2[f"{img_col}{row + 1}"]
             ws2.merge_cells(f"{img_col}{row + 1}:{cap_col}{row + 1}")
@@ -205,7 +230,7 @@ def main():
 
     note_row = row + 1
     ws2[f"A{note_row}"] = (
-        "说明：以上为代表性验收照片（主视觉、晚宴冠名背景板、潮鸣外滩展位、主论坛、晚宴大屏露出及举杯现场）。"
+        "说明：本页优先收录绿城中国、绿城·潮鸣外滩、绿城·外滩潮鸣的看板/展位/主会场/晚宴桌卡礼盒及大屏露出。"
         "完整 425 张以拍立享相册为准；MP4 全程录像以百度网盘「5.22」为准。"
     )
     ws2[f"A{note_row}"].alignment = LEFT
