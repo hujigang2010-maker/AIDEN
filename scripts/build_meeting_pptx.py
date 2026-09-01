@@ -162,12 +162,12 @@ def build():
              "我们帮你们把这栋楼租出去",
              size=40, bold=True, color=WHITE)
     add_text(s, Inches(0.8), Inches(3.5), Inches(11.7), Inches(0.7),
-             "合作协议讲收费 · 这几页讲思路 · 招到盖章才算完",
+             "先 90 天 · 包干 8 万 · 佣金跟中介同一把尺",
              size=20, color=CLOUD)
     add_round(s, Inches(0.8), Inches(5.5), Inches(3.4), Inches(0.48),
               "会上版 · 6 页", fill=GOLD, color=NAVY, size=14)
     add_text(s, Inches(4.4), Inches(5.5), Inches(8), Inches(0.48),
-             "配套：05b 商务简版（收费确认栏可当场填）",
+             "细版请看「工作版」12 页 · 05b 确认栏当场填",
              size=14, color=CLOUD, anchor=MSO_ANCHOR.MIDDLE)
 
     # 2 听懂了
@@ -190,52 +190,39 @@ def build():
         add_text(s, Inches(4.8), y, Inches(7.9), Inches(1.05), b,
                  size=18, color=INK, anchor=MSO_ANCHOR.MIDDLE)
 
-    # 3 粗思路
+    # 3 90天
     s = new_slide(prs)
-    add_chrome(s, prs, page_no=3, label="思路",
-               title="招谁、怎么招",
-               subtitle="C6 教育科研用地是硬约束。地上不能按 4S 店来用。")
-
-    add_rect(s, Inches(0.45), Inches(1.25), Inches(6.1), Inches(5.35), fill=CLOUD)
-    add_rect(s, Inches(0.45), Inches(1.25), Inches(6.1), Inches(0.55), fill=NAVY)
-    add_text(s, Inches(0.45), Inches(1.25), Inches(6.1), Inches(0.55),
-             "招谁", size=18, bold=True, color=WHITE,
-             align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-    add_text(s, Inches(0.7), Inches(2.0), Inches(5.6), Inches(4.3),
-             "优先：AI / 集成电路 / 智能机器人研发\n"
-             "可组合：生物医药研发、汽车配套研发\n"
-             "\n"
-             "不招：整车 4S、整车展厅、汽车卖场\n"
-             "先不承诺：公寓（C6 要先做合规）\n"
-             "\n"
-             "1F+2F 高空间做展示和接待，甲方自留或冠名",
-             size=16, color=INK)
-
-    add_rect(s, Inches(6.8), Inches(1.25), Inches(6.1), Inches(5.35), fill=CLOUD)
-    add_rect(s, Inches(6.8), Inches(1.25), Inches(6.1), Inches(0.55), fill=GOLD)
-    add_text(s, Inches(6.8), Inches(1.25), Inches(6.1), Inches(0.55),
-             "怎么招", size=18, bold=True, color=NAVY,
-             align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-    add_text(s, Inches(7.05), Inches(2.0), Inches(5.6), Inches(4.3),
-             "1  建库，决策人到人\n"
-             "2  拜访、带看，48 小时出纪要\n"
-             "3  绿区直接报价，超线请示您\n"
-             "4  统管中介，只留一套客户名单\n"
-             "5  盯到盖章、保证金到账\n"
-             "\n"
-             "每周书面漏斗。出 PPT 不算完成。",
-             size=16, color=INK)
+    add_chrome(s, prs, page_no=3, label="90 天",
+               title="未来 90 天怎么干",
+               subtitle="必须：库 150 · 深接触 8 · 带看 5 · 书面意向 3。达不到可不转正。")
+    phases = [
+        ("D1–30 进场",
+         "一页楼书（C6 / 层高）\n看房动线、种子库\n中介先开 2 家\n周五周报"),
+        ("D31–60 见客",
+         "带看 + 48h 纪要\n15 人闭门 1 场\n只提市北、西岸\n投促办备案不加码"),
+        ("D61–90 收口",
+         "意向写成书面\n黄区 48h 请示\n漏斗会 90 分钟\n转正 / 再试 / 停"),
+    ]
+    for i, (t, b) in enumerate(phases):
+        x = Inches(0.45) + Inches(4.2) * i
+        add_rect(s, x, Inches(1.25), Inches(4.0), Inches(5.35), fill=CLOUD)
+        add_rect(s, x, Inches(1.25), Inches(4.0), Inches(0.6), fill=NAVY)
+        add_text(s, x, Inches(1.25), Inches(4.0), Inches(0.6), t,
+                 size=18, bold=True, color=WHITE,
+                 align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        add_text(s, x + Inches(0.2), Inches(2.1), Inches(3.6), Inches(4.2),
+                 b, size=18, color=INK, align=PP_ALIGN.CENTER)
 
     # 4 收费
     s = new_slide(prs)
     add_chrome(s, prs, page_no=4, label="收费",
-               title="三笔账 · 招到才抽佣",
-               subtitle="建议口径，商务简版确认栏可改数字。未税，增值税另计。")
+               title="对齐后：试跑只付 8 万",
+               subtitle="旧口径 90 天约 39 万，叠了顾问费和满佣。现在跟中介同一把尺。")
 
     fees = [
-        ("启动费", "15 万", "一次性 · 进场\n全额抵扣成功佣金"),
-        ("月度费", "8 万 / 月", "干活 · 3–4 人组\n不含中介和活动硬成本"),
-        ("成功佣金", "8% / 链主 12%", "首年租金为基数\n扣免租 · 没签成不抽"),
+        ("90 天包干", "8 万", "含人、材料、带看\n试跑期不另收月度"),
+        ("自拓佣金", "首月 × 100%", "和中介同一尺\n没签成不抽"),
+        ("锚定佣金", "首月 × 150%", "≥ 1,500 ㎡ 或整层\n中介单业主只付一套"),
     ]
     for i, (t, n, b) in enumerate(fees):
         x = Inches(0.45) + Inches(4.2) * i
@@ -254,25 +241,25 @@ def build():
 
     add_rect(s, Inches(0.45), Inches(4.6), Inches(12.4), Inches(2.0), fill=NAVY)
     add_text(s, Inches(0.7), Inches(4.75), Inches(12.0), Inches(1.7),
-             "和空置比：4,000 ㎡ 空一年，6.5 元/㎡·天，大约少收 949 万。\n"
-             "付给操盘方：月度 96 万 + 成功佣金约 57 万 ≈ 153 万。\n"
-             "甲方自有未报备客户成交，不付成功佣金。中介佣金另付。",
+             "试跑无人成交，业主只出 8 万。转正后月度 4 万，当月有佣金则抵扣。\n"
+             "中介成交：业主合计不超过该档，中介约 70% + 我们约 30%。\n"
+             "4,000 ㎡ 空一年大约少收 949 万。甲方自有未报备客户不付佣金。",
              size=16, color=WHITE)
 
     # 5 签法
     s = new_slide(prs)
     add_chrome(s, prs, page_no=5, label="签法",
-               title="可以先干 90 天",
-               subtitle="怕 12 个月锁死，就先看人干活。收费标准两套签法一样。")
+               title="建议先勾 90 天",
+               subtitle="收费已经按试跑对齐。12 个月独家等看完人再锁。")
 
     add_table(
         s, Inches(0.45), Inches(1.25), Inches(12.4), Inches(3.4),
-        ["", "方案 A · 12 个月独家（推荐）", "方案 B · 先 90 天"],
+        ["", "方案 B · 先 90 天（建议）", "方案 A · 12 个月独家"],
         [
-            ["适合", "决心把楼租出去", "想先看执行再锁独家"],
-            ["怎么停", "满 6 个月没有锚定意向，可停月度费", "90 天到期可以不转正"],
-            ["合同章", "始终在您手里", "始终在您手里"],
-            ["报价", "绿区我们直接报，黄区 48 小时您批", "同样"],
+            ["适合", "先看人干活", "已决心排他"],
+            ["试跑费用", "只付包干 8 万", "8 万记作前 90 天，之后月度 4 万"],
+            ["怎么停", "第 90 天可转正 / 再试 / 停", "满 6 个月无锚定意向可停月度"],
+            ["合同章 / 报价", "您盖章 · 绿区我们直接报", "同样"],
         ],
         header_size=14, body_size=14,
         col_widths=[Inches(1.8), Inches(5.3), Inches(5.3)],
@@ -292,8 +279,8 @@ def build():
                subtitle="数字写在商务简版确认栏。法务随后出全稿，不改收费结构。")
 
     asks = [
-        ("01", "签法", "A 十二个月独家，或 B 先九十天。"),
-        ("02", "三个数", "启动费 / 月度费 / 成功佣金。可按 15 万、8 万、8%·12% 先填。"),
+        ("01", "签法", "建议 B：先 90 天。"),
+        ("02", "收费", "包干 8 万 · 首月 100% / 锚定 150%。"),
         ("03", "对接人", "唯一商务对接人 + 红区谁拍板。"),
         ("04", "绿区", "能否直接报价。每单都开会，节奏会断。"),
     ]

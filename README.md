@@ -23,15 +23,16 @@
 
 ## 招商委托（给冠松签的 · 操盘方替业主招）
 
-> **会上只带两样：** 商务简版（收费确认栏可当场填）+ 6 页思路 PPT。
-> 05 号全稿放包里，点头后再走法务。完成标准：生效租赁合同。
+> **会上带：** 商务简版 05b + 会上版 6 页。**你自己深化用：** 工作版 12 页。
+> 收费 v1.1：90 天包干 8 万；成功佣金按首月净租金 100% / 锚定 150%；中介单业主只付一套。
 
-- [docs/legal/05b-招商合作协议-商务简版.docx](docs/legal/05b-招商合作协议-商务简版.docx) — **会上主文件**（收费三笔账 + 12 个月 / 先 90 天 两种签法 + 确认栏）
-- [docs/advisory/deck/冠松01楼-招商合作-会上版.pptx](docs/advisory/deck/冠松01楼-招商合作-会上版.pptx) — **6 页**（听懂了 / 招谁怎么招 / 收费 / 签法 / 请定）
-- [docs/legal/05-合作协议-招商服务委托协议.docx](docs/legal/05-合作协议-招商服务委托协议.docx) — 法务全稿（19 条 + 5 附件，会上不翻）
-- 生成脚本：[`scripts/build_mandate_brief.py`](scripts/build_mandate_brief.py) · [`scripts/build_meeting_pptx.py`](scripts/build_meeting_pptx.py) · [`scripts/build_mandate_agreement.py`](scripts/build_mandate_agreement.py)
+- [docs/legal/05b-招商合作协议-商务简版.docx](docs/legal/05b-招商合作协议-商务简版.docx) — **会上主文件**（90 天动作 + 收费确认栏）
+- [docs/advisory/deck/冠松01楼-招商合作-会上版.pptx](docs/advisory/deck/冠松01楼-招商合作-会上版.pptx) — **6 页会上版**
+- [docs/advisory/deck/冠松01楼-招商合作-工作版.pptx](docs/advisory/deck/冠松01楼-招商合作-工作版.pptx) — **12 页工作版（给你深化）**
+- [docs/advisory/11-90天行动与收费对齐.md](docs/advisory/11-90天行动与收费对齐.md) — 90 天排期 + 为什么降价
+- [docs/legal/05-合作协议-招商服务委托协议.docx](docs/legal/05-合作协议-招商服务委托协议.docx) — 法务全稿（口径已与 v1.1 对齐）
+- 生成脚本：[`scripts/build_mandate_brief.py`](scripts/build_mandate_brief.py) · [`scripts/build_meeting_pptx.py`](scripts/build_meeting_pptx.py) · [`scripts/build_working_pptx.py`](scripts/build_working_pptx.py) · [`scripts/build_mandate_agreement.py`](scripts/build_mandate_agreement.py)
 - 给董事长的一页纸：[docs/advisory/09-招商委托协议要点.md](docs/advisory/09-招商委托协议要点.md)
-- 11 页细版说明（备查，会上不用）：[docs/advisory/deck/冠松01楼-招商委托说明.pptx](docs/advisory/deck/冠松01楼-招商委托说明.pptx)
 
 ## 法务文档（Word · 草案口径）
 
