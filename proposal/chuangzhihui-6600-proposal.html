@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>创智汇 6600㎡ · AI+IP 产业创新中心招商运营合作 — 谈判集中汇报</title>
+<style>
+  :root{
+    --bg:#0b1020; --bg2:#111a33; --ink:#eaf0ff; --muted:#9fb0d6;
+    --accent:#4f8cff; --accent2:#7c5cff; --gold:#ffce6b; --green:#3ad29f;
+    --card:#16213f; --line:rgba(255,255,255,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Hiragino Sans GB",system-ui,sans-serif;
+    background:radial-gradient(1200px 800px at 80% -10%,#1c2b54 0%,var(--bg) 55%) ,var(--bg);
+    color:var(--ink); overflow:hidden;
+  }
+  #deck{height:100vh;width:100vw;position:relative}
+  .slide{
+    position:absolute;inset:0;display:none;flex-direction:column;
+    padding:54px 72px 72px;animation:fade .45s ease;
+  }
+  .slide.active{display:flex}
+  @keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  .eyebrow{color:var(--muted);font-size:15px;letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
+  h1{font-size:46px;line-height:1.18;font-weight:800;letter-spacing:.5px}
+  h2{font-size:34px;line-height:1.22;font-weight:800;margin-bottom:6px}
+  .accent{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .gold{color:var(--gold)}
+  .sub{color:var(--muted);font-size:18px;margin-top:14px;line-height:1.7}
+  .rule{height:4px;width:96px;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));margin:18px 0 26px}
+
+  .grid{display:grid;gap:18px;margin-top:8px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .card{
+    background:linear-gradient(180deg,var(--card),#121b34);
+    border:1px solid var(--line);border-radius:16px;padding:20px 22px;
+  }
+  .card h3{font-size:18px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+  .card p,.card li{color:var(--muted);font-size:15.5px;line-height:1.65}
+  .num{display:inline-flex;width:30px;height:30px;border-radius:9px;align-items:center;justify-content:center;
+       font-weight:800;color:#0b1020;background:linear-gradient(135deg,var(--accent),var(--accent2));font-size:15px}
+  .pill{display:inline-block;padding:4px 12px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:13.5px;margin:4px 6px 0 0}
+  ul{margin-left:2px;list-style:none}
+  ul li{position:relative;padding-left:18px;margin:7px 0}
+  ul li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+
+  table{width:100%;border-collapse:collapse;margin-top:10px;font-size:15px}
+  th,td{border-bottom:1px solid var(--line);padding:11px 12px;text-align:left;vertical-align:top}
+  th{color:var(--gold);font-weight:700;font-size:14px;letter-spacing:.5px}
+  td{color:var(--ink)}
+  td.m,th.m{color:var(--muted)}
+  tr:hover td{background:rgba(79,140,255,.06)}
+
+  .kpis{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px}
+  .kpi{flex:1;min-width:180px;background:linear-gradient(180deg,var(--card),#121b34);border:1px solid var(--line);border-radius:16px;padding:20px}
+  .kpi .v{font-size:34px;font-weight:800}
+  .kpi .l{color:var(--muted);font-size:14px;margin-top:6px}
+
+  .section-tag{font-size:120px;font-weight:900;color:rgba(255,255,255,.06);line-height:1}
+  .center{justify-content:center}
+
+  /* footer / nav */
+  .foot{position:absolute;left:72px;right:72px;bottom:24px;display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:13.5px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .dot{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+  .nav{position:fixed;right:26px;bottom:22px;display:flex;gap:10px;z-index:30}
+  .nav button{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;width:42px;height:42px;font-size:18px;cursor:pointer}
+  .nav button:hover{border-color:var(--accent)}
+  .progress{position:fixed;left:0;top:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));z-index:40;transition:width .3s}
+  .pager{position:fixed;left:26px;bottom:26px;color:var(--muted);font-size:13px;z-index:30}
+  .cover-bg{position:absolute;inset:0;background:
+     radial-gradient(600px 600px at 18% 30%,rgba(124,92,255,.25),transparent 60%),
+     radial-gradient(700px 500px at 85% 70%,rgba(79,140,255,.22),transparent 60%);}
+  .tagrow{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px}
+  .tagrow .pill{font-size:14.5px;border-color:rgba(255,255,255,.18);color:var(--ink)}
+  small.note{color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="progress" id="bar"></div>
+<div id="deck">
+
+  <!-- 0 COVER -->
+  <section class="slide active center">
+    <div class="cover-bg"></div>
+    <div class="eyebrow">CHUANGZHIHUI · WUJIAOCHANG URBAN RENEWAL</div>
+    <h1>创智汇 <span class="accent">6600㎡</span> · AI + IP 产业创新中心<br/>招商运营合作 — 谈判集中汇报</h1>
+    <p class="sub">五角场片区城市更新 · 创智汇（一期）OPC + AI + IP 创新中心<br/>
+      3 楼 孵化器 + 办公 ≈ <b class="gold">2850㎡</b> · 5 楼 展厅 + 贸易 ≈ <b class="gold">3670㎡</b></p>
+    <div class="tagrow">
+      <span class="pill">上海 · 杨浦 · 五角场 · 创智天地</span>
+      <span class="pill">环同济经济圈 · 超级链接器</span>
+      <span class="pill">IP 为内容 · AI 为工具 · 空间为载体</span>
+      <span class="pill">参照"森马 × 元谷"打法编制</span>
+    </div>
+    <p class="sub" style="margin-top:34px"><small class="note">v1.0 谈判稿 · 本汇报仅用于商务谈判沟通</small></p>
+  </section>
+
+  <!-- 1 AGENDA -->
+  <section class="slide">
+    <div class="eyebrow">AGENDA</div>
+    <h2>汇报议程 · 七大板块</h2><div class="rule"></div>
+    <div class="grid g4">
+      <div class="card"><h3><span class="num">00</span>关键信息</h3><p>把材料浓缩为一页事实底盘</p></div>
+      <div class="card"><h3><span class="num">01</span>项目与共识</h3><p>定位 / 双重身份 / 谈判要点</p></div>
+      <div class="card"><h3><span class="num">02</span>我们带来什么</h3><p>六大资源资产化为招商工具</p></div>
+      <div class="card"><h3><span class="num">03</span>招商方案</h3><p>IP+AI 双轨 / 楼层产品 / 漏斗</p></div>
+      <div class="card"><h3><span class="num">04</span>节点与排期</h3><p>启动—导入—成型—提升</p></div>
+      <div class="card"><h3><span class="num">05</span>品牌与活动</h3><p>挂牌 / 沙龙 / 漫展 / 会客厅</p></div>
+      <div class="card"><h3><span class="num">06</span>条款与收费</h3><p>两模式 + 五类收费 + 测算</p></div>
+      <div class="card"><h3><span class="num">07</span>投决与下一步</h3><p>三问决策 + 30/60/90 天</p></div>
+    </div>
+  </section>
+
+  <!-- 00 KEY INFO -->
+  <section class="slide">
+    <div class="eyebrow">00 · FACT SHEET</div>
+    <h2>关键信息提取 · 项目基本盘</h2><div class="rule"></div>
+    <div class="grid g2">
+      <div class="card">
+        <table>
+          <tr><th>项目</th><th>内容</th></tr>
+          <tr><td class="m">位置</td><td>上海杨浦五角场 · 创智汇（创智天地片区）</td></tr>
+          <tr><td class="m">合作面积</td><td>约 <b class="gold">6600㎡</b></td></tr>
+          <tr><td class="m">3 楼 ≈2850㎡</td><td>孵化器 + 办公（AI / OPC 主轴）</td></tr>
+          <tr><td class="m">5 楼 ≈3670㎡</td><td>展厅 + 贸易（IP 内容主轴）</td></tr>
+          <tr><td class="m">属性</td><td>产业空间 + 科创合作 + 招商运营</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>区位与资源优势</h3>
+        <ul>
+          <li>环同济：复旦 / 同济 / 财大 / 上理工高校群</li>
+          <li>TOD + 五角场商圈成熟，通勤与配套俱佳</li>
+          <li>杨浦"三区联动"+ 五角场"五区联动"创新高地</li>
+          <li><b class="gold">离我方极近（20–30 分钟可达）→ 支撑"轻驻场、高频次"运营</b></li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid g3" style="margin-top:18px">
+      <div class="card"><h3>定位主线</h3><p>超级链接器：IP 为内容、AI 为工具、空间为载体；产业为筋骨、文化为灵魂、商业为血脉。</p></div>
+      <div class="card"><h3>三大集群</h3><p>动漫 IP · 科技应用 · 交互设计</p></div>
+      <div class="card"><h3>可链接资源</h3><p>北大上海校友会、同济设计创新院、科企联、IP/玩具/广告协会、混知等 IP、聚成智能、中建四局。</p></div>
+    </div>
+  </section>
+
+  <!-- 01 DIVIDER -->
+  <section class="slide center">
+    <div class="section-tag">01</div>
+    <h1>项目与共识</h1>
+    <p class="sub">PROJECT &amp; CONSENSUS — 不做二房东，做产业空间合作运营</p>
+  </section>
+
+  <!-- 01 content -->
+  <section class="slide">
+    <div class="eyebrow">01 · 项目与共识</div>
+    <h2>双重身份 + 三件谈判要点</h2><div class="rule"></div>
+    <div class="grid g2">
+      <div class="card"><h3>身份一 · 产业孵化核心</h3><p>五角场城市更新的孵化核心与先行示范区——空间改造 + 产业升级 + 商业激活的完整落地路径。</p></div>
+      <div class="card"><h3>身份二 · 超级链接器</h3><p>环同济经济圈的资源链接平台：IP 内容 × AI 工具 × 空间载体，闭环生长。</p></div>
+    </div>
+    <h2 style="margin-top:26px;font-size:24px">本次谈判要点</h2>
+    <div class="grid g3" style="margin-top:10px">
+      <div class="card"><h3><span class="num">1</span>合作模式</h3><p>轻运营（不对赌）还是对赌运营（对赌招商）？</p></div>
+      <div class="card"><h3><span class="num">2</span>商业条款</h3><p>月费 + 招商佣金 + 挂牌 + 活动 + 媒体的组合与金额。</p></div>
+      <div class="card"><h3><span class="num">3</span>启动时间</h3><p>与装修/设计交付同步，尽快锁定并启动招商。</p></div>
+    </div>
+    <p class="sub" style="margin-top:20px">核心共识：把 6600㎡ 升级为 <b class="gold">产业空间合作运营项目</b>——我方输出 <b>政策 + 招商 + 产业资源 + 活动 + 媒体</b> 五项能力，按"基础服务费 + 招商佣金 + 增值分成"取酬。</p>
+  </section>
+
+  <!-- 02 DIVIDER -->
+  <section class="slide center">
+    <div class="section-tag">02</div>
+    <h1>我们能带来什么</h1>
+    <p class="sub">WHAT WE BRING — 六大稀缺资源，全部可资产化为招商工具</p>
+  </section>
+
+  <!-- 02 content -->
+  <section class="slide">
+    <div class="eyebrow">02 · 六大资源 → 招商引擎</div>
+    <h2>资源即招商</h2><div class="rule"></div>
+    <div class="grid g3">
+      <div class="card"><h3>① 政策抓手</h3><p>杨浦 AI/大数据补贴存量续享 + 算力补贴最高 50% + 腾讯云 85 折/免 2 月 → "创智汇专有政策包"。</p></div>
+      <div class="card"><h3>② 高校 / 协会背书</h3><p>北大上海校友会、同济设计创新院、复旦、科企联、IP / 玩具 / 广告协会 → 挂牌即招商。</p></div>
+      <div class="card"><h3>③ IP 内容资源</h3><p>混知、观山礼玉等 IP 品牌方 + 汕头玩具/扬州毛绒/东莞潮玩/文创集群 → 5 楼自带内容。</p></div>
+      <div class="card"><h3>④ AI / OPC 社群</h3><p>自有 OPC（AI 开放社群）品牌、黑客松、AI 项目库、聚成智能 → 3 楼自带客流。</p></div>
+      <div class="card"><h3>⑤ 活动 / 会客厅</h3><p>漫展（门票+赞助）、北欧会客厅（出海撮合）、沙龙、峰会借势 → 活动即招商。</p></div>
+      <div class="card"><h3>⑥ 资本 / 产业方</h3><p>江西金控基金、景德镇陶瓷版权交易中心、中建四局工程资源、奇瑞/华为外延 → 链主带动。</p></div>
+    </div>
+    <p class="sub" style="margin-top:18px">普通园区"发广告、等上门"；六维齐发 → 客户 <b class="gold">"被送进来"而非"被拉进来"</b>。</p>
+  </section>
+
+  <!-- 03 DIVIDER -->
+  <section class="slide center">
+    <div class="section-tag">03</div>
+    <h1>招商方案</h1>
+    <p class="sub">LEASING STRATEGY — IP + AI 双轨 · 楼层产品化 · 务实目标</p>
+  </section>
+
+  <!-- 03 floor split -->
+  <section class="slide">
+    <div class="eyebrow">03 · 双轨与楼层定位</div>
+    <h2>3 楼孵化办公（AI 主轴） + 5 楼展厅贸易（IP 主轴）</h2><div class="rule"></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>3 楼 · 约 2850㎡ · 孵化 + 办公</h3>
+        <table>
+          <tr><th>产品</th><th class="m">面积</th><th class="m">客户</th></tr>
+          <tr><td>标准小单元</td><td class="m">80–150㎡ ×8–12</td><td class="m">AI 初创/设计/小微</td></tr>
+          <tr><td>成长型单元</td><td class="m">200–350㎡ ×3–4</td><td class="m">AI 应用/研发服务</td></tr>
+          <tr><td>OPC 联合办公</td><td class="m">工位大区</td><td class="m">AI 项目/黑客松/孵化</td></tr>
+          <tr><td>直播 / AI 展示</td><td class="m">共享 1–2 间</td><td class="m">按次/时段</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>5 楼 · 约 3670㎡ · 展厅 + 贸易</h3>
+        <table>
+          <tr><th>产品</th><th class="m">面积</th><th class="m">内容</th></tr>
+          <tr><td>综合集群展厅</td><td class="m">700–900㎡</td><td class="m">50+ IP 轮展</td></tr>
+          <tr><td>产业集群展位</td><td class="m">270–700㎡/区 ×4–5</td><td class="m">玩具/毛绒/潮玩/文创</td></tr>
+          <tr><td>IP 展销/跨境</td><td class="m">按摊位</td><td class="m">IP 零售/跨境展销</td></tr>
+          <tr><td>培训沙龙/仓储</td><td class="m">120–650㎡</td><td class="m">OPC 培训/活动</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 funnel + target -->
+  <section class="slide">
+    <div class="eyebrow">03 · 招商漏斗与务实目标</div>
+    <h2>四级漏斗 + 务实去化</h2><div class="rule"></div>
+    <div class="grid g4">
+      <div class="card"><h3><span class="num">L1</span>牌照锚定</h3><p>校友会/科企联/IP/玩具协会挂牌前置，客户送进来。</p></div>
+      <div class="card"><h3><span class="num">L2</span>政策招商</h3><p>AI/大数据续享 + 算力补贴 + 腾讯云作"入驻礼包"。</p></div>
+      <div class="card"><h3><span class="num">L3</span>社群带流</h3><p>OPC 社群、黑客松、小红书投流、漫展、沙龙持续导流。</p></div>
+      <div class="card"><h3><span class="num">L4</span>资源转化</h3><p>高校成果转化、IP 品牌方、链主配套、外贸玩具厂转化。</p></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="v gold">2000–3000㎡</div><div class="l">一年去化达标线（不设过高保底）</div></div>
+      <div class="kpi"><div class="v accent">3300–4300㎡</div><div class="l">对赌模式建议锁定对赌面积</div></div>
+      <div class="kpi"><div class="v" style="color:var(--green)">5 类客群</div><div class="l">AI 项目 / 潮玩玩具文创 IP / 科技中小 / 高校转化 / 生产性服务</div></div>
+    </div>
+  </section>
+
+  <!-- 04 DIVIDER + content -->
+  <section class="slide center">
+    <div class="section-tag">04</div>
+    <h1>节点与排期</h1>
+    <p class="sub">MILESTONES — 启动 · 导入 · 成型 · 提升</p>
+  </section>
+  <section class="slide">
+    <div class="eyebrow">04 · 四阶段排期</div>
+    <h2>从定位包装到稳定运营</h2><div class="rule"></div>
+    <table>
+      <tr><th>阶段</th><th>时间窗口</th><th>目标</th><th>重点动作</th></tr>
+      <tr><td class="gold">启动期</td><td class="m">0–3 月</td><td>定位 + 政策 + 渠道</td><td class="m">招商手册、收费标准、政策汇编、企业库、首批挂牌、1–2 家样板</td></tr>
+      <tr><td class="gold">导入期</td><td class="m">3–6 月</td><td>首批入驻 30–50%</td><td class="m">集中招引 AI/IP/潮玩、首批优惠、推介路演、政策诊断</td></tr>
+      <tr><td class="gold">成型期</td><td class="m">6–12 月</td><td>提升出租率与质量</td><td class="m">重点客户补位、专精特新/高企培育、企业服务收费、首场漫展</td></tr>
+      <tr><td class="gold">提升期</td><td class="m">12 月+</td><td>稳定收入与品牌</td><td class="m">区级示范点、载体资质、活动 IP 化、出海撮合、模式复制</td></tr>
+    </table>
+  </section>
+
+  <!-- 05 DIVIDER + content -->
+  <section class="slide center">
+    <div class="section-tag">05</div>
+    <h1>品牌与活动</h1>
+    <p class="sub">BRAND &amp; EVENTS — 挂牌 / 沙龙 / 漫展 / 北欧会客厅</p>
+  </section>
+  <section class="slide">
+    <div class="eyebrow">05 · 品牌与活动</div>
+    <h2>活动即招商，品牌即势能</h2><div class="rule"></div>
+    <div class="grid g3">
+      <div class="card"><h3>挂牌 · 牌照即招商</h3><p>北大上海校友会（优先）、科企联/科技服务中心、IP 协会、中国玩具协会。</p><p class="gold" style="margin-top:8px">总包约 20–50 万</p></div>
+      <div class="card"><h3>活动 · 全年节奏</h3><p>20–24 场沙龙/路演/培训/发布会。</p><p class="gold" style="margin-top:8px">打包约 30 万（+赞助/门票）</p></div>
+      <div class="card"><h3>漫展 · 自造流量</h3><p>千人级，门票 + 赞助；10–11 月首场，对接 BW 广告商与二次元资源。</p></div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h3>北欧会客厅 · 出海撮合</h3>
+      <p>复用品牌势能做海外 IP/技术入华与国内 IP 出海撮合台。取酬二选一：<b>收租金则不分出海成交</b>；<b>不收租金、企业自费布展则在撮合成交中取分成</b>。</p>
+    </div>
+  </section>
+
+  <!-- 06 DIVIDER -->
+  <section class="slide center">
+    <div class="section-tag">06</div>
+    <h1>商业条款与收费</h1>
+    <p class="sub">TERMS &amp; FEES — 两种模式 · 五类收费 · 测算（核心）</p>
+  </section>
+
+  <!-- 06 modes -->
+  <section class="slide">
+    <div class="eyebrow">06 · 两种合作模式</div>
+    <h2>先定大方向：轻运营 vs 对赌运营</h2><div class="rule"></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>模式 A · 轻运营（不对赌招商）</h3>
+        <ul>
+          <li>不驻场、不背去化指标</li>
+          <li>收费：活动费 + 挂牌费 + 媒体策划费</li>
+          <li>适用：对方只要内容/活动/品牌</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:rgba(255,206,107,.45)">
+        <h3 class="gold">模式 B · 对赌运营（推荐）</h3>
+        <ul>
+          <li>轻驻场（1 人/接待位，离得近、可挂牌办公）+ 背对赌去化</li>
+          <li>收费：基础月费 + 招商佣金 + 活动 + 挂牌 + 媒体</li>
+          <li>适用：对方要招商结果、愿付运营费</li>
+        </ul>
+      </div>
+    </div>
+    <p class="sub" style="margin-top:18px">谈判原则：<b class="gold">先按高位报，再让对方还价</b>；收月费即对赌去化，不收月费则不背指标。</p>
+  </section>
+
+  <!-- 06 fee table -->
+  <section class="slide">
+    <div class="eyebrow">06 · 五类收费项（收费项建议）</div>
+    <h2>收费清单</h2><div class="rule"></div>
+    <table>
+      <tr><th>类别</th><th>对象</th><th>方式</th><th>建议金额 / 口径</th></tr>
+      <tr><td>① 基础运营月费</td><td class="m">合作方</td><td class="m">按月</td><td>市场 10–30 万；<b class="gold">首报 12 万</b>；对赌版 5–6 万（对赌 3300–4300㎡）</td></tr>
+      <tr><td>② 招商佣金</td><td class="m">合作方/业主</td><td class="m">成交后</td><td>市场 2–3 月年租金；<b>我方抽 ≤1 月</b>，只给首月不重复</td></tr>
+      <tr><td>③ 挂牌费</td><td class="m">合作方</td><td class="m">一次性</td><td>总包 <b>20–50 万</b>（按数量与影响力分档）</td></tr>
+      <tr><td>④ 活动执行费</td><td class="m">合作方+外部</td><td class="m">按场/打包</td><td>20–24 场/年 <b>约 30 万</b> + 赞助/门票分成</td></tr>
+      <tr><td>⑤ 媒体流量费</td><td class="m">合作方</td><td class="m">按季/项目</td><td>小红书投流、OPC 内容、直播间运营</td></tr>
+      <tr><td>⑥ 企业增值服务</td><td class="m">入驻企业</td><td class="m">按项/成功</td><td>工商注册、政策申报、知识产权、财税法务、融资、出海撮合</td></tr>
+    </table>
+  </section>
+
+  <!-- 06 package + math -->
+  <section class="slide">
+    <div class="eyebrow">06 · 打包报价 + 对方视角测算</div>
+    <h2>算得过账：花一份钱，换更快去化与更优企业</h2><div class="rule"></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>打包报价示例（谈判锚）</h3>
+        <ul>
+          <li>固定服务包：月费 5 万×12 = <b>60 万</b> + 活动 <b>30 万</b> + 挂牌 <b>20 万</b> = <b class="gold">约 110 万/年</b>（可砍至 ~100 万）</li>
+          <li>浮动：招商佣金按去化另计（我方抽 ≤1 月）；驻场/媒体/出海分成据实另计</li>
+          <li>政策申报：普通 0.3–2 万/项；高企/专精特新 2–8 万/项；补贴类按到账 5%–15% 成功费</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>对方视角测算</h3>
+        <table>
+          <tr><th>维度</th><th>口径</th></tr>
+          <tr><td class="m">对方空间成本</td><td>≈ <b>554 万/年</b>（2.3 元/㎡/天×6600×365）</td></tr>
+          <tr><td class="m">我方服务包</td><td>100–120 万/年 + 招商佣金（按去化）</td></tr>
+          <tr><td class="m">列支来源</td><td>对方<b>利润 / 中建四局运营费</b>，非纯增量</td></tr>
+          <tr><td class="m">对方所得</td><td>去化↑、企业质量↑、政策承接、品牌示范</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 DIVIDER + content -->
+  <section class="slide center">
+    <div class="section-tag">07</div>
+    <h1>投决建议与下一步</h1>
+    <p class="sub">DECISION &amp; NEXT STEP — 三问决策 · 30/60/90 天启动</p>
+  </section>
+  <section class="slide">
+    <div class="eyebrow">07 · 三问决策（建议本周内确定）</div>
+    <h2>三问 + 启动路线图</h2><div class="rule"></div>
+    <div class="grid g3">
+      <div class="card"><h3>Q1 合作模式？</h3><p>建议 <b class="gold">模式 B 轻量版</b>：离得近 → 轻驻场 + 对赌去化，盈利性最佳。</p></div>
+      <div class="card"><h3>Q2 月费档位？</h3><p>首报 <b class="gold">12 万/月</b>（市场 10–30 万），对赌版可落 5–6 万；打包年费锚 100–120 万。</p></div>
+      <div class="card"><h3>Q3 何时启动？</h3><p>与装修/设计交付同步，尽快签 MOU、先行政策梳理与挂牌筹备。</p></div>
+    </div>
+    <div class="grid g3" style="margin-top:16px">
+      <div class="card"><h3><span class="num">30</span>天</h3><p>签 MOU + 招商手册与收费方案 + 政策汇编 + 首批挂牌对接。</p></div>
+      <div class="card"><h3><span class="num">60</span>天</h3><p>首场沙龙/路演 + OPC 社群与投流 + 首单招商 + 漫展筹备。</p></div>
+      <div class="card"><h3><span class="num">90</span>天</h3><p>正式挂牌 + 样板企业入驻 + 去化向 30–50% 推进 + 漫展锁档。</p></div>
+    </div>
+    <p class="sub" style="margin-top:16px">分步策略：先签 <b class="gold">6600㎡ 单项目专项</b>（单项目单核算），跑通后再承接体系内其他物业与外延项目。</p>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="slide center">
+    <div class="cover-bg"></div>
+    <div class="eyebrow">THANKS</div>
+    <h1>让创智汇成为杨浦五角场<br/><span class="accent">AI + IP 产业与城市更新</span>的超级链接器与可复制样板</h1>
+    <p class="sub">90 天启动 · 政策借势 · 闭环招商 · 内容自造流量</p>
+    <p class="sub" style="margin-top:26px"><small class="note">谈判集中汇报 v1.0 · 期待达成合作</small></p>
+  </section>
+
+</div>
+
+<div class="progress" id="bar2" style="display:none"></div>
+<div class="pager" id="pager">1 / 1</div>
+<div class="nav">
+  <button id="prev" aria-label="上一页">‹</button>
+  <button id="next" aria-label="下一页">›</button>
+</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  let i=0;
+  const bar=document.getElementById('bar');
+  const pager=document.getElementById('pager');
+  function show(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    bar.style.width=((i+1)/slides.length*100)+'%';
+    pager.textContent=(i+1)+' / '+slides.length;
+  }
+  document.getElementById('next').onclick=()=>show(i+1);
+  document.getElementById('prev').onclick=()=>show(i-1);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')show(i+1);
+    if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);
+    if(e.key==='Home')show(0);
+    if(e.key==='End')show(slides.length-1);
+  });
+  show(0);
+</script>
+</body>
+</html>
