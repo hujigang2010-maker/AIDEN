@@ -27,3 +27,9 @@ python3 scripts/build_proposal_xlsx.py
 | `output/同浦汇_30场活动与科技企业服务中心筹备_执行台账.xlsx` | 排期、90 天、付款、确认项 |
 
 口径数据在 `scripts/proposal_data.py`，三份文件共用，避免各改各的。
+
+校验：
+
+```bash
+python3 scripts/validate_proposal.py
+```

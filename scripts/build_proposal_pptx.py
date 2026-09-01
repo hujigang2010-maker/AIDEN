@@ -203,8 +203,8 @@ def build():
     s = blank()
     header(s, "01 　背景", "昨天沟通后，需要立刻承接的两件事",
            "2026-08-31　创智汇赛道调整交流（约 36 分钟）· 合同口径已变、运营成本已发生")
-    left = D.YESTERDAY[:6]
-    right = D.YESTERDAY[6:]
+    left = D.YESTERDAY_SHORT[:6]
+    right = D.YESTERDAY_SHORT[6:]
     round_rect(s, Inches(0.4), Inches(1.35), Inches(6.15), Inches(5.7), WHITE, LINE)
     add_text(s, Inches(0.6), Inches(1.48), Inches(5.8), Inches(0.35),
              [("赛道为什么改", 14, GOLD, True)])
@@ -361,10 +361,10 @@ def build():
     header(s, "08 　打法", "单场可复制，转化不压到同浦汇一个人身上",
            D.EVENT_STANDARD["节奏"])
     std = [
-        ("人数核验", D.EVENT_STANDARD["人数"]),
-        ("负责人", D.EVENT_STANDARD["负责人占比"]),
-        ("全年触达", D.EVENT_STANDARD["触达"]),
-        ("交付物", D.EVENT_STANDARD["交付"]),
+        ("≤30 人", "单场签到核验"),
+        ("≤30%", "负责人占比上限"),
+        ("600+", "全年触达人次"),
+        ("月报", "方案 / 签到 / 执行摘要"),
     ]
     for i, (t, b) in enumerate(std):
         x = Inches(0.4) + Inches(i * 3.2)
