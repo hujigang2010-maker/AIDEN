@@ -30,9 +30,14 @@
 - [docs/advisory/12-9月2日沟通-需求与新方向.md](docs/advisory/12-9月2日沟通-需求与新方向.md) — 对方要什么、谈成的新方向（内部）
 - [docs/advisory/13-9月2日后-优化方案.md](docs/advisory/13-9月2日后-优化方案.md) — **交给甲方的优化方案**
 - [docs/advisory/14-静安研发用地业态调整-案例与政策窗口.md](docs/advisory/14-静安研发用地业态调整-案例与政策窗口.md) — 静安本地窗口（诚实距离）
+- [docs/advisory/15-C6改公寓酒店-论证与推进口径.md](docs/advisory/15-C6改公寓酒店-论证与推进口径.md) — 怎么论证、配合但不保证
+- [docs/advisory/16-费用报价-政府公关为主招商为辅.md](docs/advisory/16-费用报价-政府公关为主招商为辅.md) — 报价说明（可转发）
 - [docs/advisory/deck/冠松01楼-政策路径-董事会版.pptx](docs/advisory/deck/冠松01楼-政策路径-董事会版.pptx) — **8 页董事会 PPT**
+- [docs/advisory/deck/冠松01楼-报价与论证.pptx](docs/advisory/deck/冠松01楼-报价与论证.pptx) — **6 页发给对方**
 - [docs/legal/06-业态政策路径-董事会简版.docx](docs/legal/06-业态政策路径-董事会简版.docx) — 纸质简版（确认栏）
-- 生成脚本：[`scripts/build_policy_pptx.py`](scripts/build_policy_pptx.py) · [`scripts/build_policy_brief.py`](scripts/build_policy_brief.py)
+- [docs/legal/07-费用报价函-政府公关为主招商为辅.docx](docs/legal/07-费用报价函-政府公关为主招商为辅.docx) — **报价函（主发）**
+- [docs/legal/07b-C6改公寓酒店-论证口径.docx](docs/legal/07b-C6改公寓酒店-论证口径.docx) — 论证附件
+- 生成脚本：[`scripts/build_policy_pptx.py`](scripts/build_policy_pptx.py) · [`scripts/build_policy_brief.py`](scripts/build_policy_brief.py) · [`scripts/build_quote_letter.py`](scripts/build_quote_letter.py) · [`scripts/build_argument_brief.py`](scripts/build_argument_brief.py) · [`scripts/build_quote_pptx.py`](scripts/build_quote_pptx.py)
 
 ## 招商委托（转向前的工具箱 · 收费已被 9 月 2 日见面覆盖）
 
