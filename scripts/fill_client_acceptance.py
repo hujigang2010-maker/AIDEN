@@ -108,6 +108,8 @@ MODULE_PHOTOS = [
             ("941A7663.JPG", "主背景板：晚宴冠名·绿城中国"),
             ("941A8810.JPG", "晚宴大屏绿城中国品牌片"),
             ("941A8857.JPG", "冠名晚宴合影（江景厅）"),
+            ("941A8859.JPG", "冠名晚宴现场举杯"),
+            ("941A8881.JPG", "冠名晚宴桌次（江景厅）"),
         ],
     ),
     (
@@ -117,6 +119,10 @@ MODULE_PHOTOS = [
             ("941A7768.JPG", "展台接待：礼袋与物料"),
             ("941A7832.JPG", "主会场双屏同款主视觉"),
             ("00_banner.jpg", "主视觉 KV 含绿城中国"),
+            ("941A7825.JPG", "主持现场"),
+            ("941A7851.JPG", "主办致辞全景"),
+            ("941A7836.JPG", "主办致辞：姚志勇"),
+            ("941A7849.JPG", "主办致辞讲台特写"),
         ],
     ),
     (
@@ -130,12 +136,99 @@ MODULE_PHOTOS = [
         "4. 宣发配合　¥10,000　☑ 现场摄影已交　☐ 朋友圈 / 回顾视频待补",
         [
             ("941A7777.JPG", "主背景板合影（执行回执用）"),
-            ("941A7851.JPG", "主办致辞现场"),
-            ("941A8881.JPG", "冠名晚宴桌次"),
+            ("941A7779.JPG", "主背景板双人合影核验冠名"),
             ("941A7782.JPG", "主背景板合影核验冠名"),
+            ("941A8881.JPG", "冠名晚宴桌次"),
         ],
     ),
 ]
+
+# 全部精华照片按重要顺序分类（一级最重要）
+RANKED = [
+    {
+        "level": "一级",
+        "name": "核心品牌露出（必看）",
+        "desc": "绿城 / 潮鸣 / GREENTOWN 字样可直接核验，对应报价主体，建议甲方优先复核。",
+        "photos": [
+            ("941A7785.JPG", "议程看板【绿城·潮鸣】星耀北外滩晚宴", "晚宴冠名"),
+            ("941A7663.JPG", "主背景板：晚宴冠名战略合作伙伴·绿城中国", "晚宴冠名"),
+            ("941A7769.JPG", "展台立牌：绿城中国 GREENTOWN", "主会场"),
+            ("941A8810.JPG", "晚宴大屏播放绿城中国品牌片", "晚宴冠名"),
+        ],
+    },
+    {
+        "level": "二级",
+        "name": "主会场执行（重点）",
+        "desc": "展台接待、双屏、主持、主视觉，证明主会场权益已落地。",
+        "photos": [
+            ("941A7768.JPG", "展台接待：绿城立牌、礼袋与物料", "主会场"),
+            ("941A7832.JPG", "主会场双屏同款主视觉（含晚宴冠名·绿城中国）", "主会场"),
+            ("941A7825.JPG", "主持现场：主会场露出", "主会场"),
+            ("00_banner.jpg", "主视觉 KV：战略合作名单含绿城中国", "主会场/宣发"),
+        ],
+    },
+    {
+        "level": "三级",
+        "name": "冠名位合影核验",
+        "desc": "主背景板合影，可复核晚宴冠名位「绿城中国」。",
+        "photos": [
+            ("941A7776.JPG", "主背景板合影核验冠名位", "晚宴冠名"),
+            ("941A7777.JPG", "主背景板合影（冠名位特写）", "晚宴冠名"),
+            ("941A7779.JPG", "主背景板双人合影核验冠名位", "晚宴冠名"),
+            ("941A7782.JPG", "主背景板合影：晚宴冠名战略合作伙伴·绿城中国", "晚宴冠名"),
+        ],
+    },
+    {
+        "level": "四级",
+        "name": "主办致辞现场",
+        "desc": "主会场致辞与讲台，补充现场执行；不作参观邀约专项成片。",
+        "photos": [
+            ("941A7851.JPG", "主办致辞全景：主会场双屏与讲台", "主会场"),
+            ("941A7836.JPG", "主办致辞：姚志勇，主会场主视觉", "主会场"),
+            ("941A7849.JPG", "主办致辞讲台特写", "主会场"),
+        ],
+    },
+    {
+        "level": "五级",
+        "name": "冠名晚宴氛围",
+        "desc": "江景厅冠名晚宴现场。席卡为嘉宾姓名卡，不作「潮鳴」logo 桌卡证据。",
+        "photos": [
+            ("941A8857.JPG", "冠名晚宴合影（江景厅）", "晚宴冠名"),
+            ("941A8881.JPG", "冠名晚宴桌次（江景厅圆桌）", "晚宴冠名"),
+            ("941A8859.JPG", "冠名晚宴现场举杯", "晚宴冠名"),
+        ],
+    },
+]
+
+
+def all_ranked_photos():
+    items = []
+    for cat in RANKED:
+        for photo in cat["photos"]:
+            items.append((cat, photo))
+    return items
+
+
+def place_photo_grid(
+    ws, start_row, photos, tag: str, img_h=118, img_w=168, paint_to_col=4
+) -> int:
+    """把照片按每行 4 张嵌进表格，返回下一空行。"""
+    letters = ("A", "B", "C", "D")
+    row = start_row
+    for start in range(0, len(photos), 4):
+        chunk = photos[start : start + 4]
+        img_row = row
+        cap_row = row + 1
+        ws.row_dimensions[img_row].height = img_h
+        ws.row_dimensions[cap_row].height = 36
+        paint_range(ws, img_row, cap_row, 1, paint_to_col, WHITE)
+        for i, item in enumerate(chunk):
+            name, cap = item[0], item[1]
+            t = thumb(resolve_src(name), THUMB / f"{tag}_{name}", max_w=420, max_h=300)
+            place_image(ws, t, f"{letters[i]}{img_row}", img_w, img_h)
+            fill_cell(ws, f"{letters[i]}{cap_row}", cap, 8, align=LEFT)
+        row = cap_row + 1
+    return row
 
 
 def resolve_src(name: str) -> Path:
@@ -236,7 +329,7 @@ def fill_cover(ws) -> None:
     fill_cell(
         ws,
         "B13",
-        "【露出】本页 9 张均为绿城 / 潮鸣可核验露出，含图注；更多大图见「绿城·潮鸣外滩露出」页。\n"
+        "【露出】本页 9 张为封面摘要；全部 18 张已按一级至五级嵌入「按重要顺序分类」。\n"
         "【营销评估】非常好（☐）　良好（☑）　一般（☐）　较差（☐）\n"
         "【打包验收】四模块整体打包。参观邀约无单独成片、朋友圈九宫格 / 回顾视频未附本表，"
         "见「权益核验清单」黄底项。已核验露出效果良好，符合约定要求。",
@@ -252,20 +345,21 @@ def fill_cover(ws) -> None:
     fill_cell(
         ws,
         "B16",
-        "①本页 9 张均为绿城 / 潮鸣可辨露出，含图注；"
-        "②「权益核验清单」按报价单 4 模块对照照片；"
-        "③「绿城·潮鸣外滩露出」页为精华大图；"
-        "④「效果评估表」按绿城中国策划活动类效果评估表结构；"
-        "⑤「赞助权益执行回执」供绿城复核盖章；"
-        "⑥「照片索引」含拍摄时间与模块对照；"
-        f"⑦拍立享直播 {ALBUM}（相册约 425 张，本表为精华筛选）；"
-        f"⑧全程录像 {VIDEO} 提取码 {VIDEO_CODE}；"
-        "⑨费用清单（经办人签字）。本表不与 2026年3月开盘花束验收混用。"
+        "①本页 9 张为封面摘要，含图注；"
+        "②「按重要顺序分类」将 18 张精华图全部按五级嵌入表格；"
+        "③「权益核验清单」按报价单 4 模块嵌全部对应照片；"
+        "④「绿城·潮鸣外滩露出」为大图（同序分级）；"
+        "⑤「效果评估表」按绿城中国策划活动类效果评估表结构；"
+        "⑥「赞助权益执行回执」供绿城复核盖章；"
+        "⑦「照片索引」含重要等级、拍摄时间与模块对照；"
+        f"⑧拍立享直播 {ALBUM}（相册约 425 张，本表为精华筛选）；"
+        f"⑨全程录像 {VIDEO} 提取码 {VIDEO_CODE}。"
+        "本表不与 2026年3月开盘花束验收混用。"
         "未把美年大健康 / 泰隆银行 / 腾讯云 / 蔚来展位当作绿城露出。",
         8,
         align=LEFT,
     )
-    ws.row_dimensions[16].height = 92
+    ws.row_dimensions[16].height = 108
     fill_cell(ws, "C17", "胡继刚\n13262607888\n（主办执行）\n签字：____________", 10, align=LEFT)
     fill_cell(
         ws,
@@ -317,8 +411,135 @@ def fill_cover(ws) -> None:
     ws.sheet_properties.tabColor = "1F6B4A"
 
 
+def add_ranked_sheet(wb) -> None:
+    ws = wb.create_sheet("按重要顺序分类", 1)
+    for col in range(1, 5):
+        ws.column_dimensions[get_column_letter(col)].width = 28
+
+    total = len(all_ranked_photos())
+    ws.merge_cells("A1:D1")
+    fill_cell(
+        ws,
+        "A1",
+        f"绿城·潮鸣外滩 · 精华照片按重要顺序分类（{total} 张全部嵌入本表）",
+        16,
+        True,
+        WRAP,
+        GREEN,
+        TITLE_FONT,
+    )
+    paint_range(ws, 1, 1, 1, 4, GREEN)
+    ws["A1"].font = WHITE_FONT
+    ws["A1"].fill = GREEN
+    ws.row_dimensions[1].height = 32
+
+    ws.merge_cells("A2:D2")
+    fill_cell(
+        ws,
+        "A2",
+        "排序：一级核心品牌露出 → 二级主会场执行 → 三级冠名位合影 → 四级主办致辞 → 五级晚宴氛围。"
+        "只收录绿城 / 潮鸣 / GREENTOWN 可核验露出。本页表格已嵌入全部精华原图，可直接给甲方按等级复核。",
+        9,
+        False,
+        LEFT,
+        GREEN_MID,
+    )
+    paint_range(ws, 2, 2, 1, 4, GREEN_MID)
+    ws.row_dimensions[2].height = 36
+
+    headers = ["重要等级", "分类", "张数", "核验要点"]
+    for col, title in enumerate(headers, 1):
+        cell = ws.cell(3, col, title)
+        cell.font = Font(name=FONT, size=10, bold=True, color="FFFFFF")
+        cell.fill = GREEN
+        cell.alignment = WRAP
+        cell.border = THIN
+    ws.row_dimensions[3].height = 22
+
+    banner_fill = {
+        "一级": GREEN,
+        "二级": GREEN_MID,
+        "三级": GREEN_LIGHT,
+        "四级": HEADER_BAR,
+        "五级": WHITE,
+    }
+    for i, cat in enumerate(RANKED, 4):
+        vals = (cat["level"], cat["name"], str(len(cat["photos"])), cat["desc"])
+        fill = banner_fill.get(cat["level"], WHITE)
+        for col, val in enumerate(vals, 1):
+            cell = ws.cell(i, col, val)
+            cell.font = Font(
+                name=FONT,
+                size=10,
+                bold=(col <= 3),
+                color="FFFFFF" if cat["level"] == "一级" else "000000",
+            )
+            cell.alignment = LEFT if col == 4 else WRAP
+            cell.border = THIN
+            cell.fill = fill
+        ws.row_dimensions[i].height = 36
+
+    sum_row = 4 + len(RANKED)
+    ws.merge_cells(f"A{sum_row}:D{sum_row}")
+    fill_cell(
+        ws,
+        f"A{sum_row}",
+        f"合计 {total} 张，全部按上表顺序嵌在下方各分类单元格中。参观邀约 / 证书 / 朋友圈无成片，不在本页拔高。",
+        9,
+        True,
+        LEFT,
+        GREEN_LIGHT,
+    )
+    paint_range(ws, sum_row, sum_row, 1, 4, GREEN_LIGHT)
+    ws.row_dimensions[sum_row].height = 24
+
+    row = sum_row + 2
+    for idx, cat in enumerate(RANKED, 1):
+        n = len(cat["photos"])
+        fill = banner_fill.get(cat["level"], GREEN_MID)
+        ws.merge_cells(f"A{row}:D{row}")
+        fill_cell(
+            ws,
+            f"A{row}",
+            f"{cat['level']}｜{cat['name']}（{n} 张）",
+            13,
+            True,
+            LEFT,
+            fill,
+            TITLE_FONT,
+        )
+        paint_range(ws, row, row, 1, 4, fill)
+        if cat["level"] == "一级":
+            ws[f"A{row}"].font = Font(name=TITLE_FONT, size=13, bold=True, color="FFFFFF")
+            ws[f"A{row}"].fill = GREEN
+        ws.row_dimensions[row].height = 26
+        row += 1
+        ws.merge_cells(f"A{row}:D{row}")
+        fill_cell(ws, f"A{row}", cat["desc"], 9, False, LEFT, GREEN_LIGHT)
+        paint_range(ws, row, row, 1, 4, GREEN_LIGHT)
+        ws.row_dimensions[row].height = 22
+        row += 1
+        photos = [(p[0], p[1]) for p in cat["photos"]]
+        row = place_photo_grid(
+            ws,
+            row,
+            photos,
+            tag=f"rank{idx}",
+            img_h=132,
+            img_w=186,
+            paint_to_col=4,
+        )
+        row += 1
+
+    last = row - 1
+    setup_print(ws, f"A1:D{last}", landscape=True, fit_height=0)
+    ws.print_title_rows = "1:2"
+    ws.sheet_view.showGridLines = False
+    ws.sheet_properties.tabColor = "1F6B4A"
+
+
 def add_rights_sheet(wb) -> None:
-    ws = wb.create_sheet("权益核验清单", 1)
+    ws = wb.create_sheet("权益核验清单", 2)
     widths = [6, 18, 36, 12, 42, 14]
     for i, w in enumerate(widths, 1):
         ws.column_dimensions[get_column_letter(i)].width = w
@@ -336,7 +557,8 @@ def add_rights_sheet(wb) -> None:
         "A2",
         "活动：2026-05-22 上海·北外滩·一滴水　身份：晚宴冠名战略合作伙伴　"
         "金额：含税 ¥100,000（报价单 4 模块整体打包，不拆子项验收）　"
-        "依据：绿城中国-潮鸣外滩-10万元晚宴冠名服务报价单　本页照片已嵌进表格，可直接给甲方核对。",
+        "依据：绿城中国-潮鸣外滩-10万元晚宴冠名服务报价单　"
+        "本页按四模块嵌全部对应照片；若按重要程度查阅，见工作表「按重要顺序分类」。",
         9,
         False,
         LEFT,
@@ -448,7 +670,7 @@ def add_rights_sheet(wb) -> None:
     fill_cell(
         ws,
         f"A{ev_title}",
-        "四模块现场证据照片（已嵌入本表，可直接给甲方核对）",
+        "四模块现场证据照片（各模块全部对应图已嵌入，可直接给甲方核对）",
         12,
         True,
         LEFT,
@@ -461,35 +683,33 @@ def add_rights_sheet(wb) -> None:
     ws.row_dimensions[ev_title].height = 24
 
     row = ev_title + 1
-    cols = ["A", "B", "C", "D"]
     for title, photos in MODULE_PHOTOS:
         ws.merge_cells(f"A{row}:F{row}")
-        fill_cell(ws, f"A{row}", title, 11, True, LEFT, GREEN_MID)
+        fill_cell(ws, f"A{row}", f"{title}　本模块 {len(photos)} 张（全部嵌入）", 11, True, LEFT, GREEN_MID)
         paint_range(ws, row, row, 1, 6, GREEN_MID)
         ws.row_dimensions[row].height = 22
-        img_row = row + 1
-        cap_row = row + 2
-        ws.row_dimensions[img_row].height = 118
-        ws.row_dimensions[cap_row].height = 32
-        paint_range(ws, img_row, cap_row, 1, 6, WHITE)
-        for i, col in enumerate(cols):
-            if i < len(photos):
-                name, cap = photos[i]
-                t = thumb(resolve_src(name), THUMB / f"mod_{name}", max_w=420, max_h=300)
-                place_image(ws, t, f"{col}{img_row}", 168, 118)
-                fill_cell(ws, f"{col}{cap_row}", cap, 8, align=LEFT)
-            else:
-                fill_cell(ws, f"{col}{cap_row}", "（无更多成片）", 8, align=LEFT, fill=AMBER)
-        if len(photos) < 3:
+        row = place_photo_grid(
+            ws,
+            row + 1,
+            photos,
+            tag=f"mod{title[:1]}",
+            img_h=118,
+            img_w=168,
+            paint_to_col=6,
+        )
+        if "待录像" in title:
+            ws.merge_cells(f"A{row}:F{row}")
             fill_cell(
                 ws,
-                f"E{cap_row}",
-                "相册未见参观 / 接驳专项成片",
+                f"A{row}",
+                "相册未见参观 / 接驳专项成片。上图仅证明主持口播位与冠名位，不作为参观邀约已完成证据。",
                 8,
                 align=LEFT,
                 fill=AMBER,
             )
-        row = cap_row + 1
+            paint_range(ws, row, row, 1, 6, AMBER)
+            ws.row_dimensions[row].height = 28
+            row += 1
 
     last = row - 1
     setup_print(ws, f"A1:F{last}", landscape=True, fit_height=0)
@@ -503,7 +723,7 @@ def add_photo_sheet(wb) -> None:
     fill_cell(
         ws,
         "A1",
-        "绿城中国｜绿城·潮鸣外滩 现场露出精华照片（甲方交付）",
+        "绿城中国｜绿城·潮鸣外滩 现场露出精华照片（按重要顺序 · 甲方交付）",
         14,
         True,
         WRAP,
@@ -515,13 +735,13 @@ def add_photo_sheet(wb) -> None:
     ws["A1"].fill = GREEN
     ws.row_dimensions[1].height = 28
 
-    all_items = [(n, full) for n, _s, full in COVER] + EXTRA
+    total = len(all_ranked_photos())
     ws.merge_cells("A2:D2")
     fill_cell(
         ws,
         "A2",
         f"活动时间：2026-05-22　地点：上海·北外滩·一滴水　"
-        f"本页 {len(all_items)} 张精华（首页 9 张 + 续图）　"
+        f"本页 {total} 张按一级→五级排列（与「按重要顺序分类」同序）　"
         f"完整相册约 425 张：{ALBUM}　录像：{VIDEO}（提取码 {VIDEO_CODE}）",
         9,
         False,
@@ -534,26 +754,56 @@ def add_photo_sheet(wb) -> None:
     for col in range(1, 5):
         ws.column_dimensions[get_column_letter(col)].width = 42
 
+    banner_fill = {
+        "一级": GREEN,
+        "二级": GREEN_MID,
+        "三级": GREEN_LIGHT,
+        "四级": HEADER_BAR,
+        "五级": WHITE,
+    }
     row = 4
+    seq = 1
     col_pair = [("A", "B"), ("C", "D")]
-    i = 0
-    while i < len(all_items):
-        ws.row_dimensions[row].height = 168
-        ws.row_dimensions[row + 1].height = 36
-        for j, (img_col, cap_col) in enumerate(col_pair):
-            if i + j >= len(all_items):
-                break
-            name, cap = all_items[i + j]
-            t = thumb(resolve_src(name), THUMB / f"sheet_{name}", max_w=640, max_h=480)
-            place_image(ws, t, f"{img_col}{row}", 290, 205)
-            cell = ws[f"{img_col}{row + 1}"]
-            ws.merge_cells(f"{img_col}{row + 1}:{cap_col}{row + 1}")
-            cell.value = f"{i + j + 1}. {cap}"
-            cell.font = Font(name=FONT, size=9)
-            cell.alignment = LEFT
-            cell.border = THIN
-        i += 2
-        row += 2
+    for cat in RANKED:
+        fill = banner_fill.get(cat["level"], GREEN_MID)
+        ws.merge_cells(f"A{row}:D{row}")
+        fill_cell(
+            ws,
+            f"A{row}",
+            f"{cat['level']}｜{cat['name']}（{len(cat['photos'])} 张）　{cat['desc']}",
+            11,
+            True,
+            LEFT,
+            fill,
+        )
+        paint_range(ws, row, row, 1, 4, fill)
+        if cat["level"] == "一级":
+            ws[f"A{row}"].font = Font(name=FONT, size=11, bold=True, color="FFFFFF")
+            ws[f"A{row}"].fill = GREEN
+        ws.row_dimensions[row].height = 28
+        row += 1
+
+        photos = [(p[0], p[1]) for p in cat["photos"]]
+        i = 0
+        while i < len(photos):
+            ws.row_dimensions[row].height = 168
+            ws.row_dimensions[row + 1].height = 36
+            paint_range(ws, row, row + 1, 1, 4, WHITE)
+            for j, (img_col, cap_col) in enumerate(col_pair):
+                if i + j >= len(photos):
+                    break
+                name, cap = photos[i + j]
+                t = thumb(resolve_src(name), THUMB / f"sheet_{name}", max_w=640, max_h=480)
+                place_image(ws, t, f"{img_col}{row}", 290, 205)
+                cell = ws[f"{img_col}{row + 1}"]
+                ws.merge_cells(f"{img_col}{row + 1}:{cap_col}{row + 1}")
+                cell.value = f"{seq + j}. {cap}"
+                cell.font = Font(name=FONT, size=9)
+                cell.alignment = LEFT
+                cell.border = THIN
+            seq += min(2, len(photos) - i)
+            i += 2
+            row += 2
 
     note_row = row + 1
     ws.merge_cells(f"A{note_row}:D{note_row}")
@@ -577,7 +827,7 @@ def add_photo_sheet(wb) -> None:
 
 
 def add_eval_sheet(wb) -> None:
-    ws = wb.create_sheet("效果评估表", 2)
+    ws = wb.create_sheet("效果评估表", 3)
     for col, width in enumerate([16, 24, 24, 36], 1):
         ws.column_dimensions[get_column_letter(col)].width = width
 
@@ -731,7 +981,7 @@ def add_eval_sheet(wb) -> None:
     fill_cell(
         ws,
         "A22",
-        "详见附件：本工作簿「营销验收单」「权益核验清单」「赞助权益执行回执」及拍立享相册、网盘录像。"
+        "详见附件：本工作簿「按重要顺序分类」（18 张分级）「营销验收单」「权益核验清单」「赞助权益执行回执」及拍立享相册、网盘录像。"
         "合作金额含税 ¥100,000，四模块整体打包。本表仅对应 5 月 22 日峰会。",
         9,
         False,
@@ -746,7 +996,7 @@ def add_eval_sheet(wb) -> None:
 
 
 def add_receipt_sheet(wb) -> None:
-    ws = wb.create_sheet("赞助权益执行回执", 3)
+    ws = wb.create_sheet("赞助权益执行回执", 4)
     for col, w in enumerate([22, 28, 22, 28], 1):
         ws.column_dimensions[get_column_letter(col)].width = w
 
@@ -855,8 +1105,9 @@ def add_receipt_sheet(wb) -> None:
     fill_cell(
         ws,
         "A15",
-        "证据目录：①本工作簿营销验收单（首页 9 张图注）②权益核验清单 ③效果评估表 ④绿城·潮鸣外滩露出大图 "
-        f"⑤拍立享 {ALBUM}（约 425 张）⑥网盘录像 {VIDEO} 提取码 {VIDEO_CODE}。"
+        "证据目录：①营销验收单（封面 9 张）②按重要顺序分类（18 张全部按五级嵌入）"
+        "③权益核验清单 ④效果评估表 ⑤绿城·潮鸣外滩露出大图 "
+        f"⑥拍立享 {ALBUM}（约 425 张）⑦网盘录像 {VIDEO} 提取码 {VIDEO_CODE}。"
         "证书特写未见，不以本回执推定证书已颁。",
         9,
         False,
@@ -938,29 +1189,29 @@ def add_receipt_sheet(wb) -> None:
 
 def add_index_sheet(wb) -> None:
     ws = wb.create_sheet("照片索引")
-    widths = [8, 18, 22, 44, 16, 10]
+    widths = [8, 22, 18, 22, 44, 16, 10]
     for i, w in enumerate(widths, 1):
         ws.column_dimensions[get_column_letter(i)].width = w
-    ws.merge_cells("A1:F1")
-    fill_cell(ws, "A1", "绿城·潮鸣外滩露出 · 精华照片索引（含拍摄时间）", 16, True, WRAP, GREEN, TITLE_FONT)
-    paint_range(ws, 1, 1, 1, 6, GREEN)
+    ws.merge_cells("A1:G1")
+    fill_cell(ws, "A1", "绿城·潮鸣外滩露出 · 精华照片索引（按重要等级）", 16, True, WRAP, GREEN, TITLE_FONT)
+    paint_range(ws, 1, 1, 1, 7, GREEN)
     ws["A1"].font = WHITE_FONT
     ws["A1"].fill = GREEN
     ws.row_dimensions[1].height = 28
-    ws.merge_cells("A2:F2")
+    ws.merge_cells("A2:G2")
     fill_cell(
         ws,
         "A2",
-        "拍摄时间取自拍立享相册元数据。首页 9 张为绿城 / 潮鸣字样可辨主证据。"
+        "按一级→五级排列，与「按重要顺序分类」同序。拍摄时间取自拍立享相册元数据。"
         "不收录他方展位（美年大健康、泰隆银行、腾讯云、蔚来、长江商学院）。",
         9,
         False,
         LEFT,
         GREEN_MID,
     )
-    paint_range(ws, 2, 2, 1, 6, GREEN_MID)
+    paint_range(ws, 2, 2, 1, 7, GREEN_MID)
     ws.row_dimensions[2].height = 28
-    headers = ["图号", "文件名", "拍摄时间", "露出点", "对应模块", "首页"]
+    headers = ["图号", "重要等级", "文件名", "拍摄时间", "露出点", "对应模块", "封面"]
     for col, title in enumerate(headers, 1):
         cell = ws.cell(3, col, title)
         cell.font = Font(name=FONT, size=10, bold=True, color="FFFFFF")
@@ -968,46 +1219,45 @@ def add_index_sheet(wb) -> None:
         cell.alignment = WRAP
         cell.border = THIN
 
-    cover_mod = [
-        "晚宴冠名",
-        "晚宴冠名",
-        "主会场",
-        "主会场",
-        "晚宴冠名",
-        "主会场",
-        "主会场",
-        "晚宴冠名",
-        "主会场/宣发",
-    ]
-    extra_mod = {
-        "941A7777.JPG": "晚宴冠名",
-        "941A7779.JPG": "晚宴冠名",
-        "941A7782.JPG": "晚宴冠名",
-        "941A7851.JPG": "主会场",
-        "941A7836.JPG": "主会场",
-        "941A7849.JPG": "主会场",
-        "941A8857.JPG": "晚宴冠名",
-        "941A8881.JPG": "晚宴冠名",
-        "941A8859.JPG": "晚宴冠名",
+    cover_files = {name for name, *_ in COVER}
+    level_fill = {
+        "一级": GREEN_LIGHT,
+        "二级": GREEN_LIGHT,
+        "三级": WHITE,
+        "四级": WHITE,
+        "五级": WHITE,
     }
     rows = []
-    for i, (name, _s, full) in enumerate(COVER, 1):
-        rows.append((str(i), name, SHOOT_TIME.get(name, ""), full, cover_mod[i - 1], "是"))
-    for j, (name, cap) in enumerate(EXTRA, len(COVER) + 1):
-        rows.append((str(j), name, SHOOT_TIME.get(name, ""), cap, extra_mod.get(name, "—"), "否"))
+    n = 1
+    for cat in RANKED:
+        for item in cat["photos"]:
+            name, cap, module = item[0], item[1], item[2]
+            rows.append(
+                (
+                    str(n),
+                    f"{cat['level']} {cat['name']}",
+                    name,
+                    SHOOT_TIME.get(name, ""),
+                    cap,
+                    module,
+                    "是" if name in cover_files else "否",
+                    cat["level"],
+                )
+            )
+            n += 1
     for i, vals in enumerate(rows, 4):
-        for col, val in enumerate(vals, 1):
+        for col, val in enumerate(vals[:7], 1):
             cell = ws.cell(i, col, val)
-            cell.font = Font(name=FONT, size=9)
-            cell.alignment = LEFT if col in (2, 4) else WRAP
+            cell.font = Font(name=FONT, size=9, bold=(col == 2 and vals[7] == "一级"))
+            cell.alignment = LEFT if col in (2, 3, 5) else WRAP
             cell.border = THIN
-            cell.fill = GREEN_LIGHT if vals[5] == "是" else WHITE
+            cell.fill = GREEN_LIGHT if vals[6] == "是" else level_fill.get(vals[7], WHITE)
         ws.row_dimensions[i].height = 22
     last = 3 + len(rows)
-    setup_print(ws, f"A1:F{last}", landscape=True, fit_height=1)
+    setup_print(ws, f"A1:G{last}", landscape=True, fit_height=1)
     ws.sheet_view.showGridLines = False
     ws.sheet_properties.tabColor = "C8E6C9"
-    ws.auto_filter.ref = f"A3:F{last}"
+    ws.auto_filter.ref = f"A3:G{last}"
 
 
 def make_zip() -> None:
@@ -1027,11 +1277,17 @@ def main() -> None:
         raise SystemExit(f"缺少模板 {TEMPLATE}")
     THUMB.mkdir(parents=True, exist_ok=True)
     used = [n for n, *_ in COVER] + [n for n, _ in EXTRA]
+    ranked_files = [p[0] for _, p in all_ranked_photos()]
+    if len(ranked_files) != 18 or len(set(ranked_files)) != 18:
+        raise SystemExit(f"分级照片数量不对: {len(ranked_files)} unique={len(set(ranked_files))}")
+    if set(ranked_files) != set(used):
+        raise SystemExit(f"分级与封面/续图不一致: {set(ranked_files) ^ set(used)}")
     for name in used:
         resolve_src(name)
 
     wb = load_workbook(str(TEMPLATE))
     fill_cover(wb.active)
+    add_ranked_sheet(wb)
     add_rights_sheet(wb)
     add_eval_sheet(wb)
     add_receipt_sheet(wb)
@@ -1044,7 +1300,7 @@ def main() -> None:
     print(f"saved {OUT} size={OUT.stat().st_size}")
     print(f"zip {ZIP_OUT} size={ZIP_OUT.stat().st_size}")
     print("sheets", load_workbook(OUT).sheetnames)
-    print("cover images", len(COVER), "extra", len(EXTRA))
+    print("ranked", len(all_ranked_photos()), "cover", len(COVER), "extra", len(EXTRA))
 
 
 if __name__ == "__main__":
