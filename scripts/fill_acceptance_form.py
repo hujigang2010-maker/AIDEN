@@ -92,12 +92,60 @@ EXTRA = [
     ("394_941A8857.JPG", "晚宴合影（江景厅）"),
     ("068_941A7802.JPG", "场地江景露台（北外滩一滴水，正对陆家嘴）"),
     ("058_941A7782.JPG", "主背景板合影：晚宴冠名战略合作伙伴·绿城中国"),
+    ("011_941A7686.JPG", "现场展架露出「外滩·潮鸣」合作课程物料"),
+    ("076_941A7836.JPG", "主办致辞：大屏顶栏及讲台 logo 含绿城"),
+    ("079_941A7851.JPG", "主办致辞全景：大屏顶栏「绿城·潮鸣外滩」"),
+    ("386_941A8835.JPG", "晚宴嘉宾交流（冠名晚宴现场）"),
+    ("387_941A8838.JPG", "晚宴致辞/祝酒（冠名晚宴现场）"),
+    ("397_941A8875.JPG", "晚宴桌次交流（冠名晚宴现场）"),
+    ("401_941A8888.JPG", "晚宴举杯（江景厅大屏背景）"),
+    ("407_941A8907.JPG", "晚宴演艺与花艺（冠名晚宴现场）"),
+]
+
+# 权益核验清单 / 执行回执：把照片直接嵌进表格
+MODULE_PHOTOS = [
+    (
+        "1. 晚宴冠名和专属权益　¥55,000　☑ 已执行（冠名/物料）",
+        [
+            ("060_941A7785.JPG", "议程看板【绿城·潮鸣】晚宴"),
+            ("001_941A7663.JPG", "主背景板：晚宴冠名·绿城中国"),
+            ("395_941A8859.JPG", "祝酒大屏「绿城·外滩潮鸣」"),
+            ("388_941A8841.JPG", "晚宴桌卡「潮鳴」"),
+        ],
+    ),
+    (
+        "2. 主会场权益　¥30,000　☑ 已执行（展台/双屏）",
+        [
+            ("065_941A7794.JPG", "1号位展台：绿城礼盒+潮鸣立牌"),
+            ("074_941A7832.JPG", "双屏「绿城·外滩潮鸣」"),
+            ("079_941A7851.JPG", "大屏顶栏「绿城·潮鸣外滩」"),
+            ("011_941A7686.JPG", "展架「外滩·潮鸣」"),
+        ],
+    ),
+    (
+        "3. 专场项目参观邀约　¥5,000　☐ 待录像核验（仅口播位，无专项成片）",
+        [
+            ("071_941A7821.JPG", "主持人口播位已具备"),
+            ("055_941A7777.JPG", "主背景板冠名位（非参观成片）"),
+        ],
+    ),
+    (
+        "4. 宣发配合　¥10,000　☑ 现场摄影已交　☐ 朋友圈/回顾视频待补",
+        [
+            ("00_banner.jpg", "主视觉KV含绿城中国"),
+            ("076_941A7836.JPG", "致辞画面：顶栏/讲台绿城 logo"),
+            ("058_941A7782.JPG", "主背景板合影（执行回执用合影）"),
+            ("394_941A8857.JPG", "晚宴合影（江景厅）"),
+        ],
+    ),
 ]
 
 ALIASES = {
     "395_941A8859.JPG": ["v02_941A8859.JPG", "395_941A8859.JPG"],
     "001_941A7663.JPG": ["p000_941A7663.JPG", "001_941A7663.JPG"],
     "065_941A7794.JPG": ["p064_941A7794.JPG", "065_941A7794.JPG"],
+    "p066_941A7798.JPG": ["p066_941A7798.JPG", "067_941A7798.JPG"],
+    "v01_941A8878.JPG": ["v01_941A8878.JPG", "398_941A8878.JPG"],
 }
 
 
@@ -336,7 +384,7 @@ def add_rights_sheet(wb) -> None:
             "1号位展台、手拎袋项目物料、视频轮播/奖项颁发画面",
             "30,000",
             "图②1号位展台（绿城礼盒+潮鸣立牌+VR）；图④双屏战略合作伙伴「绿城·外滩潮鸣」；"
-            "图⑨主视觉KV含绿城中国；露出页手拎袋/讲台顶栏。奖项颁发证书未见特写。",
+            "图⑨主视觉KV含绿城中国；主办致辞大屏顶栏「绿城·潮鸣外滩」；现场展架「外滩·潮鸣」。奖项颁发证书未见特写。",
             "通过（展台/双屏）",
         ),
         (
@@ -408,7 +456,57 @@ def add_rights_sheet(wb) -> None:
     paint_range(ws, note, note, 1, 6, GREEN_LIGHT)
     ws.row_dimensions[note].height = 48
 
-    setup_print(ws, f"A1:F{note}", landscape=True, fit_height=1)
+    # 把各模块证据照片直接嵌进本表
+    ev_title = note + 2
+    ws.merge_cells(f"A{ev_title}:F{ev_title}")
+    fill_cell(
+        ws,
+        f"A{ev_title}",
+        "四模块现场证据照片（已嵌入本表，可直接给绿城核对）",
+        12,
+        True,
+        LEFT,
+        GREEN,
+        TITLE_FONT,
+    )
+    paint_range(ws, ev_title, ev_title, 1, 6, GREEN)
+    ws[f"A{ev_title}"].font = Font(name=TITLE_FONT, size=12, bold=True, color="FFFFFF")
+    ws[f"A{ev_title}"].fill = GREEN
+    ws.row_dimensions[ev_title].height = 24
+
+    row = ev_title + 1
+    cols = ["A", "B", "C", "D"]
+    for title, photos in MODULE_PHOTOS:
+        ws.merge_cells(f"A{row}:F{row}")
+        fill_cell(ws, f"A{row}", title, 11, True, LEFT, GREEN_MID)
+        paint_range(ws, row, row, 1, 6, GREEN_MID)
+        ws.row_dimensions[row].height = 22
+        img_row = row + 1
+        cap_row = row + 2
+        ws.row_dimensions[img_row].height = 118
+        ws.row_dimensions[cap_row].height = 32
+        paint_range(ws, img_row, cap_row, 1, 6, WHITE)
+        for i, col in enumerate(cols):
+            if i < len(photos):
+                name, cap = photos[i]
+                t = thumb(resolve_src(name), THUMB / f"mod_{name}", max_w=420, max_h=300)
+                place_image(ws, t, f"{col}{img_row}", 168, 118)
+                fill_cell(ws, f"{col}{cap_row}", cap, 8, align=LEFT)
+            else:
+                fill_cell(ws, f"{col}{cap_row}", "（无更多成片）", 8, align=LEFT, fill=AMBER)
+        if len(photos) < 2:
+            fill_cell(
+                ws,
+                f"E{cap_row}",
+                "相册未见参观/接驳专项成片",
+                8,
+                align=LEFT,
+                fill=AMBER,
+            )
+        row = cap_row + 1
+
+    last = row - 1
+    setup_print(ws, f"A1:F{last}", landscape=True, fit_height=0)
     ws.sheet_view.showGridLines = False
     ws.sheet_properties.tabColor = "FFF8E1"
 
@@ -805,7 +903,35 @@ def add_receipt_sheet(wb) -> None:
     ws.row_dimensions[17].height = 36
     ws.row_dimensions[18].height = 72
 
-    setup_print(ws, "A1:D18", landscape=False, fit_height=1)
+    ws.merge_cells("A19:D19")
+    fill_cell(
+        ws,
+        "A19",
+        "回执附图（代表性证据，已嵌入本页）",
+        11,
+        True,
+        LEFT,
+        GREEN,
+    )
+    paint_range(ws, 19, 19, 1, 4, GREEN)
+    ws["A19"].font = Font(name=FONT, size=11, bold=True, color="FFFFFF")
+    ws["A19"].fill = GREEN
+    ws.row_dimensions[19].height = 22
+    ws.row_dimensions[20].height = 118
+    ws.row_dimensions[21].height = 32
+    paint_range(ws, 20, 21, 1, 4, WHITE)
+    receipt_photos = [
+        ("060_941A7785.JPG", "议程看板【绿城·潮鸣】晚宴冠名"),
+        ("065_941A7794.JPG", "1号位展台：绿城礼盒+潮鸣立牌"),
+        ("395_941A8859.JPG", "祝酒大屏「绿城·外滩潮鸣」"),
+        ("079_941A7851.JPG", "致辞大屏顶栏「绿城·潮鸣外滩」"),
+    ]
+    for col, (name, cap) in zip(("A", "B", "C", "D"), receipt_photos):
+        t = thumb(resolve_src(name), THUMB / f"rcpt_{name}", max_w=400, max_h=280)
+        place_image(ws, t, f"{col}20", 168, 118)
+        fill_cell(ws, f"{col}21", cap, 8, align=LEFT)
+
+    setup_print(ws, "A1:D21", landscape=False, fit_height=1)
     ws.sheet_view.showGridLines = False
     ws.sheet_properties.tabColor = "1F6B4A"
 
@@ -825,8 +951,8 @@ def add_index_sheet(wb) -> None:
     fill_cell(
         ws,
         "A2",
-        "拍摄时间取自拍立享相册元数据。首页 9 张为绿城/潮鸣字样可辨主证据；续图含场地与晚宴氛围。"
-        "不收录他方展位（如泰隆银行）或无品牌字样的论坛特写。",
+        "拍摄时间取自拍立享相册元数据。首页 9 张为绿城/潮鸣字样可辨主证据；"
+        "续图含主会场顶栏/展架「外滩·潮鸣」及晚宴现场。不收录他方展位（蔚来、腾讯云礼品、泰隆银行）或无品牌字样的论坛特写。",
         9,
         False,
         LEFT,
@@ -867,6 +993,14 @@ def add_index_sheet(wb) -> None:
         "394_941A8857.JPG": "晚宴冠名",
         "068_941A7802.JPG": "场地（无字样）",
         "058_941A7782.JPG": "晚宴冠名",
+        "011_941A7686.JPG": "主会场",
+        "076_941A7836.JPG": "主会场",
+        "079_941A7851.JPG": "主会场",
+        "386_941A8835.JPG": "晚宴冠名",
+        "387_941A8838.JPG": "晚宴冠名",
+        "397_941A8875.JPG": "晚宴冠名",
+        "401_941A8888.JPG": "晚宴冠名",
+        "407_941A8907.JPG": "晚宴冠名",
     }
     rows = []
     for i, (name, _s, full) in enumerate(COVER, 1):
