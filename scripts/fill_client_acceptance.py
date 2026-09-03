@@ -27,6 +27,7 @@ ROOT = Path("/workspace")
 TEMPLATE = ROOT / "templates" / "基础营销验收单.xlsx"
 PHOTO_DIR = ROOT / "deliverables" / "精华照片"
 OUT = ROOT / "deliverables" / "绿城·潮鸣外滩-营销验收单（甲方交付）.xlsx"
+PDF_OUT = ROOT / "deliverables" / "绿城·潮鸣外滩-营销验收单（甲方交付）.pdf"
 ZIP_OUT = ROOT / "deliverables" / "下载包" / "绿城潮鸣外滩-营销验收单（甲方交付）.zip"
 THUMB = Path("/tmp/acceptance-thumbs-client")
 
@@ -1014,6 +1015,8 @@ def make_zip() -> None:
     used = [n for n, *_ in COVER] + [n for n, _ in EXTRA]
     with zipfile.ZipFile(ZIP_OUT, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         zf.write(OUT, OUT.name)
+        if PDF_OUT.exists():
+            zf.write(PDF_OUT, PDF_OUT.name)
         for name in used:
             src = resolve_src(name)
             zf.write(src, f"精华照片/{name}")
