@@ -32,6 +32,8 @@
 - [docs/advisory/14-静安研发用地业态调整-案例与政策窗口.md](docs/advisory/14-静安研发用地业态调整-案例与政策窗口.md) — 静安本地窗口（诚实距离）
 - [docs/advisory/15-C6改公寓酒店-论证与推进口径.md](docs/advisory/15-C6改公寓酒店-论证与推进口径.md) — 怎么论证、配合但不保证
 - [docs/advisory/16-费用报价-政府公关为主招商为辅.md](docs/advisory/16-费用报价-政府公关为主招商为辅.md) — 报价说明（可转发）
+- [docs/advisory/17-静安与上海案例补充.md](docs/advisory/17-静安与上海案例补充.md) — 静安 + 全市成败案例
+- [docs/advisory/18-收费两板块方案.md](docs/advisory/18-收费两板块方案.md) — A 公关 / B 招商，主推打包捆绑
 - [docs/advisory/deck/冠松01楼-政策路径-董事会版.pptx](docs/advisory/deck/冠松01楼-政策路径-董事会版.pptx) — **8 页董事会 PPT**
 - [docs/advisory/deck/冠松01楼-报价与论证.pptx](docs/advisory/deck/冠松01楼-报价与论证.pptx) — **6 页发给对方**
 - [docs/legal/06-业态政策路径-董事会简版.docx](docs/legal/06-业态政策路径-董事会简版.docx) — 纸质简版（确认栏）
