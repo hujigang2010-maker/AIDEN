@@ -201,6 +201,15 @@ RANKED = [
 ]
 
 
+LEVEL_FILL = {
+    "一级": GREEN,
+    "二级": GREEN_MID,
+    "三级": GREEN_LIGHT,
+    "四级": HEADER_BAR,
+    "五级": WHITE,
+}
+
+
 def all_ranked_photos():
     items = []
     for cat in RANKED:
@@ -229,6 +238,34 @@ def place_photo_grid(
             fill_cell(ws, f"{letters[i]}{cap_row}", cap, 8, align=LEFT)
         row = cap_row + 1
     return row
+
+
+def place_level_block(
+    ws, row, cat, tag, img_h=118, img_w=168, paint_to_col=4, include_desc=False
+) -> int:
+    """一级横幅 + 一行四张图。返回下一空行。"""
+    n = len(cat["photos"])
+    fill = LEVEL_FILL.get(cat["level"], GREEN_MID)
+    title = f"{cat['level']}｜{cat['name']}（{n} 张）"
+    if include_desc:
+        title = f"{title}　{cat['desc']}"
+    ws.merge_cells(f"A{row}:{get_column_letter(paint_to_col)}{row}")
+    fill_cell(ws, f"A{row}", title, 11, True, LEFT, fill, TITLE_FONT)
+    paint_range(ws, row, row, 1, paint_to_col, fill)
+    if cat["level"] == "一级":
+        ws[f"A{row}"].font = Font(name=TITLE_FONT, size=12, bold=True, color="FFFFFF")
+        ws[f"A{row}"].fill = GREEN
+    ws.row_dimensions[row].height = 22 if include_desc else 20
+    photos = [(p[0], p[1]) for p in cat["photos"]]
+    return place_photo_grid(
+        ws, row + 1, photos, tag, img_h=img_h, img_w=img_w, paint_to_col=paint_to_col
+    )
+
+
+def unmerge_from_row(ws, start_row: int) -> None:
+    for rng in list(ws.merged_cells.ranges):
+        if rng.min_row >= start_row or rng.max_row >= start_row:
+            ws.unmerge_cells(str(rng))
 
 
 def resolve_src(name: str) -> Path:
@@ -324,88 +361,140 @@ def fill_cover(ws) -> None:
         8,
         align=LEFT_TOP,
     )
-    ws.row_dimensions[5].height = 118
+    ws.row_dimensions[5].height = 96
 
+    unmerge_from_row(ws, 6)
+    for r in range(6, 22):
+        for c in range(1, 5):
+            ws.cell(r, c).value = None
+            ws.row_dimensions[r].hidden = False
+    for col, w in enumerate([22, 24, 24, 24], 1):
+        ws.column_dimensions[get_column_letter(col)].width = w
+
+    ws.merge_cells("A6:D6")
     fill_cell(
         ws,
-        "B13",
-        "【露出】本页 9 张为封面摘要；全部 18 张已按一级至五级嵌入「按重要顺序分类」。\n"
+        "A6",
+        "验收照片 · 五级排列（18 张全部嵌入）　前三级集中前置：一级核心露出 → 二级主会场 → 三级冠名合影",
+        10,
+        True,
+        LEFT,
+        GREEN,
+        TITLE_FONT,
+    )
+    paint_range(ws, 6, 6, 1, 4, GREEN)
+    ws["A6"].font = Font(name=TITLE_FONT, size=11, bold=True, color="FFFFFF")
+    ws["A6"].fill = GREEN
+    ws.row_dimensions[6].height = 22
+
+    row = 7
+    for idx, cat in enumerate(RANKED[:3], 1):
+        row = place_level_block(
+            ws, row, cat, tag=f"cover{idx}", img_h=92, img_w=168, include_desc=False
+        )
+    ws.merge_cells(f"A{row}:D{row}")
+    fill_cell(
+        ws,
+        f"A{row}",
+        "四级、五级为补充现场（主办致辞 / 晚宴氛围），仍全部嵌入，不作参观邀约或潮鳴 logo 桌卡证据。",
+        8,
+        False,
+        LEFT,
+        HEADER_BAR,
+    )
+    paint_range(ws, row, row, 1, 4, HEADER_BAR)
+    ws.row_dimensions[row].height = 18
+    row += 1
+    for idx, cat in enumerate(RANKED[3:], 4):
+        row = place_level_block(
+            ws, row, cat, tag=f"cover{idx}", img_h=84, img_w=158, include_desc=False
+        )
+
+    eval_row = row
+    ws.merge_cells(f"A{eval_row}:A{eval_row}")
+    fill_cell(ws, f"A{eval_row}", "效果评估", 10, True, WRAP, GREEN_LIGHT)
+    ws.merge_cells(f"B{eval_row}:D{eval_row}")
+    fill_cell(
+        ws,
+        f"B{eval_row}",
+        "【露出】本页 18 张按五级全部嵌入，一级至三级集中排在最前。\n"
         "【营销评估】非常好（☐）　良好（☑）　一般（☐）　较差（☐）\n"
         "【打包验收】四模块整体打包。参观邀约无单独成片、朋友圈九宫格 / 回顾视频未附本表，"
         "见「权益核验清单」黄底项。已核验露出效果良好，符合约定要求。",
-        9,
+        8,
         align=LEFT_TOP,
     )
-    ws.row_dimensions[13].height = 52
-    ws.row_dimensions[14].height = 18
-    ws.row_dimensions[15].height = 18
-    ws.row_dimensions[14].hidden = True
-    ws.row_dimensions[15].hidden = True
+    paint_range(ws, eval_row, eval_row, 1, 4, WHITE)
+    ws[f"A{eval_row}"].fill = GREEN_LIGHT
+    ws.row_dimensions[eval_row].height = 56
 
+    att_row = eval_row + 1
+    fill_cell(ws, f"A{att_row}", "附件", 10, True, WRAP, GREEN_LIGHT)
+    ws.merge_cells(f"B{att_row}:D{att_row}")
     fill_cell(
         ws,
-        "B16",
-        "①本页 9 张为封面摘要，含图注；"
-        "②「按重要顺序分类」将 18 张精华图全部按五级嵌入表格；"
+        f"B{att_row}",
+        "①本页 18 张五级排列，前三级集中前置；"
+        "②「按重要顺序分类」同序大图；"
         "③「权益核验清单」按报价单 4 模块嵌全部对应照片；"
-        "④「绿城·潮鸣外滩露出」为大图（同序分级）；"
-        "⑤「效果评估表」按绿城中国策划活动类效果评估表结构；"
-        "⑥「赞助权益执行回执」供绿城复核盖章；"
-        "⑦「照片索引」含重要等级、拍摄时间与模块对照；"
-        f"⑧拍立享直播 {ALBUM}（相册约 425 张，本表为精华筛选）；"
-        f"⑨全程录像 {VIDEO} 提取码 {VIDEO_CODE}。"
-        "本表不与 2026年3月开盘花束验收混用。"
-        "未把美年大健康 / 泰隆银行 / 腾讯云 / 蔚来展位当作绿城露出。",
+        "④「效果评估表」；⑤「赞助权益执行回执」；⑥「照片索引」含重要等级；"
+        f"⑦拍立享 {ALBUM}（约 425 张，本表为精华筛选）；"
+        f"⑧全程录像 {VIDEO} 提取码 {VIDEO_CODE}。"
+        "不与 2026年3月开盘花束验收混用。未把美年大健康 / 泰隆 / 腾讯云 / 蔚来展位当作绿城露出。",
         8,
         align=LEFT,
     )
-    ws.row_dimensions[16].height = 108
-    fill_cell(ws, "C17", "胡继刚\n13262607888\n（主办执行）\n签字：____________", 10, align=LEFT)
+    paint_range(ws, att_row, att_row, 1, 4, WHITE)
+    ws[f"A{att_row}"].fill = GREEN_LIGHT
+    ws.row_dimensions[att_row].height = 72
+
+    sig_row = att_row + 1
+    ws.merge_cells(f"A{sig_row}:A{sig_row + 1}")
+    fill_cell(ws, f"A{sig_row}", "验收确认", 10, True, WRAP, GREEN_LIGHT)
+    fill_cell(ws, f"B{sig_row}", "执行人/策划负责人", 9, True, WRAP, HEADER_BAR)
+    ws.merge_cells(f"C{sig_row}:D{sig_row}")
     fill_cell(
         ws,
-        "C18",
-        "绿城对接：笪浩 18678408669\n营销负责人签字：____________\n日期：____________",
+        f"C{sig_row}",
+        "胡继刚　13262607888（主办执行）　签字：____________",
         10,
         align=LEFT,
     )
-
-    unmerge_if(ws, "B6")
-    paint_range(ws, 6, 12, 2, 4, WHITE)
-    ws.merge_cells("B12:D12")
+    fill_cell(ws, f"B{sig_row + 1}", "营销负责人", 9, True, WRAP, HEADER_BAR)
+    ws.merge_cells(f"C{sig_row + 1}:D{sig_row + 1}")
     fill_cell(
         ws,
-        "B12",
-        "图①–⑨对应「权益核验清单」。他方品牌展位、晚宴席卡姓名卡不作为潮鸣 logo 证据。",
-        8,
+        f"C{sig_row + 1}",
+        "绿城对接：笪浩 18678408669　签字：____________　日期：____________",
+        10,
         align=LEFT,
     )
+    paint_range(ws, sig_row, sig_row + 1, 1, 4, WHITE)
+    ws[f"A{sig_row}"].fill = GREEN_LIGHT
+    ws[f"B{sig_row}"].fill = HEADER_BAR
+    ws[f"B{sig_row + 1}"].fill = HEADER_BAR
+    ws.row_dimensions[sig_row].height = 36
+    ws.row_dimensions[sig_row + 1].height = 36
 
-    photo_rows = (6, 8, 10)
-    cap_rows = (7, 9, 11)
-    cols = ("B", "C", "D")
-    for i, (name, short, _full) in enumerate(COVER):
-        r, c = divmod(i, 3)
-        fill_cell(ws, f"{cols[c]}{cap_rows[r]}", short, 7, align=LEFT)
-        t = thumb(resolve_src(name), THUMB / f"cover_{name}", max_w=440, max_h=320)
-        place_image(ws, t, f"{cols[c]}{photo_rows[r]}", 172, 112)
+    link_row = sig_row + 2
+    ws[f"A{link_row}"] = "照片直播（拍立享）"
+    ws[f"A{link_row}"].font = Font(name=FONT, size=9, bold=True)
+    ws[f"B{link_row}"] = ALBUM
+    ws[f"B{link_row}"].hyperlink = ALBUM
+    ws[f"B{link_row}"].font = Font(name=FONT, size=9, color="0563C1", underline="single")
+    ws.merge_cells(f"B{link_row}:D{link_row}")
+    ws[f"A{link_row + 1}"] = "全程录像（百度网盘）"
+    ws[f"A{link_row + 1}"].font = Font(name=FONT, size=9, bold=True)
+    ws[f"B{link_row + 1}"] = f"{VIDEO}  提取码：{VIDEO_CODE}"
+    ws[f"B{link_row + 1}"].hyperlink = VIDEO
+    ws[f"B{link_row + 1}"].font = Font(
+        name=FONT, size=9, color="0563C1", underline="single"
+    )
+    ws.merge_cells(f"B{link_row + 1}:D{link_row + 1}")
+    ws.row_dimensions[link_row].height = 18
+    ws.row_dimensions[link_row + 1].height = 18
 
-    for r, h in [(6, 90), (7, 34), (8, 90), (9, 34), (10, 90), (11, 34), (12, 22)]:
-        ws.row_dimensions[r].height = h
-
-    ws["A20"] = "照片直播（拍立享）"
-    ws["A20"].font = Font(name=FONT, size=9, bold=True)
-    ws["B20"] = ALBUM
-    ws["B20"].hyperlink = ALBUM
-    ws["B20"].font = Font(name=FONT, size=9, color="0563C1", underline="single")
-    ws.merge_cells("B20:D20")
-    ws["A21"] = "全程录像（百度网盘）"
-    ws["A21"].font = Font(name=FONT, size=9, bold=True)
-    ws["B21"] = f"{VIDEO}  提取码：{VIDEO_CODE}"
-    ws["B21"].hyperlink = VIDEO
-    ws["B21"].font = Font(name=FONT, size=9, color="0563C1", underline="single")
-    ws.merge_cells("B21:D21")
-
-    setup_print(ws, "A2:D18", landscape=False, fit_height=1)
+    setup_print(ws, f"A2:D{link_row + 1}", landscape=False, fit_height=0)
     ws.sheet_view.showGridLines = False
     ws.sheet_view.view = "pageBreakPreview"
     ws.sheet_properties.tabColor = "1F6B4A"
@@ -437,99 +526,51 @@ def add_ranked_sheet(wb) -> None:
     fill_cell(
         ws,
         "A2",
-        "排序：一级核心品牌露出 → 二级主会场执行 → 三级冠名位合影 → 四级主办致辞 → 五级晚宴氛围。"
-        "只收录绿城 / 潮鸣 / GREENTOWN 可核验露出。本页表格已嵌入全部精华原图，可直接给甲方按等级复核。",
+        "前三级集中前置（12 张）：一级核心品牌露出 → 二级主会场执行 → 三级冠名位合影。"
+        "四级主办致辞、五级晚宴氛围为补充（6 张）。合计 18 张全部嵌入。"
+        "只收录绿城 / 潮鸣 / GREENTOWN 可核验露出。",
         9,
         False,
         LEFT,
         GREEN_MID,
     )
     paint_range(ws, 2, 2, 1, 4, GREEN_MID)
-    ws.row_dimensions[2].height = 36
+    ws.row_dimensions[2].height = 28
 
-    headers = ["重要等级", "分类", "张数", "核验要点"]
-    for col, title in enumerate(headers, 1):
-        cell = ws.cell(3, col, title)
-        cell.font = Font(name=FONT, size=10, bold=True, color="FFFFFF")
-        cell.fill = GREEN
-        cell.alignment = WRAP
-        cell.border = THIN
-    ws.row_dimensions[3].height = 22
-
-    banner_fill = {
-        "一级": GREEN,
-        "二级": GREEN_MID,
-        "三级": GREEN_LIGHT,
-        "四级": HEADER_BAR,
-        "五级": WHITE,
-    }
-    for i, cat in enumerate(RANKED, 4):
-        vals = (cat["level"], cat["name"], str(len(cat["photos"])), cat["desc"])
-        fill = banner_fill.get(cat["level"], WHITE)
-        for col, val in enumerate(vals, 1):
-            cell = ws.cell(i, col, val)
-            cell.font = Font(
-                name=FONT,
-                size=10,
-                bold=(col <= 3),
-                color="FFFFFF" if cat["level"] == "一级" else "000000",
-            )
-            cell.alignment = LEFT if col == 4 else WRAP
-            cell.border = THIN
-            cell.fill = fill
-        ws.row_dimensions[i].height = 36
-
-    sum_row = 4 + len(RANKED)
-    ws.merge_cells(f"A{sum_row}:D{sum_row}")
+    row = 3
+    for idx, cat in enumerate(RANKED[:3], 1):
+        row = place_level_block(
+            ws,
+            row,
+            cat,
+            tag=f"rank{idx}",
+            img_h=138,
+            img_w=196,
+            include_desc=True,
+        )
+    ws.merge_cells(f"A{row}:D{row}")
     fill_cell(
         ws,
-        f"A{sum_row}",
-        f"合计 {total} 张，全部按上表顺序嵌在下方各分类单元格中。参观邀约 / 证书 / 朋友圈无成片，不在本页拔高。",
+        f"A{row}",
+        "四级、五级补充现场（6 张）　主办致辞不作参观邀约成片；晚宴席卡为嘉宾姓名卡，不作潮鳴 logo 桌卡。",
         9,
         True,
         LEFT,
-        GREEN_LIGHT,
+        HEADER_BAR,
     )
-    paint_range(ws, sum_row, sum_row, 1, 4, GREEN_LIGHT)
-    ws.row_dimensions[sum_row].height = 24
-
-    row = sum_row + 2
-    for idx, cat in enumerate(RANKED, 1):
-        n = len(cat["photos"])
-        fill = banner_fill.get(cat["level"], GREEN_MID)
-        ws.merge_cells(f"A{row}:D{row}")
-        fill_cell(
-            ws,
-            f"A{row}",
-            f"{cat['level']}｜{cat['name']}（{n} 张）",
-            13,
-            True,
-            LEFT,
-            fill,
-            TITLE_FONT,
-        )
-        paint_range(ws, row, row, 1, 4, fill)
-        if cat["level"] == "一级":
-            ws[f"A{row}"].font = Font(name=TITLE_FONT, size=13, bold=True, color="FFFFFF")
-            ws[f"A{row}"].fill = GREEN
-        ws.row_dimensions[row].height = 26
-        row += 1
-        ws.merge_cells(f"A{row}:D{row}")
-        fill_cell(ws, f"A{row}", cat["desc"], 9, False, LEFT, GREEN_LIGHT)
-        paint_range(ws, row, row, 1, 4, GREEN_LIGHT)
-        ws.row_dimensions[row].height = 22
-        row += 1
-        photos = [(p[0], p[1]) for p in cat["photos"]]
-        row = place_photo_grid(
+    paint_range(ws, row, row, 1, 4, HEADER_BAR)
+    ws.row_dimensions[row].height = 20
+    row += 1
+    for idx, cat in enumerate(RANKED[3:], 4):
+        row = place_level_block(
             ws,
             row,
-            photos,
+            cat,
             tag=f"rank{idx}",
-            img_h=132,
+            img_h=128,
             img_w=186,
-            paint_to_col=4,
+            include_desc=True,
         )
-        row += 1
 
     last = row - 1
     setup_print(ws, f"A1:D{last}", landscape=True, fit_height=0)
@@ -1105,7 +1146,7 @@ def add_receipt_sheet(wb) -> None:
     fill_cell(
         ws,
         "A15",
-        "证据目录：①营销验收单（封面 9 张）②按重要顺序分类（18 张全部按五级嵌入）"
+        "证据目录：①营销验收单（18 张五级排列，前三级集中前置）②按重要顺序分类（同序）"
         "③权益核验清单 ④效果评估表 ⑤绿城·潮鸣外滩露出大图 "
         f"⑥拍立享 {ALBUM}（约 425 张）⑦网盘录像 {VIDEO} 提取码 {VIDEO_CODE}。"
         "证书特写未见，不以本回执推定证书已颁。",
@@ -1211,7 +1252,7 @@ def add_index_sheet(wb) -> None:
     )
     paint_range(ws, 2, 2, 1, 7, GREEN_MID)
     ws.row_dimensions[2].height = 28
-    headers = ["图号", "重要等级", "文件名", "拍摄时间", "露出点", "对应模块", "封面"]
+    headers = ["图号", "重要等级", "文件名", "拍摄时间", "露出点", "对应模块", "位置"]
     for col, title in enumerate(headers, 1):
         cell = ws.cell(3, col, title)
         cell.font = Font(name=FONT, size=10, bold=True, color="FFFFFF")
@@ -1219,7 +1260,7 @@ def add_index_sheet(wb) -> None:
         cell.alignment = WRAP
         cell.border = THIN
 
-    cover_files = {name for name, *_ in COVER}
+    front_files = {p[0] for cat in RANKED[:3] for p in cat["photos"]}
     level_fill = {
         "一级": GREEN_LIGHT,
         "二级": GREEN_LIGHT,
@@ -1240,7 +1281,7 @@ def add_index_sheet(wb) -> None:
                     SHOOT_TIME.get(name, ""),
                     cap,
                     module,
-                    "是" if name in cover_files else "否",
+                    "前三级" if name in front_files else "四五级补充",
                     cat["level"],
                 )
             )
@@ -1251,7 +1292,7 @@ def add_index_sheet(wb) -> None:
             cell.font = Font(name=FONT, size=9, bold=(col == 2 and vals[7] == "一级"))
             cell.alignment = LEFT if col in (2, 3, 5) else WRAP
             cell.border = THIN
-            cell.fill = GREEN_LIGHT if vals[6] == "是" else level_fill.get(vals[7], WHITE)
+            cell.fill = GREEN_LIGHT if vals[6] == "前三级" else level_fill.get(vals[7], WHITE)
         ws.row_dimensions[i].height = 22
     last = 3 + len(rows)
     setup_print(ws, f"A1:G{last}", landscape=True, fit_height=1)
