@@ -8,16 +8,23 @@
 
 ## 生成
 
+内部评估：
+
 ```bash
 python3 scripts/build_eval.py
 python3 scripts/verify_eval.py
 ```
 
+发给对方的修改建议：
+
+```bash
+python3 scripts/build_feedback.py
+```
+
 输出：
 
-- `output/CGC领事会客厅三案评估意见.docx`
-- `output/CGC领事会客厅三案评估意见.html`
-- `docs/CGC领事会客厅三案评估意见.md`
+- `docs/`、`output/` 下的评估意见与《CGC领事会客厅合作方案修改建议》（Word / Markdown / HTML）
+
 
 ## 结论摘要
 
