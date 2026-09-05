@@ -67,20 +67,20 @@ def build(path: Path | None = None) -> Path:
     add(doc, C.PROJECT_SUBTITLE + f"    {C.VERSION}", 12, False, GREY, after=8)
     add(doc, C.ONE_LINER, 11, False, DARK, after=8)
 
-    add(doc, "思路", 13, True, GREEN, before=2, after=4)
-    add(doc, "不做宣讲会外包。把招生嵌进产业闭门课：来的人谈产业，名单共管，会后由招生官一对一。录取权在港大。", 10.5, after=4)
-    for p in C.PRODUCTS:
-        add(doc, f"· {p['name']}：{p['desc']}", 10.5, after=2)
+    add(doc, "对方口径（9月3日交流）", 13, True, GREEN, before=2, after=4)
+    add(doc, "合作要从经管学院做，不限于 EMBA。主赛道是出海。先让主任到有分量的场有感受。潘老师做招生粘性。", 10.5, after=4)
+    for p in C.LAYERS:
+        add(doc, f"· {p['name']}：{p['desc']}", 10, after=2)
 
-    add(doc, "合作怎么成立", 13, True, GREEN, before=8, after=4)
+    add(doc, "合作怎么成立", 13, True, GREEN, before=6, after=4)
     add(
         doc,
         f"{C.FEE_NAME}  {C.FEE_AMOUNT_CN}（¥{C.FEE_AMOUNT:,}）。协议生效后 {C.FEE_DAYS} 个工作日内一次性支付。"
-        f"覆盖 {C.PLAN_DAYS} 天策划、不少于 {C.NAME_LIST_MIN} 人定向名单、首场闭门课（{C.FIRST_EVENT_SIZE}）及会后纪要。",
+        f"覆盖 {C.PLAN_DAYS} 天、80 人名单、外滩出海首场、一次主任体验邀约及会后纪要。",
         10.5,
         after=4,
     )
-    add(doc, "不碰学费分成，不承诺录取人数，第二场另签。", 10.5, True, after=4)
+    add(doc, "不碰学费分成，不承诺录取人数，灰色跨境口径不用，第二场另签。", 10.5, True, after=4)
 
     add(doc, "90 天", 13, True, GREEN, before=6, after=4)
     for a, b, c in C.NINETY_DAY:

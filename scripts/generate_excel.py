@@ -100,8 +100,8 @@ def build(path: Path | None = None) -> Path:
     ws.title = "00-封面"
     freeze_title(
         ws,
-        "外滩·产业课堂  前期费用与交付清单",
-        f"{C.THEIR_UNIT}  ×  {C.OUR_PARTIES}    {C.VERSION}  {C.DATE_CN}",
+        "外滩·出海课堂  前期费用与交付清单",
+        f"{C.THEIR_UNIT}  ×  {C.OUR_PARTIES}    {C.VERSION}  {C.DATE_CN}    依据{C.MEETING_DATE}交流",
         [18, 42, 42, 28],
         "D",
     )
@@ -120,7 +120,7 @@ def build(path: Path | None = None) -> Path:
         ("费用金额", f"{C.FEE_AMOUNT_CN}（¥{C.FEE_AMOUNT:,}）"),
         ("支付时点", f"协议生效后 {C.FEE_DAYS} 个工作日内一次性支付"),
         ("服务周期", f"{C.PLAN_DAYS} 天 + 首场闭门课"),
-        ("商业原则", "只收前期费用，不碰学费分成，不承诺录取人数"),
+        ("商业原则", "只收前期费用；主赛道出海；不碰学费分成；不承诺录取人数"),
     ]
     for i, (a, b) in enumerate(rows, 5):
         ws.cell(i, 1, a)
@@ -136,16 +136,12 @@ def build(path: Path | None = None) -> Path:
 
     # 2 费用构成
     ws = wb.create_sheet("01-前期费用构成")
-    freeze_title(ws, "前期联合策划服务费构成（包干）", "对外只报一个数：88,000 元。下表用于内部对齐成本与对甲方说明覆盖范围。", [12, 28, 18, 55])
+    freeze_title(ws, "前期联合策划服务费构成（包干）", "对外只报一个数：88,000 元。含外滩出海首场 + 一次主任体验组织。", [12, 28, 18, 55])
     for col, h in enumerate(["序号", "模块", "对外包干（元）", "覆盖说明"], 1):
         ws.cell(4, col, h)
     style_header(ws, 4, 4)
-    items = [
-        (1, "90天联合策划", 28000, "客群画像、议题日历、邀约话术、转化SOP、周报接口"),
-        (2, "定向名单组织", 18000, f"不少于 {C.NAME_LIST_MIN} 人工作名单，会前确认与共管"),
-        (3, "首场闭门课执行", 32000, f"外滩现场统筹、物料、签到、主持配合（规模 {C.FIRST_EVENT_SIZE}）"),
-        (4, "会后纪要与分级", 10000, "7日内纪要、A/B/C名单、协助预约面试窗口"),
-    ]
+    items = C.FEE_BREAKDOWN
+    last_item = 4 + len(items)
     for i, row in enumerate(items, 5):
         for c, v in enumerate(row, 1):
             ws.cell(i, c, v)
@@ -153,35 +149,41 @@ def build(path: Path | None = None) -> Path:
         ws.cell(i, 3).number_format = '#,##0'
         ws.cell(i, 3).alignment = center
         ws.row_dimensions[i].height = 28
-    ws.cell(9, 1, "")
-    ws.cell(9, 2, "合计（前期费用）")
-    ws.cell(9, 3, f"=SUM(C5:C8)")
-    ws.cell(9, 4, "一次性支付，包干，不含协议外增项")
+    total_row = last_item + 1
+    ws.cell(total_row, 1, "")
+    ws.cell(total_row, 2, "合计（前期费用）")
+    ws.cell(total_row, 3, f"=SUM(C5:C{last_item})")
+    ws.cell(total_row, 4, "一次性支付，包干，不含协议外增项")
     for col in range(1, 5):
-        ws.cell(9, col).font = Font(name="微软雅黑", size=11, bold=True, color=WHITE)
-        ws.cell(9, col).fill = fill_head
-        ws.cell(9, col).alignment = center if col != 4 else left
-        ws.cell(9, col).border = thin
-    ws.cell(9, 3).number_format = '#,##0'
-    ws["A11"] = "不包含"
-    ws["A11"].font = head_font
-    ws["A11"].fill = fill_gold
-    ws.merge_cells("A11:D11")
-    for i, t in enumerate(C.FEE_NOT_COVERED, 12):
-        ws.cell(i, 1, i - 11)
-        ws.cell(i, 2, t)
-        ws.merge_cells(f"B{i}:D{i}")
-        style_row(ws, i, 4, fill_cream)
-    ws["A17"] = "后续场次（不自动生效）"
-    ws.merge_cells("A17:D17")
-    ws["A17"].font = head_font
-    ws["A17"].fill = fill_head
-    ws.cell(18, 1, "—")
-    ws.cell(18, 2, "第二场及以后")
-    ws.cell(18, 3, 68000)
-    ws.cell(18, 4, "另签确认单，含执行不含新一轮 90 天策划")
-    style_row(ws, 18, 4, fill_light)
-    ws.cell(18, 3).number_format = '#,##0'
+        ws.cell(total_row, col).font = Font(name="微软雅黑", size=11, bold=True, color=WHITE)
+        ws.cell(total_row, col).fill = fill_head
+        ws.cell(total_row, col).alignment = center if col != 4 else left
+        ws.cell(total_row, col).border = thin
+    ws.cell(total_row, 3).number_format = '#,##0'
+    skip = total_row + 2
+    ws.cell(skip, 1, "不包含")
+    ws.cell(skip, 1).font = head_font
+    ws.cell(skip, 1).fill = fill_gold
+    ws.merge_cells(f"A{skip}:D{skip}")
+    start_nc = skip + 1
+    for i, t in enumerate(C.FEE_NOT_COVERED):
+        r = start_nc + i
+        ws.cell(r, 1, i + 1)
+        ws.cell(r, 2, t)
+        ws.merge_cells(f"B{r}:D{r}")
+        style_row(ws, r, 4, fill_cream)
+    sub_h = start_nc + len(C.FEE_NOT_COVERED) + 1
+    ws.cell(sub_h, 1, "后续场次（不自动生效）")
+    ws.merge_cells(f"A{sub_h}:D{sub_h}")
+    ws.cell(sub_h, 1).font = head_font
+    ws.cell(sub_h, 1).fill = fill_head
+    sub_r = sub_h + 1
+    ws.cell(sub_r, 1, "—")
+    ws.cell(sub_r, 2, "第二场及以后")
+    ws.cell(sub_r, 3, 68000)
+    ws.cell(sub_r, 4, "另签确认单，含执行不含新一轮 90 天策划")
+    style_row(ws, sub_r, 4, fill_light)
+    ws.cell(sub_r, 3).number_format = '#,##0'
 
     # 3 交付
     ws = wb.create_sheet("02-90天交付清单")
@@ -190,26 +192,29 @@ def build(path: Path | None = None) -> Path:
         ws.cell(4, col, h)
     style_header(ws, 4, 4)
     deliver = [
-        ("D0–D7", "签约与到账", "签署页信息齐套；前期费用到账；首场主题/日期/档期确认单", "银行回单 + 确认邮件"),
-        ("D8–D21", "画像与名单", "客群画像 1 份、邀约话术 1 份、定向名单 ≥80 人初稿", "乙方 5 个工作日书面意见，逾期视为通过"),
-        ("D22–D45", "首场执行", "现场执行、签到表、议程、影像（如允许）", "签到表 + 现场完成"),
+        ("D0–D7", "签约与资料", "签署齐套、费用到账、出海课资料、主任窗口与首场档期", "银行回单 + 邮件"),
+        ("D8–D21", "画像与名单", "出海客群画像、邀约话术、定向名单 ≥80 人初稿", "乙方 5 个工作日书面意见，逾期视为通过"),
+        ("D22–D45", "外滩首场", "出海闭门课现场、签到表、议程", "签到表 + 现场完成"),
+        ("D22–D45", "主任体验", "高规格出海场书面邀约（出席以其公务为准）", "书面邀约 + 活动举办"),
         ("D22–D45", "会后 7 日", "纪要、A/B/C 分级名单、面试窗口协助记录", "邮件提交"),
-        ("D46–D90", "固化复制", "首场复盘 1 份、后两场议题日历（不含第二场执行）", "邮件提交"),
+        ("D46–D90", "备忘", "复盘；出海课联合推广备忘；原创谷/海外模块清单（不验收）", "邮件提交"),
     ]
     for i, row in enumerate(deliver, 5):
         for c, v in enumerate(row, 1):
             ws.cell(i, c, v)
         style_row(ws, i, 4, fill_light if i % 2 == 0 else fill_white)
         ws.row_dimensions[i].height = 32
-    ws["A11"] = "工作目标（非违约条款）"
-    ws.merge_cells("A11:D11")
-    ws["A11"].font = head_font
-    ws["A11"].fill = fill_gold
-    for i, (k, v) in enumerate(C.KPI, 12):
-        ws.cell(i, 1, k)
-        ws.cell(i, 2, v)
-        ws.merge_cells(f"B{i}:D{i}")
-        style_row(ws, i, 4, fill_cream)
+    kpi_h = 5 + len(deliver) + 1
+    ws.cell(kpi_h, 1, "工作目标（非违约条款）")
+    ws.merge_cells(f"A{kpi_h}:D{kpi_h}")
+    ws.cell(kpi_h, 1).font = head_font
+    ws.cell(kpi_h, 1).fill = fill_gold
+    for i, (k, v) in enumerate(C.KPI):
+        r = kpi_h + 1 + i
+        ws.cell(r, 1, k)
+        ws.cell(r, 2, v)
+        ws.merge_cells(f"B{r}:D{r}")
+        style_row(ws, r, 4, fill_cream)
 
     # 4 首场
     ws = wb.create_sheet("03-首场执行")
@@ -293,6 +298,32 @@ def build(path: Path | None = None) -> Path:
         if i == 6:
             ws.cell(i, 2).number_format = '#,##0'
             ws.cell(i, 2).font = money_font
+
+    ws = wb.create_sheet("06-对方需求摘录")
+    freeze_title(
+        ws,
+        f"对方需求摘录（{C.MEETING_DATE} 外滩中心交流）",
+        "整理自洽谈记录。对外方案采用出海、经管学院层级、主任体验；不采用闲聊中的非正式跨境口径。",
+        [18, 22, 55, 22],
+    )
+    for col, h in enumerate(["类型", "要点", "说明", "本期如何用"], 1):
+        ws.cell(4, col, h)
+    style_header(ws, 4, 4)
+    need_rows = [
+        ("听懂", C.HEARD[0][0], C.HEARD[0][1], "协议第一条分层"),
+        ("听懂", C.HEARD[1][0], C.HEARD[1][1], "首场与方案主赛道"),
+        ("听懂", C.HEARD[2][0], C.HEARD[2][1], "主任体验含在前期费"),
+        ("听懂", C.HEARD[3][0], C.HEARD[3][1], "接口人权限边界"),
+        ("需求", C.THEIR_NEEDS[0][0], C.THEIR_NEEDS[0][1], "层 A 外滩出海课"),
+        ("需求", C.THEIR_NEEDS[1][0], C.THEIR_NEEDS[1][1], "场地与体验叙事"),
+        ("需求", C.THEIR_NEEDS[2][0], C.THEIR_NEEDS[2][1], "层 B 主任体验"),
+        ("需求", C.THEIR_NEEDS[3][0], C.THEIR_NEEDS[3][1], "层 C 备忘不验收"),
+    ]
+    for i, row in enumerate(need_rows, 5):
+        for c, v in enumerate(row, 1):
+            ws.cell(i, c, v)
+        style_row(ws, i, 4, fill_light if i % 2 == 0 else fill_white)
+        ws.row_dimensions[i].height = 36
 
     wb.save(path)
     return path

@@ -32,7 +32,7 @@ LIGHT = RGBColor(0xE8, 0xEF, 0xEA)
 FONT = "微软雅黑"
 SLIDE_W = Inches(13.333)
 SLIDE_H = Inches(7.5)
-TOTAL = 12
+TOTAL = 13
 
 
 def set_font(run, size, color=DARK, bold=False, font=FONT):
@@ -200,51 +200,61 @@ def slide_cover(prs):
     add_text(s, Inches(0.8), Inches(6.85), Inches(11.5), Inches(0.35), C.THEIR_ADDR + "  ·  " + C.THEIR_WEB, 12, GOLD, False)
 
 
-def slide_oneliner(prs):
+def slide_heard(prs):
     s = blank(prs)
-    header(s, "给招生官的一页：先定思路，再谈合作", 2)
-    add_round(s, Inches(0.5), Inches(1.4), Inches(12.3), Inches(1.55), CREAM)
-    add_text(s, Inches(0.75), Inches(1.55), Inches(11.8), Inches(1.25), C.ONE_LINER, 18, DARK, False, anchor=MSO_ANCHOR.MIDDLE)
-
-    cards = [
-        ("01  对方要什么", "符合 EMBA 画像的产业决策者持续到场，而不是一次性宣讲会人头。"),
-        ("02  我们做什么", "把招生嵌进产业闭门课：议题、名单、现场、会后分级，一口做完。"),
-        ("03  怎么形成合作", f"签一份短协议，先收 {C.FEE_NAME} ¥{C.FEE_AMOUNT:,}，把 90 天和首场锁住。"),
-        ("04  故意不做的", "不碰学费分成、不承诺录取人数、不自称联合学位或港大从属机构。"),
-    ]
-    for i, (t, d) in enumerate(cards):
+    header(s, f"{C.MEETING_DATE} 交流：先听懂对方怎么说", 2)
+    add_round(s, Inches(0.5), Inches(1.28), Inches(12.3), Inches(1.05), CREAM)
+    add_text(
+        s,
+        Inches(0.75),
+        Inches(1.4),
+        Inches(11.8),
+        Inches(0.8),
+        C.ONE_LINER,
+        16,
+        DARK,
+        False,
+        anchor=MSO_ANCHOR.MIDDLE,
+    )
+    for i, (t, d) in enumerate(C.HEARD):
         x = Inches(0.5 + (i % 2) * 6.25)
-        y = Inches(3.2 + (i // 2) * 1.75)
-        add_round(s, x, y, Inches(6.05), Inches(1.6), WHITE)
-        add_rect(s, x, y, Inches(0.12), Inches(1.6), GOLD)
+        y = Inches(2.55 + (i // 2) * 2.05)
+        add_round(s, x, y, Inches(6.05), Inches(1.9), WHITE)
+        add_rect(s, x, y, Inches(0.12), Inches(1.9), GOLD)
         add_text(s, x + Inches(0.35), y + Inches(0.18), Inches(5.5), Inches(0.4), t, 16, GREEN, True)
-        add_text(s, x + Inches(0.35), y + Inches(0.62), Inches(5.5), Inches(0.8), d, 13, GREY, False)
+        add_text(s, x + Inches(0.35), y + Inches(0.62), Inches(5.5), Inches(1.1), d, 14, DARK, False)
+    footer(s)
+
+
+def slide_needs(prs):
+    s = blank(prs)
+    header(s, "对方需求四件事（按洽谈整理，不是我们替对方编的）", 3)
+    for i, (t, d) in enumerate(C.THEIR_NEEDS):
+        y = Inches(1.32 + i * 1.32)
+        add_round(s, Inches(0.5), y, Inches(12.3), Inches(1.18), WHITE)
+        add_rect(s, Inches(0.5), y, Inches(0.14), Inches(1.18), GOLD)
+        add_text(s, Inches(0.85), y + Inches(0.12), Inches(11.7), Inches(0.38), f"{i + 1}.  {t}", 16, GREEN, True)
+        add_text(s, Inches(0.85), y + Inches(0.52), Inches(11.7), Inches(0.55), d, 13, GREY, False)
     footer(s)
 
 
 def slide_window(prs):
     s = blank(prs)
-    header(s, "为什么是现在：上海中心刚启用，招生窗口已打开", 3)
-    bullets(s, Inches(0.55), Inches(1.35), Inches(12.3), Inches(4.4), C.THEIR_WINDOW, size=16, gap=12)
-    add_round(s, Inches(0.5), Inches(5.85), Inches(12.3), Inches(1.05), CREAM)
-    add_text(
-        s,
-        Inches(0.75),
-        Inches(6.0),
-        Inches(11.8),
-        Inches(0.75),
-        "对接口径：潘嘉琰老师为港大经管 EMBA 华东联络人。本方案只服务这一条招生线，不扩散成「全学院代理」。",
-        14,
-        DARK,
-        False,
-        anchor=MSO_ANCHOR.MIDDLE,
-    )
+    header(s, "上海中心怎么运转：四个点位，四项职能", 4)
+    for i, (name, desc) in enumerate(C.CENTRE_SITES):
+        x = Inches(0.45 + i * 3.2)
+        add_round(s, x, Inches(1.32), Inches(3.05), Inches(2.35), WHITE)
+        add_rect(s, x, Inches(1.32), Inches(3.05), Inches(0.55), GREEN if i == 1 else GREEN2)
+        add_text(s, x, Inches(1.32), Inches(3.05), Inches(0.55), name, 14, WHITE, True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        add_text(s, x + Inches(0.12), Inches(2.0), Inches(2.8), Inches(1.5), desc, 12, DARK, False, align=PP_ALIGN.CENTER)
+    add_text(s, Inches(0.55), Inches(3.85), Inches(12.2), Inches(0.35), "经管中心当前职能（对方口述）", 16, GREEN, True)
+    bullets(s, Inches(0.5), Inches(4.2), Inches(12.3), Inches(2.5), C.CENTRE_FUNCTIONS, size=14, gap=6)
     footer(s)
 
 
 def slide_gap(prs):
     s = blank(prs)
-    header(s, "双方互补：品牌与场地在对方，产业高管在我方", 4)
+    header(s, "双方互补：出海是对方点名的赛道", 5)
     labels = C.GAP
     colors = [GREEN, GREEN2, GREEN, GREEN2]
     for i, ((k, v), col) in enumerate(zip(labels, colors)):
@@ -254,31 +264,31 @@ def slide_gap(prs):
         add_text(s, x, Inches(1.4), Inches(3.0), Inches(0.7), k, 16, WHITE, True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
         add_text(s, x + Inches(0.18), Inches(2.3), Inches(2.65), Inches(2.2), v, 14, DARK, False, align=PP_ALIGN.CENTER)
     add_text(s, Inches(0.55), Inches(4.95), Inches(12.2), Inches(0.4), "我方可以立刻用上的资产", 16, GREEN, True)
-    bullets(s, Inches(0.55), Inches(5.35), Inches(12.2), Inches(1.6), C.OUR_ASSETS, size=14, gap=4)
+    bullets(s, Inches(0.55), Inches(5.32), Inches(12.2), Inches(1.7), C.OUR_ASSETS, size=12, gap=3)
     footer(s)
 
 
 def slide_product(prs):
     s = blank(prs)
-    header(s, "一条思路：外滩·产业课堂", 5)
-    add_text(s, Inches(0.55), Inches(1.3), Inches(12.2), Inches(0.4), "三句话把产品说清楚", 16, GREEN, True)
-    bullets(s, Inches(0.55), Inches(1.7), Inches(12.2), Inches(1.7), C.PRODUCT_LOGIC, size=15, gap=6)
-    for i, p in enumerate(C.PRODUCTS):
-        x = Inches(0.5 + i * 4.2)
-        add_round(s, x, Inches(3.55), Inches(4.0), Inches(2.85), WHITE)
-        add_rect(s, x, Inches(3.55), Inches(4.0), Inches(0.12), GOLD)
-        add_text(s, x + Inches(0.22), Inches(3.8), Inches(3.55), Inches(0.4), p["name"], 18, GREEN, True)
-        add_text(s, x + Inches(0.22), Inches(4.22), Inches(3.55), Inches(0.35), p["tag"], 12, GOLD, True)
-        add_text(s, x + Inches(0.22), Inches(4.65), Inches(3.55), Inches(1.5), p["desc"], 13, DARK, False)
+    header(s, "一条思路：三层合作，出海是主赛道", 6)
+    add_text(s, Inches(0.55), Inches(1.28), Inches(12.2), Inches(0.32), "按 9 月 3 日对方口径收口", 14, GREEN, True)
+    bullets(s, Inches(0.55), Inches(1.6), Inches(12.2), Inches(1.45), C.PRODUCT_LOGIC, size=14, gap=4)
+    for i, p in enumerate(C.LAYERS):
+        x = Inches(0.45 + i * 4.2)
+        add_round(s, x, Inches(3.2), Inches(4.05), Inches(3.2), WHITE)
+        add_rect(s, x, Inches(3.2), Inches(4.05), Inches(0.12), GOLD)
+        add_text(s, x + Inches(0.18), Inches(3.42), Inches(3.7), Inches(0.7), p["name"], 15, GREEN, True)
+        add_text(s, x + Inches(0.18), Inches(4.15), Inches(3.7), Inches(0.32), p["tag"], 11, GOLD, True)
+        add_text(s, x + Inches(0.18), Inches(4.52), Inches(3.7), Inches(1.65), p["desc"], 13, DARK, False)
     footer(s)
 
 
 def slide_convert(prs):
     s = blank(prs)
-    header(s, "如何变成生源：现场不硬销，会后由招生官收口", 6)
+    header(s, "如何变成生源：现场谈出海，会后由招生官收口", 7)
     steps = [
         ("1", "邀约", "按 EMBA 门槛筛名单\n企业主 / 高管优先"),
-        ("2", "到场", "产业议题把人留下\n港大品牌把场撑住"),
+        ("2", "到场", "出海议题把人留下\n港大路径把场撑住"),
         ("3", "分级", "会后 48h 分 A/B/C\n名单共管不外流"),
         ("4", "跟进", "A 类潘老师约面\n录取权始终在学院"),
     ]
@@ -325,7 +335,7 @@ def slide_convert(prs):
 
 def slide_90(prs):
     s = blank(prs)
-    header(s, "90 天联合策划：把首场做成可复制的样板", 7)
+    header(s, "90 天：外滩首场 + 一次主任体验", 8)
     for i, (when, title, desc) in enumerate(C.NINETY_DAY):
         y = Inches(1.35 + i * 1.3)
         add_round(s, Inches(0.5), y, Inches(12.3), Inches(1.18), WHITE)
@@ -338,7 +348,7 @@ def slide_90(prs):
 
 def slide_first(prs):
     s = blank(prs)
-    header(s, "首场怎么开（主题可改，结构不改）", 8)
+    header(s, "首场怎么开：出海主题可改，赛道不改", 9)
     ev = C.FIRST_EVENT
     add_round(s, Inches(0.5), Inches(1.3), Inches(5.5), Inches(5.5), WHITE)
     add_text(s, Inches(0.75), Inches(1.5), Inches(5.1), Inches(0.4), ev["title"], 16, GOLD, True)
@@ -362,7 +372,7 @@ def slide_first(prs):
 
 def slide_roles(prs):
     s = blank(prs)
-    header(s, "分工：招生官收口，我方把人组织到位", 9)
+    header(s, "分工：招生官做粘性，主任入口另走一层", 10)
     keys = list(C.ROLES.keys())
     for i, k in enumerate(keys):
         x = Inches(0.5 + i * 6.4)
@@ -375,7 +385,7 @@ def slide_roles(prs):
 
 def slide_fee(prs):
     s = blank(prs)
-    header(s, "商业结构：只收一笔前期费用", 10)
+    header(s, "商业结构：只收一笔前期费用", 11)
     add_round(s, Inches(0.5), Inches(1.3), Inches(12.3), Inches(1.55), GREEN)
     add_text(s, Inches(0.75), Inches(1.42), Inches(12.0), Inches(0.35), C.FEE_NAME, 14, GOLD, True)
     add_text(
@@ -391,17 +401,17 @@ def slide_fee(prs):
     )
 
     add_text(s, Inches(0.55), Inches(3.05), Inches(6.0), Inches(0.4), "这 8.8 万覆盖什么", 16, GREEN, True)
-    bullets(s, Inches(0.5), Inches(3.45), Inches(6.1), Inches(3.2), C.FEE_COVERS, size=14, gap=8)
+    bullets(s, Inches(0.5), Inches(3.4), Inches(6.1), Inches(3.3), C.FEE_COVERS, size=13, gap=5)
 
     add_text(s, Inches(6.85), Inches(3.05), Inches(6.0), Inches(0.4), "故意不写进本协议的", 16, GREEN, True)
-    bullets(s, Inches(6.8), Inches(3.45), Inches(6.1), Inches(3.2), C.FEE_NOT_COVERED, size=14, gap=8)
+    bullets(s, Inches(6.8), Inches(3.4), Inches(6.1), Inches(3.3), C.FEE_NOT_COVERED, size=13, gap=5)
     footer(s)
 
 
 def slide_agreement(prs):
     s = blank(prs)
-    header(s, "协议要点：短、可签、方便院内走流程", 11)
-    bullets(s, Inches(0.55), Inches(1.35), Inches(12.2), Inches(4.6), C.AGREEMENT_POINTS, size=16, gap=10)
+    header(s, "协议要点：短、可签，按对方口径分层验收", 12)
+    bullets(s, Inches(0.55), Inches(1.32), Inches(12.2), Inches(4.55), C.AGREEMENT_POINTS, size=14, gap=7)
     add_round(s, Inches(0.5), Inches(5.95), Inches(12.3), Inches(0.9), CREAM)
     add_text(
         s,
@@ -420,7 +430,7 @@ def slide_agreement(prs):
 
 def slide_next(prs):
     s = blank(prs)
-    header(s, "下一步：三件事，合作就算成立", 12)
+    header(s, "下一步：三件事，合作就算成立", 13)
     for i, t in enumerate(C.NEXT_STEPS):
         y = Inches(1.4 + i * 1.35)
         add_round(s, Inches(0.55), y, Inches(12.2), Inches(1.2), WHITE)
@@ -449,7 +459,8 @@ def build(path: Path | None = None) -> Path:
     prs.slide_width = SLIDE_W
     prs.slide_height = SLIDE_H
     slide_cover(prs)
-    slide_oneliner(prs)
+    slide_heard(prs)
+    slide_needs(prs)
     slide_window(prs)
     slide_gap(prs)
     slide_product(prs)
