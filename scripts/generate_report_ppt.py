@@ -83,7 +83,7 @@ def blank(prs):
 def header(slide, title, idx):
     add_rect(slide, 0, 0, SLIDE_W, Inches(1.02), GREEN)
     add_rect(slide, 0, Inches(1.02), SLIDE_W, Pt(3), GOLD)
-    add_text(slide, Inches(0.55), Inches(0.16), Inches(11.2), Inches(0.7), title, 24, WHITE, True, anchor=MSO_ANCHOR.MIDDLE)
+    add_text(slide, Inches(0.55), Inches(0.16), Inches(10.7), Inches(0.7), title, 24, WHITE, True, anchor=MSO_ANCHOR.MIDDLE)
     add_text(slide, Inches(11.5), Inches(0.16), Inches(1.4), Inches(0.7), f"{idx}/{TOTAL}", 12, GOLD, True, align=PP_ALIGN.RIGHT, anchor=MSO_ANCHOR.MIDDLE)
 
 
@@ -172,7 +172,7 @@ def slide_why(prs):
         Inches(1.4),
         Inches(11.8),
         Inches(1.3),
-        "潘老师：上次谈到华东、华中的招生和市场，主事是 EMBA；也谈到出海，以及请主任到现场看一看。回来后写成一整包。八万八千元不是单独请主任看一场总领事活动。",
+        "潘老师：上次谈到华东、华中的招生和市场，主事是 EMBA；也谈到出海，以及请主任到现场看一看。回来后写成一整包：招生是主项，出海课是现场，请主任到场含在同一笔八万八千元里。",
         17,
         DARK,
         False,
@@ -252,7 +252,7 @@ def slide_class(prs):
 
 def slide_director(prs):
     s = blank(prs)
-    header(s, "请中心主任到场（含在同一笔费用里）", 6)
+    header(s, "请中心主任到场", 6)
     add_round(s, Inches(0.5), Inches(1.32), Inches(12.3), Inches(2.05), CREAM)
     add_text(
         s,
@@ -346,7 +346,7 @@ def slide_roles(prs):
 
 def slide_fee(prs):
     s = blank(prs)
-    header(s, "费用：三件事一笔，不是单买主任出席", 9)
+    header(s, "费用：三件事一笔", 9)
     add_round(s, Inches(0.5), Inches(1.28), Inches(12.3), Inches(1.48), GREEN)
     add_text(s, Inches(0.8), Inches(1.36), Inches(11.7), Inches(0.32), "前期工作费用（一整包）", 14, GOLD, True)
     add_text(
