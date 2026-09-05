@@ -78,9 +78,9 @@ def main() -> None:
     ok("两份汇报文件存在")
 
     prs = Presentation(PPT)
-    if len(prs.slides) != 10:
-        fail(f"PPT 应为 10 页，实际 {len(prs.slides)}")
-    ok("PPT 10 页")
+    if len(prs.slides) != 11:
+        fail(f"PPT 应为 11 页，实际 {len(prs.slides)}")
+    ok("PPT 11 页")
 
     t = ppt_text(PPT) + "\n" + doc_text(AGR)
     for w in BANNED:
@@ -88,12 +88,18 @@ def main() -> None:
             fail(f"汇报版出现不宜对外的用语：{w}")
     ok("未使用内部分析用语")
 
-    for needle in ("88,000", "捌万捌仟", "潘嘉琰", "出海", "主任", "一次付清"):
+    for needle in ("88,000", "捌万捌仟", "潘嘉琰", "出海", "主任", "一次付清", "EMBA", "不另收费"):
         if needle not in t:
             fail(f"缺少必要内容：{needle}")
     if "学费" not in t:
         fail("协议或 PPT 未写明不含学费分成")
-    ok("费用、联系人、出海专题课已写入")
+    ppt = ppt_text(PPT)
+    agr = doc_text(AGR)
+    if "EMBA" not in ppt or "EMBA" not in agr:
+        fail("PPT 与协议均须写明 EMBA 招生")
+    if "一整包" not in ppt and "一次合作" not in agr:
+        fail("须写明招生、出海课、请主任到场合在一次合作")
+    ok("费用、EMBA招生、出海专题课、请主任到场已合并写入")
     print("ALL PASSED")
 
 

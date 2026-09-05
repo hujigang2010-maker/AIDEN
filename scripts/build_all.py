@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """生成给对方看的汇报 PPT 和协议。"""
 
+import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
