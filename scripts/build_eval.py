@@ -843,10 +843,99 @@ def build() -> tuple[Path, Path]:
     docx_path = OUTPUT_DIR / "CGC领事会客厅三案评估意见.docx"
     doc.save(docx_path)
     md_path = build_markdown()
-    return docx_path, md_path
+    html_path = build_html(md_path)
+    return docx_path, md_path, html_path
+
+
+def markdown_to_html(md_text: str) -> str:
+    import html as html_lib
+    import re
+
+    def inline(s: str) -> str:
+        s = html_lib.escape(s)
+        s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
+        s = re.sub(r"`(.+?)`", r"<code>\1</code>", s)
+        return s.replace("&lt;br&gt;", "<br>")
+
+    lines = md_text.splitlines()
+    body: list[str] = []
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if line.startswith("# "):
+            body.append(f"<h1>{inline(line[2:])}</h1>")
+        elif line.startswith("## "):
+            body.append(f"<h2>{inline(line[3:])}</h2>")
+        elif line.startswith("### "):
+            body.append(f"<h3>{inline(line[4:])}</h3>")
+        elif line.startswith("> "):
+            body.append(f"<blockquote>{inline(line[2:])}</blockquote>")
+        elif line.startswith("| ") and i + 1 < len(lines) and lines[i + 1].startswith("| ---"):
+            rows = []
+            while i < len(lines) and lines[i].startswith("| "):
+                rows.append([c.strip() for c in lines[i].strip("|").split("|")])
+                i += 1
+            i -= 1
+            header, data = rows[0], rows[2:]
+            th = "".join(f"<th>{inline(c)}</th>" for c in header)
+            trs = []
+            for row in data:
+                tds = "".join(f"<td>{inline(c)}</td>" for c in row)
+                trs.append(f"<tr>{tds}</tr>")
+            body.append(f"<table><thead><tr>{th}</tr></thead><tbody>{''.join(trs)}</tbody></table>")
+        elif line.startswith("- "):
+            items = []
+            while i < len(lines) and lines[i].startswith("- "):
+                items.append(f"<li>{inline(lines[i][2:])}</li>")
+                i += 1
+            i -= 1
+            body.append("<ul>" + "".join(items) + "</ul>")
+        elif line.strip():
+            body.append(f"<p>{inline(line)}</p>")
+        i += 1
+
+    return f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>CGC 领事会客厅三案评估意见</title>
+<style>
+body {{ font-family: "WenQuanYi Micro Hei", "Noto Sans CJK SC", sans-serif; color:#1a1a1a;
+  max-width: 980px; margin: 32px auto 80px; padding: 0 28px; line-height: 1.65; background:#f4f1ea; }}
+.sheet {{ background:#fff; padding: 40px 48px 56px; box-shadow: 0 8px 28px rgba(27,58,95,.08); }}
+.kicker {{ color:#6b7280; font-size:12px; letter-spacing:.08em; text-align:right; }}
+h1 {{ color:#1B3A5F; font-size:28px; margin: 8px 0 6px; text-align:center; }}
+blockquote {{ background:#FFF6E8; border-left:4px solid #B85C00; padding:12px 16px; margin:16px 0 24px; }}
+h2 {{ color:#1B3A5F; border-bottom:2px solid #1B3A5F; padding-bottom:6px; margin-top:36px; font-size:20px; }}
+h3 {{ color:#1B3A5F; font-size:16px; margin-top:22px; }}
+p {{ font-size:15px; }}
+table {{ border-collapse: collapse; width:100%; margin: 10px 0 22px; font-size:13px; }}
+th {{ background:#1B3A5F; color:#fff; padding:8px; text-align:center; }}
+td {{ border:1px solid #D0D5DD; padding:8px; vertical-align:top; }}
+tr:nth-child(even) td {{ background:#F7F9FC; }}
+td:first-child {{ font-weight:600; }}
+ul {{ padding-left: 1.2em; }}
+li {{ margin: 6px 0; }}
+strong {{ color:#1B3A5F; }}
+</style>
+</head>
+<body>
+<div class="sheet">
+<div class="kicker">内部评估意见 · 仅供决策使用 · 2026-09-05</div>
+{chr(10).join(body)}
+</div>
+</body></html>
+"""
+
+
+def build_html(md_path: Path) -> Path:
+    html_path = OUTPUT_DIR / "CGC领事会客厅三案评估意见.html"
+    html_path.write_text(markdown_to_html(md_path.read_text(encoding="utf-8")), encoding="utf-8")
+    return html_path
 
 
 if __name__ == "__main__":
-    docx_path, md_path = build()
+    docx_path, md_path, html_path = build()
     print(f"docx: {docx_path}")
     print(f"md:   {md_path}")
+    print(f"html: {html_path}")

@@ -10,11 +10,13 @@
 
 ```bash
 python3 scripts/build_eval.py
+python3 scripts/verify_eval.py
 ```
 
 输出：
 
 - `output/CGC领事会客厅三案评估意见.docx`
+- `output/CGC领事会客厅三案评估意见.html`
 - `docs/CGC领事会客厅三案评估意见.md`
 
 ## 结论摘要
