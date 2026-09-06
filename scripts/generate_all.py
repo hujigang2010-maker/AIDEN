@@ -216,15 +216,15 @@ def add_table(doc, rows, header=True, col_widths=None):
 
 
 def cover_block(doc, title, subtitle, extra_lines, note=""):
-    p(doc, "复兴岛星火社区  ·  OPC入驻申请", size=12, bold=True, color=GOLD, align="center", space_after=6)
-    p(doc, title, size=22, bold=True, color=NAVY, align="center", space_after=6)
-    p(doc, subtitle, size=14, bold=True, color=TEAL, align="center", space_after=10)
-    p(doc, C.BP_TAG, size=11, color=GRAY, align="center", space_after=16)
+    p(doc, "复兴岛星火社区  ·  OPC入驻申请", size=11, bold=True, color=GOLD, align="center", space_after=4)
+    p(doc, title, size=20, bold=True, color=NAVY, align="center", space_after=4)
+    p(doc, subtitle, size=13, bold=True, color=TEAL, align="center", space_after=6)
+    p(doc, C.BP_TAG, size=10.5, color=GRAY, align="center", space_after=10)
     for line in extra_lines:
-        p(doc, line, size=12, align="center", space_after=4)
-    p(doc, f"{C.DOC_DATE}  {C.DOC_REVISION}", size=12, align="center", space_before=12, space_after=4)
+        p(doc, line, size=11, align="center", space_after=3)
+    p(doc, f"{C.DOC_DATE}  {C.DOC_REVISION}", size=11, align="center", space_before=8, space_after=4)
     if note:
-        p(doc, note, size=9, color=GRAY, align="center", space_before=10)
+        p(doc, note, size=9, color=GRAY, align="center", space_before=6)
 
 
 def build_guide() -> Document:
@@ -234,7 +234,7 @@ def build_guide() -> Document:
     cover_block(
         doc,
         "填写说明（内部）",
-        "只上传02个人简介和03业务计划书",
+        "只上传02、03；系统只许一份附件时用00合订本",
         [
             f"申请人：{C.PERSON['姓名']}",
             f"项目：{C.PROJECT['项目名称']}",
@@ -247,6 +247,7 @@ def build_guide() -> Document:
         doc,
         [
             ("文件", "用途"),
+            ("00 正式稿合订本", "仅当系统只允许一个附件时使用（只含02+03）"),
             ("02 个人简介", "上传「个人介绍／创始人简介」"),
             ("03 业务计划书", "上传「商业计划书／项目计划」"),
             ("04 字段粘贴稿", "自己对着系统复制，不要整份上传"),
@@ -278,36 +279,43 @@ def build_bio() -> Document:
             "AIDEN产业智能体创始人",
         ],
     )
+    _write_bio_body(doc)
+    return doc
+
+
+def _write_bio_body(doc):
     h1(doc, "一、简介")
     for para in C.BIO_FORMAL_PARAS:
         p(doc, para, align="justify", first_line=0.74)
     h1(doc, "二、学习与工作简历")
     for line in C.BIO_RESUME_LINES:
         p(doc, line, size=11, space_after=3)
-    h1(doc, "三、社会职务")
-    for line in C.BIO_SOCIAL:
-        bullet(doc, line)
-    h1(doc, "四、公开活动（附出处）")
+    h1(doc, "三、专业技术职称与研究、社会职务")
+    add_table(doc, C.BIO_TITLE_ROWS)
+    h1(doc, "四、与项目相关的公开证明")
     for line in C.BIO_PUBLIC:
         bullet(doc, line)
-    return doc
+    p(doc, C.BIO_SAMPLE_NOTE, align="justify", size=10.5)
 
 
 def _bp_extra_tables(doc, title: str):
-    if title.startswith("三、"):
+    if title.startswith("二、"):
         add_table(doc, C.PRODUCT_TABLE)
-    if title.startswith("四、"):
-        add_table(doc, C.PROGRESS_TABLE)
-    if title.startswith("五、"):
+    if title.startswith("三、"):
         add_table(doc, C.IO_TABLE)
-    if title.startswith("七、"):
+        add_table(doc, C.POLICY_TABLE)
+    if title.startswith("四、"):
+        add_table(doc, C.WORKFLOW_TABLE)
+        add_table(doc, C.PROGRESS_TABLE)
+        add_table(doc, C.DUTY_TABLE)
+    if title.startswith("五、"):
         add_table(doc, C.REVENUE_TABLE)
-        add_table(doc, C.ASSUME_TABLE)
         add_table(doc, C.PRICE_TABLE)
+        add_table(doc, C.ASSUME_TABLE)
         add_table(doc, C.COST_TABLE)
-    if title.startswith("八、"):
+    if title.startswith("六、"):
         add_table(doc, C.AGENT_TABLE)
-    if title.startswith("十、"):
+    if title.startswith("七、"):
         add_table(doc, C.NEED_TABLE)
 
 
@@ -322,18 +330,45 @@ def build_bp() -> Document:
         [
             f"申请人：{C.PERSON['姓名']}",
             f"赛道：{C.PROJECT['赛道']}",
-            f"首期原型：{C.PROJECT['首期原型']}（正在搭建）",
+            f"首期产品：{C.PROJECT['首期原型']}（正在产品化）",
             f"拟定主体：{C.PROJECT['拟定字号']}（待核名）",
         ],
     )
-    h1(doc, "目录")
-    for title, _ in C.BP_SECTIONS:
-        p(doc, title, size=11, space_after=3, color=NAVY)
+    _write_bp_body(doc)
+    return doc
+
+
+def _write_bp_body(doc):
     for title, paras in C.BP_SECTIONS:
         h1(doc, title)
         for para in paras:
             p(doc, para, align="justify", first_line=0.74)
         _bp_extra_tables(doc, title)
+
+
+def build_pack() -> Document:
+    """仅合并个人简介与业务计划书正式正文。"""
+    doc = Document()
+    sec = page_setup(doc)
+    header_footer(sec, "星火社区申请  ·  正式稿合订本")
+    cover_block(
+        doc,
+        "正式稿合订本",
+        "个人简介 + 业务计划书",
+        [
+            f"申请人：{C.PERSON['姓名']}",
+            f"项目：{C.PROJECT['项目名称']}",
+            f"赛道：{C.PROJECT['赛道']}　　首期：{C.PROJECT['首期原型']}",
+        ],
+        note="本稿只含正式上传正文，不含申请表粘贴稿和内部备忘。",
+    )
+    p(doc, "第一部分  个人简介", size=14, bold=True, color=NAVY, align="center", space_before=8)
+    _write_bio_body(doc)
+    doc.add_page_break()
+    p(doc, "第二部分  业务计划书", size=14, bold=True, color=NAVY, align="center")
+    p(doc, C.BP_TITLE, size=16, bold=True, color=NAVY, align="center", space_after=4)
+    p(doc, C.BP_SUBTITLE, size=12, bold=True, color=TEAL, align="center", space_after=10)
+    _write_bp_body(doc)
     return doc
 
 
@@ -348,24 +383,24 @@ def build_form() -> Document:
         [
             f"姓名：{C.PERSON['姓名']}",
             f"项目：{C.PROJECT['项目名称']}",
-            "赛道=AI智能体开发；已注册=否；营收=50万以下；盈利模式=技术开发+服务收费",
+            "赛道=AI智能体开发；已注册=否；营收=50万以下；盈利模式=服务收费+技术开发",
         ],
         note="内部填表用。证件号码和详细门牌请在系统按原件填写。",
     )
-    h1(doc, "一、下拉框／选项（最终）")
-    add_table(doc, [("字段", "建议填写"), *C.CORE_FORM_CHOICES])
-    h1(doc, "二、短字段（最终）")
+    h1(doc, "一、与截图对应的最终答案（每字段仅一版）")
+    for title, text, limit in C.FORM_SNAPSHOT:
+        n = C.char_count(text)
+        h2(doc, f"{title}　·　{n}字／上限{limit}字")
+        p(doc, text, size=10.5, align="justify", space_after=8)
+    h1(doc, "二、下拉框／选项")
+    add_table(doc, [("字段", "填写"), *C.CORE_FORM_CHOICES])
+    h1(doc, "三、其他短字段")
     add_table(doc, [("字段", "粘贴内容", "备注"), *C.FORM_FIELDS], col_widths=[4.2, 8.2, 3.8])
-    h1(doc, "三、长文本最终稿（已按上限计字）")
+    h1(doc, "四、其余长文本（每字段仅一版）")
     for title, text, limit in C.FORM_FINAL_LONG:
         n = C.char_count(text)
         h2(doc, f"{title}　·　{n}字／上限{limit}字")
-        p(doc, text, size=10.5, align="justify", space_after=10)
-    h1(doc, "四、备选稿（仅当系统字数上限不同）")
-    p(doc, "不要把本节上传，也不要在有明确上限时用超限备选替换最终稿。", size=10.5, color=GRAY)
-    for title, text in C.FORM_ALT_LONG:
-        h2(doc, f"{title}　·　{C.char_count(text)}字")
-        p(doc, text, size=10.5, align="justify", space_after=10)
+        p(doc, text, size=10.5, align="justify", space_after=8)
     h1(doc, "五、内部备忘")
     for line in C.FILL_NOTES + C.INTERNAL_VERIFY:
         bullet(doc, line)
@@ -373,38 +408,92 @@ def build_form() -> Document:
 
 
 CSS = """
-@page { size: A4; margin: 18mm 16mm 18mm 16mm;
+@page { size: A4; margin: 16mm 15mm 16mm 15mm;
   @bottom-center { content: "复兴岛星火社区入驻申请材料  ·  " counter(page); font-size: 9px; color: #666; }
 }
 html { font-family: "WenQuanYi Micro Hei", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif; color: #222; }
-body { font-size: 11.5pt; line-height: 1.55; }
-h1 { color: #1A3A5C; font-size: 18pt; border-bottom: 2px solid #B88A2E; padding-bottom: 4px; margin-top: 22px; }
-h2 { color: #1F6B5C; font-size: 13.5pt; margin-top: 16px; }
-.cover { text-align: center; margin: 24px 0 28px; }
+body { font-size: 11pt; line-height: 1.48; }
+h1 { color: #1A3A5C; font-size: 15pt; border-bottom: 2px solid #B88A2E; padding-bottom: 3px; margin-top: 14px; }
+h2 { color: #1F6B5C; font-size: 12.5pt; margin-top: 12px; }
+.cover { text-align: center; margin: 8px 0 14px; }
 .kicker { color: #B88A2E; font-weight: 700; letter-spacing: .08em; }
-.title { color: #1A3A5C; font-size: 26pt; margin: 8px 0; }
-.sub { color: #1F6B5C; font-size: 14pt; font-weight: 700; }
-.tag { color: #666; margin: 8px 0 16px; }
-.meta { margin: 4px 0; }
-.note { color: #666; font-size: 10pt; margin-top: 16px; }
-p { margin: 0 0 8pt; text-align: justify; }
-ul { margin: 4pt 0 10pt 1.2em; }
-li { margin-bottom: 4pt; }
-table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 10pt; table-layout: fixed; }
-th { background: #1A3A5C; color: #fff; padding: 6px 8px; text-align: left; }
-td { border: 1px solid #C5D0DC; padding: 6px 8px; vertical-align: top; overflow-wrap: break-word; word-break: break-word; }
+.title { color: #1A3A5C; font-size: 22pt; margin: 6px 0; }
+.sub { color: #1F6B5C; font-size: 13pt; font-weight: 700; }
+.tag { color: #666; margin: 6px 0 10px; }
+.meta { margin: 3px 0; }
+.note { color: #666; font-size: 10pt; margin-top: 10px; }
+p { margin: 0 0 7pt; text-align: justify; }
+ul { margin: 4pt 0 8pt 1.2em; }
+li { margin-bottom: 3pt; }
+table { width: 100%; border-collapse: collapse; margin: 6px 0 12px; font-size: 9.5pt; table-layout: fixed; page-break-inside: auto; }
+thead { display: table-header-group; }
+tr { page-break-inside: avoid; }
+th { background: #1A3A5C; color: #fff; padding: 5px 7px; text-align: left; }
+td { border: 1px solid #C5D0DC; padding: 5px 7px; vertical-align: top; overflow-wrap: break-word; word-break: break-word; }
 tr:nth-child(even) td { background: #F7F1E4; }
 .paste { background: #f7f8fa; border: 1px solid #e2e6ea; padding: 8px 10px; white-space: pre-wrap; }
+.page-break { page-break-before: always; }
+.keep { page-break-inside: avoid; }
 """
 
 
 def table_html(rows, header=True) -> str:
-    out = ["<table>"]
-    for i, row in enumerate(rows):
-        tag = "th" if header and i == 0 else "td"
-        out.append("<tr>" + "".join(f"<{tag}>{html.escape(str(c)).replace(chr(10), '<br/>')}</{tag}>" for c in row) + "</tr>")
+    if not rows:
+        return ""
+    out = ['<table>']
+    if header:
+        out.append("<thead><tr>" + "".join(f"<th>{html.escape(str(c)).replace(chr(10), '<br/>')}</th>" for c in rows[0]) + "</tr></thead><tbody>")
+        body_rows = rows[1:]
+    else:
+        body_rows = rows
+    for row in body_rows:
+        out.append("<tr>" + "".join(f"<td>{html.escape(str(c)).replace(chr(10), '<br/>')}</td>" for c in row) + "</tr>")
+    if header:
+        out.append("</tbody>")
     out.append("</table>")
     return "\n".join(out)
+
+
+def _html_bp_tables(title: str) -> str:
+    chunks = []
+    if title.startswith("二、"):
+        chunks.append(table_html(C.PRODUCT_TABLE))
+    if title.startswith("三、"):
+        chunks.append(table_html(C.IO_TABLE))
+        chunks.append(table_html(C.POLICY_TABLE))
+    if title.startswith("四、"):
+        chunks.append(table_html(C.WORKFLOW_TABLE))
+        chunks.append(table_html(C.PROGRESS_TABLE))
+        chunks.append(table_html(C.DUTY_TABLE))
+    if title.startswith("五、"):
+        chunks.append('<div class="keep">')
+        chunks.append(table_html(C.REVENUE_TABLE))
+        chunks.append(table_html(C.PRICE_TABLE))
+        chunks.append(table_html(C.ASSUME_TABLE))
+        chunks.append(table_html(C.COST_TABLE))
+        chunks.append("</div>")
+    if title.startswith("六、"):
+        chunks.append(table_html(C.AGENT_TABLE))
+    if title.startswith("七、"):
+        chunks.append(table_html(C.NEED_TABLE))
+    return "".join(chunks)
+
+
+def html_bio_body() -> str:
+    body = "<h1>一、简介</h1>" + "".join(f"<p>{html.escape(x)}</p>" for x in C.BIO_FORMAL_PARAS)
+    body += "<h1>二、学习与工作简历</h1>" + "".join(f"<p>{html.escape(x)}</p>" for x in C.BIO_RESUME_LINES)
+    body += "<h1>三、专业技术职称与研究、社会职务</h1>" + table_html(C.BIO_TITLE_ROWS)
+    body += "<h1>四、与项目相关的公开证明</h1><ul>" + "".join(f"<li>{html.escape(x)}</li>" for x in C.BIO_PUBLIC) + "</ul>"
+    body += f"<p>{html.escape(C.BIO_SAMPLE_NOTE)}</p>"
+    return body
+
+
+def html_bp_body() -> str:
+    body = ""
+    for title, paras in C.BP_SECTIONS:
+        body += f"<h1>{html.escape(title)}</h1>" + "".join(f"<p>{html.escape(x)}</p>" for x in paras)
+        body += _html_bp_tables(title)
+    return body
 
 
 def cover_html(title, subtitle, lines, note=""):
@@ -424,7 +513,7 @@ def cover_html(title, subtitle, lines, note=""):
 
 
 def html_guide() -> str:
-    body = cover_html("填写说明（内部）", "只上传02个人简介和03业务计划书", [
+    body = cover_html("填写说明（内部）", "只上传02、03；系统只许一份附件时用00合订本", [
         f"申请人：{C.PERSON['姓名']}",
         f"项目：{C.PROJECT['项目名称']}",
     ], "本稿不要作为申请附件上传。")
@@ -432,10 +521,11 @@ def html_guide() -> str:
         ("文件", "用途"),
         ("02 个人简介", "上传个人介绍"),
         ("03 业务计划书", "上传商业计划书"),
+        ("00 正式稿合订本", "仅当系统只允许一个附件"),
         ("04 字段粘贴稿", "自己填表，不整份上传"),
         ("01 本说明", "内部备忘，不上传"),
     ])
-    body += "<h1>二、申请表最终勾选</h1>" + table_html([("字段", "建议填写"), *C.CORE_FORM_CHOICES])
+    body += "<h1>二、申请表最终勾选</h1>" + table_html([("字段", "填写"), *C.CORE_FORM_CHOICES])
     body += "<h1>三、填表注意</h1><ul>" + "".join(f"<li>{html.escape(x)}</li>" for x in C.FILL_NOTES) + "</ul>"
     body += "<h1>四、履历核验</h1><ul>" + "".join(f"<li>{html.escape(x)}</li>" for x in C.INTERNAL_VERIFY) + "</ul>"
     return body
@@ -447,53 +537,48 @@ def html_bio() -> str:
         "上海市杨浦区科技企业联合会执行会长",
         "AIDEN产业智能体创始人",
     ])
-    body += "<h1>一、简介</h1>" + "".join(f"<p>{html.escape(x)}</p>" for x in C.BIO_FORMAL_PARAS)
-    body += "<h1>二、学习与工作简历</h1>" + "".join(f"<p>{html.escape(x)}</p>" for x in C.BIO_RESUME_LINES)
-    body += "<h1>三、社会职务</h1><ul>" + "".join(f"<li>{html.escape(x)}</li>" for x in C.BIO_SOCIAL) + "</ul>"
-    body += "<h1>四、公开活动（附出处）</h1><ul>" + "".join(f"<li>{html.escape(x)}</li>" for x in C.BIO_PUBLIC) + "</ul>"
-    return body
+    return body + html_bio_body()
 
 
 def html_bp() -> str:
     body = cover_html(C.BP_TITLE, C.BP_SUBTITLE, [
         f"申请人：{C.PERSON['姓名']}",
         f"赛道：{C.PROJECT['赛道']}",
-        f"首期原型：{C.PROJECT['首期原型']}（正在搭建）",
+        f"首期产品：{C.PROJECT['首期原型']}（正在产品化）",
         f"拟定主体：{C.PROJECT['拟定字号']}（待核名）",
     ])
-    body += "<h1>目录</h1><ul>" + "".join(f"<li>{html.escape(t)}</li>" for t, _ in C.BP_SECTIONS) + "</ul>"
-    for title, paras in C.BP_SECTIONS:
-        body += f"<h1>{html.escape(title)}</h1>" + "".join(f"<p>{html.escape(x)}</p>" for x in paras)
-        if title.startswith("三、"):
-            body += table_html(C.PRODUCT_TABLE)
-        if title.startswith("四、"):
-            body += table_html(C.PROGRESS_TABLE)
-        if title.startswith("五、"):
-            body += table_html(C.IO_TABLE)
-        if title.startswith("七、"):
-            body += table_html(C.REVENUE_TABLE) + table_html(C.ASSUME_TABLE) + table_html(C.PRICE_TABLE) + table_html(C.COST_TABLE)
-        if title.startswith("八、"):
-            body += table_html(C.AGENT_TABLE)
-        if title.startswith("十、"):
-            body += table_html(C.NEED_TABLE)
+    return body + html_bp_body()
+
+
+def html_pack() -> str:
+    body = cover_html("正式稿合订本", "个人简介 + 业务计划书", [
+        f"申请人：{C.PERSON['姓名']}",
+        f"项目：{C.PROJECT['项目名称']}",
+        f"赛道：{C.PROJECT['赛道']}　　首期：{C.PROJECT['首期原型']}",
+    ], "本稿只含正式上传正文，不含申请表粘贴稿和内部备忘。")
+    body += "<h1>第一部分  个人简介</h1>" + html_bio_body()
+    body += '<div class="page-break"></div><h1>第二部分  业务计划书</h1>'
+    body += f"<p class='meta'>{html.escape(C.BP_TITLE)}　{html.escape(C.BP_SUBTITLE)}</p>"
+    body += html_bp_body()
     return body
 
 
 def html_form() -> str:
-    body = cover_html("申请表最终答案", "首页只保留与系统字段对应的一稿", [
+    body = cover_html("申请表最终答案", "与截图对应，每字段仅一版", [
         f"姓名：{C.PERSON['姓名']}",
         f"项目：{C.PROJECT['项目名称']}",
-        "赛道=AI智能体开发；盈利模式=技术开发+服务收费",
+        "赛道=AI智能体开发；盈利模式=服务收费+技术开发",
     ], "内部填表用。证件号码和详细门牌请在系统按原件填写。")
-    body += "<h1>一、下拉框／选项（最终）</h1>" + table_html([("字段", "建议填写"), *C.CORE_FORM_CHOICES])
-    body += "<h1>二、短字段（最终）</h1>" + table_html([("字段", "粘贴内容", "备注"), *C.FORM_FIELDS])
-    body += "<h1>三、长文本最终稿</h1>"
+    body += "<h1>一、与截图对应的最终答案</h1>"
+    for title, text, limit in C.FORM_SNAPSHOT:
+        n = C.char_count(text)
+        body += f"<h2>{html.escape(title)}  ·  {n}字／上限{limit}字</h2><p class='paste'>{html.escape(text)}</p>"
+    body += "<h1>二、下拉框／选项</h1>" + table_html([("字段", "填写"), *C.CORE_FORM_CHOICES])
+    body += "<h1>三、其他短字段</h1>" + table_html([("字段", "粘贴内容", "备注"), *C.FORM_FIELDS])
+    body += "<h1>四、其余长文本（每字段仅一版）</h1>"
     for title, text, limit in C.FORM_FINAL_LONG:
         n = C.char_count(text)
         body += f"<h2>{html.escape(title)}  ·  {n}字／上限{limit}字</h2><p class='paste'>{html.escape(text)}</p>"
-    body += "<h1>四、备选稿</h1>"
-    for title, text in C.FORM_ALT_LONG:
-        body += f"<h2>{html.escape(title)}  ·  {C.char_count(text)}字</h2><p class='paste'>{html.escape(text)}</p>"
     body += "<h1>五、内部备忘</h1><ul>" + "".join(f"<li>{html.escape(x)}</li>" for x in C.FILL_NOTES + C.INTERNAL_VERIFY) + "</ul>"
     return body
 
@@ -503,6 +588,7 @@ def wrap_html(title: str, body: str) -> str:
 
 
 DOCS = [
+    ("00_正式稿合订本", "正式稿合订本", build_pack, html_pack),
     ("01_填写说明与口径备忘", "填写说明（内部）", build_guide, html_guide),
     ("02_个人简介", "个人简介", build_bio, html_bio),
     ("03_业务计划书", "业务计划书", build_bp, html_bp),
@@ -524,34 +610,37 @@ def write_markdown_form(path: Path):
     lines = [
         "# 星火社区申请表 · 最终答案（内部填表）",
         "",
-        f"{C.DOC_DATE} {C.DOC_REVISION}。只把本节复制进系统。02、03分开上传。证件号和门牌不要从本文复制。",
+        f"{C.DOC_DATE} {C.DOC_REVISION}。每字段仅一版。02、03分开上传。证件号和门牌不要从本文复制。",
         "",
-        "## 下拉框／选项",
+        "## 与截图对应的最终答案",
         "",
-        "| 字段 | 建议填写 |",
-        "| --- | --- |",
     ]
+    for title, text, limit in C.FORM_SNAPSHOT:
+        n = C.char_count(text)
+        flag = "超限" if n > limit else "未超限"
+        lo = 100 if "项目简介" in title else 0
+        if lo and n < lo:
+            flag = f"不足{lo}字"
+        lines += [f"### {title}（{n}字／上限{limit}字 · {flag}）", "", text, ""]
+    lines += ["", "## 下拉框／选项", "", "| 字段 | 填写 |", "| --- | --- |"]
     for k, v in C.CORE_FORM_CHOICES:
         lines.append(f"| {k} | {v} |")
-    lines += ["", "## 短字段", "", "| 字段 | 粘贴内容 | 备注 |", "| --- | --- | --- |"]
+    lines += ["", "## 其他短字段", "", "| 字段 | 粘贴内容 | 备注 |", "| --- | --- | --- |"]
     for k, v, note in C.FORM_FIELDS:
         vv = str(v).replace("|", "\\|").replace("\n", "<br>")
         lines.append(f"| {k} | {vv} | {note} |")
-    lines += ["", "## 长文本最终稿", ""]
+    lines += ["", "## 其余长文本（每字段仅一版）", ""]
     for title, text, limit in C.FORM_FINAL_LONG:
         n = C.char_count(text)
         flag = "超限" if n > limit else "未超限"
         lines += [f"### {title}（{n}字／上限{limit}字 · {flag}）", "", text, ""]
-    lines += ["", "## 备选稿（系统上限不同时再用）", ""]
-    for title, text in C.FORM_ALT_LONG:
-        lines += [f"### {title}（{C.char_count(text)}字）", "", text, ""]
     lines += ["", "## 内部备忘", ""] + [f"- {x}" for x in C.FILL_NOTES + C.INTERNAL_VERIFY]
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def build_all():
     OUT.mkdir(parents=True, exist_ok=True)
-    for old in OUT.glob("星火社区_00_全套材料_上传用*"):
+    for old in OUT.glob("星火社区_00_全套材料*"):
         old.unlink()
         print(f"已删除 {old.name}")
     written = []
