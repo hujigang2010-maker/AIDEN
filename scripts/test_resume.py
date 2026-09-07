@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""校验国资投递稿：印刷面无待核字样，点名事实写死，页数为 A4 两页。"""
+"""校验职业规划微调稿：印刷面无待核字样，点名事实写死，页数为 A4 两页。"""
 
 from __future__ import annotations
 
@@ -16,7 +16,9 @@ KEYWORDS = [
     "投资副总经理",
     "在职攻读",
     "城市更新",
-    "存量收并购",
+    "科技招商",
+    "产业发展",
+    "新质产业空间",
     "国资合作",
     "主办方代表发言",
     "北欧创新国际会客厅",
@@ -66,7 +68,7 @@ def test_docx_is_valid():
     with zipfile.ZipFile(path) as zf:
         assert "word/document.xml" in zf.namelist()
         xml = zf.read("word/document.xml").decode("utf-8")
-    for key in ("胡继刚", "在职攻读", "城市更新", "主办方代表发言", "北欧创新国际会客厅"):
+    for key in ("胡继刚", "在职攻读", "城市更新", "科技招商", "主办方代表发言", "北欧创新国际会客厅"):
         assert key in xml, f"Word 中缺少：{key}"
     for bad in FORBIDDEN_PRINT:
         assert bad not in xml, f"Word 中不应出现：{bad}"
@@ -86,7 +88,9 @@ def test_html_keywords():
         assert key in zh, f"中文稿缺少：{key}"
     for bad in FORBIDDEN_PRINT:
         assert bad not in zh, f"中文稿不应出现：{bad}"
-    assert "国资平台" in zh
+    assert "科技招商" in zh
+    assert "产业发展" in zh
+    assert "新质产业空间" in zh
     assert "竺劲" in zh
     assert "不是雇主" in zh
     assert "Hu Jigang" in html
@@ -96,7 +100,9 @@ def test_html_keywords():
     assert html.find("现任复旦大学住房政策研究中心秘书长") != -1
     assert "参加" not in zh
     assert "登台战略合作" not in zh
-    assert zh.find("国资平台") < zh.find("租赁住房")
+    assert "AI专家" not in zh
+    assert "服务100家" not in zh
+    assert zh.find("科技招商") < zh.find("如何落地城市")
     notes = html[html.find('id="pack-notes"'):]
     assert "李祥" in notes
 
