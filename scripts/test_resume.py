@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""校验职业规划微调稿：印刷面无待核字样，点名事实写死，页数为 A4 两页。"""
+"""校验第六版：五版取长补短。印刷面无待核字样，三条证明与完整资质写死，页数为 A4 两页。"""
 
 from __future__ import annotations
 
@@ -27,6 +27,12 @@ KEYWORDS = [
     "新城控股",
     "中南",
     "江阴白鹭湾",
+    "三条证明",
+    "人工智能商业化",
+    "PMP",
+    "苏中县市",
+    "房屋建筑工程人工智能",
+    "五种落地",
     "2011–2021",
 ]
 
@@ -68,7 +74,7 @@ def test_docx_is_valid():
     with zipfile.ZipFile(path) as zf:
         assert "word/document.xml" in zf.namelist()
         xml = zf.read("word/document.xml").decode("utf-8")
-    for key in ("胡继刚", "在职攻读", "城市更新", "科技招商", "主办方代表发言", "北欧创新国际会客厅"):
+    for key in ("胡继刚", "在职攻读", "城市更新", "科技招商", "主办方代表发言", "北欧创新国际会客厅", "三条证明", "PMP"):
         assert key in xml, f"Word 中缺少：{key}"
     for bad in FORBIDDEN_PRINT:
         assert bad not in xml, f"Word 中不应出现：{bad}"
@@ -93,6 +99,11 @@ def test_html_keywords():
     assert "新质产业空间" in zh
     assert "竺劲" in zh
     assert "不是雇主" in zh
+    assert "三条证明" in zh
+    assert "人工智能商业化" in zh
+    assert "PMP" in zh
+    assert "苏中县市" in zh
+    assert "房屋建筑工程人工智能" in zh
     assert "Hu Jigang" in html
     assert "导出 PDF" in html
     assert "优化说明" in html
@@ -128,12 +139,17 @@ def test_pdf_pages():
     assert "复旦大学住房政策研究中心" in page1
     assert "主办方代表发言" in page1
     assert "北欧创新国际会客厅" in page1
+    assert "三条证明" in page1
+    assert "人工智能商业化" in page1
     assert "新城控股" in page2
     assert "中南" in page2
     assert "江阴白鹭湾" in page2
     assert "代表项目" in page2
     assert "在职攻读" in page2
-    assert page1.find("镇江") < page1.find("靖江印象城")
+    assert "PMP" in page2
+    assert "房屋建筑工程人工智能" in page2
+    vanke = page1[page1.find("万科企业"):]
+    assert vanke.find("镇江") < vanke.find("靖江印象城")
     for bad in FORBIDDEN_PRINT:
         assert bad not in full_text, f"PDF 中不应出现：{bad}"
     brief_text = brief[0].get_text().replace("\n", "")

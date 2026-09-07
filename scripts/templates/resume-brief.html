@@ -44,6 +44,8 @@ html, body {
   background: #fff;
   overflow: hidden;
   box-shadow: 0 10px 36px rgba(20,43,74,.16);
+  display: flex;
+  flex-direction: column;
 }
 .head {
   display: grid;
@@ -67,6 +69,11 @@ html, body {
 .stat { background: var(--soft); border-top: 3px solid var(--gold); padding: 5px 7px; }
 .stat b { display: block; font-size: 13px; color: var(--navy); }
 .stat span { font-size: 9.5px; color: var(--muted); }
+.proofs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin: 2px 0 3px; }
+.proof { background: var(--soft); border-top: 3px solid var(--gold); padding: 5px 6px; }
+.proof .k { font-size: 9px; color: var(--gold); font-weight: 700; }
+.proof b { display: block; font-size: 11px; color: var(--navy); margin: 1px 0 2px; }
+.proof p { font-size: 9.5px; line-height: 1.35; color: var(--ink); }
 .lead { font-size: 10.5px; line-height: 1.45; text-align: justify; }
 h2 {
   font-size: 12px; color: var(--navy); letter-spacing: 1px;
@@ -92,7 +99,7 @@ table.proj td:first-child { color: var(--navy); font-weight: 700; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .box { background: var(--soft); border: 1px solid var(--line); padding: 5px 7px; }
 .box h3 { font-size: 11px; color: var(--navy); margin-bottom: 2px; }
-.fine { font-size: 8.5px; color: #8A939C; margin-top: 5px; line-height: 1.35; }
+.fine { font-size: 8.5px; color: #8A939C; margin-top: auto; padding-top: 6px; line-height: 1.35; }
 @page {
   size: A4 portrait;
   margin: 0;
@@ -126,35 +133,45 @@ table.proj td:first-child { color: var(--navy); font-weight: 700; }
   </div>
   <div class="stats">
     <div class="stat"><span>一线投拓</span><b>10 年</b></div>
-    <div class="stat"><span>万科团队</span><b>约 8 人</b></div>
+    <div class="stat"><span>五种落地</span><b>国资到产业园</b></div>
     <div class="stat"><span>靖江 + 金坛</span><b>43 亿</b></div>
-    <div class="stat"><span>新进城市</span><b>盐城 / 台州 / 金坛</b></div>
+    <div class="stat"><span>现职平台</span><b>智库 + 科企联</b></div>
   </div>
-  <p class="lead">万科上海区域投资副总经理。2011–2021 一线投拓：国资合作、政府代建、不良盘活、轻资产委管与物流园。2021 年起任复旦住房政策研究中心秘书长，研究城市更新与新质产业空间如何承接产业落地；杨浦科企联执行会长对接企业、招商与国际合作。一线投资计至 2021。</p>
+  <p class="lead">万科上海区域投资副总经理。2011–2021 一线投拓：国资合作、政府代建、不良盘活、轻资产委管与物流园。2021 年起任复旦住房政策研究中心秘书长、杨浦科企联执行会长：研究城市更新与新质产业空间如何承接产业，并把国际合作导入存量商业。一线投资计至 2021。</p>
 
-  <h2>现任</h2>
-  <div class="job-h"><div><span class="co">复旦大学住房政策研究中心</span>　<span class="title">秘书长</span></div><div class="date">2021.06 – 至今</div></div>
-  <ul>
-    <li>中心做研究：城市更新与新质产业空间；关注 AI / 未来产业如何落地城市。产业方向，不是技术研发岗。</li>
-    <li>2025.05「全球新经济增长引擎峰会」：主办方代表发言，并与竺劲、汪毅、王维军圆桌（人民网上海、中新社上海点名）。</li>
-    <li>2025.05.28 以中心秘书长出席工商联房地产商会资管分会成立（上海德必）。</li>
-  </ul>
+  <h2>三条证明</h2>
+  <div class="proofs">
+    <div class="proof">
+      <div class="k">投资落地 · 2017.10</div>
+      <b>靖江印象城</b>
+      <p>勾地 + 印力委管。约 15 亿 / 556 亩 / 购物中心约 7 万方，苏中县市首家印象城。</p>
+    </div>
+    <div class="proof">
+      <div class="k">空间导入 · 2026.03</div>
+      <b>北欧创新国际会客厅</b>
+      <p>落户杨浦宝龙旭辉广场环创中心。区政府官网点名。宝龙商办不是雇主。</p>
+    </div>
+    <div class="proof">
+      <div class="k">产业组织 · 2025–2026</div>
+      <b>峰会主办方代表</b>
+      <p>2026.05 人工智能商业化峰会主持圆桌（约 600 人）。2025.05 主办方代表发言（人民网点名）。</p>
+    </div>
+  </div>
 
-  <h2>代表案例 · 存量空间导入国际产业合作</h2>
-  <div class="job-h"><div><span class="co">北欧创新国际会客厅</span></div><div class="date">2026.03</div></div>
-  <p class="place">杨浦宝龙旭辉广场环创中心 · 宝龙商办为共同发起单位，不是雇主</p>
+  <h2>现任　复旦大学住房政策研究中心秘书长　2021.06 – 至今</h2>
   <ul>
-    <li>复旦中心出方法、科企联对接企业。公开报道点名会长王晓明、执行会长胡继刚。出海与招商一体两面，不是普通海外销售岗。</li>
+    <li>中心做研究：城市更新与新质产业空间；关注产业如何落地城市。产业方向，不是技术研发岗。</li>
+    <li>2025.05.28 以中心秘书长出席工商联房地产商会资管分会成立。2024.06 主持锦天城海外不动产论坛。</li>
   </ul>
   <div class="social">
     <div class="cell"><b>杨浦科企联</b><span>执行会长 · 企业 / 招商 / 出海</span></div>
-    <div class="cell"><b>复旦不动产资管协会</b><span>创始人</span></div>
+    <div class="cell"><b>复旦不动产资管协会</b><span>创始人 · 2018/2019</span></div>
   </div>
 
   <h2>万科证明　2017.03 – 2021.06　投资副总经理 · 团队约 8 人</h2>
   <ul>
-    <li>镇江大港：与大港集团各半合作。海宁政府代建 18.53 亿。滟澜山法拍不良盘活，测算 IRR 约 16.16%。</li>
-    <li>靖江印象城印力轻资产委管（约 15 亿 / 556 亩）；金坛理想城底价收并购（约 28.05 亿 / 561 亩）；平湖 / 南桥冷链园。</li>
+    <li>镇江大港：与大港集团各半合作。海宁政府代建 18.53 亿（配建安置房）。滟澜山法拍不良盘活，测算 IRR 约 16.16%。</li>
+    <li>靖江印象城印力轻资产委管（约 15 亿 / 556 亩）；金坛理想城底价收并购（约 28.05 亿 / 561 亩）；平湖（嘉兴首个高标准冷链园）/ 南桥冷链园。</li>
   </ul>
 
   <h2>新城 / 中南　2011.06 – 2017.02</h2>
@@ -167,10 +184,10 @@ table.proj td:first-child { color: var(--navy); font-weight: 700; }
   <table class="proj">
     <tr><th>项目</th><th>类型</th><th>做法</th><th>规模</th></tr>
     <tr><td>镇江大港金域蓝湾</td><td>国资合作</td><td>收并购，各半合作</td><td>约 199 亩 / 32 万方</td></tr>
-    <tr><td>嘉兴海宁商住</td><td>政府代建</td><td>代建落地</td><td>18.53 亿 / 约 23 万㎡</td></tr>
+    <tr><td>嘉兴海宁商住</td><td>政府代建</td><td>代建落地，配建安置房</td><td>18.53 亿 / 约 23 万㎡</td></tr>
     <tr><td>上海龙湖滟澜山</td><td>不良盘活</td><td>法拍收并购</td><td>测算 IRR 约 16.16%</td></tr>
-    <tr><td>靖江印象城</td><td>轻资产委管</td><td>勾地 + 印力委管</td><td>约 15 亿 / 556 亩</td></tr>
-    <tr><td>南桥 / 平湖冷链园</td><td>产业园</td><td>获取落地</td><td>物流园</td></tr>
+    <tr><td>靖江印象城</td><td>轻资产委管</td><td>勾地 + 印力委管 · 苏中县市首家</td><td>约 15 亿 / 556 亩</td></tr>
+    <tr><td>南桥 / 平湖冷链园</td><td>产业园</td><td>勾地 / 收购改造</td><td>嘉兴首个高标准冷链园</td></tr>
   </table>
 
   <h2>教育与资质</h2>
@@ -185,8 +202,8 @@ table.proj td:first-child { color: var(--navy); font-weight: 700; }
     <div class="box">
       <h3>资质</h3>
       <ul>
-        <li>副教授级高级工程师；会计师中级；IELTS 6.0；上海市人才引进认证</li>
-        <li>论文《万科物流地产平台业务发展战略研究》；实用新型专利 2 项</li>
+        <li>副教授级高级工程师；会计师中级；PMP；IELTS 6.0；上海市人才引进认证</li>
+        <li>《万科物流地产平台业务发展战略研究》；《房屋建筑工程人工智能技术的应用》；实用新型专利 2 项</li>
       </ul>
     </div>
   </div>

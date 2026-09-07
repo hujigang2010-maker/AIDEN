@@ -59,16 +59,20 @@ html, body {
   overflow: hidden;
   box-shadow: 0 10px 36px rgba(20,43,74,.16);
   page-break-after: always;
+  display: flex;
+  flex-direction: column;
 }
 .notes.sheet {
   height: auto;
   min-height: 297mm;
   overflow: visible;
   padding: 14mm 16mm 16mm;
+  display: block;
 }
 .sheet:last-child { page-break-after: auto; }
 .foot {
-  margin-top: 8px;
+  margin-top: auto;
+  padding-top: 8px;
   display: flex;
   justify-content: space-between;
   font-size: 9px;
@@ -110,7 +114,22 @@ html, body {
 }
 .stat b { display: block; font-size: 13.5px; color: var(--navy); line-height: 1.2; }
 .stat span { font-size: 10px; color: var(--muted); }
-.lead { font-size: 10.5px; line-height: 1.5; text-align: justify; color: var(--ink); margin-bottom: 2px; }
+.proofs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin: 2px 0 4px;
+}
+.proof {
+  background: var(--soft);
+  border-top: 3px solid var(--gold);
+  padding: 7px 8px 6px;
+}
+.proof .k { font-size: 10px; color: var(--gold); font-weight: 700; letter-spacing: .4px; }
+.proof b { display: block; font-size: 12px; color: var(--navy); margin: 2px 0 3px; line-height: 1.25; }
+.proof p { font-size: 10.5px; line-height: 1.42; color: var(--ink); text-align: justify; }
+.qual3 { display: grid; grid-template-columns: 1.15fr 1.15fr .9fr; gap: 6px; }
+.lead { font-size: 11px; line-height: 1.55; text-align: justify; color: var(--ink); margin-bottom: 2px; }
 h2 {
   font-size: 12.5px;
   color: var(--navy);
@@ -125,7 +144,7 @@ h2 {
 .title { font-size: 11px; color: var(--muted); }
 .date { font-size: 11px; color: var(--gold); font-weight: 700; white-space: nowrap; }
 .job .place { font-size: 10.5px; color: var(--muted); margin: 1px 0 3px; }
-.job li, .box li { font-size: 10.5px; line-height: 1.38; margin: 0 0 2px 14px; }
+.job li, .box li { font-size: 11px; line-height: 1.42; margin: 0 0 2px 14px; }
 .caps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
 .caps .box p { font-size: 10px; line-height: 1.4; text-align: justify; color: var(--ink); }
 .layers { margin-top: 2px; }
@@ -238,11 +257,30 @@ table.proj td:nth-child(2) { width: 16%; }
     </div>
     <div class="stats">
       <div class="stat"><span>一线投拓</span><b>10 年</b></div>
-      <div class="stat"><span>万科团队</span><b>约 8 人</b></div>
+      <div class="stat"><span>五种落地</span><b>国资到产业园</b></div>
       <div class="stat"><span>靖江 + 金坛</span><b>43 亿</b></div>
-      <div class="stat"><span>新进城市</span><b>盐城 / 台州 / 金坛</b></div>
+      <div class="stat"><span>现职平台</span><b>智库 + 科企联</b></div>
     </div>
-    <p class="lead">万科上海区域投资副总经理。2011–2021 年一线投拓，做成国资合作、政府代建、不良盘活、轻资产委管与物流园落地。2021 年起任复旦大学住房政策研究中心秘书长，研究城市更新与新质产业空间如何承接产业落地；同时以杨浦科企联执行会长对接企业、招商与国际合作。要证明的是：能找到产业、企业、资本和场景，再落到一座城市、一栋楼或一个园区。一线投资计至 2021 年。</p>
+    <p class="lead">万科上海区域投资副总经理。2011–2021 一线投拓，做成国资合作、政府代建、不良盘活、轻资产委管与物流园。2021 年起任复旦大学住房政策研究中心秘书长、杨浦科企联执行会长：研究城市更新与新质产业空间如何承接产业，并把国际合作导入存量商业。证明的是能找到产业、企业、资本和场景，再落到城市、楼宇或园区。一线投资计至 2021 年。</p>
+
+    <h2>三条证明</h2>
+    <div class="proofs">
+      <div class="proof">
+        <div class="k">投资落地 · 2017.10</div>
+        <b>靖江印象城</b>
+        <p>勾地后引入印力轻资产委管。约 15 亿 / 556 亩 / 自持购物中心约 7 万方，苏中县市首家印象城。证明项目判断与合作落地。</p>
+      </div>
+      <div class="proof">
+        <div class="k">空间导入 · 2026.03</div>
+        <b>北欧创新国际会客厅</b>
+        <p>与宝龙商办、复旦国家大学科技园等共同发起，落户杨浦宝龙旭辉广场环创中心。区政府官网点名执行会长。宝龙商办不是雇主。</p>
+      </div>
+      <div class="proof">
+        <div class="k">产业组织 · 2025–2026</div>
+        <b>峰会主办方代表</b>
+        <p>2026.05 人工智能商业化峰会主办方代表并主持圆桌（约 600 人）。2025.05 全球新经济增长引擎峰会主办方代表发言，与竺劲、汪毅、王维军圆桌（人民网上海、中新社上海点名）。</p>
+      </div>
+    </div>
 
     <h2>现任</h2>
     <div class="job">
@@ -250,32 +288,28 @@ table.proj td:nth-child(2) { width: 16%; }
         <div><span class="co">复旦大学住房政策研究中心</span>　<span class="title">秘书长</span></div>
         <div class="date">2021.06 – 至今</div>
       </div>
-      <div class="place">上海</div>
+      <div class="place">上海 · 中心做研究；科企联做企业、招商、出海与项目</div>
       <ul>
-        <li>中心做研究、观点与报告：城市更新、存量资产与新质产业空间；关注 AI / 未来产业如何落地城市，以及城市如何用空间、政策、资本和场景吸引企业。产业方向，不是技术研发岗。</li>
-        <li>2025.05「全球新经济增长引擎峰会」：主办方代表发言，并与竺劲、汪毅、王维军圆桌（人民网上海、中新社上海点名）。</li>
+        <li>城市更新、存量资产与新质产业空间：关注产业如何用空间、政策、资本落地城市。产业方向，不是技术研发岗。</li>
         <li>2025.05.28 以中心秘书长出席上海市工商联房地产商会资管分会成立（上海德必）。</li>
         <li>2024.06 主持锦天城「他山之石——中国投资者的海外不动产战略布局」。</li>
-      </ul>
-    </div>
-
-    <h2>代表案例 · 存量空间导入国际产业合作</h2>
-    <div class="job">
-      <div class="job-h">
-        <div><span class="co">北欧创新国际会客厅</span>　<span class="title">共同发起 / 落地杨浦</span></div>
-        <div class="date">2026.03</div>
-      </div>
-      <div class="place">杨浦宝龙旭辉广场环创中心　·　宝龙商办为共同发起单位，不是雇主</div>
-      <ul>
-        <li>复旦中心出方法、科企联对接企业，与宝龙商办等共同发起，将国际创新合作平台导入存量商业空间。</li>
-        <li>公开报道点名会长王晓明、执行会长胡继刚（杨浦区政府官网等）。方向：科技企业出海与海外企业进来一体两面，服务地方招商，不是普通海外销售岗。</li>
       </ul>
     </div>
 
     <h2>社会职务</h2>
     <div class="social">
       <div class="cell"><b>杨浦区科技企业联合会</b><span>执行会长 · 企业 / 招商 / 出海 / 项目</span></div>
-      <div class="cell"><b>复旦不动产资管协会</b><span>创始人</span></div>
+      <div class="cell"><b>复旦不动产资管协会</b><span>创始人 · 2018/2019</span></div>
+    </div>
+    <div class="tags" style="margin-top:6px;">
+      <span class="tag">国资合作</span>
+      <span class="tag">政府代建</span>
+      <span class="tag">不良盘活</span>
+      <span class="tag">轻资产委管</span>
+      <span class="tag">产业园落地</span>
+      <span class="tag">城市更新</span>
+      <span class="tag">科技招商</span>
+      <span class="tag">国际产业合作</span>
     </div>
 
     <h2>专业经历</h2>
@@ -287,10 +321,10 @@ table.proj td:nth-child(2) { width: 16%; }
       <div class="place">上海 · 汇报投资合作开发部总经理 · 团队约 8 人</div>
       <ul>
         <li>镇江大港金域蓝湾：收并购，与大港集团各半合作（约 199 亩 / 32 万方）。</li>
-        <li>嘉兴海宁商住：政府代建落地（18.53 亿元 / 约 23 万㎡）。</li>
+        <li>嘉兴海宁商住：政府代建落地（18.53 亿元 / 约 23 万㎡，配建安置房）。</li>
         <li>上海龙湖滟澜山：法拍不良资产盘活（测算 IRR 约 16.16%）。</li>
-        <li>靖江印象城：勾地后引入印力轻资产委管（约 15 亿元 / 556 亩 / 自持购物中心约 7 万方）；金坛理想城底价收并购（约 28.05 亿元 / 561 亩）。</li>
-        <li>主导获取并落地万纬嘉兴平湖、上海奉贤南桥冷链物流园；推动进入盐城、台州、常州金坛。</li>
+        <li>靖江印象城：勾地 + 印力委管（约 15 亿元 / 556 亩 / 购物中心约 7 万方）；金坛理想城收并购 + 债务重组，底价获取（约 28.05 亿元 / 561 亩）。</li>
+        <li>主导落地万纬嘉兴平湖（嘉兴首个高标准自动化冷链园）、上海奉贤南桥冷链园；推动进入盐城、台州、常州金坛。</li>
       </ul>
     </div>
     <div class="foot"><span>国企 / 城投 / 产业集团 · 产业发展 / 科技招商 / 城市空间运营</span><span>01 / 02</span></div>
@@ -327,13 +361,14 @@ table.proj td:nth-child(2) { width: 16%; }
     <table class="proj">
       <tr><th>项目</th><th>类型</th><th>做法</th><th>规模</th></tr>
       <tr><td>镇江大港金域蓝湾</td><td>国资合作</td><td>收并购，与大港集团各半</td><td>约 199 亩 / 32 万方</td></tr>
-      <tr><td>嘉兴海宁商住</td><td>政府代建</td><td>代建落地</td><td>18.53 亿 / 约 23 万㎡</td></tr>
+      <tr><td>嘉兴海宁商住</td><td>政府代建</td><td>代建落地，配建安置房</td><td>18.53 亿 / 约 23 万㎡</td></tr>
       <tr><td>上海龙湖滟澜山</td><td>不良盘活</td><td>法拍收并购</td><td>测算 IRR 约 16.16%</td></tr>
-      <tr><td>靖江印象城</td><td>轻资产委管</td><td>勾地 + 印力委管</td><td>约 15 亿 / 556 亩 / 购物中心约 7 万方</td></tr>
-      <tr><td>南桥 / 平湖冷链园</td><td>产业园</td><td>获取落地</td><td>物流园</td></tr>
-      <tr><td>金坛理想城</td><td>收并购</td><td>底价获取</td><td>约 28.05 亿 / 561 亩</td></tr>
+      <tr><td>靖江印象城</td><td>轻资产委管</td><td>勾地 + 印力委管 · 苏中县市首家</td><td>约 15 亿 / 556 亩 / 购物中心约 7 万方</td></tr>
+      <tr><td>南桥 / 平湖冷链园</td><td>产业园</td><td>勾地 / 收购改造 · 嘉兴首个高标准冷链园</td><td>物流园</td></tr>
+      <tr><td>金坛理想城</td><td>收并购</td><td>债务重组，底价获取</td><td>约 28.05 亿 / 561 亩</td></tr>
       <tr><td>临沂新城吾悦广场</td><td>政府招商</td><td>对接市级重点招商政策</td><td>集团首进山东</td></tr>
       <tr><td>青岛新城吾悦广场</td><td>轻资产</td><td>品牌输出 + 委管</td><td>约 13.68 万㎡</td></tr>
+      <tr><td>如皋世纪城 / 苏州中南锦苑</td><td>早期拓展</td><td>勾地获取；江阴白鹭湾同股同权</td><td>中南阶段代表项目</td></tr>
     </table>
 
     <h2>教育背景</h2>
@@ -352,19 +387,27 @@ table.proj td:nth-child(2) { width: 16%; }
     </div>
 
     <h2>资质</h2>
-    <div class="grid2">
+    <div class="qual3">
       <div class="box">
         <h3>职称与证书</h3>
         <ul>
-          <li>副教授级高级工程师；会计师中级；IELTS 6.0</li>
-          <li>上海市人才引进认证资质</li>
+          <li>副教授级高级工程师；会计师中级；PMP；住建委项目管理工程师</li>
+          <li>IELTS 6.0；普通话一级甲等；BIM；上海市人才引进认证</li>
         </ul>
       </div>
       <div class="box">
         <h3>论文与专利</h3>
         <ul>
-          <li>论文《万科物流地产平台业务发展战略研究》</li>
-          <li>实用新型专利 2 项（建筑工程管理用功能脚架、防护围栏）</li>
+          <li>《万科物流地产平台业务发展战略研究》（知网）</li>
+          <li>《房屋建筑工程人工智能技术的应用》（《住宅与房地产》）</li>
+          <li>实用新型专利 2 项（功能脚架、防护围栏）</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>研修</h3>
+        <ul>
+          <li>上海交通大学城市治理数字化转型高级研修班</li>
+          <li>复旦–花旗银行实践课程；复旦–怡安人力与风险管理</li>
         </ul>
       </div>
     </div>
@@ -398,11 +441,30 @@ table.proj td:nth-child(2) { width: 16%; }
     </div>
     <div class="stats">
       <div class="stat"><span>Front-line origination</span><b>10 years</b></div>
-      <div class="stat"><span>Vanke team</span><b>~8 people</b></div>
+      <div class="stat"><span>Five landing types</span><b>SOE to industrial park</b></div>
       <div class="stat"><span>Jingjiang + Jintan</span><b>RMB 4.3 bn</b></div>
-      <div class="stat"><span>New cities</span><b>Yancheng / Taizhou / Jintan</b></div>
+      <div class="stat"><span>Current platforms</span><b>Think-tank + Federation</b></div>
     </div>
-    <p class="lead">Former VP of Investment, Vanke Shanghai Region. From 2011 to 2021: SOE joint ventures, government agency-build, NPL work-outs, asset-light management and logistics parks. Since 2021, Secretary-General of the Fudan Housing Policy Research Center, researching how urban regeneration and new industrial space absorb industry; concurrently Executive President of the Yangpu Sci-Tech Enterprises Federation, connecting firms, investment promotion and international cooperation. The proof to make: find industry, firms, capital and use-cases, then land them in a city, a building or a park. Front-line investment is counted only to 2021.</p>
+    <p class="lead">Former VP of Investment, Vanke Shanghai Region. 2011–2021: SOE joint ventures, government agency-build, NPL work-outs, asset-light management and logistics parks. Since 2021, Secretary-General of the Fudan Housing Policy Research Center and Executive President of the Yangpu Sci-Tech Enterprises Federation: research how urban regeneration and new industrial space absorb industry, and place international cooperation into standing commercial space. The proof: find industry, firms, capital and use-cases, then land them in a city, a building or a park. Front-line investment is counted only to 2021.</p>
+
+    <h2>Three proofs</h2>
+    <div class="proofs">
+      <div class="proof">
+        <div class="k">Deal landing · Oct 2017</div>
+        <b>Jingjiang Impression City</b>
+        <p>Land deal then SCL asset-light management. ~RMB 1.5 bn / 556 mu / ~70,000 sqm retained mall — first Impression City in a central-Jiangsu county-level city. Proof of judgement and partnership landing.</p>
+      </div>
+      <div class="proof">
+        <div class="k">Space conversion · Mar 2026</div>
+        <b>Nordic Innovation Lounge</b>
+        <p>Co-sponsored with Powerlong Commercial and Fudan National University Science Park; landed at Powerlong–CIFI Plaza Circ-Innovation Center, Yangpu. District government site names the Executive President. Powerlong is a co-sponsor, not the employer.</p>
+      </div>
+      <div class="proof">
+        <div class="k">Industry organising · 2025–2026</div>
+        <b>Summit organiser representative</b>
+        <p>May 2026 AI commercialisation summit: organiser representative and roundtable chair (~600 people). May 2025 Global New Economic Growth Engine Summit: organiser-representative remarks and roundtable with Zhu Jin, Wang Yi and Wang Weijun (named by People.cn Shanghai and China News Service Shanghai).</p>
+      </div>
+    </div>
 
     <h2>Current role</h2>
     <div class="job">
@@ -410,32 +472,28 @@ table.proj td:nth-child(2) { width: 16%; }
         <div><span class="co">Fudan University Housing Policy Research Center</span>　<span class="title">Secretary-General</span></div>
         <div class="date">Jun 2021 – present</div>
       </div>
-      <div class="place">Shanghai</div>
+      <div class="place">Shanghai · Center does research; Federation handles firms, promotion, going-out and projects</div>
       <ul>
-        <li>The Center covers research, views and reports: urban regeneration, stock assets and new industrial space; how AI / future industries land in cities, and how cities attract firms with space, policy, capital and use-cases. An industry direction, not a technical R&amp;D role.</li>
-        <li>May 2025 Global New Economic Growth Engine Summit: spoke as organiser representative and joined the roundtable with Zhu Jin, Wang Yi and Wang Weijun (named by People.cn Shanghai and China News Service Shanghai).</li>
-        <li>28 May 2025, attended the launch of the FIC Real Estate Chamber asset-management chapter in Shanghai Debon as Center Secretary-General.</li>
+        <li>Urban regeneration, stock assets and new industrial space: how industry lands in cities with space, policy and capital. An industry direction, not a technical R&amp;D role.</li>
+        <li>28 May 2025, present at the launch of the FIC Real Estate Chamber asset-management chapter in Shanghai Debon as Center Secretary-General.</li>
         <li>Jun 2024, moderated AllBright’s “Stones from Other Hills” forum on overseas real-estate strategy for Chinese investors.</li>
-      </ul>
-    </div>
-
-    <h2>Featured case · standing space for international industry cooperation</h2>
-    <div class="job">
-      <div class="job-h">
-        <div><span class="co">Nordic Innovation Lounge</span>　<span class="title">Co-sponsor / Yangpu landing</span></div>
-        <div class="date">Mar 2026</div>
-      </div>
-      <div class="place">Powerlong–CIFI Plaza Circ-Innovation Center, Yangpu · Powerlong Commercial is a co-sponsor, not the employer</div>
-      <ul>
-        <li>The Fudan Center supplies methods, the Federation connects firms; together with Powerlong Commercial, an international innovation platform was placed into existing commercial space.</li>
-        <li>Public reports name Federation President Wang Xiaoming and Executive President Hu Jigang (Yangpu District Government site and others). Direction: Chinese tech firms going out and overseas firms coming in — local investment promotion, not a generic overseas-sales job.</li>
       </ul>
     </div>
 
     <h2>Affiliations</h2>
     <div class="social">
       <div class="cell"><b>Yangpu Sci-Tech Enterprises Federation</b><span>Executive President · firms / promotion / going-out / projects</span></div>
-      <div class="cell"><b>Fudan RE asset-management association</b><span>Founder</span></div>
+      <div class="cell"><b>Fudan RE asset-management association</b><span>Founder · 2018/2019</span></div>
+    </div>
+    <div class="tags" style="margin-top:6px;">
+      <span class="tag">SOE JV</span>
+      <span class="tag">Agency-build</span>
+      <span class="tag">NPL work-out</span>
+      <span class="tag">Asset-light</span>
+      <span class="tag">Industrial park</span>
+      <span class="tag">Urban regeneration</span>
+      <span class="tag">Tech promotion</span>
+      <span class="tag">Cross-border industry</span>
     </div>
 
     <h2>Experience</h2>
@@ -447,10 +505,10 @@ table.proj td:nth-child(2) { width: 16%; }
       <div class="place">Shanghai · reported to GM of Investment &amp; Co-development · team of ~8</div>
       <ul>
         <li>Zhenjiang Dagang Golden Domain: M&amp;A with Dagang Group on a 50/50 basis (~199 mu / 320,000 sqm).</li>
-        <li>Jiaxing Haining: government agency-build (RMB 1.853 bn / ~230,000 sqm).</li>
+        <li>Jiaxing Haining: government agency-build (RMB 1.853 bn / ~230,000 sqm, with resettlement housing).</li>
         <li>Shanghai Longfor Yanlanshan: judicial-auction NPL work-out (modelled IRR ~16.16%).</li>
-        <li>Jingjiang Impression City: land deal then SCL asset-light management (~RMB 1.5 bn / 556 mu / ~70,000 sqm retained retail); Jintan Ideal City acquired at reserve price (~RMB 2.805 bn / 561 mu).</li>
-        <li>Onewo cold-chain parks in Pinghu (Jiaxing) and Nanqiao (Fengxian, Shanghai); market entry into Yancheng, Taizhou and Jintan.</li>
+        <li>Jingjiang Impression City: land deal + SCL management (~RMB 1.5 bn / 556 mu / ~70,000 sqm mall); Jintan Ideal City M&amp;A plus debt work-out at reserve price (~RMB 2.805 bn / 561 mu).</li>
+        <li>Onewo cold-chain parks: Pinghu (Jiaxing’s first high-spec automated cold-chain park) and Nanqiao (Fengxian); market entry into Yancheng, Taizhou and Jintan.</li>
       </ul>
     </div>
     <div class="foot"><span>SOE / urban platforms · industrial development / tech investment promotion / urban space operations</span><span>01 / 02</span></div>
@@ -487,13 +545,14 @@ table.proj td:nth-child(2) { width: 16%; }
     <table class="proj">
       <tr><th>Project</th><th>Type</th><th>How</th><th>Scale</th></tr>
       <tr><td>Zhenjiang Dagang Golden Domain</td><td>SOE JV</td><td>M&amp;A, 50/50 with Dagang Group</td><td>~199 mu / 320,000 sqm</td></tr>
-      <tr><td>Jiaxing Haining</td><td>Agency-build</td><td>Government-entrusted build</td><td>RMB 1.853 bn / ~230,000 sqm</td></tr>
+      <tr><td>Jiaxing Haining</td><td>Agency-build</td><td>Government-entrusted build, resettlement housing</td><td>RMB 1.853 bn / ~230,000 sqm</td></tr>
       <tr><td>Shanghai Longfor Yanlanshan</td><td>NPL work-out</td><td>Judicial-auction M&amp;A</td><td>Modelled IRR ~16.16%</td></tr>
-      <tr><td>Jingjiang Impression City</td><td>Asset-light</td><td>Land deal + SCL management</td><td>~RMB 1.5 bn / 556 mu / ~70,000 sqm mall</td></tr>
-      <tr><td>Nanqiao / Pinghu cold chain</td><td>Industrial park</td><td>Origination and landing</td><td>Logistics parks</td></tr>
-      <tr><td>Jintan Ideal City</td><td>M&amp;A</td><td>Reserve-price acquisition</td><td>~RMB 2.805 bn / 561 mu</td></tr>
+      <tr><td>Jingjiang Impression City</td><td>Asset-light</td><td>Land deal + SCL · first in central Jiangsu county city</td><td>~RMB 1.5 bn / 556 mu / ~70,000 sqm mall</td></tr>
+      <tr><td>Nanqiao / Pinghu cold chain</td><td>Industrial park</td><td>Land deal / retrofit · Jiaxing’s first high-spec park</td><td>Logistics parks</td></tr>
+      <tr><td>Jintan Ideal City</td><td>M&amp;A</td><td>Debt work-out, reserve-price acquisition</td><td>~RMB 2.805 bn / 561 mu</td></tr>
       <tr><td>Linyi Wuyue Plaza</td><td>Gov. promotion</td><td>Municipal investment-promotion policy</td><td>First Shandong heavy-asset entry</td></tr>
       <tr><td>Qingdao Wuyue Plaza</td><td>Asset-light</td><td>Brand + management</td><td>~136,800 sqm</td></tr>
+      <tr><td>Rugao / Suzhou Zhongnan</td><td>Early origination</td><td>Land deals; Jiangyin equal-terms JV</td><td>Zhongnan-period samples</td></tr>
     </table>
 
     <h2>Education</h2>
@@ -512,19 +571,27 @@ table.proj td:nth-child(2) { width: 16%; }
     </div>
 
     <h2>Credentials</h2>
-    <div class="grid2">
+    <div class="qual3">
       <div class="box">
         <h3>Titles and certificates</h3>
         <ul>
-          <li>Associate-professor-level Senior Engineer; Intermediate Accountant; IELTS 6.0</li>
-          <li>Shanghai talent-introduction credential</li>
+          <li>Associate-professor-level Senior Engineer; Intermediate Accountant; PMP; MOHURD project-management engineer</li>
+          <li>IELTS 6.0; Putonghua Grade 1-A; BIM; Shanghai talent-introduction credential</li>
         </ul>
       </div>
       <div class="box">
-        <h3>Paper and patents</h3>
+        <h3>Papers and patents</h3>
         <ul>
-          <li>Journal paper on Vanke logistics-property platform strategy</li>
+          <li>Vanke logistics-property platform strategy (CNKI)</li>
+          <li>AI applications in building engineering (Housing and Real Estate)</li>
           <li>Two utility-model patents (scaffold; safety fence)</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Further study</h3>
+        <ul>
+          <li>SJTU advanced course on digital urban governance</li>
+          <li>Fudan–Citi practice course; Fudan–Aon HR and risk</li>
         </ul>
       </div>
     </div>
@@ -540,21 +607,30 @@ table.proj td:nth-child(2) { width: 16%; }
 <!-- 优化说明 -->
 <div class="pack" id="pack-notes">
   <div class="sheet notes">
-    <p class="k">第五版 · 职业规划微调</p>
+    <p class="k">第六版 · 五版取长补短</p>
     <h1>这份履历改了什么</h1>
-    <p>标签从「国资拿地 + 现在做研究」上调一档：懂城市空间的科技产业招商与产业发展。AI 是产业方向，不是职业身份。出海是跨境产业资源配置，不是普通海外销售。现任仍只写复旦大学住房政策研究中心秘书长。不编造科技招商、AI 落地、出海成交的数字。本说明给自己看，不随简历投出。</p>
+    <p>对照优化版、优化版-2、一页精华、优化版-3、优化版-4，收成一版对外稿。标签沿用「国企 / 城投 / 产业集团 · 产业发展 / 科技招商 / 城市空间运营」。印刷面不出现待核、待补、原稿口径。本说明给自己看，不随简历投出。</p>
 
-    <h2>这一版微调</h2>
+    <h2>五版各取什么</h2>
+    <table>
+      <tr><th>来源</th><th>长处收下</th><th>短处不收</th></tr>
+      <tr><td>优化版</td><td>2026.05 人工智能商业化峰会、AI 论文、PMP / BIM / 普通话、交大高研班、苏中县市首家印象城、配建安置房、嘉兴首个高标准冷链园</td><td>15 年投资经验、商会现任秘书长、协会现任秘书长、把活动写成成交业绩</td></tr>
+      <tr><td>优化版-2</td><td>三条证明结构（投资落地 / 空间导入 / 产业组织）；拿地 ≠ 企业入驻；职务核验纪律</td><td>印刷面「待补」「待核」；把简历写成事实核对备忘录</td></tr>
+      <tr><td>一页精华</td><td>一页密度、一线投资计至 2021、职称与职务拆开</td><td>丢掉峰会、会客厅、完整资质</td></tr>
+      <tr><td>优化版-3</td><td>中英切换、项目表带角色信息、不把房商会写成现任</td><td>「国资拿地 + 现在做研究」的旧标签</td></tr>
+      <tr><td>优化版-4</td><td>KPI 卡、北欧会客厅上第一页、峰会点名竺劲 / 汪毅 / 王维军、国资合作优先排序</td><td>丢掉 AI 峰会、第二篇论文与完整证书</td></tr>
+    </table>
+
+    <h2>这一版定稿</h2>
     <ol>
-      <li><b>页眉求职方向：</b>国企 / 城投 / 产业集团 · 产业发展 / 科技招商 / 城市空间运营。对应下一份工作的 S 级：产业发展负责人、招商负责人、产业空间 / 园区运营。</li>
-      <li><b>开篇证明什么：</b>不是再会拿地，而是能找到产业、企业、资本和场景，再落到一座城市、一栋楼或一个园区。投资能力是底盘，写在万科条；招商与产业组织写在复旦 + 科企联 + 北欧会客厅。</li>
-      <li><b>AI 怎么写：</b>「AI / 未来产业如何落地城市」，明确是产业方向，不是技术研发岗。不写「我研究人工智能」，不包装成 AI 专家。没有可归自己的 AI 企业库 / 落地签约数字，印刷面不编。</li>
-      <li><b>出海怎么写：</b>北欧会客厅 = 存量空间导入国际产业合作；中南美国养老 / 日本永旺仍标明推进中、非已签约。中国企业出去、海外企业进来一体两面。不投普通海外 BD。</li>
-      <li><b>平台分工：</b>复旦中心做研究、观点、报告；科企联做企业、招商、出海、项目。印刷面社会职务格里写明科企联这一侧。</li>
-      <li><b>2025.05 峰会、万科顺序、现任复旦、待核字样</b>——上一版硬约束全部保留。</li>
+      <li><b>三条证明上第一页：</b>靖江印象城 = 投资落地；北欧会客厅 = 存量空间导入国际产业合作；两场峰会 = 产业组织。印刷面不写「尚无付费客户 / 入驻数字」——那是事实，放在本说明，不放进投出稿。</li>
+      <li><b>KPI 改口径：</b>「万科团队 / 新进城市」改为「五种落地 / 现职平台」，数字 10 年、43 亿保留。团队约 8 人写在万科任职行。</li>
+      <li><b>AI 怎么写：</b>峰会是主办方代表 + 圆桌主持；论文与交大高研班放资质。产业方向，不是技术研发岗，不包装成 AI 专家。</li>
+      <li><b>出海怎么写：</b>北欧会客厅服务地方招商，科技企业出去与海外企业进来一体两面。宝龙商办是共同发起单位，不是雇主。中南美国养老 / 日本永旺仍标明推进中。</li>
+      <li><b>资质补全：</b>PMP、住建委项目管理工程师、普通话一级甲等、BIM、两篇论文、交大与复旦研修。第一版有、后面几版丢掉的，这一版收回。</li>
     </ol>
 
-    <h2>没有改的</h2>
+    <h2>硬约束（各版已对齐、继续守）</h2>
     <ol>
       <li>一线投资计至 2021。</li>
       <li>副教授级高级工程师归职称，不写进任职标题。</li>
@@ -562,19 +638,17 @@ table.proj td:nth-child(2) { width: 16%; }
       <li>不写身份证、住址、配偶。</li>
       <li>不把未操盘的 REITs / 保租房收储写成业绩。</li>
       <li>中南保留江阴白鹭湾同股同权、2014 西南拓展。</li>
-      <li>不把「服务 100 家、签约 10 家、落地 5 家」写进简历——那是 2027 年底要补的战绩，现在没有就不写。</li>
+      <li>不把「服务 100 家、签约 10 家、落地 5 家」写进简历。</li>
     </ol>
-
-    <h2>现任口径</h2>
-    <p>现任 = 复旦。北欧会客厅是合作项目，地点在宝龙旭辉广场环创中心，宝龙商办是共同发起单位，不是雇主。国资稿与招商稿仍不能同时投两套现任。</p>
 
     <h2>公开职务核验</h2>
     <table>
       <tr><th>职务 / 事件</th><th>印刷面</th><th>依据</th></tr>
       <tr><td>住房政策研究中心秘书长</td><td>现任 · 研究侧</td><td>人民网、中新社、央广网、杨浦区政府、锦天城</td></tr>
       <tr><td>杨浦科企联执行会长</td><td>现任 · 企业 / 招商侧</td><td>杨浦区政府官网等点名王晓明、胡继刚</td></tr>
+      <tr><td>2026.05 人工智能商业化峰会</td><td>三条证明 · 产业组织</td><td>央广网、杨浦区政府、上观新闻；约 600 人</td></tr>
       <tr><td>2025.05 全球新经济增长引擎峰会</td><td>主办方代表发言 + 圆桌</td><td>人民网上海、中新社上海点名</td></tr>
-      <tr><td>北欧创新国际会客厅</td><td>第 1 页合作项目</td><td>区政府官网等；宝龙商办为共同发起</td></tr>
+      <tr><td>北欧创新国际会客厅</td><td>三条证明 · 空间导入</td><td>区政府官网等；宝龙商办为共同发起</td></tr>
       <tr><td>工商联房地产商会秘书长</td><td>不写现任</td><td>官网现任为李祥；资管分会只写出席</td></tr>
       <tr><td>山东商会 / 联考面试官 / 评审专家</td><td>不上印刷面</td><td>公开名单未交叉印证</td></tr>
     </table>
