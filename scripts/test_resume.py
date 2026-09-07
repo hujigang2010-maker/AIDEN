@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""校验第六版：五版取长补短。印刷面无待核字样，三条证明与完整资质写死，页数为 A4 两页。"""
+"""校验第七版：2026 已签约四宗上第一页。印刷面无待核、无引进华为。页数为 A4 两页。"""
 
 from __future__ import annotations
 
@@ -16,8 +16,14 @@ KEYWORDS = [
     "投资副总经理",
     "在职攻读",
     "城市更新",
-    "科技招商",
-    "产业发展",
+    "产业招商",
+    "智能制造",
+    "已签约产业合作",
+    "创智汇",
+    "东方枢纽",
+    "华为汽车",
+    "森马产业园",
+    "方案拟定",
     "新质产业空间",
     "国资合作",
     "主办方代表发言",
@@ -27,12 +33,9 @@ KEYWORDS = [
     "新城控股",
     "中南",
     "江阴白鹭湾",
-    "三条证明",
-    "人工智能商业化",
     "PMP",
     "苏中县市",
     "房屋建筑工程人工智能",
-    "五种落地",
     "2011–2021",
 ]
 
@@ -52,6 +55,9 @@ FORBIDDEN_PRINT = [
     "登台战略合作",
     "山东商会",
     "面试官",
+    "引进华为",
+    "波士顿科学",
+    "创智天地",
 ]
 
 
@@ -63,6 +69,7 @@ def test_files_exist():
         "胡继刚-简历-一页精华.pdf",
         "胡继刚-简历-一页精华.html",
         "简历优化说明.md",
+        "2026已签约产业合作-面试口径.md",
     ]
     missing = [name for name in required if not (OUT / name).exists()]
     assert not missing, f"缺少文件：{missing}"
@@ -74,7 +81,7 @@ def test_docx_is_valid():
     with zipfile.ZipFile(path) as zf:
         assert "word/document.xml" in zf.namelist()
         xml = zf.read("word/document.xml").decode("utf-8")
-    for key in ("胡继刚", "在职攻读", "城市更新", "科技招商", "主办方代表发言", "北欧创新国际会客厅", "三条证明", "PMP"):
+    for key in ("胡继刚", "在职攻读", "城市更新", "产业招商", "智能制造", "创智汇", "东方枢纽", "方案拟定", "北欧创新国际会客厅", "PMP"):
         assert key in xml, f"Word 中缺少：{key}"
     for bad in FORBIDDEN_PRINT:
         assert bad not in xml, f"Word 中不应出现：{bad}"
@@ -94,13 +101,14 @@ def test_html_keywords():
         assert key in zh, f"中文稿缺少：{key}"
     for bad in FORBIDDEN_PRINT:
         assert bad not in zh, f"中文稿不应出现：{bad}"
-    assert "科技招商" in zh
-    assert "产业发展" in zh
-    assert "新质产业空间" in zh
+    assert "产业招商" in zh
+    assert "智能制造" in zh
+    assert "已签约产业合作" in zh
+    assert "创智汇" in zh
+    assert "东方枢纽" in zh
+    assert "方案拟定" in zh
     assert "竺劲" in zh
     assert "不是雇主" in zh
-    assert "三条证明" in zh
-    assert "人工智能商业化" in zh
     assert "PMP" in zh
     assert "苏中县市" in zh
     assert "房屋建筑工程人工智能" in zh
@@ -113,7 +121,8 @@ def test_html_keywords():
     assert "登台战略合作" not in zh
     assert "AI专家" not in zh
     assert "服务100家" not in zh
-    assert zh.find("科技招商") < zh.find("如何落地城市")
+    assert "三条证明" not in zh
+    assert zh.find("产业招商") < zh.find("如何落地城市")
     notes = html[html.find('id="pack-notes"'):]
     assert "李祥" in notes
 
@@ -137,10 +146,16 @@ def test_pdf_pages():
         assert key in full_text, f"PDF 中缺少：{key}"
     assert "万科" in page1
     assert "复旦大学住房政策研究中心" in page1
+    assert "产业招商" in page1
+    assert "智能制造" in page1
+    assert "创智汇" in page1
+    assert "东方枢纽" in page1
+    assert "华为汽车" in page1
+    assert "森马产业园" in page1
+    assert "方案拟定" in page1
     assert "主办方代表发言" in page1
     assert "北欧创新国际会客厅" in page1
-    assert "三条证明" in page1
-    assert "人工智能商业化" in page1
+    assert "三条证明" not in page1
     assert "新城控股" in page2
     assert "中南" in page2
     assert "江阴白鹭湾" in page2
@@ -154,10 +169,18 @@ def test_pdf_pages():
         assert bad not in full_text, f"PDF 中不应出现：{bad}"
     brief_text = brief[0].get_text().replace("\n", "")
     assert "胡继刚" in brief_text
-    assert "主办方代表发言" in brief_text
+    assert "创智汇" in brief_text
+    assert "产业招商" in brief_text
     assert "在职攻读" in brief_text
+    assert "万科" in brief_text
     for bad in FORBIDDEN_PRINT:
         assert bad not in brief_text, f"精华版不应出现：{bad}"
+
+
+def test_interview_brief():
+    text = (OUT / "2026已签约产业合作-面试口径.md").read_text(encoding="utf-8")
+    for key in ("甲方抬头", "签约日", "华为", "143", "133", "定位招商", "引进华为", "盖章"):
+        assert key in text, f"面试口径缺少：{key}"
 
 
 def main():
@@ -165,6 +188,7 @@ def main():
     test_docx_is_valid()
     test_html_keywords()
     test_pdf_pages()
+    test_interview_brief()
     print("简历交付物校验通过")
 
 
