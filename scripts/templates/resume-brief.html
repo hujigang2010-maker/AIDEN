@@ -11,161 +11,178 @@
 :root {
   --navy: #142B4A;
   --gold: #C48A2B;
-  --teal: #0F6B63;
-  --blue: #1D4F91;
-  --amber: #9A4A12;
-  --gray: #3F4750;
-  --muted: #66707A;
-  --line: #D7DEE8;
-  --soft: #F4F7FB;
+  --ink: #2C333A;
+  --muted: #5C6670;
+  --line: #D5DDE8;
+  --soft: #F3F6FA;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body {
-  background: #fff;
+  background: #f0f3f7;
   font-family: "WQY", "WenQuanYi Micro Hei", "Microsoft YaHei", sans-serif;
-  color: var(--gray);
+  color: var(--ink);
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
-@page { size: A4; margin: 0; }
-.sheet { width: 210mm; height: 297mm; padding: 9mm 11mm 8.5mm; overflow: hidden; }
-.header { background: var(--navy); color: #fff; padding: 9px 14px 8px; border-radius: 4px; }
-.name-row { display: flex; align-items: baseline; gap: 10px; }
-.name { font-size: 23px; font-weight: 700; letter-spacing: 2px; }
-.en { font-size: 11.5px; color: #E8D5A3; }
-.tagline { margin-top: 3px; font-size: 12.5px; font-weight: 700; color: #E8D5A3; }
-.subtag { margin-top: 1px; font-size: 10.5px; color: #D5DEE8; }
-.roles { margin-top: 2px; font-size: 11px; color: #F0F4F8; }
-.meta { margin-top: 3px; font-size: 10px; color: #C5D0DC; line-height: 1.38; }
-.intent { margin: 6px 0 0; font-size: 10.5px; color: var(--navy); }
-.intent b { color: var(--gold); margin-right: 6px; }
-h2 {
-  font-size: 11.5px; color: var(--navy); letter-spacing: 1px;
-  margin: 6px 0 3px; padding-bottom: 2px; border-bottom: 2px solid var(--gold);
+.toolbar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 14px;
+  background: #142B4A; color: #fff; font-size: 13px;
 }
-.summary { font-size: 10px; line-height: 1.4; text-align: justify; }
-.pillars { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 5px; }
-.card { background: var(--soft); border: 1px solid var(--line); border-radius: 4px; padding: 5px 7px 4px; }
-.card .k { font-size: 8.5px; color: var(--gold); font-weight: 700; }
-.card h3 { font-size: 11px; color: var(--navy); margin: 1px 0 2px; }
-.card li { font-size: 9px; line-height: 1.32; margin-left: 11px; margin-bottom: 1.5px; }
-.case { border: 1px solid var(--line); border-left: 3px solid var(--navy); border-radius: 3px; padding: 4px 7px; margin-bottom: 4px; }
-.case.a { border-left-color: var(--amber); }
-.case.b { border-left-color: var(--navy); }
-.case.c { border-left-color: var(--teal); }
-.case h3 { font-size: 11px; color: var(--navy); }
-.case h3 span { font-size: 9px; color: var(--muted); font-weight: 400; }
-.case p { font-size: 9.5px; line-height: 1.35; margin-top: 1px; }
-.job { margin-bottom: 3px; }
-.job-h { display: flex; justify-content: space-between; align-items: baseline; }
-.co { font-size: 11px; font-weight: 700; color: var(--navy); }
-.title { font-size: 10px; color: var(--muted); }
-.date { font-size: 10px; color: var(--gold); font-weight: 700; }
-.job li { font-size: 9.5px; line-height: 1.34; margin-left: 12px; }
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-.box { background: var(--soft); border: 1px solid var(--line); border-radius: 4px; padding: 5px 7px; }
-.box h3 { font-size: 10.5px; color: var(--navy); margin-bottom: 1px; }
-.box li { font-size: 9px; line-height: 1.32; margin-left: 12px; }
-.note { margin-top: 5px; font-size: 8px; color: #8A939C; }
+.btn {
+  border: 1px solid rgba(255,255,255,.28);
+  background: transparent; color: #fff;
+  padding: 5px 10px; border-radius: 4px; cursor: pointer; font-family: inherit;
+}
+.hint { color: #C5D0DC; font-size: 12px; }
+.preview { padding: 18px 12px 36px; }
+.sheet {
+  width: 210mm; height: 297mm;
+  margin: 0 auto;
+  padding: 10mm 12mm 9mm;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 10px 36px rgba(20,43,74,.16);
+}
+.head {
+  display: grid;
+  grid-template-columns: 46px 1fr auto;
+  gap: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--navy);
+}
+.seal {
+  width: 46px; height: 46px; background: var(--navy); color: #E8D5A3;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 700;
+}
+.who .name { font-size: 22px; font-weight: 700; color: var(--navy); letter-spacing: 2px; }
+.who .en { font-size: 11px; color: var(--gold); }
+.who .role { font-size: 12px; font-weight: 700; margin-top: 2px; }
+.who .line { font-size: 10.5px; color: var(--muted); }
+.contact { text-align: right; font-size: 10.5px; color: var(--muted); line-height: 1.5; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 8px 0; }
+.stat { background: var(--soft); border-top: 3px solid var(--gold); padding: 5px 7px; }
+.stat b { display: block; font-size: 13px; color: var(--navy); }
+.stat span { font-size: 9.5px; color: var(--muted); }
+.lead { font-size: 10.5px; line-height: 1.45; text-align: justify; }
+h2 {
+  font-size: 12px; color: var(--navy); letter-spacing: 1px;
+  margin: 7px 0 4px; padding-bottom: 2px; border-bottom: 2px solid var(--gold);
+}
+.job-h { display: flex; justify-content: space-between; gap: 8px; }
+.co { font-size: 12px; font-weight: 700; color: var(--navy); }
+.title { font-size: 10.5px; color: var(--muted); }
+.date { font-size: 10.5px; color: var(--gold); font-weight: 700; white-space: nowrap; }
+.place { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
+li { font-size: 10px; line-height: 1.38; margin: 0 0 1.5px 13px; }
+.social { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin-bottom: 4px; }
+.cell { background: var(--soft); border: 1px solid var(--line); padding: 5px 7px; }
+.cell b { display: block; font-size: 11px; color: var(--navy); }
+.cell span { font-size: 9.5px; color: var(--muted); }
+table.proj { width: 100%; border-collapse: collapse; }
+table.proj th, table.proj td {
+  border: 1px solid var(--line); padding: 3px 5px; font-size: 9.5px; vertical-align: top;
+}
+table.proj th { background: var(--navy); color: #fff; text-align: left; }
+table.proj tr:nth-child(even) td { background: var(--soft); }
+table.proj td:first-child { color: var(--navy); font-weight: 700; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.box { background: var(--soft); border: 1px solid var(--line); padding: 5px 7px; }
+.box h3 { font-size: 11px; color: var(--navy); margin-bottom: 2px; }
+.fine { font-size: 8.5px; color: #8A939C; margin-top: 5px; line-height: 1.35; }
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+@media print {
+  html, body { background: #fff; margin: 0; padding: 0; }
+  .toolbar { display: none !important; }
+  .preview { padding: 0; }
+  .sheet { box-shadow: none; margin: 0; }
+}
 </style>
 </head>
 <body>
+<div class="toolbar">
+  <b>胡继刚 · 一页精华</b>
+  <button class="btn" type="button" onclick="window.print()">导出 PDF</button>
+  <span class="hint">打印框选「另存为 PDF」，纸张 A4</span>
+</div>
+<div class="preview">
 <div class="sheet">
-  <div class="header">
-    <div class="name-row"><div class="name">胡继刚</div><div class="en">HU Jigang</div></div>
-    <div class="tagline">产业发展  ·  产业合作  ·  招商负责人</div>
-    <div class="subtag">AI 商业化 = 新能力　　企业出海 = 中期方向</div>
-    <div class="roles">复旦大学住房政策研究中心秘书长　｜　杨浦区科技企业联合会执行会长</div>
-    <div class="meta">男　｜　1987.04　｜　上海　｜　硕士　｜　副教授级高工　｜　九三学社　｜　IELTS 6.0<br/>18678408669　｜　262782809@qq.com　｜　微信 hu262782809</div>
-  </div>
-  <p class="intent"><b>求职意向</b>产业合作 / 招商负责人（科创园区、产业集团、企业服务平台）　　上海　　薪资面议</p>
-
-  <h2>职业摘要</h2>
-  <p class="summary">万科、新城经历支撑项目判断、投资拓展与合作落地；研究中心与科企联支撑政策理解、企业连接和跨机构协调。主线做产业合作与招商，AI 做新业务能力，出海做中期延伸。杨浦「人工智能+」行动与上海出海服务体系均可作为平台切入口；2021 年后公开成果以活动与载体导入为主，付费与入驻数据待补。</p>
-
-  <h2>方向优先级</h2>
-  <div class="pillars">
-    <div class="card">
-      <div class="k">近期主线</div>
-      <h3>产业发展 / 招商</h3>
-      <ul>
-        <li>园区、产业集团、企业服务平台：项目拓展、谈判、落地。</li>
-        <li>已有拿地与载体导入；企业签约入驻数字待补。</li>
-      </ul>
+  <div class="head">
+    <div class="seal">胡</div>
+    <div class="who">
+      <div class="name">胡继刚</div>
+      <div class="en">HU Jigang</div>
+      <div class="role">万科上海区域投资副总经理（2017–2021）</div>
+      <div class="line">现任复旦大学住房政策研究中心秘书长 · 城市更新 / 租赁住房　·　1987 年生 · 九三学社 · 上海</div>
     </div>
-    <div class="card">
-      <div class="k">重点突破</div>
-      <h3>AI 行业合作</h3>
-      <ul>
-        <li>从园区、资管、企业服务场景联合技术团队做客户项目。</li>
-        <li>已有峰会主办方代表与圆桌；待补付费试点。</li>
-      </ul>
-    </div>
-    <div class="card">
-      <div class="k">中期延伸</div>
-      <h3>企业出海服务</h3>
-      <ul>
-        <li>国内客户开发与项目组织，与当地机构共同交付。</li>
-        <li>已有海外不动产主持、北欧会客厅；待补成交。</li>
-      </ul>
-    </div>
+    <div class="contact">18678408669<br/>262782809@qq.com<br/>微信 hu262782809</div>
+  </div>
+  <div class="stats">
+    <div class="stat"><span>一线投资</span><b>2011–2021</b></div>
+    <div class="stat"><span>投拓年限</span><b>约 10 年</b></div>
+    <div class="stat"><span>靖江 + 金坛</span><b>约 43 亿</b></div>
+    <div class="stat"><span>新进城市</span><b>盐城 · 台州 · 金坛</b></div>
+  </div>
+  <p class="lead">万科上海区域投资副总经理。2011–2021 一线投拓：收并购、策略勾地、不良处置、冷链园与国资合作。2021 年起转向住房保障、租赁市场与城市更新研究。一线投资只计至 2021，不把研究年限算进投资经验。副教授级高级工程师为职称，不是复旦行政职务。</p>
+
+  <h2>现任与社会职务</h2>
+  <div class="job-h"><div><span class="co">复旦大学住房政策研究中心</span>　<span class="title">秘书长</span></div><div class="date">2021.06 – 至今</div></div>
+  <ul>
+    <li>住房保障、租赁市场、城市更新课题与论坛（原稿口径；课题名称待补）。</li>
+    <li>可核对：2024.06 主持锦天城海外不动产论坛；2025.05 全球新经济增长引擎峰会圆桌；2025.05 以中心秘书长出席工商联房地产商会资管分会成立。</li>
+  </ul>
+  <div class="social">
+    <div class="cell"><b>杨浦科企联</b><span>执行会长（可核验）</span></div>
+    <div class="cell"><b>不动产资管协会</b><span>创始参与；现任秘书长公开为武金城</span></div>
+    <div class="cell"><b>工商联房地产商会</b><span>不写入现任秘书长（官网为李祥）</span></div>
   </div>
 
-  <h2>三个代表案例</h2>
-  <div class="case a">
-    <h3>1. 投资拓展　<span>靖江印象城 2017.10</span></h3>
-    <p>投资副总。勾地 + 印力委管。约 15 亿 / 556 亩 / 7 万方购物中心。属拿地能力，不等于招商入驻经营数据。</p>
-  </div>
-  <div class="case b">
-    <h3>2. 产业合作　<span>北欧创新国际会客厅 2026.03</span></h3>
-    <p>科企联执行会长、中心共同发起。会客厅落户杨浦宝龙旭辉广场环创中心（区政府官网）。证明载体导入，未披露入驻与收费。</p>
-  </div>
-  <div class="case c">
-    <h3>3. AI 能力　<span>人工智能商业化峰会 2026.05</span></h3>
-    <p>主办方代表，主持 AI 全产业链商业化圆桌，约 600 人。证明行业合作组织能力，尚非付费客户项目。</p>
-  </div>
+  <h2>万科证明　2017.03 – 2021.06　投资副总经理 · 团队约 8 人</h2>
+  <ul>
+    <li>靖江印象城约 15 亿 / 556 亩 / 购物中心约 7 万方；金坛理想城约 28.05 亿 / 561 亩底价。</li>
+    <li>镇江大港收并购 + 国资各半；海宁代建 18.53 亿；滟澜山法拍 IRR 约 16.16%；平湖 / 南桥冷链园。</li>
+  </ul>
 
-  <h2>工作经历</h2>
-  <div class="job">
-    <div class="job-h"><div><span class="co">复旦住房政策研究中心</span>　<span class="title">秘书长</span></div><div class="date">2021.06 – 至今</div></div>
-    <ul>
-      <li>2026.03 北欧会客厅共同发起并落户杨浦；2025.05 代表中心参与工商联资管分会战略合作（商会现任秘书长公开为李祥）。</li>
-      <li>2026.05 AI 商业化峰会主办方代表并主持圆桌；2024.06 主持中国投资者海外不动产主题活动。</li>
-    </ul>
-  </div>
-  <div class="job">
-    <div class="job-h"><div><span class="co">万科上海区域</span>　<span class="title">投资副总经理 · 团队 8 人</span></div><div class="date">2017.03 – 2021.06</div></div>
-    <ul>
-      <li>靖江印象城、海宁代建、镇江大港国企合作、金坛收并购、滟澜山法拍、平湖/南桥冷链园。</li>
-    </ul>
-  </div>
-  <div class="job">
-    <div class="job-h"><div><span class="co">新城控股 / 中南建设</span>　<span class="title">投资拓展</span></div><div class="date">2011.06 – 2017.02</div></div>
-    <ul>
-      <li>临沂吾悦对接市级招商政策；青岛吾悦轻资产；如皋/苏州/江阴勾地；美国养老、日本永旺对接（推进中）。</li>
-    </ul>
-  </div>
+  <h2>新城 / 中南　2011.06 – 2017.02</h2>
+  <ul>
+    <li>新城：临沂吾悦勾地（集团首进山东重资产）；青岛吾悦轻资产约 13.68 万㎡。</li>
+    <li>中南：如皋中南世纪城、苏州中南锦苑；美国养老 / 日本永旺对接为推进中，非已签约。</li>
+  </ul>
 
-  <h2>教育与核验后职务</h2>
+  <h2>代表项目</h2>
+  <table class="proj">
+    <tr><th>项目</th><th>角色</th><th>规模</th><th>方式</th></tr>
+    <tr><td>靖江印象城</td><td>主导获取</td><td>约 15 亿 / 556 亩</td><td>勾地 + 印力委管</td></tr>
+    <tr><td>金坛理想城</td><td>主导获取</td><td>约 28.05 亿 / 561 亩</td><td>收并购 / 底价</td></tr>
+    <tr><td>镇江大港金域蓝湾</td><td>主导</td><td>约 199 亩 / 32 万方</td><td>收并购 + 国资合作</td></tr>
+    <tr><td>南桥 / 平湖冷链园</td><td>主导获取落地</td><td>原稿未列总价</td><td>物流产业园</td></tr>
+    <tr><td>临沂 / 青岛吾悦广场</td><td>勾地 / 获取</td><td>青岛约 13.68 万㎡</td><td>重资产 + 轻资产</td></tr>
+  </table>
+
+  <h2>教育与资质</h2>
   <div class="grid2">
     <div class="box">
-      <h3>教育与证书</h3>
+      <h3>教育</h3>
       <ul>
-        <li>复旦 MBA（财务金融）；中国海洋大学土木工程本科</li>
-        <li>副教授级高工；PMP；IELTS 6.0；交大数字化高研班</li>
-        <li>建筑 AI 论文；实用新型专利 2 项</li>
+        <li>复旦 MBA · 财务金融，2018.09–2021.06，在职攻读，与万科并行</li>
+        <li>中国海洋大学土木工程学士，2007.09–2011.07</li>
       </ul>
     </div>
     <div class="box">
-      <h3>职务（已核验优先）</h3>
+      <h3>资质</h3>
       <ul>
-        <li>已核验：中心秘书长；杨浦科企联执行会长</li>
-        <li>2024 报道曾写 MBA 不动产协会秘书长；现公布为武金城</li>
-        <li>不写入现任：工商联房地产商会秘书长（公开为李祥）</li>
+        <li>副教授级高级工程师；PMP；上海市人才引进认证</li>
+        <li>论文《万科物流地产平台业务发展战略研究》；实用新型专利 2 项</li>
       </ul>
     </div>
   </div>
-  <p class="note">来源：央广网、人民网、杨浦区政府、锦天城、工商联、复旦管院校友页。2021 年后补上付费试点与入驻签约，即可把案例 2、3 改成经营成果表达。</p>
+  <p class="fine">投递方向：城市更新 / 租赁住房与存量收并购。一线投资 2011–2021。工商联房地产商会秘书长不写入现任（公开为李祥）。身份证、住址、配偶信息未写入。详见两页完整稿与顶部「优化说明」。</p>
+</div>
 </div>
 </body>
 </html>
