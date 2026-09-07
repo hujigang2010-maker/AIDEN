@@ -12,12 +12,13 @@ OUT = ROOT / "output"
 
 KEYWORDS = [
     "胡继刚",
+    "产业合作",
+    "招商",
     "AI",
     "出海",
-    "招商",
     "北欧创新国际会客厅",
     "靖江印象城",
-    "IELTS",
+    "三个代表案例",
     "复旦大学住房政策研究中心",
 ]
 
@@ -52,6 +53,8 @@ def test_html_keywords():
     assert "220283" not in html
     assert "爱国路" not in html
     assert "马喜艳" not in html
+    assert "不写入现任" in html
+    assert "李祥" in html
 
 
 def test_pdf_pages():
@@ -69,6 +72,8 @@ def test_pdf_pages():
         assert key in full_text, f"PDF 中缺少：{key}"
     assert "新城控股" in full_text
     assert "中南" in full_text
+    assert "不写入现任" in full_text
+    assert "李祥" in full_text
 
 
 def main():

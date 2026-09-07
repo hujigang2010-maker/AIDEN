@@ -31,7 +31,7 @@ html, body {
 .sheet {
   width: 210mm;
   height: 297mm;
-  padding: 11mm 12mm 10mm;
+  padding: 10.5mm 12mm 10mm;
   overflow: hidden;
   page-break-after: always;
 }
@@ -39,103 +39,133 @@ html, body {
 .header {
   background: var(--navy);
   color: #fff;
-  padding: 12px 16px 11px;
+  padding: 11px 16px 10px;
   border-radius: 4px;
 }
 .name-row { display: flex; align-items: baseline; gap: 12px; }
-.name { font-size: 26px; font-weight: 700; letter-spacing: 2px; }
-.en { font-size: 12.5px; color: #E8D5A3; letter-spacing: 1px; }
-.tagline { margin-top: 5px; font-size: 13.5px; font-weight: 700; color: #E8D5A3; }
+.name { font-size: 25px; font-weight: 700; letter-spacing: 2px; }
+.en { font-size: 12px; color: #E8D5A3; letter-spacing: 1px; }
+.tagline { margin-top: 4px; font-size: 13.5px; font-weight: 700; color: #E8D5A3; }
+.subtag { margin-top: 2px; font-size: 11px; color: #D5DEE8; }
 .roles { margin-top: 3px; font-size: 11.5px; color: #F0F4F8; }
-.meta { margin-top: 4px; font-size: 10.5px; color: #C5D0DC; line-height: 1.45; }
-.intent { margin: 8px 0 0; font-size: 11px; color: var(--navy); }
+.meta { margin-top: 4px; font-size: 10.5px; color: #C5D0DC; line-height: 1.4; }
+.intent { margin: 7px 0 0; font-size: 11px; color: var(--navy); }
 .intent b { color: var(--gold); margin-right: 6px; }
 h2 {
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--navy);
   letter-spacing: 1px;
-  margin: 9px 0 5px;
+  margin: 8px 0 5px;
   padding-bottom: 2px;
   border-bottom: 2px solid var(--gold);
 }
-.summary { font-size: 11px; line-height: 1.5; text-align: justify; }
-.pillars { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
+.summary { font-size: 10.5px; line-height: 1.48; text-align: justify; }
+.pillars { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 6px; }
 .card {
   background: var(--soft);
   border: 1px solid var(--line);
   border-radius: 4px;
-  padding: 7px 8px 6px;
+  padding: 6px 8px 5px;
 }
-.card h3 { font-size: 11.5px; color: var(--navy); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
-.dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
-.card li { font-size: 9.5px; line-height: 1.38; margin-left: 12px; margin-bottom: 2.5px; }
-.job { margin-bottom: 6px; }
+.card .k { font-size: 9px; color: var(--gold); font-weight: 700; letter-spacing: 0.5px; }
+.card h3 { font-size: 11.5px; color: var(--navy); margin: 1px 0 3px; }
+.card li { font-size: 9.5px; line-height: 1.36; margin-left: 12px; margin-bottom: 2px; }
+.cases { display: grid; gap: 5px; }
+.case {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--navy);
+  border-radius: 3px;
+  padding: 5px 8px 5px 9px;
+  background: #fff;
+}
+.case.a { border-left-color: var(--amber); }
+.case.b { border-left-color: var(--navy); }
+.case.c { border-left-color: var(--teal); }
+.case h3 { font-size: 11.5px; color: var(--navy); }
+.case h3 span { font-size: 9.5px; color: var(--muted); font-weight: 400; }
+.case p { font-size: 10px; line-height: 1.4; margin-top: 2px; }
+.job { margin-bottom: 5px; }
 .job-h { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 .co { font-size: 12px; font-weight: 700; color: var(--navy); }
 .title { font-size: 11px; color: var(--muted); }
 .date { font-size: 11px; color: var(--gold); font-weight: 700; white-space: nowrap; }
-.job .desc { font-size: 10px; color: var(--muted); line-height: 1.42; margin: 2px 0 3px; }
-.job li { font-size: 10.5px; line-height: 1.42; margin-left: 14px; margin-bottom: 2px; }
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
-.box { background: var(--soft); border: 1px solid var(--line); border-radius: 4px; padding: 7px 9px; }
-.box h3 { font-size: 11.5px; color: var(--navy); margin-bottom: 3px; }
-.box li { font-size: 10px; line-height: 1.42; margin-left: 14px; margin-bottom: 2px; }
-.note { margin-top: 8px; font-size: 8.5px; color: #8A939C; line-height: 1.4; }
+.job .desc { font-size: 10px; color: var(--muted); line-height: 1.4; margin: 1px 0 2px; }
+.job li { font-size: 10.5px; line-height: 1.4; margin-left: 14px; margin-bottom: 1.5px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.box { background: var(--soft); border: 1px solid var(--line); border-radius: 4px; padding: 6px 8px; }
+.box h3 { font-size: 11px; color: var(--navy); margin-bottom: 2px; }
+.box li { font-size: 10px; line-height: 1.38; margin-left: 13px; margin-bottom: 1.5px; }
+.note { margin-top: 7px; font-size: 8.5px; color: #8A939C; line-height: 1.4; }
 table.proj { width: 100%; border-collapse: collapse; margin-top: 2px; }
 table.proj th, table.proj td {
   border: 1px solid var(--line);
-  padding: 5px 7px;
-  font-size: 10px;
-  line-height: 1.35;
+  padding: 4px 6px;
+  font-size: 9.5px;
+  line-height: 1.32;
   vertical-align: top;
 }
 table.proj th { background: var(--navy); color: #fff; font-weight: 700; text-align: left; }
 table.proj tr:nth-child(even) td { background: var(--soft); }
-table.proj td:first-child { color: var(--navy); font-weight: 700; width: 26%; }
+table.proj td:first-child { color: var(--navy); font-weight: 700; width: 24%; }
 table.proj td:nth-child(2) { width: 24%; color: var(--amber); }
+.cap { font-size: 9.5px; color: var(--muted); margin: 2px 0 4px; }
 </style>
 </head>
 <body>
 <div class="sheet">
   <div class="header">
     <div class="name-row"><div class="name">胡继刚</div><div class="en">HU Jigang</div></div>
-    <div class="tagline">产业招商  ·  AI 生态运营  ·  国际化资源对接</div>
+    <div class="tagline">产业发展  ·  产业合作  ·  招商负责人</div>
+    <div class="subtag">AI 行业合作与商业化 = 新业务能力　　企业出海 / 海外园区合作 = 中期方向</div>
     <div class="roles">复旦大学住房政策研究中心秘书长　｜　上海市杨浦区科技企业联合会执行会长</div>
     <div class="meta">男　｜　1987.04　｜　上海　｜　硕士　｜　副教授级高级工程师　｜　九三学社　｜　IELTS 6.0<br/>18678408669　｜　262782809@qq.com　｜　微信 hu262782809</div>
   </div>
-  <p class="intent"><b>求职意向</b>产业招商 / 政府关系 / 国际化业务与出海对接 / AI 与科创生态运营　　上海　　薪资面议</p>
+  <p class="intent"><b>求职意向</b>产业合作 / 招商负责人（科创园区、产业集团、企业服务平台）　　上海　　薪资面议</p>
 
   <h2>职业摘要</h2>
-  <p class="summary">土木本科、复旦 MBA，15 年不动产投资拓展与政府资源整合经验，历任中南、新城、万科投资岗至区域投资副总经理，熟悉勾地、轻资产输出、代建、收并购与不良资产「募投管退」。2021 年起任职高校智库秘书长，并以杨浦科企联执行会长身份搭建政产学研平台。近两年公开主持/主办人工智能商业化峰会、中国投资者海外不动产主题活动、北欧创新国际会客厅等，形成「AI 产业化落地 + 企业出海对接 + 政府招商落地」复合能力。</p>
+  <p class="summary">土木本科、复旦 MBA。万科、新城经历支撑项目判断、投资拓展与合作落地；研究中心、杨浦科企联经历支撑政策理解、企业连接与跨机构协调。两者结合，是转向产业发展岗位的基础。职业主线放在产业合作与招商；AI 作为新业务能力，从园区、资管和企业服务场景切入；出海作为中期延伸，先做国内客户开发与项目组织，再与当地机构共同交付。杨浦「人工智能+」行动方案强调政校企联动的应用场景与产业载体，上海出海服务体系强调与商协会联动——现有平台身份可作为切入口，而非把活动等同于已成交业绩。</p>
 
-  <h2>核心优势：AI × 出海 × 招商</h2>
+  <h2>方向优先级</h2>
   <div class="pillars">
     <div class="card">
-      <h3><span class="dot" style="background:var(--teal)"></span>AI 产业化与生态运营</h3>
+      <div class="k">近期主线</div>
+      <h3>产业发展 / 招商负责人</h3>
       <ul>
-        <li>2026.05 主办方代表，「人工智能商业化落地与硬核投资破局峰会」（约 600 人）；主持「从算力引擎到新质资产」圆桌，提出将峰会升级为科创企业超级孵化器。</li>
-        <li>2025.05 联合主办全球新经济增长引擎峰会，议程覆盖 AI 产业链重构与中东/亚太出海。</li>
-        <li>发表《房屋建筑工程人工智能技术的应用》；交大城市治理数字化转型高研班。</li>
-        <li>以科企联执行会长身份服务科技企业评审、对接与成长。</li>
+        <li>切入点：科创园区、产业集团、企业服务平台，负责项目拓展、合作谈判与落地。</li>
+        <li>证据类型：拿地、收并购、国企合作、产业载体导入；公开报道尚无「引进企业签约入驻」经营数字。</li>
       </ul>
     </div>
     <div class="card">
-      <h3><span class="dot" style="background:var(--blue)"></span>出海与国际化对接</h3>
+      <div class="k">重点突破</div>
+      <h3>AI 行业合作与商业化</h3>
       <ul>
-        <li>2024.06 主持「他山之石——中国投资者的海外不动产战略布局」（锦天城 × 复旦住房政策研究中心）。</li>
-        <li>2026.03 参与「北欧创新国际会客厅」揭牌，交流中欧创新合作与企业国际化。</li>
-        <li>英语商务洽谈 / IELTS 6.0；早期推进美国养老、日本永旺等国际合作对接。</li>
-        <li>能把高校智库、区级科创组织与涉外法务/产业顾问连成可落地的出海对接场。</li>
+        <li>从熟悉的园区、资管、企业服务场景入手，联合技术团队做客户项目。</li>
+        <li>已有：主办方代表 + 圆桌主持、建筑 AI 论文、交大数字化高研班；待补付费试点。</li>
       </ul>
     </div>
     <div class="card">
-      <h3><span class="dot" style="background:var(--amber)"></span>招商与政府资源落地</h3>
+      <div class="k">中期延伸</div>
+      <h3>企业出海 / 海外园区</h3>
       <ul>
-        <li>14 年投资拓展：勾地、轻资产输出、代建、收并购、法拍与不良资产。</li>
-        <li>临沂吾悦对接市级重点招商政策；万科阶段落地靖江印象城、海宁、镇江大港、金坛及冷链园。</li>
-        <li>深耕江浙沪、皖鲁闽政府与国企关系，能独立完成可研与落地协同。</li>
-        <li>现职连接科企联、高校智库、工商联房地产商会，形成「政策—空间—企业—资本」闭环。</li>
+        <li>负责国内客户开发、需求梳理和项目组织，与当地专业机构共同交付。</li>
+        <li>已有：海外不动产主题主持、北欧会客厅发起与交流；待补出海成交项目。</li>
       </ul>
+    </div>
+  </div>
+
+  <h2>三个代表案例（职责 · 动作 · 结果）</h2>
+  <div class="cases">
+    <div class="case a">
+      <h3>1. 投资拓展落地　<span>万科靖江印象城 · 2017.10 · 证明项目判断与合作落地</span></h3>
+      <p>职责：江浙事业部投资副总经理。动作：重资产勾地，并引入印力轻资产委管。结果：约 15 亿获取 556 亩及约 7 万方自持购物中心，苏中县市首家印象城。说明：这是拿地与综合体拓展能力，不等于后续招商去化或入驻经营数据。</p>
+    </div>
+    <div class="case b">
+      <h3>2. 近期产业合作　<span>北欧创新国际会客厅 · 2026.03 · 证明跨机构协调与载体导入</span></h3>
+      <p>职责：杨浦科企联执行会长；复旦住房政策研究中心为共同发起方。动作：与宝龙商办、复旦国家大学科技园、峰唯峰等共同发起，参与揭牌及中欧创新、企业国际化交流。结果：会客厅落户杨浦宝龙旭辉广场环创中心，定位技术转移、产业交流与联合孵化（杨浦区政府官网）。说明：证明载体落地，公开报道未披露入驻企业数或收费。</p>
+    </div>
+    <div class="case c">
+      <h3>3. AI 新业务能力　<span>人工智能商业化峰会 · 2026.05 · 证明行业合作组织能力</span></h3>
+      <p>职责：主办方代表，主持「从算力引擎到新质资产（AI 全产业链商业化实战）」圆桌。动作：对接腾讯云、火山引擎、达观数据等嘉宾，提出将峰会升级为陪伴科创企业的超级孵化器。结果：约 600 人，央广网、杨浦区政府、上观新闻报道。说明：这是 AI 合作与商业化组织能力，尚不是付费客户项目。</p>
     </div>
   </div>
 
@@ -145,13 +175,16 @@ table.proj td:nth-child(2) { width: 24%; color: var(--amber); }
       <div><span class="co">复旦大学住房政策研究中心</span>　<span class="title">秘书长 / 副教授级高级工程师</span></div>
       <div class="date">2021.06 – 至今</div>
     </div>
-    <p class="desc">兼杨浦区科技企业联合会执行会长、复旦 MBA 不动产资产管理协会秘书长（创始理事长）。牵头住房保障、租赁、城市更新课题，组织高峰论坛、闭门研讨与战略合作。</p>
+    <p class="desc">兼杨浦区科技企业联合会执行会长。住房保障、租赁、城市更新课题 + 高峰论坛、闭门研讨与战略合作。2021 年后公开成果以平台搭建和活动组织为主，营收/客户价值数字待补。</p>
     <ul>
-      <li><b>AI：</b>2026.05 主办方代表，人工智能商业化落地与硬核投资破局峰会（北外滩，600+ 嘉宾）；主持「从算力引擎到新质资产（AI 全产业链商业化实战）」圆桌。</li>
-      <li><b>出海：</b>2026.03「北欧创新国际会客厅」揭牌（科企联、复旦住房政策研究中心等共同发起）；2024.06 主持中国投资者海外不动产战略布局主题活动。</li>
-      <li><b>招商/平台：</b>2025.05 联合主办全球新经济增长引擎峰会并参加房地产×资本×产业圆桌；出席工商联房地产商会资管分会成立大会并参与战略合作。</li>
+      <li>产业合作：2026.03 北欧创新国际会客厅共同发起并落户杨浦园区；2025.05 代表中心出席工商联房地产商会资管分会成立大会，并与平安银行上海分行等启动战略合作（中心为合作方，本人登台；商会现任秘书长公开为李祥）。</li>
+      <li>AI 能力：2026.05 人工智能商业化落地与硬核投资破局峰会主办方代表并主持圆桌；2025.05 中心联合主办全球新经济增长引擎峰会，本人参加房地产×资本×产业圆桌。</li>
+      <li>出海铺垫：2024.06 主持「他山之石——中国投资者的海外不动产战略布局」（锦天城 × 中心 × 复旦 MBA 不动产资管协会）。</li>
     </ul>
   </div>
+</div>
+
+<div class="sheet">
   <div class="job">
     <div class="job-h">
       <div><span class="co">万科企业集团 上海区域</span>　<span class="title">江浙事业部 投资副总经理</span></div>
@@ -159,23 +192,18 @@ table.proj td:nth-child(2) { width: 24%; color: var(--amber); }
     </div>
     <p class="desc">汇报投资合作开发部总经理，团队 8 人。深耕江浙未进入城市，负责策略勾地、收并购、债务重组与不良资产处置。</p>
     <ul>
-      <li>靖江印象城（2017.10）：重资产勾地 + 印力轻资产委管，约 15 亿获取 556 亩及约 7 万方自持购物中心，苏中县市首家印象城。</li>
-      <li>政府/国企合作：嘉兴海宁商住代建（18.53 亿 / 约 23 万㎡）；镇江大港与大港集团各半合作；常州金坛理想城约 28.05 亿、561 亩底价获取。</li>
-      <li>特资与产业：上海龙湖滟澜山法拍收并购（IRR 约 16.16%）；万纬嘉兴平湖、上海南桥冷链园政府勾地与收购改造。</li>
+      <li>靖江印象城：勾地 + 印力委管，约 15 亿 / 556 亩 / 7 万方购物中心。</li>
+      <li>政府/国企合作：海宁代建 18.53 亿、约 23 万㎡；镇江大港与大港集团各半合作；金坛理想城约 28.05 亿、561 亩底价获取。</li>
+      <li>特资与产业载体：滟澜山法拍 IRR 约 16.16%；万纬平湖 / 南桥冷链园政府勾地与收购改造。</li>
     </ul>
   </div>
-</div>
-
-<div class="sheet">
-  <h2>工作经历（续）</h2>
   <div class="job">
     <div class="job-h">
       <div><span class="co">新城控股集团</span>　<span class="title">战略投资中心 投资拓展资深专业经理</span></div>
       <div class="date">2015.11 – 2017.02</div>
     </div>
     <ul>
-      <li>临沂吾悦广场：对接市级重点招商引资政策，推动商业综合体落地；青岛吾悦轻资产品牌输出 + 委管（约 13.68 万㎡）。</li>
-      <li>维护华东及多区域政府关系，支持全国化拓展中的信息研判、谈判与落地协同。</li>
+      <li>临沂吾悦：对接市级重点招商引资政策，推动商业综合体落地；青岛吾悦轻资产输出 + 委管，约 13.68 万㎡。</li>
     </ul>
   </div>
   <div class="job">
@@ -184,32 +212,31 @@ table.proj td:nth-child(2) { width: 24%; color: var(--amber); }
       <div class="date">2011.06 – 2015.10</div>
     </div>
     <ul>
-      <li>如皋世纪城等勾地综合体、苏州中南锦苑、江阴白鹭湾（与碧桂园合作）等拓展；主导多宗公开竞拍。</li>
-      <li>推进美国养老、日本永旺、平安不动产等合作对接；2014 年底晋升并派驻四川任西南拓展负责人。</li>
+      <li>如皋、苏州、江阴等勾地与合作开发；推进美国养老、日本永旺等国际合作对接（推进中，非已签约）。</li>
     </ul>
   </div>
 
-  <h2>代表项目（招商 / 产业落地）</h2>
+  <h2>投资拓展项目（拿地 / 合作落地，不等于企业招商入驻）</h2>
+  <p class="cap">下列金额与面积来自原简历项目记录，证明投资判断与政府/国企协同；引进企业、签约入驻、收入贡献需另补经营台账。</p>
   <table class="proj">
     <tr><th>项目</th><th>模式</th><th>要点</th></tr>
-    <tr><td>万科靖江印象城</td><td>勾地 + 轻资产委管</td><td>约 15 亿获取 556 亩及约 7 万方自持购物中心，苏中县市首家印象城</td></tr>
-    <tr><td>嘉兴海宁商住</td><td>政府代建拓展</td><td>18.53 亿两宗商住地，建面约 23 万㎡，配建安置房</td></tr>
-    <tr><td>镇江大港金域蓝湾</td><td>收并购 + 国企合作</td><td>199 亩 / 约 32 万方，与镇江大港集团各半合作</td></tr>
+    <tr><td>万科靖江印象城</td><td>勾地 + 轻资产委管</td><td>约 15 亿获取 556 亩及约 7 万方自持购物中心</td></tr>
+    <tr><td>嘉兴海宁商住</td><td>政府代建拓展</td><td>18.53 亿两宗商住地，建面约 23 万㎡</td></tr>
+    <tr><td>镇江大港金域蓝湾</td><td>收并购 + 国企合作</td><td>199 亩 / 约 32 万方，与大港集团各半</td></tr>
     <tr><td>常州金坛理想城</td><td>收并购 + 债务重组</td><td>约 28.05 亿、561 亩，底价获取</td></tr>
-    <tr><td>上海龙湖滟澜山</td><td>法拍不良资产</td><td>金融测算 IRR 约 16.16%，特资「募投管退」样本</td></tr>
-    <tr><td>万纬平湖 / 南桥冷链</td><td>产业勾地 / 收购改造</td><td>嘉兴首个高标准自动化冷链园；南桥智能化园区</td></tr>
-    <tr><td>临沂吾悦广场</td><td>市级重点招商</td><td>对接市重点招商政策，推动商业综合体落地</td></tr>
-    <tr><td>青岛吾悦广场</td><td>轻资产品牌输出</td><td>品牌输出 + 委管，约 13.68 万㎡</td></tr>
+    <tr><td>上海龙湖滟澜山</td><td>法拍不良资产</td><td>IRR 约 16.16%</td></tr>
+    <tr><td>万纬平湖 / 南桥冷链</td><td>产业勾地 / 收购改造</td><td>高标准冷链园与智能化园区</td></tr>
+    <tr><td>临沂吾悦广场</td><td>市级政策协同拿地</td><td>对接市重点招商政策，推动综合体落地</td></tr>
   </table>
 
-  <h2>教育、资质与社会职务</h2>
+  <h2>教育、资质与核验后的社会职务</h2>
   <div class="grid2">
     <div class="box">
       <h3>教育与培训</h3>
       <ul>
         <li>2018.09–2021.06　复旦大学　工商管理硕士（财务金融）</li>
         <li>2007.09–2011.07　中国海洋大学　土木工程　工学学士</li>
-        <li>交大城市治理数字化转型高研班；复旦·怡安人力与风险管理；复旦·花旗银行实践</li>
+        <li>交大城市治理数字化转型高研班；复旦·怡安 / 花旗研修</li>
       </ul>
     </div>
     <div class="box">
@@ -224,19 +251,20 @@ table.proj td:nth-child(2) { width: 24%; color: var(--amber); }
       <ul>
         <li>《万科物流地产平台业务发展战略研究》（知网）</li>
         <li>《房屋建筑工程人工智能技术的应用》（《住宅与房地产》）</li>
-        <li>实用新型专利 2 项：建筑工程管理用功能脚架、防护围栏</li>
+        <li>实用新型专利 2 项：功能脚架、防护围栏</li>
       </ul>
     </div>
     <div class="box">
-      <h3>社会职务与专家</h3>
+      <h3>已核验 / 待核验职务</h3>
       <ul>
-        <li>杨浦科企联执行会长；工商联房地产商会秘书长</li>
-        <li>复旦管院不动产资管协会创始理事长；上海山东省商会理事</li>
-        <li>城市更新 / 碳中和 / 虹口科企评审专家；复旦联考面试官</li>
+        <li>已核验：住房政策研究中心秘书长；杨浦科企联执行会长</li>
+        <li>2024.06 报道曾写「复旦 MBA 不动产资管协会秘书长」；院友会现公布秘书长为武金城，现任请核对</li>
+        <li>工商联房地产商会：出席并代表中心参与战略合作，公开秘书长为李祥，不写入现任</li>
+        <li>简历自述待核：城市更新 / 碳中和 / 虹口科企评审专家；复旦联考面试官；山东商会理事</li>
       </ul>
     </div>
   </div>
-  <p class="note">公开活动职务与角色可对照央广网、人民网、上观新闻、杨浦区政府官网、锦天城官网等报道核验。原 Boss 直聘稿中的身份证号、家庭住址、配偶信息已从对外简历中移除。</p>
+  <p class="note">公开活动可对照央广网、人民网、上观新闻、杨浦区政府官网、锦天城官网、上海市工商联官网、复旦管院校友网页核验。原稿身份证、住址、配偶信息未写入。2021 年后若补上团队规模、付费试点、入驻签约，可将案例 2、3 从活动表达改成经营成果表达。</p>
 </div>
 </body>
 </html>
