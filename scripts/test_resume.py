@@ -19,6 +19,9 @@ KEYWORDS = [
     "科技招商",
     "产业发展",
     "新质产业空间",
+    "存量商业空间",
+    "人工智能商业化",
+    "项目底盘",
     "国资合作",
     "主办方代表发言",
     "北欧创新国际会客厅",
@@ -91,6 +94,10 @@ def test_html_keywords():
     assert "科技招商" in zh
     assert "产业发展" in zh
     assert "新质产业空间" in zh
+    assert "存量商业空间" in zh
+    assert "人工智能商业化" in zh
+    assert "不是付费落地" in zh
+    assert "项目底盘" in zh
     assert "竺劲" in zh
     assert "不是雇主" in zh
     assert "Hu Jigang" in html
@@ -103,8 +110,10 @@ def test_html_keywords():
     assert "AI专家" not in zh
     assert "服务100家" not in zh
     assert zh.find("科技招商") < zh.find("如何落地城市")
+    assert zh.find("全球新经济增长引擎峰会") < zh.find("人工智能商业化")
     notes = html[html.find('id="pack-notes"'):]
     assert "李祥" in notes
+    assert "第六版" in notes
 
 
 def test_pdf_pages():
@@ -128,11 +137,15 @@ def test_pdf_pages():
     assert "复旦大学住房政策研究中心" in page1
     assert "主办方代表发言" in page1
     assert "北欧创新国际会客厅" in page1
+    assert "人工智能商业化" in page1
+    assert "存量商业空间" in page1
+    assert page1.find("全球新经济增长引擎峰会") < page1.find("人工智能商业化")
     assert "新城控股" in page2
     assert "中南" in page2
     assert "江阴白鹭湾" in page2
     assert "代表项目" in page2
     assert "在职攻读" in page2
+    assert "项目底盘" in page2
     assert page1.find("镇江") < page1.find("靖江印象城")
     for bad in FORBIDDEN_PRINT:
         assert bad not in full_text, f"PDF 中不应出现：{bad}"
