@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""校验简历交付物：文件存在、关键表述齐全、PDF 页数与分页正确。"""
+"""校验国资投递稿：印刷面无待核字样，点名事实写死，页数为 A4 两页。"""
 
 from __future__ import annotations
 
@@ -16,21 +16,34 @@ KEYWORDS = [
     "投资副总经理",
     "在职攻读",
     "城市更新",
-    "租赁",
+    "存量收并购",
+    "国资合作",
+    "主办方代表发言",
+    "北欧创新国际会客厅",
     "靖江印象城",
     "金坛理想城",
     "新城控股",
     "中南",
+    "江阴白鹭湾",
     "2011–2021",
 ]
 
-FORBIDDEN = [
+FORBIDDEN_PRINT = [
     "复合型专家",
     "业绩卓著",
     "三个代表案例",
     "220283",
     "爱国路",
     "马喜艳",
+    "待核",
+    "待补",
+    "原稿口径",
+    "原稿未列总价",
+    "告诉我即可",
+    "李祥",
+    "登台战略合作",
+    "山东商会",
+    "面试官",
 ]
 
 
@@ -53,9 +66,9 @@ def test_docx_is_valid():
     with zipfile.ZipFile(path) as zf:
         assert "word/document.xml" in zf.namelist()
         xml = zf.read("word/document.xml").decode("utf-8")
-    for key in ("胡继刚", "在职攻读", "城市更新", "靖江印象城"):
+    for key in ("胡继刚", "在职攻读", "城市更新", "主办方代表发言", "北欧创新国际会客厅"):
         assert key in xml, f"Word 中缺少：{key}"
-    for bad in ("复合型专家", "业绩卓著", "马喜艳"):
+    for bad in FORBIDDEN_PRINT:
         assert bad not in xml, f"Word 中不应出现：{bad}"
 
 
@@ -71,15 +84,21 @@ def test_html_keywords():
     zh = _zh_pack(html)
     for key in KEYWORDS:
         assert key in zh, f"中文稿缺少：{key}"
-    for bad in FORBIDDEN:
+    for bad in FORBIDDEN_PRINT:
         assert bad not in zh, f"中文稿不应出现：{bad}"
-    assert "不写入现任" in zh
-    assert "李祥" in zh
+    assert "国资平台" in zh
+    assert "竺劲" in zh
+    assert "不是雇主" in zh
     assert "Hu Jigang" in html
     assert "导出 PDF" in html
     assert "优化说明" in html
     assert "秘书长 / 副教授级高级工程师" not in zh
-    assert "副教授级高级工程师为职称" in zh
+    assert html.find("现任复旦大学住房政策研究中心秘书长") != -1
+    assert "参加" not in zh
+    assert "登台战略合作" not in zh
+    assert zh.find("国资平台") < zh.find("租赁住房")
+    notes = html[html.find('id="pack-notes"'):]
+    assert "李祥" in notes
 
 
 def test_pdf_pages():
@@ -99,20 +118,24 @@ def test_pdf_pages():
     full_text = page1 + page2
     for key in KEYWORDS:
         assert key in full_text, f"PDF 中缺少：{key}"
-    assert "万科" in page1, "第一页应有万科证明"
-    assert "复旦大学住房政策研究中心" in page1, "第一页应有现任复旦职务"
-    assert "新城控股" in page2, "第二页应有新城"
-    assert "中南" in page2, "第二页应有中南"
-    assert "代表项目" in page2, "第二页应有项目表"
-    assert "在职攻读" in page2, "第二页应标明 MBA 在职攻读"
-    assert "不写入现任" in full_text
-    assert "李祥" in full_text
-    for bad in FORBIDDEN:
+    assert "万科" in page1
+    assert "复旦大学住房政策研究中心" in page1
+    assert "主办方代表发言" in page1
+    assert "北欧创新国际会客厅" in page1
+    assert "新城控股" in page2
+    assert "中南" in page2
+    assert "江阴白鹭湾" in page2
+    assert "代表项目" in page2
+    assert "在职攻读" in page2
+    assert page1.find("镇江") < page1.find("靖江印象城")
+    for bad in FORBIDDEN_PRINT:
         assert bad not in full_text, f"PDF 中不应出现：{bad}"
-    brief_text = brief[0].get_text()
+    brief_text = brief[0].get_text().replace("\n", "")
     assert "胡继刚" in brief_text
+    assert "主办方代表发言" in brief_text
     assert "在职攻读" in brief_text
-    assert "李祥" in brief_text
+    for bad in FORBIDDEN_PRINT:
+        assert bad not in brief_text, f"精华版不应出现：{bad}"
 
 
 def main():
