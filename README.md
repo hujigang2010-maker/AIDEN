@@ -1,9 +1,23 @@
-# AIDEN
+# 胡继刚履历
 
-AIDEN 是一个多任务工作区。`main` 分支存放共享配置；具体应用和文档交付物位于各自的 `cursor/*` 功能分支。
+两页 A4 专家履历（Word + PDF），面向产业招商 / 城市更新 / 存量空间 / 国资平台。
 
-## 显示语言
+## 生成
 
-本仓库默认使用**简体中文**。首次打开项目时，请安装推荐的中文语言包，并在命令面板中选择 **Configure Display Language → 中文(简体)**，然后重启 Cursor。
+```bash
+python3 scripts/generate_resume.py
+```
 
-更多说明见 [AGENTS.md](./AGENTS.md)。
+产出：
+
+- `output/胡继刚-简历.docx`
+- `output/胡继刚-简历.pdf`
+- `output/胡继刚-简历.html`（浏览器预览，可再导出 PDF）
+
+校验：
+
+```bash
+python3 scripts/test_resume.py
+```
+
+需要 `python-docx`、`pymupdf`，以及本机 `google-chrome`（用于 HTML 转 PDF）。中文字体为 Noto Serif SC / Noto Sans SC，位于 `scripts/fonts/`。
