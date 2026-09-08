@@ -1,0 +1,6 @@
+scripts/fonts/*.ttf
+scripts/fonts/*.otf
+output/fonts/
+scripts/__pycache__/
+__pycache__/
+

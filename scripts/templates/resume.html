@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>胡继刚 · 履历</title>
+<style>
+@font-face {
+  font-family: "Noto Serif SC";
+  src: url("./fonts/NotoSerifSC.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Noto Sans SC";
+  src: url("./fonts/NotoSansSC.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+:root {
+  --ink: #0B1F3A;
+  --ink-2: #163154;
+  --gold: #C5A572;
+  --gold-deep: #9A7B4F;
+  --text: #243040;
+  --muted: #5E6A78;
+  --line: #E6DCCB;
+  --soft: #F7F3EB;
+  --paper: #F3EEE4;
+  --white: #FFFEFB;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--paper);
+  color: var(--text);
+  font-family: "Noto Sans SC", "WenQuanYi Micro Hei", "Microsoft YaHei", sans-serif;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.toolbar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  padding: 10px 16px;
+  background: var(--ink);
+  color: #fff;
+}
+.toolbar b { letter-spacing: .6px; }
+.toolbar .hint { font-size: 12px; color: #D9C7A3; flex: 1; min-width: 220px; }
+.btn {
+  border: 1px solid rgba(197,165,114,.55);
+  background: transparent;
+  color: #fff;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+}
+.btn:hover { background: var(--gold); color: var(--ink); font-weight: 700; }
+.preview { padding: 22px 12px 48px; }
+.sheet {
+  width: 210mm;
+  height: 297mm;
+  margin: 0 auto 22px;
+  background: var(--white);
+  overflow: hidden;
+  box-shadow: 0 14px 40px rgba(11,31,58,.16);
+  page-break-after: always;
+  display: flex;
+  flex-direction: column;
+}
+.sheet:last-child { page-break-after: auto; margin-bottom: 0; }
+.mast {
+  background: linear-gradient(180deg, #0B1F3A 0%, #122848 100%);
+  color: #fff;
+  padding: 13px 16px 12px;
+  position: relative;
+}
+.mast::after {
+  content: "";
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, #E8D5A3, #C5A572 40%, #9A7B4F);
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+}
+.mast-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: start;
+}
+.name {
+  font-family: "Noto Serif SC", "Noto Sans SC", serif;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  line-height: 1.05;
+}
+.en {
+  font-size: 11.5px;
+  letter-spacing: 3.2px;
+  color: var(--gold);
+  margin-top: 3px;
+  font-weight: 500;
+}
+.role {
+  margin-top: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: .4px;
+  color: #F3E6C8;
+}
+.creds {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #D5DEE8;
+}
+.now {
+  margin-top: 3px;
+  font-size: 11px;
+  color: #C5D0DC;
+}
+.meta {
+  margin-top: 3px;
+  font-size: 10.5px;
+  color: #A9B6C4;
+}
+.aim {
+  margin-top: 6px;
+  display: inline-block;
+  font-size: 10.5px;
+  color: var(--ink);
+  background: var(--gold);
+  padding: 2px 8px 2px 7px;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+.contact {
+  text-align: right;
+  font-size: 11px;
+  line-height: 1.7;
+  color: #D9E2EC;
+  padding-top: 4px;
+}
+.contact span {
+  display: block;
+  color: #A9B6C4;
+  font-size: 9.5px;
+  letter-spacing: 1.2px;
+  margin-bottom: 2px;
+}
+.mast-slim {
+  padding: 8px 16px 8px;
+}
+.mast-slim .name {
+  font-size: 18px;
+  letter-spacing: 3px;
+}
+.mast-slim .en {
+  margin-top: 1px;
+  font-size: 10.5px;
+  letter-spacing: 1.6px;
+}
+.mast-slim .contact {
+  padding-top: 2px;
+  line-height: 1.45;
+}
+.body {
+  padding: 9px 15px 8px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.stat {
+  background: var(--soft);
+  border-top: 3px solid var(--gold);
+  padding: 7px 8px 6px;
+}
+.stat b {
+  display: block;
+  font-family: "Noto Serif SC", serif;
+  font-size: 16px;
+  color: var(--ink);
+  line-height: 1.15;
+  font-weight: 700;
+}
+.stat i {
+  display: block;
+  font-style: normal;
+  font-size: 10px;
+  color: var(--gold-deep);
+  font-weight: 700;
+  margin-top: 1px;
+}
+.stat span { font-size: 10px; color: var(--muted); }
+.lead {
+  font-size: 10.6px;
+  line-height: 1.62;
+  text-align: justify;
+  color: var(--text);
+  margin: 0 0 4px;
+}
+h2 {
+  font-size: 12.5px;
+  color: var(--ink);
+  letter-spacing: 1.4px;
+  margin: 8px 0 5px;
+  padding: 0 0 3px 9px;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  font-weight: 700;
+}
+h2::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 2px;
+  width: 3px; height: 12px;
+  background: var(--gold);
+}
+.job { margin-bottom: 6px; }
+.job-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.co { font-size: 12.5px; font-weight: 700; color: var(--ink); }
+.title { font-size: 11px; color: var(--muted); font-weight: 500; }
+.date { font-size: 11px; color: var(--gold-deep); font-weight: 700; white-space: nowrap; }
+.place { font-size: 10.5px; color: var(--muted); margin: 1px 0 3px; }
+.note {
+  font-size: 10px;
+  color: var(--gold-deep);
+  margin: 0 0 3px;
+}
+ul { margin: 0; padding: 0; }
+li {
+  font-size: 10.5px;
+  line-height: 1.5;
+  margin: 0 0 2px 0;
+  padding-left: 12px;
+  list-style: none;
+  position: relative;
+  text-align: justify;
+}
+li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 7px;
+  width: 5px; height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+}
+.fine {
+  font-size: 9.5px;
+  color: var(--muted);
+  margin: 3px 0 0;
+  line-height: 1.4;
+}
+.social {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.cell {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  padding: 7px 9px 6px;
+  border-left: 3px solid var(--gold);
+}
+.cell b { display: block; font-size: 12px; color: var(--ink); }
+.cell span { font-size: 10.5px; color: var(--muted); }
+table.proj {
+  width: 100%;
+  border-collapse: collapse;
+}
+table.proj th, table.proj td {
+  padding: 4.5px 7px;
+  font-size: 10.2px;
+  line-height: 1.42;
+  vertical-align: top;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+table.proj th {
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: .4px;
+  font-size: 10px;
+}
+table.proj td:first-child { color: var(--ink); font-weight: 700; white-space: nowrap; }
+table.proj tr:nth-child(even) td { background: var(--soft); }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.box {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  padding: 7px 9px 6px;
+}
+.box h3 { font-size: 11.5px; color: var(--ink); margin-bottom: 3px; }
+.box li { font-size: 10.2px; }
+.tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 2px; }
+.tag {
+  font-size: 10px;
+  color: var(--ink);
+  background: var(--soft);
+  border: 1px solid var(--line);
+  padding: 2px 8px;
+  letter-spacing: .2px;
+}
+.foot {
+  margin-top: auto;
+  padding: 7px 15px 9px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: #8A8070;
+  letter-spacing: .6px;
+  border-top: 1px solid var(--line);
+}
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+@media print {
+  html, body { background: #fff; margin: 0; padding: 0; }
+  .toolbar { display: none !important; }
+  .preview { padding: 0; }
+  .sheet {
+    box-shadow: none;
+    margin: 0;
+    page-break-after: always;
+    break-after: page;
+  }
+  .sheet:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <b>胡继刚 · 履历</b>
+  <button class="btn" type="button" onclick="window.print()">导出 PDF</button>
+  <span class="hint">打印框选择「另存为 PDF」，纸张 A4，边距无。两页专家履历 · 产业招商 / 城市更新 / 国资平台</span>
+</div>
+<div class="preview">
+
+<!-- 第 1 页 -->
+<div class="sheet">
+  <div class="mast">
+    <div class="mast-row">
+      <div>
+        <div class="name">胡继刚</div>
+        <div class="en">HU JIGANG</div>
+        <div class="role">产业招商 · 城市更新 · 智能制造</div>
+        <div class="creds">副教授级高级工程师 · 复旦大学硕士研究生</div>
+        <div class="now">现任复旦大学住房政策研究中心秘书长</div>
+        <div class="meta">1987 年生 · 九三学社 · 上海 · IELTS 6.0</div>
+        <div class="aim">求职方向　产业招商 / 城市更新 / 存量空间 / 国资平台　·　上海</div>
+      </div>
+      <div class="contact">
+        <span>CONTACT</span>
+        18678408669<br/>
+        262782809@qq.com<br/>
+        微信 hu262782809
+      </div>
+    </div>
+  </div>
+  <div class="body">
+    <div class="stats">
+      <div class="stat"><span>2026 已签约产业合作</span><b>4 项</b><i>定位招商 · 委托协同</i></div>
+      <div class="stat"><span>一线投拓 2011–2021</span><b>10 年</b><i>中南 · 新城 · 万科</i></div>
+      <div class="stat"><span>靖江 + 金坛</span><b>43 亿</b><i>勾地 / 收并购代表作</i></div>
+      <div class="stat"><span>华为汽车两园区</span><b>3.5 万㎡</b><i>辅助全流程落地</i></div>
+    </div>
+    <p class="lead">2011–2021 年一线投拓，历任中南、新城、万科至上海区域投资副总经理。2021 年起任复旦大学住房政策研究中心秘书长，兼杨浦区科技企业联合会执行会长。2026 年已签约创智汇、东方枢纽、华为汽车两园区、森马产业园等产业合作，覆盖定位招商、联动对接与全流程落地辅助。一线投资只计至 2021 年。能够连接政府、高校、企业与空间载体，推动城市更新、产业导入和存量盘活。</p>
+
+    <h2>现任</h2>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">复旦大学住房政策研究中心</span>　<span class="title">秘书长 · 上海</span></div>
+        <div class="date">2021.06 – 至今</div>
+      </div>
+      <p class="note">副教授级高级工程师为职称，不是本职务行政级别。</p>
+      <ul>
+        <li>牵头住房保障、租赁与城市更新课题及产学研合作；兼杨浦区科技企业联合会执行会长。2026 年已签约四项产业合作，见下表。</li>
+        <li>2025.05「全球新经济增长引擎峰会」人民网、中新社报道：以秘书长身份作为主办方代表发言，并做房地产圆桌。</li>
+        <li>2026.03 北欧创新国际会客厅落户杨浦；区政府官网点名执行会长。宝龙商办为共同发起单位，不是任职。</li>
+      </ul>
+    </div>
+
+    <h2>2026 已签约产业合作</h2>
+    <table class="proj">
+      <tr><th>项目</th><th>规模</th><th>职责</th></tr>
+      <tr><td>创智汇</td><td>约 6600 ㎡</td><td>负责人工智能与 IP 定位招商，辅助向智能制造、出海及人工智能转型</td></tr>
+      <tr><td>东方枢纽</td><td>约 143 万㎡</td><td>推动与产业方对接，促成联动招商</td></tr>
+      <tr><td>华为汽车园区</td><td>静安 1.5 万㎡ + 浦东 2 万㎡</td><td>辅助拿地、规划国土、定位至招商落地全流程</td></tr>
+      <tr><td>闵行森马产业园</td><td>约 2 万㎡</td><td>工业空间定位与招商方案拟定</td></tr>
+    </table>
+    <p class="fine">均为已签约合作，职责按合同。表内不列引进企业名单。</p>
+
+    <h2>社会职务</h2>
+    <div class="social">
+      <div class="cell"><b>上海市杨浦区科技企业联合会</b><span>执行会长（区政府官网）</span></div>
+      <div class="cell"><b>复旦大学不动产资产管理协会</b><span>创始人</span></div>
+      <div class="cell"><b>上海山东省商会</b><span>理事</span></div>
+      <div class="cell"><b>复旦研究生管理联考</b><span>面试官</span></div>
+    </div>
+
+    <h2>专业经历</h2>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">万科企业股份有限公司 · 上海区域江浙事业部</span>　<span class="title">投资副总经理</span></div>
+        <div class="date">2017.03 – 2021.06</div>
+      </div>
+      <div class="place">上海 · 汇报投资合作开发部总经理 · 团队 8 人</div>
+      <ul>
+        <li>深耕江浙未进入城市，负责策略勾地、收并购、债务重组与不良资产处置。</li>
+        <li>政府 / 国企合作：海宁代建 18.53 亿、约 23 万㎡；镇江大港与大港集团各半，约 199 亩 / 32 万方。</li>
+        <li>存量与轻资产：龙湖滟澜山法拍，测算 IRR 约 16.16%；靖江印象城勾地 + 印力委管，约 15 亿 / 556 亩 / 7 万方购物中心。</li>
+        <li>产业载体：主导获取并落地万纬平湖、奉贤南桥冷链园；金坛理想城约 28.05 亿 / 561 亩底价获取。</li>
+        <li>以收并购、策略勾地、不良处置等方式新增 4 宗土地，进入盐城、台州、常州金坛。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>产业招商 · 城市更新 · 智能制造</span><span>胡继刚 · 01 / 02</span></div>
+</div>
+
+<!-- 第 2 页 -->
+<div class="sheet">
+  <div class="mast mast-slim">
+    <div class="mast-row">
+      <div>
+        <div class="name">胡继刚</div>
+        <div class="en">HU JIGANG　·　专业经历续　·　代表项目　·　教育与资质</div>
+      </div>
+      <div class="contact">18678408669<br/>262782809@qq.com</div>
+    </div>
+  </div>
+  <div class="body">
+    <h2>专业经历（续）</h2>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">新城控股集团股份有限公司 · 总部战略投资中心</span>　<span class="title">资深专业经理 · 上海</span></div>
+        <div class="date">2015.11 – 2017.02</div>
+      </div>
+      <ul>
+        <li>负责山东、江苏等区域战略布局与土地获取。</li>
+        <li>临沂吾悦：对接市级重点招商引资政策，推动商业综合体落地，系集团首进山东的重资产项目。</li>
+        <li>青岛吾悦：轻资产品牌输出 + 委管，约 13.68 万㎡。</li>
+      </ul>
+    </div>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">中南建设集团股份有限公司 · 总部新项目发展中心</span>　<span class="title">投资拓展高级经理 · 上海 / 南通</span></div>
+        <div class="date">2011.06 – 2015.10</div>
+      </div>
+      <div class="place">2011.06–2012.10 总裁办战略企划；其后新项目发展中心。从集团战略到项目投资的完整历练。</div>
+      <ul>
+        <li>获取如皋中南世纪城、苏州中南锦苑；江阴白鹭湾与碧桂园同股同权合作。</li>
+        <li>推进美国养老、日本永旺等国际合作对接（推进中，非已签约）。2014 年底派驻四川任西南拓展负责人。</li>
+      </ul>
+    </div>
+
+    <h2>社会职务（工作要点）</h2>
+    <ul>
+      <li>杨浦科企联：主持日常运作，策划科创项目评审、投融资对接与政策宣讲。2026.03 区政府官网点名执行会长，参与北欧创新国际会客厅落户杨浦宝龙旭辉广场环创中心。</li>
+      <li>复旦不动产资管协会：2018 年起创立面向校友的资管交流平台，组织行业分享、项目考察与资源对接。</li>
+    </ul>
+
+    <h2>代表项目</h2>
+    <p class="fine" style="margin:0 0 4px;">金额与面积证明投资判断与政府 / 国企协同；引进企业、签约入驻需另补经营台账。</p>
+    <table class="proj">
+      <tr><th>项目</th><th>角色</th><th>规模</th><th>方式</th></tr>
+      <tr><td>靖江印象城</td><td>主导获取</td><td>15 亿 / 556 亩</td><td>勾地 + 轻资产委管</td></tr>
+      <tr><td>嘉兴海宁商住</td><td>主导拓展</td><td>18.53 亿 / 23 万㎡</td><td>政府代建</td></tr>
+      <tr><td>金坛理想城</td><td>主导获取</td><td>28.05 亿 / 561 亩</td><td>收并购 + 债务重组</td></tr>
+      <tr><td>镇江大港金域蓝湾</td><td>主导</td><td>199 亩 / 32 万方</td><td>收并购 + 国企各半</td></tr>
+      <tr><td>龙湖滟澜山</td><td>主导</td><td>IRR ≈ 16.16%</td><td>法拍不良资产</td></tr>
+      <tr><td>南桥 / 平湖冷链园</td><td>主导落地</td><td>—</td><td>产业勾地 / 收购改造</td></tr>
+      <tr><td>临沂吾悦广场</td><td>主导勾地</td><td>—</td><td>市级招商政策协同</td></tr>
+      <tr><td>青岛吾悦广场</td><td>获取</td><td>13.68 万㎡</td><td>轻资产输出 + 委管</td></tr>
+    </table>
+
+    <h2>教育背景</h2>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">复旦大学</span>　<span class="title">工商管理硕士 · 财务金融方向</span></div>
+        <div class="date">2018.09 – 2021.06</div>
+      </div>
+      <div class="place">在职攻读，与万科上海区域任职并行</div>
+    </div>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">中国海洋大学</span>　<span class="title">土木工程学士</span></div>
+        <div class="date">2007.09 – 2011.07</div>
+      </div>
+    </div>
+
+    <h2>资质与研究</h2>
+    <div class="grid2">
+      <div class="box">
+        <h3>职称与证书</h3>
+        <ul>
+          <li>副教授级高级工程师；会计师中级；PMP；住建委项目管理工程师</li>
+          <li>IELTS 6.0；普通话一级甲等；BIM；上海市人才引进认证资质</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>论文、专利与研修</h3>
+        <ul>
+          <li>《万科物流地产平台业务发展战略研究》（知网）</li>
+          <li>《房屋建筑工程人工智能技术的应用》（《住宅与房地产》）</li>
+          <li>实用新型专利 2 项（功能脚架、防护围栏）；交大城市治理数字化转型高研班</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>专业方向</h2>
+    <div class="tags">
+      <span class="tag">产业招商</span>
+      <span class="tag">定位招商</span>
+      <span class="tag">智能制造</span>
+      <span class="tag">城市更新</span>
+      <span class="tag">存量空间</span>
+      <span class="tag">国资合作</span>
+      <span class="tag">轻资产委管</span>
+      <span class="tag">产业园区</span>
+      <span class="tag">政企协同</span>
+      <span class="tag">企业出海</span>
+      <span class="tag">住房保障</span>
+      <span class="tag">募投管退</span>
+    </div>
+  </div>
+  <div class="foot"><span>产业招商 · 城市更新 · 智能制造</span><span>胡继刚 · 02 / 02</span></div>
+</div>
+
+</div>
+</body>
+</html>
