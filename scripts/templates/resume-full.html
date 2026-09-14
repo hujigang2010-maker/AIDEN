@@ -101,11 +101,24 @@ html, body {
 .who .posts { font-size: 11px; color: var(--muted); margin-top: 2px; }
 .who .line { font-size: 11px; color: var(--muted); margin-top: 2px; }
 .contact { text-align: right; font-size: 11px; color: var(--muted); line-height: 1.55; }
+.intent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin: 7px 0 0;
+  padding: 5px 8px;
+  background: var(--soft);
+  border-left: 3px solid var(--gold);
+  font-size: 10.5px;
+  color: var(--ink);
+}
+.intent b { color: var(--navy); }
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-  margin: 8px 0 6px;
+  margin: 7px 0 5px;
 }
 .stat {
   background: var(--soft);
@@ -129,12 +142,14 @@ html, body {
 .proof b { display: block; font-size: 12px; color: var(--navy); margin: 2px 0 3px; line-height: 1.25; }
 .proof p { font-size: 10.5px; line-height: 1.42; color: var(--ink); text-align: justify; }
 .qual3 { display: grid; grid-template-columns: 1.15fr 1.15fr .9fr; gap: 6px; }
-.lead { font-size: 11px; line-height: 1.55; text-align: justify; color: var(--ink); margin-bottom: 2px; }
+.lead { font-size: 10.5px; line-height: 1.48; text-align: justify; color: var(--ink); margin-bottom: 2px; }
+.caps-line { font-size: 10.5px; line-height: 1.45; color: var(--ink); margin: 4px 0 1px; }
+.caps-line b { color: var(--navy); }
 h2 {
   font-size: 12.5px;
   color: var(--navy);
   letter-spacing: 1px;
-  margin: 8px 0 4px;
+  margin: 7px 0 3px;
   padding-bottom: 2px;
   border-bottom: 2px solid var(--gold);
 }
@@ -232,7 +247,7 @@ table.proj td:nth-child(2) { width: 16%; }
   <button class="tab" data-view="en" type="button">English</button>
   <button class="tab" data-view="notes" type="button">优化说明</button>
   <button class="btn" id="btn-print" type="button">导出 PDF</button>
-  <span class="hint">纸页按 A4 排。点「导出 PDF」后，在打印框里选「另存为 PDF」、纸张 A4。本版含 2026 已签约四宗；无甲方盖章原件勿投出。</span>
+  <span class="hint">纸页按 A4 排。点「导出 PDF」后，在打印框里选「另存为 PDF」、纸张 A4。第八版：两版优胜劣汰。无甲方盖章原件勿投出。</span>
 </div>
 
 <div class="preview">
@@ -247,7 +262,7 @@ table.proj td:nth-child(2) { width: 16%; }
         <div class="focus">产业招商 · 城市更新 · 智能制造</div>
         <div class="creds">副教授级高级工程师｜复旦大学硕士研究生｜原万科上海区域投资副总经理</div>
         <div class="posts">现任复旦大学住房政策研究中心秘书长｜杨浦区科技企业联合会执行会长</div>
-        <div class="line">1987 年生 · 九三学社 · 上海</div>
+        <div class="line">1987 年生 · 九三学社 · 上海 · IELTS 6.0</div>
       </div>
       <div class="contact">
         18678408669<br/>
@@ -255,13 +270,17 @@ table.proj td:nth-child(2) { width: 16%; }
         微信 hu262782809
       </div>
     </div>
+    <div class="intent">
+      <span><b>求职意向</b>　产业招商 / 城市更新 / 智能制造 / 产业空间运营 / 出海对接</span>
+      <span>上海　薪资面议</span>
+    </div>
     <div class="stats">
       <div class="stat"><span>一线投拓</span><b>10 年</b></div>
       <div class="stat"><span>2026 已签约</span><b>四宗产业合作</b></div>
       <div class="stat"><span>靖江 + 金坛</span><b>43 亿</b></div>
-      <div class="stat"><span>现职</span><b>复旦中心秘书长</b></div>
+      <div class="stat"><span>公开活动</span><b>主办 / 主持</b></div>
     </div>
-    <p class="lead">万科上海区域投资副总经理。2011–2021 一线投拓，做成国资合作、政府代建、不良盘活、轻资产委管与物流园，证明能把结构做成。2021 年起任复旦大学住房政策研究中心秘书长。2026 年已签约产业合作按负责 / 推动 / 辅助 / 方案拟定落笔：写委托与协同，不写入驻名单。一线投资计至 2021 年。</p>
+    <p class="lead">土木本科、复旦 MBA。万科上海区域投资副总经理。2011–2021 一线投拓，做成国资合作、政府代建、不良盘活、轻资产委管与物流园，证明能把结构做成。2021 年起任复旦大学住房政策研究中心秘书长，以杨浦科企联执行会长对接企业、招商与出海。2026 年已签约产业合作按负责 / 推动 / 辅助 / 方案拟定落笔：写委托与协同，不写入驻名单。一线投资计至 2021 年。</p>
 
     <h2>2026 已签约产业合作</h2>
     <p class="place" style="margin:0 0 4px;font-size:10.5px;color:var(--muted);">已签约的是定位与招商委托，不是入驻清单。</p>
@@ -272,6 +291,7 @@ table.proj td:nth-child(2) { width: 16%; }
       <tr><td>华为汽车两园区</td><td>辅助</td><td>拿地—规划—定位—招商协同</td><td>静安约 1.5 万㎡、浦东约 2 万㎡</td></tr>
       <tr><td>森马产业园</td><td>方案拟定</td><td>工业空间定位与招商方案</td><td>约 2 万㎡ 签约切片</td></tr>
     </table>
+    <p class="caps-line"><b>能力切片</b>　AI 产业落地（创智汇定位招商 · 2026.05 主持商业化圆桌）｜出海对接（北欧会客厅 · 锦天城海外不动产）｜招商落地（2026 四宗委托 · 万科勾地代建收并购）</p>
 
     <h2>现任</h2>
     <div class="job">
@@ -282,23 +302,15 @@ table.proj td:nth-child(2) { width: 16%; }
       <div class="place">上海 · 中心做研究；科企联做企业、招商、出海与项目</div>
       <ul>
         <li>城市更新、存量资产与新质产业空间：关注产业如何用空间、政策、资本落地城市。产业方向，不是技术研发岗。</li>
-        <li>2026.03 北欧创新国际会客厅共同发起，落户杨浦宝龙旭辉广场环创中心。宝龙商办不是雇主。</li>
-        <li>2025.05 全球新经济增长引擎峰会主办方代表发言，与竺劲、汪毅、王维军圆桌（人民网上海、中新社上海点名）。</li>
+        <li>出海：2026.03 北欧创新国际会客厅共同发起，落户杨浦宝龙旭辉广场环创中心（宝龙商办不是雇主）；2024.06 主持锦天城「他山之石——中国投资者的海外不动产战略布局」。</li>
+        <li>产业活动：2025.05 全球新经济增长引擎峰会主办方代表发言，与竺劲、汪毅、王维军圆桌（人民网上海、中新社上海点名）；2026.05 人工智能商业化落地与硬核投资破局峰会主办方代表并主持圆桌（不是付费落地项目）。</li>
       </ul>
     </div>
 
     <h2>社会职务</h2>
     <div class="social">
       <div class="cell"><b>杨浦区科技企业联合会</b><span>执行会长 · 企业 / 招商 / 出海 / 项目</span></div>
-      <div class="cell"><b>复旦不动产资管协会</b><span>创始人 · 2018/2019</span></div>
-    </div>
-    <div class="tags" style="margin-top:6px;">
-      <span class="tag">产业招商</span>
-      <span class="tag">城市更新</span>
-      <span class="tag">智能制造</span>
-      <span class="tag">定位招商</span>
-      <span class="tag">国资合作</span>
-      <span class="tag">轻资产委管</span>
+      <div class="cell"><b>复旦不动产资管协会</b><span>创始理事长 · 2018/2019</span></div>
     </div>
 
     <h2>专业经历</h2>
@@ -312,7 +324,7 @@ table.proj td:nth-child(2) { width: 16%; }
         <li>镇江大港金域蓝湾：收并购，与大港集团各半合作（约 199 亩 / 32 万方）。</li>
         <li>嘉兴海宁商住：政府代建落地（18.53 亿元 / 约 23 万㎡，配建安置房）。</li>
         <li>上海龙湖滟澜山：法拍不良资产盘活（测算 IRR 约 16.16%）。</li>
-        <li>靖江印象城：勾地 + 印力委管（约 15 亿元 / 556 亩 / 购物中心约 7 万方）；金坛理想城收并购 + 债务重组，底价获取（约 28.05 亿元 / 561 亩）。</li>
+        <li>靖江印象城：勾地 + 印力委管（约 15 亿元 / 556 亩 / 购物中心约 7 万方，苏中县市首家印象城）；金坛理想城收并购 + 债务重组，底价获取（约 28.05 亿元 / 561 亩）。</li>
         <li>主导落地万纬嘉兴平湖（嘉兴首个高标准自动化冷链园）、上海奉贤南桥冷链园；推动进入盐城、台州、常州金坛。</li>
       </ul>
     </div>
@@ -401,7 +413,7 @@ table.proj td:nth-child(2) { width: 16%; }
       </div>
     </div>
     <div class="layers">
-      <p><b>投递方向</b>　产业招商｜城市更新｜智能制造｜产业空间运营</p>
+      <p><b>投递方向</b>　产业招商｜城市更新｜智能制造｜产业空间运营｜出海对接</p>
       <p><b>能力结构</b>　投资拓展 → 政企招商 → 产业组织 → 智库与资源配置</p>
       <p><b>研究方向</b>　AI 产业如何落地城市｜城市更新｜新质产业空间｜国际产业合作</p>
     </div>
@@ -420,7 +432,7 @@ table.proj td:nth-child(2) { width: 16%; }
         <div class="focus">Industrial promotion · urban regeneration · intelligent manufacturing</div>
         <div class="creds">Associate-professor-level Senior Engineer · Fudan master’s · former VP of Investment, Vanke Shanghai</div>
         <div class="posts">Secretary-General, Fudan Housing Policy Research Center · Executive President, Yangpu Sci-Tech Enterprises Federation</div>
-        <div class="line">Born 1987 · Jiusan Society · Shanghai</div>
+        <div class="line">Born 1987 · Jiusan Society · Shanghai · IELTS 6.0</div>
       </div>
       <div class="contact">
         18678408669<br/>
@@ -428,13 +440,17 @@ table.proj td:nth-child(2) { width: 16%; }
         WeChat hu262782809
       </div>
     </div>
+    <div class="intent">
+      <span><b>Target</b>　Industrial promotion / urban regeneration / intelligent manufacturing / industrial-space ops / going-out</span>
+      <span>Shanghai　salary negotiable</span>
+    </div>
     <div class="stats">
       <div class="stat"><span>Front-line origination</span><b>10 years</b></div>
       <div class="stat"><span>2026 signed</span><b>Four industry mandates</b></div>
       <div class="stat"><span>Jingjiang + Jintan</span><b>RMB 4.3 bn</b></div>
-      <div class="stat"><span>Current role</span><b>Fudan Center SG</b></div>
+      <div class="stat"><span>Public events</span><b>Host / chair</b></div>
     </div>
-    <p class="lead">Former VP of Investment, Vanke Shanghai Region. 2011–2021: SOE joint ventures, government agency-build, NPL work-outs, asset-light management and logistics parks — proof of landing structure. Since 2021, Secretary-General of the Fudan Housing Policy Research Center. 2026 signed industry work is written as lead / drive / support / draft, not as tenant lists. Front-line investment is counted only to 2021.</p>
+    <p class="lead">B.Eng. in civil engineering, Fudan MBA. Former VP of Investment, Vanke Shanghai Region. 2011–2021: SOE joint ventures, government agency-build, NPL work-outs, asset-light management and logistics parks — proof of landing structure. Since 2021, Secretary-General of the Fudan Housing Policy Research Center, and Executive President of the Yangpu Sci-Tech Enterprises Federation for firms, promotion and going-out. 2026 signed industry work is written as lead / drive / support / draft, not as tenant lists. Front-line investment is counted only to 2021.</p>
 
     <h2>2026 signed industry cooperation</h2>
     <p class="place" style="margin:0 0 4px;font-size:10.5px;color:var(--muted);">What is signed is positioning and promotion mandates, not occupancy lists.</p>
@@ -445,6 +461,7 @@ table.proj td:nth-child(2) { width: 16%; }
       <tr><td>Huawei auto parks (two sites)</td><td>Support</td><td>Land–planning–positioning–promotion coordination</td><td>Jing’an ~15,000 sqm; Pudong ~20,000 sqm</td></tr>
       <tr><td>Semir industrial park</td><td>Draft</td><td>Industrial-space positioning and promotion scheme</td><td>~20,000 sqm signed slice</td></tr>
     </table>
+    <p class="caps-line"><b>Capability slice</b>　AI industry landing (Chuangzhihui mandate · May 2026 commercialisation roundtable) · going-out (Nordic Lounge · AllBright overseas property) · promotion landing (2026 mandates · Vanke land/agency-build/M&amp;A)</p>
 
     <h2>Current role</h2>
     <div class="job">
@@ -455,23 +472,15 @@ table.proj td:nth-child(2) { width: 16%; }
       <div class="place">Shanghai · Center does research; Federation handles firms, promotion, going-out and projects</div>
       <ul>
         <li>Urban regeneration, stock assets and new industrial space: how industry lands in cities with space, policy and capital. An industry direction, not a technical R&amp;D role.</li>
-        <li>Mar 2026 Nordic Innovation Lounge co-sponsored; landed at Powerlong–CIFI Plaza Circ-Innovation Center, Yangpu. Powerlong Commercial is a co-sponsor, not the employer.</li>
-        <li>May 2025 Global New Economic Growth Engine Summit: organiser-representative remarks with Zhu Jin, Wang Yi and Wang Weijun (named by People.cn Shanghai and China News Service Shanghai).</li>
+        <li>Going-out: Mar 2026 Nordic Innovation Lounge co-sponsored at Powerlong–CIFI Plaza Circ-Innovation Center, Yangpu (Powerlong Commercial is a co-sponsor, not the employer); Jun 2024 chaired AllBright “Lessons from Afar — Chinese investors’ overseas property strategy”.</li>
+        <li>Industry events: May 2025 Global New Economic Growth Engine Summit organiser-representative remarks with Zhu Jin, Wang Yi and Wang Weijun (named by People.cn Shanghai and China News Service Shanghai); May 2026 AI commercialisation summit organiser-representative and roundtable chair (industry convening, not a paid landing project).</li>
       </ul>
     </div>
 
     <h2>Affiliations</h2>
     <div class="social">
       <div class="cell"><b>Yangpu Sci-Tech Enterprises Federation</b><span>Executive President · firms / promotion / going-out / projects</span></div>
-      <div class="cell"><b>Fudan RE asset-management association</b><span>Founder · 2018/2019</span></div>
-    </div>
-    <div class="tags" style="margin-top:6px;">
-      <span class="tag">Industrial promotion</span>
-      <span class="tag">Urban regeneration</span>
-      <span class="tag">Intelligent manufacturing</span>
-      <span class="tag">Positioning mandate</span>
-      <span class="tag">SOE JV</span>
-      <span class="tag">Asset-light</span>
+      <div class="cell"><b>Fudan RE asset-management association</b><span>Founding chair · 2018/2019</span></div>
     </div>
 
     <h2>Experience</h2>
@@ -485,7 +494,7 @@ table.proj td:nth-child(2) { width: 16%; }
         <li>Zhenjiang Dagang Golden Domain: M&amp;A with Dagang Group on a 50/50 basis (~199 mu / 320,000 sqm).</li>
         <li>Jiaxing Haining: government agency-build (RMB 1.853 bn / ~230,000 sqm, with resettlement housing).</li>
         <li>Shanghai Longfor Yanlanshan: judicial-auction NPL work-out (modelled IRR ~16.16%).</li>
-        <li>Jingjiang Impression City: land deal + SCL management (~RMB 1.5 bn / 556 mu / ~70,000 sqm mall); Jintan Ideal City M&amp;A plus debt work-out at reserve price (~RMB 2.805 bn / 561 mu).</li>
+        <li>Jingjiang Impression City: land deal + SCL management (~RMB 1.5 bn / 556 mu / ~70,000 sqm mall, first Impression City in a central-Jiangsu county city); Jintan Ideal City M&amp;A plus debt work-out at reserve price (~RMB 2.805 bn / 561 mu).</li>
         <li>Onewo cold-chain parks: Pinghu (Jiaxing’s first high-spec automated cold-chain park) and Nanqiao (Fengxian); market entry into Yancheng, Taizhou and Jintan.</li>
       </ul>
     </div>
@@ -574,7 +583,7 @@ table.proj td:nth-child(2) { width: 16%; }
       </div>
     </div>
     <div class="layers">
-      <p><b>Target roles</b>　SOE urban-renewal / industrial-import posts · park operators · industrial-space operations</p>
+      <p><b>Target roles</b>　Industrial promotion · urban regeneration · intelligent manufacturing · industrial-space ops · going-out</p>
       <p><b>Capability stack</b>　Origination → government–enterprise promotion → industry organisation → think-tank and resource allocation</p>
       <p><b>Research</b>　How AI industry lands in cities · urban regeneration · new industrial space · international industry cooperation</p>
     </div>
@@ -585,10 +594,23 @@ table.proj td:nth-child(2) { width: 16%; }
 <!-- 优化说明 -->
 <div class="pack" id="pack-notes">
   <div class="sheet notes">
-    <p class="k">第七版 · 2026 已签约四宗上第一页</p>
+    <p class="k">第八版 · 优化版 × 优化版-6 优胜劣汰</p>
     <h1>这份履历改了什么</h1>
     <p><b>闸门：</b>四宗是目前唯一的 2026 年经营痕迹。有甲方盖章原件，国资更新和产业导入岗可以开始投；没有文件，先别对外发这版。完整面试口径见仓库 <code>output/2026已签约产业合作-面试口径.md</code>。本说明给自己看，不随简历投出。</p>
-    <p>页眉改为「产业招商 · 城市更新 · 智能制造」。现任仍是复旦大学住房政策研究中心秘书长。万科留在第一页，证明以前能把结构做成。动词只写负责 / 推动 / 辅助 / 方案拟定，不写「引进华为」。</p>
+    <p>对照「优化版」（AI × 出海 × 招商）和「优化版-6」（2026 已签约四宗）取长补短。版式、诚实动词、四宗主表跟第六版；峰会主持、锦天城出海、土木/MBA、求职意向、IELTS 跟第一版。不写「引进华为」，不写工商联现任秘书长。</p>
+
+    <h2>优胜劣汰</h2>
+    <table>
+      <tr><th>条目</th><th>采用</th><th>理由</th></tr>
+      <tr><td>页眉主线</td><td>第六版：产业招商 · 城市更新 · 智能制造</td><td>比「AI 生态运营」更可投、可核验</td></tr>
+      <tr><td>2026 四宗</td><td>第六版主表</td><td>当年唯一经营痕迹</td></tr>
+      <tr><td>能力切片</td><td>第一版 AI × 出海 × 招商，压成一行</td><td>保留复合能力，不占整栏</td></tr>
+      <tr><td>2026.05 AI 峰会</td><td>第一版，现任条目</td><td>公开可核验；标明不是付费落地</td></tr>
+      <tr><td>2024.06 锦天城</td><td>第一版，并入出海条目</td><td>第六版漏掉的出海证据</td></tr>
+      <tr><td>求职意向 / IELTS / 土木 MBA</td><td>第一版</td><td>招聘官 10 秒能看懂</td></tr>
+      <tr><td>工商联秘书长、山东商会、面试官</td><td>第六版：不上印刷面</td><td>官网或公开名单对不上</td></tr>
+      <tr><td>「超级孵化器」</td><td>淘汰</td><td>提议不是业绩</td></tr>
+    </table>
 
     <h2>印刷面怎么写 · 公开检索对不上什么</h2>
     <table>
@@ -617,6 +639,7 @@ table.proj td:nth-child(2) { width: 16%; }
       <li>中南保留江阴白鹭湾同股同权、2014 西南拓展。</li>
       <li>不把「服务 100 家、签约 10 家、落地 5 家」写进简历。</li>
       <li>不写引进华为；不把集团已披露企业写成个人业绩；创智汇不写成创智天地；森马不写成 22 万㎡全盘。</li>
+      <li>不写「超级孵化器」；AI 峰会只写主办方代表并主持圆桌，不是付费落地。</li>
     </ol>
 
     <h2>公开职务核验</h2>
@@ -626,7 +649,9 @@ table.proj td:nth-child(2) { width: 16%; }
       <tr><td>杨浦科企联执行会长</td><td>现任 · 企业 / 招商侧</td><td>杨浦区政府官网等点名王晓明、胡继刚</td></tr>
       <tr><td>2026 已签约四宗</td><td>第一页主表</td><td>以甲方盖章原件为准；无原件不投出</td></tr>
       <tr><td>2025.05 全球新经济增长引擎峰会</td><td>现任条目 · 主办方代表发言</td><td>人民网上海、中新社上海点名</td></tr>
-      <tr><td>北欧创新国际会客厅</td><td>现任条目 · 空间导入</td><td>区政府官网等；宝龙商办为共同发起</td></tr>
+      <tr><td>2026.05 人工智能商业化峰会</td><td>现任条目 · 主办方代表并主持圆桌</td><td>央广网、杨浦区政府、上观等；不是付费落地</td></tr>
+      <tr><td>2024.06 锦天城海外不动产</td><td>现任出海条目 · 主持</td><td>锦天城官网</td></tr>
+      <tr><td>北欧创新国际会客厅</td><td>现任出海条目 · 空间导入</td><td>区政府官网等；宝龙商办为共同发起</td></tr>
       <tr><td>工商联房地产商会秘书长</td><td>不写现任</td><td>官网现任为李祥；资管分会只写出席</td></tr>
       <tr><td>山东商会 / 联考面试官 / 评审专家</td><td>不上印刷面</td><td>公开名单未交叉印证</td></tr>
     </table>

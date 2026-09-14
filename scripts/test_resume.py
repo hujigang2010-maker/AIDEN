@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""校验第七版：2026 已签约四宗上第一页。印刷面无待核、无引进华为。页数为 A4 两页。"""
+"""校验第八版：两版优胜劣汰。印刷面无待核、无引进华为。页数为 A4 两页。"""
 
 from __future__ import annotations
 
@@ -37,6 +37,12 @@ KEYWORDS = [
     "苏中县市",
     "房屋建筑工程人工智能",
     "2011–2021",
+    "求职意向",
+    "土木本科",
+    "锦天城",
+    "人工智能商业化",
+    "能力切片",
+    "IELTS 6.0",
 ]
 
 FORBIDDEN_PRINT = [
@@ -58,6 +64,7 @@ FORBIDDEN_PRINT = [
     "引进华为",
     "波士顿科学",
     "创智天地",
+    "超级孵化器",
 ]
 
 
@@ -107,7 +114,12 @@ def test_html_keywords():
     assert "创智汇" in zh
     assert "东方枢纽" in zh
     assert "方案拟定" in zh
-    assert "竺劲" in zh
+    assert "锦天城" in zh
+    assert "人工智能商业化" in zh
+    assert "求职意向" in zh
+    assert "土木本科" in zh
+    assert "能力切片" in zh
+    assert "创始理事长" in zh
     assert "不是雇主" in zh
     assert "PMP" in zh
     assert "苏中县市" in zh
@@ -141,29 +153,36 @@ def test_pdf_pages():
     assert abs(full[0].rect.height - 841.9) < 8, f"优化版应为 A4 高，实际 {full[0].rect.height}"
     page1 = full[0].get_text()
     page2 = full[1].get_text()
-    full_text = page1 + page2
+    full_text = (page1 + page2).replace("\n", "")
+    page1f = page1.replace("\n", "")
+    page2f = page2.replace("\n", "")
     for key in KEYWORDS:
         assert key in full_text, f"PDF 中缺少：{key}"
-    assert "万科" in page1
-    assert "复旦大学住房政策研究中心" in page1
-    assert "产业招商" in page1
-    assert "智能制造" in page1
-    assert "创智汇" in page1
-    assert "东方枢纽" in page1
-    assert "华为汽车" in page1
-    assert "森马产业园" in page1
-    assert "方案拟定" in page1
-    assert "主办方代表发言" in page1
-    assert "北欧创新国际会客厅" in page1
-    assert "三条证明" not in page1
-    assert "新城控股" in page2
-    assert "中南" in page2
-    assert "江阴白鹭湾" in page2
-    assert "代表项目" in page2
-    assert "在职攻读" in page2
-    assert "PMP" in page2
-    assert "房屋建筑工程人工智能" in page2
-    vanke = page1[page1.find("万科企业"):]
+    assert "万科" in page1f
+    assert "复旦大学住房政策研究中心" in page1f
+    assert "产业招商" in page1f
+    assert "智能制造" in page1f
+    assert "创智汇" in page1f
+    assert "东方枢纽" in page1f
+    assert "华为汽车" in page1f
+    assert "森马产业园" in page1f
+    assert "方案拟定" in page1f
+    assert "主办方代表发言" in page1f
+    assert "北欧创新国际会客厅" in page1f
+    assert "锦天城" in page1f
+    assert "人工智能商业化" in page1f
+    assert "求职意向" in page1f
+    assert "土木本科" in page1f
+    assert "能力切片" in page1f
+    assert "三条证明" not in page1f
+    assert "新城控股" in page2f
+    assert "中南" in page2f
+    assert "江阴白鹭湾" in page2f
+    assert "代表项目" in page2f
+    assert "在职攻读" in page2f
+    assert "PMP" in page2f
+    assert "房屋建筑工程人工智能" in page2f
+    vanke = page1f[page1f.find("万科企业"):]
     assert vanke.find("镇江") < vanke.find("靖江印象城")
     for bad in FORBIDDEN_PRINT:
         assert bad not in full_text, f"PDF 中不应出现：{bad}"
