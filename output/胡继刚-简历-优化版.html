@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>胡继刚 · 专家履历</title>
+<style>
+@font-face {
+  font-family: "WQY";
+  src: local("WenQuanYi Micro Hei"), url("file:///usr/share/fonts/truetype/wqy/wqy-microhei.ttc") format("collection");
+}
+:root {
+  --navy: #142B4A;
+  --gold: #C48A2B;
+  --ink: #2C333A;
+  --muted: #5C6670;
+  --line: #D5DDE8;
+  --soft: #F3F6FA;
+  --paper: #f0f3f7;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--paper);
+  font-family: "WQY", "WenQuanYi Micro Hei", "Microsoft YaHei", sans-serif;
+  color: var(--ink);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.toolbar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  padding: 10px 16px;
+  background: #142B4A;
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(20,43,74,.25);
+}
+.toolbar .brand { font-weight: 700; letter-spacing: .5px; margin-right: 8px; }
+.toolbar .hint { font-size: 12px; color: #C5D0DC; flex: 1; min-width: 220px; }
+.tab, .btn {
+  border: 1px solid rgba(255,255,255,.28);
+  background: transparent;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+}
+.tab.on, .btn:hover { background: #C48A2B; border-color: #C48A2B; color: #142B4A; font-weight: 700; }
+.preview { padding: 22px 12px 48px; }
+.pack { display: none; }
+.pack.active { display: block; }
+.sheet {
+  width: 210mm;
+  height: 297mm;
+  margin: 0 auto 18px;
+  padding: 10mm 12mm 8mm;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 10px 36px rgba(20,43,74,.16);
+  page-break-after: always;
+  display: flex;
+  flex-direction: column;
+}
+.notes.sheet {
+  height: auto;
+  min-height: 297mm;
+  overflow: visible;
+  padding: 14mm 16mm 16mm;
+  display: block;
+}
+.sheet:last-child { page-break-after: auto; }
+.foot {
+  margin-top: auto;
+  padding-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: #8A939C;
+  letter-spacing: .4px;
+}
+.head {
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  gap: 12px;
+  align-items: start;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--navy);
+}
+.seal {
+  width: 52px; height: 52px;
+  background: var(--navy);
+  color: #E8D5A3;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; font-weight: 700;
+}
+.who .name { font-size: 26px; font-weight: 700; color: var(--navy); letter-spacing: 2px; line-height: 1.1; }
+.who .en { font-size: 12px; color: var(--gold); letter-spacing: 1.4px; margin-top: 2px; }
+.who .focus { font-size: 13px; font-weight: 700; color: var(--navy); margin-top: 4px; letter-spacing: .2px; }
+.who .creds { font-size: 11.5px; color: var(--ink); margin-top: 3px; }
+.who .posts { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.who .line { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.contact { text-align: right; font-size: 11px; color: var(--muted); line-height: 1.55; }
+.intent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin: 7px 0 0;
+  padding: 5px 8px;
+  background: var(--soft);
+  border-left: 3px solid var(--gold);
+  font-size: 10.5px;
+  color: var(--ink);
+}
+.intent b { color: var(--navy); }
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 7px 0 5px;
+}
+.stat {
+  background: var(--soft);
+  border-top: 3px solid var(--gold);
+  padding: 7px 8px 6px;
+}
+.stat b { display: block; font-size: 13.5px; color: var(--navy); line-height: 1.2; }
+.stat span { font-size: 10px; color: var(--muted); }
+.proofs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin: 2px 0 4px;
+}
+.proof {
+  background: var(--soft);
+  border-top: 3px solid var(--gold);
+  padding: 7px 8px 6px;
+}
+.proof .k { font-size: 10px; color: var(--gold); font-weight: 700; letter-spacing: .4px; }
+.proof b { display: block; font-size: 12px; color: var(--navy); margin: 2px 0 3px; line-height: 1.25; }
+.proof p { font-size: 10.5px; line-height: 1.42; color: var(--ink); text-align: justify; }
+.qual3 { display: grid; grid-template-columns: 1.15fr 1.15fr .9fr; gap: 6px; }
+.lead { font-size: 10.5px; line-height: 1.48; text-align: justify; color: var(--ink); margin-bottom: 2px; }
+.caps-line { font-size: 10.5px; line-height: 1.45; color: var(--ink); margin: 4px 0 1px; }
+.caps-line b { color: var(--navy); }
+h2 {
+  font-size: 12.5px;
+  color: var(--navy);
+  letter-spacing: 1px;
+  margin: 7px 0 3px;
+  padding-bottom: 2px;
+  border-bottom: 2px solid var(--gold);
+}
+.job { margin-bottom: 6px; }
+.job-h { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.co { font-size: 12.5px; font-weight: 700; color: var(--navy); }
+.title { font-size: 11px; color: var(--muted); }
+.date { font-size: 11px; color: var(--gold); font-weight: 700; white-space: nowrap; }
+.job .place { font-size: 10.5px; color: var(--muted); margin: 1px 0 3px; }
+.job li, .box li { font-size: 10.5px; line-height: 1.38; margin: 0 0 1.5px 14px; }
+.caps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+.caps .box p { font-size: 10px; line-height: 1.4; text-align: justify; color: var(--ink); }
+.layers { margin-top: 2px; }
+.layers p { font-size: 10.5px; line-height: 1.45; margin: 0 0 3px; }
+.layers b { color: var(--navy); }
+.social {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.cell {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  padding: 7px 8px 6px;
+}
+.cell b { display: block; font-size: 12px; color: var(--navy); }
+.cell span { font-size: 10.5px; color: var(--muted); }
+.fine { font-size: 9.5px; color: #7A848E; margin-top: 5px; line-height: 1.4; }
+table.proj { width: 100%; border-collapse: collapse; }
+table.proj th, table.proj td {
+  border: 1px solid var(--line);
+  padding: 4px 6px;
+  font-size: 10px;
+  line-height: 1.35;
+  vertical-align: top;
+}
+table.proj th { background: var(--navy); color: #fff; text-align: left; }
+table.proj tr.grp th { background: #C48A2B; color: #142B4A; letter-spacing: .6px; font-size: 10.5px; }
+table.proj tr:nth-child(even) td { background: var(--soft); }
+table.proj td:first-child { color: var(--navy); font-weight: 700; width: 26%; }
+table.proj td:nth-child(2) { width: 16%; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.box { background: var(--soft); border: 1px solid var(--line); padding: 7px 9px; }
+.box h3 { font-size: 11.5px; color: var(--navy); margin-bottom: 3px; }
+.tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 2px; }
+.tag {
+  font-size: 10px;
+  border: 1px solid var(--line);
+  color: var(--navy);
+  background: var(--soft);
+  padding: 2px 8px;
+}
+.notes h1 { font-size: 22px; color: var(--navy); margin-bottom: 6px; }
+.notes h2 { margin-top: 16px; }
+.notes p, .notes li { font-size: 12.5px; line-height: 1.55; }
+.notes li { margin: 0 0 6px 18px; }
+.notes table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; }
+.notes th, .notes td { border: 1px solid var(--line); padding: 6px 8px; font-size: 12px; vertical-align: top; }
+.notes th { background: var(--navy); color: #fff; }
+.k { color: var(--gold); font-weight: 700; font-size: 11px; letter-spacing: .6px; }
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+@media print {
+  html, body { background: #fff; margin: 0; padding: 0; }
+  .toolbar { display: none !important; }
+  .preview { padding: 0; }
+  .pack { display: none !important; }
+  .pack.active { display: block !important; }
+  .sheet {
+    box-shadow: none;
+    margin: 0;
+    page-break-after: always;
+    break-after: page;
+  }
+  .notes.sheet {
+    height: auto;
+    overflow: visible;
+    page-break-after: auto;
+    break-after: auto;
+  }
+  .pack.active .sheet:last-child,
+  .sheet:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+}
+</style>
+</head>
+<body data-view="zh">
+<div class="toolbar">
+  <span class="brand">胡继刚履历</span>
+  <button class="tab on" data-view="zh" type="button">中文</button>
+  <button class="tab" data-view="en" type="button">English</button>
+  <button class="tab" data-view="notes" type="button">优化说明</button>
+  <button class="btn" id="btn-print" type="button">导出 PDF</button>
+  <span class="hint">纸页按 A4 排。点「导出 PDF」后，在打印框里选「另存为 PDF」、纸张 A4。第八版：两版优胜劣汰。无甲方盖章原件勿投出。</span>
+</div>
+
+<div class="preview">
+<!-- 中文两页 -->
+<div class="pack active" id="pack-zh">
+  <div class="sheet">
+    <div class="head">
+      <div class="seal">胡</div>
+      <div class="who">
+        <div class="name">胡继刚</div>
+        <div class="en">HU Jigang</div>
+        <div class="focus">产业招商 · 城市更新 · 智能制造</div>
+        <div class="creds">副教授级高级工程师｜复旦大学硕士研究生｜原万科上海区域投资副总经理</div>
+        <div class="posts">现任复旦大学住房政策研究中心秘书长｜杨浦区科技企业联合会执行会长</div>
+        <div class="line">1987 年生 · 九三学社 · 上海 · IELTS 6.0</div>
+      </div>
+      <div class="contact">
+        18678408669<br/>
+        262782809@qq.com<br/>
+        微信 hu262782809
+      </div>
+    </div>
+    <div class="intent">
+      <span><b>求职意向</b>　产业招商 / 城市更新 / 智能制造 / 产业空间运营 / 出海对接</span>
+      <span>上海　薪资面议</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><span>一线投拓</span><b>10 年</b></div>
+      <div class="stat"><span>2026 已签约</span><b>四宗产业合作</b></div>
+      <div class="stat"><span>靖江 + 金坛</span><b>43 亿</b></div>
+      <div class="stat"><span>公开活动</span><b>主办 / 主持</b></div>
+    </div>
+    <p class="lead">土木本科、复旦 MBA。万科上海区域投资副总经理。2011–2021 一线投拓，做成国资合作、政府代建、不良盘活、轻资产委管与物流园，证明能把结构做成。2021 年起任复旦大学住房政策研究中心秘书长，以杨浦科企联执行会长对接企业、招商与出海。2026 年已签约产业合作按负责 / 推动 / 辅助 / 方案拟定落笔：写委托与协同，不写入驻名单。一线投资计至 2021 年。</p>
+
+    <h2>2026 已签约产业合作</h2>
+    <p class="place" style="margin:0 0 4px;font-size:10.5px;color:var(--muted);">已签约的是定位与招商委托，不是入驻清单。</p>
+    <table class="proj">
+      <tr><th>项目</th><th>角色</th><th>做什么</th><th>范围</th></tr>
+      <tr><td>创智汇</td><td>负责</td><td>AI 与 IP 定位招商；辅助向智造、出海、人工智能转型</td><td>约 6600㎡ · 杨浦五角场</td></tr>
+      <tr><td>东方枢纽</td><td>推动</td><td>与产业方对接，促成联动招商</td><td>约 143 万㎡ 产业对接范围</td></tr>
+      <tr><td>华为汽车两园区</td><td>辅助</td><td>拿地—规划—定位—招商协同</td><td>静安约 1.5 万㎡、浦东约 2 万㎡</td></tr>
+      <tr><td>森马产业园</td><td>方案拟定</td><td>工业空间定位与招商方案</td><td>约 2 万㎡ 签约切片</td></tr>
+    </table>
+    <p class="caps-line"><b>能力切片</b>　AI 产业落地（创智汇定位招商 · 2026.05 主持商业化圆桌）｜出海对接（北欧会客厅 · 锦天城海外不动产）｜招商落地（2026 四宗委托 · 万科勾地代建收并购）</p>
+
+    <h2>现任</h2>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">复旦大学住房政策研究中心</span>　<span class="title">秘书长</span></div>
+        <div class="date">2021.06 – 至今</div>
+      </div>
+      <div class="place">上海 · 中心做研究；科企联做企业、招商、出海与项目</div>
+      <ul>
+        <li>城市更新、存量资产与新质产业空间：关注产业如何用空间、政策、资本落地城市。产业方向，不是技术研发岗。</li>
+        <li>出海：2026.03 北欧创新国际会客厅共同发起，落户杨浦宝龙旭辉广场环创中心（宝龙商办不是雇主）；2024.06 主持锦天城「他山之石——中国投资者的海外不动产战略布局」。</li>
+        <li>产业活动：2025.05 全球新经济增长引擎峰会主办方代表发言，与竺劲、汪毅、王维军圆桌（人民网上海、中新社上海点名）；2026.05 人工智能商业化落地与硬核投资破局峰会主办方代表并主持圆桌（不是付费落地项目）。</li>
+      </ul>
+    </div>
+
+    <h2>社会职务</h2>
+    <div class="social">
+      <div class="cell"><b>杨浦区科技企业联合会</b><span>执行会长 · 企业 / 招商 / 出海 / 项目</span></div>
+      <div class="cell"><b>复旦不动产资管协会</b><span>创始理事长 · 2018/2019</span></div>
+    </div>
+
+    <h2>专业经历</h2>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">万科企业股份有限公司 · 上海区域</span>　<span class="title">江浙事业部投资副总经理</span></div>
+        <div class="date">2017.03 – 2021.06</div>
+      </div>
+      <div class="place">上海 · 汇报投资合作开发部总经理 · 团队约 8 人</div>
+      <ul>
+        <li>镇江大港金域蓝湾：收并购，与大港集团各半合作（约 199 亩 / 32 万方）。</li>
+        <li>嘉兴海宁商住：政府代建落地（18.53 亿元 / 约 23 万㎡，配建安置房）。</li>
+        <li>上海龙湖滟澜山：法拍不良资产盘活（测算 IRR 约 16.16%）。</li>
+        <li>靖江印象城：勾地 + 印力委管（约 15 亿元 / 556 亩 / 购物中心约 7 万方，苏中县市首家印象城）；金坛理想城收并购 + 债务重组，底价获取（约 28.05 亿元 / 561 亩）。</li>
+        <li>主导落地万纬嘉兴平湖（嘉兴首个高标准自动化冷链园）、上海奉贤南桥冷链园；推动进入盐城、台州、常州金坛。</li>
+      </ul>
+    </div>
+    <div class="foot"><span>产业招商 · 城市更新 · 智能制造</span><span>01 / 02</span></div>
+  </div>
+
+  <div class="sheet">
+    <h2>专业经历（续）</h2>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">新城控股集团股份有限公司 · 总部战略投资中心</span>　<span class="title">投资拓展资深专业经理</span></div>
+        <div class="date">2015.11 – 2017.02</div>
+      </div>
+      <div class="place">上海</div>
+      <ul>
+        <li>负责山东、江苏等区域战略布局与土地获取。</li>
+        <li>主导临沂新城吾悦广场勾地，对接市级重点招商政策，系集团首进山东的重资产项目。</li>
+        <li>以轻资产模式获取青岛新城吾悦广场（品牌输出 + 委管，约 13.68 万㎡）。</li>
+      </ul>
+    </div>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">中南建设集团 / 中南控股集团</span>　<span class="title">投资拓展经理 / 战略企划管理主管</span></div>
+        <div class="date">2011.06 – 2015.10</div>
+      </div>
+      <div class="place">上海 / 南通 · 2011.06–2012.10 总裁办战略企划；其后新项目发展中心</div>
+      <ul>
+        <li>从集团战略企划到项目投资拓展的完整历练；获取如皋中南世纪城、苏州中南锦苑。</li>
+        <li>江阴白鹭湾与碧桂园同股同权合作。2014 年底派驻四川任西南拓展负责人。</li>
+        <li>推进美国养老、日本永旺等国际产业合作对接（推进中，非已签约落地）。</li>
+      </ul>
+    </div>
+
+    <h2>代表项目</h2>
+    <table class="proj">
+      <tr><th>项目</th><th>类型</th><th>做法</th><th>规模</th></tr>
+      <tr><td>镇江大港金域蓝湾</td><td>国资合作</td><td>收并购，与大港集团各半</td><td>约 199 亩 / 32 万方</td></tr>
+      <tr><td>嘉兴海宁商住</td><td>政府代建</td><td>代建落地，配建安置房</td><td>18.53 亿 / 约 23 万㎡</td></tr>
+      <tr><td>上海龙湖滟澜山</td><td>不良盘活</td><td>法拍收并购</td><td>测算 IRR 约 16.16%</td></tr>
+      <tr><td>靖江印象城</td><td>轻资产委管</td><td>勾地 + 印力委管 · 苏中县市首家</td><td>约 15 亿 / 556 亩 / 购物中心约 7 万方</td></tr>
+      <tr><td>南桥 / 平湖冷链园</td><td>产业园</td><td>勾地 / 收购改造 · 嘉兴首个高标准冷链园</td><td>物流园</td></tr>
+      <tr><td>金坛理想城</td><td>收并购</td><td>债务重组，底价获取</td><td>约 28.05 亿 / 561 亩</td></tr>
+      <tr><td>临沂新城吾悦广场</td><td>政府招商</td><td>对接市级重点招商政策</td><td>集团首进山东</td></tr>
+      <tr><td>青岛新城吾悦广场</td><td>轻资产</td><td>品牌输出 + 委管</td><td>约 13.68 万㎡</td></tr>
+      <tr><td>如皋世纪城 / 苏州中南锦苑</td><td>早期拓展</td><td>勾地获取；江阴白鹭湾同股同权</td><td>中南阶段代表项目</td></tr>
+    </table>
+
+    <h2>教育背景</h2>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">复旦大学</span>　<span class="title">硕士研究生 · 工商管理（财务金融方向）</span></div>
+        <div class="date">2018.09 – 2021.06</div>
+      </div>
+      <div class="place">在职攻读，与万科上海区域任职并行</div>
+    </div>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">中国海洋大学</span>　<span class="title">土木工程 · 工学学士</span></div>
+        <div class="date">2007.09 – 2011.07</div>
+      </div>
+    </div>
+
+    <h2>资质</h2>
+    <div class="qual3">
+      <div class="box">
+        <h3>职称与证书</h3>
+        <ul>
+          <li>副教授级高级工程师；会计师中级；PMP；住建委项目管理工程师</li>
+          <li>IELTS 6.0；普通话一级甲等；BIM；上海市人才引进认证</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>论文与专利</h3>
+        <ul>
+          <li>《万科物流地产平台业务发展战略研究》（知网）</li>
+          <li>《房屋建筑工程人工智能技术的应用》（《住宅与房地产》）</li>
+          <li>实用新型专利 2 项（功能脚架、防护围栏）</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>研修</h3>
+        <ul>
+          <li>上海交通大学城市治理数字化转型高级研修班</li>
+          <li>复旦–花旗银行实践课程；复旦–怡安人力与风险管理</li>
+        </ul>
+      </div>
+    </div>
+    <div class="layers">
+      <p><b>投递方向</b>　产业招商｜城市更新｜智能制造｜产业空间运营｜出海对接</p>
+      <p><b>能力结构</b>　投资拓展 → 政企招商 → 产业组织 → 智库与资源配置</p>
+      <p><b>研究方向</b>　AI 产业如何落地城市｜城市更新｜新质产业空间｜国际产业合作</p>
+    </div>
+    <div class="foot"><span>产业招商 · 城市更新 · 智能制造</span><span>02 / 02</span></div>
+  </div>
+</div>
+
+<!-- English -->
+<div class="pack" id="pack-en">
+  <div class="sheet">
+    <div class="head">
+      <div class="seal">胡</div>
+      <div class="who">
+        <div class="name">Hu Jigang</div>
+        <div class="en">胡继刚</div>
+        <div class="focus">Industrial promotion · urban regeneration · intelligent manufacturing</div>
+        <div class="creds">Associate-professor-level Senior Engineer · Fudan master’s · former VP of Investment, Vanke Shanghai</div>
+        <div class="posts">Secretary-General, Fudan Housing Policy Research Center · Executive President, Yangpu Sci-Tech Enterprises Federation</div>
+        <div class="line">Born 1987 · Jiusan Society · Shanghai · IELTS 6.0</div>
+      </div>
+      <div class="contact">
+        18678408669<br/>
+        262782809@qq.com<br/>
+        WeChat hu262782809
+      </div>
+    </div>
+    <div class="intent">
+      <span><b>Target</b>　Industrial promotion / urban regeneration / intelligent manufacturing / industrial-space ops / going-out</span>
+      <span>Shanghai　salary negotiable</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><span>Front-line origination</span><b>10 years</b></div>
+      <div class="stat"><span>2026 signed</span><b>Four industry mandates</b></div>
+      <div class="stat"><span>Jingjiang + Jintan</span><b>RMB 4.3 bn</b></div>
+      <div class="stat"><span>Public events</span><b>Host / chair</b></div>
+    </div>
+    <p class="lead">B.Eng. in civil engineering, Fudan MBA. Former VP of Investment, Vanke Shanghai Region. 2011–2021: SOE joint ventures, government agency-build, NPL work-outs, asset-light management and logistics parks — proof of landing structure. Since 2021, Secretary-General of the Fudan Housing Policy Research Center, and Executive President of the Yangpu Sci-Tech Enterprises Federation for firms, promotion and going-out. 2026 signed industry work is written as lead / drive / support / draft, not as tenant lists. Front-line investment is counted only to 2021.</p>
+
+    <h2>2026 signed industry cooperation</h2>
+    <p class="place" style="margin:0 0 4px;font-size:10.5px;color:var(--muted);">What is signed is positioning and promotion mandates, not occupancy lists.</p>
+    <table class="proj">
+      <tr><th>Project</th><th>Role</th><th>Work</th><th>Scope</th></tr>
+      <tr><td>Chuangzhihui</td><td>Lead</td><td>AI and IP positioning &amp; promotion; support shift toward intelligent manufacturing, going-out and AI</td><td>~6,600 sqm · Yangpu Wujiaochang</td></tr>
+      <tr><td>Oriental Hub</td><td>Drive</td><td>Connect industry parties; enable joint promotion</td><td>~1.43 million sqm industry-interface scope</td></tr>
+      <tr><td>Huawei auto parks (two sites)</td><td>Support</td><td>Land–planning–positioning–promotion coordination</td><td>Jing’an ~15,000 sqm; Pudong ~20,000 sqm</td></tr>
+      <tr><td>Semir industrial park</td><td>Draft</td><td>Industrial-space positioning and promotion scheme</td><td>~20,000 sqm signed slice</td></tr>
+    </table>
+    <p class="caps-line"><b>Capability slice</b>　AI industry landing (Chuangzhihui mandate · May 2026 commercialisation roundtable) · going-out (Nordic Lounge · AllBright overseas property) · promotion landing (2026 mandates · Vanke land/agency-build/M&amp;A)</p>
+
+    <h2>Current role</h2>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">Fudan University Housing Policy Research Center</span>　<span class="title">Secretary-General</span></div>
+        <div class="date">Jun 2021 – present</div>
+      </div>
+      <div class="place">Shanghai · Center does research; Federation handles firms, promotion, going-out and projects</div>
+      <ul>
+        <li>Urban regeneration, stock assets and new industrial space: how industry lands in cities with space, policy and capital. An industry direction, not a technical R&amp;D role.</li>
+        <li>Going-out: Mar 2026 Nordic Innovation Lounge co-sponsored at Powerlong–CIFI Plaza Circ-Innovation Center, Yangpu (Powerlong Commercial is a co-sponsor, not the employer); Jun 2024 chaired AllBright “Lessons from Afar — Chinese investors’ overseas property strategy”.</li>
+        <li>Industry events: May 2025 Global New Economic Growth Engine Summit organiser-representative remarks with Zhu Jin, Wang Yi and Wang Weijun (named by People.cn Shanghai and China News Service Shanghai); May 2026 AI commercialisation summit organiser-representative and roundtable chair (industry convening, not a paid landing project).</li>
+      </ul>
+    </div>
+
+    <h2>Affiliations</h2>
+    <div class="social">
+      <div class="cell"><b>Yangpu Sci-Tech Enterprises Federation</b><span>Executive President · firms / promotion / going-out / projects</span></div>
+      <div class="cell"><b>Fudan RE asset-management association</b><span>Founding chair · 2018/2019</span></div>
+    </div>
+
+    <h2>Experience</h2>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">China Vanke · Shanghai Region</span>　<span class="title">VP of Investment, Jiangsu–Zhejiang BU</span></div>
+        <div class="date">Mar 2017 – Jun 2021</div>
+      </div>
+      <div class="place">Shanghai · reported to GM of Investment &amp; Co-development · team of ~8</div>
+      <ul>
+        <li>Zhenjiang Dagang Golden Domain: M&amp;A with Dagang Group on a 50/50 basis (~199 mu / 320,000 sqm).</li>
+        <li>Jiaxing Haining: government agency-build (RMB 1.853 bn / ~230,000 sqm, with resettlement housing).</li>
+        <li>Shanghai Longfor Yanlanshan: judicial-auction NPL work-out (modelled IRR ~16.16%).</li>
+        <li>Jingjiang Impression City: land deal + SCL management (~RMB 1.5 bn / 556 mu / ~70,000 sqm mall, first Impression City in a central-Jiangsu county city); Jintan Ideal City M&amp;A plus debt work-out at reserve price (~RMB 2.805 bn / 561 mu).</li>
+        <li>Onewo cold-chain parks: Pinghu (Jiaxing’s first high-spec automated cold-chain park) and Nanqiao (Fengxian); market entry into Yancheng, Taizhou and Jintan.</li>
+      </ul>
+    </div>
+    <div class="foot"><span>Industrial promotion · urban regeneration · intelligent manufacturing</span><span>01 / 02</span></div>
+  </div>
+
+  <div class="sheet">
+    <h2>Experience (continued)</h2>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">Seazen Holdings · HQ Strategic Investment</span>　<span class="title">Senior Manager, Investment Origination</span></div>
+        <div class="date">Nov 2015 – Feb 2017</div>
+      </div>
+      <div class="place">Shanghai</div>
+      <ul>
+        <li>Regional strategy and land origination in Shandong and Jiangsu.</li>
+        <li>Led the Linyi Wuyue Plaza government land deal — the group’s first heavy-asset entry into Shandong — matching municipal investment-promotion policy.</li>
+        <li>Originated Qingdao Wuyue Plaza on an asset-light brand + management model (~136,800 sqm).</li>
+      </ul>
+    </div>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">Zhongnan Construction / Zhongnan Holdings</span>　<span class="title">Investment Manager / Strategic Planning Supervisor</span></div>
+        <div class="date">Jun 2011 – Oct 2015</div>
+      </div>
+      <div class="place">Shanghai / Nantong · HQ strategy office until Oct 2012, then new-project development</div>
+      <ul>
+        <li>Full cycle from group planning to project origination; Rugao Zhongnan Century City, Suzhou Zhongnan Jinyuan.</li>
+        <li>Jiangyin Bailu Bay JV with Country Garden on equal terms. Posted to Sichuan as southwest origination lead at end-2014.</li>
+        <li>Advanced US senior-living and Japan AEON international industry talks (in progress, not signed).</li>
+      </ul>
+    </div>
+
+    <h2>Selected projects</h2>
+    <table class="proj">
+      <tr><th>Project</th><th>Type</th><th>How</th><th>Scale</th></tr>
+      <tr><td>Zhenjiang Dagang Golden Domain</td><td>SOE JV</td><td>M&amp;A, 50/50 with Dagang Group</td><td>~199 mu / 320,000 sqm</td></tr>
+      <tr><td>Jiaxing Haining</td><td>Agency-build</td><td>Government-entrusted build, resettlement housing</td><td>RMB 1.853 bn / ~230,000 sqm</td></tr>
+      <tr><td>Shanghai Longfor Yanlanshan</td><td>NPL work-out</td><td>Judicial-auction M&amp;A</td><td>Modelled IRR ~16.16%</td></tr>
+      <tr><td>Jingjiang Impression City</td><td>Asset-light</td><td>Land deal + SCL · first in central Jiangsu county city</td><td>~RMB 1.5 bn / 556 mu / ~70,000 sqm mall</td></tr>
+      <tr><td>Nanqiao / Pinghu cold chain</td><td>Industrial park</td><td>Land deal / retrofit · Jiaxing’s first high-spec park</td><td>Logistics parks</td></tr>
+      <tr><td>Jintan Ideal City</td><td>M&amp;A</td><td>Debt work-out, reserve-price acquisition</td><td>~RMB 2.805 bn / 561 mu</td></tr>
+      <tr><td>Linyi Wuyue Plaza</td><td>Gov. promotion</td><td>Municipal investment-promotion policy</td><td>First Shandong heavy-asset entry</td></tr>
+      <tr><td>Qingdao Wuyue Plaza</td><td>Asset-light</td><td>Brand + management</td><td>~136,800 sqm</td></tr>
+      <tr><td>Rugao / Suzhou Zhongnan</td><td>Early origination</td><td>Land deals; Jiangyin equal-terms JV</td><td>Zhongnan-period samples</td></tr>
+    </table>
+
+    <h2>Education</h2>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">Fudan University</span>　<span class="title">Master’s, Business Administration (Finance)</span></div>
+        <div class="date">Sep 2018 – Jun 2021</div>
+      </div>
+      <div class="place">Part-time, concurrent with Vanke Shanghai</div>
+    </div>
+    <div class="job">
+      <div class="job-h">
+        <div><span class="co">Ocean University of China</span>　<span class="title">B.Eng., Civil Engineering</span></div>
+        <div class="date">Sep 2007 – Jul 2011</div>
+      </div>
+    </div>
+
+    <h2>Credentials</h2>
+    <div class="qual3">
+      <div class="box">
+        <h3>Titles and certificates</h3>
+        <ul>
+          <li>Associate-professor-level Senior Engineer; Intermediate Accountant; PMP; MOHURD project-management engineer</li>
+          <li>IELTS 6.0; Putonghua Grade 1-A; BIM; Shanghai talent-introduction credential</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Papers and patents</h3>
+        <ul>
+          <li>Vanke logistics-property platform strategy (CNKI)</li>
+          <li>AI applications in building engineering (Housing and Real Estate)</li>
+          <li>Two utility-model patents (scaffold; safety fence)</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Further study</h3>
+        <ul>
+          <li>SJTU advanced course on digital urban governance</li>
+          <li>Fudan–Citi practice course; Fudan–Aon HR and risk</li>
+        </ul>
+      </div>
+    </div>
+    <div class="layers">
+      <p><b>Target roles</b>　Industrial promotion · urban regeneration · intelligent manufacturing · industrial-space ops · going-out</p>
+      <p><b>Capability stack</b>　Origination → government–enterprise promotion → industry organisation → think-tank and resource allocation</p>
+      <p><b>Research</b>　How AI industry lands in cities · urban regeneration · new industrial space · international industry cooperation</p>
+    </div>
+    <div class="foot"><span>Industrial promotion · urban regeneration · intelligent manufacturing</span><span>02 / 02</span></div>
+  </div>
+</div>
+
+<!-- 优化说明 -->
+<div class="pack" id="pack-notes">
+  <div class="sheet notes">
+    <p class="k">第八版 · 优化版 × 优化版-6 优胜劣汰</p>
+    <h1>这份履历改了什么</h1>
+    <p><b>闸门：</b>四宗是目前唯一的 2026 年经营痕迹。有甲方盖章原件，国资更新和产业导入岗可以开始投；没有文件，先别对外发这版。完整面试口径见仓库 <code>output/2026已签约产业合作-面试口径.md</code>。本说明给自己看，不随简历投出。</p>
+    <p>对照「优化版」（AI × 出海 × 招商）和「优化版-6」（2026 已签约四宗）取长补短。版式、诚实动词、四宗主表跟第六版；峰会主持、锦天城出海、土木/MBA、求职意向、IELTS 跟第一版。不写「引进华为」，不写工商联现任秘书长。</p>
+
+    <h2>优胜劣汰</h2>
+    <table>
+      <tr><th>条目</th><th>采用</th><th>理由</th></tr>
+      <tr><td>页眉主线</td><td>第六版：产业招商 · 城市更新 · 智能制造</td><td>比「AI 生态运营」更可投、可核验</td></tr>
+      <tr><td>2026 四宗</td><td>第六版主表</td><td>当年唯一经营痕迹</td></tr>
+      <tr><td>能力切片</td><td>第一版 AI × 出海 × 招商，压成一行</td><td>保留复合能力，不占整栏</td></tr>
+      <tr><td>2026.05 AI 峰会</td><td>第一版，现任条目</td><td>公开可核验；标明不是付费落地</td></tr>
+      <tr><td>2024.06 锦天城</td><td>第一版，并入出海条目</td><td>第六版漏掉的出海证据</td></tr>
+      <tr><td>求职意向 / IELTS / 土木 MBA</td><td>第一版</td><td>招聘官 10 秒能看懂</td></tr>
+      <tr><td>工商联秘书长、山东商会、面试官</td><td>第六版：不上印刷面</td><td>官网或公开名单对不上</td></tr>
+      <tr><td>「超级孵化器」</td><td>淘汰</td><td>提议不是业绩</td></tr>
+    </table>
+
+    <h2>印刷面怎么写 · 公开检索对不上什么</h2>
+    <table>
+      <tr><th>项目</th><th>印刷面</th><th>公开检索对不上的点</th></tr>
+      <tr><td>创智汇约 6600㎡</td><td>负责 AI 与 IP 定位招商，辅助向智造、出海、人工智能转型</td><td>载体在杨浦五角场创智汇，不是创智天地</td></tr>
+      <tr><td>东方枢纽约 143 万㎡</td><td>推动与产业方对接，促成联动招商</td><td>东站公开约 133 万㎡；集团已披露的企业名不是个人名单</td></tr>
+      <tr><td>华为汽车两园区</td><td>辅助静安约 1.5 万㎡、浦东约 2 万㎡拿地—规划—定位—招商</td><td>未见静安/浦东汽车园区公开报道；上海华为公开重心在青浦</td></tr>
+      <tr><td>森马产业园约 2 万㎡</td><td>工业空间定位与招商方案拟定</td><td>吴泾改扩建公开约 22 万㎡、投资 15 亿；2 万㎡按签约切片写</td></tr>
+    </table>
+
+    <h2>面试四条（必须先备好）</h2>
+    <ol>
+      <li><b>四份合同：</b>甲方抬头、签约日、角色（顾问 / 联合招商 / 平台方）以盖章原件为准。仓库里只有草案，日期空白，印刷面不填「待核」。</li>
+      <li><b>华为两条：</b>说主体（车 BU、鸿蒙智行、还是合作车企）和推进到哪一步。听成「我把华为引进来了」就是说砸了。简历只写辅助。</li>
+      <li><b>东方枢纽：</b>143 万㎡是产业对接范围，不是个人开发体量。公开 133 万㎡是东站建设口径。和枢纽集团是对接协同，不是编制内招商负责人。</li>
+      <li><b>创智汇、森马：</b>已签约的是定位招商权 / 方案拟定。有经手入驻名单再报企业；没有就别说已经招满。</li>
+    </ol>
+
+    <h2>硬约束（继续守）</h2>
+    <ol>
+      <li>一线投资计至 2021。</li>
+      <li>副教授级高级工程师归职称，不写进任职标题。</li>
+      <li>工商联房地产商会不写现任秘书长（官网现任为李祥）。</li>
+      <li>不写身份证、住址、配偶。</li>
+      <li>不把未操盘的 REITs / 保租房收储写成业绩。</li>
+      <li>中南保留江阴白鹭湾同股同权、2014 西南拓展。</li>
+      <li>不把「服务 100 家、签约 10 家、落地 5 家」写进简历。</li>
+      <li>不写引进华为；不把集团已披露企业写成个人业绩；创智汇不写成创智天地；森马不写成 22 万㎡全盘。</li>
+      <li>不写「超级孵化器」；AI 峰会只写主办方代表并主持圆桌，不是付费落地。</li>
+    </ol>
+
+    <h2>公开职务核验</h2>
+    <table>
+      <tr><th>职务 / 事件</th><th>印刷面</th><th>依据</th></tr>
+      <tr><td>住房政策研究中心秘书长</td><td>现任 · 研究侧</td><td>人民网、中新社、央广网、杨浦区政府、锦天城</td></tr>
+      <tr><td>杨浦科企联执行会长</td><td>现任 · 企业 / 招商侧</td><td>杨浦区政府官网等点名王晓明、胡继刚</td></tr>
+      <tr><td>2026 已签约四宗</td><td>第一页主表</td><td>以甲方盖章原件为准；无原件不投出</td></tr>
+      <tr><td>2025.05 全球新经济增长引擎峰会</td><td>现任条目 · 主办方代表发言</td><td>人民网上海、中新社上海点名</td></tr>
+      <tr><td>2026.05 人工智能商业化峰会</td><td>现任条目 · 主办方代表并主持圆桌</td><td>央广网、杨浦区政府、上观等；不是付费落地</td></tr>
+      <tr><td>2024.06 锦天城海外不动产</td><td>现任出海条目 · 主持</td><td>锦天城官网</td></tr>
+      <tr><td>北欧创新国际会客厅</td><td>现任出海条目 · 空间导入</td><td>区政府官网等；宝龙商办为共同发起</td></tr>
+      <tr><td>工商联房地产商会秘书长</td><td>不写现任</td><td>官网现任为李祥；资管分会只写出席</td></tr>
+      <tr><td>山东商会 / 联考面试官 / 评审专家</td><td>不上印刷面</td><td>公开名单未交叉印证</td></tr>
+    </table>
+    <p class="fine">数字来源：原简历项目记录。靖江 + 金坛 43 亿 = 15 亿 + 28 亿。身份证、住址、配偶信息未写入。面试逐条口径不印在简历上。</p>
+  </div>
+</div>
+</div>
+
+<script>
+(function () {
+  var tabs = document.querySelectorAll(".tab");
+  var packs = {
+    zh: document.getElementById("pack-zh"),
+    en: document.getElementById("pack-en"),
+    notes: document.getElementById("pack-notes")
+  };
+  function show(view) {
+    document.body.setAttribute("data-view", view);
+    Object.keys(packs).forEach(function (key) {
+      packs[key].classList.toggle("active", key === view);
+    });
+    tabs.forEach(function (tab) {
+      tab.classList.toggle("on", tab.getAttribute("data-view") === view);
+    });
+    document.documentElement.lang = view === "en" ? "en" : "zh-CN";
+  }
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      show(tab.getAttribute("data-view"));
+    });
+  });
+  document.getElementById("btn-print").addEventListener("click", function () {
+    window.print();
+  });
+})();
+</script>
+</body>
+</html>
