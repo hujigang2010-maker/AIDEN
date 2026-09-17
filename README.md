@@ -1,9 +1,20 @@
-# AIDEN
+# 九龙坡区城市更新“十五五”实施方案报名指引
 
-AIDEN 是一个多任务工作区。`main` 分支存放共享配置；具体应用和文档交付物位于各自的 `cursor/*` 功能分支。
+本分支交付一份面向重庆大学设计总院商务人员的 Word 操作指引，用于竞争性磋商项目 **JLP26C00100**（重庆市九龙坡区高质量推动城市更新“十五五”时期实施方案）的网上报名及正式采购文件获取。
 
-## 显示语言
+文稿已按内部工作文件口径整理，去掉套话，保留项目信息、操作步骤、核对清单、联合体处理原则和时间安排。
 
-本仓库默认使用**简体中文**。首次打开项目时，请安装推荐的中文语言包，并在命令面板中选择 **Configure Display Language → 中文(简体)**，然后重启 Cursor。
+## 生成
 
-更多说明见 [AGENTS.md](./AGENTS.md)。
+```bash
+python3 -m pip install python-docx
+python3 scripts/build_jlp_registration_guide_docx.py
+python3 scripts/verify_jlp_registration_guide_docx.py
+```
+
+输出文件：`deliverables/重庆市九龙坡区城市更新十五五实施方案_报名及采购文件获取操作指引.docx`
+
+## 关键时限
+
+- 采购文件获取截止：2026年9月18日18:00
+- 响应文件递交截止 / 磋商时间：2026年9月23日14:30
