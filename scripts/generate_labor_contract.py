@@ -26,7 +26,7 @@ LINE = "666666"
 LABEL_FILL = "F3F4F6"
 HEAD_FILL = "E6E8EB"
 TOTAL_FILL = "F7F7F7"
-CONTENT_CM = 16.2
+CONTENT_CM = 17.2
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "output"
@@ -203,7 +203,7 @@ def set_paragraph_format(
     fmt_p.space_after = Pt(after)
     fmt_p.line_spacing = line
     fmt_p.line_spacing_rule = WD_LINE_SPACING.MULTIPLE
-    fmt_p.first_line_indent = Pt(24) if indent else Pt(0)
+    fmt_p.first_line_indent = Pt(20) if indent else Pt(0)
     fmt_p.widow_control = True
     align_map = {
         "left": WD_ALIGN_PARAGRAPH.LEFT,
@@ -236,12 +236,12 @@ def add_text(
     doc,
     text: str,
     *,
-    size: float = 12,
+    size: float = 10,
     font: str = SERIF,
     bold: bool = False,
     before: float = 0,
-    after: float = 4,
-    line: float = 1.15,
+    after: float = 2,
+    line: float = 1.0,
     indent: bool = False,
     align: str = "justify",
     color: str = INK,
@@ -291,7 +291,7 @@ def shade_cell(cell, fill: str) -> None:
     shd.set(qn("w:fill"), fill)
 
 
-def set_cell_margins(cell, margin: int = 70) -> None:
+def set_cell_margins(cell, margin: int = 40) -> None:
     tc_pr = cell._tc.get_or_add_tcPr()
     tc_mar = tc_pr.find(qn("w:tcMar"))
     if tc_mar is None:
@@ -405,7 +405,7 @@ def write_cell(
     if fill:
         shade_cell(cell, fill)
     paragraph = cell.paragraphs[0]
-    set_paragraph_format(paragraph, before=1, after=1, line=1.05, align=align)
+    set_paragraph_format(paragraph, before=0, after=0, line=1.0, align=align)
     # 清空默认空 run
     if paragraph.runs:
         paragraph.runs[0].text = ""
@@ -483,34 +483,34 @@ def add_field(paragraph, instruction: str, placeholder: str = "1") -> None:
 def configure_section(section) -> None:
     section.page_width = Cm(21.0)
     section.page_height = Cm(29.7)
-    section.left_margin = Cm(2.4)
-    section.right_margin = Cm(2.4)
-    section.top_margin = Cm(2.15)
-    section.bottom_margin = Cm(1.9)
-    section.header_distance = Cm(0.7)
-    section.footer_distance = Cm(0.55)
+    section.left_margin = Cm(1.9)
+    section.right_margin = Cm(1.9)
+    section.top_margin = Cm(1.28)
+    section.bottom_margin = Cm(1.08)
+    section.header_distance = Cm(0.35)
+    section.footer_distance = Cm(0.28)
 
     header = section.header
     header.is_linked_to_previous = False
     hp = header.paragraphs[0]
-    set_paragraph_format(hp, align="center", before=0, after=2, line=1.0)
+    set_paragraph_format(hp, align="center", before=0, after=0, line=1.0)
     run = hp.add_run(f"{COMPANY}  ·  劳动合同书")
-    set_run_font(run, SANS, 9, color=MUTED)
-    add_paragraph_border(hp, edge="bottom", sz="8", color="1A1A1A", space="6")
+    set_run_font(run, SANS, 8, color=MUTED)
+    add_paragraph_border(hp, edge="bottom", sz="6", color="1A1A1A", space="1")
 
     footer = section.footer
     footer.is_linked_to_previous = False
     fp = footer.paragraphs[0]
-    set_paragraph_format(fp, align="center", before=2, after=0, line=1.0)
-    add_paragraph_border(fp, edge="top", sz="6", color="1A1A1A", space="4")
+    set_paragraph_format(fp, align="center", before=0, after=0, line=1.0)
+    add_paragraph_border(fp, edge="top", sz="6", color="1A1A1A", space="1")
     left = fp.add_run("第 ")
-    set_run_font(left, SERIF, 9, color=MUTED)
+    set_run_font(left, SERIF, 8, color=MUTED)
     add_field(fp, "PAGE")
     mid = fp.add_run(" 页 / 共 ")
-    set_run_font(mid, SERIF, 9, color=MUTED)
+    set_run_font(mid, SERIF, 8, color=MUTED)
     add_field(fp, "NUMPAGES")
     right = fp.add_run(" 页")
-    set_run_font(right, SERIF, 9, color=MUTED)
+    set_run_font(right, SERIF, 8, color=MUTED)
 
     sect_pr = section._sectPr
     grid = sect_pr.find(qn("w:docGrid"))
@@ -521,7 +521,7 @@ def configure_section(section) -> None:
 def configure_styles(doc: Document) -> None:
     normal = doc.styles["Normal"]
     normal.font.name = SERIF
-    normal.font.size = Pt(12)
+    normal.font.size = Pt(10)
     normal.font.color.rgb = RGBColor.from_string(INK)
     rpr = normal.element.get_or_add_rPr()
     r_fonts = rpr.find(qn("w:rFonts"))
@@ -533,7 +533,7 @@ def configure_styles(doc: Document) -> None:
     pf = normal.paragraph_format
     pf.space_before = Pt(0)
     pf.space_after = Pt(0)
-    pf.line_spacing = 1.15
+    pf.line_spacing = 1.0
 
     settings = doc.settings.element
     if settings.find(qn("w:updateFields")) is None:
@@ -557,12 +557,12 @@ class ContractBuilder:
         add_text(
             self.doc,
             text,
-            size=14,
+            size=12,
             font=SANS,
             bold=True,
-            before=13,
-            after=4,
-            line=1.05,
+            before=5,
+            after=1,
+            line=1.0,
             align="left",
             keep_next=True,
         )
@@ -574,16 +574,16 @@ class ContractBuilder:
             paragraph = self.doc.add_paragraph()
             set_paragraph_format(
                 paragraph,
-                before=2 if index == 0 else 0,
-                after=3,
-                line=1.15,
+                before=0,
+                after=1 if index == len(paragraphs) - 1 else 0,
+                line=1.0,
                 indent=True,
                 align="justify",
             )
             if index == 0:
                 run = paragraph.add_run(f"{number}  ")
-                set_run_font(run, SERIF, 12, bold=True)
-            add_marked_runs(paragraph, text, 12)
+                set_run_font(run, SERIF, 10, bold=True)
+            add_marked_runs(paragraph, text, 10)
 
     def body(self, text: str, **kwargs) -> None:
         add_text(self.doc, text, indent=True, align="justify", **kwargs)
@@ -605,37 +605,37 @@ def build() -> Document:
     add_text(
         doc,
         f"合同编号：{blank(12)}",
-        size=10.5,
+        size=9,
         align="right",
         before=0,
-        after=2,
+        after=0,
         line=1.0,
     )
     add_text(
         doc,
         "劳 动 合 同 书",
-        size=22,
+        size=18,
         font=SANS,
         bold=True,
         align="center",
-        before=4,
+        before=2,
         after=0,
         line=1.0,
     )
     subtitle = add_text(
         doc,
         "（固定期限）",
-        size=12,
+        size=11,
         font=SANS,
         align="center",
-        before=1,
-        after=8,
+        before=0,
+        after=2,
         line=1.0,
         color=MUTED,
     )
     add_paragraph_border(subtitle, edge="bottom", sz="12", color="1A1A1A", space="1")
 
-    add_text(doc, "甲方（用人单位）", size=12, font=SANS, bold=True, before=10, after=3, align="left")
+    add_text(doc, "甲方（用人单位）", size=11, font=SANS, bold=True, before=4, after=1, align="left")
     add_table(
         doc,
         [
@@ -646,11 +646,11 @@ def build() -> Document:
             [label("实际办公地址"), value(blank(18))],
             [label("联  系  人"), value("联系人：" + blank(6) + "    联系电话：" + blank(8))],
         ],
-        [5.2, 11.0],
-        min_height=0.78,
+        [5.5, 11.7],
+        min_height=0.52,
     )
 
-    add_text(doc, "乙方（劳动者）", size=12, font=SANS, bold=True, before=10, after=3, align="left")
+    add_text(doc, "乙方（劳动者）", size=11, font=SANS, bold=True, before=4, after=1, align="left")
     employee_table = add_table(
         doc,
         [
@@ -675,26 +675,26 @@ def build() -> Document:
                 value(""),
             ],
         ],
-        [3.8, 4.6, 3.2, 4.6],
-        min_height=0.78,
+        [4.0, 4.9, 3.4, 4.9],
+        min_height=0.52,
     )
     for row_index in (2, 3, 4):
         employee_table.cell(row_index, 1).merge(employee_table.cell(row_index, 3))
 
     b.body(
         "根据《中华人民共和国劳动法》《中华人民共和国劳动合同法》《上海市劳动合同条例》及其他有关法律、法规、规章，甲乙双方在平等自愿、协商一致、诚实信用的基础上订立本合同，共同遵守。",
-        before=10,
-        after=2,
+        before=4,
+        after=1,
     )
 
     add_text(
         doc,
         "合同主要事项",
-        size=12,
+        size=11,
         font=SANS,
         bold=True,
-        before=8,
-        after=3,
+        before=4,
+        after=1,
         align="left",
         keep_next=True,
     )
@@ -720,16 +720,16 @@ def build() -> Document:
                 ),
             ],
         ],
-        [4.6, 11.6],
+        [4.9, 12.3],
         header=True,
-        min_height=0.82,
+        min_height=0.5,
     )
     add_text(
         doc,
         "上表与第一章、第四章相应条款一致。试用期包含在劳动合同期限内。",
         size=9,
-        before=6,
-        after=2,
+        before=2,
+        after=1,
         indent=False,
         align="left",
         color=MUTED,
@@ -932,45 +932,33 @@ def build() -> Document:
     # 附件
     add_text(
         doc,
-        "附件",
-        page_break=True,
+        "附件  劳动报酬、社会保险及住房公积金确认表",
         size=12,
         font=SANS,
         bold=True,
         align="center",
-        before=0,
-        after=1,
-        line=1.0,
-    )
-    add_text(
-        doc,
-        "劳动报酬、社会保险及住房公积金确认表",
-        size=16,
-        font=SANS,
-        bold=True,
-        align="center",
-        before=0,
-        after=1,
+        before=8,
+        after=0,
         line=1.0,
     )
     add_text(
         doc,
         "（依据甲方2026年8月计薪工资表）",
-        size=11,
+        size=9,
         font=SANS,
         align="center",
         before=0,
-        after=8,
+        after=2,
         line=1.0,
         color=MUTED,
     )
     b.body(
         f"本附件确认甲方向乙方**{EMPLOYEE}**发放2026年8月工资，以及该月社会保险、住房公积金的缴纳情况。本附件是本合同组成部分。表内金额单位为人民币元。",
-        before=2,
-        after=4,
+        before=1,
+        after=1,
     )
 
-    add_text(doc, "一、应发工资", size=12, font=SANS, bold=True, before=6, after=3, align="left", keep_next=True)
+    add_text(doc, "一、应发工资", size=10.5, font=SANS, bold=True, before=3, after=1, align="left", keep_next=True)
     add_table(
         doc,
         [
@@ -986,22 +974,22 @@ def build() -> Document:
                 {"text": "与本合同约定的月工资一致", "bold": False, "align": "left", "fill": TOTAL_FILL, "size": 10.5},
             ],
         ],
-        [3.6, 3.4, 9.2],
+        [3.8, 3.6, 9.8],
         header=True,
-        min_height=0.62,
+        min_height=0.42,
     )
     add_text(
         doc,
         "工资表“计薪天数”“职位”两栏未填写。本合同月工资按月薪28,000元约定，不按日工资倒推。",
         size=9,
-        before=3,
-        after=2,
+        before=1,
+        after=1,
         indent=False,
         align="left",
         color=MUTED,
     )
 
-    add_text(doc, "二、社会保险", size=12, font=SANS, bold=True, before=8, after=3, align="left", keep_next=True)
+    add_text(doc, "二、社会保险", size=10.5, font=SANS, bold=True, before=4, after=1, align="left", keep_next=True)
     si_rows = [
         [
             head("险种"),
@@ -1025,19 +1013,19 @@ def build() -> Document:
             num(EE_SI, bold=True, fill=TOTAL_FILL),
         ],
     ]
-    add_table(doc, si_rows, [3.5, 2.5, 2.2, 2.6, 2.2, 3.2], header=True, min_height=0.58)
+    add_table(doc, si_rows, [3.7, 2.7, 2.3, 2.8, 2.3, 3.4], header=True, min_height=0.4)
     add_text(
         doc,
         f"社会保险单位与个人合计 {fmt(SI_TOTAL)} 元。生育保险以上海市现行与职工基本医疗保险的衔接规定为准，2026年8月工资表未单列生育保险缴费。",
         size=9,
-        before=3,
-        after=2,
+        before=1,
+        after=1,
         indent=False,
         align="left",
         color=MUTED,
     )
 
-    add_text(doc, "三、住房公积金", size=12, font=SANS, bold=True, before=8, after=3, align="left", keep_next=True)
+    add_text(doc, "三、住房公积金", size=10.5, font=SANS, bold=True, before=4, after=1, align="left", keep_next=True)
     add_table(
         doc,
         [
@@ -1051,44 +1039,44 @@ def build() -> Document:
                 num(HF_TOTAL, bold=True, fill=TOTAL_FILL),
             ],
         ],
-        [4.2, 4.0, 3.6, 4.4],
+        [4.5, 4.2, 3.8, 4.7],
         header=True,
-        min_height=0.62,
+        min_height=0.4,
     )
 
-    add_text(doc, "四、2026年8月代扣与实发", size=12, font=SANS, bold=True, before=8, after=3, align="left", keep_next=True)
+    add_text(doc, "四、2026年8月代扣与实发", size=10.5, font=SANS, bold=True, before=4, after=1, align="left", keep_next=True)
     add_table(
         doc,
         [
             [head("项目"), head("金额"), head("备注")],
-            [value("应发合计"), num(BASE, bold=True), value("基本工资")],
-            [value("减：个人养老保险"), num(PENSION_EE_AMT), value("8%")],
-            [value("减：个人医疗保险"), num(MEDICAL_EE_AMT), value("2%")],
-            [value("减：个人失业保险"), num(UNEMP_EE_AMT), value("0.5%")],
-            [value("减：个人住房公积金"), num(HF_EE_AMT), value("5%")],
-            [value("减：个人所得税"), num(IIT_AUG), value("仅为本月累计预扣数")],
+            [value("应发合计"), num(BASE, bold=True), value("　基本工资")],
+            [value("减：个人养老保险"), num(PENSION_EE_AMT), value("　8%")],
+            [value("减：个人医疗保险"), num(MEDICAL_EE_AMT), value("　2%")],
+            [value("减：个人失业保险"), num(UNEMP_EE_AMT), value("　0.5%")],
+            [value("减：个人住房公积金"), num(HF_EE_AMT), value("　5%")],
+            [value("减：个人所得税"), num(IIT_AUG), value("　仅为本月累计预扣数")],
             [
                 {"text": "本月实发", "bold": True, "align": "left", "fill": TOTAL_FILL, "size": 10.5},
                 num(NET_AUG, bold=True, fill=TOTAL_FILL),
-                {"text": "应发减去上述各项代扣", "bold": False, "align": "left", "fill": TOTAL_FILL, "size": 10.5},
+                {"text": "　应发减去上述各项代扣", "bold": False, "align": "left", "fill": TOTAL_FILL, "size": 10.5},
             ],
         ],
-        [5.2, 3.6, 7.4],
+        [5.5, 3.8, 7.9],
         header=True,
-        min_height=0.58,
+        min_height=0.4,
     )
     add_text(
         doc,
         "个人所得税1,866.00元是2026年8月按照累计预扣法代扣的金额，随累计收入、专项扣除和专项附加扣除变化，不作为本合同的固定扣款。",
         size=9,
-        before=3,
-        after=2,
+        before=1,
+        after=1,
         indent=False,
         align="left",
         color=MUTED,
     )
 
-    add_text(doc, "五、与工资表合计数的勾稽", size=12, font=SANS, bold=True, before=8, after=3, align="left", keep_next=True)
+    add_text(doc, "五、与工资表合计数的勾稽", size=10.5, font=SANS, bold=True, before=4, after=1, align="left", keep_next=True)
     add_table(
         doc,
         [
@@ -1102,16 +1090,16 @@ def build() -> Document:
                 num(SI_HF_TOTAL, bold=True, fill=TOTAL_FILL),
             ],
         ],
-        [10.2, 6.0],
+        [10.8, 6.4],
         header=True,
-        min_height=0.58,
+        min_height=0.4,
     )
     add_text(
         doc,
         "工资表右下角合计数12,992.00元，等于社会保险合计10,192.00元加上住房公积金合计2,800.00元，与上表一致。该合计数不是从乙方工资中重复扣除的项目。",
         size=9,
-        before=3,
-        after=6,
+        before=1,
+        after=1,
         indent=False,
         align="left",
         color=MUTED,
@@ -1121,22 +1109,21 @@ def build() -> Document:
     add_text(
         doc,
         "签署页",
-        page_break=True,
-        size=16,
+        size=12,
         font=SANS,
         bold=True,
         align="center",
-        before=0,
-        after=2,
+        before=4,
+        after=0,
         line=1.0,
     )
     add_text(
         doc,
         "（正文及附件完）",
-        size=10.5,
+        size=9,
         align="center",
         before=0,
-        after=8,
+        after=1,
         line=1.0,
         color=MUTED,
     )
@@ -1145,47 +1132,60 @@ def build() -> Document:
         "本合同一式两份，甲乙双方各执一份，具有同等法律效力。双方已经阅读并理解全部条款。签署前应当核对已经填写的内容，补齐必要的空白事项；不需要约定的空白处注明“无”或者划线注销。",
     )
 
-    add_text(doc, "甲方", size=12, font=SANS, bold=True, before=12, after=3, align="left", keep_next=True)
-    add_table(
+    sign = add_table(
         doc,
         [
-            [label("用人单位"), value(COMPANY, bold=True)],
-            [label("法定代表人或授权代表签字"), value(blank(18))],
-            [label("甲方盖章"), value("（盖章处）")],
-            [label("签署日期"), value("________年________月________日")],
-            [label("签署地点"), value(blank(18))],
+            [
+                label("甲方（用人单位）"),
+                value(""),
+                label("乙方（劳动者）"),
+                value(""),
+            ],
+            [
+                label("单位名称"),
+                value(COMPANY, bold=True),
+                label("劳动者"),
+                value(EMPLOYEE, bold=True),
+            ],
+            [
+                label("授权代表签字"),
+                value(blank(8)),
+                label("乙方本人签字"),
+                value(blank(8)),
+            ],
+            [
+                label("甲方盖章"),
+                value("（盖章处）"),
+                label("签字"),
+                value("（签字处）"),
+            ],
+            [
+                label("签署日期"),
+                value("____年__月__日"),
+                label("签署日期"),
+                value("____年__月__日"),
+            ],
+            [
+                label("签署地点"),
+                value(blank(6)),
+                label("签署地点"),
+                value(blank(6)),
+            ],
+            [
+                {"text": "合同文本领取确认：乙方已领取本合同文本一份。", "bold": False, "align": "left", "size": 9},
+                value(""),
+                label("乙方签字"),
+                value("____年__月__日"),
+            ],
         ],
-        [5.6, 10.6],
-        min_height=0.85,
+        [2.8, 5.8, 2.8, 5.8],
+        min_height=0.42,
     )
-    # 盖章行加高
-    seal_row = doc.tables[-1].rows[2]
-    set_row_height(seal_row, 2.4)
-
-    add_text(doc, "乙方", size=12, font=SANS, bold=True, before=12, after=3, align="left", keep_next=True)
-    add_table(
-        doc,
-        [
-            [label("劳动者"), value(EMPLOYEE, bold=True)],
-            [label("乙方本人签字"), value(blank(18))],
-            [label("签署日期"), value("________年________月________日")],
-            [label("签署地点"), value(blank(18))],
-        ],
-        [5.6, 10.6],
-        min_height=0.9,
-    )
-    set_row_height(doc.tables[-1].rows[1], 1.6)
-
-    add_text(doc, "合同文本领取确认", size=12, font=SANS, bold=True, before=8, after=3, align="left", keep_next=True)
-    b.body("乙方确认：已经领取双方签署的劳动合同文本一份。", before=2, after=4)
-    add_table(
-        doc,
-        [
-            [label("乙方签字"), value(blank(8)), label("领取日期"), value("____年__月__日")],
-        ],
-        [3.2, 5.4, 3.0, 4.6],
-        min_height=0.95,
-    )
+    sign.cell(0, 0).merge(sign.cell(0, 1))
+    sign.cell(0, 2).merge(sign.cell(0, 3))
+    sign.cell(6, 0).merge(sign.cell(6, 1))
+    set_row_height(sign.rows[2], 1.05)
+    set_row_height(sign.rows[3], 1.45)
 
     return doc
 
