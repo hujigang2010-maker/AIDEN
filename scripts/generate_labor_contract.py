@@ -347,7 +347,7 @@ def chapter(doc, text: str) -> None:
     add_text(paragraph, text, HEI, 14, True)
 
 
-def article(doc, text: str) -> None:
+def article(doc, text: str, keep_next: bool = False) -> None:
     paragraph = doc.add_paragraph()
     set_paragraph(
         paragraph,
@@ -356,6 +356,7 @@ def article(doc, text: str) -> None:
         line=1.35,
         align="justify",
         first_indent=0.74,
+        keep_next=keep_next,
         keep_lines=True,
     )
     match = re.match(r"(第[一二三四五六七八九十百零]+条)(.*)", text)
@@ -397,9 +398,15 @@ def configure(doc: Document) -> None:
     header.is_linked_to_previous = False
     hp = header.paragraphs[0]
     set_paragraph(hp, align="left", before=0, after=2, line=1.0)
+    ppr = hp._p.get_or_add_pPr()
+    tabs = OxmlElement("w:tabs")
+    tab = OxmlElement("w:tab")
+    tab.set(qn("w:val"), "right")
+    tab.set(qn("w:pos"), str(int(16.2 * 567)))
+    tabs.append(tab)
+    ppr.append(tabs)
     add_text(hp, COMPANY, SONG, 9)
-    add_text(hp, "          ", SONG, 9)
-    add_text(hp, "劳动合同书", SONG, 9)
+    add_text(hp, "\t劳动合同书", SONG, 9)
     add_bottom_border(hp, "8")
 
     first_header = section.first_page_header
@@ -469,35 +476,29 @@ def signature_page(doc) -> None:
     cell_margins(left, top=40, bottom=40, left=0, right=120)
     cell_margins(right, top=40, bottom=40, left=120, right=0)
 
-    def block(cell, lines: list[tuple[str, bool, float]]) -> None:
+    def sign_line(cell) -> None:
+        paragraph = cell.add_paragraph()
+        set_paragraph(paragraph, before=1, after=2, line=1.0)
+        add_bottom_border(paragraph, "8")
+        add_text(paragraph, " ", SONG, 14)
+
+    def block(cell, heading: str, name: str, sign_label: str) -> None:
         first = cell.paragraphs[0]
         set_paragraph(first, before=0, after=2, line=1.15)
-        add_text(first, lines[0][0], SONG, 12, lines[0][1])
-        for text, bold, before in lines[1:]:
-            paragraph = cell.add_paragraph()
-            set_paragraph(paragraph, before=before, after=2, line=1.15)
-            add_text(paragraph, text, SONG, 12, bold)
+        add_text(first, heading, SONG, 12, True)
+        name_p = cell.add_paragraph()
+        set_paragraph(name_p, before=2, after=0, line=1.15)
+        add_text(name_p, name, SONG, 12, False)
+        label = cell.add_paragraph()
+        set_paragraph(label, before=46, after=0, line=1.15)
+        add_text(label, sign_label, SONG, 12, False)
+        sign_line(cell)
+        date = cell.add_paragraph()
+        set_paragraph(date, before=10, after=0, line=1.15)
+        add_text(date, "日期：________年____月____日", SONG, 12, False)
 
-    block(
-        left,
-        [
-            ("甲方（盖章）", True, 0),
-            (COMPANY, False, 2),
-            ("法定代表人或授权代表签字：", False, 28),
-            ("", False, 16),
-            ("日期：　　年　　月　　日", False, 16),
-        ],
-    )
-    block(
-        right,
-        [
-            ("乙方（签字）", True, 0),
-            (EMPLOYEE, False, 2),
-            ("本人签字：", False, 28),
-            ("", False, 16),
-            ("日期：　　年　　月　　日", False, 16),
-        ],
-    )
+    block(left, "甲方（盖章）", COMPANY, "法定代表人或授权代表（签字）")
+    block(right, "乙方（签字）", EMPLOYEE, "本人签字")
 
     place = doc.add_paragraph()
     set_paragraph(place, before=10, after=2, line=1.15, align="left")
@@ -517,7 +518,7 @@ def signature_page(doc) -> None:
 
     sign = doc.add_paragraph()
     set_paragraph(sign, before=4, after=0, line=1.5)
-    add_text(sign, "乙方签字：　　　　　　　　　　日期：　　年　　月　　日", SONG, 12)
+    add_text(sign, "乙方签字：________________    日期：________年____月____日", SONG, 12)
 
 
 def build() -> Document:
@@ -541,12 +542,12 @@ def build() -> Document:
     party_table(
         doc,
         [
-            ("名        称", COMPANY),
+            ("名称", COMPANY),
             ("统一社会信用代码", CREDIT),
             ("法定代表人", LEGAL_REP),
-            ("住        所", COMPANY_ADDR),
-            ("联  系  人", CONTACT),
-            ("联 系 电 话", CONTACT_PHONE),
+            ("住所", COMPANY_ADDR),
+            ("联系人", CONTACT),
+            ("联系电话", CONTACT_PHONE),
         ],
         [4.2, 12.0],
     )
@@ -572,7 +573,7 @@ def build() -> Document:
     article(doc, "第三条　甲方在试用期内解除本合同的，应当说明理由，并证明乙方不符合录用条件。乙方在试用期内提前三日通知甲方，可以解除本合同。")
 
     chapter(doc, "第二章　工作内容和工作地点")
-    article(doc, f"第四条　乙方的工作部门为{DEPT}，岗位为{POST}，职级为{RANK}。")
+    article(doc, f"第四条　乙方的工作部门为{DEPT}，岗位为{POST}，职级为{RANK}。", keep_next=True)
     article(doc, "第五条　乙方承担下列工作：")
     item(doc, "（一）组织工程技术管理，审查并落实技术方案；")
     item(doc, "（二）协调工程项目的进度、质量、安全和现场实施；")
