@@ -1062,6 +1062,168 @@ def slide_copy(prs, page, total):
     )
 
 
+def _addon_math() -> dict:
+    """170 张卖完时的票面对比。只比较结构，不是销量预测。"""
+    tier = 60 * 499 + 20 * 999 + 20 * 599 + 70 * 699
+    row_cap = 14 * 1299 + 14 * 999 + 14 * 899 + 14 * 799 + 60 * 499 + 54 * 699
+    split = 8 * 300
+    books = 40 * 30
+    if tier != 110830 or row_cap != 123630 or split != 2400 or books != 1200:
+        raise AssertionError((tier, row_cap, split, books))
+    return {"tier": tier, "row_cap": row_cap, "split": split, "books": books}
+
+
+def slide_addon_answer(prs, page, total):
+    s = new_slide(prs)
+    header(s, "增补  ·  结论", "收费维持四档，签售不进上午", page, total)
+    blocks = [
+        ("收费", "维持四档", "早鸟 499，标准 699\n团体 599，前排 999\n不按第一排到第四排标价\n前排 20 张仍是前三排"),
+        ("增收", "赞助仍是大头", "上午仍是两讲、茶歇、问答\n签售只放在 12:10—12:40\n限 36 人，书价即签\n卖书大约 0.12 万，不进保本"),
+    ]
+    for i, (kicker, title, body) in enumerate(blocks):
+        x = 0.52 + i * 6.40
+        add_round(s, x, 1.26, 6.15, 3.35, CARD, LINE, 0.08)
+        add_text(s, x + 0.24, 1.42, 5.7, 0.30, [t(kicker, 14, CINNABAR, True)], page=page)
+        add_text(s, x + 0.24, 1.80, 5.7, 0.55, [t(title, 28, TEXT, True)], page=page)
+        add_text(s, x + 0.24, 2.55, 5.7, 1.80, [t(body, 16, TEXT, spc=1.2)], page=page)
+    add_round(s, 0.52, 4.80, 12.30, 1.95, INK, radius=0.08)
+    add_text(
+        s,
+        0.74,
+        4.98,
+        11.9,
+        1.60,
+        [t("10 月 13 日按这四档开售。\n签售要在 10 月 16 日 18:00 前拿到讲师书面同意才上架。\n同意不了就不上架，不改票价，也不改 10 月 22 日的保本。", 16, CREAM, spc=1.18)],
+        anchor=MSO_ANCHOR.MIDDLE,
+        page=page,
+    )
+
+
+def slide_row_price(prs, page, total):
+    s = new_slide(prs)
+    header(s, "增补  ·  票价", "分排标价多不了多少，还卖不出去", page, total)
+    metrics = [
+        ("11.08 万", "四档票面", "170 张按现价卖完", CINNABAR),
+        ("12.36 万", "分排上限", "票面多 1.28 万", GOLD_TEXT),
+        ("2,400 元", "拆开也只多这些", "8 张提到 1,299", PINE),
+    ]
+    for i, (num, title, note, color) in enumerate(metrics):
+        x = 0.52 + i * 4.16
+        add_round(s, x, 1.24, 4.00, 1.62, CARD, LINE, 0.08)
+        add_text(s, x + 0.16, 1.34, 3.68, 0.58, [t(num, 26, color, True)], page=page)
+        add_text(s, x + 0.16, 1.96, 3.68, 0.32, [t(title, 14, TEXT, True)], page=page)
+        add_text(s, x + 0.16, 2.30, 3.68, 0.36, [t(note, 13, MUTED)], page=page)
+    reasons = [
+        ("第一排有主", "已到账的 12 位 2,399 元学员坐第一排，不能再公开卖一次。"),
+        ("前排被占", "赞助席也在前排。扣完以后，大约就是现在这 20 张。"),
+        ("座位图未定", "场地容量还没有书面确认，按排卖了无法保证履约。"),
+        ("差价讲不清", "第四排和后排都听得见。多出来的改签，会吃掉这 2,400 元。"),
+    ]
+    for i, (title, desc) in enumerate(reasons):
+        col, row = i % 2, i // 2
+        x = 0.52 + col * 6.40
+        y = 3.06 + row * 1.15
+        add_round(s, x, y, 6.15, 1.05, CARD, LINE, 0.08)
+        add_text(s, x + 0.18, y + 0.10, 5.8, 0.32, [t(title, 15, CINNABAR, True)], page=page)
+        add_text(s, x + 0.18, y + 0.46, 5.8, 0.48, [t(desc, 13, TEXT)], page=page)
+    add_text(
+        s,
+        0.52,
+        5.46,
+        12.3,
+        1.40,
+        [t("分排上限按前四排各 14 座估算：1,299 / 999 / 899 / 799，后面仍是早鸟和标准席。这是座位都能公开出售时的上限，不是这次做得到的数。\n早鸟负责提前成交，团体负责进企业，前排 20 张负责接愿意靠近的人。价格已经按这三件事分开了。", 13, MUTED, spc=1.15)],
+        page=page,
+    )
+
+
+def slide_addon_money(prs, page, total):
+    s = new_slide(prs)
+    header(s, "增补  ·  内容", "上午不加环节，额外的钱在赞助", page, total)
+    layers = [
+        ("会前", "不另收费", "1 页导读\n群里征集问题"),
+        ("会中", "含在票价里", "两讲、茶歇四桌\n20 分钟问答、讲义"),
+        ("后场", "大约 0.12 万", "12:10—12:40 签售\n40 本书，不另收签字费"),
+    ]
+    for i, (name, price, body) in enumerate(layers):
+        x = 0.52 + i * 4.16
+        add_round(s, x, 1.24, 4.00, 1.85, CARD, LINE, 0.08)
+        add_text(s, x + 0.16, 1.34, 3.68, 0.30, [t(name, 14, CINNABAR, True)], page=page)
+        add_text(s, x + 0.16, 1.66, 3.68, 0.36, [t(price, 16, TEXT, True)], page=page)
+        add_text(s, x + 0.16, 2.10, 3.68, 0.80, [t(body, 14, MUTED, spc=1.1)], page=page)
+    headers = ["来源", "量级", "10 月 22 日保本"]
+    rows = [
+        [cell("赞助", bold=True), cell("6 万保底，8 万争取", align=PP_ALIGN.CENTER), cell("进，只认到账", PINE, True, PP_ALIGN.CENTER)],
+        [cell("前排 999 的差价", bold=True), cell("已含在现有票价里", align=PP_ALIGN.CENTER), cell("进", PINE, True, PP_ALIGN.CENTER)],
+        [cell("前排再拆成 1,299", bold=True), cell("票面多 2,400 元", align=PP_ALIGN.CENTER), cell("不改票价体系", GOLD_TEXT, True, PP_ALIGN.CENTER)],
+        [cell("现场卖书", bold=True), cell("约 1,200 元", align=PP_ALIGN.CENTER), cell("不进", CINNABAR, True, PP_ALIGN.CENTER)],
+        [cell("回放、闭门、订金", bold=True), cell("都要另签讲师", align=PP_ALIGN.CENTER), cell("这次不卖", CINNABAR, True, PP_ALIGN.CENTER)],
+    ]
+    paint_table(s, 0.52, 3.26, [3.30, 4.70, 4.30], headers, rows, page, row_h=0.52, header_h=0.42, size=14)
+    add_text(s, 0.52, 6.40, 12.3, 0.52, [t("卖书按 40 本、每本毛利 30 元估算。书目和售价 10 月 18 日前才确认。签售是为了让前排 999 说得清，不是第二门生意。", 13, MUTED)], page=page)
+
+
+def slide_addon_plan(prs, page, total):
+    s = new_slide(prs)
+    header(s, "可落地方案", "后场三十分钟，16 日决定上不上", page, total)
+    add_text(s, 0.52, 1.22, 6.1, 0.32, [t("三项都有书面记录才上架", 14, CINNABAR, True)], page=page)
+    gates = [
+        ("1", "讲师同意", "12:10—12:40，只签姓名和日期"),
+        ("2", "书能到场", "至少 40 本，10 月 29 日前到"),
+        ("3", "第一排核对完", "看 2,399 元学员是否已到账"),
+    ]
+    for i, (num, title, desc) in enumerate(gates):
+        y = 1.60 + i * 1.15
+        add_round(s, 0.52, y, 6.15, 1.05, CARD, LINE, 0.08)
+        add_text(s, 0.70, y + 0.14, 0.55, 0.76, [t(num, 20, CINNABAR, True)], anchor=MSO_ANCHOR.MIDDLE, page=page)
+        add_text(s, 1.35, y + 0.12, 5.1, 0.36, [t(title, 16, TEXT, True)], page=page)
+        add_text(s, 1.35, y + 0.50, 5.1, 0.40, [t(desc, 14, MUTED)], page=page)
+    add_round(s, 6.90, 1.22, 5.92, 4.83, INK, radius=0.08)
+    add_text(s, 7.12, 1.40, 5.5, 0.36, [t("上架之后怎么做", 14, GOLD_LINE, True)], page=page)
+    rules = [
+        "四档票价不动，不新增第几排",
+        "名额 36 人，12:40 停止",
+        "顺序：已到账学员、前排、现场购书",
+        "不另收签字费，不承诺合影和题词",
+        "书款单独记账，不进保本",
+        "签售取消，票款不退；未拆封的书可退",
+    ]
+    add_text(s, 7.12, 1.88, 5.5, 3.90, [t("\n".join(rules), 15, CREAM, spc=1.35)], page=page)
+    add_text(s, 0.52, 5.20, 6.2, 1.65, [t("缺任何一项，整层放弃。\n海报、微信、报名页都不出现“签售”。\n优先用出版赞助供书，不垫付大额书款。", 14, TEXT, spc=1.15)], page=page)
+
+
+def slide_addon_run(prs, page, total):
+    s = new_slide(prs)
+    header(s, "可落地方案", "确认之前，一个字都不要写出去", page, total)
+    steps = [
+        ("10/13", "四档开售", "不写签售，不写第几排"),
+        ("10/16", "上架或放弃", "18:00 前，A 只认书面同意"),
+        ("10/18", "确认供货", "书名、售价、40 本、谁收款"),
+        ("10/29", "书和名单", "书到现场，核对前排席"),
+        ("10/31", "后场签售", "12:10 开始，12:40 停止"),
+        ("11/7", "分开复盘", "书款不和门票、赞助混记"),
+    ]
+    for i, (when, title, desc) in enumerate(steps):
+        col, row = i % 3, i // 3
+        x = 0.52 + col * 4.16
+        y = 1.26 + row * 1.85
+        add_round(s, x, y, 4.00, 1.70, CARD, LINE, 0.08)
+        add_text(s, x + 0.18, y + 0.14, 3.64, 0.30, [t(when, 14, CINNABAR, True)], page=page)
+        add_text(s, x + 0.18, y + 0.50, 3.64, 0.40, [t(title, 18, TEXT, True)], page=page)
+        add_text(s, x + 0.18, y + 1.00, 3.64, 0.50, [t(desc, 14, MUTED)], page=page)
+    add_round(s, 0.52, 5.10, 12.30, 1.75, GOLD_WASH, radius=0.08)
+    add_text(s, 0.72, 5.24, 11.9, 0.32, [t("确认后才加到报名页", 13, GOLD_TEXT, True)], page=page)
+    add_text(
+        s,
+        0.72,
+        5.58,
+        11.9,
+        1.10,
+        [t("前排席含限量签售资格。签售于 12:10 开始、12:40 结束，额满即止。签售若取消，票款不退。\n现场：A 陪讲师，C 收书款，D 控队列，B 只拍队列全景。", 15, TEXT, spc=1.15)],
+        page=page,
+    )
+
+
 def slide_now(prs, page, total):
     s = new_slide(prs)
     header(s, "本周动作", "不齐这四份，13 日不开售", page, total)
@@ -1126,6 +1288,11 @@ BUILDERS = [
     slide_contract,
     slide_report,
     slide_copy,
+    slide_addon_answer,
+    slide_row_price,
+    slide_addon_money,
+    slide_addon_plan,
+    slide_addon_run,
     slide_now,
 ]
 
@@ -1164,6 +1331,11 @@ REQUIRED = [
     "半天票",
     "30%",
     "不卖站票",
+    "11.08 万",
+    "12.36 万",
+    "2,400",
+    "12:40",
+    "后场",
 ]
 
 
@@ -1217,6 +1389,7 @@ def missing_phrases(prs: Presentation) -> list[str]:
 
 
 def main() -> int:
+    _addon_math()
     OUT.mkdir(parents=True, exist_ok=True)
     global BOXES
     BOXES = []
