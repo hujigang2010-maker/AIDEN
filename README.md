@@ -10,7 +10,7 @@
 | `output/致赵海_微信回复稿.txt` | **复制到微信发给赵海**：分两条，第二条可转发 |
 | `output/致赵海_8月29日沟通后合作路径确认.docx` | **可转发给赵海团队（一页 A4）**：公开场与系统课并行 |
 | `output/致赵海_按活动为主回复稿.txt` | **现用，发给赵海**：主推 10 月 31 日活动，不主推整课；续课群我做 |
-| `output/10月31日王德峰老师公开讲座_合作协议（签署稿）.docx` | **现用，给对方签字**：公开讲座 499，取消 2399，按来源分成 |
+| `output/10月31日王德峰老师公开讲座_合作协议（签署稿）.docx` | **现用，给对方签字**：已填入首乾书院、互动吧；赠票各 10 张，2499 元不进分成 |
 
 上一版「渠道费作附带」和 2399 专属场方案不要作为本次协议。
 
@@ -36,7 +36,7 @@ python3 scripts/generate_reply.py                    # 发给对方的确认函
 python3 scripts/generate_zhaohai_reply.py            # 致赵海微信稿 + 路径确认函
 python3 scripts/generate_zhaohai_round2.py           # 对方三点后（旧口径，勿直接发）
 python3 scripts/generate_zhaohai_activity.py         # 活动为主口径（讨论稿）
-python3 scripts/generate_agreement.py                # 现用：可签署合作协议
+python3 scripts/generate_agreement.py                # 生成底稿；不要覆盖已填写的签署稿
 ```
 
 依赖：`python-docx`。完整版票价按一线城市 2.5–3 小时公开讲座设计：299 / 399 / **499** / 699 / 999，主力 499 元，预计平均实收 500–530 元。

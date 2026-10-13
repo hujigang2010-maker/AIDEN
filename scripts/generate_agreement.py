@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import generate_wangdefeng_proposal as g  # noqa: E402
 
 OUT = Path(__file__).resolve().parents[1] / "output"
-PATH = OUT / "10月31日王德峰老师公开讲座_合作协议（签署稿）.docx"
+PATH = OUT / "10月31日王德峰老师公开讲座_合作协议（生成底稿）.docx"
 NOTE = OUT / "10月31日合作协议_发送说明.txt"
 
 
