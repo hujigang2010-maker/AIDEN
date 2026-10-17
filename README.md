@@ -11,7 +11,8 @@
 | `output/致赵海_8月29日沟通后合作路径确认.docx` | **可转发给赵海团队（一页 A4）**：公开场与系统课并行 |
 | `output/致赵海_按活动为主回复稿.txt` | **现用，发给赵海**：主推 10 月 31 日活动，不主推整课；续课群我做 |
 | `output/王德峰老师公开讲座_对外活动方案.docx` | **对外**：海报议程、票价、主办，可发给场地和合作方 |
-| `output/王德峰老师公开讲座_赞助方案_对外商务版.docx` | **对外商务**：三档赞助，文末可勾选回传 |
+| `output/王德峰老师公开讲座_赞助方案_对外商务版.docx` | **对外商务**：六档赞助，场地另行通知，文末可勾选回传 |
+| `output/王德峰老师公开讲座_赞助方案_对外商务版.pptx` | **对外商务幻灯片**：与上一份同一口径，8 页 |
 
 上一版「渠道费作附带」和 2399 专属场方案不要作为本次协议。
 
@@ -39,6 +40,7 @@ python3 scripts/generate_zhaohai_round2.py           # 对方三点后（旧口�
 python3 scripts/generate_zhaohai_activity.py         # 活动为主口径（讨论稿）
 python3 scripts/generate_public_campaign.py             # 对外策划案 + 议程海报
 python3 scripts/generate_sponsor_deck.py               # 赞助方案对外商务版
+python3 scripts/generate_sponsor_ppt.py                # 赞助方案对外幻灯片
 ```
 
 依赖：`python-docx`。完整版票价按一线城市 2.5–3 小时公开讲座设计：299 / 399 / **499** / 699 / 999，主力 499 元，预计平均实收 500–530 元。
