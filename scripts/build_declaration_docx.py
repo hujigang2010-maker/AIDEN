@@ -552,17 +552,17 @@ def build_basic(doc):
     write(table, 11, 10, "获奖时间", size=8)
     write(table, 11, 13, "授奖部门", size=8)
 
-    write(table, 12, 1, "可持续社区营造标杆项目奖", size=8)
-    write(table, 12, 10, "2019-02-24", size=8)
-    write(table, 12, 13, "上海万科产品创新研究院", size=7.5)
+    write(table, 12, 1, "住房政策研究创新贡献奖", size=8)
+    write(table, 12, 10, "2024-12-18", size=8)
+    write(table, 12, 13, "复旦大学住房政策中心专业委员会", size=7.5)
 
     write(table, 13, 1, "城市更新卓越实践奖", size=8)
     write(table, 13, 10, "2024-04-26", size=8)
     write(table, 13, 13, "绿地控股集团技术委员会", size=7.5)
 
-    write(table, 14, 1, "", size=8)
-    write(table, 14, 10, "", size=8)
-    write(table, 14, 13, "", size=8)
+    write(table, 14, 1, "可持续社区营造标杆项目奖", size=8)
+    write(table, 14, 10, "2019-02-24", size=8)
+    write(table, 14, 13, "上海万科产品创新研究院", size=7.5)
 
     write(table, 15, 1, "处分", size=8)
     write(table, 15, 2, "无", size=8)
@@ -603,6 +603,26 @@ def build_training(doc):
 
 
 # ---------- 第 5 页 ----------
+
+def form_span(period: str) -> str:
+    """把 2011.07—2012.10 写成与继续教育相同的起止时间。记录只有年月，起日取1日，止日取当月最后一天。"""
+    import calendar
+
+    mark = ""
+    raw = period.strip()
+    if raw.endswith("†"):
+        mark = "†"
+        raw = raw[:-1].strip()
+    start, end = raw.split("—")
+
+    def piece(part: str, last: bool) -> str:
+        year, month = part.split(".")
+        y, m = int(year), int(month)
+        day = calendar.monthrange(y, m)[1] if last else 1
+        return f"{y}年{m:02d}月{day:02d}日"
+
+    return f"{piece(start, False)}至\n{piece(end, True)}{mark}"
+
 
 # 时间、单位、部门、职务、人社主要工作、申报表“从事的主要专业技术工作”
 # 列表按时间从早到晚存放；工作经历表输出时改为从近及远。
@@ -652,13 +672,13 @@ def build_career(doc):
     para(doc, "工  作  经  历", size=18, bold=True, font="黑体", align="center", before=0, after=1)
     para(doc, "(专业技术工作经历，由近及远，与上海人社系统任职记录一致)", size=11, align="center", before=0, after=4)
     posts = list(reversed(HR_POSTS))
-    widths = [28, 40, 18, 16, 62, 16]
+    widths = [36, 38, 16, 16, 58, 16]
     headers = ["起止时间", "工作单位", "部门", "岗位", "从事的主要专业技术工作", "任何职"]
     table = new_table(doc, 1 + len(posts), widths, heights=[10] + [16] * len(posts), sz="6")
     for c, text in enumerate(headers):
         write(table, 0, c, text, size=8)
     for r, (period, company, dept, title, _duty, work) in enumerate(posts, start=1):
-        write(table, r, 0, period, size=8)
+        write(table, r, 0, form_span(period), size=7.5)
         write(table, r, 1, company, size=8, align="left", valign="center")
         write(table, r, 2, dept, size=8)
         write(table, r, 3, title, size=7.5)
@@ -672,17 +692,17 @@ def build_performance(doc):
     para(doc, "任现职后主要专业技术工作业绩登记", size=16, bold=True, font="黑体", align="center", before=0, after=2)
     para(doc, "起止时间按已提交人社任职记录筛出的本人参与区间填写，不等同于项目建设周期。标†项仍须以任命、获奖文件、专利证书和效益资料核验。",
          size=9, align="left", before=0, after=4)
-    widths = [28, 52, 78, 22]
+    widths = [36, 48, 74, 22]
     headers = ["起止时间", "专业技术工作\n项目、课题名称", "获奖励、专利\n及效益情况", "本人起\n何作用"]
     data = [
         [
-            "2021.03—2021.08†",
+            form_span("2021.03—2021.08†"),
             "专业技术工作项目：杭州湾融创文旅城水、陆乐园项目（海盐）\n课题名称：杭州湾融创文旅城",
             "获奖情况：无。\n专利情况：无。\n效益情况：无（原业绩登记口径）。",
             "主持†",
         ],
         [
-            "2017.11—2019.03†",
+            form_span("2017.11—2019.03†"),
             "专业技术工作项目：万科青浦区徐泾镇徐盈路西侧地块（01-06F2-04地块一、二期）\n课题名称：万科天空之城",
             "获奖情况：可持续社区营造标杆项目奖；2019.02.24，上海万科产品创新研究院。\n"
             "专利情况：ZL202020536480.4、ZL202020557884.1（项目关联待核）。\n"
@@ -690,7 +710,7 @@ def build_performance(doc):
             "主持†",
         ],
         [
-            "2023.10—2024.07",
+            form_span("2023.10—2024.07"),
             "专业技术工作项目：绿地苏州东太湖旅游度假区WJ-J-2020-013地块商住\n课题名称：绿地苏州东太湖旅游度假区",
             "获奖情况：城市更新卓越实践奖；2024.04.26，绿地控股集团技术委员会。\n专利情况：无。\n"
             "效益情况：原稿列示单位面积改造成本降低18%；物联网与AI调度降低人力成本15%、材料损耗率23%；BIM应用达LOD500；累计节约项目成本2,800万元，投资回报率提升32%。",
@@ -1201,6 +1221,9 @@ REQUIRED = [
     "于2011年06月30日",
     "青岛市城阳一中",
     "于2016年07月04日毕业",
+    "住房政策研究创新贡献奖",
+    "2024-12-18",
+    "复旦大学住房政策中心专业委员会",
     "可持续社区营造标杆项目奖",
     "2019-02-24",
     "上海万科产品创新研究院",
@@ -1232,7 +1255,12 @@ REQUIRED = [
     "上海容钲建筑科技有限公司",
     "上海徐汇绿地商业管理有限公司",
     "上海惟嘉建筑工程有限公司",
-    "2025.03—2025.12",
+    "2025年03月01日至",
+    "2025年12月31日",
+    "2021年03月01日至",
+    "2021年08月31日†",
+    "2023年10月01日至",
+    "2024年07月31日",
     "钢结构施工技术管理",
     "2021.03—2021.08†",
     "杭州湾融创文旅城水、陆乐园项目（海盐）",
