@@ -747,13 +747,14 @@ def build_summary(doc):
     para(doc, "一、专业背景与职业履历", size=12, bold=True, before=2, after=3)
     para(doc, "本人具有土木工程与工商管理专业背景，长期从事建筑工程施工、质量控制及项目管理。历经住宅、商业综合体、文旅及钢结构产业园等多类型工程，形成施工技术优化、跨专业协调和数字化建造管理能力；2025年10月取得高级工程师任职资格。",
          size=10.5, indent=True, before=0, after=3)
-    para(doc, "1. 职业履历（与上海人社系统截图一致）", size=10.5, bold=True, before=2, after=3)
+    para(doc, "1. 职业履历（由近及远，与上海人社系统截图一致）", size=10.5, bold=True, before=2, after=3)
 
+    posts = list(reversed(HR_POSTS))
     widths = [32, 58, 42, 48]
-    table = new_table(doc, 1 + len(HR_POSTS), widths, heights=[7] + [6.6] * len(HR_POSTS), header_rows={0}, sz="6")
+    table = new_table(doc, 1 + len(posts), widths, heights=[7] + [6.6] * len(posts), header_rows={0}, sz="6")
     for c, text in enumerate(["时间", "公司名称", "部门及职务", "主要工作内容"]):
         write(table, 0, c, text, size=9, bold=True)
-    for r, (period, company, dept, title, duty, _work) in enumerate(HR_POSTS, start=1):
+    for r, (period, company, dept, title, duty, _work) in enumerate(posts, start=1):
         write(table, r, 0, period, size=8)
         write(table, r, 1, company, size=8, align="left")
         write(table, r, 2, f"{dept}{title}", size=8)
