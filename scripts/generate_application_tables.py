@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "output"
 XLSX_NAME = "专业技术资格评审申报表.xlsx"
 HTML_NAME = "专业技术资格评审申报表.html"
+DOCX_NAME = "专业技术资格评审申报表.docx"
 
 THIN = Border(
     left=Side(style="thin", color="000000"),
@@ -661,9 +662,367 @@ td.photo {{ height: 118px; }}
     path.write_text(page, encoding="utf-8")
 
 
+def _docx_run(paragraph, text: str, size: float, bold: bool = False) -> None:
+    from docx.oxml.ns import qn
+    from docx.shared import Pt, RGBColor
+
+    run = paragraph.add_run(text)
+    run.bold = bold
+    run.font.size = Pt(size)
+    run.font.name = "宋体"
+    run.font.color.rgb = RGBColor(0, 0, 0)
+    run._element.rPr.rFonts.set(qn("w:eastAsia"), "宋体")
+
+
+def _docx_paragraph(container, text: str, size: float = 10.5, bold: bool = False, align: str = "center", before: float = 0, after: float = 0):
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    from docx.shared import Pt
+
+    paragraph = container.add_paragraph()
+    paragraph.alignment = {"center": WD_ALIGN_PARAGRAPH.CENTER, "left": WD_ALIGN_PARAGRAPH.LEFT}[align]
+    paragraph.paragraph_format.space_before = Pt(before)
+    paragraph.paragraph_format.space_after = Pt(after)
+    paragraph.paragraph_format.line_spacing = 1.0
+    _docx_run(paragraph, text, size, bold)
+    return paragraph
+
+
+def _set_cell(cell, text: str, size: float = 9, bold: bool = False, align: str = "center") -> None:
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    from docx.oxml import OxmlElement
+    from docx.oxml.ns import qn
+    from docx.shared import Pt
+
+    cell.text = ""
+    lines = text.split("\n") if text else [""]
+    alignment = {"center": WD_ALIGN_PARAGRAPH.CENTER, "left": WD_ALIGN_PARAGRAPH.LEFT}[align]
+    for index, line in enumerate(lines):
+        paragraph = cell.paragraphs[0] if index == 0 else cell.add_paragraph()
+        paragraph.alignment = alignment
+        paragraph.paragraph_format.space_before = Pt(0)
+        paragraph.paragraph_format.space_after = Pt(0)
+        paragraph.paragraph_format.line_spacing = 1.0
+        _docx_run(paragraph, line, size, bold)
+    tc = cell._tc
+    tc_pr = tc.get_or_add_tcPr()
+    valign = OxmlElement("w:vAlign")
+    valign.set(qn("w:val"), "center")
+    tc_pr.append(valign)
+    margins = OxmlElement("w:tcMar")
+    for edge, value in (("top", "40"), ("left", "60"), ("bottom", "40"), ("right", "60")):
+        node = OxmlElement(f"w:{edge}")
+        node.set(qn("w:w"), value)
+        node.set(qn("w:type"), "dxa")
+        margins.append(node)
+    tc_pr.append(margins)
+
+
+def _merge(table, row: int, col: int, rows: int = 1, cols: int = 1, text: str = "", size: float = 9, bold: bool = False, align: str = "center"):
+    cell = table.cell(row, col)
+    if rows > 1 or cols > 1:
+        cell.merge(table.cell(row + rows - 1, col + cols - 1))
+    _set_cell(cell, text, size=size, bold=bold, align=align)
+
+
+def _new_table(doc, rows: int, cols: int, widths: list[int]):
+    from docx.enum.table import WD_TABLE_ALIGNMENT
+    from docx.oxml import OxmlElement
+    from docx.oxml.ns import qn
+
+    table = doc.add_table(rows=rows, cols=cols)
+    table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    table.autofit = False
+    tbl = table._tbl
+    tbl_pr = tbl.tblPr
+    layout = OxmlElement("w:tblLayout")
+    layout.set(qn("w:type"), "fixed")
+    tbl_pr.append(layout)
+    total = sum(widths)
+    tbl_w = tbl_pr.find(qn("w:tblW"))
+    if tbl_w is None:
+        tbl_w = OxmlElement("w:tblW")
+        tbl_pr.append(tbl_w)
+    tbl_w.set(qn("w:w"), str(total))
+    tbl_w.set(qn("w:type"), "dxa")
+    borders = OxmlElement("w:tblBorders")
+    for edge in ("top", "left", "bottom", "right", "insideH", "insideV"):
+        node = OxmlElement(f"w:{edge}")
+        node.set(qn("w:val"), "single")
+        node.set(qn("w:sz"), "4")
+        node.set(qn("w:space"), "0")
+        node.set(qn("w:color"), "000000")
+        borders.append(node)
+    tbl_pr.append(borders)
+    grid = tbl.find(qn("w:tblGrid"))
+    for index, width in enumerate(widths):
+        grid[index].set(qn("w:w"), str(width))
+    return table
+
+
+def _note_line(doc, text: str) -> None:
+    _docx_paragraph(doc, text, size=9, align="left", before=2, after=2)
+
+
+def write_docx(path: Path) -> None:
+    from docx import Document
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    from docx.oxml import OxmlElement
+    from docx.oxml.ns import qn
+    from docx.shared import Cm, Pt
+
+    doc = Document()
+    section = doc.sections[0]
+    section.page_width = Cm(21.0)
+    section.page_height = Cm(29.7)
+    section.left_margin = Cm(1.4)
+    section.right_margin = Cm(1.4)
+    section.top_margin = Cm(1.3)
+    section.bottom_margin = Cm(1.3)
+    normal = doc.styles["Normal"]
+    normal.font.name = "宋体"
+    normal.font.size = Pt(10.5)
+    normal.element.rPr.rFonts.set(qn("w:eastAsia"), "宋体")
+
+    usable = 18.2 * 567
+    grid12 = [int(usable / 12)] * 12
+    grid12[-1] += int(usable) - sum(grid12)
+
+    meta = doc.add_paragraph()
+    meta.paragraph_format.space_after = Pt(0)
+    _docx_run(meta, "地区代码：320199", 10.5)
+    _docx_run(meta, " " * 28, 10.5)
+    _docx_run(meta, "编号：2506170651940505", 10.5)
+    _docx_paragraph(doc, "专业技术资格评审申报表", size=18, bold=True, before=10, after=8)
+
+    cover = _new_table(doc, 6, 2, [int(usable * 0.28), int(usable * 0.72)])
+    for index, (label, value) in enumerate(
+        [
+            ("单    位", "江苏省建筑装饰设计研究院有限公司"),
+            ("姓    名", "胡继刚"),
+            ("评审系列", "建设工程"),
+            ("评审专业", "科技管理·工程管理"),
+            ("技术资格", "高级工程师"),
+            ("填表时间", "2025年08月12日"),
+        ]
+    ):
+        _set_cell(cover.cell(index, 0), label, size=12, bold=True)
+        _set_cell(cover.cell(index, 1), value, size=12)
+        for col in range(2):
+            cell = cover.cell(index, col)
+            tc_pr = cell._tc.get_or_add_tcPr()
+            borders = OxmlElement("w:tcBorders")
+            for edge in ("top", "left", "right"):
+                node = OxmlElement(f"w:{edge}")
+                node.set(qn("w:val"), "nil")
+                borders.append(node)
+            bottom = OxmlElement("w:bottom")
+            bottom.set(qn("w:val"), "single" if col == 1 else "nil")
+            bottom.set(qn("w:sz"), "8")
+            bottom.set(qn("w:space"), "0")
+            bottom.set(qn("w:color"), "000000")
+            borders.append(bottom)
+            tc_pr.append(borders)
+    _docx_paragraph(doc, "江苏省人力资源和社会保障厅制", size=12, before=8, after=6)
+
+    _docx_paragraph(doc, "基  本  情  况", size=16, bold=True, before=10, after=6)
+    basic = _new_table(doc, 16, 12, grid12)
+    _merge(basic, 0, 0, cols=2, text="姓  名", bold=True)
+    _merge(basic, 0, 2, cols=2, text="胡继刚")
+    _merge(basic, 0, 4, text="性别", bold=True)
+    _merge(basic, 0, 5, text="男")
+    _merge(basic, 0, 6, text="民族", bold=True)
+    _merge(basic, 0, 7, cols=2, text="汉族")
+    _merge(basic, 0, 9, rows=3, cols=3, text="照片", bold=True)
+    _merge(basic, 1, 0, cols=2, text="公民身份号码\n（社会保障号）", bold=True)
+    _merge(basic, 1, 2, cols=7, text="2 2 0 2 8 3 1 9 8 7 0 4 2 5 0 6 1 4")
+    _merge(basic, 2, 0, cols=2, text="出生年月", bold=True)
+    _merge(basic, 2, 2, cols=2, text="1987年04月25日")
+    _merge(basic, 2, 4, cols=2, text="参加工作年月", bold=True)
+    _merge(basic, 2, 6, cols=3, text="2011年06月27日")
+    _merge(basic, 3, 0, cols=3, text="取得本行业(专业)准入\n资格、时间及证书号码", bold=True)
+    _merge(basic, 3, 3, cols=5, text="")
+    _merge(basic, 3, 8, text="执业\n类别", bold=True)
+    _merge(basic, 3, 9, cols=3, text="工程管理")
+    _merge(basic, 4, 0, cols=3, text="现专业技术资格及取得\n时间、批准单位", bold=True)
+    _merge(basic, 4, 3, cols=9, text="上海市住房和城乡建设管理委员会批准取得工程师(20181225)", align="left")
+    _merge(basic, 5, 0, cols=3, text="现任专业技术职务\n及聘任时间", bold=True)
+    _merge(basic, 5, 3, cols=5, text="职务：工程-建设工程-工程师\n聘用时间：2018-12-25", align="left")
+    _merge(basic, 5, 8, text="申报\n类型", bold=True)
+    _merge(basic, 5, 9, cols=3, text="正常申报")
+    _merge(basic, 6, 0, cols=3, text="现从事专业技术工\n作及年限", bold=True)
+    _merge(basic, 6, 3, cols=5, text="现工作：\n专业技术工作年限：9年", align="left")
+    _merge(basic, 6, 8, text="拟评审专业技术\n资    格", bold=True)
+    _merge(basic, 6, 9, cols=3, text="高级工程师")
+    _merge(basic, 7, 0, rows=4, text="学\n历\n情\n况", bold=True)
+    _merge(basic, 7, 1, cols=3, text="学    校", bold=True)
+    _merge(basic, 7, 4, cols=2, text="学习专业", bold=True)
+    _merge(basic, 7, 6, cols=2, text="学历", bold=True)
+    _merge(basic, 7, 8, text="学位", bold=True)
+    _merge(basic, 7, 9, cols=3, text="毕(肄、结)业年月", bold=True)
+    for offset, (school, major, level, degree, when) in enumerate(EDU, start=8):
+        _merge(basic, offset, 1, cols=3, text=school)
+        _merge(basic, offset, 4, cols=2, text=major)
+        _merge(basic, offset, 6, cols=2, text=level)
+        _merge(basic, offset, 8, text=degree)
+        _merge(basic, offset, 9, cols=3, text=when)
+    _merge(basic, 11, 0, rows=5, text="奖\n惩\n情\n况", bold=True)
+    _merge(basic, 11, 1, cols=5, text="荣誉称号、表彰奖励名称", bold=True)
+    _merge(basic, 11, 6, cols=2, text="获奖时间", bold=True)
+    _merge(basic, 11, 8, cols=4, text="授奖部门", bold=True)
+    for offset, (name, when, org) in enumerate(AWARDS, start=12):
+        _merge(basic, offset, 1, cols=5, text=name)
+        _merge(basic, offset, 6, cols=2, text=when)
+        _merge(basic, offset, 8, cols=4, text=org)
+    _merge(basic, 15, 1, text="处分", bold=True)
+    _merge(basic, 15, 2, cols=10, text="无")
+    _note_line(doc, "说明：毕(肄、结)业情况应在栏目中注明。")
+
+    _docx_paragraph(doc, "继 续 教 育 情 况", size=16, bold=True, before=12, after=2)
+    _docx_paragraph(doc, "（国内外培训、进修或考察情况）", size=10, before=0, after=4)
+    train_widths = [int(usable * part) for part in (0.18, 0.24, 0.30, 0.18, 0.10)]
+    train_widths[-1] += int(usable) - sum(train_widths)
+    train = _new_table(doc, 1 + len(TRAINING), 5, train_widths)
+    for col, text in enumerate(["起止时间", "专业或主要内容", "组织单位", "学习成绩", "备注"]):
+        _merge(train, 0, col, text=text, bold=True)
+    for row, item in enumerate(TRAINING, start=1):
+        for col, value in enumerate(item):
+            _merge(train, row, col, text=value, align="center" if col != 2 else "left")
+
+    _docx_paragraph(doc, "专业考试成绩情况", size=16, bold=True, before=12, after=4)
+    exam = _new_table(doc, 2, 5, train_widths)
+    for col, text in enumerate(["时  间", "组 织 单 位", "考试名称", "成  绩", "合格标志"]):
+        _merge(exam, 0, col, text=text, bold=True)
+    _merge(exam, 1, 0, cols=5, text="无")
+
+    _docx_paragraph(doc, "工  作  经  历", size=16, bold=True, before=12, after=2)
+    _docx_paragraph(doc, "（专业技术工作经历）", size=10, before=0, after=4)
+    job_widths = [int(usable * part) for part in (0.16, 0.28, 0.10, 0.10, 0.22, 0.14)]
+    job_widths[-1] += int(usable) - sum(job_widths)
+    jobs = _new_table(doc, 1 + len(JOBS), 6, job_widths)
+    for col, text in enumerate(["起止时间", "工作单位", "部门", "岗位", "从事的主要\n专业技术工作", "任何职"]):
+        _merge(jobs, 0, col, text=text, bold=True)
+    for row, (period, org, dept, post, work, title, _short) in enumerate(JOBS, start=1):
+        for col, value in enumerate((period, org, dept, post, work, title)):
+            _merge(jobs, row, col, text=value)
+    _note_line(doc, "任职年月按工作经历一览表填写，不补具体日。空档2015-11与2023-09未补。")
+
+    _docx_paragraph(doc, "任现职后主要专业技术工作业绩登记", size=16, bold=True, before=12, after=4)
+    perf_widths = [int(usable * part) for part in (0.18, 0.34, 0.38, 0.10)]
+    perf_widths[-1] += int(usable) - sum(perf_widths)
+    perf = _new_table(doc, 1 + len(PERFORMANCE), 4, perf_widths)
+    for col, text in enumerate(["起止时间", "专业技术工作\n项目、课题名称", "获奖励、专利\n及效益情况", "本人起\n何作用"]):
+        _merge(perf, 0, col, text=text, bold=True)
+    for row, (period, project, benefit, role) in enumerate(PERFORMANCE, start=1):
+        _merge(perf, row, 0, text=period)
+        _merge(perf, row, 1, text=project, align="left", size=8.5)
+        _merge(perf, row, 2, text=benefit, align="left", size=8.5)
+        _merge(perf, row, 3, text=role)
+    _note_line(doc, "说明：“本人起何作用”分为主持、参加、独立承担。本页三项起止与任职时段或奖项日期不一致，只标待核查，不改项目归属。")
+
+    _docx_paragraph(doc, "任现职后著作、论文及重要技术报告登记", size=16, bold=True, before=12, after=4)
+    paper_widths = [int(usable * part) for part in (0.14, 0.28, 0.24, 0.22, 0.12)]
+    paper_widths[-1] += int(usable) - sum(paper_widths)
+    papers = _new_table(doc, 1 + len(PAPERS), 5, paper_widths)
+    for col, text in enumerate(["日  期", "论著(报告)标题", "刊物、出版单位", "主办单位\n（学术会议）名称", "本人承担情况"]):
+        _merge(papers, 0, col, text=text, bold=True)
+    for row, item in enumerate(PAPERS, start=1):
+        for col, value in enumerate(item):
+            _merge(papers, row, col, text=value, align="center" if col in (0, 4) else "left", size=8.5)
+    _note_line(doc, "说明：本人承担情况按独著(译)、合著(译)填写。合著(译)应注明本人实际承担的部分。")
+
+    _docx_paragraph(doc, "本人任现职以来工作总结", size=16, bold=True, before=12, after=2)
+    _docx_paragraph(doc, "职业履历", size=12, bold=True, before=0, after=4)
+    sum_widths = [int(usable * part) for part in (0.24, 0.52, 0.24)]
+    sum_widths[-1] += int(usable) - sum(sum_widths)
+    summary = _new_table(doc, 1 + len(JOBS), 3, sum_widths)
+    for col, text in enumerate(["时间", "公司名称", "职务"]):
+        _merge(summary, 0, col, text=text, bold=True)
+    for row, (_period, org, _dept, _post, _work, title, short) in enumerate(JOBS, start=1):
+        _merge(summary, row, 0, text=short)
+        _merge(summary, row, 1, text=org)
+        _merge(summary, row, 2, text=title)
+    _note_line(doc, "空档2015-11、2023-09未补。一览表没有的单位已从本栏删除。")
+
+    _docx_paragraph(doc, "任现职以来考核情况", size=16, bold=True, before=12, after=4)
+    assess_widths = [int(usable * part) for part in (0.14, 0.14, 0.28, 0.14, 0.16, 0.14)]
+    assess_widths[-1] += int(usable) - sum(assess_widths)
+    assess = _new_table(doc, 4, 6, assess_widths)
+    _merge(assess, 0, 0, rows=4, text="年度\n（任期）\n考核\n情况", bold=True)
+    for col, text in enumerate(["年  份", "受聘专业技术职务(岗位)", "考核等次", "考核单位", "备注"], start=1):
+        _merge(assess, 0, col, text=text, bold=True)
+    _merge(assess, 1, 2, text="无")
+    for row in range(1, 4):
+        for col in range(1, 6):
+            if not (row == 1 and col == 2):
+                _merge(assess, row, col, text="")
+
+    _docx_paragraph(doc, "评审、登记备案情况", size=16, bold=True, before=12, after=4)
+    review_widths = [int(usable * 0.16)] + [int(usable * 0.084)] * 10
+    review_widths[-1] += int(usable) - sum(review_widths)
+    review = _new_table(doc, 6, 11, review_widths)
+    _merge(review, 0, 0, rows=2, text="专业\n（学科）\n评议组\n意见", bold=True, size=8)
+    labels = [(1, "应到人数"), (2, "3"), (3, "实到人数"), (4, "3"), (5, "赞成票"), (6, "3"), (7, "反对票"), (8, "0"), (9, "弃权票"), (10, "0")]
+    for col, text in labels:
+        _merge(review, 0, col, text=text, bold=text.endswith("数") or text.endswith("票"), size=8)
+    _merge(review, 1, 1, cols=10, text="评议组组长(签字)                    2025 年 09 月 21 日", align="left")
+    _merge(review, 2, 0, rows=2, text="评\n审\n委\n员\n会\n意\n见", bold=True, size=8)
+    committee = [(1, "应到人数"), (2, "27"), (3, "实到人数"), (4, "27"), (5, "赞成票"), (6, "27"), (7, "反对票"), (8, "0"), (9, "弃权票"), (10, "0")]
+    for col, text in committee:
+        _merge(review, 2, col, text=text, bold=not text.isdigit(), size=8)
+    _merge(
+        review,
+        3,
+        1,
+        cols=10,
+        text="经评审，胡继刚（220283198704250614）已具备建设工程·科技管理·工程管理专业（学科）高级工程师资格。\n主任委员(签字)          公 章          2025 年 10 月 19 日",
+        align="left",
+        size=9,
+    )
+    _merge(review, 4, 0, text="省、市、县或相应职称主管部门登记备案情况", bold=True, size=8)
+    _merge(review, 4, 1, cols=10, text="公 章\n2025 年 12 月 09 日")
+    _merge(review, 5, 0, text="备\n注", bold=True)
+    _merge(
+        review,
+        5,
+        1,
+        cols=10,
+        text="人员姓名：胡继刚          证件号码：220283198704250614\n联系电话：18678408669      流程编号：2506170651940505\n工作单位：江苏省建筑装饰设计研究院有限公司",
+        align="left",
+    )
+    _note_line(doc, "说明：“评审委员会评审意见”栏，应在“具备”前写明“已”或“不”。")
+
+    # 页脚页码
+    footer = section.footer.paragraphs[0]
+    footer.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = footer.add_run("第 ")
+    run.font.size = Pt(9)
+    run.font.name = "宋体"
+    fld_begin = OxmlElement("w:fldChar")
+    fld_begin.set(qn("w:fldCharType"), "begin")
+    instr = OxmlElement("w:instrText")
+    instr.set(qn("xml:space"), "preserve")
+    instr.text = " PAGE "
+    fld_end = OxmlElement("w:fldChar")
+    fld_end.set(qn("w:fldCharType"), "end")
+    run2 = footer.add_run()
+    run2._r.append(fld_begin)
+    run2._r.append(instr)
+    run2._r.append(fld_end)
+    end = footer.add_run(" 页")
+    end.font.size = Pt(9)
+    end.font.name = "宋体"
+    for item in (run, end):
+        item._element.rPr.rFonts.set(qn("w:eastAsia"), "宋体")
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    doc.save(path)
+
+
 def main() -> None:
     write_xlsx(OUT_DIR / XLSX_NAME)
     write_html(OUT_DIR / HTML_NAME)
+    write_docx(OUT_DIR / DOCX_NAME)
+    print(OUT_DIR / DOCX_NAME)
     print(OUT_DIR / XLSX_NAME)
     print(OUT_DIR / HTML_NAME)
 
