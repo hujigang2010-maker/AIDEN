@@ -22,7 +22,7 @@ OUT = ROOT / "output" / "岳阳医院针灸科-VPN及国外AI软件安装使用�
 
 FONT = "Microsoft YaHei"
 W, H = 13.333, 7.5
-TOTAL = 23
+TOTAL = 26
 
 PAPER = "FFF6EA"
 INK = "2A3340"
@@ -172,6 +172,16 @@ def header(slide, kicker, title, subtitle=None):
         textbox(slide, 0.46, 1.16, 12.3, 0.36, [[run(subtitle, 15, False, MUTED)]])
 
 
+def star(slide, x, y, size, fill):
+    shape = slide.shapes.add_shape(
+        MSO_SHAPE.STAR_5_POINT, Inches(x), Inches(y), Inches(size), Inches(size)
+    )
+    shape.fill.solid()
+    shape.fill.fore_color.rgb = rgb(fill)
+    shape.line.fill.background()
+    return shape
+
+
 def number_badge(slide, x, y, number, fill=GREEN, size=0.48, font=18):
     oval(slide, x, y, size, size, fill)
     textbox(
@@ -228,8 +238,8 @@ def slide_cover(prs):
         6.3,
         0.85,
         [
-            [run("个人电脑和手机怎么打开、怎么用。", 16, False, MUTED)],
-            [run("今天重点演示三个科研场景。", 16, False, MUTED)],
+            [run("个人电脑和手机，跟着图做就行。", 16, False, MUTED)],
+            [run("国内软件和国外软件，都从官网进入。", 16, False, MUTED)],
         ],
     )
     chips = [
@@ -258,6 +268,19 @@ def slide_cover(prs):
         [[run("先看官方页面，再决定要不要安装。", 15, True, INK)]],
     )
     picture(slide, "cover-scene.jpg", 6.15, 1.35, 6.85)
+    picture(slide, "fudan-seal.png", 12.05, 0.18, 0.86)
+    textbox(
+        slide,
+        10.05,
+        0.40,
+        1.85,
+        0.42,
+        [[run("复旦大学", 15, True, INK)]],
+        align=PP_ALIGN.RIGHT,
+        anchor="middle",
+    )
+    star(slide, 11.55, 1.12, 0.26, GOLD)
+    star(slide, 0.32, 6.55, 0.22, CORAL)
     notes(
         slide,
         "开场只说三件事：今天学的是个人电脑和手机上的操作；先认官方页面；"
@@ -688,7 +711,7 @@ def slide_not_equal(prs):
         1.05,
         [
             [run("现场这样做", 14, True, GREEN)],
-            [run("当地不提供服务，就演示另一款可以合法使用的工具。", 18, True, GREEN_DEEP)],
+            [run("打不开国外软件时，就打开 Kimi 或 WorkBuddy。", 18, True, GREEN_DEEP)],
         ],
     )
     footer(slide, 9)
@@ -697,19 +720,19 @@ def slide_not_equal(prs):
         "依据 OpenAI 帮助中心《ChatGPT Supported Countries》：支持名单中没有中国大陆；"
         "在名单以外访问或提供访问，可能导致账号被限制。香港、澳门同样不在该名单中，台湾在名单中。"
         "讲这一页时不要演示如何绕过地区限制，不要使用不真实的身份信息。"
-        "平台不可用时，直接改用当前可以合法使用的工具；文献整理可以回到 Zotero 和 PubMed。",
+        "平台不可用时，直接改用 Kimi 或 WorkBuddy；文献整理可以回到 Consensus、Zotero 和 PubMed。",
     )
     return slide
 
 
 def slide_bundles(prs):
     slide = add_slide(prs)
-    header(slide, "今天下午", "优先看这四组", "先把场景演示成功，比安装很多软件更有用。")
+    header(slide, "今天下午", "先看这四组", "国内的先演示。国外的打不开，就换下一组。")
     bundles = [
-        (GREEN, GREEN_SOFT, "写作", "ChatGPT + Claude", "课题构思、论文段落、长文阅读"),
-        (TEAL, TEAL_SOFT, "整理", "Gemini + 笔记本", "课件提纲、已有论文对照"),
-        (CORAL, CORAL_SOFT, "找证据", "Elicit + Consensus", "文献检索、研究设计比较"),
-        (GOLD, GOLD_SOFT, "管文献", "Zotero", "收藏论文、整理参考文献"),
+        (GREEN, GREEN_SOFT, "国内先用", "Kimi + WorkBuddy", "网页或电脑上就能开工"),
+        (TEAL, TEAL_SOFT, "写作", "ChatGPT + Claude", "课题构思、改论文段落"),
+        (CORAL, CORAL_SOFT, "整理", "Gemini + 笔记本", "课件提纲、对照公开论文"),
+        (GOLD, GOLD_SOFT, "文献", "Consensus + Zotero", "找证据、管参考文献"),
     ]
     for index, (color, soft, tag, title, desc) in enumerate(bundles):
         col, row = index % 2, index // 2
@@ -717,12 +740,12 @@ def slide_bundles(prs):
         y = 1.70 + row * 2.45
         rect(slide, x, y, 6.20, 2.28, WHITE, LINE, radius=0.16)
         rect(slide, x, y, 6.20, 0.14, color, radius=0.08)
-        rect(slide, x + 0.28, y + 0.38, 1.35, 0.42, soft, radius=0.5)
+        rect(slide, x + 0.28, y + 0.38, 1.72, 0.42, soft, radius=0.5)
         textbox(
             slide,
             x + 0.28,
             y + 0.38,
-            1.35,
+            1.72,
             0.42,
             [[run(tag, 14, True, color)]],
             align=PP_ALIGN.CENTER,
@@ -733,33 +756,37 @@ def slide_bundles(prs):
     footer(slide, 10)
     notes(
         slide,
-        "针灸科优先演示文献检索、研究设计和论文整理。Zotero 不是生成式 AI，但写论文和标书会反复用到，建议装。",
+        "下午先把 Kimi 或 WorkBuddy 演示成功。Cursor、Muse、Antigravity 和 Typeless 在后面单独一页。"
+        "Zotero 不是聊天软件，写论文时用来管文献。",
     )
     return slide
 
 
 def slide_catalog(prs):
     slide = add_slide(prs)
-    header(slide, "认准地址", "只从这些官方页面进入")
+    header(slide, "认准地址", "只点这些官方页面")
     tools = [
+        ("Kimi", "长文、提纲、科研问答", "kimi.com", "https://www.kimi.com/", "国内"),
+        ("WorkBuddy", "腾讯的办公助手", "workbuddy.cn", "https://www.workbuddy.cn/", "国内"),
         ("ChatGPT", "问答、写作、整理文档", "chatgpt.com/download", "https://chatgpt.com/download/", "优先"),
         ("Claude", "长文分析、论文润色", "claude.com/download", "https://claude.com/download", "优先"),
         ("Gemini", "问答、资料分析、课件", "gemini.google.com", "https://gemini.google.com", "优先"),
-        ("Perplexity", "检索并列出网页来源", "perplexity.ai", "https://www.perplexity.ai", "优先"),
         ("Gemini Notebook", "对照自己上传的资料", "notebook.google.com", "https://notebook.google.com", "优先"),
-        ("Elicit", "找学术论文、看研究设计", "elicit.com", "https://elicit.com", "优先"),
-        ("Consensus", "比较医学研究证据", "consensus.app", "https://consensus.app", "优先"),
-        ("Zotero", "文献管理，不是聊天软件", "zotero.org/download", "https://www.zotero.org/download/", "建议装"),
-        ("Grok", "综合问答，有需要再装", "grok.com", "https://grok.com", "选装"),
+        ("Consensus", "比较医学研究证据", "consensus.app", "https://consensus.app", "文献"),
+        ("Zotero", "管文献，不是聊天软件", "zotero.org/download", "https://www.zotero.org/download/", "文献"),
+        ("Cursor", "让 AI 帮你改文件", "cursor.com/download", "https://cursor.com/download", "工作台"),
+        ("Muse", "Meta 的个人助手", "ai.meta.com/muse", "https://ai.meta.com/muse/", "工作台"),
+        ("Antigravity", "谷歌的智能工作台", "antigravity.google", "https://antigravity.google/download/", "工作台"),
+        ("Typeless", "说话，自动变成文字", "typeless.com", "https://www.typeless.com/zh-cn", "小软件"),
     ]
     for index, (name, use, label, url, tag) in enumerate(tools):
-        col = 0 if index < 5 else 1
-        row = index if index < 5 else index - 5
+        col = 0 if index < 6 else 1
+        row = index if index < 6 else index - 6
         x = 0.42 + col * 6.46
-        y = 1.42 + row * 1.05
-        rect(slide, x, y, 6.28, 0.96, WHITE, LINE, radius=0.12)
-        textbox(slide, x + 0.18, y + 0.08, 3.3, 0.40, [[run(name, 16, True, INK)]])
-        textbox(slide, x + 0.18, y + 0.46, 3.5, 0.40, [[run(use, 12, False, MUTED)]])
+        y = 1.40 + row * 0.90
+        rect(slide, x, y, 6.28, 0.82, WHITE, LINE, radius=0.14)
+        textbox(slide, x + 0.16, y + 0.04, 3.4, 0.36, [[run(name, 15, True, INK)]])
+        textbox(slide, x + 0.16, y + 0.40, 3.5, 0.34, [[run(use, 12, False, MUTED)]])
         textbox(
             slide,
             x + 3.55,
@@ -769,37 +796,40 @@ def slide_catalog(prs):
             [[run(label, 11, True, GREEN_DEEP, True, url)]],
             align=PP_ALIGN.RIGHT,
         )
-        tag_fill = GOLD_SOFT if tag != "优先" else GREEN_SOFT
-        tag_color = GOLD if tag != "优先" else GREEN_DEEP
-        rect(slide, x + 4.55, y + 0.50, 1.52, 0.32, tag_fill, radius=0.5)
+        tag_fill = {
+            "国内": GREEN_SOFT,
+            "优先": TEAL_SOFT,
+            "文献": GOLD_SOFT,
+            "工作台": CORAL_SOFT,
+            "小软件": GREEN_SOFT,
+        }[tag]
+        tag_color = {
+            "国内": GREEN_DEEP,
+            "优先": TEAL,
+            "文献": GOLD,
+            "工作台": CORAL,
+            "小软件": GREEN_DEEP,
+        }[tag]
+        rect(slide, x + 4.62, y + 0.44, 1.48, 0.28, tag_fill, radius=0.5)
         textbox(
             slide,
-            x + 4.55,
-            y + 0.50,
-            1.52,
-            0.32,
+            x + 4.62,
+            y + 0.44,
+            1.48,
+            0.28,
             [[run(tag, 11, True, tag_color)]],
             align=PP_ALIGN.CENTER,
             anchor="middle",
         )
-    rect(slide, 6.88, 5.62, 6.28, 1.22, GREEN_SOFT, radius=0.12)
-    textbox(
-        slide,
-        7.08,
-        5.74,
-        5.95,
-        0.98,
-        [
-            [run("使用前先看两件事", 16, True, GREEN_DEEP)],
-            [run("账号能不能注册，所在地是否提供服务。", 14, False, INK)],
-        ],
-    )
     footer(slide, 11)
     notes(
         slide,
         "Gemini Notebook 是 NotebookLM 自 2026 年 7 月起使用的新名称，仍从 notebook.google.com 进入。"
-        "Elicit、Consensus、Perplexity、Gemini 优先用网页版。所有产品都要先确认账号和服务地区是否受支持。"
-        "部分国外 AI 不向中国大陆直接提供服务，不要用不真实资料注册，也不要用违反服务条款的方式使用。",
+        "Kimi 官网 kimi.com，WorkBuddy 是腾讯的办公工作台，官网 workbuddy.cn。"
+        "Cursor 从 cursor.com/download 安装。Muse 是 Meta 的个人智能助手，介绍页为 ai.meta.com/muse，"
+        "目前主要在美国提供。Antigravity 是谷歌的智能工作台，下载页 antigravity.google/download。"
+        "Typeless 是语音听写小软件，官网 typeless.com。本次培训不再演示 Perplexity 和 Elicit。"
+        "Grok 仍可从 grok.com 选装，这次不单独讲。所有产品先确认账号和地区。不要用不真实资料注册。",
     )
     return slide
 
@@ -840,8 +870,8 @@ def install_slide(prs, page, kicker, title, url_label, url, steps, question, ima
 def slide_chatgpt(prs):
     slide = install_slide(
         prs,
-        12,
-        "第一组  ·  写作",
+        14,
+        "写作",
         "安装 ChatGPT",
         "chatgpt.com/download",
         "https://chatgpt.com/download/",
@@ -867,8 +897,8 @@ def slide_chatgpt(prs):
 def slide_claude(prs):
     slide = install_slide(
         prs,
-        13,
-        "第一组  ·  写作",
+        15,
+        "写作",
         "安装 Claude",
         "claude.com/download",
         "https://claude.com/download",
@@ -934,7 +964,7 @@ def slide_gemini(prs):
         0.72,
         [[run("请制作一份针灸循证医学研究方法的教学课件提纲，适合研究生课堂使用。", 16, True, INK)]],
     )
-    footer(slide, 14)
+    footer(slide, 16)
     notes(
         slide,
         "Gemini 先用网页。手机应用只在当地官方应用商店可以搜到、并且开发商核对无误时再安装。",
@@ -997,7 +1027,7 @@ def slide_notebook(prs):
             [run("不要上传：未经医院授权的真实病历、患者照片和其他敏感资料。", 16, True, CORAL)],
         ],
     )
-    footer(slide, 15)
+    footer(slide, 17)
     notes(
         slide,
         "Google 于 2026 年 7 月 16 日宣布 NotebookLM 更名为 Gemini Notebook，产品仍独立使用，入口仍是 notebook.google.com。"
@@ -1006,26 +1036,146 @@ def slide_notebook(prs):
     return slide
 
 
-def slide_perplexity(prs):
+def slide_kimi(prs):
     slide = add_slide(prs)
-    header(slide, "第三组  ·  找证据", "用 Perplexity 查来源")
+    header(slide, "国内先用", "打开 Kimi")
+    star(slide, 8.55, 1.28, 0.28, GOLD)
+    rect(slide, 8.95, 1.22, 3.85, 0.78, WHITE, LINE, radius=0.28)
+    textbox(
+        slide,
+        9.05,
+        1.22,
+        3.65,
+        0.78,
+        [[run("国内网页就能用", 18, True, GREEN_DEEP)]],
+        align=PP_ALIGN.CENTER,
+        anchor="middle",
+    )
+    textbox(
+        slide,
+        0.46,
+        1.28,
+        7.6,
+        0.40,
+        [[run("kimi.com", 18, True, GREEN_DEEP, True, "https://www.kimi.com/")]],
+    )
+    steps = [
+        "用浏览器打开官网",
+        "用自己的手机号注册",
+        "先用网页，不必马上安装",
+        "只上传有权使用的公开论文",
+        "请它整理成一段提纲",
+    ]
+    for index, step in enumerate(steps):
+        y = 1.82 + index * 0.68
+        oval(slide, 0.50, y, 0.46, 0.46, GREEN)
+        textbox(
+            slide,
+            0.50,
+            y,
+            0.46,
+            0.46,
+            [[run(str(index + 1), 15, True, WHITE)]],
+            align=PP_ALIGN.CENTER,
+            anchor="middle",
+        )
+        textbox(slide, 1.14, y, 7.2, 0.48, [[run(step, 18, True, INK)]], anchor="middle")
+    picture(slide, "mascot-spark.jpg", 9.35, 2.18, 3.15)
+    rect(slide, 0.46, 5.40, 12.42, 1.48, GREEN_SOFT, radius=0.16)
+    textbox(slide, 0.70, 5.52, 12.0, 0.32, [[run("试着问这一句", 13, True, GREEN)]])
+    textbox(
+        slide,
+        0.70,
+        5.88,
+        12.0,
+        0.80,
+        [[run("请用大白话解释：针灸随机对照试验怎样减少偏倚？", 18, True, INK)]],
+    )
+    footer(slide, 12)
+    notes(
+        slide,
+        "Kimi 是月之暗面的 AI 助手，官网 https://www.kimi.com/ 。优先用网页。"
+        "可以上传已经有权使用的公开论文，不要上传病历、患者照片和其他敏感资料。"
+        "这是国外软件打不开时的首选演示。",
+    )
+    return slide
+
+
+def slide_workbuddy(prs):
+    slide = add_slide(prs)
+    header(slide, "国内先用", "安装 WorkBuddy")
     textbox(
         slide,
         0.46,
         1.28,
         8.0,
-        0.36,
-        [[run("perplexity.ai", 16, True, GREEN_DEEP, True, "https://www.perplexity.ai")]],
+        0.38,
+        [[
+            run("workbuddy.cn", 18, True, GREEN_DEEP, True, "https://www.workbuddy.cn/"),
+            run("    ·    腾讯出品", 16, True, TEAL),
+        ]],
     )
     steps = [
-        "按官网方式登录",
-        "在搜索框输入科研问题",
-        "看它列出的网页和论文",
-        "逐条点开，核对原始信息",
+        "打开官网，进入下载页",
+        "选择 Windows 或 Mac",
+        "安装后用自己的账号登录",
+        "用一句话把任务交给它",
+        "只让它打开公开资料文件夹",
     ]
     for index, step in enumerate(steps):
-        y = 1.80 + index * 0.78
-        oval(slide, 0.50, y, 0.48, 0.48, GREEN)
+        y = 1.78 + index * 0.68
+        oval(slide, 0.50, y, 0.46, 0.46, TEAL)
+        textbox(
+            slide,
+            0.50,
+            y,
+            0.46,
+            0.46,
+            [[run(str(index + 1), 15, True, WHITE)]],
+            align=PP_ALIGN.CENTER,
+            anchor="middle",
+        )
+        textbox(slide, 1.14, y, 7.3, 0.48, [[run(step, 18, True, INK)]], anchor="middle")
+    picture(slide, "mascot-laptop.jpg", 9.40, 1.48, 3.30)
+    rect(slide, 0.46, 5.32, 12.42, 1.56, GOLD_SOFT, radius=0.16)
+    textbox(slide, 0.70, 5.44, 12.0, 0.32, [[run("可以这样交代", 13, True, GOLD)]])
+    textbox(
+        slide,
+        0.70,
+        5.80,
+        12.0,
+        0.90,
+        [[run("请把针灸治疗慢性腰痛整理成给研究生看的一页提纲。病历文件夹不要交给它。", 16, True, INK)]],
+    )
+    footer(slide, 13)
+    notes(
+        slide,
+        "WorkBuddy 是腾讯的 AI 办公工作台，官网 https://www.workbuddy.cn/ ，下载页 https://www.workbuddy.cn/app-download/ 。"
+        "它能读取你授权的本地文件夹。现场只指定公开论文或教学资料，不要把病历、影像和患者联系方式所在的文件夹交给它。",
+    )
+    return slide
+
+
+def slide_consensus(prs):
+    slide = add_slide(prs)
+    header(slide, "找证据", "打开 Consensus")
+    textbox(
+        slide,
+        0.46,
+        1.28,
+        7.8,
+        0.38,
+        [[run("consensus.app", 18, True, GREEN_DEEP, True, "https://consensus.app")]],
+    )
+    steps = [
+        "打开官网并登录",
+        "在搜索框输入英文问题",
+        "看它列出的研究",
+        "点开原文，再决定要不要引用",
+    ]
+    for index, step in enumerate(steps):
+        y = 1.82 + index * 0.78
+        oval(slide, 0.50, y, 0.48, 0.48, CORAL)
         textbox(
             slide,
             0.50,
@@ -1036,72 +1186,79 @@ def slide_perplexity(prs):
             align=PP_ALIGN.CENTER,
             anchor="middle",
         )
-        textbox(slide, 1.16, y, 7.6, 0.50, [[run(step, 20, True, INK)]], anchor="middle")
-    picture(slide, "mascot-papers.jpg", 9.55, 1.58, 3.25)
-    rect(slide, 0.46, 5.05, 12.42, 1.82, WHITE, LINE, radius=0.14)
-    textbox(slide, 0.70, 5.18, 12.0, 0.32, [[run("可以照着输入这一句英文", 13, True, GREEN)]])
+        textbox(slide, 1.16, y, 7.4, 0.50, [[run(step, 20, True, INK)]], anchor="middle")
+    picture(slide, "mascot-papers.jpg", 9.50, 1.48, 3.25)
+    rect(slide, 0.46, 5.10, 12.42, 1.78, GOLD_SOFT, radius=0.16)
     textbox(
         slide,
-        0.70,
-        5.52,
+        0.68,
+        5.22,
         12.0,
-        0.70,
-        [[run("查找 2021 年以来，针灸治疗慢性腰痛的系统评价和随机对照试验，并给出可核对的 DOI 或 PMID。", 15, True, INK)]],
+        1.52,
+        [
+            [run("试这句：与假针刺相比，针灸对膝骨关节炎是否有效？", 16, True, INK)],
+            [run("Is acupuncture effective for knee osteoarthritis compared with sham acupuncture?", 13, False, MUTED)],
+            [run("它不能代替 PubMed、Embase、Cochrane。引用前打开原文。", 15, True, GOLD)],
+        ],
     )
-    textbox(
-        slide,
-        0.70,
-        6.22,
-        12.0,
-        0.48,
-        [[run("Find systematic reviews and RCTs on acupuncture for chronic low back pain since 2021. Give DOI or PMID.", 12, False, MUTED)]],
-    )
-    footer(slide, 16)
+    footer(slide, 18)
     notes(
         slide,
-        "完整英文提问：Find systematic reviews and randomized controlled trials on acupuncture for chronic low back pain "
-        "published since 2021. Provide verifiable DOI or PMID identifiers. "
-        "演示时要真的点开至少一条来源，不要停在 AI 生成的摘要上。",
+        "英文检索式：Is acupuncture effective for knee osteoarthritis compared with sham acupuncture? "
+        "Consensus 用来辅助看医学证据，不能代替 PubMed、Embase、Cochrane Library 的规范检索。"
+        "本讲义已去掉 Perplexity 和 Elicit。引用前必须打开原始论文。",
     )
     return slide
 
 
-def slide_evidence(prs):
+def slide_agents(prs):
     slide = add_slide(prs)
-    header(slide, "第三组  ·  找证据", "Elicit 和 Consensus")
-    columns = [
+    header(slide, "三个工作台", "Cursor、Muse、Antigravity")
+    cards = [
         (
-            "Elicit",
-            "elicit.com",
-            "https://elicit.com",
-            ["在允许使用的地区打开并注册", "选择文献检索", "输入英文研究问题", "记下设计、样本量、结局和局限"],
+            GREEN,
+            GREEN_SOFT,
+            "Cursor",
+            "cursor.com/download",
+            "https://cursor.com/download",
+            ["下载自己电脑的版本", "用自己的账号登录", "只打开公开资料文件夹"],
         ),
         (
-            "Consensus",
-            "consensus.app",
-            "https://consensus.app",
-            ["打开官网并登录", "进入搜索页", "输入英文医学问题", "按权限筛选临床研究或系统评价"],
+            TEAL,
+            TEAL_SOFT,
+            "Muse",
+            "ai.meta.com/muse",
+            "https://ai.meta.com/muse/",
+            ["商店里认准开发商 Meta", "重要操作它会先问你", "不要连接医院邮箱"],
+        ),
+        (
+            CORAL,
+            CORAL_SOFT,
+            "Antigravity",
+            "antigravity.google",
+            "https://antigravity.google/download/",
+            ["下载 Windows 或 Mac", "用自己的 Google 账号", "做完的结果人来看"],
         ),
     ]
-    for index, (name, label, url, steps) in enumerate(columns):
-        x = 0.46 + index * 6.42
-        rect(slide, x, 1.48, 6.22, 3.52, WHITE, LINE, radius=0.14)
-        textbox(slide, x + 0.24, 1.62, 3.4, 0.42, [[run(name, 22, True, INK)]])
+    for index, (color, soft, name, label, url, steps) in enumerate(cards):
+        x = 0.42 + index * 4.28
+        rect(slide, x, 1.48, 4.12, 4.35, WHITE, LINE, radius=0.16)
+        rect(slide, x, 1.48, 4.12, 1.35, soft, radius=0.14)
+        textbox(slide, x + 0.18, 1.58, 3.76, 0.46, [[run(name, 22, True, INK)]])
         textbox(
             slide,
-            x + 3.10,
-            1.66,
-            2.90,
-            0.38,
-            [[run(label, 13, True, GREEN_DEEP, True, url)]],
-            align=PP_ALIGN.RIGHT,
+            x + 0.18,
+            2.08,
+            3.76,
+            0.50,
+            [[run(label, 12, True, color, True, url)]],
         )
         for step_index, step in enumerate(steps):
-            y = 2.25 + step_index * 0.70
-            oval(slide, x + 0.24, y, 0.40, 0.40, CORAL if index else GREEN)
+            y = 3.05 + step_index * 0.78
+            oval(slide, x + 0.20, y, 0.40, 0.40, color)
             textbox(
                 slide,
-                x + 0.24,
+                x + 0.20,
                 y,
                 0.40,
                 0.40,
@@ -1109,28 +1266,95 @@ def slide_evidence(prs):
                 align=PP_ALIGN.CENTER,
                 anchor="middle",
             )
-            textbox(slide, x + 0.78, y - 0.02, 5.15, 0.46, [[run(step, 15, True, INK)]], anchor="middle")
-    rect(slide, 0.46, 5.14, 12.42, 1.74, GOLD_SOFT, radius=0.14)
+            textbox(slide, x + 0.70, y - 0.04, 3.20, 0.50, [[run(step, 14, True, INK)]], anchor="middle")
+    rect(slide, 0.42, 6.00, 12.48, 0.90, CORAL_SOFT, radius=0.14)
     textbox(
         slide,
-        0.68,
-        5.24,
-        12.0,
-        1.52,
-        [
-            [run("试这句：与假针刺相比，针灸对膝骨关节炎是否有效？", 16, True, INK)],
-            [run("Is acupuncture effective for knee osteoarthritis compared with sham acupuncture?", 13, False, MUTED)],
-            [run("不能代替 PubMed、Embase、Cochrane。引用前打开原文。", 15, True, GOLD)],
-        ],
+        0.64,
+        6.00,
+        12.1,
+        0.90,
+        [[run("三款都可能受地区限制。打不开，就回到 Kimi。不要把病历文件夹交给它们。", 16, True, CORAL)]],
+        anchor="middle",
     )
-    footer(slide, 17)
+    footer(slide, 20)
     notes(
         slide,
-        "英文检索式：Is acupuncture effective for knee osteoarthritis compared with sham acupuncture? "
-        "这两款工具辅助循证整理，不能代替 PubMed、Embase、Cochrane Library 的规范检索和系统评价。"
-        "引用前必须打开原始论文。",
+        "Cursor 官网下载页 https://cursor.com/download 。它是和 AI 一起改文件的桌面软件。"
+        "Muse 是 Meta 于 2026 年推出的个人智能助手，介绍页 https://ai.meta.com/muse/ ，"
+        "目前主要在美国的 iOS、Android 和 muse.ai 提供。手机安装时核对开发商为 Meta。"
+        "不要把医院邮箱、患者系统或支付信息连给 Muse。重要操作应先经本人确认。"
+        "Antigravity 是谷歌的智能工作台，下载页 https://antigravity.google/download/ ，用 Google 账号登录。"
+        "三款都不能保证在中国大陆可以直接使用。",
     )
     return slide
+
+
+def slide_typeless(prs):
+    slide = add_slide(prs)
+    header(slide, "小软件", "Typeless：说话就能打字")
+    picture(slide, "mascot-mic.jpg", 0.18, 1.42, 3.95)
+    star(slide, 4.15, 1.45, 0.28, GOLD)
+    rect(slide, 4.70, 1.48, 8.15, 0.85, WHITE, LINE, radius=0.28)
+    textbox(
+        slide,
+        4.90,
+        1.48,
+        7.8,
+        0.85,
+        [[run("按住快捷键，把话说完。嗯、啊会被去掉。", 18, True, INK)]],
+        align=PP_ALIGN.CENTER,
+        anchor="middle",
+    )
+    steps = [
+        ("1", "打开 typeless.com，下载电脑版"),
+        ("2", "手机则在官方商店搜索 Typeless"),
+        ("3", "允许麦克风，它才能听见你"),
+        ("4", "口述一句科研笔记，看它写成文字"),
+    ]
+    textbox(
+        slide,
+        5.48,
+        2.42,
+        6.8,
+        0.36,
+        [[run("typeless.com", 14, True, GREEN_DEEP, True, "https://www.typeless.com/zh-cn")]],
+    )
+    for index, (number, step) in enumerate(steps):
+        y = 2.82 + index * 0.64
+        oval(slide, 4.85, y, 0.46, 0.46, CORAL)
+        textbox(
+            slide,
+            4.85,
+            y,
+            0.46,
+            0.46,
+            [[run(number, 15, True, WHITE)]],
+            align=PP_ALIGN.CENTER,
+            anchor="middle",
+        )
+        textbox(slide, 5.48, y, 7.1, 0.48, [[run(step, 16, True, INK)]], anchor="middle")
+    rect(slide, 0.46, 5.55, 12.42, 1.32, CORAL_SOFT, radius=0.14)
+    textbox(
+        slide,
+        0.70,
+        5.70,
+        12.0,
+        1.05,
+        [
+            [run("适合口述提纲和教学句子。", 16, True, INK)],
+            [run("不要口述真实病历、患者姓名和联系方式。", 16, True, CORAL)],
+        ],
+    )
+    footer(slide, 21)
+    notes(
+        slide,
+        "Typeless 是语音听写小软件，中文介绍页 https://www.typeless.com/zh-cn ，下载页 https://www.typeless.com/downloads 。"
+        "支持 Mac、Windows、Linux、iPhone 和 Android。官方说明语音不留在云端，也不用于训练模型。"
+        "即便如此，培训现场不要口述真实病历和患者信息。电脑版需要麦克风权限，按官方说明授权即可，不要关闭系统里其他安全检查。",
+    )
+    return slide
+
 
 
 def slide_zotero(prs):
@@ -1170,7 +1394,7 @@ def slide_zotero(prs):
             )
         else:
             textbox(slide, 1.14, y, 7.4, 0.48, [[run(step, 18, True, INK)]], anchor="middle")
-    footer(slide, 18)
+    footer(slide, 19)
     notes(
         slide,
         "下载页：https://www.zotero.org/download/ 。导入后当场抽查一条记录的作者、期刊、年份和 DOI，"
@@ -1206,10 +1430,12 @@ def slide_phone_ai(prs):
         5.96,
         12.0,
         0.78,
-        [[run("不要从网盘、聊天群或不明网站下载安装包。没有官方版时，不要拿别的软件当正版。", 16, True, CORAL)]],
+        [
+            [run("不要从网盘或聊天群下载。Kimi、Typeless 也只在官方商店搜索。", 16, True, CORAL)],
+        ],
         anchor="middle",
     )
-    footer(slide, 19)
+    footer(slide, 22)
     notes(
         slide,
         "手机安装与电脑同一原则：只认官方商店和可核对的开发商。地区没有上架时，用网页版或更换工具，不使用第三方安装包。",
@@ -1221,9 +1447,9 @@ def slide_scenes(prs):
     slide = add_slide(prs)
     header(slide, "针灸科最值得演示的", "三个场景")
     scenes = [
-        (GREEN, GREEN_SOFT, "1", "找文献", "用 Perplexity、Elicit 或 Consensus 搜到论文，再回 PubMed 核对 DOI。", "当场点开一条来源"),
-        (TEAL, TEAL_SOFT, "2", "想设计", "让能登录的工具起草研究设计，再由人修改。", "草稿留给人修改"),
-        (CORAL, CORAL_SOFT, "3", "理论文", "用 Gemini Notebook 阅读公开论文，用 Zotero 保存并检查题录。", "抽查作者和 DOI"),
+        (GREEN, GREEN_SOFT, "1", "找文献", "用 Consensus 搜到论文，用 Kimi 读摘要，再回 PubMed 核对。", "当场点开一条来源"),
+        (TEAL, TEAL_SOFT, "2", "想设计", "用 Kimi、ChatGPT 或 Claude 起草，再由人修改。", "草稿留给人修改"),
+        (CORAL, CORAL_SOFT, "3", "理论文", "用笔记本和 Zotero 整理。想口述时打开 Typeless。", "抽查作者和 DOI"),
     ]
     for index, (color, soft, number, title, desc, action) in enumerate(scenes):
         x = 0.46 + index * 4.26
@@ -1255,11 +1481,11 @@ def slide_scenes(prs):
             ],
             anchor="middle",
         )
-    footer(slide, 20)
+    footer(slide, 23)
     notes(
         slide,
-        "如果写作工具因地区限制无法登录，现场就把时间放在场景 1 和场景 3：检索核对，以及 Zotero。"
-        "不要为了演完场景 2 而尝试违规注册。AI 草稿不能直接当作课题申报文本。",
+        "国外写作工具如果登录不了，场景 2 就改用 Kimi。不要为了演完某一款软件而违规注册。"
+        "AI 草稿不能直接当作课题申报文本。文献必须回 PubMed 或期刊官网核对。",
     )
     return slide
 
@@ -1270,7 +1496,7 @@ def slide_faq(prs):
     faqs = [
         ("软件下完打不开", "看系统是否支持、是不是官方安装包、这台电脑有没有管理限制。"),
         ("网页能开，但不能注册", "看邮箱、验证码、账号资格和地区限制。不要使用他人身份。"),
-        ("有 VPN，国外 AI 仍不能用", "可能是地区、账号或平台规则。VPN 不能解决全部问题。"),
+        ("有 VPN，国外 AI 仍不能用", "改用 Kimi 或 WorkBuddy。VPN 不能解决全部问题。"),
         ("软件提示要付款", "培训先用免费或试用。不要代付，也不要保存他人支付信息。"),
         ("AI 给出了查不到的文献", "回到 PubMed、期刊官网或 DOI 页面。核对不了的，不能写进论文。"),
     ]
@@ -1290,7 +1516,7 @@ def slide_faq(prs):
         )
         textbox(slide, 1.32, y + 0.08, 11.2, 0.40, [[run(question, 16, True, INK)]])
         textbox(slide, 1.32, y + 0.48, 11.2, 0.40, [[run(answer, 14, False, MUTED)]])
-    footer(slide, 21)
+    footer(slide, 24)
     notes(
         slide,
         "第 5 条建议现场做一次：让工具给一篇文献，当场用 DOI 或 PMID 检索。检索不到就删掉，不进入讲义和论文。",
@@ -1304,11 +1530,11 @@ def slide_check(prs):
     items = [
         "这台设备允许安装",
         "VPN 来源已经核对",
-        "收藏 ChatGPT、Claude 官网",
-        "收藏 Gemini、Perplexity、笔记本",
-        "至少开通一款可合法使用的工具",
+        "打开 Kimi 或 WorkBuddy",
         "完成一次医学科研提问",
-        "完成一次文献搜索并点开来源",
+        "用 Consensus 搜文献并点开来源",
+        "认识 Cursor、Muse、Antigravity",
+        "试一次 Typeless 说话打字",
         "安装或了解 Zotero",
         "确认不会上传病人敏感信息",
     ]
@@ -1332,11 +1558,11 @@ def slide_check(prs):
             [run("VPN 没连上，这节课仍然可以通过。", 16, True, INK)],
         ],
     )
-    footer(slide, 22)
+    footer(slide, 25)
     notes(
         slide,
         "打勾时口头确认两条：VPN 安装包若未能核对开发商和签名，这一项记为“未安装”，不判为失败。"
-        "国外 AI 若因地区限制无法开通，改为完成 Zotero 或文献核对，仍然可以完成本次培训。",
+        "国外 AI 若因地区限制无法开通，改为完成 Kimi、WorkBuddy、Consensus 或 Zotero，仍然可以完成本次培训。",
     )
     return slide
 
@@ -1378,8 +1604,10 @@ def slide_close(prs):
             [run("按信息科和医院的规定办理。", 14, False, MUTED)],
         ],
     )
-    textbox(slide, 6.20, 6.35, 6.6, 0.55, [[run("岳阳医院针灸科", 22, True, GREEN_DEEP)]])
-    textbox(slide, 6.20, 6.90, 6.6, 0.36, [[run("2026年11月9日", 14, False, MUTED)]])
+    picture(slide, "fudan-seal.png", 6.20, 6.12, 0.72)
+    textbox(slide, 7.12, 6.16, 5.6, 0.40, [[run("岳阳医院针灸科", 20, True, GREEN_DEEP)]])
+    textbox(slide, 7.12, 6.54, 5.6, 0.30, [[run("复旦大学", 14, True, INK)]])
+    textbox(slide, 7.12, 6.86, 5.6, 0.28, [[run("2026年11月9日", 13, False, MUTED)]])
     notes(
         slide,
         "收尾请大家用自己的话复述三句。不要把未核实的 VPN 安装包推荐到科室群作为必装软件。",
@@ -1411,13 +1639,16 @@ def build():
         slide_not_equal,
         slide_bundles,
         slide_catalog,
+        slide_kimi,
+        slide_workbuddy,
         slide_chatgpt,
         slide_claude,
         slide_gemini,
         slide_notebook,
-        slide_perplexity,
-        slide_evidence,
+        slide_consensus,
         slide_zotero,
+        slide_agents,
+        slide_typeless,
         slide_phone_ai,
         slide_scenes,
         slide_faq,
