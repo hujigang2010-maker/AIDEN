@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>岳阳医院针灸科｜VPN及国外AI软件安装使用指南</title>
+  <style>
+    @page { size: A4; margin: 0; }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #d5d0c6;
+      color: #172226;
+      font-family: "Noto Sans CJK SC", "Noto Sans SC", "WenQuanYi Micro Hei", sans-serif;
+      font-weight: 400;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    a { color: inherit; }
+    img { display: block; }
+    .page {
+      width: 210mm;
+      height: 297mm;
+      background: #fff;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+      break-after: page;
+      display: flex;
+      flex-direction: column;
+    }
+    .page:last-child { page-break-after: auto; break-after: auto; }
+    .topbar { height: 3mm; flex: none; background: #0e3f3c; }
+    .page.stop .topbar { background: #a33b32; }
+    .hd {
+      flex: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 3.2mm 12mm 2.4mm;
+      border-bottom: 0.45mm solid #0e3f3c;
+      font-size: 11pt;
+    }
+    .page.stop .hd { border-bottom-color: #a33b32; }
+    .hd b { font-weight: 700; letter-spacing: 0.04em; }
+    .hd span { color: #0e3f3c; font-weight: 700; }
+    .page.stop .hd span { color: #a33b32; }
+    .bd {
+      flex: 1;
+      min-height: 0;
+      padding: 5mm 12mm 4mm;
+      display: flex;
+      flex-direction: column;
+    }
+    .ft {
+      flex: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2.2mm 12mm 3.2mm;
+      border-top: 0.3mm solid #e4d9c8;
+      color: #4c5f66;
+      font-size: 10pt;
+    }
+    h1 { margin: 0; font-size: 22pt; line-height: 1.25; font-weight: 700; letter-spacing: 0.01em; }
+    .dek { margin: 1.6mm 0 0; font-size: 12.5pt; line-height: 1.45; color: #3d5158; }
+    .steps { list-style: none; margin: 3mm 0 0; padding: 0; display: flex; flex-direction: column; gap: 2mm; }
+    .steps.roomy { gap: 3.4mm; flex: 1; justify-content: space-between; padding-bottom: 7mm; }
+    .steps.roomy li { padding: 2.8mm 3.2mm; }
+    .split.sink { margin-top: auto; }
+    .steps li {
+      display: grid;
+      grid-template-columns: 9mm 1fr;
+      gap: 3mm;
+      align-items: center;
+      background: #f4f1ea;
+      border-radius: 2.6mm;
+      padding: 2mm 3mm;
+    }
+    .n {
+      width: 9mm;
+      height: 9mm;
+      border-radius: 50%;
+      background: #0e3f3c;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13pt;
+    }
+    .steps b { display: block; font-size: 13pt; font-weight: 700; line-height: 1.3; }
+    .steps .sub { display: block; margin-top: 0.3mm; font-size: 11.5pt; line-height: 1.35; color: #3d5158; }
+    .ask {
+      margin-top: 3mm;
+      border: 0.35mm solid #0e3f3c;
+      border-left: 1.7mm solid #0e3f3c;
+      border-radius: 2.4mm;
+      padding: 2.6mm 3.4mm 3mm;
+      background: #f3faf8;
+    }
+    .ask b { display: block; color: #0e3f3c; font-size: 11.5pt; font-weight: 700; }
+    .ask p { margin: 1.2mm 0 0; font-size: 13pt; line-height: 1.45; }
+    .warn {
+      background: #fdf1ec;
+      border-radius: 2.6mm;
+      padding: 2.8mm 3.4mm;
+      color: #5c241e;
+      font-size: 12pt;
+      line-height: 1.45;
+    }
+    .warn b { display: block; color: #a33b32; font-size: 12.5pt; font-weight: 700; margin-bottom: 0.8mm; }
+    .warn p { margin: 0; }
+    .warn p + p { margin-top: 1mm; }
+    .url {
+      font-family: "Noto Sans Mono", ui-monospace, monospace;
+      color: #0e3f3c;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 1.5px;
+      font-size: 11.5pt;
+    }
+    .qr {
+      width: 20mm;
+      height: 20mm;
+      background: #fff;
+      border: 0.3mm solid #e4d9c8;
+      border-radius: 1.6mm;
+      padding: 0.8mm;
+    }
+    .qr-cap { font-size: 9.5pt; line-height: 1.2; color: #3d5158; text-align: center; margin-top: 0.6mm; }
+
+    /* 封面 */
+    .cover { background: #fff; }
+    .hero {
+      flex: none;
+      background: #0e3f3c;
+      color: #f7f4ee;
+      padding: 12mm 13mm 10mm;
+      display: grid;
+      grid-template-columns: 1fr 34mm;
+      gap: 6mm;
+      align-items: center;
+    }
+    .eyebrow { margin: 0; font-size: 12.5pt; letter-spacing: 0.08em; color: #f3e2bc; font-weight: 700; }
+    .hero h1 { margin-top: 4mm; font-size: 32pt; line-height: 1.22; color: #fff; letter-spacing: 0.02em; }
+    .hero .lead { margin: 4mm 0 0; font-size: 13pt; line-height: 1.5; color: #e7f2f0; }
+    .hero .meta { margin: 4.5mm 0 0; font-size: 12pt; color: #f3e2bc; }
+    .stamp {
+      width: 32mm;
+      height: 32mm;
+      border: 0.75mm solid #f0c7b2;
+      border-radius: 50%;
+      color: #f6d7cb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 700;
+      font-size: 12pt;
+      line-height: 1.35;
+      transform: rotate(-8deg);
+    }
+    .cover-bd { flex: 1; padding: 7mm 13mm 6mm; display: flex; flex-direction: column; }
+    .cover-bd h2 { margin: 0; font-size: 14pt; font-weight: 700; }
+    .four {
+      margin-top: 3.5mm;
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 3.5mm;
+    }
+    .four article {
+      background: #f4f1ea;
+      border-radius: 3.2mm;
+      padding: 4mm 4.5mm;
+      display: grid;
+      grid-template-columns: 12mm 1fr;
+      gap: 3.2mm;
+      align-items: center;
+    }
+    .four .n { width: 12mm; height: 12mm; font-size: 16pt; }
+    .four h3 { margin: 0; font-size: 16pt; font-weight: 700; }
+    .four p { margin: 1.6mm 0 0; font-size: 13pt; line-height: 1.45; color: #3d5158; }
+    .cover-note {
+      margin-top: 4mm;
+      background: #fdf1ec;
+      color: #5c241e;
+      border-radius: 2.6mm;
+      padding: 3mm 3.6mm;
+      font-size: 12.5pt;
+      line-height: 1.45;
+    }
+    .cover-foot {
+      flex: none;
+      background: #0e3f3c;
+      color: #f7f4ee;
+      min-height: 14mm;
+      padding: 3mm 13mm;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5pt;
+    }
+
+    /* 第2页 */
+    .jobs { margin-top: 3.5mm; display: flex; flex-direction: column; gap: 3.2mm; flex: 1; }
+    .job {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 16mm 1fr;
+      gap: 3.5mm;
+      background: #f4f1ea;
+      border-radius: 3.2mm;
+      padding: 3.6mm 4mm;
+    }
+    .job > div:last-child { display: flex; flex-direction: column; min-height: 0; }
+    .job-no { font-size: 20pt; font-weight: 700; color: #0e3f3c; line-height: 1; }
+    .job h2 { margin: 0; font-size: 16pt; }
+    .job p { margin: 1.5mm 0 0; font-size: 12.5pt; line-height: 1.45; }
+    .job p b { color: #0e3f3c; }
+    .say {
+      margin-top: auto;
+      background: #fff;
+      border-radius: 2mm;
+      padding: 2.4mm 2.8mm;
+      font-size: 12.5pt;
+      line-height: 1.45;
+    }
+    .say i { font-style: normal; color: #8a6230; font-weight: 700; }
+
+    /* 第3页 */
+    .rules { margin-top: 3.5mm; display: flex; flex-direction: column; gap: 3mm; flex: 1; }
+    .rule {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 14mm 1fr;
+      gap: 3.5mm;
+      align-items: center;
+      background: #f4f1ea;
+      border-radius: 3.2mm;
+      padding: 3.4mm 4.2mm;
+    }
+    .rule h2 { margin: 0; font-size: 15pt; }
+    .rule p { margin: 1mm 0 0; font-size: 12.5pt; line-height: 1.45; color: #24343a; }
+    .check-h { margin: 4.5mm 0 0; font-size: 14pt; font-weight: 700; }
+    .checks { margin-top: 2.5mm; display: grid; grid-template-columns: 1fr 1fr; gap: 2.4mm 5mm; }
+    .check { display: grid; grid-template-columns: 6mm 1fr; gap: 2.6mm; align-items: start; font-size: 13pt; line-height: 1.4; }
+    .box { width: 5.4mm; height: 5.4mm; border: 0.45mm solid #0e3f3c; border-radius: 1mm; margin-top: 0.8mm; }
+
+    /* 第4页 */
+    .fact {
+      margin-top: 3mm;
+      background: #fdf1ec;
+      border-radius: 3mm;
+      padding: 3.2mm 4mm;
+    }
+    .fact .k { font-size: 11.5pt; color: #a33b32; font-weight: 700; }
+    .fact .big {
+      font-family: "Noto Sans Mono", ui-monospace, monospace;
+      font-size: 14pt;
+      font-weight: 700;
+      color: #172226;
+      margin-top: 0.6mm;
+    }
+    .fact p { margin: 1.6mm 0 0; font-size: 12pt; line-height: 1.45; color: #5c241e; }
+    .blanks { margin-top: 3.2mm; display: flex; flex-direction: column; gap: 2.2mm; }
+    .blank { display: grid; grid-template-columns: 42mm 1fr; gap: 3mm; align-items: end; font-size: 13pt; font-weight: 700; }
+    .blank i { display: block; border-bottom: 0.4mm solid #172226; height: 7mm; }
+    .halt { margin-top: 2.4mm; font-size: 12.5pt; font-weight: 700; color: #a33b32; }
+    .dont { margin-top: 3mm; }
+    .dont ul { margin: 0.4mm 0 0; padding-left: 5mm; }
+    .dont li { margin-top: 0.6mm; }
+    .dev-h { margin: 3.2mm 0 0; font-size: 13pt; font-weight: 700; }
+    .devs { margin-top: 2mm; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3mm; align-items: stretch; }
+    .dev { background: #f4f1ea; border-radius: 3mm; padding: 3mm 3.2mm; }
+    .dev h2 { margin: 0 0 1.5mm; font-size: 13.5pt; color: #0e3f3c; }
+    .dev ol { margin: 0; padding-left: 4.6mm; font-size: 11.5pt; line-height: 1.4; }
+    .dev li { margin-top: 1.4mm; }
+    .dev li:first-child { margin-top: 0; }
+
+    /* 第5页 */
+    .combos { margin-top: 3.2mm; display: flex; flex-direction: column; gap: 3mm; flex: 1; }
+    .combo {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 14mm 1fr auto;
+      gap: 3.5mm;
+      align-items: center;
+      background: #f4f1ea;
+      border-radius: 3.2mm;
+      padding: 2.8mm 3.4mm;
+    }
+    .combo-no { font-size: 18pt; font-weight: 700; color: #0e3f3c; }
+    .combo h2 { margin: 0; font-size: 15.5pt; }
+    .combo .use { margin: 1mm 0 0; font-size: 12.5pt; line-height: 1.35; }
+    .combo .links { margin-top: 1.4mm; display: flex; flex-direction: column; gap: 0.5mm; }
+    .qrs { display: flex; gap: 2.2mm; }
+    .qrs figure { margin: 0; }
+    .qrs img { width: 22mm; height: 22mm; background: #fff; border: 0.3mm solid #e4d9c8; border-radius: 1.5mm; padding: 0.7mm; }
+    .more {
+      margin-top: 3mm;
+      background: #f3faf8;
+      border-radius: 2.6mm;
+      padding: 2.8mm 3.4mm;
+      font-size: 12.5pt;
+      line-height: 1.45;
+    }
+    .more b { color: #0e3f3c; }
+
+    /* 第6-7页 */
+    .browser {
+      margin-top: 3mm;
+      border: 0.4mm solid #e4d9c8;
+      border-radius: 3mm;
+      overflow: hidden;
+      background: #fff;
+    }
+    .chrome {
+      height: 9mm;
+      background: #f4f1ea;
+      display: flex;
+      align-items: center;
+      gap: 1.5mm;
+      padding: 0 3mm;
+    }
+    .dot { width: 2.3mm; height: 2.3mm; border-radius: 50%; background: #d2c6b4; }
+    .addr {
+      margin-left: 1.5mm;
+      flex: 1;
+      height: 6.2mm;
+      background: #fff;
+      border-radius: 1.6mm;
+      display: flex;
+      align-items: center;
+      padding: 0 2.5mm;
+      font-family: "Noto Sans Mono", ui-monospace, monospace;
+      font-size: 11.5pt;
+      font-weight: 700;
+      color: #0e3f3c;
+    }
+    .browser-body { display: grid; grid-template-columns: 1fr 24mm; gap: 3mm; padding: 3mm 3.2mm; align-items: center; }
+    .fake-title { margin: 0; font-size: 13pt; font-weight: 700; }
+    .fake-btns { display: flex; gap: 2mm; margin-top: 2mm; }
+    .fake-btns span { background: #0e3f3c; color: #fff; border-radius: 1.6mm; padding: 1.3mm 3mm; font-size: 11.5pt; }
+    .fake-note { margin: 2mm 0 0; font-size: 10.5pt; color: #4c5f66; line-height: 1.35; }
+    .browser figure { margin: 0; }
+    .split { margin-top: 3mm; display: grid; grid-template-columns: 1fr 1.15fr; gap: 3mm; }
+    .split .ask, .split .warn { margin-top: 0; height: 100%; }
+
+    /* 第8页 */
+    .panels { margin-top: 3mm; display: flex; flex-direction: column; gap: 3mm; flex: 1; min-height: 0; }
+    .panel { background: #f4f1ea; border-radius: 3.2mm; padding: 3.2mm 3.6mm 3.4mm; display: flex; flex-direction: column; }
+    .panel.grow { flex: 1.15; }
+    .panel.headrow, .ph {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 3mm;
+    }
+    .ph h2 { margin: 0; font-size: 16pt; }
+    .panel .steps { margin-top: 2.4mm; }
+    .panel .ask, .panel .warn { background: #fff; }
+    .books { margin-top: 2.4mm; display: flex; flex-direction: column; gap: 1.6mm; }
+    .books div {
+      background: #fff;
+      border-radius: 2mm;
+      padding: 1.6mm 2.6mm;
+      font-size: 12.5pt;
+      display: grid;
+      grid-template-columns: 16mm 1fr;
+      gap: 2mm;
+    }
+    .books b { color: #0e3f3c; }
+
+    /* 第9页 */
+    .flow { margin-top: 3mm; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.6mm; }
+    .flow article { background: #0e3f3c; color: #fff; border-radius: 2.8mm; padding: 2.6mm 2.8mm 3mm; min-height: 24mm; }
+    .flow article.stop { background: #a33b32; }
+    .flow strong { display: block; font-size: 14pt; }
+    .flow span { display: block; margin-top: 1mm; font-size: 12pt; line-height: 1.35; }
+    .cols3 { margin-top: 3mm; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3mm; }
+    .col { background: #f4f1ea; border-radius: 3mm; padding: 3.2mm; }
+    .col .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 2mm; }
+    .col h2 { margin: 0; font-size: 14.5pt; }
+    .col .url { font-size: 11pt; display: inline-block; margin-top: 1mm; }
+    .col ol { margin: 2.4mm 0 0; padding-left: 4.8mm; font-size: 12.5pt; line-height: 1.45; }
+    .col li + li { margin-top: 1.5mm; }
+    .col img { width: 18mm; height: 18mm; background: #fff; border-radius: 1.4mm; padding: 0.6mm; border: 0.3mm solid #e4d9c8; flex: none; }
+    .qs { margin-top: 3mm; display: flex; flex-direction: column; gap: 2mm; }
+    .qs .ask { margin: 0; }
+    .qs .ask p { font-size: 12pt; }
+    .foot-note {
+      margin-top: auto;
+      background: #f4f1ea;
+      border-radius: 2.6mm;
+      padding: 3.2mm 3.6mm;
+      font-size: 12.5pt;
+      line-height: 1.45;
+      color: #172226;
+    }
+
+    /* 第10页 */
+    .zgrid { margin-top: 3mm; display: grid; grid-template-columns: 1.25fr 0.85fr; gap: 4mm; align-items: start; }
+    .card { background: #f4f1ea; border-radius: 3.2mm; padding: 3.4mm; }
+    .card h2 { margin: 0; font-size: 15pt; }
+    .fields { margin-top: 3mm; display: flex; flex-direction: column; gap: 3.2mm; }
+    .field { display: grid; grid-template-columns: 16mm 1fr; gap: 2mm; align-items: end; font-size: 13.5pt; font-weight: 700; }
+    .field i { border-bottom: 0.4mm solid #172226; height: 8mm; display: block; }
+    .card .hint { margin-top: 4mm; font-size: 12.5pt; line-height: 1.45; font-weight: 400; }
+    .card figure { margin: 4mm 0 0; display: flex; align-items: center; gap: 3mm; }
+    .card figcaption { font-size: 11.5pt; line-height: 1.35; }
+
+    /* 第11页 */
+    .phones { margin-top: 3mm; display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+    .device { border: 0.7mm solid #0e3f3c; border-radius: 7mm; padding: 7mm 4.2mm 4mm; position: relative; }
+    .device:before {
+      content: "";
+      position: absolute;
+      top: 2.3mm;
+      left: 50%;
+      width: 16mm;
+      height: 1.8mm;
+      transform: translateX(-50%);
+      border-radius: 2mm;
+      background: #0e3f3c;
+    }
+    .device h2 { margin: 0; text-align: center; font-size: 15pt; }
+    .device ol { list-style: none; margin: 2.4mm 0 0; padding: 0; }
+    .device li { display: grid; grid-template-columns: 7mm 1fr; gap: 2mm; align-items: start; margin-top: 2mm; font-size: 12.5pt; line-height: 1.35; }
+    .device .n { width: 6.6mm; height: 6.6mm; font-size: 11pt; }
+    .who { margin-top: 3.2mm; width: 100%; border-collapse: collapse; font-size: 12pt; table-layout: fixed; }
+    .who th:nth-child(1), .who td:nth-child(1) { width: 34%; }
+    .who th:nth-child(2), .who td:nth-child(2) { width: 22%; }
+    .who th:nth-child(3), .who td:nth-child(3) { width: 44%; }
+    .who th, .who td { text-align: left; padding: 1.6mm 2.4mm; border-bottom: 0.25mm solid #e4d9c8; font-weight: 400; }
+    .who th { font-weight: 700; color: #0e3f3c; background: #f4f1ea; }
+    .sideload { margin-top: 3mm; }
+
+    /* 第12页 */
+    .faqs { margin-top: 3.2mm; display: flex; flex-direction: column; gap: 2.6mm; flex: 1; }
+    .faq {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 14mm 1fr;
+      gap: 3mm;
+      align-items: center;
+      background: #f4f1ea;
+      border-radius: 3mm;
+      padding: 2.6mm 3.4mm;
+    }
+    .faq .n { width: 11mm; height: 11mm; font-size: 14pt; background: #a33b32; }
+    .faq h2 { margin: 0; font-size: 14pt; }
+    .faq p { margin: 1mm 0 0; font-size: 12.5pt; line-height: 1.4; color: #24343a; }
+
+    /* 第13页 */
+    .sign {
+      margin-top: 3mm;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 4mm;
+      font-size: 12.5pt;
+      font-weight: 700;
+    }
+    .sign i { display: block; border-bottom: 0.35mm solid #172226; height: 7mm; margin-top: 1mm; }
+    .acc { margin-top: 3mm; display: flex; flex-direction: column; gap: 1.8mm; }
+    .pass {
+      margin-top: 3mm;
+      background: #0e3f3c;
+      color: #f7f4ee;
+      border-radius: 2.8mm;
+      padding: 3mm 3.6mm;
+      font-size: 13pt;
+      line-height: 1.45;
+    }
+    .pass b { color: #f3e2bc; }
+    .src { margin-top: 2.6mm; font-size: 10.5pt; line-height: 1.45; color: #3d5158; }
+    .src b { display: block; color: #172226; font-size: 11.5pt; margin-bottom: 0.6mm; }
+
+    @media screen {
+      body { padding: 8mm 0 12mm; }
+      .page { margin: 0 auto 8mm; box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18); }
+    }
+  </style>
+</head>
+<body>
+
+<section class="page cover">
+  <div class="hero">
+    <div>
+      <p class="eyebrow">上海中医药大学岳阳医院针灸科</p>
+      <h1>VPN及国外AI软件<br>安装使用指南</h1>
+      <p class="lead">个人电脑和手机照着做。重点不是装齐软件，而是把文献检索、研究设计和论文整理做成。</p>
+      <p class="meta">2026年11月9日　·　Windows　·　Mac　·　iPhone　·　Android</p>
+    </div>
+    <div class="stamp">先核对<br>再安装</div>
+  </div>
+  <div class="cover-bd">
+    <h2>打开后，先看这四条</h2>
+    <div class="four">
+      <article>
+        <span class="n">1</span>
+        <div>
+          <h3>先看能不能用</h3>
+          <p>服务地区不允许，就换工具。不要为了注册违反平台规则。</p>
+        </div>
+      </article>
+      <article>
+        <span class="n">2</span>
+        <div>
+          <h3>先核对再安装</h3>
+          <p>看清产品名称、开发商和数字签名。对不上，就先不要装。</p>
+        </div>
+      </article>
+      <article>
+        <span class="n">3</span>
+        <div>
+          <h3>分清哪台设备</h3>
+          <p>用个人电脑或手机。诊疗电脑和存有病历的设备，不装第三方 VPN。</p>
+        </div>
+      </article>
+      <article>
+        <span class="n">4</span>
+        <div>
+          <h3>做成三件事</h3>
+          <p>文献检索、研究设计、论文整理。VPN 连上，不算培训通过。</p>
+        </div>
+      </article>
+    </div>
+    <div class="cover-note">建议先用网页版。确实需要时，再安装客户端。医院设备、网络和临床资料的操作，服从医院信息科及相关管理制度。</div>
+  </div>
+  <div class="cover-foot">
+    <span>现场培训手册</span>
+    <span>不上传患者信息</span>
+    <span>1 / 13</span>
+  </div>
+</section>
+
+<section class="page">
+  <div class="topbar"></div>
+  <header class="hd"><b>岳阳医院针灸科</b><span>02　今天下午先做这三件</span></header>
+  <div class="bd">
+    <h1>先把三个场景做成功</h1>
+    <p class="dek">装很多国外软件，不如把下面三件事演示出来。某个平台在当前位置不提供服务，就换当场可以合法使用的工具，题目不用改。</p>
+    <div class="jobs">
+      <article class="job">
+        <div class="job-no">01</div>
+        <div>
+          <h2>文献检索</h2>
+          <p><b>用什么</b>　Elicit、Consensus。网站打得开时，再加上 Perplexity。</p>
+          <p><b>做成什么样</b>　找到真实论文，点开原文，看到 DOI 或 PMID。</p>
+          <div class="say"><i>可以这样问</i>　Is acupuncture effective for knee osteoarthritis compared with sham acupuncture?</div>
+        </div>
+      </article>
+      <article class="job">
+        <div class="job-no">02</div>
+        <div>
+          <h2>研究设计</h2>
+          <p><b>用什么</b>　当前位置允许使用的 ChatGPT 或 Claude。不能用，就换打得开的工具。</p>
+          <p><b>做成什么样</b>　给出课题大纲：背景、问题、方法、预期成果。</p>
+          <div class="say"><i>可以这样问</i>　请设计一份针灸治疗慢性疼痛的科研项目申请书大纲，包括研究背景、研究问题、方法学和预期成果。</div>
+        </div>
+      </article>
+      <article class="job">
+        <div class="job-no">03</div>
+        <div>
+          <h2>论文整理</h2>
+          <p><b>用什么</b>　Zotero。需要对照原文时，用 Gemini Notebook，只放已经合法取得的公开资料。</p>
+          <p><b>做成什么样</b>　导入一条文献，并核对作者、期刊、DOI、年份。</p>
+          <div class="say"><i>可以这样问</i>　请根据我上传的资料，列出研究设计、样本量和主要结论，并标明对应来源。</div>
+        </div>
+      </article>
+    </div>
+  </div>
+  <footer class="ft"><span>不上传患者信息 · 服从信息科管理</span><span>2026.11.09</span><span>2 / 13</span></footer>
+</section>
+
+<section class="page">
+  <div class="topbar"></div>
+  <header class="hd"><b>岳阳医院针灸科</b><span>03　动手之前</span></header>
+  <div class="bd">
+    <h1>这三件事，先于任何安装</h1>
+    <p class="dek">先读完这一页，再打开后面的下载页面。</p>
+    <div class="rules">
+      <article class="rule">
+        <span class="n">1</span>
+        <div>
+          <h2>看设备</h2>
+          <p>用自己的电脑或手机。医院办公电脑要先得到信息科授权。不要把第三方 VPN 装到医院内网、诊疗系统电脑，或任何存有患者信息的设备上。</p>
+        </div>
+      </article>
+      <article class="rule">
+        <span class="n">2</span>
+        <div>
+          <h2>看来源</h2>
+          <p>只从本指南写明的官网，或手机上的官方应用商店获取软件。安装前看清产品名称、开发商和数字签名。对不上，就先不要装。不要用网盘、聊天群或来历不明的安装包。</p>
+        </div>
+      </article>
+      <article class="rule">
+        <span class="n">3</span>
+        <div>
+          <h2>看资料</h2>
+          <p>可以上传已经合法取得的公开论文和教学资料。不得上传未经医院授权的真实病历、患者照片或其他敏感资料。</p>
+        </div>
+      </article>
+    </div>
+    <h2 class="check-h">开始前，桌上应有这些</h2>
+    <div class="checks">
+      <div class="check"><span class="box"></span><span>个人电脑，或已获授权的办公电脑</span></div>
+      <div class="check"><span class="box"></span><span>Chrome、Edge 或 Safari 浏览器</span></div>
+      <div class="check"><span class="box"></span><span>自己的邮箱，以及要用的 Google 等账号</span></div>
+      <div class="check"><span class="box"></span><span>设备还有足够的存储空间</span></div>
+      <div class="check"><span class="box"></span><span>医院允许的网络访问方式</span></div>
+      <div class="check"><span class="box"></span><span>先打开网页版，需要时再装客户端</span></div>
+    </div>
+  </div>
+  <footer class="ft"><span>不上传患者信息 · 服从信息科管理</span><span>2026.11.09</span><span>3 / 13</span></footer>
+</section>
+
+<section class="page stop">
+  <div class="topbar"></div>
+  <header class="hd"><b>岳阳医院针灸科</b><span>04　VPN：先核对，再决定</span></header>
+  <div class="bd">
+    <h1>这个入口还不能当作安全安装源</h1>
+    <p class="dek">现场先把下面三行写出来。写不全，就停在这里，先不要安装。</p>
+    <div class="fact">
+      <div class="k">指定入口。2026年11月9日打开后会跳转</div>
+      <div class="big">ik11.net/23c586b</div>
+      <p>跳转后的地址是 lk11.net/?ref=23c586b。该页标题和简介自称 veee / veee+ 加速器，下载按钮由网页脚本加载。安装包的开发商、数字签名和安全性还没有核验。页面自称与公开资料一致，也不能代替对安装包本身的检查。</p>
+    </div>
+    <div class="blanks">
+      <div class="blank"><span>我看到的产品名称</span><i></i></div>
+      <div class="blank"><span>我看到的开发商</span><i></i></div>
+      <div class="blank"><span>签名里的发布者</span><i></i></div>
+    </div>
+    <p class="halt">有一项写不出来，或名称对不上：先不要安装。</p>
+    <div class="warn dont">
+      <b>即使准备安装，这三件事也不要做</b>
+      <ul>
+        <li>不要装到医院内网、诊疗电脑，或存有患者信息的设备上。</li>
+        <li>不要在看清价格、续费和退款之前付款，也不要替别人付款或保管支付信息。</li>
+        <li>不要认为连上 VPN，ChatGPT 等平台就会允许注册。中国大陆不在 ChatGPT 当前支持地区名单中。</li>
+      </ul>
+    </div>
+    <p class="dev-h">三项都写出来，并且上面三件都不碰，才看本机步骤</p>
+    <div class="devs">
+      <article class="dev">
+        <h2>Windows</h2>
+        <ol>
+          <li>用 Chrome 或 Edge 打开上方链接。</li>
+          <li>右键安装包，打开“属性”，查看“数字签名”。</li>
+          <li>发布者要和开发商一致。没有签名，就不要运行。</li>
+          <li>确认可信后，在允许的情况下安装，并用自己的账号登录。</li>
+        </ol>
+      </article>
+      <article class="dev">
+        <h2>Mac</h2>
+        <ol>
+          <li>用 Safari 或 Chrome 打开链接。</li>
+          <li>确认页面有 macOS 版本，再下载。</li>
+          <li>安装时看系统提示的开发者。说不清，就先不要装。</li>
+          <li>按说明放进“应用程序”，登录并允许必要权限。</li>
+        </ol>
+      </article>
+      <article class="dev">
+        <h2>手机</h2>
+        <ol>
+          <li>优先到官方应用商店搜索。</li>
+          <li>商店里的开发商要和页面写的是同一家。</li>
+          <li>不安装来历不明的 IPA、APK 或描述文件。</li>
+          <li>不要为了安装而关闭手机的安全检查。</li>
+        </ol>
+      </article>
+    </div>
+  </div>
+  <footer class="ft"><span>连接成功，也不代表国外 AI 允许使用</span><span>2026.11.09</span><span>4 / 13</span></footer>
+</section>
+
+<section class="page">
+  <div class="topbar"></div>
+  <header class="hd"><b>岳阳医院针灸科</b><span>05　工具怎么配</span></header>
+  <div class="bd">
+    <h1>按场景选一组，不必一次装齐</h1>
+    <p class="dek">手机可以扫二维码打开官网。扫出来的地址，要和卡片上印的地址一致。</p>
+    <div class="combos">
+      <article class="combo">
+        <div class="combo-no">01</div>
+        <div>
+          <h2>ChatGPT + Claude</h2>
+          <p class="use">综合科研写作、课题构思、论文分析。</p>
+          <div class="links">
+            <a class="url" href="https://chatgpt.com/download/">chatgpt.com/download</a>
+            <a class="url" href="https://claude.com/download">claude.com/download</a>
+          </div>
+        </div>
+        <div class="qrs">
+          <figure><img src="qr/chatgpt.svg" alt="ChatGPT 官网二维码"><figcaption class="qr-cap">ChatGPT</figcaption></figure>
+          <figure><img src="qr/claude.svg" alt="Claude 官网二维码"><figcaption class="qr-cap">Claude</figcaption></figure>
+        </div>
+      </article>
+      <article class="combo">
+        <div class="combo-no">02</div>
+        <div>
+          <h2>Gemini + Gemini Notebook</h2>
+          <p class="use">教学资料整理，以及对已有论文做来源对照。Gemini Notebook 即原 NotebookLM。</p>
+          <div class="links">
+            <a class="url" href="https://gemini.google.com">gemini.google.com</a>
+            <a class="url" href="https://notebook.google.com">notebook.google.com</a>
+          </div>
+        </div>
+        <div class="qrs">
+          <figure><img src="qr/gemini.svg" alt="Gemini 官网二维码"><figcaption class="qr-cap">Gemini</figcaption></figure>
+          <figure><img src="qr/notebook.svg" alt="Gemini Notebook 官网二维码"><figcaption class="qr-cap">Notebook</figcaption></figure>
+        </div>
+      </article>
+      <article class="combo">
+        <div class="combo-no">03</div>
+        <div>
+          <h2>Elicit + Consensus</h2>
+          <p class="use">医学文献搜索、循证研究和研究设计比较。优先用网页版。</p>
+          <div class="links">
+            <a class="url" href="https://elicit.com">elicit.com</a>
+            <a class="url" href="https://consensus.app">consensus.app</a>
+          </div>
+        </div>
+        <div class="qrs">
+          <figure><img src="qr/elicit.svg" alt="Elicit 官网二维码"><figcaption class="qr-cap">Elicit</figcaption></figure>
+          <figure><img src="qr/consensus.svg" alt="Consensus 官网二维码"><figcaption class="qr-cap">Consensus</figcaption></figure>
+        </div>
+      </article>
+      <article class="combo">
+        <div class="combo-no">04</div>
+        <div>
+          <h2>Zotero</h2>
+          <p class="use">论文收藏、文献管理和参考文献格式。它不是聊天机器人，写论文和课题书时用得上。</p>
+          <div class="links">
+            <a class="url" href="https://www.zotero.org/download/">zotero.org/download</a>
+          </div>
+        </div>
+        <div class="qrs">
+          <figure><img src="qr/zotero.svg" alt="Zotero 官网二维码"><figcaption class="qr-cap">Zotero</figcaption></figure>
+        </div>
+      </article>
+    </div>
+    <div class="more"><b>另外两个。</b> Perplexity（perplexity.ai）适合带来源的网络检索。Grok（grok.com）是选装，不作为今天下午的必做项。所有产品都要先确认账号和服务地区。部分国外 AI 不向中国大陆直接提供服务，不要用违反服务政策的方式注册或使用。</div>
+  </div>
+  <footer class="ft"><span>先网页版，需要时再装客户端</span><span>2026.11.09</span><span>5 / 13</span></footer>
+</section>
+
+<section class="page">
+  <div class="topbar"></div>
+  <header class="hd"><b>岳阳医院针灸科</b><span>06　安装 ChatGPT</span></header>
+  <div class="bd">
+    <h1>安装 ChatGPT</h1>
+    <p class="dek">只从这个官网下载。地址栏不是下面这一行，就不要点下载。</p>
+    <div class="browser">
+      <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="addr">chatgpt.com/download</div></div>
+      <div class="browser-body">
+        <div>
+          <p class="fake-title">页面上选择自己的系统</p>
+          <div class="fake-btns"><span>Windows</span><span>macOS</span></div>
+          <p class="fake-note">示意图。按钮文字以你屏幕上的官网为准。Mac 版帮助中心写明需要 macOS 14 或更高，支持 Apple 芯片和 Intel。</p>
+        </div>
+        <figure>
+          <img class="qr" src="qr/chatgpt.svg" alt="ChatGPT 下载页二维码">
+          <figcaption class="qr-cap">扫码打开</figcaption>
+        </figure>
+      </div>
+    </div>
+    <ol class="steps">
+      <li><span class="n">1</span><div><b>打开官网</b><span class="sub">浏览器输入 chatgpt.com/download</span></div></li>
+      <li><span class="n">2</span><div><b>选择系统</b><span class="sub">点 Windows 或 macOS。不要点页面以外的广告</span></div></li>
+      <li><span class="n">3</span><div><b>运行安装包</b><span class="sub">只运行刚刚从该页面下载的官方程序</span></div></li>
+      <li><span class="n">4</span><div><b>打开软件</b><span class="sub">从开始菜单或“应用程序”里打开 ChatGPT</span></div></li>
+      <li><span class="n">5</span><div><b>登录自己的账号</b><span class="sub">按官网给出的方式登录，不用别人的身份</span></div></li>
+      <li><span class="n">6</span><div><b>进入对话</b><span class="sub">仅在该服务允许使用的地区进入对话页</span></div></li>
+    </ol>
+    <div class="split">
+      <div class="warn">
+        <b>先看服务地区</b>
+        <p>2026年11月9日查阅 OpenAI 帮助中心，中国大陆不在 ChatGPT 当前支持地区名单中。名单外访问，账号可能被限制或暂停。</p>
+        <p>打不开或不能注册时，不要换方法硬注册。把右边的题换到当场可用的工具。</p>
+      </div>
+      <div class="ask">
+        <b>现场可以这样问</b>
+        <p>请解释针灸临床研究中随机对照试验的基本设计，并列出常见的偏倚风险及控制措施。</p>
+      </div>
+    </div>
+  </div>
+  <footer class="ft"><span>名单会更新，以帮助中心当天页面为准</span><span>2026.11.09</span><span>6 / 13</span></footer>
+</section>
+
+<section class="page">
+  <div class="topbar"></div>
+  <header class="hd"><b>岳阳医院针灸科</b><span>07　安装 Claude</span></header>
+  <div class="bd">
+    <h1>安装 Claude</h1>
+    <p class="dek">同样只从官网下载。系统要求以下载页当时显示的为准。</p>
+    <div class="browser">
+      <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="addr">claude.com/download</div></div>
+      <div class="browser-body">
+        <div>
+          <p class="fake-title">页面上选择自己的系统</p>
+          <div class="fake-btns"><span>Windows</span><span>macOS</span></div>
+          <p class="fake-note">示意图。Mac 按官方说明把程序放进“应用程序”。按钮文字以屏幕上的官网为准。</p>
+        </div>
+        <figure>
+          <img class="qr" src="qr/claude.svg" alt="Claude 下载页二维码">
+          <figcaption class="qr-cap">扫码打开</figcaption>
+        </figure>
+      </div>
+    </div>
+    <ol class="steps roomy">
+      <li><span class="n">1</span><div><b>打开官网</b><span class="sub">浏览器输入 claude.com/download</span></div></li>
+      <li><span class="n">2</span><div><b>选择安装包</b><span class="sub">点 Windows 或 macOS，确认地址栏没有跳走</span></div></li>
+      <li><span class="n">3</span><div><b>完成安装</b><span class="sub">Mac 拖进“应用程序”；Windows 运行官网安装包</span></div></li>
+      <li><span class="n">4</span><div><b>打开 Claude</b><span class="sub">从应用程序或开始菜单打开，不打开同名的陌生软件</span></div></li>
+      <li><span class="n">5</span><div><b>在允许的地区登录</b><span class="sub">用自己的账号。服务地区不允许时，不要绕过规则</span></div></li>
+    </ol>
+    <div class="split sink">
+      <div class="warn">
+        <b>打不开就换工具</b>
+        <p>先确认 Claude 是否向当前所在地提供服务。不允许使用时，停止注册，把右边的题改到当场可以合法使用的工具里讲。</p>
+      </div>
+      <div class="ask">
+        <b>现场可以这样问</b>
+        <p>请设计一份针灸治疗慢性疼痛的科研项目申请书大纲，包括研究背景、研究问题、方法学和预期成果。</p>
+      </div>
+    </div>
+  </div>
+  <footer class="ft"><span>登录使用自己的账号</span><span>2026.11.09</span><span>7 / 13</span></footer>
+</section>
+
+<section class="page">
+  <div class="topbar"></div>
+  <header class="hd"><b>岳阳医院针灸科</b><span>08　Gemini 与 Gemini Notebook</span></header>
+  <div class="bd">
+    <h1>先用网页，不急着装客户端</h1>
+    <p class="dek">2026年7月16日，Google 宣布 NotebookLM 更名为 Gemini Notebook。它仍是独立产品，入口是 notebook.google.com。</p>
+    <div class="panels">
+      <section class="panel">
+        <div class="ph">
+          <h2>Google Gemini</h2>
+          <a class="url" href="https://gemini.google.com">gemini.google.com</a>
+        </div>
+        <ol class="steps">
+          <li><span class="n">1</span><div><b>打开官网</b><span class="sub">使用 Chrome 或本机浏览器</span></div></li>
+          <li><span class="n">2</span><div><b>登录受支持的 Google 账号</b><span class="sub">账号要符合该服务当时的要求</span></div></li>
+          <li><span class="n">3</span><div><b>先用网页版问答</b><span class="sub">手机用户再到当地官方商店搜索 Google Gemini</span></div></li>
+        </ol>
+        <div class="ask">
+          <b>现场可以这样问</b>
+          <p>请制作一份针灸循证医学研究方法的教学课件提纲，适合研究生课堂使用。</p>
+        </div>
+      </section>
+      <section class="panel grow">
+        <div class="ph">
+          <h2>Gemini Notebook</h2>
+          <a class="url" href="https://notebook.google.com">notebook.google.com</a>
+        </div>
+        <ol class="steps">
+          <li><span class="n">1</span><div><b>登录并新建笔记本</b><span class="sub">使用受支持的 Google 账号</span></div></li>
+          <li><span class="n">2</span><div><b>只上传可合法使用的资料</b><span class="sub">公开论文或教学资料。先确认自己有使用权</span></div></li>
+          <li><span class="n">3</span><div><b>针对资料提问</b><span class="sub">生成摘要后，回到原始来源逐条核对</span></div></li>
+        </ol>
+        <div class="books">
+          <div><b>本 1</b><span>针灸临床循证医学研究</span></div>
+          <div><b>本 2</b><span>针灸科研课题与参考文献</span></div>
+          <div><b>本 3</b><span>中医针灸研究生教学资料</span></div>
+        </div>
+        <div class="warn"><b>这里不能上传</b><p>未经医院授权的真实病历、患者照片或其他敏感资料，不要放进 Gemini Notebook，也不要放进其他通用 AI。</p></div>
+      </section>
+    </div>
+  </div>
+  <footer class="ft"><span>摘要必须回到原文核对</span><span>2026.11.09</span><span>8 / 13</span></footer>
+</section>
+
+<section class="page">
+  <div class="topbar"></div>
+  <header class="hd"><b>岳阳医院针灸科</b><span>09　查文献</span></header>
+  <div class="bd">
+    <h1>搜到之后，一定打开原文</h1>
+    <p class="dek">Elicit 和 Consensus 优先用网页版。检索结果不能直接写进论文。</p>
+    <div class="flow">
+      <article><strong>1</strong><span>输入研究问题</span></article>
+      <article><strong>2</strong><span>点开论文页面</span></article>
+      <article><strong>3</strong><span>核对 DOI 或 PMID</span></article>
+      <article class="stop"><strong>4</strong><span>对不上，就不引用</span></article>
+    </div>
+    <div class="cols3">
+      <article class="col">
+        <div class="top">
+          <div>
+            <h2>Perplexity</h2>
+            <a class="url" href="https://www.perplexity.ai">perplexity.ai</a>
+          </div>
+          <img src="qr/perplexity.svg" alt="Perplexity 官网二维码">
+        </div>
+        <ol>
+          <li>按官网方式登录。</li>
+          <li>在搜索框输入科研问题。</li>
+          <li>查看列出的网页和论文。</li>
+          <li>逐条打开并核对原文。</li>
+        </ol>
+      </article>
+      <article class="col">
+        <div class="top">
+          <div>
+            <h2>Elicit</h2>
+            <a class="url" href="https://elicit.com">elicit.com</a>
+          </div>
+          <img src="qr/elicit.svg" alt="Elicit 官网二维码">
+        </div>
+        <ol>
+          <li>在允许使用的地区打开并注册。</li>
+          <li>选择文献检索。</li>
+          <li>输入英文研究问题。</li>
+          <li>整理设计、样本量、结局和局限性。</li>
+        </ol>
+      </article>
+      <article class="col">
+        <div class="top">
+          <div>
+            <h2>Consensus</h2>
+            <a class="url" href="https://consensus.app">consensus.app</a>
+          </div>
+          <img src="qr/consensus.svg" alt="Consensus 官网二维码">
+        </div>
+        <ol>
+          <li>登录后进入搜索。</li>
+          <li>输入英文医学问题。</li>
+          <li>可按权限筛选临床研究或系统评价。</li>
+          <li>查看证据并核对原始出处。</li>
+        </ol>
+      </article>
+    </div>
+    <div class="qs">
+      <div class="ask"><b>Perplexity 可以这样问</b><p>Find systematic reviews and randomized controlled trials on acupuncture for chronic low back pain published since 2021. Provide verifiable DOI or PMID identifiers.</p></div>
+      <div class="ask"><b>Elicit、Consensus 可以这样问</b><p>Is acupuncture effective for knee osteoarthritis compared with sham acupuncture?</p></div>
+    </div>
+    <p class="foot-note">这些工具可以辅助循证，不能代替 PubMed、Embase、Cochrane Library 的规范检索和系统评价方法。</p>
+  </div>
+  <footer class="ft"><span>没有 DOI、PMID 或原文的文献，不能写入论文</span><span>2026.11.09</span><span>9 / 13</span></footer>
+</section>
+
+<section class="page">
+  <div class="topbar"></div>
+  <header class="hd"><b>岳阳医院针灸科</b><span>10　安装 Zotero</span></header>
+  <div class="bd">
+    <h1>用 Zotero 把文献收好</h1>
+    <p class="dek">它不是生成式 AI。写论文、课题申请书和综述时，用它管理题录和参考文献。</p>
+    <div class="zgrid">
+      <div>
+        <ol class="steps">
+          <li><span class="n">1</span><div><b>打开官网</b><span class="sub">zotero.org/download</span></div></li>
+          <li><span class="n">2</span><div><b>安装桌面版</b><span class="sub">选择 Windows 或 macOS</span></div></li>
+          <li><span class="n">3</span><div><b>需要同步再注册</b><span class="sub">用自己的账号。不需要同步也可以先本地使用</span></div></li>
+          <li><span class="n">4</span><div><b>安装浏览器连接器</b><span class="sub">下载页会提供对应浏览器的 Zotero Connector</span></div></li>
+          <li><span class="n">5</span><div><b>从 PubMed 等数据库导入</b><span class="sub">导入后立刻核对右边四项，不要直接引用</span></div></li>
+        </ol>
+        <div class="ask">
+          <b>导入成功的样子</b>
+          <p>文献库里出现这条论文，作者、期刊、DOI 和年份都与数据库页面一致。</p>
+        </div>
+      </div>
+      <aside class="card">
+        <h2>导入后，核对这四项</h2>
+        <div class="fields">
+          <div class="field"><span>作者</span><i></i></div>
+          <div class="field"><span>期刊</span><i></i></div>
+          <div class="field"><span>DOI</span><i></i></div>
+          <div class="field"><span>年份</span><i></i></div>
+        </div>
+        <p class="hint">四项里有空的、错的，回到 PubMed 或期刊页面改正，再用于论文。</p>
+        <figure>
+          <img class="qr" src="qr/zotero.svg" alt="Zotero 下载页二维码">
+          <figcaption>扫码打开<br>zotero.org/download</figcaption>
+        </figure>
+      </aside>
+    </div>
+    <div class="ask">
+      <b>装好之后怎么用</b>
+      <p>写论文或课题申请书时，先在 Zotero 选择参考文献格式，再插入引文。交稿前核对文献表：作者、期刊、DOI、年份要和数据库页面一致。</p>
+    </div>
+  </div>
+  <footer class="ft"><span>科研人员建议安装</span><span>2026.11.09</span><span>10 / 13</span></footer>
+</section>
+
+<section class="page">
+  <div class="topbar"></div>
+  <header class="hd"><b>岳阳医院针灸科</b><span>11　手机安装</span></header>
+  <div class="bd">
+    <h1>手机只走官方商店</h1>
+    <p class="dek">先搜索准确英文名，再核对开发商。对不上，就不要下载。</p>
+    <div class="phones">
+      <article class="device">
+        <h2>iPhone</h2>
+        <ol>
+          <li><span class="n">1</span><span>打开 App Store。</span></li>
+          <li><span class="n">2</span><span>搜索准确英文名，例如 ChatGPT、Claude、Gemini。</span></li>
+          <li><span class="n">3</span><span>核对开发商是否与官网属于同一家。</span></li>
+          <li><span class="n">4</span><span>确认系统版本和所在地区是否支持。</span></li>
+          <li><span class="n">5</span><span>下载后，用自己的账号登录。</span></li>
+        </ol>
+      </article>
+      <article class="device">
+        <h2>Android</h2>
+        <ol>
+          <li><span class="n">1</span><span>在允许使用的地区打开 Google Play。</span></li>
+          <li><span class="n">2</span><span>搜索目标软件的准确英文名。</span></li>
+          <li><span class="n">3</span><span>核对开发商和应用名称。</span></li>
+          <li><span class="n">4</span><span>按正常流程安装并登录。</span></li>
+          <li><span class="n">5</span><span>不要为了安装关闭手机的安全检查。</span></li>
+        </ol>
+      </article>
+    </div>
+    <table class="who">
+      <thead><tr><th>软件</th><th>开发商</th><th>官网</th></tr></thead>
+      <tbody>
+        <tr><td>ChatGPT</td><td>OpenAI</td><td>chatgpt.com/download</td></tr>
+        <tr><td>Claude</td><td>Anthropic</td><td>claude.com/download</td></tr>
+        <tr><td>Gemini、Gemini Notebook</td><td>Google</td><td>gemini.google.com　·　notebook.google.com</td></tr>
+        <tr><td>Perplexity</td><td>与官网一致</td><td>perplexity.ai</td></tr>
+        <tr><td>Zotero</td><td>与官网一致</td><td>zotero.org/download</td></tr>
+      </tbody>
+    </table>
+    <div class="warn sideload"><b>商店里没有，就不要另找安装包</b><p>不要从网盘、聊天群或第三方安装包网站下载。所在地区没有官方应用时，不要把来源不明的替代软件当成正版。</p></div>
+  </div>
+  <footer class="ft"><span>不安装来历不明的 IPA、APK 或描述文件</span><span>2026.11.09</span><span>11 / 13</span></footer>
+</section>
+
+<section class="page">
+  <div class="topbar"></div>
+  <header class="hd"><b>岳阳医院针灸科</b><span>12　现场常见问题</span></header>
+  <div class="bd">
+    <h1>遇到这些情况，按下面做</h1>
+    <p class="dek">不要临时改用来路不明的安装包，也不要使用他人身份。</p>
+    <div class="faqs">
+      <article class="faq">
+        <span class="n">1</span>
+        <div>
+          <h2>软件下载了，但打不开</h2>
+          <p>检查系统版本是否支持，安装包是否来自官网，以及这台电脑是否受到医院设备管理限制。</p>
+        </div>
+      </article>
+      <article class="faq">
+        <span class="n">2</span>
+        <div>
+          <h2>网站能打开，但不能注册</h2>
+          <p>检查邮箱、验证码、账号资格和服务地区。不要使用他人身份，也不要填写不真实的注册信息。</p>
+        </div>
+      </article>
+      <article class="faq">
+        <span class="n">3</span>
+        <div>
+          <h2>已经有 VPN，国外 AI 还是不能用</h2>
+          <p>可能是服务地区、账号状态、网络配置或平台规则。VPN 不能解决全部问题。当前位置不提供服务时，改演示可以合法使用的工具。</p>
+        </div>
+      </article>
+      <article class="faq">
+        <span class="n">4</span>
+        <div>
+          <h2>软件提示需要付款</h2>
+          <p>先确认免费或试用功能是否够用。现场培训优先使用免费功能。不要代为购买，也不要保管他人的支付信息。</p>
+        </div>
+      </article>
+      <article class="faq">
+        <span class="n">5</span>
+        <div>
+          <h2>AI 给出了不存在的医学文献</h2>
+          <p>回到 PubMed、期刊官网或 DOI 解析页面核对。不存在或无法核查的参考文献，不能用于学术论文。</p>
+        </div>
+      </article>
+    </div>
+  </div>
+  <footer class="ft"><span>核对不了的文献，不能写进论文</span><span>2026.11.09</span><span>12 / 13</span></footer>
+</section>
+
+<section class="page">
+  <div class="topbar"></div>
+  <header class="hd"><b>岳阳医院针灸科</b><span>13　现场验收</span></header>
+  <div class="bd">
+    <h1>做完再勾。VPN 连上不算通过</h1>
+    <p class="dek">只收藏当场打得开的官网。至少开通一款当前可以合法使用的国外 AI。</p>
+    <div class="sign">
+      <div>日期<i></i></div>
+      <div>设备<i></i></div>
+      <div>操作人<i></i></div>
+    </div>
+    <div class="acc">
+      <div class="check"><span class="box"></span><span>这台设备允许安装；办公电脑已得到信息科授权</span></div>
+      <div class="check"><span class="box"></span><span>已核对 VPN 的产品名称、开发商和签名；病历与诊疗设备不安装</span></div>
+      <div class="check"><span class="box"></span><span>已收藏打得开的 ChatGPT、Claude 官网</span></div>
+      <div class="check"><span class="box"></span><span>已收藏打得开的 Gemini、Perplexity 官网</span></div>
+      <div class="check"><span class="box"></span><span>已收藏打得开的 Gemini Notebook 官网</span></div>
+      <div class="check"><span class="box"></span><span>已开通至少一款当前可以合法使用的国外 AI</span></div>
+      <div class="check"><span class="box"></span><span>完成一次医学科研提问</span></div>
+      <div class="check"><span class="box"></span><span>完成一次文献搜索，并打开原始出处</span></div>
+      <div class="check"><span class="box"></span><span>已安装或了解 Zotero</span></div>
+      <div class="check"><span class="box"></span><span>明确不向通用 AI 上传患者敏感信息</span></div>
+    </div>
+    <div class="pass"><b>培训目标</b><br>掌握国外 AI 工具的官方获取方式、使用方法、服务限制与医学科研应用规范。</div>
+    <div class="src">
+      <b>本页依据（2026年11月9日核对）</b>
+      ChatGPT 下载页 chatgpt.com/download；OpenAI 帮助中心写明 macOS 版需要 macOS 14 或更高，且中国大陆不在《ChatGPT Supported Countries》当前名单中，名单外访问可能导致账号被限制或暂停。Claude 下载页 claude.com/download。Google 于 2026年7月16日宣布 NotebookLM 更名为 Gemini Notebook，入口 notebook.google.com。Zotero 为 zotero.org/download。Elicit、Consensus 使用其官网文献检索。指定 VPN 链接会跳到 lk11.net，页面自称 veee / veee+，安装包尚未核验，不能视为已确认安全的安装源。
+    </div>
+  </div>
+  <footer class="ft"><span>仅供安装培训和科研辅助学习</span><span>2026.11.09</span><span>13 / 13</span></footer>
+</section>
+
+</body>
+</html>
