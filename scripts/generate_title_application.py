@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""按江苏省专业技术资格评审申报表的原表版式重排。
+"""按参考 PDF 的版式重排江苏省专业技术资格评审申报表。
 
-字号贴近原表：封面标题小一号宋体，栏目标题黑体三号，表格小五号宋体，
-工作总结五号宋体。正文不再整段加粗，段距和行距按公文表格收紧，
-硬断行改回自然换行。照片、签名和印章仍用原稿。
+页边、字号和行距取自 PDF 正文（水印不计）。工作经历与工作总结
+跟 PDF 同一段：8 条经历、专业技术工作栏留空，总结为三列表加项目分条。
+不设页眉。照片、签名和印章仍用原稿。
 """
 
 from __future__ import annotations
@@ -12,6 +12,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from docx import Document
+from docx.enum.section import WD_SECTION
 from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT, WD_TABLE_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import OxmlElement
@@ -21,7 +22,16 @@ from docx.shared import Cm, Pt, RGBColor
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / "assets" / "title-application"
 OUT = ROOT / "output" / "专业技术资格评审申报表.docx"
-CONTENT = 10206  # A4 宽减去左右各 1.5 cm 后的版心，单位 twip
+# 参考 PDF 表格左缘 54pt、右缘 525.8pt，版心 471.8pt。
+CONTENT = 9436
+
+
+def fit(widths: list[int]) -> list[int]:
+    """把一组列宽缩放到当前版心。"""
+    scaled = [max(1, int(round(width * CONTENT / sum(widths)))) for width in widths]
+    scaled[-1] += CONTENT - sum(scaled)
+    return scaled
+
 
 ALIGN = {
     "left": WD_ALIGN_PARAGRAPH.LEFT,
@@ -271,6 +281,18 @@ def set_row_height(row, twips: int, rule: str = "atLeast") -> None:
     node.set(qn("w:hRule"), rule)
 
 
+def shade_cell(cell, color: str = "D9D9D9") -> None:
+    tc_pr = cell._tc.get_or_add_tcPr()
+    old = tc_pr.find(qn("w:shd"))
+    if old is not None:
+        tc_pr.remove(old)
+    shade = OxmlElement("w:shd")
+    shade.set(qn("w:val"), "clear")
+    shade.set(qn("w:color"), "auto")
+    shade.set(qn("w:fill"), color)
+    tc_pr.append(shade)
+
+
 def mark_header_row(row) -> None:
     tr_pr = row._tr.get_or_add_trPr()
     if tr_pr.find(qn("w:tblHeader")) is None:
@@ -363,7 +385,35 @@ def stack_vertical(cell, columns: list[str], *, size: float = 8, line_pt: float 
         fill(inner, list(text), size=size, align="center", va="center", line_pt=line_pt, line_rule="exact")
 
 
-def configure(doc: Document) -> None:
+def _clear_story(story) -> None:
+    story.is_linked_to_previous = False
+    for paragraph in story.paragraphs:
+        for run in list(paragraph.runs):
+            run._element.getparent().remove(run._element)
+        paragraph.text = ""
+
+
+def set_page_border(section, enabled: bool) -> None:
+    """工作总结各页外框。边线落在正文外侧，不压字。"""
+    sect_pr = section._sectPr
+    old = sect_pr.find(qn("w:pgBorders"))
+    if old is not None:
+        sect_pr.remove(old)
+    if not enabled:
+        return
+    borders = OxmlElement("w:pgBorders")
+    borders.set(qn("w:offsetFrom"), "page")
+    for edge, space in (("top", "26"), ("left", "46"), ("bottom", "20"), ("right", "60")):
+        node = OxmlElement(f"w:{edge}")
+        node.set(qn("w:val"), "single")
+        node.set(qn("w:sz"), "8")
+        node.set(qn("w:space"), space)
+        node.set(qn("w:color"), "000000")
+        borders.append(node)
+    sect_pr.append(borders)
+
+
+def prepare(doc: Document) -> None:
     normal = doc.styles["Normal"]
     normal.font.name = "Times New Roman"
     normal.font.size = Pt(10.5)
@@ -386,28 +436,27 @@ def configure(doc: Document) -> None:
     normal.paragraph_format.space_before = Pt(0)
     normal.paragraph_format.space_after = Pt(0)
     normal.paragraph_format.line_spacing = 1.0
-
-    section = doc.sections[0]
-    section.page_width = Cm(21.0)
-    section.page_height = Cm(29.7)
-    section.left_margin = Cm(1.5)
-    section.right_margin = Cm(1.5)
-    section.top_margin = Cm(1.55)
-    section.bottom_margin = Cm(1.45)
-    section.header_distance = Cm(0.55)
-    section.footer_distance = Cm(0.5)
-    header = section.header
-    header.is_linked_to_previous = False
-    hp = header.paragraphs[0]
-    style_paragraph(hp, align="center", line_pt=1.0)
-    add_text(hp, "江苏省一体化平台", "宋体", 9, False, "B4B4B4")
     doc.core_properties.title = "专业技术资格评审申报表"
     doc.core_properties.subject = "胡继刚"
     doc.core_properties.category = "申报表"
-    doc.core_properties.comments = "按原表字号、段距和栏目结构重排"
+    doc.core_properties.comments = "按参考 PDF 的字号、段距和工作栏重排，无页眉"
 
 
-def section_title(doc, text: str, *, page: bool = False, size: float = 16, after: float = 6, before: float = 2) -> None:
+def configure(section, *, border: bool = False, top: float = 0.72, bottom: float = 1.05) -> None:
+    section.page_width = Cm(21.0)
+    section.page_height = Cm(29.7)
+    section.left_margin = Cm(1.90)
+    section.right_margin = Cm(2.45)
+    section.top_margin = Cm(top)
+    section.bottom_margin = Cm(bottom)
+    section.header_distance = Cm(0.3)
+    section.footer_distance = Cm(0.4)
+    _clear_story(section.header)
+    _clear_story(section.footer)
+    set_page_border(section, border)
+
+
+def section_title(doc, text: str, *, page: bool = False, size: float = 25, after: float = 4, before: float = 0) -> None:
     para(
         doc,
         text,
@@ -422,17 +471,21 @@ def section_title(doc, text: str, *, page: bool = False, size: float = 16, after
     )
 
 
-def note(doc, text: str, *, before: float = 2, after: float = 0, align: str = "left") -> None:
-    para(doc, text, font="宋体", size=9, align=align, before=before, after=after, line_pt=1.15)
+def note(doc, text: str, *, before: float = 2, after: float = 0, align: str = "left", size: float = 11.2) -> None:
+    para(doc, text, font="宋体", size=size, align=align, before=before, after=after, line_pt=16, line_rule="exact")
+
+
+def _line_break(paragraph) -> None:
+    paragraph.add_run().add_break()
 
 
 def build_cover(doc: Document) -> None:
-    code = make_table(doc, 1, 2, [5103, 5103], borders=False)
-    fill(code.cell(0, 0), "地区代码：320199", size=10.5, align="left")
-    fill(code.cell(0, 1), "编号：2506170651940505", size=10.5, align="right")
-    set_row_height(code.rows[0], 360)
-    para(doc, "专 业 技 术 资 格", font="宋体", size=26, bold=True, align="center", before=36, after=0, line_pt=34, line_rule="exact")
-    para(doc, "评 审 申 报 表", font="宋体", size=26, bold=True, align="center", before=2, after=8, line_pt=34, line_rule="exact")
+    code = make_table(doc, 1, 2, fit([1, 1]), borders=False)
+    fill(code.cell(0, 0), "地区代码：320199", size=11.2, align="left")
+    fill(code.cell(0, 1), "编号：2506170651940505", size=11.2, align="right")
+    set_row_height(code.rows[0], 400)
+    para(doc, "专 业 技 术 资 格", font="宋体", size=33.8, bold=False, align="center", before=48, after=0, line_pt=76, line_rule="exact")
+    para(doc, "评 审 申 报 表", font="宋体", size=33.8, bold=False, align="center", before=0, after=0, line_pt=76, line_rule="exact")
     fields = [
         ("单　　位", "江苏省建筑装饰设计研究院有限公司"),
         ("姓　　名", "胡继刚"),
@@ -440,43 +493,45 @@ def build_cover(doc: Document) -> None:
         ("评审专业", "科技管理·工程管理"),
         ("技术资格", "高级工程师"),
     ]
-    table = make_table(doc, len(fields), 2, [2400, 5200], borders=False)
+    table = make_table(doc, len(fields), 3, [2018, 1800, 3900], borders=False)
     for index, (label, value) in enumerate(fields):
-        fill(table.cell(index, 0), label, font="楷体", size=14, align="center")
-        fill(table.cell(index, 1), value, font="宋体", size=12, align="center")
+        fill(table.cell(index, 0), "", size=14)
+        fill(table.cell(index, 1), label, font="楷体", size=14, align="right")
+        fill(table.cell(index, 2), value, font="宋体", size=12, align="center")
         set_tc_borders(table.cell(index, 0))
-        set_tc_borders(table.cell(index, 1), bottom="single")
-        set_row_height(table.rows[index], 620)
-    para(
-        doc,
-        "填表时间：　　2025　　年　　08　　月　　12　　日",
-        font="楷体",
-        size=14,
-        align="center",
-        before=16,
-        after=8,
-        line_pt=1.0,
-    )
-    para(doc, "江苏省专业技术人员职称(职业资格)工作领导小组办公室制", font="宋体", size=12, align="center", before=4, after=0)
+        set_tc_borders(table.cell(index, 1))
+        set_tc_borders(table.cell(index, 2), bottom="single")
+        set_row_height(table.rows[index], 840)
+    date = para(doc, "", align="center", before=36, after=0, line_pt=20, line_rule="exact")
+    add_text(date, "填表时间：", "楷体", 14)
+    add_text(date, "2025", "黑体", 12)
+    add_text(date, "  年  ", "楷体", 14)
+    add_text(date, "08", "黑体", 12)
+    add_text(date, "  月  ", "楷体", 14)
+    add_text(date, "12", "黑体", 12)
+    add_text(date, "  日", "楷体", 14)
+    para(doc, "江苏省专业技术人员职称(职业资格)工作领导小组办公室制", font="宋体", size=14.2, align="center", before=48, after=0, line_pt=22, line_rule="exact")
 
 
 def build_pledge(doc: Document) -> None:
-    section_title(doc, "个 人 承 诺 书", page=True, before=8, after=12)
-    paragraph = para(doc, "", size=12, align="justify", before=2, after=2, line_pt=1.5, first_chars=2)
-    pieces = [
-        ("本人申报　", False),
-        ("建设工程", True),
-        ("　系列　", False),
-        ("科技管理·工程管理", True),
-        ("　专业(学科)　", False),
-        ("高级工程师", True),
-        ("　资格。本人承诺：所填写的内容及所提供的参评材料真实准确，如有任何不实或隐瞒，愿按专业技术资格评审的有关规定接受处理。", False),
+    section_title(doc, "个 人 承 诺 书", page=True, before=12, after=28, size=25)
+    paragraph = para(doc, "", size=14.2, align="left", before=8, after=0, line_pt=32, line_rule="exact")
+    lines = [
+        [("本人申报", False, 14.2), ("　建设工程　", True, 12.8), ("系列", False, 14.2), ("　科技管理·工程管理　", True, 12.8), ("专业", False, 14.2)],
+        [("(学科)", False, 14.2), ("　高级工程师　", True, 12.8), ("资格。本人承诺：所填写的内容及所提", False, 14.2)],
+        [("供的参评材料真实准确，如有任何不实或隐瞒，愿按专业技术资格评审的", False, 14.2)],
+        [("有关规定接受处理。", False, 14.2)],
     ]
-    for text, underlined in pieces:
-        add_text(paragraph, text, "宋体", 12, False, underline=underlined)
-    para(doc, "承诺人(签字)：", size=12, align="center", before=16, after=4)
-    para(doc, "日　期：2025年08月12日", size=12, align="center", before=2, after=8)
-    rule = para(doc, "", before=2, after=2, line_pt=1.0)
+    for index, line in enumerate(lines):
+        if index:
+            _line_break(paragraph)
+        for text, underlined, size in line:
+            add_text(paragraph, text, "宋体", size, False, underline=underlined)
+    para(doc, "承诺人(签字)：", size=14.2, align="center", before=36, after=0, line_pt=22, line_rule="exact")
+    dated = para(doc, "", align="center", before=18, after=0, line_pt=20, line_rule="exact")
+    add_text(dated, "日　期：", "宋体", 14.2)
+    add_text(dated, "2025 年08 月12日", "宋体", 11.2)
+    rule = para(doc, "", before=28, after=8, line_pt=12, line_rule="exact")
     p_pr = rule._p.get_or_add_pPr()
     p_bdr = OxmlElement("w:pBdr")
     bottom = OxmlElement("w:bottom")
@@ -486,83 +541,109 @@ def build_pledge(doc: Document) -> None:
     bottom.set(qn("w:color"), "000000")
     p_bdr.append(bottom)
     p_pr.append(p_bdr)
-    section_title(doc, "填 表 说 明", before=12, after=8)
-    items = [
-        "1、本表供评审各级专业技术资格使用，一式2份。",
-        "2、填表内容应真实、准确、具体，并按表页下“注”的要求填写。表内填写不下时，可另加附页，并装订入内。",
-        "3、本表请从系统中打印，一律用A3纸小册子方式打印，对折后用骑马钉方式装订，不得放大或缩小。",
+    section_title(doc, "填 表 说 明", before=28, after=10, size=25)
+    blocks = [
+        ["1、本表供评审各级专业技术资格使用,一式2份。"],
+        ["2、填表内容应真实、准确、具体，并按表页下“注”的要求填写。", "表内填写不下时，可另加附页，并装订入内。"],
+        ["3、本表请从系统中打印，一律用A3纸小册子方式打印，对折后用骑", "马钉方式装订，不得放大或缩小。"],
     ]
-    for item in items:
-        para(doc, item, size=12, align="justify", before=2, after=4, line_pt=1.5, hanging_chars=2)
+    for block in blocks:
+        item = para(doc, "", size=14.2, align="left", before=2, after=2, line_pt=28.5, line_rule="exact", first_chars=2)
+        for index, text in enumerate(block):
+            if index:
+                _line_break(item)
+            add_text(item, text, "宋体", 14.2)
 
 
-# 工作经历栏的“从事的主要专业技术工作”，与总结中的职业履历一一对应。
+# 工作经历与参考 PDF 第 5 页一致，专业技术工作栏留空。
 JOBS = [
-    ("2025年03月01日至", "2025年12月31日", "江苏省建筑装饰设计研究院有限公司", "工程部", "管理岗", "工程技术及项目管理", "副总经理"),
-    ("2024年08月01日至", "2025年02月28日", "上海惟嘉建筑工程有限公司", "工程部", "管理岗", "工程施工技术管理", "副总经理"),
-    ("2023年10月01日至", "2024年07月31日", "上海徐汇绿地商业管理有限公司", "工程部", "管理岗", "工程施工技术管理", "副总经理"),
-    ("2023年05月01日至", "2023年08月31日", "上海容钲建筑科技有限公司", "工程部", "管理岗", "工程施工技术管理", "副总经理"),
-    ("2022年08月01日至", "2023年04月30日", "上海苏科企业管理有限公司", "工程部", "管理岗", "钢结构施工技术管理", "副总经理"),
-    ("2021年09月01日至", "2022年07月31日", "上海社通实业有限公司", "工程部", "管理岗", "工程施工技术管理", "总监"),
-    ("2021年03月01日至", "2021年08月31日", "上海融之旅文化旅游发展有限公司", "工程部", "管理岗", "工程施工技术管理", "总监"),
-    ("2021年01月01日至", "2021年02月28日", "上海弘阳汇商业管理有限公司", "工程部", "管理岗", "工程施工技术管理", "总监"),
-    ("2020年11月01日至", "2020年12月31日", "上海欣驭文化传播有限公司", "工程部", "管理岗", "工程施工技术管理", "总监"),
-    ("2020年06月01日至", "2020年10月31日", "上海金科文化旅游发展集团有限公司", "工程部", "管理岗", "工程施工技术管理", "总监"),
-    ("2020年03月01日至", "2020年05月31日", "金科（上海）建筑设计有限公司", "工程部", "管理岗", "工程施工技术管理", "总监"),
-    ("2019年04月01日至", "2020年02月29日", "上海万居企业管理有限公司", "工程部", "管理岗", "工程施工技术管理", "总监"),
-    ("2018年01月01日至", "2019年03月31日", "万科（上海）实业发展有限公司", "工程部", "管理岗", "工程施工技术管理", "总监"),
-    ("2017年03月01日至", "2017年12月31日", "上海万科长宁置业有限公司", "工程部", "管理岗", "工程施工技术管理", "总监"),
-    ("2015年12月01日至", "2017年02月28日", "新城控股集团股份有限公司上海第一分公司", "工程部", "管理岗", "工程管理及施工协调", "高级经理"),
-    ("2015年09月01日至", "2015年10月31日", "上海睿泽股权投资管理有限公司", "工程部", "管理岗", "施工资料及现场管理", "施工员、资料员"),
-    ("2014年02月01日至", "2015年08月31日", "中南城市建设投资有限公司", "项目工程部", "管理岗", "施工技术及质量管理", "土建工程师"),
-    ("2012年11月01日至", "2014年01月31日", "中南控股集团有限公司", "工程管理部", "管理岗", "施工组织与质量管理", "土建工程师"),
-    ("2011年07月01日至", "2012年10月31日", "南通建筑工程总承包有限公司", "工程部", "管理岗", "施工资料及现场管理", "施工员、资料员"),
+    ("2025年03月01日至", "2025年07月10日", "江苏省建筑装饰设计研究院有限公司", "工程部", "管理岗", "", "副总经理"),
+    ("2023年06月07日至", "2025年02月28日", "上海徐汇绿地商业管理有限公司", "工程部", "管理岗", "", "副总经理"),
+    ("2022年04月11日至", "2023年05月13日", "上海融之旅文化旅游发展有限公司（融创文旅华东区域）", "工程部", "管理岗", "", "总监"),
+    ("2018年12月10日至", "2022年03月18日", "上海万科长宁置业有限公司", "工程部", "管理岗", "", "总监"),
+    ("2017年11月06日至", "2018年11月10日", "上海万限实业有限公司【万科（上海）实业发展有限公司】", "工程部", "管理岗", "", "总监"),
+    ("2017年06月01日至", "2017年10月26日", "上海金科文化旅游发展集团有限公司", "工程部", "管理岗", "", "资深经理"),
+    ("2017年03月20日至", "2017年05月29日", "金科（上海）建筑设计有限公司", "工程部", "管理岗", "", "资深经理"),
+    ("2015年06月08日至", "2017年02月24日", "新城控股集团股份有限公司上海第一分公司", "工程部", "管理岗", "", "高级经理"),
 ]
 
+# 工作总结里的职业履历，三列，与参考 PDF 第 8 页一致。
 CAREER = [
-    ("2025.03—2025.12", "江苏省建筑装饰设计研究院有限公司", "工程部副总经理", "工程技术及项目管理"),
-    ("2024.08—2025.02", "上海惟嘉建筑工程有限公司", "工程部副总经理", "工程施工技术管理"),
-    ("2023.10—2024.07", "上海徐汇绿地商业管理有限公司", "工程部副总经理", "工程施工技术管理"),
-    ("2023.05—2023.08", "上海容钲建筑科技有限公司", "工程部副总经理", "工程施工技术管理"),
-    ("2022.08—2023.04", "上海苏科企业管理有限公司", "工程部副总经理", "钢结构施工技术管理"),
-    ("2021.09—2022.07", "上海社通实业有限公司", "工程部总监", "工程施工技术管理"),
-    ("2021.03—2021.08", "上海融之旅文化旅游发展有限公司", "工程部总监", "工程施工技术管理"),
-    ("2021.01—2021.02", "上海弘阳汇商业管理有限公司", "工程部总监", "工程施工技术管理"),
-    ("2020.11—2020.12", "上海欣驭文化传播有限公司", "工程部总监", "工程施工技术管理"),
-    ("2020.06—2020.10", "上海金科文化旅游发展集团有限公司", "工程部总监", "工程施工技术管理"),
-    ("2020.03—2020.05", "金科（上海）建筑设计有限公司", "工程部总监", "工程施工技术管理"),
-    ("2019.04—2020.02", "上海万居企业管理有限公司", "工程部总监", "工程施工技术管理"),
-    ("2018.01—2019.03", "万科（上海）实业发展有限公司", "工程部总监", "工程施工技术管理"),
-    ("2017.03—2017.12", "上海万科长宁置业有限公司", "工程部总监", "工程施工技术管理"),
-    ("2015.12—2017.02", "新城控股集团股份有限公司上海第一分公司", "工程部高级经理", "工程管理及施工协调"),
-    ("2015.09—2015.10", "上海睿泽股权投资管理有限公司", "工程部施工员、资料员", "施工资料及现场管理"),
-    ("2014.02—2015.08", "中南城市建设投资有限公司", "项目工程部土建工程师", "施工技术及质量管理"),
-    ("2012.11—2014.01", "中南控股集团有限公司", "工程管理部土建工程师", "施工组织与质量管理"),
-    ("2011.07—2012.10", "南通建筑工程总承包有限公司", "工程部施工员、资料员", "施工资料及现场管理"),
+    ("2025.03-至今", "江苏省建筑装饰设计研究院有限公司", "工程管理副总经理"),
+    ("2023.06-2025.02", "上海徐汇绿地商业管理有限公司", "工程部副总经理"),
+    ("2022.04-2023.05", "上海融之旅文化旅游发展有限公司（融创文旅华东区域）", "工程总监"),
+    ("2017.11-2022.03", "上海万科企业有限公司", "工程部总监"),
+    ("2017.03-2017.10", "金科地产集团有限公司华东区域公司", "工程总监"),
+    ("2015.06-2017.02", "新城控股集团上海第一分公司", "工程部高级经理"),
+    ("2011.07-2015.05", "江苏中南建设集团股份有限公司", "施工员/资料员"),
 ]
 
-PROJECTS = [
-    ("1. 中南海湾新城·金石国际广场（2011.07—2015.08）", "超高层酒店及公寓，26万㎡、120m", "施工员、资料员／土建工程师（分阶段）", "深化核心筒剪力墙节点工艺，统筹浇筑养护与结构沉降监测。", "原稿列示结构偏移＜3mm、节约工期45天。"),
-    ("2. 中锐星湖名府邸（2015.09—2015.10）", "住宅及配套商业，6万㎡", "工程部施工员、资料员", "加强钢筋、模板及混凝土结构节点检查，贯通资料管理和工序验收。", "在6万㎡住宅及商业项目中承担施工资料和现场质量管理工作。"),
-    ("3. 新城香溢紫郡（2015.12—2017.02）", "高端住宅，23万㎡", "工程部高级经理", "优化桩基桩顶标高与混凝土养护工艺，推进地基成本及楼板裂缝控制。", "原稿列示地基处理成本降低23%、楼板开裂率0.8‰、提前3个月交付。"),
-    ("4. 上海万科天空之城（2017.11—2019.03）", "商业综合体＋住宅，42万㎡", "工程部总监", "优化商业—住宅交叉施工与社区低碳系统，研究光伏配置、雨水回收及参与式设计。", "形成商业—住宅协同施工及绿色社区技术集成方案。"),
-    ("5. 万居商务酒店（2019.04—2020.02）", "商务酒店，3万㎡", "工程部总监", "统筹框架剪力墙施工组织、钢筋混凝土质量控制与酒店功能工序衔接。", "围绕3万㎡酒店项目落实结构质量、施工进度和专业协调管理。"),
-    ("6. 合肥金科博翠天辰（2020.03—2020.10）", "高端住宅综合体，34万㎡、容积率2.5", "项目技术负责人（隶属金科集团华东区域公司）", "优化剪力墙抗震结构节点与BIM预拼装协调，推进节能管线穿墙工艺。", "原稿列示扭转效应减少18%、关键工期缩短23天、系统能效比4.8。"),
-    ("7. 欣都商务宾馆（2020.11—2020.12）", "商务宾馆，3万㎡", "工程部总监", "统筹框架剪力墙关键工序检查，协调结构施工进度与现场质量要求。", "在3万㎡宾馆工程中承担质量、进度和现场技术协调管理。"),
-    ("8. 合肥蜀山弘阳商业广场（2021.01—2021.02）", "商业综合体，18万㎡", "工程部总监", "控制型钢混凝土梁、异形钢管混凝土柱连接节点及关键工序质量。", "面向18万㎡商业综合体开展复杂结构技术协调与施工质量管理。"),
-    ("9. 杭州湾融创文旅城水陆乐园项目（海盐）（2021.03—2021.08）", "文旅水、陆乐园及配套建筑", "工程部总监", "优化框架剪力墙结构抗震参数，实施无人机巡检辅助质量验收。", "推动结构技术协调与无人机辅助施工巡检，具体量化结果见独立业绩登记。"),
-    ("10. 社通商务宾馆（2021.09—2022.07）", "商务宾馆，1.2万㎡", "工程部总监", "优化框架剪力墙工序验收、现场质量检查及施工技术问题闭环处理。", "围绕1.2万㎡项目开展施工质量控制及工程技术管理。"),
-    ("11. 苏科高新·淄博新材料科创港（2022.08—2023.04）", "新材料科创产业园及钢结构厂房，16.5万㎡", "工程部副总经理", "优化钢结构焊接、防腐涂装和吊装定位工艺，控制安装精度与耐久性。", "在16.5万㎡产业园项目中推进钢结构施工安全与质量管理。"),
-    ("12. 容钲建筑科技项目（2023.05—2023.08）", "框架剪力墙建筑，6000㎡、投资5000万元", "工程部副总经理", "统筹钢筋混凝土结构关键工序检查、施工质量控制和现场技术协调。", "在6000㎡项目中实施结构工程过程质量管理与技术协调。"),
-    ("13. 绿地苏州东太湖旅游度假区WJ-J-2020-013地块商住项目（2023.10—2024.07）", "商住工程及绿色建造", "工程部副总经理", "集成绿色建材、BIM与智慧工地物联网调度，开展成本、材料损耗与进度协同管控。", "探索绿色建材、智慧工地调度及BIM协同管理，具体效益见独立业绩登记。"),
-    ("14. 上海惟嘉建筑工程有限公司相关工程（2024.08—2025.02）", "建筑工程施工管理", "工程部副总经理", "统筹施工组织、工程质量检查及跨专业协调，强化现场技术问题处理。", "围绕进度、质量、安全3类管理要求实施工程施工技术管理。"),
-    ("15. 东台市养老服务中心地下车库装饰工程（2025.03—2025.12）", "适老化公共空间及地下车库装饰工程", "工程部副总经理", "结合适老化导视、BIM动线模拟与无人机巡检，优化装饰施工进度管理。", "原稿列示减少返工损失150万元（占预算8.3%）、关键节点零延误。"),
+# 工作总结项目段。每项为 (文本, 首行缩进字数, 段前磅)。
+PROJECT_LINES = [
+    ("二、核心项目业绩与技术突破", 0, 8),
+    ("1. 中南海湾新城·金石国际广场（2011.07-2015.08）", 0, 6),
+    ("项目属性：超高层五星级酒店公寓（26万㎡，120m）", 2, 4),
+    ("角色：施工技术管理", 2, 0),
+    ("技术突破：", 2, 0),
+    ("▶ 攻克核心筒框架剪力墙施工难题，通过三维建模预演优化节点处理方案", 1, 0),
+    ("▶ 建立实时沉降监测系统，控制结构偏移误差＜3mm", 1, 0),
+    ("成果：节约工期45天，获江苏省优质工程奖", 2, 0),
+    ("2. 新城香溢紫郡（2015.12-2017.02）", 2, 8),
+    ("项目属性：高端住宅（23万㎡）", 2, 0),
+    ("角色：工程高级经理", 2, 0),
+    ("技术突破：", 2, 0),
+    ("▶ 创新桩基切顶高程控制法，降低地基处理成本23%", 1, 0),
+    ("▶ 研发混凝土裂缝预警系统，楼板开裂率下降至0.8‰", 1, 0),
+    ("成果：项目提前3个月交付，利润率提升12%", 2, 0),
+    ("3、合肥金科博翠天辰2017.03-2017.10", 0, 8),
+    ("项目属性：高端住宅综合体（总建面约34万㎡，容积率2.5）", 2, 0),
+    ("角色：项目技术负责人（隶属金科集团华东区域公司）", 2, 0),
+    ("技术突破与创新", 2, 0),
+    ("突破一：超高层住宅剪力墙结构抗震优化", 2, 0),
+    ("•解决方案与个人贡献：", 2, 0),
+    ("本人行动：主导结构模型风洞试验，优化型钢排布方案，使结构刚度分布均匀化，减少扭转效应18%。", 2, 0),
+    ("采用BIM预拼装技术解决型钢与钢筋密集碰撞问题，缩短关键路径工期23天。", 2, 0),
+    ("突破二：高端住宅绿色科技系统集成", 2, 0),
+    ("• 解决方案与个人贡献：", 2, 0),
+    ("本人行动：优化管网穿剪力墙节点密封工艺，解决冷桥结露问题，系统能效比提升至4.8（国标≥3.8）。", 2, 0),
+    ("▪ 嵌入金科“Life+云平台”，实现户内能耗智能调节，项目获合肥市绿色建筑示范工程认证。", 2, 0),
+    ("4.上海万科天空之城（2017.11-2022.02）", 2, 8),
+    ("项目属性：商业综合体+住宅（42万㎡）", 2, 0),
+    ("角色：工程总监", 2, 0),
+    ("技术突破：", 2, 0),
+    ("▶ 首创商业-住宅协同施工模型，解决交叉作业冲突", 1, 0),
+    ("▶ 应用自愈合混凝土技术于剪力墙节点", 1, 0),
+    ("成果：获LEED金级认证，商业区开业首年客流超预期40%", 2, 0),
+    ("5.杭州湾融创文旅城水路乐园项目（海盐）（2022.04-2023.05）", 0, 8),
+    ("项目属性：高端抗震住宅", 2, 0),
+    ("角色：工程总监", 2, 0),
+    ("技术突破：", 2, 0),
+    ("▶ 优化框架剪力墙抗震参数，地震模拟性能提升35%", 1, 0),
+    ("▶ 实施无人机巡检系统，质量验收效率提升60%", 1, 0),
+    ("6.苏州绿地江南映月花园（2023.06-2025.03）", 2, 8),
+    ("项目属性：现状高端住宅项目", 2, 0),
+    ("角色：工程部副总经理", 2, 0),
+    ("技术突破：", 2, 0),
+    ("▶ 应用BIM+3D打印技术实现异形钢结构精准安装", 1, 0),
+    ("▶ 开发碳足迹监测平台，施工碳排放降低28%", 1, 0),
+    ("6、项目名称：东台市养老服务中心地下车库装饰工程（2025.3-至今）", 0, 6),
+    ("项目属性：适老化公共空间改造", 0, 0),
+    ("角色：施工技术负责人", 0, 0),
+    ("技术突破与创新", 0, 0),
+    ("1. 适老化地下空间无障碍导视系统", 0, 0),
+    ("•问题本质：老年群体空间辨识能力弱，传统车库标识系统易引发迷失焦虑。", 1, 0),
+    ("• 解决方案与个人贡献：", 1, 0),
+    ("▶ 地坪发光标线+AI语音联动系统：", 1, 0),
+    ("▶ BIM模拟老人动线：", 1, 0),
+    ("2. BIM-无人机协同进度管控", 0, 0),
+    ("▶ 建立无人机实景扫描与BIM模型自动比对系统，偏差超5%自动预警；", 1, 0),
+    ("▶ 成果：减少返工损失150万元（占预算8.3%），关键节点“零延误”。", 1, 0),
 ]
 
 
 def build_basic(doc: Document) -> None:
-    section_title(doc, "基  本  情  况", page=True, before=2, after=6)
-    widths = [980, 1020, 980, 820, 860, 980, 1140, 980, 1100, 1346]
+    section_title(doc, "基  本  情  况", page=True, before=4, after=8, size=25)
+    widths = fit([980, 1020, 980, 820, 860, 980, 1140, 980, 1100, 1346])
     table = make_table(doc, 16, 10, widths)
     photo = merge(table, 0, 9, 2, 9)
     merge(table, 0, 1, 0, 3)
@@ -603,7 +684,7 @@ def build_basic(doc: Document) -> None:
         (0, 6): "民族",
         (0, 7): "汉族",
         (1, 0): "公民身份号码\n（社会保障号）",
-        (1, 2): "220283198704250614",
+        (1, 2): "2 2 0 2 8 3 1 9 8 7 0 4 2 5 0 6 1 4",
         (2, 0): "出生年月",
         (2, 1): "1987年04月25日",
         (2, 4): "参加工作年月",
@@ -664,7 +745,7 @@ def build_basic(doc: Document) -> None:
             "现任专业技术职务\n及聘任时间", "申报\n类型", "现从事专业技术\n工作及年限", "拟评审专业\n技术资格",
             "学　校", "学习专业", "学历", "学位", "毕(肄、结)业年月", "荣誉称号、表彰奖励名称", "获奖时间", "授奖部门", "处分",
         }
-        fill(table.cell(row, col), text, size=9, bold=is_label, align="center")
+        fill(table.cell(row, col), text, size=12 if (row, col) == (1, 2) else (11.2 if is_label else 9.8), align="center")
     stack_vertical(table.cell(7, 0), ["学历情况"], size=9, line_pt=14)
     stack_vertical(table.cell(11, 0), ["奖惩情况"], size=9, line_pt=14)
     photo.vertical_alignment = VALIGN["center"]
@@ -678,86 +759,89 @@ def build_basic(doc: Document) -> None:
 
 
 def build_education(doc: Document) -> None:
-    section_title(doc, "继 续 教 育 情 况", page=True, before=2, after=2)
-    para(doc, "(国内外培训、进修或考察情况)", size=12, align="center", before=0, after=6)
-    widths = [1900, 2100, 2700, 2600, 906]
+    section_title(doc, "继 续 教 育 情 况", page=True, before=0, after=2, size=21)
+    para(doc, "(国内外培训、进修或考察情况)", font="楷体", size=14, align="center", before=2, after=8, line_pt=20, line_rule="exact")
+    widths = fit([1900, 2100, 2700, 2600, 906])
     table = make_table(doc, 4, 5, widths, header=True)
     headers = ["起止时间", "专业或主要内容", "组织单位", "学习成绩", "备注"]
+    org = "南京市人力资源和社会保\n障局专业技术人员管理处"
     rows = [
-        ("2025年06月09日至\n2025年06月21日", "职称继续教育专业课（工程系列）", "南京市人力资源和社会保障局专业技术人员管理处", "学时：240；学分：240", "无"),
-        ("2025年05月05日至\n2025年06月09日", "公需课有效学时累计", "南京市人力资源和社会保障局专业技术人员管理处", "学时：152；学分：152", "无"),
-        ("2025年05月03日至\n2025年06月18日", "知识更新工程高级研修项目", "南京市人力资源和社会保障局专业技术人员管理处", "学时：17；学分：16.5", "无"),
+        ("2025年06月09日至\n2025年06月21日", "职称继续教育专业课（工程系列）", org, "学时：240；学\n分：240", "无"),
+        ("2025年05月05日至\n2025年06月09日", "公需课有效学时累计", org, "学时：152；学\n分：152", "无"),
+        ("2025年05月03日至\n2025年06月18日", "知识更新工程高级研修项目", org, "学时：17；学\n分：16.5", "无"),
     ]
     for col, text in enumerate(headers):
-        fill(table.cell(0, col), text, size=9, bold=True)
+        fill(table.cell(0, col), text, size=12)
     for r, row in enumerate(rows, start=1):
         for c, text in enumerate(row):
-            fill(table.cell(r, c), text, size=9, bold=False)
+            fill(table.cell(r, c), text, size=9, line_pt=12, line_rule="exact")
         set_row_height(table.rows[r], 780)
-    set_row_height(table.rows[0], 460)
+    set_row_height(table.rows[0], 520)
     apply_widths(table, widths)
 
-    section_title(doc, "专业考试成绩情况", before=14, after=6, size=16)
-    exam_w = [1800, 2200, 2800, 1703, 1703]
+    section_title(doc, "专业考试成绩情况", before=18, after=8, size=21)
+    exam_w = fit([1800, 2200, 2800, 1703, 1703])
     exam = make_table(doc, 2, 5, exam_w, header=True)
     for col, text in enumerate(["时　间", "组 织 单 位", "考试名称", "成　绩", "合格标志"]):
-        fill(exam.cell(0, col), text, size=9, bold=True)
-    blank = merge(exam, 1, 0, 1, 4)
-    fill(blank, "无", size=10.5)
-    set_row_height(exam.rows[0], 460)
+        fill(exam.cell(0, col), text, size=12)
+    fill(exam.cell(1, 1), "无", size=9)
+    set_row_height(exam.rows[0], 520)
     set_row_height(exam.rows[1], 700)
     apply_widths(exam, exam_w)
 
 
 def build_jobs(doc: Document) -> None:
-    section_title(doc, "工  作  经  历", page=True, before=2, after=1)
-    para(doc, "(专业技术工作经历)", size=11, align="center", before=0, after=4)
-    widths = [1760, 3200, 1200, 1000, 1846, 1200]
+    section_title(doc, "工  作  经  历", page=True, before=0, after=2, size=25)
+    para(doc, "(专业技术工作经历)", font="楷体", size=14, align="center", before=4, after=6, line_pt=20, line_rule="exact")
+    # 列宽对应 PDF 竖线：80.2 / 102 / 68.3 / 68.3 / 84.7 / 68.3 pt。
+    widths = [1860, 2040, 1366, 1366, 1694, 1110]
     table = make_table(doc, 1 + len(JOBS), 6, widths, header=True)
-    for col, text in enumerate(["起止时间", "工作单位", "部门", "岗位", "从事的主要专业技术工作", "任何职"]):
-        fill(table.cell(0, col), text, size=9, bold=True)
-    set_row_height(table.rows[0], 560)
+    _set_cell_margins(table, top=16, bottom=16, left=28, right=28)
+    headers = ["起止时间", "工作单位", "部门", "岗位", "从事的主要\n专业技术工作", "任何职"]
+    for col, text in enumerate(headers):
+        fill(table.cell(0, col), text, size=12, line_pt=14, line_rule="exact")
+    set_row_height(table.rows[0], 568, "exact")
     for index, job in enumerate(JOBS, start=1):
         start, end, company, dept, post, work, title = job
         values = [f"{start}\n{end}", company, dept, post, work, title]
         for col, text in enumerate(values):
-            fill(table.cell(index, col), text, size=9)
-        set_row_height(table.rows[index], 620)
+            size = 9 if col == 0 else 10
+            fill(table.cell(index, col), text, size=size, line_pt=12, line_rule="exact")
+        set_row_height(table.rows[index], 800, "atLeast")
     apply_widths(table, widths)
 
 
 def build_performance(doc: Document) -> None:
-    section_title(doc, "任现职后主要专业技术工作业绩登记", page=True, before=2, after=4, size=16)
-    note(doc, "起止时间按已提交人社任职记录筛出的本人参与区间填写，不等同于项目建设周期。标项仍须以任命、获奖文件、专利证书和效益资料核验。", before=0, after=4)
-    widths = [1760, 3000, 4200, 1246]
+    section_title(doc, "任现职后主要专业技术工作业绩登记", page=True, before=2, after=8, size=25)
+    widths = fit([1760, 3000, 4200, 1246])
     table = make_table(doc, 4, 4, widths, header=True)
     for col, text in enumerate(["起止时间", "专业技术工作\n项目、课题名称", "获奖励、专利\n及效益情况", "本人起\n何作用"]):
-        fill(table.cell(0, col), text, size=9, bold=True)
+        fill(table.cell(0, col), text, size=12, line_pt=16, line_rule="exact")
     records = [
         (
-            "2021年03月01日至\n2021年08月31日",
-            "专业技术工作项目：杭州湾融创文旅城一水、陆乐园项目（海盐）\n课题名称：杭州湾融创文旅城",
-            "获奖情况：无。\n专利情况：无。\n效益情况：无。",
+            "2018年02月\n03日至2023\n年05月11日",
+            "专业技术工作项目：杭州湾融创文旅城一水、陆乐园项目\n课题名称：杭州湾融创文旅城",
+            "获奖情况：无\n专利情况：无\n效益情况：无",
             "主持",
         ),
         (
-            "2017年11月01日至\n2019年03月31日",
+            "2019年11月\n15日至2022\n年03月25日",
             "专业技术工作项目：万科青浦区徐泾镇徐盈路西侧地块（01-06F2-04地块一、二期）\n课题名称：万科天空之城",
-            "获奖情况：荣获上海万科产品创新研究院颁发的“可持续社区营造标杆项目奖”。\n专利情况：专利号：ZL 2020 2 0536480.4；专利号：ZL 2020 2 0557884.1。\n效益情况：在上海万科天空之城项目中，主导完成以下创新实践：1. 构建社区级“零碳”能源系统，光伏覆盖率达32%；2. 研发模块化雨水回收装置，节水效率提升45%；3. 搭建社区参与式设计平台，客户满意度达92%。",
+            "获奖情况：荣获上海万科产品创新研究院颁发的“可持续社区营造标杆项目奖”\n专利情况：专利号：ZL 2020 2 0536480.4；专利号：ZL 2020 2 0557884.1\n效益情况：在上海万科天空之城项目中，主导完成以下创新实践：1. 构建社区级“零碳”能源系统，光伏覆盖率达32%；2. 研发模块化雨水回收装置，节水效率提升45%；3. 搭建社区参与式设计平台，客户满意度达92%。",
             "主持",
         ),
         (
-            "2023年10月01日至\n2024年07月31日",
+            "2020年10月\n15日至2024\n年01月25日",
             "专业技术工作项目：绿地苏州东太湖旅游度假区WJ-J-2020-013地块商住\n课题名称：绿地苏州东太湖旅游度假区",
-            "获奖情况：荣获绿地控股集团技术委员会颁发的“城市更新卓越实践奖”。\n专利情况：无。\n效益情况：1. 技术体系创新：构建全流程技术标准体系，集成绿色建材与智能建造技术，单位面积改造成本降低18%，获集团技术创新标杆认证。2. 智慧工地研发：开发研发智慧工地管理系统思路，通过物联网与AI算法优化施工调度，降低人力成本15%、材料损耗率23%，并推动BIM技术应用达LOD500标准。3. 经济效益：累计节约项目成本2,800万元，投资回报率提升32%。",
+            "获奖情况：荣获绿地控股集团技术委员会颁发的“城市更新卓越实践奖”\n专利情况：无\n效益情况：1. 技术体系创新：构建全流程技术标准体系，集成绿色建材与智能建造技术，单位面积改造成本降低18%，获集团技术创新标杆认证。2. 智慧工地研发：开发研发智慧工地管理系统思路，通过物联网与AI算法优化施工调度，降低人力成本15%、材料损耗率23%，并推动BIM技术应用达LOD500标准。3. 经济效益：累计节约项目成本2,800万元，投资回报率提升32%；",
             "主持",
         ),
     ]
     for r, (period, project, benefit, role) in enumerate(records, start=1):
-        fill(table.cell(r, 0), period, size=9, va="center")
-        fill(table.cell(r, 1), project, size=9, align="left", va="top")
-        fill(table.cell(r, 2), benefit, size=9, align="left", va="top")
-        fill(table.cell(r, 3), role, size=10.5, va="center")
+        fill(table.cell(r, 0), period, size=9, va="center", line_pt=12, line_rule="exact")
+        fill(table.cell(r, 1), project, size=9.8, align="left", va="top", line_pt=13, line_rule="exact")
+        fill(table.cell(r, 2), benefit, size=9.8, align="left", va="top", line_pt=13, line_rule="exact")
+        fill(table.cell(r, 3), role, size=9.8, va="center")
     set_row_height(table.rows[0], 560)
     set_row_height(table.rows[1], 1100)
     set_row_height(table.rows[2], 2200)
@@ -767,120 +851,120 @@ def build_performance(doc: Document) -> None:
 
 
 def build_papers(doc: Document) -> None:
-    section_title(doc, "任现职后著作、论文及重要技术报告登记", page=True, before=2, after=6, size=15)
-    widths = [1500, 2700, 2206, 2100, 1700]
+    section_title(doc, "任现职后著作、论文及重要技术报告登记", page=True, before=2, after=8, size=22)
+    widths = fit([1500, 2700, 2206, 2100, 1700])
     table = make_table(doc, 4, 5, widths, header=True)
     for col, text in enumerate(["日　期", "论著(报告)标题", "刊物、出版单位\n(学术会议)名称", "主办单位", "本人承担情况"]):
-        fill(table.cell(0, col), text, size=9, bold=True)
+        fill(table.cell(0, col), text, size=12, line_pt=16, line_rule="exact")
     rows = [
-        ("2021-07-08", "铝模板在高层住宅建筑工程中的应用", "中国民营科技促进会，《中国新技术新产品》", "中国民营科技促进会", "合著（第一作者）"),
-        ("2021-08-05", "人工智能技术在房屋建筑工程中的应用", "深圳住宅与房地产杂志社;中国房地产及住宅研究会，《住宅与房地产》", "深圳住宅与房地产杂志社;中国房地产及住宅研究会", "合著（第二作者）"),
-        ("2024-07-10", "BIM装配式钢结构建筑施工技术与管理研究", "中国建筑金属结构协会，《中国建筑金属结构》", "中国建筑金属结构协会", "第一作者"),
+        ("2021-07-08", "铝膜板在高层住宅建筑工程中的应用", "中国民营科技促进会，《中国新技术新产品》", "中国民营科技促进会", "合著"),
+        ("2021-08-05", "房屋建筑施工中人工智能技术的应用", "深圳住宅与房地产杂志社;中国房地产及住宅研究会，《住宅与房地产》", "深圳住宅与房地产杂志社;中国房地产及住宅研究会", "合著"),
+        ("2024-07-10", "基于BIM的装配式钢结构建筑施工新技术研究", "中国建筑金属结构协会，《中国建筑金属结构》", "中国建筑金属结构协会", "独著"),
     ]
     for r, row in enumerate(rows, start=1):
         for c, text in enumerate(row):
             align = "left" if c in (1, 2, 3) else "center"
-            fill(table.cell(r, c), text, size=9, align=align)
+            fill(table.cell(r, c), text, size=9, align=align, line_pt=12, line_rule="exact")
         set_row_height(table.rows[r], 860)
     set_row_height(table.rows[0], 640)
     apply_widths(table, widths)
     note(doc, "说明：本人承担情况按独著(译)、合著(译)填写。合著(译)应注明本人实际承担的部分。", before=4)
 
 
-def body(doc, text: str, *, indent: bool = True, before: float = 0, after: float = 0, bold: bool = False, align: str = "justify", keep_next: bool = False):
+def sline(doc, text: str, *, indent: float = 0, before: float = 0, size: float = 10.5, align: str = "left") -> None:
+    """工作总结正文：五号宋体，行距 22 磅，与参考 PDF 一致。"""
     para(
         doc,
         text,
         font="宋体",
-        size=10.5,
-        bold=bold,
+        size=size,
         align=align,
         before=before,
-        after=after,
-        line_pt=20,
+        after=0,
+        line_pt=22,
         line_rule="exact",
-        first_chars=2 if indent else None,
-        keep_next=keep_next,
+        first_chars=indent or None,
     )
 
 
 def build_summary(doc: Document) -> None:
-    section_title(doc, "本人任现职以来工作总结", page=True, before=2, after=2)
+    para(doc, "本人任现职以来工作总结", font="黑体", size=20, bold=True, align="center", before=2, after=0, line_pt=28, line_rule="exact")
     para(
         doc,
         "(包括思想品德、职业道德、专业技术能力、工作成绩及履行职责等，乡土人才可提供省三带情况)",
-        size=9,
+        font="楷体",
+        size=10,
         align="center",
-        before=0,
-        after=6,
+        before=6,
+        after=0,
+        line_pt=16,
+        line_rule="exact",
     )
-    para(doc, "个人专业技术工作总结", font="黑体", size=14, bold=True, align="center", before=2, after=6)
-    body(doc, "本文总结我在建筑施工领域的卓越业绩，参与重大项目，解决技术难题，展现专业实力。提出前瞻性建议，分享学术成果，获同行认可。发表多篇论文，申请专利，为行业发展贡献智慧。以严谨态度与进取精神，积极贡献于行业。")
-    para(doc, "一、工作经历与学术背景", font="黑体", size=12, bold=True, align="left", before=10, after=4, line_pt=20, line_rule="exact", keep_next=True)
-    body(doc, "1. 教育背景", indent=False, bold=True, align="left", keep_next=True)
-    body(doc, "本人于2011年6月从中国海洋大学青岛学院土木工程专业毕业，于2021年1月获得复旦大学工商管理硕士专业学历，进一步丰富了我的知识体系，为我在建筑和金融领域的交叉发展奠定了坚实基础。")
-    body(doc, "2. 职业履历", indent=False, bold=True, align="left", before=6, keep_next=True)
-    widths = [1680, 3600, 2300, 2626]
-    table = make_table(doc, 1 + len(CAREER), 4, widths, header=True)
-    for col, text in enumerate(["时间", "公司名称", "部门及职务", "主要工作内容"]):
-        fill(table.cell(0, col), text, size=9, bold=True)
+    para(doc, "个人专业技术工作总结", font="宋体", size=18, align="center", before=10, after=0, line_pt=26, line_rule="exact")
+    sline(doc, "本文总结我在建筑施工领域的卓越业绩，参与重大项目，解决技术难题，展现专业实力。", indent=2, before=8)
+    sline(doc, "提出前瞻性建议，分享学术成果，获同行认可。发表多篇论文，申请专利，为行业发展贡献智慧。以严谨态度与进取精神，积极贡献于行业。")
+    sline(doc, "一、工作经历与学术背景", before=8)
+    sline(doc, "1.教育背景", indent=2, before=6)
+    sline(doc, "本人于2011年6月从中国海洋大学青岛学院土木工程专业毕业，于2021年1月，获得复旦大学工商管理硕士专业学历，进一步丰富了我的知识体系，为我在建筑和金融领域的交叉发展奠定了坚实基础。", indent=2, before=4)
+    sline(doc, "2.职业履历", indent=2, before=8)
+    widths = [1900, 5000, 2536]
+    table = make_table(doc, 1 + len(CAREER), 3, widths, header=True)
+    for col, text in enumerate(["时间", "公司名称", "职务"]):
+        cell = table.cell(0, col)
+        fill(cell, text, size=10.5)
+        shade_cell(cell, "D9D9D9")
     for index, row in enumerate(CAREER, start=1):
         for col, text in enumerate(row):
-            align = "left" if col in (1, 2, 3) else "center"
-            fill(table.cell(index, col), text, size=9, align=align)
-        set_row_height(table.rows[index], 360)
-    set_row_height(table.rows[0], 400)
+            fill(table.cell(index, col), text, size=10.5, align="center", line_pt=16, line_rule="exact")
+        set_row_height(table.rows[index], 520)
+    set_row_height(table.rows[0], 420)
     apply_widths(table, widths)
-    body(doc, "3. 社会职务", indent=False, bold=True, align="left", before=8, keep_next=True)
-    body(doc, "复旦大学住房政策研究中心秘书长（研究员）", indent=True, align="left")
-    body(doc, "上海市杨浦区科技企业联合会执行会长", indent=True, align="left")
-    body(doc, "以上丰富的工作经历与学术背景使我具备了深厚的专业素养和广泛的行业影响力，我将继续以敬业的态度和专业的精神，为建筑和金融领域的发展贡献自己的力量。", before=4)
-    para(doc, "二、核心项目业绩与技术突破", font="黑体", size=12, bold=True, align="left", before=10, after=4, line_pt=20, line_rule="exact", keep_next=True)
-    for title, attr, role, tech, result in PROJECTS:
-        body(doc, title, indent=False, bold=True, align="left", before=8, keep_next=True)
-        body(doc, f"项目属性：{attr}　　角色：{role}", indent=False, align="left")
-        body(doc, f"技术突破：{tech}", indent=False, align="left")
-        body(doc, f"成果：{result}", indent=False, align="left")
-    para(doc, "三、技术创新与学术贡献", font="黑体", size=12, bold=True, align="left", before=10, after=4, line_pt=20, line_rule="exact", keep_next=True)
-    body(doc, "1. 知识产权", indent=False, bold=True, align="left", keep_next=True)
-    body(doc, "a. 发明专利《建筑工程管理用功能脚架》（ZL202020536480.4），解决高空作业安全防护难题，已在12个项目推广；", align="left")
-    body(doc, "b. 实用新型专利《建筑工程防护围栏》（ZL202020557884.1），模块化设计使安装效率提升200%。", align="left")
-    body(doc, "2. 学术论著", indent=False, bold=True, align="left", before=6, keep_next=True)
-    paper_w = [800, 1500, 4300, 2100, 1506]
-    papers = make_table(doc, 4, 5, paper_w, header=True)
-    for col, text in enumerate(["序号", "时间", "论文标题", "期刊", "作者排序"]):
-        fill(papers.cell(0, col), text, size=9, bold=True)
+    sline(doc, "3.社会职务", indent=2, before=8)
+    sline(doc, "复旦大学住房政策研究中心秘书长（研究员）", indent=2)
+    sline(doc, "上海市杨浦区科技企业联合会执行会长", indent=2)
+    sline(doc, "以上丰富的工作经历与学术背景使我具备了深厚的专业素养和广泛的行业影响力，我将继续以敬业的态度和专业的精神，为建筑和金融领域的发展贡献自己的力量。", indent=2, before=4)
+    for text, indent, before in PROJECT_LINES:
+        sline(doc, text, indent=indent, before=before)
+    sline(doc, "三、技术创新与学术贡献", before=8)
+    sline(doc, "1.知识产权", indent=2, before=6)
+    sline(doc, "a发明专利《建筑工程管理用功能脚架》（ZL202020536480.4），解决高空作业安全防护难题，已在12个项目推广；", indent=2)
+    sline(doc, "b实用新型专利《建筑工程防护围栏》（ZL202020557884.1），模块化设计使安装效率提升200%", indent=2)
+    sline(doc, "2.学术论著", indent=2, before=8)
+    paper_w = [1400, 5200, 2836]
+    papers = make_table(doc, 4, 3, paper_w, header=True)
+    for col, text in enumerate(["时间", "论文标题", "期刊"]):
+        fill(papers.cell(0, col), text, size=12)
     paper_rows = [
-        ("1", "2021年7月", "铝模板在高层住宅建筑工程中的应用", "中国新技术新产品", "第一作者"),
-        ("2", "2021年8月", "人工智能技术在房屋建筑工程中的应用", "住宅与房地产", "第二作者"),
-        ("3", "2024年7月", "BIM装配式钢结构建筑施工技术与管理研究", "中国建筑金属结构", "第一作者"),
+        ("2021.07", "《铝模板在高层住宅建筑工程中的应用》", "《中国新技术新产品》"),
+        ("2021.08", "《人工智能技术在房屋建筑工程中的应用》", "《住宅与房地产》"),
+        ("2024.07", "《BIM装配式钢结构建筑施工技术与管理研究》", "《中国建筑金属结构》"),
     ]
     for r, row in enumerate(paper_rows, start=1):
         for c, text in enumerate(row):
-            fill(papers.cell(r, c), text, size=9, align="center" if c != 2 else "left")
-        set_row_height(papers.rows[r], 420)
+            fill(papers.cell(r, c), text, size=10.5, align="center" if c == 0 else "left", line_pt=16, line_rule="exact")
+        set_row_height(papers.rows[r], 560)
     set_row_height(papers.rows[0], 400)
     apply_widths(papers, paper_w)
-    body(doc, "3. 学术交流", indent=False, bold=True, align="left", before=8, keep_next=True)
-    body(doc, "a. 2022.07 上海市建筑施工技术交流会", align="left")
-    body(doc, "主题演讲：《绿色建筑施工技术创新路径》", align="left")
-    body(doc, "b. 2022.11 江苏省建筑技术研讨会", align="left", before=2)
-    body(doc, "发表演讲：《3D打印技术在预制建筑中的实践突破》", align="left")
-    para(doc, "四、专业能力总结", font="黑体", size=12, bold=True, align="left", before=10, after=4, line_pt=20, line_rule="exact", keep_next=True)
+    sline(doc, "学术交流", indent=2, before=8)
+    sline(doc, "a2022.07 上海市建筑施工技术交流会", indent=2)
+    sline(doc, "主题演讲：《绿色建筑施工技术创新路径》", indent=1)
+    sline(doc, "b2022.11 江苏省建筑技术研讨会", indent=2, before=2)
+    sline(doc, "发表演讲：《3D打印技术在预制建筑中的实践突破》", indent=1)
+    sline(doc, "四、专业能力总结", before=8)
     for line in [
-        "1. 技术攻坚：在超高层结构、抗震优化、绿色建造等领域拥有9项核心技术。",
-        "2. 管理创新：独创“动态节点管理法”，实现多业态项目协同开发。",
-        "3. 行业贡献：推动BIM技术与ESG理念在长三角项目落地，累计节约工程造价超1.2亿元。",
-        "4. 发展愿景：聚焦智能建造与低碳技术融合，助力建筑业数字化转型。",
+        "1.技术攻坚：在超高层结构、抗震优化、绿色建造等领域拥有9项核心技术",
+        "2.管理创新：独创“动态节点管理法”实现多业态项目协同开发",
+        "3.行业贡献：推动BIM技术与ESG理念在长三角项目落地，累计节约工程造价超1.2亿元",
+        "4.发展愿景：聚焦智能建造与低碳技术融合，助力建筑业数字化转型",
     ]:
-        body(doc, line, align="left")
-    para(doc, "本人签名＿＿＿＿＿＿＿＿＿＿", size=12, align="right", before=16, after=2)
-    para(doc, "年　　月　　日", size=12, align="right", before=2, after=0)
+        sline(doc, line, indent=2)
+    sline(doc, "本人签名 _____________________", align="right", size=12, before=16)
+    sline(doc, "年　　月　　日", align="right", size=12, before=2)
 
 
 def build_assessment(doc: Document) -> None:
-    section_title(doc, "任现职以来考核情况", page=True, before=2, after=8)
-    widths = [900, 1500, 3600, 1500, 1700, 1006]
+    section_title(doc, "任现职以来考核情况", page=False, before=2, after=8, size=25)
+    widths = fit([900, 1500, 3600, 1500, 1700, 1006])
     table = make_table(doc, 4, 6, widths, header=True)
     merge(table, 0, 0, 3, 0)
     stack_vertical(table.cell(0, 0), ["年度（任期）考核情况"], size=9, line_pt=13)
@@ -894,8 +978,8 @@ def build_assessment(doc: Document) -> None:
 
 
 def build_verify(doc: Document) -> None:
-    section_title(doc, "工作单位或行业协会（学会）或人事档案管理单位核实情况", page=True, before=2, after=6, size=14)
-    widths = [1700, 4253, 4253]
+    section_title(doc, "工作单位或行业协会（学会）或人事档案管理单位核实情况", page=True, before=4, after=8, size=15)
+    widths = fit([1700, 4253, 4253])
     table = make_table(doc, 3, 3, widths)
     merge(table, 0, 0, 2, 0)
     merge(table, 0, 1, 0, 2)
@@ -910,7 +994,7 @@ def build_verify(doc: Document) -> None:
     set_row_height(table.rows[2], 1500)
     apply_widths(table, widths)
 
-    section_title(doc, "组  织  意  见", before=14, after=6)
+    section_title(doc, "组  织  意  见", before=16, after=8, size=21)
     org_w = [980, 4123, 980, 4123]
     org = make_table(doc, 1, 4, org_w)
     stack_vertical(org.cell(0, 0), ["县（市）、区", "职称部门或市主管部门意见"], size=8, line_pt=12)
@@ -942,7 +1026,7 @@ def build_verify(doc: Document) -> None:
 def _vote_table(cell, attend: str, present: str, yes: str, no: str, abstain: str):
     lead = cell.paragraphs[0]
     style_paragraph(lead, align="center", line_pt=2, line_rule="exact")
-    widths = [1200, 560, 1200, 560, 1100, 560, 1100, 560, 1100, 860]
+    widths = fit([1200, 560, 1200, 560, 1100, 560, 1100, 560, 1100, 860])
     table = cell.add_table(1, 10)
     table.alignment = WD_TABLE_ALIGNMENT.CENTER
     _set_tbl_borders(table, sz="4")
@@ -965,8 +1049,8 @@ def _plain_paragraph(cell, text: str = "", *, size=10.5, bold=False, align="cent
 
 
 def build_review(doc: Document) -> None:
-    section_title(doc, "评审、登记备案情况", page=True, before=2, after=6)
-    widths = [1000, 4603, 4603]
+    section_title(doc, "评审、登记备案情况", page=True, before=2, after=8, size=21)
+    widths = fit([1000, 4603, 4603])
     table = make_table(doc, 6, 3, widths)
     merge(table, 0, 1, 0, 2)
     merge(table, 1, 1, 1, 2)
@@ -1050,7 +1134,8 @@ def build_review(doc: Document) -> None:
 
 def build() -> Path:
     doc = Document()
-    configure(doc)
+    prepare(doc)
+    configure(doc.sections[0])
     build_cover(doc)
     build_pledge(doc)
     build_basic(doc)
@@ -1058,7 +1143,11 @@ def build() -> Path:
     build_jobs(doc)
     build_performance(doc)
     build_papers(doc)
+    summary = doc.add_section(WD_SECTION.NEW_PAGE)
+    configure(summary, border=True, top=1.15, bottom=1.10)
     build_summary(doc)
+    rest = doc.add_section(WD_SECTION.NEW_PAGE)
+    configure(rest)
     build_assessment(doc)
     build_verify(doc)
     build_review(doc)
@@ -1088,32 +1177,46 @@ def self_check(path: Path) -> None:
     text = "\n".join(chunks)
     required = [
         "胡继刚",
+        "2 2 0 2 8 3 1 9 8 7 0 4 2 5 0 6 1 4",
         "220283198704250614",
         "江苏省建筑装饰设计研究院有限公司",
-        "工程技术及项目管理",
-        "钢结构施工技术管理",
-        "施工组织与质量管理",
+        "2025年07月10日",
+        "上海徐汇绿地商业管理有限公司",
+        "上海万限实业有限公司",
+        "资深经理",
+        "工程管理副总经理",
+        "江苏省优质工程奖",
         "高级工程师",
         "复旦大学",
         "中国海洋大学青岛学院",
         "职称继续教育专业课（工程系列）",
+        "专业技术人员管理处",
         "智慧工地研发",
+        "2018年02月",
         "ZL 2020 2 0536480.4",
         "铝模板在高层住宅建筑工程中的应用",
+        "房屋建筑施工中人工智能技术的应用",
+        "独著",
         "18678408669",
         "2506170651940505",
         "应到人数",
         "已具备",
         "个 人 承 诺 书",
         "东台市养老服务中心",
-        "南京市人力资源和社会保障局专业技术人员管理处",
         "赞成票",
+        "从事的主要",
     ]
     missing = [item for item in required if item not in text]
     if missing:
         raise SystemExit("缺少内容：" + "、".join(missing))
+    if "上海惟嘉" in text or "工程技术及项目管理" in text:
+        raise SystemExit("工作经历仍是旧稿")
     if "认 管 证" in text or "职称继 续" in text:
         raise SystemExit("仍有断行或粘连错误")
+    for section in doc.sections:
+        header = "".join(paragraph.text for paragraph in section.header.paragraphs).strip()
+        if header:
+            raise SystemExit("页眉未去掉：" + header)
     if bold_intro is True:
         raise SystemExit("工作总结正文仍为粗体")
     if intro_size != 10.5:
