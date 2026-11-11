@@ -102,8 +102,12 @@ def set_cell_text(cell, text, size=10.5, bold=False, color=SLATE, align="left"):
     p.paragraph_format.space_before = Pt(0)
     p.paragraph_format.space_after = Pt(0)
     p.paragraph_format.line_spacing = 1.05
-    run = p.add_run(str(text))
-    style_run(run, size, bold, color)
+    parts = str(text).split("\n")
+    for i, part in enumerate(parts):
+        if i:
+            p.add_run().add_break()
+        run = p.add_run(part)
+        style_run(run, size, bold, color)
     valign(cell)
 
 
@@ -286,11 +290,14 @@ def callout(doc, title, body, fill=CREAM, title_color=TEAL):
     p1.paragraph_format.space_after = Pt(2)
     r = p1.add_run(title)
     style_run(r, 11, True, title_color)
-    p2 = cell.add_paragraph()
-    p2.paragraph_format.space_after = Pt(0)
-    p2.paragraph_format.line_spacing = 1.12
-    r2 = p2.add_run(body)
-    style_run(r2, 10.5, False, SLATE)
+    lines = body.split("\n")
+    for i, line in enumerate(lines):
+        p2 = cell.add_paragraph()
+        p2.paragraph_format.space_after = Pt(0 if i == len(lines) - 1 else 2)
+        p2.paragraph_format.line_spacing = 1.12
+        r2 = p2.add_run(line)
+        style_run(r2, 10.5, False, SLATE)
+    prevent_split(table.rows[0])
     doc.add_paragraph().paragraph_format.space_after = Pt(4)
 
 

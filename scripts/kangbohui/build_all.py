@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import build_committee_agenda
 import build_excel
 import build_exec_word
 import build_internal_ppt
+import build_invite_agenda
 import build_sponsor_ppt
 import build_sponsor_word
 
@@ -16,6 +18,8 @@ def main():
         build_excel.build(),
         build_sponsor_word.build(),
         build_sponsor_ppt.build(),
+        build_invite_agenda.build(),
+        build_committee_agenda.build(),
     ]
     for path in paths:
         print(path)
