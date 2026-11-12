@@ -9,11 +9,14 @@
 - `deliverables/2026上海国际智慧康养产业博览会_分论坛详细议程.docx`：对外付印议程、逐分钟脚本、圆桌追问、控时预案和人选确认表
 - `deliverables/2026上海国际智慧康养产业博览会_分论坛详细议程.pdf`：同一份议程的阅读版
 - `deliverables/2026上海国际智慧康养产业博览会_分论坛执行议程表.xlsx`：对外议程、分钟执行、圆桌手卡、人选确认、控时预案
+- `deliverables/2026上海国际智慧康养产业博览会_主旨与圆桌最优议程.docx`：假定嘉宾均可由复旦大学请到时的主旨与圆桌
+- `deliverables/2026上海国际智慧康养产业博览会_主旨与圆桌最优议程.pdf`：同一份最优议程的阅读版
 
 ## 重新生成
 
 ```bash
 python3 scripts/build_agenda.py
+python3 scripts/build_optimal_agenda.py
 ```
 
 脚本使用 `python-docx` 与 `openpyxl`。本机装有 LibreOffice 时会同时导出 PDF。
