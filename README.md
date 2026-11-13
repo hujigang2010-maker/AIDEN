@@ -9,14 +9,20 @@
 - `deliverables/2026上海国际智慧康养产业博览会_分论坛详细议程.docx`：对外付印议程、逐分钟脚本、圆桌追问、控时预案和人选确认表
 - `deliverables/2026上海国际智慧康养产业博览会_分论坛详细议程.pdf`：同一份议程的阅读版
 - `deliverables/2026上海国际智慧康养产业博览会_分论坛执行议程表.xlsx`：对外议程、分钟执行、圆桌手卡、人选确认、控时预案
-- `deliverables/2026上海国际智慧康养产业博览会_主旨与圆桌最优议程.docx`：12:30—17:30，主旨10人、四场圆桌，主持为赵博誉与胡继刚
+- `deliverables/2026上海国际智慧康养产业博览会_主旨与圆桌最优议程.docx`：12:30—17:30，主旨10人、四场圆桌
 - `deliverables/2026上海国际智慧康养产业博览会_主旨与圆桌最优议程.pdf`：同一份议程的阅读版
+- `deliverables/2026银发科技与具身智能产业创新峰会_嘉宾邀请函.docx`：60封邀请函的组委会底稿。目录页列出全部收件人，其后每封独立成节
+- `deliverables/2026银发科技与具身智能产业创新峰会_嘉宾邀请函.pdf`：同一份底稿的阅读版
+- `deliverables/邀请函/`：按收件人拆开的单封。对外只发这一封，不要发整本底稿
+
+每封信的正文写明对方的角色和时段。所附议程只列其他嘉宾。主旨嘉宾的议程会写上其余主旨嘉宾，不写收信人自己。
 
 ## 重新生成
 
 ```bash
 python3 scripts/build_agenda.py
 python3 scripts/build_optimal_agenda.py
+python3 scripts/build_invitations.py
 ```
 
 脚本使用 `python-docx` 与 `openpyxl`。本机装有 LibreOffice 时会同时导出 PDF。
