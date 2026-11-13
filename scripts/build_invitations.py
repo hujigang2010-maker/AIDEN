@@ -730,15 +730,41 @@ def new_document(footer: str) -> Document:
     return doc
 
 
+def paragraph_text(child) -> str:
+    return "".join(node.text or "" for node in child.iter(qn("w:t"))).replace("\u2060", "")
+
+
+def has_page_break(child) -> bool:
+    return any(br.get(qn("w:type")) == "page" for br in child.iter(qn("w:br")))
+
+
+def page_chunks(doc: Document) -> list[str]:
+    chunks = []
+    current: list[str] = []
+    for child in doc.element.body:
+        if child.tag == qn("w:p") and has_page_break(child):
+            chunks.append("\n".join(current))
+            current = []
+            text = paragraph_text(child)
+            if text.strip():
+                current.append(text)
+            continue
+        if child.tag == qn("w:p"):
+            current.append(paragraph_text(child))
+        elif child.tag == qn("w:tbl"):
+            current.append(paragraph_text(child))
+    if current:
+        chunks.append("\n".join(current))
+    return chunks
+
+
 def block_text(doc: Document) -> list[tuple[str, str]]:
     blocks = []
     for child in doc.element.body:
         if child.tag == qn("w:p"):
-            text = "".join(node.text or "" for node in child.iter(qn("w:t"))).replace("\u2060", "")
-            blocks.append(("p", text))
+            blocks.append(("p", paragraph_text(child)))
         elif child.tag == qn("w:tbl"):
-            text = "".join(node.text or "" for node in child.iter(qn("w:t"))).replace("\u2060", "")
-            blocks.append(("t", text))
+            blocks.append(("t", paragraph_text(child)))
     return blocks
 
 
@@ -768,10 +794,20 @@ def verify_documents(invitees: list[Invitee], combined: Path) -> None:
     combined_doc = Document(combined)
     slices = agenda_slices(combined_doc)
     assert len(slices) == len(invitees), (len(slices), len(invitees))
+    pages = page_chunks(combined_doc)
+    for page in pages:
+        if "大会最终议程以现场实际为准" in page:
+            assert "邀　请　函" not in page
+            assert "尊敬的" not in page
     for item, agenda in zip(invitees, slices):
         for mark in item.marks:
             assert mark not in agenda, (item.address, mark)
         single = Document(LETTER_DIR / item.filename)
+        single_pages = page_chunks(single)
+        assert len(single_pages) == 2, (item.filename, len(single_pages))
+        assert "尊敬的" + item.address in single_pages[0]
+        assert MARKER in single_pages[1]
+        assert "邀　请　函" not in single_pages[1]
         single_slices = agenda_slices(single)
         assert len(single_slices) == 1
         for mark in item.marks:
@@ -793,10 +829,11 @@ def verify_documents(invitees: list[Invitee], combined: Path) -> None:
             assert value in head_text, (item.address, value)
 
 
-def export_pdf(docx_path: Path, outdir: Path) -> Path:
+def export_pdf(docx_path: Path, outdir: Path) -> Path | None:
     soffice = shutil.which("soffice")
     if not soffice:
-        raise RuntimeError("未找到 LibreOffice")
+        print("未找到 LibreOffice，已跳过 PDF 导出。")
+        return None
     outdir.mkdir(parents=True, exist_ok=True)
     subprocess.run(
         [soffice, "--headless", "--convert-to", "pdf", "--outdir", str(outdir), str(docx_path)],
@@ -822,7 +859,9 @@ def build() -> list[Invitee]:
 
     combined = new_document("组委会底稿　·　勿整册外发")
     render_cover(combined, invitees)
-    for item in invitees:
+    for index, item in enumerate(invitees):
+        if index:
+            combined.add_page_break()
         render_letter(combined, item)
     combined.core_properties.title = "2026银发科技与具身智能产业创新峰会嘉宾邀请函"
     combined.core_properties.subject = f"{len(invitees)}封，所附议程均不含收件人本人"
