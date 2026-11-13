@@ -12,28 +12,40 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
+from lxml import etree
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "deliverables"
 LETTER_DIR = OUT / "邀请函"
 FONT = "微软雅黑"
-PINE = "0F5C58"
+PINE = "0A6E68"
+PAGE = "0E948C"
 GOLD = "8C6A32"
 INK = "1B3A4B"
 MUTED = "5E6A66"
 PAPER = "F7F5F0"
-ALT = "F4F8F7"
+CARD = "F7F6F2"
+ALT = "F3F7F6"
 LINE = "D5DDD8"
-PINE_RGB = (0x0F, 0x5C, 0x58)
+PINE_RGB = (0x0A, 0x6E, 0x68)
 GOLD_RGB = (0x8C, 0x6A, 0x32)
 INK_RGB = (0x1B, 0x3A, 0x4B)
 WHITE = (255, 255, 255)
-CONTENT_W = 17.6
+CONTENT_W = 18.0
+LOGO = ROOT / "assets" / "fudan-logo.png"
+VML = "urn:schemas-microsoft-com:vml"
 
-DATE_LINE = "2026年11月28日（周六）12:30—17:30"
+DATE_LINE = "2026年11月28日（周六）8:45—12:30"
 PLACE = "上海展览中心中央大厅主论坛区（一楼）（上海市静安区延安中路1000号）"
 SIGN_DATE = "二〇二六年十一月十三日"
 MARKER = "附：活动议程"
+RSVP_TITLE = "参会回执"
+CONTACTS = "对接联系人：胡继刚 13262607888　　赵博誉 13262583503"
+TITLES = {
+    "胡继刚": "复旦大学住房政策研究中心秘书长、副教授级高级工程师、上海市杨浦区科技企业联合会执行会长",
+    "赵博誉": "上海星智耀科技有限公司",
+    "徐洁平": "璞跃中国",
+}
 
 
 def load_agenda():
@@ -47,18 +59,18 @@ def load_agenda():
 AGENDA = load_agenda()
 
 LABELS = {
-    "彭希哲": "彭希哲（复旦大学老龄研究院院长、文科资深教授）",
+    "彭希哲": "彭希哲（复旦老龄研究院）",
     "上海辰山国家植物园代表": "上海辰山国家植物园",
-    "朱震": "朱震（复旦大学国家科技园）",
+    "朱震": "朱震（复旦国家科技园）",
     "上海视觉艺术学院代表": "上海视觉艺术学院",
-    "顾捷": "顾捷（傅利叶智能创始人、CEO）",
-    "王兴兴": "王兴兴（宇树科技创始人、董事长）",
-    "邓泰华": "邓泰华（智元机器人创始人、董事长兼CEO）",
-    "邱锡鹏": "邱锡鹏（复旦大学教授）",
-    "徐立": "徐立（商汤科技董事长兼CEO）",
-    "韩璧丞": "韩璧丞（强脑科技创始人、CEO）",
-    "赵博誉": "赵博誉（主持）",
-    "胡继刚": "胡继刚（主持）",
+    "顾捷": "顾捷（傅利叶智能）",
+    "王兴兴": "王兴兴（宇树科技）",
+    "邓泰华": "邓泰华（智元机器人）",
+    "邱锡鹏": "邱锡鹏（复旦大学）",
+    "徐立": "徐立（商汤科技）",
+    "韩璧丞": "韩璧丞（强脑科技）",
+    "赵博誉": "赵博誉（上海星智耀，主持）",
+    "胡继刚": "胡继刚（复旦住房中心，主持）",
     "朱翊元": "朱翊元（示范区新发展公司，主持）",
     "吴玉韶": "吴玉韶（复旦大学老龄研究院，主持）",
     "邱建伟": "邱建伟（泰康之家，主持）",
@@ -101,12 +113,13 @@ LABELS = {
     "浦发银行拟邀负责人": "浦发银行",
     "杭州银行拟邀负责人": "杭州银行上海分行",
     "泰隆银行拟邀负责人": "泰隆银行",
-    "养老险机构拟邀负责人": "太平养老、平安养老",
+    "太平养老拟邀负责人": "太平养老",
+    "平安养老拟邀负责人": "平安养老",
     "浦东创投拟邀负责人": "浦东创投",
     "临港科创投拟邀负责人": "临港科创投",
     "复星投资拟邀负责人": "复星投资",
     "长三角基金拟邀负责人": "长三角医疗科技及智能制造产业基金",
-    "徐洁平": "徐洁平",
+    "徐洁平": "徐洁平（璞跃中国）",
 }
 
 MARKS = {
@@ -132,7 +145,8 @@ MARKS = {
     "浦发银行拟邀负责人": ("浦发银行",),
     "杭州银行拟邀负责人": ("杭州银行",),
     "泰隆银行拟邀负责人": ("泰隆银行",),
-    "养老险机构拟邀负责人": ("太平养老", "平安养老"),
+    "太平养老拟邀负责人": ("太平养老",),
+    "平安养老拟邀负责人": ("平安养老",),
     "浦东创投拟邀负责人": ("浦东创投",),
     "临港科创投拟邀负责人": ("临港科创投",),
     "复星投资拟邀负责人": ("复星投资",),
@@ -163,6 +177,7 @@ class Invitee:
     ask: str
     label: str
     marks: tuple[str, ...]
+    unit: str = ""
     card: list[tuple[str, str]] = field(default_factory=list)
     filename: str = ""
 
@@ -243,28 +258,39 @@ def duty_of(slots: list[Slot]) -> str:
     return "、".join(places) + "主持"
 
 
+def overview_time(keyword: str) -> str:
+    for time, name, _detail in AGENDA.OVERVIEW:
+        if keyword in name:
+            return time
+    raise KeyError(keyword)
+
+
 def collect() -> list[Invitee]:
     grouped: dict[str, list[Slot]] = {}
+    units: dict[str, str] = {}
     order: list[str] = []
 
-    def add(name: str, slot: Slot) -> None:
+    def add(name: str, slot: Slot, unit: str) -> None:
         if name not in grouped:
             grouped[name] = []
             order.append(name)
+            units[name] = TITLES.get(name, unit)
         grouped[name].append(slot)
 
-    add("徐洁平", Slot("13:00—13:06", "开幕", "开幕", "开场、串场与控时"))
-    for time, name, _org, topic in AGENDA.KEYNOTES:
-        add(name, Slot(time, "主旨分享", "主旨", topic))
+    add("徐洁平", Slot(overview_time("开幕"), "开幕", "开幕", "开场、串场与控时"), TITLES["徐洁平"])
+    for time, name, org, topic in AGENDA.KEYNOTES:
+        add(name, Slot(time, "主旨分享", "主旨", topic), org)
     for index, panel in enumerate(AGENDA.PANELS):
         place = panel_place(index)
         for time, name, org, topic in panel["rows"]:
+            plain = org.replace("，圆桌主持", "")
             if "主持" in org:
-                add(name, Slot(time, place, host_action(topic), topic))
+                add(name, Slot(time, place, host_action(topic), topic), plain)
             else:
-                add(name, Slot(time, place, "发言", topic))
-    for name, _org, topic in AGENDA.EXCHANGE:
-        add(name, Slot("14:34—14:42", "茶歇分组交流", "交流", topic))
+                add(name, Slot(time, place, "发言", topic), plain)
+    tea = overview_time("茶歇")
+    for name, org, topic in AGENDA.EXCHANGE:
+        add(name, Slot(tea, "茶歇分组交流", "交流", topic), org)
 
     invitees = []
     for name in order:
@@ -273,6 +299,9 @@ def collect() -> list[Invitee]:
         label = LABELS[name]
         address = name if person else label
         marks = (name,) if person else MARKS[name]
+        card = build_card(slots)
+        if name in TITLES:
+            card.insert(1, ("身份", TITLES[name]))
         item = Invitee(
             name=name,
             address=address,
@@ -281,7 +310,8 @@ def collect() -> list[Invitee]:
             ask=build_ask(person, slots),
             label=label,
             marks=marks,
-            card=build_card(slots),
+            unit=TITLES.get(name, label if not person else units[name]),
+            card=card,
             filename=f"邀请函_{address}.docx",
         )
         invitees.append(item)
@@ -313,27 +343,48 @@ def visible(pairs: list[tuple[str, str]], invitee: Invitee) -> str:
     return "、".join(kept)
 
 
+THEMES = {
+    "圆桌一": "具身智能进院与进家",
+    "圆桌二": "数智康养、医疗AI\n与智慧物联",
+    "圆桌三": "机构采购、试点与运营",
+    "圆桌四": "产业资本、银行与支付",
+}
+
+
 def agenda_rows(invitee: Invitee) -> list[tuple[str, str, str]]:
-    opening = "专业主持人" if invitee.name == "徐洁平" else "徐洁平"
+    opening = "专业主持人" if invitee.name == "徐洁平" else LABELS["徐洁平"]
     panels = [visible(pairs, invitee) for pairs in ATOMS["panels"]]
-    return [
-        ("12:30—13:00", "签到入场", "嘉宾与观众入场"),
-        ("13:00—13:06", "开幕", opening),
-        ("13:06—13:14", "致辞", "指导单位代表"),
-        ("13:14—14:34", "主旨分享", visible(ATOMS["keynotes"], invitee)),
-        ("14:34—14:42", "茶歇分组交流", visible(ATOMS["exchange"], invitee)),
-        ("14:42—15:22", "圆桌一\n具身智能进院与进家", panels[0]),
-        ("15:22—16:02", "圆桌二\n数智康养、医疗AI与智慧物联", panels[1]),
-        ("16:02—16:42", "圆桌三\n机构采购、试点与运营", panels[2]),
-        ("16:42—17:22", "圆桌四\n产业资本、银行与支付", panels[3]),
-        ("17:22—17:30", "总结合影", "主办、承办方代表"),
-    ]
+    rows = []
+    for time, name, _detail in AGENDA.OVERVIEW:
+        if name == "签到入场":
+            guest = "嘉宾与观众入场"
+            label = name
+        elif name == "开幕":
+            guest = opening
+            label = name
+        elif name == "致辞":
+            guest = "指导单位代表"
+            label = name
+        elif name == "主旨分享":
+            guest = visible(ATOMS["keynotes"], invitee)
+            label = name
+        elif "茶歇" in name:
+            guest = visible(ATOMS["exchange"], invitee)
+            label = "茶歇分组交流"
+        elif name in THEMES:
+            guest = panels[list(THEMES).index(name)]
+            label = f"{name}\n{THEMES[name]}"
+        else:
+            guest = "主办、承办方代表"
+            label = name
+        rows.append((time, label, guest))
+    return rows
 
 
 def check_roster(invitees: list[Invitee]) -> None:
     labels = [item.label for item in invitees]
     assert len(labels) == len(set(labels)), "对外称呼有重复"
-    assert len(invitees) == 60, len(invitees)
+    assert len(invitees) == 61, len(invitees)
     for item in invitees:
         for other in invitees:
             if other.name == item.name:
@@ -362,6 +413,14 @@ def check_roster(invitees: list[Invitee]) -> None:
         if item.name == "上海辰山国家植物园代表":
             assert "辰山" not in agenda
             assert "王兴兴" in agenda and "彭希哲" in agenda
+        if item.name == "太平养老拟邀负责人":
+            assert "太平养老" not in agenda and "平安养老" in agenda
+        if item.name == "平安养老拟邀负责人":
+            assert "平安养老" not in agenda and "太平养老" in agenda
+        if item.name == "胡继刚":
+            assert "胡继刚" not in agenda
+        if item.name == "徐洁平":
+            assert "徐洁平" not in agenda and "璞跃" not in agenda
 
 
 def set_run_font(run, size: float, bold: bool = False, color: tuple | None = None, spacing: int | None = None) -> None:
@@ -485,7 +544,8 @@ def keep_token(text: str) -> str:
 
 
 def write_cell(cell, text: str, size: float = 9, bold: bool = False, color: tuple | None = None,
-               fill: str | None = None, align: str = "left", keep_names: bool = False) -> None:
+               fill: str | None = None, align: str = "left", keep_names: bool = False,
+               line_spacing: float = 1.05, margins: tuple[str, str, str, str] | None = None) -> None:
     cell.text = ""
     alignment = {
         "center": WD_ALIGN_PARAGRAPH.CENTER,
@@ -497,7 +557,7 @@ def write_cell(cell, text: str, size: float = 9, bold: bool = False, color: tupl
         paragraph.alignment = alignment
         paragraph.paragraph_format.space_before = Pt(0)
         paragraph.paragraph_format.space_after = Pt(0)
-        paragraph.paragraph_format.line_spacing = 1.08
+        paragraph.paragraph_format.line_spacing = line_spacing
         if keep_names and "、" in line:
             parts = line.split("、")
             for part_index, part in enumerate(parts):
@@ -508,7 +568,10 @@ def write_cell(cell, text: str, size: float = 9, bold: bool = False, color: tupl
             set_run_font(paragraph.add_run(line), size, bold, color)
     if fill:
         shade(cell, fill)
-    set_cell_margins(cell)
+    if margins is None:
+        set_cell_margins(cell)
+    else:
+        set_cell_margins(cell, *margins)
 
 
 def add_line(doc, text: str, size: float = 12, bold: bool = False, color: tuple | None = None,
@@ -561,15 +624,58 @@ def prepare(doc: Document, footer: str) -> None:
     section = doc.sections[0]
     section.page_width = Cm(21.0)
     section.page_height = Cm(29.7)
-    section.top_margin = Cm(1.55)
-    section.bottom_margin = Cm(1.45)
-    section.left_margin = Cm(1.7)
-    section.right_margin = Cm(1.7)
-    section.header_distance = Cm(0.45)
-    section.footer_distance = Cm(0.35)
+    section.top_margin = Cm(2.15)
+    section.bottom_margin = Cm(1.35)
+    section.left_margin = Cm(1.5)
+    section.right_margin = Cm(1.5)
+    section.header_distance = Cm(0.42)
+    section.footer_distance = Cm(0.38)
+    paint_page(doc, section)
     footer_p = section.footer.paragraphs[0]
     footer_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    set_run_font(footer_p.add_run(footer), 8, color=(0x6E, 0x78, 0x74))
+    set_run_font(footer_p.add_run(footer), 8, color=(0xF4, 0xFB, 0xF8))
+
+
+def add_vml_rect(paragraph, style: str, color: str) -> None:
+    pict = etree.SubElement(paragraph._p, qn("w:pict"))
+    shape = etree.SubElement(pict, f"{{{VML}}}rect")
+    shape.set("style", style)
+    shape.set("filled", "t")
+    shape.set("stroked", "f")
+    fill = etree.SubElement(shape, f"{{{VML}}}fill")
+    fill.set("color", color)
+
+
+def paint_page(doc: Document, section) -> None:
+    background = OxmlElement("w:background")
+    background.set(qn("w:color"), PAGE)
+    doc.element.insert(0, background)
+    settings = doc.settings.element
+    display = OxmlElement("w:displayBackgroundShape")
+    settings.append(display)
+    header = section.header
+    header.is_linked_to_previous = False
+    paragraph = header.paragraphs[0]
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(0)
+    add_vml_rect(
+        paragraph,
+        "position:absolute;left:0;margin-left:0;margin-top:-18pt;width:596pt;height:860pt;z-index:-2;"
+        "mso-position-horizontal:page;mso-position-horizontal-relative:page;"
+        "mso-position-vertical:page;mso-position-vertical-relative:page",
+        "#" + PAGE,
+    )
+    add_vml_rect(
+        paragraph,
+        "position:absolute;left:0;margin-left:16pt;margin-top:10pt;width:563pt;height:800pt;z-index:-1;"
+        "mso-position-horizontal:page;mso-position-horizontal-relative:page;"
+        "mso-position-vertical:page;mso-position-vertical-relative:page",
+        "#" + CARD,
+    )
+    logo = paragraph.add_run()
+    logo.add_picture(str(LOGO), width=Cm(1.15))
+    set_run_font(paragraph.add_run("   复旦大学"), 10, True, PINE_RGB)
 
 
 def add_banner(doc: Document) -> None:
@@ -625,8 +731,8 @@ def render_letter(doc: Document, invitee: Invitee) -> None:
     title = add_line(doc, "邀　请　函", 26, True, PINE_RGB, "center", before=12, after=2, spacing=240)
     gold_rule(title)
     add_line(doc, "银发科技与具身智能产业创新峰会", 12, True, INK_RGB, "center", before=6, after=1)
-    add_line(doc, DATE_LINE, 10, color=(0x5E, 0x6A, 0x66), align="center", before=2, after=0)
-    add_line(doc, PLACE, 10, color=(0x5E, 0x6A, 0x66), align="center", before=0, after=8)
+    add_line(doc, DATE_LINE, 10, color=INK_RGB, align="center", before=2, after=0)
+    add_line(doc, PLACE, 10, color=INK_RGB, align="center", before=0, after=8)
 
     add_line(doc, f"尊敬的{invitee.address}：", 14, True, INK_RGB, before=2, after=6)
     you = "您" if invitee.is_person else "贵单位"
@@ -652,8 +758,9 @@ def render_letter(doc: Document, invitee: Invitee) -> None:
         f"附后为活动议程，只列同期出席的其他嘉宾，{omit}。大会最终议程以现场为准。",
         11, color=INK_RGB, indent=True, before=8, after=2,
     )
-    add_line(doc, "敬请拨冗莅临。", 11, color=INK_RGB, indent=True, before=0, after=8)
-    add_line(doc, "上海国际智慧康养产业博览会组委会", 11, True, INK_RGB, "right", before=6, after=0)
+    add_line(doc, "敬请拨冗莅临。", 11, color=INK_RGB, indent=True, before=0, after=4)
+    add_line(doc, CONTACTS, 10.5, True, PINE_RGB, before=2, after=6)
+    add_line(doc, "上海国际智慧康养产业博览会组委会", 11, True, INK_RGB, align="right", before=2, after=0)
     add_line(doc, SIGN_DATE, 11, color=INK_RGB, align="right", before=0, after=0)
 
     doc.add_page_break()
@@ -664,12 +771,12 @@ def render_letter(doc: Document, invitee: Invitee) -> None:
     add_line(
         doc,
         f"本页只列同期出席的其他嘉宾，{omit}。",
-        9, color=(0x5E, 0x6A, 0x66), align="center", before=0, after=6,
+        9, color=INK_RGB, align="center", before=0, after=6,
     )
     rows = agenda_rows(invitee)
     table = doc.add_table(rows=1 + len(rows), cols=3)
     set_borders(table)
-    set_table_fixed(table, [3.2, 4.6, 9.8])
+    set_table_fixed(table, [2.9, 4.0, 11.1])
     for index, header in enumerate(("时间", "环节", "同期出席嘉宾")):
         write_cell(table.rows[0].cells[index], header, size=9, bold=True, color=WHITE, fill=PINE, align="center")
     tr_pr = table.rows[0]._tr.get_or_add_trPr()
@@ -679,17 +786,53 @@ def render_letter(doc: Document, invitee: Invitee) -> None:
     for row_index, row in enumerate(rows):
         fill = ALT if row_index % 2 == 0 else "FFFFFF"
         for col_index, value in enumerate(row):
+            guest_col = col_index == 2
             write_cell(
                 table.rows[row_index + 1].cells[col_index],
                 value,
-                size=8.5,
+                size=8 if guest_col else 8.5,
                 bold=col_index == 1,
                 color=PINE_RGB if col_index == 0 else INK_RGB,
                 fill=fill,
                 align="center" if col_index == 0 else "left",
-                keep_names=col_index == 2,
+                keep_names=guest_col,
+                line_spacing=0.95 if guest_col else 1.02,
+                margins=("12", "36", "12", "36") if guest_col else None,
             )
-    add_line(doc, "大会最终议程以现场实际为准。", 9, color=(0x5E, 0x6A, 0x66), align="center", before=8, after=0)
+    add_line(doc, "大会最终议程以现场实际为准。", 9, color=INK_RGB, align="center", before=6, after=0)
+    render_rsvp(doc, invitee)
+
+
+def render_rsvp(doc: Document, invitee: Invitee) -> None:
+    doc.add_page_break()
+    title = add_line(doc, RSVP_TITLE, 22, True, PINE_RGB, "center", before=4, after=2, spacing=160)
+    gold_rule(title)
+    add_line(doc, "银发科技与具身智能产业创新峰会", 12, True, INK_RGB, "center", before=6, after=1)
+    add_line(doc, DATE_LINE, 10, color=INK_RGB, align="center", before=0, after=6)
+    add_line(doc, "请勾选后回复对接联系人。参加会议、担任嘉宾、赞助合作均可。", 11, color=INK_RGB, indent=True, after=6)
+    fields = [
+        ("姓名", invitee.address),
+        ("单位", invitee.unit),
+        ("职务", "请填写"),
+        ("手机", "请填写"),
+        ("出席意向", "□ 参加会议　　□ 担任嘉宾　　□ 赞助合作　　□ 无法出席"),
+        ("备注", " "),
+    ]
+    table = doc.add_table(rows=len(fields), cols=2)
+    set_borders(table)
+    set_table_fixed(table, [3.2, 14.8])
+    for index, (label, value) in enumerate(fields):
+        fill = ALT if index % 2 == 0 else "FFFFFF"
+        write_cell(table.rows[index].cells[0], label, size=11, bold=True, color=PINE_RGB, fill=fill, align="center")
+        write_cell(table.rows[index].cells[1], value, size=11, color=INK_RGB, fill=fill)
+        if label == "备注":
+            tr_pr = table.rows[index]._tr.get_or_add_trPr()
+            height = OxmlElement("w:trHeight")
+            height.set(qn("w:val"), "900")
+            height.set(qn("w:hRule"), "atLeast")
+            tr_pr.append(height)
+    add_line(doc, CONTACTS, 12, True, PINE_RGB, before=12, after=2)
+    add_line(doc, "上海国际智慧康养产业博览会组委会", 11, color=INK_RGB, align="right", before=8, after=0)
 
 
 def render_cover(doc: Document, invitees: list[Invitee]) -> None:
@@ -708,7 +851,7 @@ def render_cover(doc: Document, invitees: list[Invitee]) -> None:
     )
     table = doc.add_table(rows=1 + len(invitees), cols=4)
     set_borders(table)
-    set_table_fixed(table, [1.3, 5.5, 4.6, 6.2])
+    set_table_fixed(table, [1.4, 5.6, 4.8, 6.2])
     for index, header in enumerate(("序号", "收件人", "拟请担任", "单封文件")):
         write_cell(table.rows[0].cells[index], header, size=9, bold=True, color=WHITE, fill=PINE, align="center")
     head_pr = table.rows[0]._tr.get_or_add_trPr()
@@ -778,7 +921,7 @@ def agenda_slices(doc: Document) -> list[str]:
             capturing = True
             current = []
             continue
-        if capturing and text.startswith("尊敬的"):
+        if capturing and (text.startswith("尊敬的") or text.startswith(RSVP_TITLE)):
             slices.append("\n".join(current))
             capturing = False
             current = []
@@ -804,10 +947,13 @@ def verify_documents(invitees: list[Invitee], combined: Path) -> None:
             assert mark not in agenda, (item.address, mark)
         single = Document(LETTER_DIR / item.filename)
         single_pages = page_chunks(single)
-        assert len(single_pages) == 2, (item.filename, len(single_pages))
+        assert len(single_pages) == 3, (item.filename, len(single_pages))
         assert "尊敬的" + item.address in single_pages[0]
         assert MARKER in single_pages[1]
         assert "邀　请　函" not in single_pages[1]
+        assert RSVP_TITLE in single_pages[2]
+        assert item.address in single_pages[2]
+        assert "13262607888" in single_pages[2] and "13262583503" in single_pages[2]
         single_slices = agenda_slices(single)
         assert len(single_slices) == 1
         for mark in item.marks:
@@ -822,8 +968,10 @@ def verify_documents(invitees: list[Invitee], combined: Path) -> None:
         assert seen
         head_text = "\n".join(head)
         assert item.address in head_text
-        assert "12:30—17:30" in head_text
-        assert "8:30" not in head_text
+        assert "8:45—12:30" in head_text
+        assert "12:30—17:30" not in head_text
+        assert "17:30" not in head_text
+        assert "13262607888" in head_text and "13262583503" in head_text
         assert "复旦大学老龄研究院" in head_text
         for _label, value in item.card:
             assert value in head_text, (item.address, value)
