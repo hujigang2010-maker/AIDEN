@@ -1,9 +1,20 @@
-# AIDEN
+# 合作原则
 
-AIDEN 是一个多任务工作区。`main` 分支存放共享配置；具体应用和文档交付物位于各自的 `cursor/*` 功能分支。
+来稿原文的排版稿。正文不增字、不减字。
 
-## 显示语言
+## 文件
 
-本仓库默认使用**简体中文**。首次打开项目时，请安装推荐的中文语言包，并在命令面板中选择 **Configure Display Language → 中文(简体)**，然后重启 Cursor。
+- `deliverables/合作原则.docx`
+- `deliverables/合作原则.pdf`
 
-更多说明见 [AGENTS.md](./AGENTS.md)。
+## 重新生成
+
+```bash
+python3 scripts/build_prd.py
+```
+
+脚本使用 `python-docx`。本机装有 LibreOffice 时，可用下面的命令导出 PDF：
+
+```bash
+soffice --headless --convert-to pdf --outdir deliverables deliverables/合作原则.docx
+```
