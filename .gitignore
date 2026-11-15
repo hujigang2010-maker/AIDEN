@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+# 个人申报材料、底稿和字体缓存不入公开仓库
+private/
+fonts/
