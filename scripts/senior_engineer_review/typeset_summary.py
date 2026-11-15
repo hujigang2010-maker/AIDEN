@@ -21,6 +21,9 @@ import prepare_fonts
 from chrome_pdf import print_to_pdf
 
 
+SHORT_PARAGRAPH_CHARS = int(L.TEXT_WIDTH / L.STYLES["p"].size) * 3
+
+
 def _font_css(style: L.Style) -> str:
     family, weight = L.PDF_FONT[(style.family, style.bold)]
     return f'font-family:"{family}";font-weight:{weight};font-size:{style.size}pt;line-height:{style.leading}pt;'
@@ -55,10 +58,11 @@ def build_css() -> str:
             _block_css("title", "break-after:avoid;"),
             _block_css("h1", "break-after:avoid;"),
             _block_css("h2", "break-after:avoid;"),
-            _block_css("p"),
+            _block_css("p", "text-wrap:pretty;"),
             _block_css("note", "break-before:avoid;"),
             f'.p b{{font-family:"{bold_family}";font-weight:{bold_weight};}}',
             ".lead{break-after:avoid;}",
+            ".short{break-inside:avoid;}",
             f"table{{{_font_css(table)}width:100%;border-collapse:collapse;table-layout:fixed;"
             f"margin:{table.before}pt 0 {table.after}pt 0;text-indent:0;}}",
             f"th,td{{border:{L.TABLE_LINE_WIDTH}pt solid rgb(51,51,51);"
@@ -128,6 +132,7 @@ def build_html(content: dict, font_dir: Path) -> str:
         f'<div class="form_note">{_esc(content["form_note"])}</div>'
         "</div>"
     ]
+    previous_kind = ""
     for block in content["blocks"]:
         kind = block["type"]
         if kind in ("title", "h1", "h2", "note"):
@@ -135,12 +140,20 @@ def build_html(content: dict, font_dir: Path) -> str:
         elif kind == "p":
             runs = block["runs"]
             inner = "".join(f"<b>{_esc(t)}</b>" if flag == "b" else _esc(t) for flag, t in runs)
-            only_bold = all(flag == "b" for flag, _ in runs)
-            parts.append(f'<div class="p{" lead" if only_bold else ""}">{inner}</div>')
+            classes = ["p"]
+            # 纯加粗的引导行、以及二级标题后的第一段，都要和下一段留在同一页，
+            # 这样页末不会只剩“标题 + 一行”。
+            if all(flag == "b" for flag, _ in runs) or previous_kind == "h2":
+                classes.append("lead")
+            # 三行以内的段落不跨页，避免页首或页末只剩一行。
+            if sum(len(t) for _, t in runs) <= SHORT_PARAGRAPH_CHARS:
+                classes.append("short")
+            parts.append(f'<div class="{" ".join(classes)}">{inner}</div>')
         elif kind == "table":
             parts.append(_table_html(block))
         else:
             raise ValueError(f"未知的块类型：{kind}")
+        previous_kind = kind
     parts.append(
         '<div class="sign-block">'
         f'<div class="sign sign-line">{_esc(sign_line(content))}</div>'

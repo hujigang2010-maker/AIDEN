@@ -25,7 +25,7 @@ FRAME_GRAY = 0.2
 
 PAD_X = 9.0
 PAD_TOP = 8.0
-PAD_BOTTOM = 7.0
+PAD_BOTTOM = 5.5
 
 TEXT_LEFT = FRAME_LEFT + PAD_X
 TEXT_RIGHT = FRAME_RIGHT - PAD_X
@@ -59,11 +59,11 @@ STYLES: dict[str, Style] = {
     "form_note": Style("song", 9.0, False, 12.0, align="center"),
     # 总结正文一律宋体 / 宋体加粗。
     "title": Style("song", 14.0, True, 20.0, before=0.0, after=5.0, align="center"),
-    "h1": Style("song", 12.0, True, 17.0, before=7.0, after=2.0, align="left"),
-    "h2": Style("song", 10.5, True, 14.5, before=4.5, after=0.5, align="left"),
-    "p": Style("song", 10.5, False, 14.5, indent_em=2.0),
+    "h1": Style("song", 12.0, True, 17.0, before=6.0, after=2.0, align="left"),
+    "h2": Style("song", 10.5, True, 14.75, before=4.5, after=0.5, align="left"),
+    "p": Style("song", 10.5, False, 14.75, indent_em=2.0),
     "note": Style("song", 9.0, False, 13.0, before=4.0, indent_em=2.0),
-    "table": Style("song", 9.0, False, 12.0, before=3.0, after=4.0, align="center"),
+    "table": Style("song", 9.0, False, 12.0, before=3.0, after=3.0, align="center"),
     "sign": Style("song", 10.5, False, 20.0, align="right"),
 }
 
@@ -96,6 +96,6 @@ MARK_COLOR = (176, 32, 24)
 MARK_FOOTER_SIZE = 7.5
 MARK_FOOTER_BASELINE_FROM_BOTTOM = 12.0
 MARK_DIAGONAL_SIZE = 26.0
-MARK_DIAGONAL_OPACITY = 0.15
+MARK_DIAGONAL_OPACITY = 0.12
 MARK_DIAGONAL_ANGLE = 28.0
 MARK_DIAGONAL_CENTERS_Y = (190.0, 430.0, 660.0)
