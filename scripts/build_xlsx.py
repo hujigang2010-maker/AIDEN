@@ -215,14 +215,14 @@ def build_cover(wb):
         (7, "预测期FCFF现值", "='05_DCF'!A14", "0.00"),
         (8, "终值现值", "='05_DCF'!A17", "0.00"),
         (9, "终值现值 / 经营EV", "='05_DCF'!A19", "0.0%"),
-        (10, "诊断", "='05_DCF'!A20", None),
+        (10, "诊断", "='05_DCF'!B20", None),
     ]
     for row, label, formula, fmt in labels:
         put(ws, f"A{row}", label, "label")
         kind = "warn" if row == 10 else "output"
         put(ws, f"B{row}", formula, kind, fmt, "center" if row < 10 else "left")
         ws.merge_cells(start_row=row, start_column=2, end_row=row, end_column=4)
-        heights(ws, {row: 22 if row < 10 else 36})
+        heights(ws, {row: 22 if row < 10 else 48})
 
     merge(ws, "E5:H5", "计算链 B　市场法对照（演示倍数，不是行情）", "section", 11)
     market = [
@@ -1403,6 +1403,7 @@ def build():
     cover["B7"] = "='05_DCF'!E14"
     cover["B8"] = "='05_DCF'!E17"
     cover["B9"] = "='05_DCF'!E19"
+    cover["B10"] = "='05_DCF'!B20"
     cover["AB6"] = "='05_DCF'!E18"
     wb["19_报告底稿"]["B12"] = "='05_DCF'!E18"
     wb["08_股权桥"]["C5"] = "='05_DCF'!E18"
