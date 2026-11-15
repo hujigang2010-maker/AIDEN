@@ -156,11 +156,13 @@ def finish(ws, tab, freeze="A5", landscape=True, fit_height=1):
     ws.oddHeader.left.font = FONT
     ws.oddFooter.left.font = FONT
     ws.sheet_view.view = "normal"
+    # openpyxl 里这些开关为 True 时，表示该操作被禁止。
+    # 未锁定的蓝字必须可以点选，否则不先撤销整表保护就无法改假设。
     ws.protection.sheet = True
-    ws.protection.selectLockedCells = True
-    ws.protection.selectUnlockedCells = True
-    ws.protection.autoFilter = True
-    ws.protection.sort = True
+    ws.protection.selectLockedCells = False
+    ws.protection.selectUnlockedCells = False
+    ws.protection.autoFilter = False
+    ws.protection.sort = False
     ws.page_setup.scale = 70
 
 
