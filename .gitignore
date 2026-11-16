@@ -1,0 +1,6 @@
+# 申报表含个人信息不入库
+sources/*.pdf
+output/*.pdf
+output/*.docx
+output/*.summary.pdf
+scripts/build_senior_form_review.py
