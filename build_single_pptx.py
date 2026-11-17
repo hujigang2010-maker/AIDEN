@@ -120,13 +120,23 @@ def safe_name(a):
     return f"{a['no']:02d}_{a['oa_code']}_{a['month']}_{t}"
 
 
-def build_one(a):
+def build_one(a, out_dir=None, cost_items=None):
     prs = Presentation()
     prs.slide_width = Inches(13.333)
     prs.slide_height = Inches(7.5)
     blank = prs.slide_layouts[6]
     tc = a["tier"].split(" ")[0]
     accent = TIER_C[tc]
+    out_dir = out_dir or OUT_DIR
+    cost_items = cost_items or D.COST_ITEMS
+    org_line = a.get("org_line", "复旦大学  ·  上海市科技企业联合会  ·  东方枢纽")
+    price_line = a.get("price_line", f"报价 {a['price']} 万元")
+    cover_foot = a.get("cover_foot", "东方枢纽 A 片区整体办公招商  |  单场独立走 OA")
+    quote_label = a.get("quote_label", "单场报价")
+    budget_note = a.get(
+        "budget_note",
+        f"档位：{a['tier']}    |    单位：万元    |    最终以指定策划供应商合同为准",
+    )
 
     # ---------- 1 封面 ----------
     s = prs.slides.add_slide(blank)
@@ -139,14 +149,14 @@ def build_one(a):
          [[(f"NO.{a['no']}  {a['title']}", 30, True, WHITE)]], space_after=2)
     rect(s, Inches(0.75), Inches(2.85), Inches(1.8), Pt(3), fill=GOLD)
     text(s, Inches(0.72), Inches(3.1), Inches(12), Inches(0.45),
-         [[("复旦大学  ·  上海市科技企业联合会  ·  东方枢纽", 14, True, WHITE)]])
-    meta_line = f"{a['date']}  |  {a['scale']}  |  {a['sector']}  |  报价 {a['price']} 万元"
-    text(s, Inches(0.72), Inches(3.7), Inches(12), Inches(0.4),
+         [[(org_line, 14, True, WHITE)]])
+    meta_line = f"{a['date']}  |  {a['scale']}  |  {a['sector']}  |  {price_line}"
+    text(s, Inches(0.72), Inches(3.7), Inches(12), Inches(0.45),
          [[(meta_line, 13, False, LILAC)]])
     text(s, Inches(0.72), Inches(4.4), Inches(12), Inches(0.4),
          [[(f"场地：{a['venue']}", 12, False, LILAC)]])
     text(s, Inches(0.72), Inches(6.5), Inches(12), Inches(0.4),
-         [[("东方枢纽 A 片区整体办公招商  |  单场独立走 OA", 11, False, LILAC)]])
+         [[(cover_foot, 11, False, LILAC)]])
 
     # ---------- 2 基本信息 / OA 要件 ----------
     s = prs.slides.add_slide(blank)
@@ -166,7 +176,7 @@ def build_one(a):
         ("形式规模", a["scale"]),
         ("场地建议", a["venue"]),
         ("报价档位", a["tier"].split(" · ")[0] + " 档"),
-        ("单场报价", f"{a['price']} 万元"),
+        (quote_label, f"{a['price']} 万元"),
     ]
     for i, (k, v) in enumerate(rows):
         y = Inches(2.15) + i * Inches(0.45)
@@ -232,8 +242,8 @@ def build_one(a):
     s = prs.slides.add_slide(blank)
     bg(s)
     header(s, f"单场立项 · {a['oa_code']}", "单场预算明细")
-    text(s, Inches(0.72), Inches(1.35), Inches(12), Inches(0.35),
-         [[(f"档位：{a['tier']}    |    单位：万元    |    最终以指定策划供应商合同为准", 11, False, GREY)]])
+    text(s, Inches(0.72), Inches(1.35), Inches(12), Inches(0.4),
+         [[(budget_note, 11, False, GREY)]])
 
     # 表头
     y0 = Inches(1.85)
@@ -244,7 +254,7 @@ def build_one(a):
     text(s, Inches(8.5), y0, Inches(3.3), Inches(0.5),
          [[("金额（万元）", 13, True, WHITE)]], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
-    for i, (item, val) in enumerate(zip(D.COST_ITEMS, a["costs"])):
+    for i, (item, val) in enumerate(zip(cost_items, a["costs"])):
         y = y0 + Inches(0.5) * (i + 1)
         fill = LAV if i % 2 == 0 else WHITE
         rect(s, Inches(1.5), y, Inches(7.0), Inches(0.5), fill=fill, line=LAVED, line_w=0.5)
@@ -287,8 +297,8 @@ def build_one(a):
              [[(d, 12, False, DARK)]])
     footer(s, a, 5)
 
-    os.makedirs(OUT_DIR, exist_ok=True)
-    path = os.path.join(OUT_DIR, safe_name(a) + ".pptx")
+    os.makedirs(out_dir, exist_ok=True)
+    path = os.path.join(out_dir, safe_name(a) + ".pptx")
     prs.save(path)
     return path
 
