@@ -35,6 +35,16 @@
 python build_single_pptx.py   # 生成 10 份单场 PPT
 ```
 
+## 战略合作计划（建议稿，2026-11）
+
+`复旦住房政策研究中心×东方枢纽集团战略合作计划.pptx`
+
+面向集团负责人的长期合作方案：从联合办活动升级为“研究—筛选—招商—国际商务—落地服务”体系。合作主体为上海东方枢纽投资建设发展集团有限公司，场景为国合区。首期 2026 年四季度至 2027 年 12 月。
+
+```bash
+python build_strategy_pptx.py
+```
+
 ## 复现
 ```bash
 pip install python-pptx openpyxl
