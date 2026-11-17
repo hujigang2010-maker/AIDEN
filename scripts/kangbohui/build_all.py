@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import build_biz_external_ppt
+import build_biz_internal_ppt
 import build_committee_agenda
 import build_excel
 import build_exec_word
@@ -20,6 +22,8 @@ def main():
         build_sponsor_ppt.build(),
         build_invite_agenda.build(),
         build_committee_agenda.build(),
+        build_biz_internal_ppt.build(),
+        build_biz_external_ppt.build(),
     ]
     for path in paths:
         print(path)

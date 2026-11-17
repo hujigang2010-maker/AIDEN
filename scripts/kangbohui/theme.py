@@ -207,11 +207,15 @@ def shade_cell_text(cell, text, size, bold, color):
     cell.vertical_anchor = MSO_ANCHOR.MIDDLE
     tf = cell.text_frame
     tf.word_wrap = True
-    p = tf.paragraphs[0]
-    p.alignment = PP_ALIGN.LEFT
-    run = p.add_run()
-    run.text = str(text)
-    set_run_font(run, size, bold, color)
+    lines = str(text).split("\n")
+    for i, line in enumerate(lines):
+        p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
+        p.alignment = PP_ALIGN.LEFT
+        p.space_before = Pt(0)
+        p.space_after = Pt(0)
+        run = p.add_run()
+        run.text = line
+        set_run_font(run, size, bold, color)
 
 
 def add_table(slide, x, y, w, h, data, col_widths, size=12, header=True):
